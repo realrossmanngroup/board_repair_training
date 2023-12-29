@@ -8,7 +8,7 @@ On the forum, I want to give weight to answers by *larossmann*, *dukefawks*, and
 
 Once I have figured out how to do that, some sort of continuous system that keeps injesting data from the forum & wiki & sending it to some AI to be learned from would be amazing, but first let's get it to work at all.
 
-So we have several steps here.
+Here are the steps I need to follow:
 
 1. Get threads from forum, get rid of crap, and turn it into JSON files.
 DONE! `/threads/extract_threads.py` grabs each post and turns it into a JSON file without the bold/italics tags & HTML junk
