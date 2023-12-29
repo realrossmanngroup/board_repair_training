@@ -19,7 +19,12 @@ a) resistors - DONE `get_resistors.sql` & `resistors.csv`
 b) capacitors - DONE `get_capacitors.sql` & `capacitors.csv`
 c) diodes - DONE `get_diodes.sql` & `diodes.csv`
 d) chips - HALF DONE `get_chips.sql` & `chips.csv` - still need to add context(what chips are for what, etc)
-e) signal names - WORKING ON IT `get_signal_names.sql` This has to grab stuff like `PM_SLP_S4_L` & `PPBUS_G3H` from threads and list them all.
+e) signal names - WORKING ON IT `get_signal_names.sql` This has to grab stuff like `PM_SLP_S4_L` & `PPBUS_G3H` from threads and list them all. This is unfortunately also grabbing underscore'd content in URLs as well as signal names and there is no way within mysql queries to remove them. I can exclude messages with URLs in them, but what if someone posts a link to something in a message that mentions a signal? `signal_names_cleanup.py` was used to compare different methods of using mysql queries to extract signal names and revealed I am screwing myself doing this within mysql.
+
+This calls for a different method of grabbing signal names. The best way here would be to strip all URLs *BEFORE* processing and searching for regular expressions, which I am using python for now - see `get_signal_names.py` - this deprecates `get_signal_names.sql` which is now `get_signal_names.sql.DEPRECATED`
+
+This is.. kind of working, but it only grabs the first part of a signal. Not the whole thing. :( Working on that now.
+
 f) board model numbers - HALF DONE `get_macbook_board_models.sql` gets board models mentioned on the forum, `get_board_list.py` gets a list of boards from a table that is maintained by the community of boards. `macbook_board_models.ods` is my attempt at manually resolving board names as well as teaching the model what typos are, `macbook_board_models.csv` is the flattened version of this.
 
 3. Tokenize data
