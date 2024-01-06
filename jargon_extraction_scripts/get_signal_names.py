@@ -19,6 +19,8 @@ from bs4 import BeautifulSoup
 import html
 import re
 import configparser
+from collections import Counter
+
 
 # Function to remove bold & italics tags and URLs
 def clean_text(text):
@@ -120,7 +122,7 @@ titles_matches = all_threads_df['title'].apply(find_regex_matches, pattern=regex
 messages_matches = all_threads_df['message'].apply(find_regex_matches, pattern=regex_pattern)
 
 # Flatten the lists and get distinct values
-all_matches = set()
+all_matches_counter = Counter()
 for matches_list in titles_matches:
     all_matches.update(match.upper() for match in matches_list)
     print("\n\nbelow is matches_list for titles!\n\n")    
@@ -131,9 +133,9 @@ for matches_list in messages_matches:
     print(matches_list)
 
 # Convert to DataFrame
-distinct_matches_df = pd.DataFrame(list(all_matches), columns=['Distinct Values'])
+distinct_matches_df = pd.DataFrame(all_matches_counter.items(), columns=['Signal Name', 'Count'])
 
 # Save to CSV
-distinct_matches_df.to_csv('signal_names.csv', index=False)
+distinct_matches_df.to_csv('signal_names_with_counts.csv', index=False)
 
 print("Distinct matches saved to signal_names.csv")
