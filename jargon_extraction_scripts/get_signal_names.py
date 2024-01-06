@@ -124,11 +124,11 @@ messages_matches = all_threads_df['message'].apply(find_regex_matches, pattern=r
 # Flatten the lists and get distinct values
 all_matches_counter = Counter()
 for matches_list in titles_matches:
-    all_matches.update(match.upper() for match in matches_list)
+    all_matches_counter.update(match.upper() for match in matches_list)
     print("\n\nbelow is matches_list for titles!\n\n")    
     print(matches_list)
 for matches_list in messages_matches:
-    all_matches.update(match.upper() for match in matches_list)
+    all_matches_counter.update(match.upper() for match in matches_list)
     print("\n\nbelow is matches_list for messages!\n\n")    
     print(matches_list)
 
