@@ -2,13 +2,12 @@ import pandas as pd
 import os
 
 #where jargon is
-directory = ['/home/louis/board_repair_training/jargon_lists/']
+jargon_directory = '/home/louis/board_repair_training/jargon_lists/'
 #read each csv file with a jargon list into a pandas dataframe named by the type of jargon it is(resistors, signals, etc)
-for eachfile in directory:
+for eachfile in os.listdir(jargon_directory):
 	file_name = os.path.splitext(os.path.basename(eachfile))[0]
-	globals()[file_name]_df = pd.read_csv(eachfile, header=0).fillna('')
+	exec(f"{file_name}_df = pd.read_csv(eachfile, header=0).fillna('')"
 
-	
 # Load DataFrames (assuming this part is already done)
 # For example: resistors_df, capacitors_df, etc.
 
@@ -24,12 +23,12 @@ def annotate_jargon(text, df, jargon_type):
     return text
 
 # Directory where your JSON files are located
-json_directory = 'directory_B_path'
+thread_directory = '/home/louis/board_repair_training/threads/'
 
 # Iterate through each JSON file
-for filename in os.listdir(json_directory):
+for filename in os.listdir(thread_directory):
     if filename.endswith('.json'):
-        file_path = os.path.join(json_directory, filename)
+        file_path = os.path.join(thread_directory, filename)
 
         # Open and load the JSON file
         with open(file_path, 'r') as file:
@@ -39,4 +38,4 @@ for filename in os.listdir(json_directory):
         for post in data:
             # Annotate for each type of jargon using respective DataFrame
             post['content'] = annotate_jargon(post['content'], resistors_df, 'RESISTOR')
-            post['content'] = annotate_jargon(post['content'], capacitors_df, 'CAPACITOR
+            post['content'] = annotate_jargon(post['content'], capacitors_df, 'CAPACITOR')
