@@ -11,7 +11,7 @@ jargon_directory = '/home/louis/board_repair_training/jargon_lists/'
 for eachfile in os.listdir(jargon_directory):
 	file_path = os.path.join(jargon_directory, eachfile)
 	file_name = os.path.splitext(eachfile)[0]
-	jargon_dataframes[file_name] = pd.read_csv(file_path, header=0).fillna('')"
+	jargon_dataframes[file_name] = pd.read_csv(file_path, header=0).fillna('')
 
 # Load DataFrames (assuming this part is already done)
 # For example: resistors_df, capacitors_df, etc.
