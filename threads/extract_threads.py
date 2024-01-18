@@ -3,6 +3,7 @@ import pymysql
 from bs4 import BeautifulSoup
 import html
 import re
+from config import db_params  # Import the db_params variable from the config.py file
 
 # Remove bold & italics tags
 
@@ -10,15 +11,6 @@ def clean_bbcode(text):
     # Regular expression to remove BBCode tags
     pattern = r'\[/?[bi]\]'
     return re.sub(pattern, '', text)
-
-
-# Database connection parameters
-db_params = {
-    'host': '127.0.0.1',
-    'user': 'louis',
-    'password': 'REDACTED',
-    'db': 'rossman_xenforo'
-}
 
 # Connect to the database
 connection = pymysql.connect(**db_params)
@@ -55,7 +47,7 @@ for thread_id in thread_ids_df['thread_id']:
     df['message'] = df['message'].apply(clean_bbcode) # Remove BBCode tags (like [b], [/b], [i], [/i]) from text
 
     # Save each thread to a separate JSON file
-    df.to_json(f'forum_data_{thread_id}.json', orient='records', lines=True)
+    df.to_json(f'forum_data_{thread_id}.json', orient='records', lines=False, indent=4)
 
 # Close the database connection
 connection.close()

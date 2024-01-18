@@ -1,13 +1,119 @@
-{"post_id":33764,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-04-16 14:56:26","message":"Hi, \nI've got a 2012 a1286 here. Fans going full speed and clock speed is low, but EFI ASD doesn't find any errors. \n\nKnown history:\n1) BIOS was corrupted --> reflashed\n2) Accidentally bridged C8900 and C8901 during reflow of U8900 putting 12V (PPVIN_S0_GFXIMVP) on the 5V rail (PP5V_S0_GFXIMVP_VDD). Big whoops.\n2a) Replaced U8900\n2b) Replaced U7300\n\nFor now anything that uses 5V is suspect to me. Any way to narrow this down?\n\nThanks!\n\nRick"}
-{"post_id":33790,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":2,"username":"dukefawks","post_date":"2018-04-17 16:22:20","message":"Where did the BIOS come from? Was the fan issue already there or only after the fuck up?"}
-{"post_id":33815,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-04-18 01:19:28","message":"Because the original BIOS was beyond repair, I replaced it with one from the Ghostlyhaks repository (with new ME, cleaned $SVS and replaced serial). I know some of these are faulty, but I don't have any alternatives at the moment. Come to think of it, the fan issue appeared after the BIOS flash. Any ideas where to get a proper BIOS for this model?"}
-{"post_id":33845,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":2,"username":"dukefawks","post_date":"2018-04-18 20:56:30","message":"Find a dump from anywhere for testing and it should not cause the fan to run high. Do the fans rev up immediately or does it take a while?"}
-{"post_id":33871,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-04-19 01:07:44","message":"Thanks Duke, will do. Fans rev up after a few seconds. I think I have another one of these board so I'll try dumping that tomorrow."}
-{"post_id":33939,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-04-20 10:18:26","message":"Nope, no improvement with another dump. I must be something related to the 12V being put on the 5V rail, that ASD is not picking up on."}
-{"post_id":34005,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":2,"username":"dukefawks","post_date":"2018-04-22 17:35:12","message":"Disconnect the camera cable, that is the only thing fed by 5V that contains a temp sensor."}
-{"post_id":34139,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-04-26 01:04:54","message":"No improvement. Also, the ambient light sensor is working fine. What temperature sensor are you talking about Duke? \nAll temperature sensor readings look fine in ASD. The following sensor reading are off, but don't give an ASD-error:\nIC0C = 0 (should be between 1 and 44)\nID0R = 0.037 (should be between 0.1 and 4.4)\nIG0C = 0 (should be between 1 and 20)\nPCPC\/G\/T = -254\nVD0R = 15,8 (should be between 11,27 and 12,6)\n\nI think the last one is PPBUS_G3H which measures 12,57 on the DMM. Maybe ISL6259 issue?"}
-{"post_id":34167,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-04-27 08:14:45","message":"Replaced ISL6259, fans still running on high speed."}
-{"post_id":34195,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":2,"username":"dukefawks","post_date":"2018-04-29 17:27:47","message":"The fans are running on 5V. Have you done the obvious and try another fan? ASD must give an error when testing the fans too!"}
-{"post_id":34490,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-05-07 13:34:55","message":"As you said, this would have shown up in ASD. When testing, ASD lowers the fan speed, suggesting the fans and fan controllers are fine. Also, the clock speed is lowered, indicating a sensor issue I suppose.\n\nI still kind of suspect the EFI. Some help would be appreciated.\n* I've dumped a working ROM from an identical model (EMC2556)\n* Replaced the ME-region with 'clean' one (identical version) from dodgy Vietnamse site\n* Replaced the serial\n* Flashed it, now it won't start\n\nTwo questions:\n1) Is it OK to use a higher version ME-region? (mine is 8.0.4.1441, but only v8.1.70.1590 is available on the winraid forum)\n2) Is removing the first $SVS block necessary when there's no lock on the machine the dump was pulled from?\n\nThanks again people :)"}
-{"post_id":34531,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":2,"username":"dukefawks","post_date":"2018-05-07 17:14:52","message":"The EFI will not cause the fan to run high. You can just use the dump as-is and the fan should run normal. The ME region may just prevent it from fully booting.\n\nI really have no other ideas at the moment."}
-{"post_id":35103,"thread_id":33764,"title":"820-3330 - Fans on high, no ASD error","user_id":547,"username":"rvanpruissen","post_date":"2018-05-22 13:12:23","message":"Got tired of this one, made it a donor board :) Thanks Duke!"}
+[
+    {
+        "post_id":33764,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-04-16 12:56:26",
+        "message":"Hi, \nI've got a 2012 a1286 here. Fans going full speed and clock speed is low, but EFI ASD doesn't find any errors. \n\nKnown history:\n1) BIOS was corrupted --> reflashed\n2) Accidentally bridged C8900 and C8901 during reflow of U8900 putting 12V (PPVIN_S0_GFXIMVP) on the 5V rail (PP5V_S0_GFXIMVP_VDD). Big whoops.\n2a) Replaced U8900\n2b) Replaced U7300\n\nFor now anything that uses 5V is suspect to me. Any way to narrow this down?\n\nThanks!\n\nRick"
+    },
+    {
+        "post_id":33790,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-04-17 14:22:20",
+        "message":"Where did the BIOS come from? Was the fan issue already there or only after the fuck up?"
+    },
+    {
+        "post_id":33815,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-04-17 23:19:28",
+        "message":"Because the original BIOS was beyond repair, I replaced it with one from the Ghostlyhaks repository (with new ME, cleaned $SVS and replaced serial). I know some of these are faulty, but I don't have any alternatives at the moment. Come to think of it, the fan issue appeared after the BIOS flash. Any ideas where to get a proper BIOS for this model?"
+    },
+    {
+        "post_id":33845,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-04-18 18:56:30",
+        "message":"Find a dump from anywhere for testing and it should not cause the fan to run high. Do the fans rev up immediately or does it take a while?"
+    },
+    {
+        "post_id":33871,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-04-18 23:07:44",
+        "message":"Thanks Duke, will do. Fans rev up after a few seconds. I think I have another one of these board so I'll try dumping that tomorrow."
+    },
+    {
+        "post_id":33939,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-04-20 08:18:26",
+        "message":"Nope, no improvement with another dump. I must be something related to the 12V being put on the 5V rail, that ASD is not picking up on."
+    },
+    {
+        "post_id":34005,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-04-22 15:35:12",
+        "message":"Disconnect the camera cable, that is the only thing fed by 5V that contains a temp sensor."
+    },
+    {
+        "post_id":34139,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-04-25 23:04:54",
+        "message":"No improvement. Also, the ambient light sensor is working fine. What temperature sensor are you talking about Duke? \nAll temperature sensor readings look fine in ASD. The following sensor reading are off, but don't give an ASD-error:\nIC0C = 0 (should be between 1 and 44)\nID0R = 0.037 (should be between 0.1 and 4.4)\nIG0C = 0 (should be between 1 and 20)\nPCPC\/G\/T = -254\nVD0R = 15,8 (should be between 11,27 and 12,6)\n\nI think the last one is PPBUS_G3H which measures 12,57 on the DMM. Maybe ISL6259 issue?"
+    },
+    {
+        "post_id":34167,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-04-27 06:14:45",
+        "message":"Replaced ISL6259, fans still running on high speed."
+    },
+    {
+        "post_id":34195,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-04-29 15:27:47",
+        "message":"The fans are running on 5V. Have you done the obvious and try another fan? ASD must give an error when testing the fans too!"
+    },
+    {
+        "post_id":34490,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-05-07 11:34:55",
+        "message":"As you said, this would have shown up in ASD. When testing, ASD lowers the fan speed, suggesting the fans and fan controllers are fine. Also, the clock speed is lowered, indicating a sensor issue I suppose.\n\nI still kind of suspect the EFI. Some help would be appreciated.\n* I've dumped a working ROM from an identical model (EMC2556)\n* Replaced the ME-region with 'clean' one (identical version) from dodgy Vietnamse site\n* Replaced the serial\n* Flashed it, now it won't start\n\nTwo questions:\n1) Is it OK to use a higher version ME-region? (mine is 8.0.4.1441, but only v8.1.70.1590 is available on the winraid forum)\n2) Is removing the first $SVS block necessary when there's no lock on the machine the dump was pulled from?\n\nThanks again people :)"
+    },
+    {
+        "post_id":34531,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-05-07 15:14:52",
+        "message":"The EFI will not cause the fan to run high. You can just use the dump as-is and the fan should run normal. The ME region may just prevent it from fully booting.\n\nI really have no other ideas at the moment."
+    },
+    {
+        "post_id":35103,
+        "thread_id":33764,
+        "title":"820-3330 - Fans on high, no ASD error",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2018-05-22 11:12:23",
+        "message":"Got tired of this one, made it a donor board :) Thanks Duke!"
+    }
+]

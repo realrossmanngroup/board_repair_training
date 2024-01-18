@@ -1,12 +1,110 @@
-{"post_id":78230,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":29458,"username":"SanDiegoHB","post_date":"2021-07-30 01:24:27","message":"in your vast library, by chance do you have the boardview file and schematic for iMac logic board 820-01069 that you would share? having a devil of a time finding it. 2017 21.5\" iMac, non-retina, known working display and eDP cable, external image works, I don't get LED #4 (i.e. board not communicating with display), so I'd like to look at the eDP and power connectors on the board. I tried a \"similar\" one, i.e. the last non-retina 21.5\" before this, and the resistors\/capacitors adjacent to these connectors are way different, and the schematic didn't seem to tell me how many volts I should be reading on each of the pins. I subscribe to \"vinafix\" for access to bios files and schematics and such, but they don't have this, and a google search doesn't come up with anything useful. thanks for anything you can do to help!"}
-{"post_id":78232,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":682,"username":"2informaticos","post_date":"2021-07-30 04:16:20","message":"Sorry, nothing available for this board.\n\nYou should search for LCD display on Internet, in case datasheet is available.\nIf you can get the layout of panel connector, you can find corresponding pins for the eDP connector on the MLB.\nNeed to check if HPD (Hot Plug Detect) line goes high; only then PCH can detect the panel correctly.\n\nAny history fault available?"}
-{"post_id":78260,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":29458,"username":"SanDiegoHB","post_date":"2021-07-30 13:12:29","message":"thank you good idea, I think I found the datasheet, I'll post back asap"}
-{"post_id":78295,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":29458,"username":"SanDiegoHB","post_date":"2021-07-31 19:01:50","message":"I found another board's schematic\/.brd that is essentially identical, and narrowed down the problem to resistor R8104 which is supposed to measure .05 ohms but is actually resisting at .4 ohms. It's the only component between the power supply and the 12v input to the LCD backlight driver LP8561, and the 5v and 3.3v inputs were good. So, I'm trying to find this resistor to replace, and I'm not sure of its specs other than .05 ohms and its size. I've attached a screenshot of the schematic. Can you tell me what I look for to make sure the replacement is compatible? thank you!!"}
-{"post_id":78297,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":29458,"username":"SanDiegoHB","post_date":"2021-07-31 23:16:17","message":"never mind, I plodded along and searched through digi-key long enough to find what I was looking for \"RES 0.05 OHM 1% 1\/16W 0402\"\n?"}
-{"post_id":78304,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":682,"username":"2informaticos","post_date":"2021-08-01 02:33:12","message":"0.4 ohms is a good reading.\nYou have to include the multimeter cables there, which are not 0 ohm!\nWhich schematic using now?"}
-{"post_id":78308,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":29458,"username":"SanDiegoHB","post_date":"2021-08-01 11:06:58","message":"damn, I'm using 820-00034"}
-{"post_id":78315,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":682,"username":"2informaticos","post_date":"2021-08-01 13:28:00","message":"As I said, 0.4 ohm reading is good.\nThat resistor is for backlight and seems that you don't get internal image; backlight appears later.\n\nBe sure F\/L\/R4400 are all good.\nIf you get 12V at pins 2-6 of J4400, check if DP_INTPNL_HPD goes high."}
-{"post_id":78319,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":29458,"username":"SanDiegoHB","post_date":"2021-08-01 14:55:47","message":"ok, here's the condensed complete history\n[LIST]\n[*]purchased this 2017 21.5\" iMac, A1418 non-retina with a firmware lock\n[*]I reprogramed the efi chip, and tested all functions worked including display and all good\n[*]then I cracked the display trying to remove the old adhesive, @#$$T\n[*]purchased replacement display, LM215WF3 SD D5 which worked briefly, then displayed a strange white box on the black screen during startup and never worked after that, assumed problem was screen so I exchanged it (note, I did not test to see if problem was only the backlight before exchanging)\n[*]this replacement screen hasn't shown a picture yet, and LED 3 has not turned on yet\n[*]can't find schematics or .brd for this logic board 820-01069\n[*]noticed backlight fuse needed replacing so I did that, but without the schematic I had to guess that it was the same fuse that is sold for the 2013 model a1418 (the most similar info I could find), 3AMP-32V-467, 603-HF, F9700\n[*]incorrectly identified R8104 as the problem\n[*]in the process of checking voltages on J4400\/display connector pins 2-6 (which all showed 12v), the probed touched 6 and 7 at the same time and it sparked. Those two pins now appear to be somewhat fused, the backlight fuse is blown, and I get no voltages on 2-6.\n[*]unfortunately the SMD's near J4400\/display connector are quite different from the available schematic of 820-00034, but I tested almost all of them in that area and several show 12v on one side and nothing on the other\n[\/LIST]\nI'm still learning, which was part of the purpose of buying this iMac--as a learning project. I'll fix the soldering on 6 and 7, replace the fuse (need to order) and then check the pins and SMD's in that area and post back. You agree with this plan?"}
-{"post_id":78323,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":682,"username":"2informaticos","post_date":"2021-08-01 16:27:26","message":"You should check the LCD connector.\nAlso inspect video cable, if is not affected too.\n\nYou had C4420 and L4400 where to check 12V_LCD.\nALWAYS try to avoid measuring voltage on the connectors, or QFN chip pins directly.\nUse the surrounding components as test points!\n\nSpike between pins 6\/7 is not big danger for the board; but F4400 is probably burnt now.\nMaybe LCD connector and cable got damaged too."}
-{"post_id":78329,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":29458,"username":"SanDiegoHB","post_date":"2021-08-01 21:14:17","message":"thank you, I'd like to think I would've done that if I could positively identify components on this board without the schematic\/.brd, basically blind right now without those. Some areas of the board are the same as 820-00034, other areas like the LCD are not. I'll inspect\/repair\/replace the involved components\/SMD's and post back asap.\n\nEvaluating some of the related smd's will take some creativity without the actual schematics. for example,  some smd's have 12v on each side and there's no question they're good. Others have 12v on one side and go to ground on the other. So I'm thinking, if I can't get the schematics, I might be able to determine if an smd is good and maybe even what it does if, for example, one side registers 12v and the other side nothing, and then I check if it has continuity and if it does then the other side probably goes to ground, and if it doesn't it's probably bad. Is my thinking sound?\n\nAre there other channels to try to get the schematic\/.brd?\n\npost note-and I won't know how many ohms should be in a resistor without a schematic :("}
-{"post_id":78336,"thread_id":61498,"title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file","user_id":682,"username":"2informaticos","post_date":"2021-08-02 04:00:47","message":"I suppose you mean resistors by \"registers\".\nEasy to determine if a component is connected to ground, just check continuity; finding 0V on a pin, doesn't imply to be connected to ground.\n\nYou don't have schematic for your board, but easy to compare LCD connector pins distribution with 00034 board.\nIt is equivalent, I suppose.\n\nThe goal of the forum is to help in a process repair.\nWe also post general information, but for personal training you should contact forum staff."}
+[
+    {
+        "post_id":78230,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":29458,
+        "username":"SanDiegoHB",
+        "post_date":"2021-07-29 23:24:27",
+        "message":"in your vast library, by chance do you have the boardview file and schematic for iMac logic board 820-01069 that you would share? having a devil of a time finding it. 2017 21.5\" iMac, non-retina, known working display and eDP cable, external image works, I don't get LED #4 (i.e. board not communicating with display), so I'd like to look at the eDP and power connectors on the board. I tried a \"similar\" one, i.e. the last non-retina 21.5\" before this, and the resistors\/capacitors adjacent to these connectors are way different, and the schematic didn't seem to tell me how many volts I should be reading on each of the pins. I subscribe to \"vinafix\" for access to bios files and schematics and such, but they don't have this, and a google search doesn't come up with anything useful. thanks for anything you can do to help!"
+    },
+    {
+        "post_id":78232,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-30 02:16:20",
+        "message":"Sorry, nothing available for this board.\n\nYou should search for LCD display on Internet, in case datasheet is available.\nIf you can get the layout of panel connector, you can find corresponding pins for the eDP connector on the MLB.\nNeed to check if HPD (Hot Plug Detect) line goes high; only then PCH can detect the panel correctly.\n\nAny history fault available?"
+    },
+    {
+        "post_id":78260,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":29458,
+        "username":"SanDiegoHB",
+        "post_date":"2021-07-30 11:12:29",
+        "message":"thank you good idea, I think I found the datasheet, I'll post back asap"
+    },
+    {
+        "post_id":78295,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":29458,
+        "username":"SanDiegoHB",
+        "post_date":"2021-07-31 17:01:50",
+        "message":"I found another board's schematic\/.brd that is essentially identical, and narrowed down the problem to resistor R8104 which is supposed to measure .05 ohms but is actually resisting at .4 ohms. It's the only component between the power supply and the 12v input to the LCD backlight driver LP8561, and the 5v and 3.3v inputs were good. So, I'm trying to find this resistor to replace, and I'm not sure of its specs other than .05 ohms and its size. I've attached a screenshot of the schematic. Can you tell me what I look for to make sure the replacement is compatible? thank you!!"
+    },
+    {
+        "post_id":78297,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":29458,
+        "username":"SanDiegoHB",
+        "post_date":"2021-07-31 21:16:17",
+        "message":"never mind, I plodded along and searched through digi-key long enough to find what I was looking for \"RES 0.05 OHM 1% 1\/16W 0402\"\n?"
+    },
+    {
+        "post_id":78304,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-01 00:33:12",
+        "message":"0.4 ohms is a good reading.\nYou have to include the multimeter cables there, which are not 0 ohm!\nWhich schematic using now?"
+    },
+    {
+        "post_id":78308,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":29458,
+        "username":"SanDiegoHB",
+        "post_date":"2021-08-01 09:06:58",
+        "message":"damn, I'm using 820-00034"
+    },
+    {
+        "post_id":78315,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-01 11:28:00",
+        "message":"As I said, 0.4 ohm reading is good.\nThat resistor is for backlight and seems that you don't get internal image; backlight appears later.\n\nBe sure F\/L\/R4400 are all good.\nIf you get 12V at pins 2-6 of J4400, check if DP_INTPNL_HPD goes high."
+    },
+    {
+        "post_id":78319,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":29458,
+        "username":"SanDiegoHB",
+        "post_date":"2021-08-01 12:55:47",
+        "message":"ok, here's the condensed complete history\n[LIST]\n[*]purchased this 2017 21.5\" iMac, A1418 non-retina with a firmware lock\n[*]I reprogramed the efi chip, and tested all functions worked including display and all good\n[*]then I cracked the display trying to remove the old adhesive, @#$$T\n[*]purchased replacement display, LM215WF3 SD D5 which worked briefly, then displayed a strange white box on the black screen during startup and never worked after that, assumed problem was screen so I exchanged it (note, I did not test to see if problem was only the backlight before exchanging)\n[*]this replacement screen hasn't shown a picture yet, and LED 3 has not turned on yet\n[*]can't find schematics or .brd for this logic board 820-01069\n[*]noticed backlight fuse needed replacing so I did that, but without the schematic I had to guess that it was the same fuse that is sold for the 2013 model a1418 (the most similar info I could find), 3AMP-32V-467, 603-HF, F9700\n[*]incorrectly identified R8104 as the problem\n[*]in the process of checking voltages on J4400\/display connector pins 2-6 (which all showed 12v), the probed touched 6 and 7 at the same time and it sparked. Those two pins now appear to be somewhat fused, the backlight fuse is blown, and I get no voltages on 2-6.\n[*]unfortunately the SMD's near J4400\/display connector are quite different from the available schematic of 820-00034, but I tested almost all of them in that area and several show 12v on one side and nothing on the other\n[\/LIST]\nI'm still learning, which was part of the purpose of buying this iMac--as a learning project. I'll fix the soldering on 6 and 7, replace the fuse (need to order) and then check the pins and SMD's in that area and post back. You agree with this plan?"
+    },
+    {
+        "post_id":78323,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-01 14:27:26",
+        "message":"You should check the LCD connector.\nAlso inspect video cable, if is not affected too.\n\nYou had C4420 and L4400 where to check 12V_LCD.\nALWAYS try to avoid measuring voltage on the connectors, or QFN chip pins directly.\nUse the surrounding components as test points!\n\nSpike between pins 6\/7 is not big danger for the board; but F4400 is probably burnt now.\nMaybe LCD connector and cable got damaged too."
+    },
+    {
+        "post_id":78329,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":29458,
+        "username":"SanDiegoHB",
+        "post_date":"2021-08-01 19:14:17",
+        "message":"thank you, I'd like to think I would've done that if I could positively identify components on this board without the schematic\/.brd, basically blind right now without those. Some areas of the board are the same as 820-00034, other areas like the LCD are not. I'll inspect\/repair\/replace the involved components\/SMD's and post back asap.\n\nEvaluating some of the related smd's will take some creativity without the actual schematics. for example,  some smd's have 12v on each side and there's no question they're good. Others have 12v on one side and go to ground on the other. So I'm thinking, if I can't get the schematics, I might be able to determine if an smd is good and maybe even what it does if, for example, one side registers 12v and the other side nothing, and then I check if it has continuity and if it does then the other side probably goes to ground, and if it doesn't it's probably bad. Is my thinking sound?\n\nAre there other channels to try to get the schematic\/.brd?\n\npost note-and I won't know how many ohms should be in a resistor without a schematic :("
+    },
+    {
+        "post_id":78336,
+        "thread_id":61498,
+        "title":"820-01069-B, hoping you have this iMac schematic and\/or boardview file",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-02 02:00:47",
+        "message":"I suppose you mean resistors by \"registers\".\nEasy to determine if a component is connected to ground, just check continuity; finding 0V on a pin, doesn't imply to be connected to ground.\n\nYou don't have schematic for your board, but easy to compare LCD connector pins distribution with 00034 board.\nIt is equivalent, I suppose.\n\nThe goal of the forum is to help in a process repair.\nWe also post general information, but for personal training you should contact forum staff."
+    }
+]

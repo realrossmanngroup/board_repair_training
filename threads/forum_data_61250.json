@@ -1,7 +1,65 @@
-{"post_id":75948,"thread_id":61250,"title":"820-3462 unstable ppvout_s0_LCDbklt \/","user_id":26621,"username":"grmacs","post_date":"2021-05-28 15:19:58","message":"Tested on separate display\/cable and same issue. Seems to get worse after power up. Liquid damage to board mostly near DCIN connector. I have steady 12.65 at pin 1 of D9701 but voltage at pin 2 is sometimes 40V and usually shortly after power up unstable so backlight flickers sometimes is out. Bklt EN is steady 3V.  None of the caps looked bad on PPVOUT S0 LCDBKLT but I replaced them all anyway after replacing D9701 and U9701 caused no change. Also replace LDVS connector. I thought that if I had steady voltage at pin 1 of D9701 and replacing it didn't fix than it must be something with caps or traces for PPVOUT S0 LCDBKLT but apparently I\"m wrong. Image never goes away regardless of fluctuation of backlight voltage.\n\nWhat am I missing?"}
-{"post_id":75954,"thread_id":61250,"title":"820-3462 unstable ppvout_s0_LCDbklt \/","user_id":682,"username":"2informaticos","post_date":"2021-05-29 05:34:46","message":"When no backlight present, which is the output voltage?\n12V will mean something wrong in the backlight circuitry.\nMore than 50V means open connection to LEDs strip; like bad connector, flex, or screen itself."}
-{"post_id":76025,"thread_id":61250,"title":"820-3462 unstable ppvout_s0_LCDbklt \/","user_id":26621,"username":"grmacs","post_date":"2021-06-01 08:27:26","message":"It usually starts out at 46V and then will occcasionally drop to 12.6V and then usually back up to 46V. Sometimes it stays at 12.6V for a long time."}
-{"post_id":76036,"thread_id":61250,"title":"820-3462 unstable ppvout_s0_LCDbklt \/","user_id":682,"username":"2informaticos","post_date":"2021-06-01 10:09:32","message":"What about LCD_BKLT_PWM?"}
-{"post_id":76059,"thread_id":61250,"title":"820-3462 unstable ppvout_s0_LCDbklt \/","user_id":26621,"username":"grmacs","post_date":"2021-06-02 05:22:25","message":"That appears to be the problem. Voltage is not stable at LCD_BKLT_PWM and is sometimes 3.3V but then drops and coordinates with the loss of actual backlight in the display.\n\nI see that line comes from PCH so guessing if not a poor trace then it is a PCH problem? How does the LCD_BKLT_PWM line function? I have not been able to understand what it's purpose is in the circuit.\n\n*Note I checked test point near PCH for LCD_BKLT_PWM and that is also unstable so it would appear problem is coming from PCH not the trace. U9701 was already changed when trying to resolve this issue so unless there is something else that could pull that down, telling PCH to drop that output?"}
-{"post_id":76060,"thread_id":61250,"title":"820-3462 unstable ppvout_s0_LCDbklt \/","user_id":682,"username":"2informaticos","post_date":"2021-06-02 06:19:51","message":"If image is present and SMC_LID steady high, PCH should send out proper PWM for backlight.\nIn case of PCH issue, then you can force backlight to max, without any control.\nDo 2-3 times PRAM reset first."}
-{"post_id":76098,"thread_id":61250,"title":"820-3462 unstable ppvout_s0_LCDbklt \/","user_id":26621,"username":"grmacs","post_date":"2021-06-03 07:20:20","message":"THanks for your help on this. I didn't think it would be related to SMC_LID being that image was always there and only backlight was unstable but it is apparent that SMC LID hall sensor was the issue. On closer inspection there was corrosion under pin of the IC and the cap on the hall sensor. After reviving the pads and replacing the cap and IC there, all is well and this problem is solved!"}
+[
+    {
+        "post_id":75948,
+        "thread_id":61250,
+        "title":"820-3462 unstable ppvout_s0_LCDbklt \/",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2021-05-28 13:19:58",
+        "message":"Tested on separate display\/cable and same issue. Seems to get worse after power up. Liquid damage to board mostly near DCIN connector. I have steady 12.65 at pin 1 of D9701 but voltage at pin 2 is sometimes 40V and usually shortly after power up unstable so backlight flickers sometimes is out. Bklt EN is steady 3V.  None of the caps looked bad on PPVOUT S0 LCDBKLT but I replaced them all anyway after replacing D9701 and U9701 caused no change. Also replace LDVS connector. I thought that if I had steady voltage at pin 1 of D9701 and replacing it didn't fix than it must be something with caps or traces for PPVOUT S0 LCDBKLT but apparently I\"m wrong. Image never goes away regardless of fluctuation of backlight voltage.\n\nWhat am I missing?"
+    },
+    {
+        "post_id":75954,
+        "thread_id":61250,
+        "title":"820-3462 unstable ppvout_s0_LCDbklt \/",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-29 03:34:46",
+        "message":"When no backlight present, which is the output voltage?\n12V will mean something wrong in the backlight circuitry.\nMore than 50V means open connection to LEDs strip; like bad connector, flex, or screen itself."
+    },
+    {
+        "post_id":76025,
+        "thread_id":61250,
+        "title":"820-3462 unstable ppvout_s0_LCDbklt \/",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2021-06-01 06:27:26",
+        "message":"It usually starts out at 46V and then will occcasionally drop to 12.6V and then usually back up to 46V. Sometimes it stays at 12.6V for a long time."
+    },
+    {
+        "post_id":76036,
+        "thread_id":61250,
+        "title":"820-3462 unstable ppvout_s0_LCDbklt \/",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-01 08:09:32",
+        "message":"What about LCD_BKLT_PWM?"
+    },
+    {
+        "post_id":76059,
+        "thread_id":61250,
+        "title":"820-3462 unstable ppvout_s0_LCDbklt \/",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2021-06-02 03:22:25",
+        "message":"That appears to be the problem. Voltage is not stable at LCD_BKLT_PWM and is sometimes 3.3V but then drops and coordinates with the loss of actual backlight in the display.\n\nI see that line comes from PCH so guessing if not a poor trace then it is a PCH problem? How does the LCD_BKLT_PWM line function? I have not been able to understand what it's purpose is in the circuit.\n\n*Note I checked test point near PCH for LCD_BKLT_PWM and that is also unstable so it would appear problem is coming from PCH not the trace. U9701 was already changed when trying to resolve this issue so unless there is something else that could pull that down, telling PCH to drop that output?"
+    },
+    {
+        "post_id":76060,
+        "thread_id":61250,
+        "title":"820-3462 unstable ppvout_s0_LCDbklt \/",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-02 04:19:51",
+        "message":"If image is present and SMC_LID steady high, PCH should send out proper PWM for backlight.\nIn case of PCH issue, then you can force backlight to max, without any control.\nDo 2-3 times PRAM reset first."
+    },
+    {
+        "post_id":76098,
+        "thread_id":61250,
+        "title":"820-3462 unstable ppvout_s0_LCDbklt \/",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2021-06-03 05:20:20",
+        "message":"THanks for your help on this. I didn't think it would be related to SMC_LID being that image was always there and only backlight was unstable but it is apparent that SMC LID hall sensor was the issue. On closer inspection there was corrosion under pin of the IC and the cap on the hall sensor. After reviving the pads and replacing the cap and IC there, all is well and this problem is solved!"
+    }
+]

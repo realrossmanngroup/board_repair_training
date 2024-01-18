@@ -1,13 +1,119 @@
-{"post_id":87021,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-07 23:29:32","message":"I have an 820-00163-A logic board that does not detect Thunderbolt devices or output video via DisplayPort on either port A or B, HDMI output works.  ThunderBolt shows in System Profiler, no devices connected.  Checked HPD voltage goes to ~3.2V when DisplayPort is connected but stays 0.0V when Thunderbolt Device (TB Ethernet Adapter) is connected.  15V TB Boost voltage (measured at U3090) was present.  Both TB Ethernet Adapter and DisplayPort monitor work fine on other Macbook Pro.  Any assistance is greatly appreciated"}
-{"post_id":87024,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":682,"username":"2informaticos","post_date":"2022-03-08 03:08:19","message":"First of all, welcome to the forum!\n\nAny history fault available?\n\nBoth DP_TBTPA\/PB_HPD go high when connect external monitor to corresponding port?\nBe sure to get all output voltages from U3210\/310.\nAlso check U2800 voltages, at page 29.\n\nYou can try changing TBT ROM (U2890).\nLet U2800 as last option..."}
-{"post_id":87046,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-08 09:09:54","message":"Thanks for the reply.  I'll have to take those measurements this evening after work."}
-{"post_id":87080,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-08 23:55:22","message":"Ok, so first, I must have been measuring the HPD on the wrong pin.\n  \nFrom the Test Points, DP_TBTPA_HPD or DP_TBTB_HPD does NOT go high when monitor (mini-DP) is connected (max 0.1V) to either port.\n\nHere are the measured voltages on the corresponding IC:\n\nU3210\nV3P3OUT (pin 18) = 3.287\nOUT (pins 12 & 14) = 3.328\n\nU3310\nV3P3OUT (pin 18) = 3.310\nOUT (pins 12 & 14) = 3.318\n\nU2800\nP1V05TBT_SW = 1.042\nPP1V05_TBT = 1.004\nPP1V05_TBTCIO = 0.999\nPP1V05_TBTRDV = 0.998\nPP3V3_S4_TBT = 3.305\nPP3V3_S4_TBT_F = 3.304\nPP3V3_TBTRDV = 3.304\nPP3V3_TBTLC = 3.303\n\nIf I am missing voltages, please let me know.  Everything seems nominal, with the obvious exception of the HPD not going high.  And thank you for your help."}
-{"post_id":87081,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-09 00:10:18","message":"Another thing, I was checking Q8000 (per [URL]https:\/\/repair.wiki\/w\/A1398_2015-2016_15%E2%80%9D_MacBook_Pro_Retina[\/URL]) and noticed that P3V3S3_S4 is 0V.  PP3V3_S4 and PP3V3_S5 are both ~ 3.3V."}
-{"post_id":87082,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":682,"username":"2informaticos","post_date":"2022-03-09 02:59:09","message":"Considering port A, TBT_A_HPD must go high when connect external monitor there.\nAt same time, U3220 should send out high level at DP_TBTPA_HPD.\nOf course, 3V3 is required at DP_PWR pin of J3200.\n\nWhich is your actual case?\nYou may need to change U3220\/320."}
-{"post_id":87138,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-09 21:09:23","message":"So, measuring TBT_A_HPD at J3200 (pin 22) I get ~3.3V.  Measuring DP_TBTPA_HPD at U3220 pin 12 (TP[1]DP_TBTPA_HPD), I only get 0.098V.  Does that indicate that most likely U3220 (and U3320) are bad?"}
-{"post_id":87139,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-09 22:28:33","message":"Just FYI, Tried swapping U3220 from donor board and no change."}
-{"post_id":87140,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-09 22:50:59","message":"Don't know if it is helpful, but here are all the voltages from U3220 measured at the IC:\n\nU3220\nDP_TBTPA_AUXCH_N Pin 1 = 0.986\nDP_TBTPA_AUXCH_P Pin 2 = 0.583\nPP3V3_S4_TBTAPWR Pin 3 = 3.236\nDP_TBTPA_DDC_DATA Pin 4 = 0.029\nDP_TBTPA_DDC_CLK Pin 5 = 0.788\nTBT_A_DP_PWRDN Pin 6 = 0.956\nTBT_A_D2R_C_N<1> Pin 7 = 0.487\nTBT_A_D2R_C_P<1> Pin 8 = 0.481\nPin 9 = GND\nDP_TBTPA_ML_N<1> Pin 10 = 0.004\nDP_TBTPA_ML_P<1> Pin 11 = 0.008\nDP_TBTPA_HPD Pin 12 = 0.114\nTBT_A_LSRX Pin 13 = 0.082\nTBT_A_LSTX Pin 14 = 0.095\nTBT_A_CIO_SEL Pin 15 = 0.00\nTBT_A_CONFIG1_BUF Pin 16 = 0.114\nTBT_A_HPD Pin 17 = 3.254\nTBT_A_CONFIG1_RC Pin 18 = 3.131\nDP_A_LSX_ML_P<1> Pin 19 = 0.010\nDP_A_LSX_ML_N<1> Pin 20 = 0.009\nPin 21 = GND\nTBT_A_D2R1_AUXDDC_P Pin 22 = 2.65\nTBT_A_D2R1_AUXDDC_N Pin 23 = 2.758\nTBTDP_AUXIO_EN Pin 24 = 0.999"}
-{"post_id":87143,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":682,"username":"2informaticos","post_date":"2022-03-10 02:19:46","message":"\"You can try changing TBT ROM (U2890).\nLet U2800 as last option...\""}
-{"post_id":87264,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-03-12 00:37:36","message":"Well, I replaced U2890 and still nothing.  The MacBook still shows the Thunderbolt controller, but doesn't detect anything plugged into it.  I suppose I could replace U2800, but I don't think it's worth it at this point, not to mention if I did and it didn't work..."}
-{"post_id":87272,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":682,"username":"2informaticos","post_date":"2022-03-12 05:21:20","message":"Did you pick the TBT ROM from donor board, same model?\n\nOnce HDMI output is good, I don't see a real reason to use thunderbolt connectors.\nNobody really needs LAN connection with a laptop."}
-{"post_id":93497,"thread_id":62431,"title":"820-00163-A Thunderbolt Detection Issue","user_id":35583,"username":"ideachief","post_date":"2022-10-25 23:20:10","message":"I wanted to thank you for your assistance, but I just ended up buying a replacement board where everything worked, for a very decent price."}
+[
+    {
+        "post_id":87021,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-07 21:29:32",
+        "message":"I have an 820-00163-A logic board that does not detect Thunderbolt devices or output video via DisplayPort on either port A or B, HDMI output works.  ThunderBolt shows in System Profiler, no devices connected.  Checked HPD voltage goes to ~3.2V when DisplayPort is connected but stays 0.0V when Thunderbolt Device (TB Ethernet Adapter) is connected.  15V TB Boost voltage (measured at U3090) was present.  Both TB Ethernet Adapter and DisplayPort monitor work fine on other Macbook Pro.  Any assistance is greatly appreciated"
+    },
+    {
+        "post_id":87024,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-08 01:08:19",
+        "message":"First of all, welcome to the forum!\n\nAny history fault available?\n\nBoth DP_TBTPA\/PB_HPD go high when connect external monitor to corresponding port?\nBe sure to get all output voltages from U3210\/310.\nAlso check U2800 voltages, at page 29.\n\nYou can try changing TBT ROM (U2890).\nLet U2800 as last option..."
+    },
+    {
+        "post_id":87046,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-08 07:09:54",
+        "message":"Thanks for the reply.  I'll have to take those measurements this evening after work."
+    },
+    {
+        "post_id":87080,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-08 21:55:22",
+        "message":"Ok, so first, I must have been measuring the HPD on the wrong pin.\n  \nFrom the Test Points, DP_TBTPA_HPD or DP_TBTB_HPD does NOT go high when monitor (mini-DP) is connected (max 0.1V) to either port.\n\nHere are the measured voltages on the corresponding IC:\n\nU3210\nV3P3OUT (pin 18) = 3.287\nOUT (pins 12 & 14) = 3.328\n\nU3310\nV3P3OUT (pin 18) = 3.310\nOUT (pins 12 & 14) = 3.318\n\nU2800\nP1V05TBT_SW = 1.042\nPP1V05_TBT = 1.004\nPP1V05_TBTCIO = 0.999\nPP1V05_TBTRDV = 0.998\nPP3V3_S4_TBT = 3.305\nPP3V3_S4_TBT_F = 3.304\nPP3V3_TBTRDV = 3.304\nPP3V3_TBTLC = 3.303\n\nIf I am missing voltages, please let me know.  Everything seems nominal, with the obvious exception of the HPD not going high.  And thank you for your help."
+    },
+    {
+        "post_id":87081,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-08 22:10:18",
+        "message":"Another thing, I was checking Q8000 (per [URL]https:\/\/repair.wiki\/w\/A1398_2015-2016_15%E2%80%9D_MacBook_Pro_Retina[\/URL]) and noticed that P3V3S3_S4 is 0V.  PP3V3_S4 and PP3V3_S5 are both ~ 3.3V."
+    },
+    {
+        "post_id":87082,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-09 00:59:09",
+        "message":"Considering port A, TBT_A_HPD must go high when connect external monitor there.\nAt same time, U3220 should send out high level at DP_TBTPA_HPD.\nOf course, 3V3 is required at DP_PWR pin of J3200.\n\nWhich is your actual case?\nYou may need to change U3220\/320."
+    },
+    {
+        "post_id":87138,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-09 19:09:23",
+        "message":"So, measuring TBT_A_HPD at J3200 (pin 22) I get ~3.3V.  Measuring DP_TBTPA_HPD at U3220 pin 12 (TP[1]DP_TBTPA_HPD), I only get 0.098V.  Does that indicate that most likely U3220 (and U3320) are bad?"
+    },
+    {
+        "post_id":87139,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-09 20:28:33",
+        "message":"Just FYI, Tried swapping U3220 from donor board and no change."
+    },
+    {
+        "post_id":87140,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-09 20:50:59",
+        "message":"Don't know if it is helpful, but here are all the voltages from U3220 measured at the IC:\n\nU3220\nDP_TBTPA_AUXCH_N Pin 1 = 0.986\nDP_TBTPA_AUXCH_P Pin 2 = 0.583\nPP3V3_S4_TBTAPWR Pin 3 = 3.236\nDP_TBTPA_DDC_DATA Pin 4 = 0.029\nDP_TBTPA_DDC_CLK Pin 5 = 0.788\nTBT_A_DP_PWRDN Pin 6 = 0.956\nTBT_A_D2R_C_N<1> Pin 7 = 0.487\nTBT_A_D2R_C_P<1> Pin 8 = 0.481\nPin 9 = GND\nDP_TBTPA_ML_N<1> Pin 10 = 0.004\nDP_TBTPA_ML_P<1> Pin 11 = 0.008\nDP_TBTPA_HPD Pin 12 = 0.114\nTBT_A_LSRX Pin 13 = 0.082\nTBT_A_LSTX Pin 14 = 0.095\nTBT_A_CIO_SEL Pin 15 = 0.00\nTBT_A_CONFIG1_BUF Pin 16 = 0.114\nTBT_A_HPD Pin 17 = 3.254\nTBT_A_CONFIG1_RC Pin 18 = 3.131\nDP_A_LSX_ML_P<1> Pin 19 = 0.010\nDP_A_LSX_ML_N<1> Pin 20 = 0.009\nPin 21 = GND\nTBT_A_D2R1_AUXDDC_P Pin 22 = 2.65\nTBT_A_D2R1_AUXDDC_N Pin 23 = 2.758\nTBTDP_AUXIO_EN Pin 24 = 0.999"
+    },
+    {
+        "post_id":87143,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-10 00:19:46",
+        "message":"\"You can try changing TBT ROM (U2890).\nLet U2800 as last option...\""
+    },
+    {
+        "post_id":87264,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-03-11 22:37:36",
+        "message":"Well, I replaced U2890 and still nothing.  The MacBook still shows the Thunderbolt controller, but doesn't detect anything plugged into it.  I suppose I could replace U2800, but I don't think it's worth it at this point, not to mention if I did and it didn't work..."
+    },
+    {
+        "post_id":87272,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-12 03:21:20",
+        "message":"Did you pick the TBT ROM from donor board, same model?\n\nOnce HDMI output is good, I don't see a real reason to use thunderbolt connectors.\nNobody really needs LAN connection with a laptop."
+    },
+    {
+        "post_id":93497,
+        "thread_id":62431,
+        "title":"820-00163-A Thunderbolt Detection Issue",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-10-25 21:20:10",
+        "message":"I wanted to thank you for your assistance, but I just ended up buying a replacement board where everything worked, for a very decent price."
+    }
+]

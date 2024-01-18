@@ -1,17 +1,155 @@
-{"post_id":7524,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 11:32:31","message":"I got a board in that had liquid damage on the lvds connector. it was pretty bad. I pulled the connector off, cleaned the area really well. Soldered a new connector on, \nAs a persecution I also changed the back light fuse.\n\nPINS 21 and 22 for the lvds connector  have the solder pads missing.\nI bridged the pins together and ran a jumper to C9796.\n\nI also measured the resistance on R9715 and R9731 \nR9715 - 97k ohm\nR9731 - 194K ohm ( which is the 301k ohm) I have changed this resistor twice now and get the same measurement.\n\nFuse voltage on both sides - 10.9v\n\nI also tried a known good screen same thing, image but no backlight. Where should I go from here. \n\nI included a picture of the jumper wire i ran for the missing solder pags on pins 21 and 22 [ATTACH]7525._xfImport[\/ATTACH] ."}
-{"post_id":7537,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":468,"username":"ALB-Repairs","post_date":"2016-10-02 13:04:31","message":"Have you confirmed this is not no backlight rather than no display?. Could you tell us the voltage on the LVDS connector itself? \nThanks"}
-{"post_id":7541,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 14:05:51","message":"Yes If I hold the screen at the correct angle I can see an image on the screen, \n\npin1 - 0\npin2 - 0\npin3 - 0\npin4 - 3.2v\npin5 - Sync .14v\npin6 - 3.2v\npin7- 3.2v\n\nI did change c9015 and l9004 after I took these measurements and found out that im missing 3.2v on pin 2 and pin 3.\nStill same readings after changing c9015 and L9004. \nThanks."}
-{"post_id":7542,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":468,"username":"ALB-Repairs","post_date":"2016-10-02 14:22:02","message":"What do pins 21 and 22 measure? lets work backwards."}
-{"post_id":7543,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 14:29:23","message":"Those pins measure 0.0v\nI took the measurment on the pins them selves and also on c9796 and c9020 0.0v"}
-{"post_id":7544,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":468,"username":"ALB-Repairs","post_date":"2016-10-02 14:40:24","message":"Firstly why are you using a 2936 screen connector on a 820-3115? i hope youve changed the cable too. \nvoltage on this net? PPBUS_SW_LCDBKLT_PWR.\nIf 12V check R0910"}
-{"post_id":7545,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 15:19:01","message":"Im using this connector because its all I have at the moment the other connectors are on order. This is not a permanent solution. Can I be causing additional damage using this connector? Youll  have to excuse some of my inexperience im still pretty new to logic board repair.\n\nI measured PPBUS_SW_LCDBKLT_PWR on q9706, from what I understand I should have 12v on PIN 1,2,5,6 and all those pins measure 1.3v\n\nThanks for your help."}
-{"post_id":7546,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":468,"username":"ALB-Repairs","post_date":"2016-10-02 15:24:22","message":"The way this part of the circuit works is q9707 is gated on pin 2 and 5. this pulls LCDBKLT_EN_L to ground. When this is pulled to ground R9788 and R9789 create a voltage divider on LCDBKLT_EN_DIV. This gates Q9706 and allows voltage to pass. \n\nSo you need to check the gate signals of Q9707, and the voltage on LCDBKLT_EN_DIV.\n\nIIRC theres a via that can fail somewhere around here causing the issue but you should rule out R9788 and R9789 first."}
-{"post_id":7547,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 15:36:54","message":"This is where my inexperience comes in. Understand the function of what you are talking about just not sure how to apply what you have asked me to do.\nHow do I check the gate signals of Q9707\n\nI measured R9788 and R9788\nR9788 - pin1 = 12.5v, pin2 = 12.1v\nR9789 - pin1 = 12.1v, pin2 = 12.0v"}
-{"post_id":7549,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":468,"username":"ALB-Repairs","post_date":"2016-10-02 15:43:03","message":"okay we can establish the voltage is not being pulled to ground, So you need to check the voltage on pin 2 and pin 5 of q9707"}
-{"post_id":7551,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":2,"username":"dukefawks","post_date":"2016-10-02 15:47:25","message":"LCD is not recognized as there is no 3V on pin 2 and 3 then the backlight will also not be enabled of course. Probably because you are using a wrong connector and not making contact."}
-{"post_id":7552,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 15:48:43","message":"Q9707\npin2 = 3.3v\npin5= 0.0v"}
-{"post_id":7553,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":468,"username":"ALB-Repairs","post_date":"2016-10-02 15:50:12","message":"Derp. Completely missed that. Pfft, i did ask him if hes verified an image on the screen. Witch in theory there shouldn't be if he doesnt have 3v on pin 2 and 3 like duke said."}
-{"post_id":7554,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 15:54:21","message":"Okay, I should have correct connector tomorrow or Tuesday, Ill swap it out, But I undoubtedly have \"ghost image\" on screen  I can see the apple when it posts. Its not just my subconscious putting it there :D"}
-{"post_id":7560,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":2,"username":"dukefawks","post_date":"2016-10-02 18:06:36","message":"If you have an image then your measurements are incorrect. Pin 2 and 3 must have 3V for that to happen"}
-{"post_id":7562,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":415,"username":"cpdist","post_date":"2016-10-02 18:46:17","message":"I understand that, im more convinced now that the connector is causing a problem. Which is also causing incorrect measurements. Thanks guys ill let you know the measurements after replacing the connector with the correct one."}
-{"post_id":7564,"thread_id":7524,"title":"820-3115 no backlight liquid damage","user_id":296,"username":"jadao","post_date":"2016-10-03 03:43:29","message":"I confirm definitely. \nLast time I tried a 2936 lvds cable into a 3115 LB connector it worked at a certain point until the screen went all white and then black no more lcd. I found L9004 burned open."}
+[
+    {
+        "post_id":7524,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 09:32:31",
+        "message":"I got a board in that had liquid damage on the lvds connector. it was pretty bad. I pulled the connector off, cleaned the area really well. Soldered a new connector on, \nAs a persecution I also changed the back light fuse.\n\nPINS 21 and 22 for the lvds connector  have the solder pads missing.\nI bridged the pins together and ran a jumper to C9796.\n\nI also measured the resistance on R9715 and R9731 \nR9715 - 97k ohm\nR9731 - 194K ohm ( which is the 301k ohm) I have changed this resistor twice now and get the same measurement.\n\nFuse voltage on both sides - 10.9v\n\nI also tried a known good screen same thing, image but no backlight. Where should I go from here. \n\nI included a picture of the jumper wire i ran for the missing solder pags on pins 21 and 22 [ATTACH]7525._xfImport[\/ATTACH] ."
+    },
+    {
+        "post_id":7537,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2016-10-02 11:04:31",
+        "message":"Have you confirmed this is not no backlight rather than no display?. Could you tell us the voltage on the LVDS connector itself? \nThanks"
+    },
+    {
+        "post_id":7541,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 12:05:51",
+        "message":"Yes If I hold the screen at the correct angle I can see an image on the screen, \n\npin1 - 0\npin2 - 0\npin3 - 0\npin4 - 3.2v\npin5 - Sync .14v\npin6 - 3.2v\npin7- 3.2v\n\nI did change c9015 and l9004 after I took these measurements and found out that im missing 3.2v on pin 2 and pin 3.\nStill same readings after changing c9015 and L9004. \nThanks."
+    },
+    {
+        "post_id":7542,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2016-10-02 12:22:02",
+        "message":"What do pins 21 and 22 measure? lets work backwards."
+    },
+    {
+        "post_id":7543,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 12:29:23",
+        "message":"Those pins measure 0.0v\nI took the measurment on the pins them selves and also on c9796 and c9020 0.0v"
+    },
+    {
+        "post_id":7544,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2016-10-02 12:40:24",
+        "message":"Firstly why are you using a 2936 screen connector on a 820-3115? i hope youve changed the cable too. \nvoltage on this net? PPBUS_SW_LCDBKLT_PWR.\nIf 12V check R0910"
+    },
+    {
+        "post_id":7545,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 13:19:01",
+        "message":"Im using this connector because its all I have at the moment the other connectors are on order. This is not a permanent solution. Can I be causing additional damage using this connector? Youll  have to excuse some of my inexperience im still pretty new to logic board repair.\n\nI measured PPBUS_SW_LCDBKLT_PWR on q9706, from what I understand I should have 12v on PIN 1,2,5,6 and all those pins measure 1.3v\n\nThanks for your help."
+    },
+    {
+        "post_id":7546,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2016-10-02 13:24:22",
+        "message":"The way this part of the circuit works is q9707 is gated on pin 2 and 5. this pulls LCDBKLT_EN_L to ground. When this is pulled to ground R9788 and R9789 create a voltage divider on LCDBKLT_EN_DIV. This gates Q9706 and allows voltage to pass. \n\nSo you need to check the gate signals of Q9707, and the voltage on LCDBKLT_EN_DIV.\n\nIIRC theres a via that can fail somewhere around here causing the issue but you should rule out R9788 and R9789 first."
+    },
+    {
+        "post_id":7547,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 13:36:54",
+        "message":"This is where my inexperience comes in. Understand the function of what you are talking about just not sure how to apply what you have asked me to do.\nHow do I check the gate signals of Q9707\n\nI measured R9788 and R9788\nR9788 - pin1 = 12.5v, pin2 = 12.1v\nR9789 - pin1 = 12.1v, pin2 = 12.0v"
+    },
+    {
+        "post_id":7549,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2016-10-02 13:43:03",
+        "message":"okay we can establish the voltage is not being pulled to ground, So you need to check the voltage on pin 2 and pin 5 of q9707"
+    },
+    {
+        "post_id":7551,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-02 13:47:25",
+        "message":"LCD is not recognized as there is no 3V on pin 2 and 3 then the backlight will also not be enabled of course. Probably because you are using a wrong connector and not making contact."
+    },
+    {
+        "post_id":7552,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 13:48:43",
+        "message":"Q9707\npin2 = 3.3v\npin5= 0.0v"
+    },
+    {
+        "post_id":7553,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2016-10-02 13:50:12",
+        "message":"Derp. Completely missed that. Pfft, i did ask him if hes verified an image on the screen. Witch in theory there shouldn't be if he doesnt have 3v on pin 2 and 3 like duke said."
+    },
+    {
+        "post_id":7554,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 13:54:21",
+        "message":"Okay, I should have correct connector tomorrow or Tuesday, Ill swap it out, But I undoubtedly have \"ghost image\" on screen  I can see the apple when it posts. Its not just my subconscious putting it there :D"
+    },
+    {
+        "post_id":7560,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-02 16:06:36",
+        "message":"If you have an image then your measurements are incorrect. Pin 2 and 3 must have 3V for that to happen"
+    },
+    {
+        "post_id":7562,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":415,
+        "username":"cpdist",
+        "post_date":"2016-10-02 16:46:17",
+        "message":"I understand that, im more convinced now that the connector is causing a problem. Which is also causing incorrect measurements. Thanks guys ill let you know the measurements after replacing the connector with the correct one."
+    },
+    {
+        "post_id":7564,
+        "thread_id":7524,
+        "title":"820-3115 no backlight liquid damage",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2016-10-03 01:43:29",
+        "message":"I confirm definitely. \nLast time I tried a 2936 lvds cable into a 3115 LB connector it worked at a certain point until the screen went all white and then black no more lcd. I found L9004 burned open."
+    }
+]

@@ -1,13 +1,119 @@
-{"post_id":86165,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-02-10 19:00:10","message":"Experts,\n\nI hit a wall, and could use your insights on how to get moving.\n\nA1502 820-4924-A\n70mA when in case, 20mA when not. No fan spin.\nUnit is in S3AC mode, per chart on schematic p.64 using [I]SMC_ADAPTER_EN[\/I], [I]SMC_PM_G2_EN[\/I][ABLE], and [I]SMC_S4_WAKESRC_EN[\/I]\n\nSymptoms: \n1. Every [I]rareth [\/I]time, system comes up. shows battery as dead (big red battery icon), not charging.\nAll other times (virtually all), does not come up.\n2. One pin pair on the magsafe blew out-both sides black, some metal from the tip of the PS plug gone. Doesn't seem to have made a difference, except the 'other' pin on the PS plug isn't pogo any more (stuck).\n\npic of PS plug: \n\n[ATTACH type=\"full\" width=\"177px\"]60419[\/ATTACH]\n\n...and the LB:\n\n[ATTACH type=\"full\" width=\"231px\"]60420[\/ATTACH]\n\nSteps:\n\nAll \"G3 Hot\" (Always-Present) rails OK.\nStarting on 5v:\n1. OK = PP5V_S5_LDO\n2. 0v = PP5_S5_FET mostly 0V, sometimes 5V after PS on a while!? ([I]@U8060 pin 5\/6[\/I])\n3. U8060:\npin 1\/3: 5v ([I]PP5V_S5_P5VS5FET [\/I][[I]PP5V_S4[\/I]])\npin 2: 0v ([I]P5VS4_EN [\/I]in)\n4. Tracing P5VS4_EN tp p.64 at C8192 = 0v\n5. Tracing back to U8170:\npin 6: 3.3v [I]irrelevant[\/I] (PP3V3_S5_PWRCTL = power for OR gate 8170 ([I]NOSTUFF[\/I]))\npin 2: 0v ([I]PM_SLP_S5_L[\/I]) per chart on same page, it is only HIGH when in modes S3, S3AC, and S0. This pin Low makes [I]P3V3S4_EN[\/I] low as well.\nHow to make PM_SLP_S5_L go Hi?\nPulled L by R1460 (p.13), Pulled H by U0500 (Broadwell) pin AP5 ([I]SLP_S5*[\/I]) on same page.\n\nSo, I'm stuck at the Broadwell :-(\nI was hoping to find out why we were stuck in S5 (even though p.64 table says in S3AC...)\n\nTIA!"}
-{"post_id":86166,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":682,"username":"2informaticos","post_date":"2022-02-11 03:20:11","message":"First of all, welcome to the forum!\n\nYou have 3V3_S5 present, but PCH requires more signals, before starting power on sequence.\nPost voltage for 3V3_SUS, PCH_DSWVRMEN, PM_DSW_PWRGD and PM_BATLOW_L.\n\nBe sure to use original 60\/85W Magsafe 2 charger."}
-{"post_id":86192,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-02-11 18:00:42","message":"Thanks [USER=682]@2informaticos[\/USER]. You guys are great. \n\nThe first 3 signals were all 3.3V, and PM_BATLOW_L was 0V, but that makes sense as the LB is not in the case. Checked the MOSFET \"BATLOW# ISOLATION\", nothing on any pin. \nGate signal comes from PP3V3_S4_TBT, and U3210 seems to be off, with both ENables (EN & HVEN) at 0V, and PP3V3_S4_TBTAPWRSW at 3.3V. \nThe magsafe LED goes from green to orange, and stays there. \nThe SSD is cool, like everything else on it.\nAm I right that the LB is stuck at S5?\nIt's been a week, and it stinks that I have no distinct signal symptom to chase yet... \n\nThanks again!"}
-{"post_id":86193,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":682,"username":"2informaticos","post_date":"2022-02-11 19:07:57","message":"PCH requires high level on PM_BATLOW_L to start power on sequence.\n\n\"Be sure to use original 60\/85W Magsafe 2 charger.\"\n???\n\nBe aware of wrong assumptions; don't waste time with thunderbolt area.\nBoard MUST turn on alone on the desk, even without LIO flex connected; only needs LIO power cable."}
-{"post_id":86240,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-02-13 12:28:11","message":"Thanks [USER=682]@2informaticos[\/USER] ! \nI think I made progress. But first:\n\"PCH requires high level on PM_BATLOW_L to start power on sequence. \"\nJust by the name of the signal, does this mean a battery that is not 0% is required to boot? I must not understand the signal.\n\nre: Progress:\n0. 820-4924-A p. 75\/sheet 58.\n1. I replaced TPS51980.\n2. When checking for solder bridges after, I had a short between pins 23 (VIN\/[B]PPVIN_S5_HS_OTHER3V3_ISNS[\/B])& 24 (DRVH\/[B]P3V3S5[\/B]\/[B]P3V3S5_TG[\/B]). Great! Too much solder...\n3. I pulled the new one off, and [I]the short was still there[\/I]!\n4. Here is the relationship between the 2 pins:\n\n[ATTACH type=\"full\"]60421[\/ATTACH]\n\n...and here is the MOSFET (Q7560\/FDMS3602S), just off to the right of the above image:\n\n[ATTACH type=\"full\"]60422[\/ATTACH]\nShould the Gate & Drain on this dual N-Channel be shorted? My instinct says [I]no[\/I]. And because the signal to pin 24 takes a direct path to\/from the MOSFET Gate, there are no alternate signal paths to short indicated. With TPS51980 removed, and on the pins of the MOSFET directly, Gate & Drain are shorted.\n\nThoughts?\n\nTIA!"}
-{"post_id":86243,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":682,"username":"2informaticos","post_date":"2022-02-13 13:25:12","message":"Replace Q7560.\n\nBe aware, do not power on the board without U7501, if Q7520\/60 are soldered!!!"}
-{"post_id":86267,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-02-14 08:29:39","message":"Thanks [USER=682]@2informaticos[\/USER]! I screwed up and removed U7501, and cleaned\/tinned the pins-[I]all with the power on[\/I].\nOrdering dual MOSFETs for both sides now. It sounds like I shorted out Q7560 (if this is how they fail).\nDohh!"}
-{"post_id":87977,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-03-27 11:31:47","message":"Well, all MOSFETs replaced, and now I have a very strange symptom-once again on the U7100. First a pic for reference:\n\n[ATTACH type=\"full\"]60542[\/ATTACH]\nThis is from page 54 of the schematic for 820-4924-A.\n\nAt pin 1 of R7110 I have good voltage ~13v.\nAt pin 2 of R7110 I have nothing(!).\nSo U7100 has nothing on pin 3 (ACIN).\n\nFix:\nBad trace (open) from pin 2 of R7110 to pin 3 of U7100; repaired with jumper.\n\nTried: \nReplaced 7110 (though it tested OK at 68k\u03a9.\nRemoved C7111-no change.\nPin 3 on U7100 is just under 100\u03a9 to ground.\nR7111 tested at 2.4k\u03a9 in-circuit.\nRe-flowed U7100, no adjacent pin shorts.\n\n\nIdeas?"}
-{"post_id":87984,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":682,"username":"2informaticos","post_date":"2022-03-27 15:19:59","message":"\"Pin 3 on U7100 is just under 100\u03a9 to ground.\"\nReplace U7100..."}
-{"post_id":87986,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-03-27 16:03:15","message":"[USER=682]@2informaticos[\/USER] I just lifted it, and pin 3 is 0\u03a9 to the pad (pin 29), but without a schematic, I don't know why it isn't also grounded to pin 22 (\"GND\")...\n\nRight before I lifted it, I measured the full 16v across R7110, which I should have done yesterday. That told the story.\n\nReally appreciate your confirmation!"}
-{"post_id":87988,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-03-27 17:19:32","message":"I was checking for pin shorts before powering up, and well, I must have had too much solder on U7100 pins 22, 23, 24, because they were all shorted together. \n\nI sucked out enough without lifting to unshort pin 24 (CHGR_UGATE), but pins 22 (GND) and pin 23 (CHGR_PHASE) remain shorted together...\n\n[ATTACH type=\"full\"]60544[\/ATTACH]\n\nFrom the above, the only way I see pad 22 short to pad 23 is via Q7130. \nWhen I checked, Q7130 pins 10 to 5\/6\/7 were shorted (MOSFET saturated). \nAs Q7130 is an Nch, I shorted the gate (pin 8) to 5\/6\/7 (GND), and checked to verify pin 10 to pins 5\/6\/7-BUT THE SHORT REMAINS (3.4\u03a9)!\n...\nLifting Q7130 is hairy as L7130 is right next to it ([I]already replaced it per above direction[\/I]), but I guess I have to, unless you guys see another way for U7100 pin 23 to have 3.4\u03a9 to ground?\n...\nLifted Q7130, and pins 5\/6\/7 are 0\u03a9 (as expected)...\nBut pin 10 (CHGR_PASE) is 3.1\u03a9 to GND! \nSo Q7130 pin 10 isn't getting to GND via the MOSFET... \n...\nFor reference, the shorted (3.1\u03a9 to GND) pin\/output becomes PPBUS_G3H (same schematic page, on right).\nNow I'm chasing a shorted PPBUS_G3H, it seems!"}
-{"post_id":87989,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":682,"username":"2informaticos","post_date":"2022-03-27 19:40:34","message":"Lift F7140 and check which side the short remains."}
-{"post_id":90137,"thread_id":62323,"title":"820-4924-A No ACIN on U7100 pin 3...","user_id":26351,"username":"Holes Flow","post_date":"2022-06-12 14:15:21","message":"Wrap-up. I sent this board to a shop in NYC, and there are too many layer shorts on the board to fix it. The power surge made even all the above not enough. I bought another LB, and have started a new thread about that board... Many thanks for those who helped all those hours I spent on that POS..."}
+[
+    {
+        "post_id":86165,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-02-10 17:00:10",
+        "message":"Experts,\n\nI hit a wall, and could use your insights on how to get moving.\n\nA1502 820-4924-A\n70mA when in case, 20mA when not. No fan spin.\nUnit is in S3AC mode, per chart on schematic p.64 using [I]SMC_ADAPTER_EN[\/I], [I]SMC_PM_G2_EN[\/I][ABLE], and [I]SMC_S4_WAKESRC_EN[\/I]\n\nSymptoms: \n1. Every [I]rareth [\/I]time, system comes up. shows battery as dead (big red battery icon), not charging.\nAll other times (virtually all), does not come up.\n2. One pin pair on the magsafe blew out-both sides black, some metal from the tip of the PS plug gone. Doesn't seem to have made a difference, except the 'other' pin on the PS plug isn't pogo any more (stuck).\n\npic of PS plug: \n\n[ATTACH type=\"full\" width=\"177px\"]60419[\/ATTACH]\n\n...and the LB:\n\n[ATTACH type=\"full\" width=\"231px\"]60420[\/ATTACH]\n\nSteps:\n\nAll \"G3 Hot\" (Always-Present) rails OK.\nStarting on 5v:\n1. OK = PP5V_S5_LDO\n2. 0v = PP5_S5_FET mostly 0V, sometimes 5V after PS on a while!? ([I]@U8060 pin 5\/6[\/I])\n3. U8060:\npin 1\/3: 5v ([I]PP5V_S5_P5VS5FET [\/I][[I]PP5V_S4[\/I]])\npin 2: 0v ([I]P5VS4_EN [\/I]in)\n4. Tracing P5VS4_EN tp p.64 at C8192 = 0v\n5. Tracing back to U8170:\npin 6: 3.3v [I]irrelevant[\/I] (PP3V3_S5_PWRCTL = power for OR gate 8170 ([I]NOSTUFF[\/I]))\npin 2: 0v ([I]PM_SLP_S5_L[\/I]) per chart on same page, it is only HIGH when in modes S3, S3AC, and S0. This pin Low makes [I]P3V3S4_EN[\/I] low as well.\nHow to make PM_SLP_S5_L go Hi?\nPulled L by R1460 (p.13), Pulled H by U0500 (Broadwell) pin AP5 ([I]SLP_S5*[\/I]) on same page.\n\nSo, I'm stuck at the Broadwell :-(\nI was hoping to find out why we were stuck in S5 (even though p.64 table says in S3AC...)\n\nTIA!"
+    },
+    {
+        "post_id":86166,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-11 01:20:11",
+        "message":"First of all, welcome to the forum!\n\nYou have 3V3_S5 present, but PCH requires more signals, before starting power on sequence.\nPost voltage for 3V3_SUS, PCH_DSWVRMEN, PM_DSW_PWRGD and PM_BATLOW_L.\n\nBe sure to use original 60\/85W Magsafe 2 charger."
+    },
+    {
+        "post_id":86192,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-02-11 16:00:42",
+        "message":"Thanks [USER=682]@2informaticos[\/USER]. You guys are great. \n\nThe first 3 signals were all 3.3V, and PM_BATLOW_L was 0V, but that makes sense as the LB is not in the case. Checked the MOSFET \"BATLOW# ISOLATION\", nothing on any pin. \nGate signal comes from PP3V3_S4_TBT, and U3210 seems to be off, with both ENables (EN & HVEN) at 0V, and PP3V3_S4_TBTAPWRSW at 3.3V. \nThe magsafe LED goes from green to orange, and stays there. \nThe SSD is cool, like everything else on it.\nAm I right that the LB is stuck at S5?\nIt's been a week, and it stinks that I have no distinct signal symptom to chase yet... \n\nThanks again!"
+    },
+    {
+        "post_id":86193,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-11 17:07:57",
+        "message":"PCH requires high level on PM_BATLOW_L to start power on sequence.\n\n\"Be sure to use original 60\/85W Magsafe 2 charger.\"\n???\n\nBe aware of wrong assumptions; don't waste time with thunderbolt area.\nBoard MUST turn on alone on the desk, even without LIO flex connected; only needs LIO power cable."
+    },
+    {
+        "post_id":86240,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-02-13 10:28:11",
+        "message":"Thanks [USER=682]@2informaticos[\/USER] ! \nI think I made progress. But first:\n\"PCH requires high level on PM_BATLOW_L to start power on sequence. \"\nJust by the name of the signal, does this mean a battery that is not 0% is required to boot? I must not understand the signal.\n\nre: Progress:\n0. 820-4924-A p. 75\/sheet 58.\n1. I replaced TPS51980.\n2. When checking for solder bridges after, I had a short between pins 23 (VIN\/[B]PPVIN_S5_HS_OTHER3V3_ISNS[\/B])& 24 (DRVH\/[B]P3V3S5[\/B]\/[B]P3V3S5_TG[\/B]). Great! Too much solder...\n3. I pulled the new one off, and [I]the short was still there[\/I]!\n4. Here is the relationship between the 2 pins:\n\n[ATTACH type=\"full\"]60421[\/ATTACH]\n\n...and here is the MOSFET (Q7560\/FDMS3602S), just off to the right of the above image:\n\n[ATTACH type=\"full\"]60422[\/ATTACH]\nShould the Gate & Drain on this dual N-Channel be shorted? My instinct says [I]no[\/I]. And because the signal to pin 24 takes a direct path to\/from the MOSFET Gate, there are no alternate signal paths to short indicated. With TPS51980 removed, and on the pins of the MOSFET directly, Gate & Drain are shorted.\n\nThoughts?\n\nTIA!"
+    },
+    {
+        "post_id":86243,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-13 11:25:12",
+        "message":"Replace Q7560.\n\nBe aware, do not power on the board without U7501, if Q7520\/60 are soldered!!!"
+    },
+    {
+        "post_id":86267,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-02-14 06:29:39",
+        "message":"Thanks [USER=682]@2informaticos[\/USER]! I screwed up and removed U7501, and cleaned\/tinned the pins-[I]all with the power on[\/I].\nOrdering dual MOSFETs for both sides now. It sounds like I shorted out Q7560 (if this is how they fail).\nDohh!"
+    },
+    {
+        "post_id":87977,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-03-27 09:31:47",
+        "message":"Well, all MOSFETs replaced, and now I have a very strange symptom-once again on the U7100. First a pic for reference:\n\n[ATTACH type=\"full\"]60542[\/ATTACH]\nThis is from page 54 of the schematic for 820-4924-A.\n\nAt pin 1 of R7110 I have good voltage ~13v.\nAt pin 2 of R7110 I have nothing(!).\nSo U7100 has nothing on pin 3 (ACIN).\n\nFix:\nBad trace (open) from pin 2 of R7110 to pin 3 of U7100; repaired with jumper.\n\nTried: \nReplaced 7110 (though it tested OK at 68k\u03a9.\nRemoved C7111-no change.\nPin 3 on U7100 is just under 100\u03a9 to ground.\nR7111 tested at 2.4k\u03a9 in-circuit.\nRe-flowed U7100, no adjacent pin shorts.\n\n\nIdeas?"
+    },
+    {
+        "post_id":87984,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-27 13:19:59",
+        "message":"\"Pin 3 on U7100 is just under 100\u03a9 to ground.\"\nReplace U7100..."
+    },
+    {
+        "post_id":87986,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-03-27 14:03:15",
+        "message":"[USER=682]@2informaticos[\/USER] I just lifted it, and pin 3 is 0\u03a9 to the pad (pin 29), but without a schematic, I don't know why it isn't also grounded to pin 22 (\"GND\")...\n\nRight before I lifted it, I measured the full 16v across R7110, which I should have done yesterday. That told the story.\n\nReally appreciate your confirmation!"
+    },
+    {
+        "post_id":87988,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-03-27 15:19:32",
+        "message":"I was checking for pin shorts before powering up, and well, I must have had too much solder on U7100 pins 22, 23, 24, because they were all shorted together. \n\nI sucked out enough without lifting to unshort pin 24 (CHGR_UGATE), but pins 22 (GND) and pin 23 (CHGR_PHASE) remain shorted together...\n\n[ATTACH type=\"full\"]60544[\/ATTACH]\n\nFrom the above, the only way I see pad 22 short to pad 23 is via Q7130. \nWhen I checked, Q7130 pins 10 to 5\/6\/7 were shorted (MOSFET saturated). \nAs Q7130 is an Nch, I shorted the gate (pin 8) to 5\/6\/7 (GND), and checked to verify pin 10 to pins 5\/6\/7-BUT THE SHORT REMAINS (3.4\u03a9)!\n...\nLifting Q7130 is hairy as L7130 is right next to it ([I]already replaced it per above direction[\/I]), but I guess I have to, unless you guys see another way for U7100 pin 23 to have 3.4\u03a9 to ground?\n...\nLifted Q7130, and pins 5\/6\/7 are 0\u03a9 (as expected)...\nBut pin 10 (CHGR_PASE) is 3.1\u03a9 to GND! \nSo Q7130 pin 10 isn't getting to GND via the MOSFET... \n...\nFor reference, the shorted (3.1\u03a9 to GND) pin\/output becomes PPBUS_G3H (same schematic page, on right).\nNow I'm chasing a shorted PPBUS_G3H, it seems!"
+    },
+    {
+        "post_id":87989,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-27 17:40:34",
+        "message":"Lift F7140 and check which side the short remains."
+    },
+    {
+        "post_id":90137,
+        "thread_id":62323,
+        "title":"820-4924-A No ACIN on U7100 pin 3...",
+        "user_id":26351,
+        "username":"Holes Flow",
+        "post_date":"2022-06-12 12:15:21",
+        "message":"Wrap-up. I sent this board to a shop in NYC, and there are too many layer shorts on the board to fix it. The power surge made even all the above not enough. I bought another LB, and have started a new thread about that board... Many thanks for those who helped all those hours I spent on that POS..."
+    }
+]

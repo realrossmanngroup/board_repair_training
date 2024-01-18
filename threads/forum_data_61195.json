@@ -1,23 +1,209 @@
-{"post_id":75460,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-15 01:19:22","message":"Hello, I have an 820-3435 which has been through a little, but ALOT. I first got the board and noticed it had water damage across different parts of the board, mainly backlight, and some parts of the thunderbolt hardware as well. However, the CPU has a tiny little chip on the PCB of the CPU, on the edge of it. No bigger than a small grain of rice, it is fact though, chipped.\n\nCPU would not turn on due to PM_SLP_S4 issues, however I managed to fix them. After that, it was near impossible for the board to fully power on. It would power on, but show symptoms of a bad BIOS or SPI ROM issue, like with the actual chip itself. I replaced the chip, flashed a whole new clean BIOS, clean ME, and the board did in fact power on. However heres the strange part. Im now booting Apple Diagnostics, and its telling me the thunderbolt controller, and other parts of it are not functioning. I thought this was weird because im using a TBT to HDMI adapter while testing. I then tried booting my test OS, and it would get stuck near the end of the loading bar and never finish loading. I then proceeded to run Apple Service Diagnostics OS, and ran it in verbose mode. I then noticed it would panic with \"ME DETECT\" \"FAILURE MISSING ME\"\n\nME problem, ok then, lets reflash. Reflashed with donor board bios, and cleaned me, and same issue. Used ANOTHER, donor board bios chip, and bios with clean ME, same issue.\n\nSo here we are, any ideas? Ive also attached photos."}
-{"post_id":75461,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-15 01:22:38","message":"Couldnt upload for some reason, heres the panic"}
-{"post_id":75463,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-15 01:42:17","message":"Self thinking, would an HDA_SDOUT high signal cause this? Ive read somewhere that this is an disable ME chip?"}
-{"post_id":75464,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-15 04:26:51","message":"I faced few times with mentioned symptom on 3435 and 00165 boards; couldn't get it fixed.\n\nYou can play around Q1920, remove R1921 first.\n\nBut you should be sure the ME region has been properly cleaned.\nDid you use Medusa programmer?\nIf not, try this dump.\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/13uGw4JJqRRMxwH7KOdDJmFpOcIhgzsX5\/view?usp=sharing[\/URL]"}
-{"post_id":75469,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-15 16:10:22","message":"I use the \"old school\" way of doing this. I did not mention it but J6100 is removed as well. I use a ch341a programmer, and a adapter board for the flash chips. \n\nI will use your ROM file. If that does not work, I will experiment with Q1920 and aliases and report back.\n\nIm so tired of BIOS issues, ive had 6 boards out of 8 with them this week :rolleyes:"}
-{"post_id":75472,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-15 16:56:23","message":"Okay, wow, so now the board is really weird. MOSI and CLK are now 0V. I literally just had a 820-3787 that I thought was a programming mode or something, but was a BIOS issue. Is this a BIOS issue also? Im so confused :LOL::cry:\n\nEDIT: I did nothing to it, I just took it out of the case it was in and wanted to see how it would turn on without anything plugged into it except charger and USB (for activity)\n\nEDIT 2: SPI_DESCRIPTOR_OVERRIDE_L is high, im going to say SMC issue? but why? Very interesting"}
-{"post_id":75475,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-15 18:11:55","message":"Some BIOS data lines drop to 0V as nornal, when PCH accesses SPI chip.\n\nPlease do not mix boards in the same post."}
-{"post_id":75493,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-16 12:50:55","message":"I was not mixing them, I just stated I had a problem like this earlier but not related. A working 820-3435 should have 3v3 on all pins no? even when pch is accessing spi chip?\n\nIf what i stated above is not the case, bad pch possibly? what about the SPI_DESCRIPTOR_OVERRIDE_L signal? what does this indicate?"}
-{"post_id":75494,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-16 15:14:44","message":"\"A working 820-3435 should have 3v3 on all pins no?\"\nNO.\n\"Some BIOS data lines drop to 0V as nornal, when PCH accesses SPI chip\"\n\nAs pull-up resistors are embedded into PCH, is also possible to have broken traces, or series resistors, between SPI chip and PCH.\n\nThe mentioned ovveride signal is used when the BIOS is updated by software; like macOS upgrade."}
-{"post_id":75496,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-16 16:30:14","message":"\"Some BIOS data lines drop to 0V as normal, when PCH accesses SPI chip\"\n\nThese signals are still 0V, complete 0.000 even after \"booting\", I can reach the EFI and boot selector stage, as well as diagnostics, and they are still 0V.\nWould this mean PCH is always accessing SPI chip? Or would it mean something else?\n\n\"The mentioned override signal is used when the BIOS is updated by software; like macOS upgrade.\"\nHmm, Im beginning to think this is an SMC issue more and more, could the SMC be pulling the MOSI and CLK signals low?"}
-{"post_id":75497,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-16 16:57:13","message":"I don't understand what is not clear there.\nDid you even check SPI signals into working board?\nNo matters which model is, I 'm sure you have an working MacBook board in the shop."}
-{"post_id":75498,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-16 19:29:43","message":"You were right, im overthinking everything at this point sorry. Yes SPI is normal and SPI_DESCRIPTOR_OVERRIDE_L is normal. Ive flashed your BIOS file youve provided and now the board does not start.  However it would sometimes do this before as well. It now is taking 228 Mah, with IO board and cable attached. However it slowly will take more Mah, 5 min has gone by with it still being plugged in and its now at 235 mah. Im going to rule this as a CPU on its last leg.\n\nEDIT: Just btw, we have fan spin, Vcore @ 1.7, and cpu gets warm, and MOSI and CLK are 0v, PLT_RESET_L is low as well, and CPU is around 35 ohms and declining in diode mode\n\nEDIT 2: In the schematic, PCH LESS MODE aka R0631, is no stuff. For experimental purposes, Im going to add a 1k resistor to that and see what happens. IF it does nothing, I will also put R0640, which is SAFE MODE BOOT, just for safety ;)"}
-{"post_id":75499,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-17 00:45:44","message":"Board cannot boot with PLT_RESET_L.\nIt should go high before PCH accesses BIOS.\nCheck CPU_VCSST_PWRGD, CPU_VR_READY and pins 7 & 3 of U1950."}
-{"post_id":75508,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-17 08:39:20","message":"VR_READY is a solid 1.05V\nVCSST is a solid 1.05V\nPM_S0_PGOOD is 3.4V\nPin 3 is 0V\n\nU1950 other voltages are\nPin 1 - 3.4V\nPin 2 - 3.3V\nPin 3 - 0V\nPin 4 - GND\nPin 5 - 3.4V\nPin 6 - 3.4V\nPin 7 - Pin 5\nPin 8 - 3.4V\n\nGoing to replace U1950, as it seems like somethings wrong with it. Pin 3 is a solid 0.000, so should be promising its the chip."}
-{"post_id":75509,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-17 09:54:16","message":"If pins 5 & 6 are high, pin 3 should be high too.\nCheck for corrosion, replace the chip."}
-{"post_id":75513,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-17 11:53:32","message":"Replaced U1950, same issue. Found Pin 2 low, found CPU_VR_EN and CPU_VR_READY are both 1.05V. Is this from the CPU or U7200?\n\nEDIT: 3v3_s0 is 3.3V, and U1950 was kinda messed up, took little heat to remove and little time, also Pin 5 is half gone but still has continuity, and is 3.3V as well as Pin 7, and 6."}
-{"post_id":75525,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-17 15:36:02","message":"CPU_VR_EN\/READY have both correct value.\nPin 2\/U1950 is pulled-up to 3V3_S0; did you check R1950?\n\n\"If pins 5 & 6 are high, pin 3 should be high too.\"\nRemember that.\nCheck for broken traces and bad solders."}
-{"post_id":75528,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-17 17:07:33","message":"Yes, I replaced R1950 too just to be sure. Replaced U1950 the second time just to be sure, and removed R1962, and got 3.3V on Pin 3, however when putting the resistor back on I get a solid 0.000 now :unsure:. Im confused on this one."}
-{"post_id":75532,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-17 17:44:57","message":"Seems to have a PCH issue, like sinking too much current on PM_PCH_SYS_PWROK.\nCheck diode mode to ground there; compare with good board."}
-{"post_id":75533,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-05-17 18:04:39","message":"1.5 M ohms at Pin 3, good working board is reading about 9 M ohms\n\n2.5 M ohms at PM_PCH_SYS_PWROK, working board is at around 9 to 9.5 M ohms\n\nShould I try to inject voltage at R1962? Or is that an actual signal not a solid voltage?"}
-{"post_id":75534,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-05-17 18:44:48","message":"I asked about diode mode, not ohm.\nCheck diode mode to ground in both directions.\nHeat PCH with quality flux; may be just accumulated crap underneath."}
-{"post_id":76276,"thread_id":61195,"title":"820-3435 ME issue??","user_id":20634,"username":"StraightToThePoint","post_date":"2021-06-07 19:28:47","message":"Finally, I had to order more solder balls to reball an donor board cpu, but board is working now. I reflowed CPU and PCH first and still same issue, so I pulled the CPU and I noticed some of the solder balls were just weird looking, or partially missing. Going over it with the soldering iron fixed all the weird looking spots, and I replaced CPU. This is my first successful cpu replacement for an air board! Thanks for helping me"}
-{"post_id":76284,"thread_id":61195,"title":"820-3435 ME issue??","user_id":682,"username":"2informaticos","post_date":"2021-06-08 02:46:06","message":"Good job, not easy at all."}
+[
+    {
+        "post_id":75460,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-14 23:19:22",
+        "message":"Hello, I have an 820-3435 which has been through a little, but ALOT. I first got the board and noticed it had water damage across different parts of the board, mainly backlight, and some parts of the thunderbolt hardware as well. However, the CPU has a tiny little chip on the PCB of the CPU, on the edge of it. No bigger than a small grain of rice, it is fact though, chipped.\n\nCPU would not turn on due to PM_SLP_S4 issues, however I managed to fix them. After that, it was near impossible for the board to fully power on. It would power on, but show symptoms of a bad BIOS or SPI ROM issue, like with the actual chip itself. I replaced the chip, flashed a whole new clean BIOS, clean ME, and the board did in fact power on. However heres the strange part. Im now booting Apple Diagnostics, and its telling me the thunderbolt controller, and other parts of it are not functioning. I thought this was weird because im using a TBT to HDMI adapter while testing. I then tried booting my test OS, and it would get stuck near the end of the loading bar and never finish loading. I then proceeded to run Apple Service Diagnostics OS, and ran it in verbose mode. I then noticed it would panic with \"ME DETECT\" \"FAILURE MISSING ME\"\n\nME problem, ok then, lets reflash. Reflashed with donor board bios, and cleaned me, and same issue. Used ANOTHER, donor board bios chip, and bios with clean ME, same issue.\n\nSo here we are, any ideas? Ive also attached photos."
+    },
+    {
+        "post_id":75461,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-14 23:22:38",
+        "message":"Couldnt upload for some reason, heres the panic"
+    },
+    {
+        "post_id":75463,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-14 23:42:17",
+        "message":"Self thinking, would an HDA_SDOUT high signal cause this? Ive read somewhere that this is an disable ME chip?"
+    },
+    {
+        "post_id":75464,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-15 02:26:51",
+        "message":"I faced few times with mentioned symptom on 3435 and 00165 boards; couldn't get it fixed.\n\nYou can play around Q1920, remove R1921 first.\n\nBut you should be sure the ME region has been properly cleaned.\nDid you use Medusa programmer?\nIf not, try this dump.\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/13uGw4JJqRRMxwH7KOdDJmFpOcIhgzsX5\/view?usp=sharing[\/URL]"
+    },
+    {
+        "post_id":75469,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-15 14:10:22",
+        "message":"I use the \"old school\" way of doing this. I did not mention it but J6100 is removed as well. I use a ch341a programmer, and a adapter board for the flash chips. \n\nI will use your ROM file. If that does not work, I will experiment with Q1920 and aliases and report back.\n\nIm so tired of BIOS issues, ive had 6 boards out of 8 with them this week :rolleyes:"
+    },
+    {
+        "post_id":75472,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-15 14:56:23",
+        "message":"Okay, wow, so now the board is really weird. MOSI and CLK are now 0V. I literally just had a 820-3787 that I thought was a programming mode or something, but was a BIOS issue. Is this a BIOS issue also? Im so confused :LOL::cry:\n\nEDIT: I did nothing to it, I just took it out of the case it was in and wanted to see how it would turn on without anything plugged into it except charger and USB (for activity)\n\nEDIT 2: SPI_DESCRIPTOR_OVERRIDE_L is high, im going to say SMC issue? but why? Very interesting"
+    },
+    {
+        "post_id":75475,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-15 16:11:55",
+        "message":"Some BIOS data lines drop to 0V as nornal, when PCH accesses SPI chip.\n\nPlease do not mix boards in the same post."
+    },
+    {
+        "post_id":75493,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-16 10:50:55",
+        "message":"I was not mixing them, I just stated I had a problem like this earlier but not related. A working 820-3435 should have 3v3 on all pins no? even when pch is accessing spi chip?\n\nIf what i stated above is not the case, bad pch possibly? what about the SPI_DESCRIPTOR_OVERRIDE_L signal? what does this indicate?"
+    },
+    {
+        "post_id":75494,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-16 13:14:44",
+        "message":"\"A working 820-3435 should have 3v3 on all pins no?\"\nNO.\n\"Some BIOS data lines drop to 0V as nornal, when PCH accesses SPI chip\"\n\nAs pull-up resistors are embedded into PCH, is also possible to have broken traces, or series resistors, between SPI chip and PCH.\n\nThe mentioned ovveride signal is used when the BIOS is updated by software; like macOS upgrade."
+    },
+    {
+        "post_id":75496,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-16 14:30:14",
+        "message":"\"Some BIOS data lines drop to 0V as normal, when PCH accesses SPI chip\"\n\nThese signals are still 0V, complete 0.000 even after \"booting\", I can reach the EFI and boot selector stage, as well as diagnostics, and they are still 0V.\nWould this mean PCH is always accessing SPI chip? Or would it mean something else?\n\n\"The mentioned override signal is used when the BIOS is updated by software; like macOS upgrade.\"\nHmm, Im beginning to think this is an SMC issue more and more, could the SMC be pulling the MOSI and CLK signals low?"
+    },
+    {
+        "post_id":75497,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-16 14:57:13",
+        "message":"I don't understand what is not clear there.\nDid you even check SPI signals into working board?\nNo matters which model is, I 'm sure you have an working MacBook board in the shop."
+    },
+    {
+        "post_id":75498,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-16 17:29:43",
+        "message":"You were right, im overthinking everything at this point sorry. Yes SPI is normal and SPI_DESCRIPTOR_OVERRIDE_L is normal. Ive flashed your BIOS file youve provided and now the board does not start.  However it would sometimes do this before as well. It now is taking 228 Mah, with IO board and cable attached. However it slowly will take more Mah, 5 min has gone by with it still being plugged in and its now at 235 mah. Im going to rule this as a CPU on its last leg.\n\nEDIT: Just btw, we have fan spin, Vcore @ 1.7, and cpu gets warm, and MOSI and CLK are 0v, PLT_RESET_L is low as well, and CPU is around 35 ohms and declining in diode mode\n\nEDIT 2: In the schematic, PCH LESS MODE aka R0631, is no stuff. For experimental purposes, Im going to add a 1k resistor to that and see what happens. IF it does nothing, I will also put R0640, which is SAFE MODE BOOT, just for safety ;)"
+    },
+    {
+        "post_id":75499,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-16 22:45:44",
+        "message":"Board cannot boot with PLT_RESET_L.\nIt should go high before PCH accesses BIOS.\nCheck CPU_VCSST_PWRGD, CPU_VR_READY and pins 7 & 3 of U1950."
+    },
+    {
+        "post_id":75508,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-17 06:39:20",
+        "message":"VR_READY is a solid 1.05V\nVCSST is a solid 1.05V\nPM_S0_PGOOD is 3.4V\nPin 3 is 0V\n\nU1950 other voltages are\nPin 1 - 3.4V\nPin 2 - 3.3V\nPin 3 - 0V\nPin 4 - GND\nPin 5 - 3.4V\nPin 6 - 3.4V\nPin 7 - Pin 5\nPin 8 - 3.4V\n\nGoing to replace U1950, as it seems like somethings wrong with it. Pin 3 is a solid 0.000, so should be promising its the chip."
+    },
+    {
+        "post_id":75509,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-17 07:54:16",
+        "message":"If pins 5 & 6 are high, pin 3 should be high too.\nCheck for corrosion, replace the chip."
+    },
+    {
+        "post_id":75513,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-17 09:53:32",
+        "message":"Replaced U1950, same issue. Found Pin 2 low, found CPU_VR_EN and CPU_VR_READY are both 1.05V. Is this from the CPU or U7200?\n\nEDIT: 3v3_s0 is 3.3V, and U1950 was kinda messed up, took little heat to remove and little time, also Pin 5 is half gone but still has continuity, and is 3.3V as well as Pin 7, and 6."
+    },
+    {
+        "post_id":75525,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-17 13:36:02",
+        "message":"CPU_VR_EN\/READY have both correct value.\nPin 2\/U1950 is pulled-up to 3V3_S0; did you check R1950?\n\n\"If pins 5 & 6 are high, pin 3 should be high too.\"\nRemember that.\nCheck for broken traces and bad solders."
+    },
+    {
+        "post_id":75528,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-17 15:07:33",
+        "message":"Yes, I replaced R1950 too just to be sure. Replaced U1950 the second time just to be sure, and removed R1962, and got 3.3V on Pin 3, however when putting the resistor back on I get a solid 0.000 now :unsure:. Im confused on this one."
+    },
+    {
+        "post_id":75532,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-17 15:44:57",
+        "message":"Seems to have a PCH issue, like sinking too much current on PM_PCH_SYS_PWROK.\nCheck diode mode to ground there; compare with good board."
+    },
+    {
+        "post_id":75533,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-05-17 16:04:39",
+        "message":"1.5 M ohms at Pin 3, good working board is reading about 9 M ohms\n\n2.5 M ohms at PM_PCH_SYS_PWROK, working board is at around 9 to 9.5 M ohms\n\nShould I try to inject voltage at R1962? Or is that an actual signal not a solid voltage?"
+    },
+    {
+        "post_id":75534,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-17 16:44:48",
+        "message":"I asked about diode mode, not ohm.\nCheck diode mode to ground in both directions.\nHeat PCH with quality flux; may be just accumulated crap underneath."
+    },
+    {
+        "post_id":76276,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2021-06-07 17:28:47",
+        "message":"Finally, I had to order more solder balls to reball an donor board cpu, but board is working now. I reflowed CPU and PCH first and still same issue, so I pulled the CPU and I noticed some of the solder balls were just weird looking, or partially missing. Going over it with the soldering iron fixed all the weird looking spots, and I replaced CPU. This is my first successful cpu replacement for an air board! Thanks for helping me"
+    },
+    {
+        "post_id":76284,
+        "thread_id":61195,
+        "title":"820-3435 ME issue??",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-08 00:46:06",
+        "message":"Good job, not easy at all."
+    }
+]

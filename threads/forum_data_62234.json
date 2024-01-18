@@ -1,17 +1,155 @@
-{"post_id":85306,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-20 09:09:46","message":"Liquid damaged by the LVDS connecter. Can't see anything anywhere else. Already replaced u7000 and q7085 \n\non U7000\nPin1 = 0v\npin2 = 17.5v\npin3 = 4.2v\npin9 = 0v\npin12 = 3.47v\npin14= 3v\npin 15 = 0.3v\npin17 = 12.54v\npin19 = 5v\npin20= 5v\npin27 = 17.5"}
-{"post_id":85321,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":682,"username":"2informaticos","post_date":"2022-01-20 11:06:51","message":"PPBUS_G3H looks good, no need to work on U7000 area.\nDo you get 3V3_S5\/SUS?"}
-{"post_id":85366,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-21 06:22:53","message":"3v3_S5 is pulsing like crazy. 0 - 3.3V\n\n3v3_SUS is pulsing as well but from 0 - 1v and then 0 - 0.04v"}
-{"post_id":85368,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-21 06:33:23","message":"PP5V_S5 is pulsing on u7200. but PPBUS_S5_HS_OTHER_ISNS is stable of course"}
-{"post_id":85369,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-21 06:42:07","message":"Am I correct in thinking. If a 5V line has issues and a 3V line has issues, there's no point looking at the 3V line since it's produced by the 5V anyway and the issue is most likely with the 5V?"}
-{"post_id":85378,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":682,"username":"2informaticos","post_date":"2022-01-21 09:19:26","message":"Do you get pulse at the other big coils?\n\nSMC may detect a short\/overcurrent and cycles the power.\nCheck if something changes in SMC bypass mode."}
-{"post_id":85442,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-22 11:21:08","message":"actually I just realised PPBUS also pulses but not strong. Every few seconds it'll go down to 12.3 and then back to 12.56\n\nso L7030 is actually pulsing and so is L3895"}
-{"post_id":85452,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":682,"username":"2informaticos","post_date":"2022-01-22 12:35:35","message":"\"Check if something changes in SMC bypass mode.\"\n???"}
-{"post_id":85455,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-22 13:38:17","message":"Sorry, nothing on SMC bypass"}
-{"post_id":85458,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":682,"username":"2informaticos","post_date":"2022-01-22 14:17:07","message":"SMC_PM_G2_EN is pulsing; confirm that.\n\nMake short over R7271 and check if L7220 gets stable voltage.\nIf not, make short over R7272 and check if SMC_PM_G2_EN fluctuates."}
-{"post_id":85489,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-24 06:42:15","message":"SMC_PM_G2_EN is pulsing yep\n\nmade short over R7271 and L7220 is now stable.\nBoard is drawing more power now, but no fan spin yet"}
-{"post_id":85500,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":682,"username":"2informaticos","post_date":"2022-01-24 10:36:18","message":"So your problem appears when 5V tries to come on.\nCheck diode mode to ground on all big coils.\nAlso check any other output power rail, and after Power FETs also."}
-{"post_id":85582,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-26 05:30:53","message":"Well crap. Most of the big coils are 0.000V to ground. All the CPU coils it seems. So PCH is toast?"}
-{"post_id":85586,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":682,"username":"2informaticos","post_date":"2022-01-26 07:58:35","message":"CPU coils show very low value as normal; aprox 1 ohm for i7.\n\nPCH coils and RAM have good value?\nCheck them for voltage pulse also."}
-{"post_id":85592,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-26 08:16:12","message":"Ok just checked, CPU coils are around 1.5 ohms so should be ok\n\nThe one coil that stands out is 7260 which is a straight short to ground. Shall I inject and see what's up?\n\nRAM coil numbers look good. Which one is PCH?"}
-{"post_id":85595,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":511,"username":"kevinklinkmuller","post_date":"2022-01-26 08:36:45","message":"I injected the line, found C6213 short. Removed. Short gone. Removed bridge on R7271 and MacBook now turns on WOOOO. thank you 2informaticos"}
-{"post_id":85604,"thread_id":62234,"title":"820-3115 Green light, no fan spin","user_id":682,"username":"2informaticos","post_date":"2022-01-26 10:24:52","message":"Glad to hear is solved now."}
+[
+    {
+        "post_id":85306,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-20 07:09:46",
+        "message":"Liquid damaged by the LVDS connecter. Can't see anything anywhere else. Already replaced u7000 and q7085 \n\non U7000\nPin1 = 0v\npin2 = 17.5v\npin3 = 4.2v\npin9 = 0v\npin12 = 3.47v\npin14= 3v\npin 15 = 0.3v\npin17 = 12.54v\npin19 = 5v\npin20= 5v\npin27 = 17.5"
+    },
+    {
+        "post_id":85321,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-20 09:06:51",
+        "message":"PPBUS_G3H looks good, no need to work on U7000 area.\nDo you get 3V3_S5\/SUS?"
+    },
+    {
+        "post_id":85366,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-21 04:22:53",
+        "message":"3v3_S5 is pulsing like crazy. 0 - 3.3V\n\n3v3_SUS is pulsing as well but from 0 - 1v and then 0 - 0.04v"
+    },
+    {
+        "post_id":85368,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-21 04:33:23",
+        "message":"PP5V_S5 is pulsing on u7200. but PPBUS_S5_HS_OTHER_ISNS is stable of course"
+    },
+    {
+        "post_id":85369,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-21 04:42:07",
+        "message":"Am I correct in thinking. If a 5V line has issues and a 3V line has issues, there's no point looking at the 3V line since it's produced by the 5V anyway and the issue is most likely with the 5V?"
+    },
+    {
+        "post_id":85378,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-21 07:19:26",
+        "message":"Do you get pulse at the other big coils?\n\nSMC may detect a short\/overcurrent and cycles the power.\nCheck if something changes in SMC bypass mode."
+    },
+    {
+        "post_id":85442,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-22 09:21:08",
+        "message":"actually I just realised PPBUS also pulses but not strong. Every few seconds it'll go down to 12.3 and then back to 12.56\n\nso L7030 is actually pulsing and so is L3895"
+    },
+    {
+        "post_id":85452,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-22 10:35:35",
+        "message":"\"Check if something changes in SMC bypass mode.\"\n???"
+    },
+    {
+        "post_id":85455,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-22 11:38:17",
+        "message":"Sorry, nothing on SMC bypass"
+    },
+    {
+        "post_id":85458,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-22 12:17:07",
+        "message":"SMC_PM_G2_EN is pulsing; confirm that.\n\nMake short over R7271 and check if L7220 gets stable voltage.\nIf not, make short over R7272 and check if SMC_PM_G2_EN fluctuates."
+    },
+    {
+        "post_id":85489,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-24 04:42:15",
+        "message":"SMC_PM_G2_EN is pulsing yep\n\nmade short over R7271 and L7220 is now stable.\nBoard is drawing more power now, but no fan spin yet"
+    },
+    {
+        "post_id":85500,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-24 08:36:18",
+        "message":"So your problem appears when 5V tries to come on.\nCheck diode mode to ground on all big coils.\nAlso check any other output power rail, and after Power FETs also."
+    },
+    {
+        "post_id":85582,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-26 03:30:53",
+        "message":"Well crap. Most of the big coils are 0.000V to ground. All the CPU coils it seems. So PCH is toast?"
+    },
+    {
+        "post_id":85586,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-26 05:58:35",
+        "message":"CPU coils show very low value as normal; aprox 1 ohm for i7.\n\nPCH coils and RAM have good value?\nCheck them for voltage pulse also."
+    },
+    {
+        "post_id":85592,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-26 06:16:12",
+        "message":"Ok just checked, CPU coils are around 1.5 ohms so should be ok\n\nThe one coil that stands out is 7260 which is a straight short to ground. Shall I inject and see what's up?\n\nRAM coil numbers look good. Which one is PCH?"
+    },
+    {
+        "post_id":85595,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":511,
+        "username":"kevinklinkmuller",
+        "post_date":"2022-01-26 06:36:45",
+        "message":"I injected the line, found C6213 short. Removed. Short gone. Removed bridge on R7271 and MacBook now turns on WOOOO. thank you 2informaticos"
+    },
+    {
+        "post_id":85604,
+        "thread_id":62234,
+        "title":"820-3115 Green light, no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-26 08:24:52",
+        "message":"Glad to hear is solved now."
+    }
+]

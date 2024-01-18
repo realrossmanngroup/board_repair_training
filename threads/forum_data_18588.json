@@ -1,17 +1,155 @@
-{"post_id":18588,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-18 13:19:34","message":"screen is covered by wiggly lines across it and the screen is turning off and on but there is no backlight, i was checking with a light.  i tested multiple times and more than half the time the wiggly lines only flashes once and then the screen goes back to blank and the light can shine through.  i changed the u3990, q9806, u9701 because they had some nasty stuff on them.  \n\nbklt_plt_rst_L - 3.32v \n\nLCD_bklt_en - o volts\n\nppvout_s0_lcdbklt - 12.54v \n\nbklt_en - 3.12v\n\nL9000- 0 volts\n\nC9002 o volts\n\nLCD_PWR_EN - 0 volts  \n\nany ideas? \n\nThanks"}
-{"post_id":18589,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":468,"username":"ALB-Repairs","post_date":"2017-04-18 13:25:46","message":"If your LVDS connector, cable and screen are all fine then you can probably assume the missing backlight is down to bad joints under u9600. Gmux will probably need reballing. what does LVDS_BKL_PWM_RC measure? \n\nWas it liquid damaged? based on the 'nasty stuff' you may also want to check around u9320, u9600 and u9370 for corrosion or damaged traces.\n\nAlso check SMC_LID if your screen flashes up and then disappears. Pictures could be useful."}
-{"post_id":18592,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-18 14:04:04","message":"wow okay so not sure if this board fucked the screen up but i was about to run some test on the board i fixed last night with backlight issues and now that board has no data or backlight.... no voltage on ppvout_s0_lcdbklt, LCD_bklt_en - o volts, C9002 o volts. did the board i was testing fuck the screen up that could have fucked the board up? Really bummed out right now haha. now i''m guessing my test screen is fried but im not willing to test in on a good working board after my fixed board from last night went out on it without even working at all. any ideas? suggestions?\n\nAs for the board im working on i will look into the u9600.\nLVDS_BKL_PWM_RC - 0 volts\nsmc_lid- 3.32 volts\n\nyes liquid seemd like soda."}
-{"post_id":18598,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-18 14:18:28","message":"okay so i found the q9807 had pins 3 and 2 touching. now i have  0 volts on ppvout_s0_lcdbklt mainly i have no LCD_BKLT_EN and i also have no data. i uc the board and now it does not show any wiggly lines anymore. \n\n0 volts ppvout_s0_lcdbklt_en_L\n\nlcd_bklt_en 0 volts\n\nbklt_plt_rst_L - 3.32v\n\nppvin_bkl - 0 volts\n\nis okay to heat the gmux up to give it a reflow?"}
-{"post_id":18631,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":741,"username":"PhilipC","post_date":"2017-04-19 02:39:19","message":"Its not detecting the screen. try known good lcd or the lvds connector"}
-{"post_id":18633,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":468,"username":"ALB-Repairs","post_date":"2017-04-19 03:20:56","message":"dont heat up the gmux. 99% of the time the edge bonding stuff will mess it all up. gota be reballed unless you can get the edge bonding of cleanly.\n\nand from this point follow dukes instructions anyway, i completely missed that its missing voltage at L9000"}
-{"post_id":18665,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-19 13:04:25","message":"okay good to know thanks for that info ALB.  Not sure where dukes instructions are unless you just confused philipc with duke.  either way i will look into the lvds connector.  I know the screen is good because i just tested a few other board on it that are working.  \n\nchecked out the lvds connector pin 14 was not connecting,  fixed that but still no change.  i check the lvds connector out really good nothing other than pin 14 seemed to be messed up. \n\non the q9806 i get power on pins 3 and 4 and nothing on pins 1,2,5,6  what would cause this?"}
-{"post_id":18668,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":468,"username":"ALB-Repairs","post_date":"2017-04-19 13:21:52","message":"Yes, i was getting confused. Duke needs an easily recognisable avatar or something ;) \n\nYou need a signal on pins 5 and 2 of q9807, that creates a voltage divider out of R9808 and r9809. Whats the resistance between pins 3 and 4 of Q9806?\n\nIts more likely that youre looking at the complete wrong area though. \nMeasure for power on L9560, L8920 and L7530.\nMy bet is you are missing a GPU rail causing no display."}
-{"post_id":18669,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-19 13:39:06","message":"haha yeah agreed.\n\nokay i only have a signal on pin 2, and pin 5 LCD_bktl_en is not there.\n\nres between q9806 pins 3 and 4 = 305.6K. in diode mode gives me nothing.\n\nl9560 = 1.37v\n\nl8920 = .93v\n\nl7530 = 1.15v\n\nThanks you tons for the help you probably have no idea how much it means to me! :)"}
-{"post_id":18670,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":468,"username":"ALB-Repairs","post_date":"2017-04-19 13:46:35","message":"Wait, Does this board chime? work on external.ect? \nWhats the voltage on PPVCORE_S0_CPU?"}
-{"post_id":18674,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-19 14:11:17","message":"appears to have no chime,  my external connector seems to be broken, Tested it on a few other computers with no luck. so i cannot confirm if it is working on external or not.  will order a new one.  \n\nUSB drive is working.\n\n0.8V on PPVCORE_S0_CPU"}
-{"post_id":18676,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":468,"username":"ALB-Repairs","post_date":"2017-04-19 14:38:47","message":"This is becoming a pain in the arse.\n\n0.8V on this board would suggest it chimes.\nDo a PRAM reset and see if it chimes.\nRule out bad audio by removing ram and seeing if it beeps.\nWe really need to know if this is posting, if it is, youre on the lines of a bad gpu or a bad gmux."}
-{"post_id":18681,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-19 14:51:05","message":"Yes getting chime. my guess is bad gmux. is there an easy way to test this besides  reball\/swapping it out with another one?"}
-{"post_id":18684,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":468,"username":"ALB-Repairs","post_date":"2017-04-19 15:10:56","message":"not really. Gmux's very rarely fail though, just like SMC's they are programmed for boards as well so youd need to pull for a 2850 board. please do check the entire board under a microscope and check out every little trace\/probe point\/sign of corrosion before wasting your time."}
-{"post_id":18685,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-19 15:23:45","message":"also great to know! i do have quite a few 2850 donor board to pull from. i guess i also wouldn't be surprised to find something missing on the board. this board came in pretty bad liquid damaged and not sure what they did to the thing but it had the cdrom connector torn off the board, and some knocked off parts and the backlight fuse was fried so im guessing there is also a good chance of a damage trace\/probe point.  i will look the board over really good a few more times for anything missing, or damaged traces\/probe points\n\nThanks again for all the help!"}
-{"post_id":18690,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":468,"username":"ALB-Repairs","post_date":"2017-04-19 15:52:47","message":"Good luck, at this point im going to leave it to duke and the rest of the forum. could well be a knocked of component somewhere but without it in front of me i cant really dig any deeper."}
-{"post_id":18691,"thread_id":18588,"title":"820-2850 no backlight data issue","user_id":371,"username":"nate8organic","post_date":"2017-04-19 16:05:11","message":"checking out around the gpu and found about 3 or 4 solder balls stuck to the edge bonding so i think that is the obvious culprit right there.  unfortunately i do not have a BGA rework station at this time to fix this. But at least we figured it out.  \nMany thanks, Cheers Mate!"}
+[
+    {
+        "post_id":18588,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-18 11:19:34",
+        "message":"screen is covered by wiggly lines across it and the screen is turning off and on but there is no backlight, i was checking with a light.  i tested multiple times and more than half the time the wiggly lines only flashes once and then the screen goes back to blank and the light can shine through.  i changed the u3990, q9806, u9701 because they had some nasty stuff on them.  \n\nbklt_plt_rst_L - 3.32v \n\nLCD_bklt_en - o volts\n\nppvout_s0_lcdbklt - 12.54v \n\nbklt_en - 3.12v\n\nL9000- 0 volts\n\nC9002 o volts\n\nLCD_PWR_EN - 0 volts  \n\nany ideas? \n\nThanks"
+    },
+    {
+        "post_id":18589,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2017-04-18 11:25:46",
+        "message":"If your LVDS connector, cable and screen are all fine then you can probably assume the missing backlight is down to bad joints under u9600. Gmux will probably need reballing. what does LVDS_BKL_PWM_RC measure? \n\nWas it liquid damaged? based on the 'nasty stuff' you may also want to check around u9320, u9600 and u9370 for corrosion or damaged traces.\n\nAlso check SMC_LID if your screen flashes up and then disappears. Pictures could be useful."
+    },
+    {
+        "post_id":18592,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-18 12:04:04",
+        "message":"wow okay so not sure if this board fucked the screen up but i was about to run some test on the board i fixed last night with backlight issues and now that board has no data or backlight.... no voltage on ppvout_s0_lcdbklt, LCD_bklt_en - o volts, C9002 o volts. did the board i was testing fuck the screen up that could have fucked the board up? Really bummed out right now haha. now i''m guessing my test screen is fried but im not willing to test in on a good working board after my fixed board from last night went out on it without even working at all. any ideas? suggestions?\n\nAs for the board im working on i will look into the u9600.\nLVDS_BKL_PWM_RC - 0 volts\nsmc_lid- 3.32 volts\n\nyes liquid seemd like soda."
+    },
+    {
+        "post_id":18598,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-18 12:18:28",
+        "message":"okay so i found the q9807 had pins 3 and 2 touching. now i have  0 volts on ppvout_s0_lcdbklt mainly i have no LCD_BKLT_EN and i also have no data. i uc the board and now it does not show any wiggly lines anymore. \n\n0 volts ppvout_s0_lcdbklt_en_L\n\nlcd_bklt_en 0 volts\n\nbklt_plt_rst_L - 3.32v\n\nppvin_bkl - 0 volts\n\nis okay to heat the gmux up to give it a reflow?"
+    },
+    {
+        "post_id":18631,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":741,
+        "username":"PhilipC",
+        "post_date":"2017-04-19 00:39:19",
+        "message":"Its not detecting the screen. try known good lcd or the lvds connector"
+    },
+    {
+        "post_id":18633,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2017-04-19 01:20:56",
+        "message":"dont heat up the gmux. 99% of the time the edge bonding stuff will mess it all up. gota be reballed unless you can get the edge bonding of cleanly.\n\nand from this point follow dukes instructions anyway, i completely missed that its missing voltage at L9000"
+    },
+    {
+        "post_id":18665,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-19 11:04:25",
+        "message":"okay good to know thanks for that info ALB.  Not sure where dukes instructions are unless you just confused philipc with duke.  either way i will look into the lvds connector.  I know the screen is good because i just tested a few other board on it that are working.  \n\nchecked out the lvds connector pin 14 was not connecting,  fixed that but still no change.  i check the lvds connector out really good nothing other than pin 14 seemed to be messed up. \n\non the q9806 i get power on pins 3 and 4 and nothing on pins 1,2,5,6  what would cause this?"
+    },
+    {
+        "post_id":18668,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2017-04-19 11:21:52",
+        "message":"Yes, i was getting confused. Duke needs an easily recognisable avatar or something ;) \n\nYou need a signal on pins 5 and 2 of q9807, that creates a voltage divider out of R9808 and r9809. Whats the resistance between pins 3 and 4 of Q9806?\n\nIts more likely that youre looking at the complete wrong area though. \nMeasure for power on L9560, L8920 and L7530.\nMy bet is you are missing a GPU rail causing no display."
+    },
+    {
+        "post_id":18669,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-19 11:39:06",
+        "message":"haha yeah agreed.\n\nokay i only have a signal on pin 2, and pin 5 LCD_bktl_en is not there.\n\nres between q9806 pins 3 and 4 = 305.6K. in diode mode gives me nothing.\n\nl9560 = 1.37v\n\nl8920 = .93v\n\nl7530 = 1.15v\n\nThanks you tons for the help you probably have no idea how much it means to me! :)"
+    },
+    {
+        "post_id":18670,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2017-04-19 11:46:35",
+        "message":"Wait, Does this board chime? work on external.ect? \nWhats the voltage on PPVCORE_S0_CPU?"
+    },
+    {
+        "post_id":18674,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-19 12:11:17",
+        "message":"appears to have no chime,  my external connector seems to be broken, Tested it on a few other computers with no luck. so i cannot confirm if it is working on external or not.  will order a new one.  \n\nUSB drive is working.\n\n0.8V on PPVCORE_S0_CPU"
+    },
+    {
+        "post_id":18676,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2017-04-19 12:38:47",
+        "message":"This is becoming a pain in the arse.\n\n0.8V on this board would suggest it chimes.\nDo a PRAM reset and see if it chimes.\nRule out bad audio by removing ram and seeing if it beeps.\nWe really need to know if this is posting, if it is, youre on the lines of a bad gpu or a bad gmux."
+    },
+    {
+        "post_id":18681,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-19 12:51:05",
+        "message":"Yes getting chime. my guess is bad gmux. is there an easy way to test this besides  reball\/swapping it out with another one?"
+    },
+    {
+        "post_id":18684,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2017-04-19 13:10:56",
+        "message":"not really. Gmux's very rarely fail though, just like SMC's they are programmed for boards as well so youd need to pull for a 2850 board. please do check the entire board under a microscope and check out every little trace\/probe point\/sign of corrosion before wasting your time."
+    },
+    {
+        "post_id":18685,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-19 13:23:45",
+        "message":"also great to know! i do have quite a few 2850 donor board to pull from. i guess i also wouldn't be surprised to find something missing on the board. this board came in pretty bad liquid damaged and not sure what they did to the thing but it had the cdrom connector torn off the board, and some knocked off parts and the backlight fuse was fried so im guessing there is also a good chance of a damage trace\/probe point.  i will look the board over really good a few more times for anything missing, or damaged traces\/probe points\n\nThanks again for all the help!"
+    },
+    {
+        "post_id":18690,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2017-04-19 13:52:47",
+        "message":"Good luck, at this point im going to leave it to duke and the rest of the forum. could well be a knocked of component somewhere but without it in front of me i cant really dig any deeper."
+    },
+    {
+        "post_id":18691,
+        "thread_id":18588,
+        "title":"820-2850 no backlight data issue",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-19 14:05:11",
+        "message":"checking out around the gpu and found about 3 or 4 solder balls stuck to the edge bonding so i think that is the obvious culprit right there.  unfortunately i do not have a BGA rework station at this time to fix this. But at least we figured it out.  \nMany thanks, Cheers Mate!"
+    }
+]

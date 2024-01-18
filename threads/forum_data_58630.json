@@ -1,9 +1,83 @@
-{"post_id":58630,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-22 13:07:49","message":"Hello,\n\nHere are the symptoms:\n- green light on charger ok, current 1.15A\n- fan spins ok\n- red light on mouse ok on one USB port, off on the other. USB Link LED with OSX permanently off (any USB)\n- no chime, but beep if no RAM\n- nothing on LCD, nothing on external display\n\nI know this is the serie of boards with GPU issue, but usually they chime and issue can be solved at software level. This one is not chiming.\n\nI measured all the rails, all the voltages are ok, I have doubts for:\nPPVCORE_S0_AXG: 0.92V Why it is not 0V? This should be switched on only when video is playing, right?\nPPVCORE_S0_CPU=0.74V Seems it is booted?\n\nWhat can be the issue here?"}
-{"post_id":58637,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-22 16:09:47","message":"Strange to miss USB activity.\nI recommend you to start disabling GPU directly.\nCPU voltages point to working board.\nTry PRAM reset, to recover chime."}
-{"post_id":58666,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-23 07:00:30","message":"PRAM reset (through the keyboard, don't know if there is another way) did not work, still no chime. Once I had a board with EFI password which had no chime, it chimed after changing EFI. Can this be linked?\n\nHow to disable GPU? I saw that some remove R8911 which provides power to U8900, is this the correct way? Or I can remove L8920?"}
-{"post_id":58669,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-23 07:54:15","message":"You must remove one of R8910\/11 and modify BIOS to disable GPU.\nTry this file as is, just for test...\n[URL=\"https:\/\/drive.google.com\/open?id=1-E01-NpQ0hiF-xU6MRyRIgeXAtxKyVzk\"]https:\/\/drive.google.com\/open?id=1-E...yRIgeXAtxKyVzk[\/URL]\n\nDo NOT forget to remove R8910\/11 resistor, NEFORE applying power.\nIf not, must write the BIOS again.\nOf course do NOT do PRAM reset, once BIOS has been flashed!!!"}
-{"post_id":58674,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":2,"username":"dukefawks","post_date":"2020-04-23 08:39:04","message":"Certainly dead GPU. Few options are:\n\n1 Replace GPU, REAL GPUs pretty much not available if you don't know the right supplier. All other \"new\" ones are fake.\n2 Flash MUX to disable GPU, Dosdude website, no backlight control really.\n3 Install \"Tiresias\" bypass board from CMIZAPPER.com\n4 Other \"soft\" methods\/flashing that will not survive PRAM resets or OSX updates, not recommended. \n5 Dumpster."}
-{"post_id":58687,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-23 10:39:32","message":"I recently started to disable GPU flashing GMUX.\nIs the fastest method, as no need to remove the logic board from case.\nBacklight can be controlled via software; only QuickShade works, no other software.\nHowever the soft control is not as good as keys control; backlight voltage\/current is not reduced.\n\nI disabled GPU before in BIOS.\nKeyboard backlight control still works in macOS El Capitan.\nNewer macOS gives problems with recovery from suspend; BKLT_PWM needs to be (harware) forced at max.\nSoftware control is the only way to use in new macOS.\nLogic board must be removed, to do the job.\nAlso must set EFI password, to prevent accidentally PRAM reset.\nIf for some reason needs to reset, GPU problem comes back.\n\nTiresias \"GPU Killer\" is the best method, as the new version allows keyboard control for backlight."}
-{"post_id":58697,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-23 13:31:31","message":"Thanks both for all these explanations.\n\nTaking into account that I have not yet the material and knowledge to flash BIOS, I:\n- removed R8910, without touching BIOS: same behavior: no chime, no USB activity\n- swaped the BIOS chip with a good one from same board model: same story\n- about to abandon, out of curiosity I measured PPVCORE_S0_AXG: still 0.92V!! So I believe that if I remove R8910, I have to set GFXIMVP6_AF_EN to ground? If I remember correctly my electronic classes, a pin \"in the air\" is +Vcc... so U8900 was still enabled?\n- finally removed R8911: then chime!! And USB activity on both USB ports. Curiously also, now there is mouse red light on both; previously, only one. USB ports are driven by U4600 and U4650, so the behavior should be the same for both ports?"}
-{"post_id":58728,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-24 06:51:41","message":"More info:\nIt chimes, but no image, no backlight.\nLCD_PWR_EN: 0V\nGMUX_RESET_L: 3.37V\nPM_ALL_GPU_PGOOD: 0V (because PPVCORE_GPU: 0V (disabled by removing R8911))\n\nI understand that PPVCORE_GPU is for U8000, the discrete GPU\nFor what is PPVCORE_S0_AXG? It goes to U1000, the CPU. Is the integrated video card inside the CPU?\n\nI measured again PPVCORE_S0_AXG: now it is 0.45V... Before it was 0.92V\n\nI am lost. How disabling PPVCORE_GPU can influence PPVCORE_S0_AXG?"}
-{"post_id":58733,"thread_id":58630,"title":"A1286 2011 820-2915, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-24 07:23:58","message":"0.45V at iGPU looks good.\nDisable discrete GPU, if you want to get image on this board.\nRemoving R8910\/11 is a previous step.\nModding BIOS is the fastest way, for test.\nIf you get image, then decide which method is the best for you, to permanently disable GPU."}
+[
+    {
+        "post_id":58630,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-22 11:07:49",
+        "message":"Hello,\n\nHere are the symptoms:\n- green light on charger ok, current 1.15A\n- fan spins ok\n- red light on mouse ok on one USB port, off on the other. USB Link LED with OSX permanently off (any USB)\n- no chime, but beep if no RAM\n- nothing on LCD, nothing on external display\n\nI know this is the serie of boards with GPU issue, but usually they chime and issue can be solved at software level. This one is not chiming.\n\nI measured all the rails, all the voltages are ok, I have doubts for:\nPPVCORE_S0_AXG: 0.92V Why it is not 0V? This should be switched on only when video is playing, right?\nPPVCORE_S0_CPU=0.74V Seems it is booted?\n\nWhat can be the issue here?"
+    },
+    {
+        "post_id":58637,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-22 14:09:47",
+        "message":"Strange to miss USB activity.\nI recommend you to start disabling GPU directly.\nCPU voltages point to working board.\nTry PRAM reset, to recover chime."
+    },
+    {
+        "post_id":58666,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-23 05:00:30",
+        "message":"PRAM reset (through the keyboard, don't know if there is another way) did not work, still no chime. Once I had a board with EFI password which had no chime, it chimed after changing EFI. Can this be linked?\n\nHow to disable GPU? I saw that some remove R8911 which provides power to U8900, is this the correct way? Or I can remove L8920?"
+    },
+    {
+        "post_id":58669,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-23 05:54:15",
+        "message":"You must remove one of R8910\/11 and modify BIOS to disable GPU.\nTry this file as is, just for test...\n[URL=\"https:\/\/drive.google.com\/open?id=1-E01-NpQ0hiF-xU6MRyRIgeXAtxKyVzk\"]https:\/\/drive.google.com\/open?id=1-E...yRIgeXAtxKyVzk[\/URL]\n\nDo NOT forget to remove R8910\/11 resistor, NEFORE applying power.\nIf not, must write the BIOS again.\nOf course do NOT do PRAM reset, once BIOS has been flashed!!!"
+    },
+    {
+        "post_id":58674,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2020-04-23 06:39:04",
+        "message":"Certainly dead GPU. Few options are:\n\n1 Replace GPU, REAL GPUs pretty much not available if you don't know the right supplier. All other \"new\" ones are fake.\n2 Flash MUX to disable GPU, Dosdude website, no backlight control really.\n3 Install \"Tiresias\" bypass board from CMIZAPPER.com\n4 Other \"soft\" methods\/flashing that will not survive PRAM resets or OSX updates, not recommended. \n5 Dumpster."
+    },
+    {
+        "post_id":58687,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-23 08:39:32",
+        "message":"I recently started to disable GPU flashing GMUX.\nIs the fastest method, as no need to remove the logic board from case.\nBacklight can be controlled via software; only QuickShade works, no other software.\nHowever the soft control is not as good as keys control; backlight voltage\/current is not reduced.\n\nI disabled GPU before in BIOS.\nKeyboard backlight control still works in macOS El Capitan.\nNewer macOS gives problems with recovery from suspend; BKLT_PWM needs to be (harware) forced at max.\nSoftware control is the only way to use in new macOS.\nLogic board must be removed, to do the job.\nAlso must set EFI password, to prevent accidentally PRAM reset.\nIf for some reason needs to reset, GPU problem comes back.\n\nTiresias \"GPU Killer\" is the best method, as the new version allows keyboard control for backlight."
+    },
+    {
+        "post_id":58697,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-23 11:31:31",
+        "message":"Thanks both for all these explanations.\n\nTaking into account that I have not yet the material and knowledge to flash BIOS, I:\n- removed R8910, without touching BIOS: same behavior: no chime, no USB activity\n- swaped the BIOS chip with a good one from same board model: same story\n- about to abandon, out of curiosity I measured PPVCORE_S0_AXG: still 0.92V!! So I believe that if I remove R8910, I have to set GFXIMVP6_AF_EN to ground? If I remember correctly my electronic classes, a pin \"in the air\" is +Vcc... so U8900 was still enabled?\n- finally removed R8911: then chime!! And USB activity on both USB ports. Curiously also, now there is mouse red light on both; previously, only one. USB ports are driven by U4600 and U4650, so the behavior should be the same for both ports?"
+    },
+    {
+        "post_id":58728,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-24 04:51:41",
+        "message":"More info:\nIt chimes, but no image, no backlight.\nLCD_PWR_EN: 0V\nGMUX_RESET_L: 3.37V\nPM_ALL_GPU_PGOOD: 0V (because PPVCORE_GPU: 0V (disabled by removing R8911))\n\nI understand that PPVCORE_GPU is for U8000, the discrete GPU\nFor what is PPVCORE_S0_AXG? It goes to U1000, the CPU. Is the integrated video card inside the CPU?\n\nI measured again PPVCORE_S0_AXG: now it is 0.45V... Before it was 0.92V\n\nI am lost. How disabling PPVCORE_GPU can influence PPVCORE_S0_AXG?"
+    },
+    {
+        "post_id":58733,
+        "thread_id":58630,
+        "title":"A1286 2011 820-2915, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-24 05:23:58",
+        "message":"0.45V at iGPU looks good.\nDisable discrete GPU, if you want to get image on this board.\nRemoving R8910\/11 is a previous step.\nModding BIOS is the fastest way, for test.\nIf you get image, then decide which method is the best for you, to permanently disable GPU."
+    }
+]

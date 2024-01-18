@@ -1,8 +1,74 @@
-{"post_id":83317,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":4543,"username":"brunomotter","post_date":"2021-12-03 08:41:32","message":"Hello. Got this rabbit hole from hell here with no power. Charger negotiates 5V on all ports. Around 250mA power draw on all ports. Machine enters DFU, but does not complete restore neither revive option. Board has been well poked around by another store and it got flux on the whole board, including around T2 chip (shit!). I think maybe they killed T2 with heat.\n\nPPBUS_G3H is 12.25V\nPP1V1_UPC_XA_LDO_BMC - 1.18V\nPP1V8_SLPS2R - 1.8V\nPP1V8_UPC_XA_LDOD - 1.8V\nI2C_UPC_XA_DBG_CTL_SCL - 3.34V\nI2C_UPC_XA_DBG_CTL_SDA - 3.34V\nPHV_INT_XA_G3H - 0V\nPP3V3_G3H_RTC_X - 3.34V\nPP3V3_UPC_XA_LDO - 3.34V"}
-{"post_id":83329,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":682,"username":"2informaticos","post_date":"2021-12-03 15:53:44","message":"Do you have all SSD voltages present?\n\nIs probably time wasting, other service may have removed components, or made more damage on the board..."}
-{"post_id":83351,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":4543,"username":"brunomotter","post_date":"2021-12-04 06:30:27","message":"Will post everything with SSD on name:\n\nHS_P3V3_G3W_SSD0_OUT = 0V\nHS_P3V3_G3W_SSD1_OUT = 0V\nHS_PBUS_MAIN_SSD0_OUT = 0V\nHS_PBUS_MAIN_SSD1_OUT = 0V\nI2C_SSD0_SCL = 1,8V\nI2C_SSD0_SDA = 1,8V\nI2C_SSD1_SDA = 0V (probably because SSD1 is not present on system)\nI2C_SSD1_SCL = 0V\nI2C_SSD_SCL = 1,8V\nI2C_SSD0_SDA = 1,8V\nISNS_P3V3_G3W_SSD0_N = 3,3V\nISNS_P3V3_G3W_SSD0_P = 3,3V\nISNS_P3V3_G3W_SSD0_N = 0V\nISNS_P3V3_G3W_SSD0_P = 0V\nISNS_PBUS_MAIN_SSD0_N = 12,25V\nISNS_PBUS_MAIN_SSD0_P = 12,25V\nP0V9_LX0_SSD0 = 0V\nP1V8_LX0_SSD0 = 0V\nP0V9_LX1_SSD0 = 0V\nPP2V5_NAND_SSD0 = 0V\nP2V5_SW2_TPS62180_SSD0 = 0V"}
-{"post_id":83354,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":682,"username":"2informaticos","post_date":"2021-12-04 07:32:37","message":"DFU can't be completed if no SSD voltages present.\nDig around U9000\/80.\nCheck diode mode to ground at L9020\/30\/80."}
-{"post_id":83419,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":4543,"username":"brunomotter","post_date":"2021-12-06 13:27:22","message":"Hello. I'm suspecting U9000 is bad, because I have some voltages around it, but it seems not to be outputting expected signals... I have:\n\nSSD0_OCARINA_FORCE_EN = 0V\nPP1V8_SSD0 = 0V\nSSD0_OCARINA_IREF = 1,130V\nSSD0_OCARINA_VDD_LDO = 1,5V\nPP3V3_G3H_SSD0_SNS = 3,3V\n\nDiode mode on coils:\n\nL9020 = 0,165\nL9030 = 0,320\nL9080 = 0,338"}
-{"post_id":83425,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":682,"username":"2informaticos","post_date":"2021-12-06 16:43:53","message":"You can use a T2 power on sequence from available boards; 01598 and 01055 must be somewhere on the forum.\nAnd check the previous signals required by SSD."}
-{"post_id":83571,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":4543,"username":"brunomotter","post_date":"2021-12-09 12:38:08","message":"I'm following this power sequence diagram: [URL]https:\/\/logi.wiki\/index.php\/CD3217_and_T2_Power_on_Sequence[\/URL]\n\nI have all voltages up to PCH_RTC_RESET_L. From P5VG3S_EN forward I have nothing."}
-{"post_id":83587,"thread_id":62036,"title":"820-01041 Flux All Over The Board, No Power","user_id":682,"username":"2informaticos","post_date":"2021-12-10 03:00:40","message":"DFU revive should solve the power on sequence, if btoken because of T2 firmware corruption.\nSeems that you have problems with secondary power supplies, or T2 with internal problem.\n\nP3V3MAIN_PGOOD comes high?"}
+[
+    {
+        "post_id":83317,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-03 06:41:32",
+        "message":"Hello. Got this rabbit hole from hell here with no power. Charger negotiates 5V on all ports. Around 250mA power draw on all ports. Machine enters DFU, but does not complete restore neither revive option. Board has been well poked around by another store and it got flux on the whole board, including around T2 chip (shit!). I think maybe they killed T2 with heat.\n\nPPBUS_G3H is 12.25V\nPP1V1_UPC_XA_LDO_BMC - 1.18V\nPP1V8_SLPS2R - 1.8V\nPP1V8_UPC_XA_LDOD - 1.8V\nI2C_UPC_XA_DBG_CTL_SCL - 3.34V\nI2C_UPC_XA_DBG_CTL_SDA - 3.34V\nPHV_INT_XA_G3H - 0V\nPP3V3_G3H_RTC_X - 3.34V\nPP3V3_UPC_XA_LDO - 3.34V"
+    },
+    {
+        "post_id":83329,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-03 13:53:44",
+        "message":"Do you have all SSD voltages present?\n\nIs probably time wasting, other service may have removed components, or made more damage on the board..."
+    },
+    {
+        "post_id":83351,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-04 04:30:27",
+        "message":"Will post everything with SSD on name:\n\nHS_P3V3_G3W_SSD0_OUT = 0V\nHS_P3V3_G3W_SSD1_OUT = 0V\nHS_PBUS_MAIN_SSD0_OUT = 0V\nHS_PBUS_MAIN_SSD1_OUT = 0V\nI2C_SSD0_SCL = 1,8V\nI2C_SSD0_SDA = 1,8V\nI2C_SSD1_SDA = 0V (probably because SSD1 is not present on system)\nI2C_SSD1_SCL = 0V\nI2C_SSD_SCL = 1,8V\nI2C_SSD0_SDA = 1,8V\nISNS_P3V3_G3W_SSD0_N = 3,3V\nISNS_P3V3_G3W_SSD0_P = 3,3V\nISNS_P3V3_G3W_SSD0_N = 0V\nISNS_P3V3_G3W_SSD0_P = 0V\nISNS_PBUS_MAIN_SSD0_N = 12,25V\nISNS_PBUS_MAIN_SSD0_P = 12,25V\nP0V9_LX0_SSD0 = 0V\nP1V8_LX0_SSD0 = 0V\nP0V9_LX1_SSD0 = 0V\nPP2V5_NAND_SSD0 = 0V\nP2V5_SW2_TPS62180_SSD0 = 0V"
+    },
+    {
+        "post_id":83354,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-04 05:32:37",
+        "message":"DFU can't be completed if no SSD voltages present.\nDig around U9000\/80.\nCheck diode mode to ground at L9020\/30\/80."
+    },
+    {
+        "post_id":83419,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-06 11:27:22",
+        "message":"Hello. I'm suspecting U9000 is bad, because I have some voltages around it, but it seems not to be outputting expected signals... I have:\n\nSSD0_OCARINA_FORCE_EN = 0V\nPP1V8_SSD0 = 0V\nSSD0_OCARINA_IREF = 1,130V\nSSD0_OCARINA_VDD_LDO = 1,5V\nPP3V3_G3H_SSD0_SNS = 3,3V\n\nDiode mode on coils:\n\nL9020 = 0,165\nL9030 = 0,320\nL9080 = 0,338"
+    },
+    {
+        "post_id":83425,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-06 14:43:53",
+        "message":"You can use a T2 power on sequence from available boards; 01598 and 01055 must be somewhere on the forum.\nAnd check the previous signals required by SSD."
+    },
+    {
+        "post_id":83571,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-09 10:38:08",
+        "message":"I'm following this power sequence diagram: [URL]https:\/\/logi.wiki\/index.php\/CD3217_and_T2_Power_on_Sequence[\/URL]\n\nI have all voltages up to PCH_RTC_RESET_L. From P5VG3S_EN forward I have nothing."
+    },
+    {
+        "post_id":83587,
+        "thread_id":62036,
+        "title":"820-01041 Flux All Over The Board, No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-10 01:00:40",
+        "message":"DFU revive should solve the power on sequence, if btoken because of T2 firmware corruption.\nSeems that you have problems with secondary power supplies, or T2 with internal problem.\n\nP3V3MAIN_PGOOD comes high?"
+    }
+]

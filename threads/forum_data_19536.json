@@ -1,14 +1,128 @@
-{"post_id":19536,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":451,"username":"jgraffis","post_date":"2017-05-01 19:56:56","message":"I've got this 820-3662 that shows no video on the internal display. i get 0v on L8300 so i checked back at u8300 and have 0v on pin 1 which is the power on pin for u8300. i get 0v on PPVOUT_S0_LCD\/BKL\/T. I don't think this machine is seeing the lcd but not getting voltage on u8300 is making me think of u1100 not working properly.\ni did reset the PRAM and smc"}
-{"post_id":19541,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":2,"username":"dukefawks","post_date":"2017-05-02 01:53:47","message":"External video present? Tested with known good LCD?"}
-{"post_id":19562,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":451,"username":"jgraffis","post_date":"2017-05-02 11:37:10","message":"yes it has external video. the screen I'm using is from a working machine. i did test continuity on the connector threw a good cable also, so don't think its a connector issue."}
-{"post_id":19573,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":2,"username":"dukefawks","post_date":"2017-05-02 16:28:00","message":"All the caps present in the eDP lines? C8320 and up, also check the coils FL8300 and up."}
-{"post_id":19616,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":451,"username":"jgraffis","post_date":"2017-05-03 14:43:38","message":"yes all caps are present c8320,c8321,c8322,c8323,c8324,c8325,c8326,c8327. all of the coils, fl8300,fl8301,fl8302, fl8303 are present and have continuity. i beginning to wonder if my test screen shit the bed. i tested all pins for short to ground with screen plugged in and only had ground on the pins that its supposed to be on, i did have 0L on all the data lines though. not sure if that is supposed to be correct?"}
-{"post_id":19629,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":2,"username":"dukefawks","post_date":"2017-05-03 19:18:46","message":"If you do not know your test LCD is good then I cannot help further. First thing is to have a 100% known good part for testing.\nDo check if there is a short burst of power on L8300 right on start up."}
-{"post_id":20194,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":451,"username":"jgraffis","post_date":"2017-05-13 15:50:33","message":"ok, back to this one for me. i did get a known good tested screen for it and still same issue. it does have a short burst of 2.9v on l8300 then goes back down to 0.0v. not sure what this means. maybe a bad cap in the line?"}
-{"post_id":20200,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":2,"username":"dukefawks","post_date":"2017-05-13 18:34:10","message":"Run ASD and see if there is a symbol error when it tests the LCD. Inspect caps\/connector and SMC_LID."}
-{"post_id":20722,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":451,"username":"jgraffis","post_date":"2017-05-23 16:21:38","message":"i was able to run ASD and yes it had a symbol error( but i didn't have a screen connected) SMC_LID area seems just fine looking. it also failed for 6 other issues also. the one i was thinking is not correct is \nsensor- current (IO5R) 5V Rail Highside --- sensor reads below the low limit.\n\nwhen i tested for voltage at pin 6 of u5420 i got 0.040v. i did get 3v on pin3, and 12.5v on pins 4-5. i also check the resistors and they check out just fine. I'm thinking maybe U5420 is screwed up?\n\n the next 3 were battery temp test( again not plugged in)\nthe next 2 were ssd temp test( again no plugged in) but strange"}
-{"post_id":20865,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":2,"username":"dukefawks","post_date":"2017-05-25 13:44:59","message":"So you tested without LCD connected......what good does that do? As for the sensor issue it's reading low cause there is no LCD puling current on the 5V bus."}
-{"post_id":20957,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":451,"username":"jgraffis","post_date":"2017-05-27 19:38:42","message":"Shit wasn't thinking on that one. i retested with everything plugged in. ASD OS fails for \n sensor group test- limit load test. error -1 unknown error \n ASD EFI fails for \ndisplay port symbol error test - error- Lane count is zero\nsensor temperature (th0a) -- SSD A sensor is reading below low limit\nsensor temperature (th0b) -- SSD B sensor is reading below low limit\n\nthese seem strange because i i used the thunderbolt ports to run ASD on external"}
-{"post_id":20960,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":2,"username":"dukefawks","post_date":"2017-05-28 12:03:32","message":"Bad connector? Measure continuity from a separate LCD cable the the caps\/coils. Also do a diode mode test on the eDP caps on the CPU side to check for continuity to the CPU."}
-{"post_id":21147,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":451,"username":"jgraffis","post_date":"2017-05-31 23:21:21","message":"I went ahead and replace the connector and check for continuity like you said and everything was fine there. I did diode mode test on R0530 pin 1 reads out as 0.015v pin 2 0.030v. also noticed that i do get a pulse of 5v on L3800 then back to 0.0v. Not really sure whats going on with this board."}
-{"post_id":21179,"thread_id":19536,"title":"820-3662 no video on internal display","user_id":2,"username":"dukefawks","post_date":"2017-06-01 18:54:56","message":"Only thing that is left is a CPU issue I'm afraid. Last thing to check is voltages in R0531 and diode mode."}
+[
+    {
+        "post_id":19536,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-01 17:56:56",
+        "message":"I've got this 820-3662 that shows no video on the internal display. i get 0v on L8300 so i checked back at u8300 and have 0v on pin 1 which is the power on pin for u8300. i get 0v on PPVOUT_S0_LCD\/BKL\/T. I don't think this machine is seeing the lcd but not getting voltage on u8300 is making me think of u1100 not working properly.\ni did reset the PRAM and smc"
+    },
+    {
+        "post_id":19541,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-01 23:53:47",
+        "message":"External video present? Tested with known good LCD?"
+    },
+    {
+        "post_id":19562,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-02 09:37:10",
+        "message":"yes it has external video. the screen I'm using is from a working machine. i did test continuity on the connector threw a good cable also, so don't think its a connector issue."
+    },
+    {
+        "post_id":19573,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-02 14:28:00",
+        "message":"All the caps present in the eDP lines? C8320 and up, also check the coils FL8300 and up."
+    },
+    {
+        "post_id":19616,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-03 12:43:38",
+        "message":"yes all caps are present c8320,c8321,c8322,c8323,c8324,c8325,c8326,c8327. all of the coils, fl8300,fl8301,fl8302, fl8303 are present and have continuity. i beginning to wonder if my test screen shit the bed. i tested all pins for short to ground with screen plugged in and only had ground on the pins that its supposed to be on, i did have 0L on all the data lines though. not sure if that is supposed to be correct?"
+    },
+    {
+        "post_id":19629,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-03 17:18:46",
+        "message":"If you do not know your test LCD is good then I cannot help further. First thing is to have a 100% known good part for testing.\nDo check if there is a short burst of power on L8300 right on start up."
+    },
+    {
+        "post_id":20194,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-13 13:50:33",
+        "message":"ok, back to this one for me. i did get a known good tested screen for it and still same issue. it does have a short burst of 2.9v on l8300 then goes back down to 0.0v. not sure what this means. maybe a bad cap in the line?"
+    },
+    {
+        "post_id":20200,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-13 16:34:10",
+        "message":"Run ASD and see if there is a symbol error when it tests the LCD. Inspect caps\/connector and SMC_LID."
+    },
+    {
+        "post_id":20722,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-23 14:21:38",
+        "message":"i was able to run ASD and yes it had a symbol error( but i didn't have a screen connected) SMC_LID area seems just fine looking. it also failed for 6 other issues also. the one i was thinking is not correct is \nsensor- current (IO5R) 5V Rail Highside --- sensor reads below the low limit.\n\nwhen i tested for voltage at pin 6 of u5420 i got 0.040v. i did get 3v on pin3, and 12.5v on pins 4-5. i also check the resistors and they check out just fine. I'm thinking maybe U5420 is screwed up?\n\n the next 3 were battery temp test( again not plugged in)\nthe next 2 were ssd temp test( again no plugged in) but strange"
+    },
+    {
+        "post_id":20865,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-25 11:44:59",
+        "message":"So you tested without LCD connected......what good does that do? As for the sensor issue it's reading low cause there is no LCD puling current on the 5V bus."
+    },
+    {
+        "post_id":20957,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-27 17:38:42",
+        "message":"Shit wasn't thinking on that one. i retested with everything plugged in. ASD OS fails for \n sensor group test- limit load test. error -1 unknown error \n ASD EFI fails for \ndisplay port symbol error test - error- Lane count is zero\nsensor temperature (th0a) -- SSD A sensor is reading below low limit\nsensor temperature (th0b) -- SSD B sensor is reading below low limit\n\nthese seem strange because i i used the thunderbolt ports to run ASD on external"
+    },
+    {
+        "post_id":20960,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-28 10:03:32",
+        "message":"Bad connector? Measure continuity from a separate LCD cable the the caps\/coils. Also do a diode mode test on the eDP caps on the CPU side to check for continuity to the CPU."
+    },
+    {
+        "post_id":21147,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-31 21:21:21",
+        "message":"I went ahead and replace the connector and check for continuity like you said and everything was fine there. I did diode mode test on R0530 pin 1 reads out as 0.015v pin 2 0.030v. also noticed that i do get a pulse of 5v on L3800 then back to 0.0v. Not really sure whats going on with this board."
+    },
+    {
+        "post_id":21179,
+        "thread_id":19536,
+        "title":"820-3662 no video on internal display",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-06-01 16:54:56",
+        "message":"Only thing that is left is a CPU issue I'm afraid. Last thing to check is voltages in R0531 and diode mode."
+    }
+]

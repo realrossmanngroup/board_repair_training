@@ -1,8 +1,74 @@
-{"post_id":57527,"thread_id":57527,"title":"820-01041 5v only","user_id":7922,"username":"tcampbell34","post_date":"2020-03-15 21:55:04","message":"I got a 820-01041 board that someone else had messed with before. When connected to the charger, it shows 5v and 0.28a on all 4 ports. The board looks clean, with no signs of liquid damage or corrosion but someone ripped the keyboard connector and the right speaker connector off the board. Some of the pads for PP5V_G3S_FAN_CONN and GND_FAN were destroyed and PP5V_G3S was shorted to ground. Found that PP5V_G3S was shorted to ground inside the board right by the keyboard connector. I drilled a small hole in the board in this location and was able to clear the short, but it did not change anything. Still only getting 5v and 0.28a on all 4 ports. Can't find any other shorts.\n\nI replaced the keyboard connector and the flex cable and I tried to do the T2 firmware restore on this computer, but it does not seem to connect correctly. Every time I connect this computer to the the other working macbook (A1708), its comes up with a message in the top right corner of the screen that says \"Cannot Use Thunderbolt Accessory\". This error comes up no matter which port I connect it to. I did notice that when I connect the 2 macbooks together and connect the charger to this board, it show 20v and 0a instead, which I believe is DFU mode. The DFU icon never comes up in apple configurator though like it has for other macbooks I have fixed. Not sure if I have a cd3215 issue or not. Here are some measures I took. \n\nPPBUS_G3H - 12.28\nPP3V3_G3H_T - 3.3\nPP3V3_G3H_RTC_X - 3.37\nPP1V8_G3S - 0\nPP5V_G3S - 0\nPP3V3_G3S_T - 0\nPP3V3_G3S_X - 0\nPP3V3_S0SW_TBT_X - 0\nPP3V3_S0SW_TBT_T - 0\nPP3V3_S0SW_TBT_X_SNS - 0\nPP3V3_S0SW_TBT_T_SNS - 0\nPP1V05_PRIM - 0\nPP1V8_SLPS2R - 1.8\nPP0V8_SLPS2R -  0.8\nPP1V1_SLPS2R - 1.09\nPMU_ONOFF_L - 3.3\nPMU_RSLOC_RST_L - 3.3\nCHGR_RST_OM_R - 0"}
-{"post_id":57528,"thread_id":57527,"title":"820-01041 5v only","user_id":682,"username":"2informaticos","post_date":"2020-03-16 03:49:57","message":"PPBUS_G3H shows like it is not correctly controlled, pointing to T2 firmware issue.\nHowever the consume of the board looks to high, with 0.28A.\n\nCompare diode mode readings on all LDO outputs of CD3215 chips.\n\nDid you try the same USB-C\/Thunderbolt cable used in other DFU recoveries?\n\nNot tu much hope for a board maltrated in such way..."}
-{"post_id":57544,"thread_id":57527,"title":"820-01041 5v only","user_id":7922,"username":"tcampbell34","post_date":"2020-03-16 11:04:11","message":"I did watch the video that Louis recently posted on his channel about the T2 firmware restore process and in the video, his A1990 was showing 5v 0.30A and the T2 firmware restore fixed it still. I did use the same cable that I have used for other T2 firmware restores and it worked fine. I also have another A1989 right now that I tried to boot into DFU mode using that same cable and that computer shows the DFU icon in apple configurator so the cable is not the issue. I compared values for the LDO lines of each CD3215 chip and the values for U3200 are slightly higher than then other 3 chips. Do you think I should replace U3200 and try the firmware restore again?\n\nU3100:\nPP3V3_UPC_XA_LDO - 0.478\nPP3V3_TBT_X_SX - 0.506\nPP1V8_UPC_XA_LDOA - 0.485\nPP1V8_UPC_XA_LDOD - 0.451\nPP1V1_UPC_XA_LDO_BMC - 0.461\n\nU3200:\nPP3V3_UPC_XB_LDO - 0.478\nPP3V3_TBT_X_SX - 0.506\nPP1V8_UPC_XB_LDOA - 0.510\nPP1V8_UPC_XB_LDOD - 0.472\nPP1V1_UPC_XB_LDO_BMC - 0.487\n\nUB300:\nPP3V3_UPC_TA_LDO - 0.479\nPP3V3_TBT_T_SX - 0.502\nPP1V8_UPC_TA_LDOA - 0.488\nPP1V8_UPC_TA_LDOD - 0.454\nPP1V1_UPC_TA_LDO_BMC - 0.463\n\nUB400:\nPP3V3_UPC_TB_LDO - 0.484\nPP3V3_TBT_T_SX - 0.505\nPP1V8_UPC_TB_LDOA - 0.490\nPP1V8_UPC_TB_LDOD - 0.457\nPP1V1_UPC_TB_LDO_BMC - 0.465"}
-{"post_id":57550,"thread_id":57527,"title":"820-01041 5v only","user_id":682,"username":"2informaticos","post_date":"2020-03-16 17:45:10","message":"Should try replacing U3200.\nUsually fault chip has lower values, but is not normal to have one chip with such differencies; even values are higher."}
-{"post_id":57555,"thread_id":57527,"title":"820-01041 5v only","user_id":7922,"username":"tcampbell34","post_date":"2020-03-16 20:55:26","message":"I replaced U3200 with a new one and now the diode mode values are about the same as the others but I still have the same symptoms. I tried the T2 firmware restore again but got the same message about \"Cannot Use Thunderbolt Accessory\" when connecting this board to the other mac. I tried all 4 ports and another cable but still get the same error message."}
-{"post_id":57567,"thread_id":57527,"title":"820-01041 5v only","user_id":2,"username":"dukefawks","post_date":"2020-03-17 06:18:23","message":"0.28A is way too high for hanging on 5V. There must be a short or low resistance on some rail somewhere. Another short in the board is very likely as you cannot just drill into a board and not expect to short other layers together.\nPPBUS is also too low so SMC is probably not running, so SMC may be suspect too. With 0.28A flowing something may be getting warm. Feel the board with your lips or thermal cam if you have it.\n\nHonestly I think this board is a time waster :("}
-{"post_id":57587,"thread_id":57527,"title":"820-01041 5v only","user_id":7922,"username":"tcampbell34","post_date":"2020-03-17 18:29:38","message":"Yea I think your right. I checked to see if anything was getting hot but could not feel anything. I left the board connected to the charger for a long time too. One thing I noticed is that when I touched the area around U6940, the amps dropped from 0.28 to 0.22 and it would stay like that until I unplugged the charger and plugged it back in. This only happens when I touched that area of the board but I did not feel anything hot. I checked for shorts around that area and did find some rails that seems to either be short or have low diode mode values around U7800. I removed some of the coils around U7800 to check which side the shorts are on and these are the rails I found to have low diode mode values.\n\nPP0V82_SLPDDR - 0.016\nPP0V9_SLPDDR - 0.024\nPPVCCPRIMCORE_PRIM_REG - 0.060\nPPVDDCPU_AWAKE - 0.005\n\nShould I try injecting voltage into one or all of these lines or do you think this board is hopeless? I also connected the charger after removing the coils and its now shows 0.03A then goes up to 0.06A, then back to 0.03A."}
-{"post_id":57588,"thread_id":57527,"title":"820-01041 5v only","user_id":682,"username":"2informaticos","post_date":"2020-03-17 19:49:14","message":"You've mentioned voltages around CPU and can have low values as normal.\nYou should compare them with a good working board.\n\nSincerely, I will not waste more time on this board..."}
+[
+    {
+        "post_id":57527,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-03-15 19:55:04",
+        "message":"I got a 820-01041 board that someone else had messed with before. When connected to the charger, it shows 5v and 0.28a on all 4 ports. The board looks clean, with no signs of liquid damage or corrosion but someone ripped the keyboard connector and the right speaker connector off the board. Some of the pads for PP5V_G3S_FAN_CONN and GND_FAN were destroyed and PP5V_G3S was shorted to ground. Found that PP5V_G3S was shorted to ground inside the board right by the keyboard connector. I drilled a small hole in the board in this location and was able to clear the short, but it did not change anything. Still only getting 5v and 0.28a on all 4 ports. Can't find any other shorts.\n\nI replaced the keyboard connector and the flex cable and I tried to do the T2 firmware restore on this computer, but it does not seem to connect correctly. Every time I connect this computer to the the other working macbook (A1708), its comes up with a message in the top right corner of the screen that says \"Cannot Use Thunderbolt Accessory\". This error comes up no matter which port I connect it to. I did notice that when I connect the 2 macbooks together and connect the charger to this board, it show 20v and 0a instead, which I believe is DFU mode. The DFU icon never comes up in apple configurator though like it has for other macbooks I have fixed. Not sure if I have a cd3215 issue or not. Here are some measures I took. \n\nPPBUS_G3H - 12.28\nPP3V3_G3H_T - 3.3\nPP3V3_G3H_RTC_X - 3.37\nPP1V8_G3S - 0\nPP5V_G3S - 0\nPP3V3_G3S_T - 0\nPP3V3_G3S_X - 0\nPP3V3_S0SW_TBT_X - 0\nPP3V3_S0SW_TBT_T - 0\nPP3V3_S0SW_TBT_X_SNS - 0\nPP3V3_S0SW_TBT_T_SNS - 0\nPP1V05_PRIM - 0\nPP1V8_SLPS2R - 1.8\nPP0V8_SLPS2R -  0.8\nPP1V1_SLPS2R - 1.09\nPMU_ONOFF_L - 3.3\nPMU_RSLOC_RST_L - 3.3\nCHGR_RST_OM_R - 0"
+    },
+    {
+        "post_id":57528,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-16 01:49:57",
+        "message":"PPBUS_G3H shows like it is not correctly controlled, pointing to T2 firmware issue.\nHowever the consume of the board looks to high, with 0.28A.\n\nCompare diode mode readings on all LDO outputs of CD3215 chips.\n\nDid you try the same USB-C\/Thunderbolt cable used in other DFU recoveries?\n\nNot tu much hope for a board maltrated in such way..."
+    },
+    {
+        "post_id":57544,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-03-16 09:04:11",
+        "message":"I did watch the video that Louis recently posted on his channel about the T2 firmware restore process and in the video, his A1990 was showing 5v 0.30A and the T2 firmware restore fixed it still. I did use the same cable that I have used for other T2 firmware restores and it worked fine. I also have another A1989 right now that I tried to boot into DFU mode using that same cable and that computer shows the DFU icon in apple configurator so the cable is not the issue. I compared values for the LDO lines of each CD3215 chip and the values for U3200 are slightly higher than then other 3 chips. Do you think I should replace U3200 and try the firmware restore again?\n\nU3100:\nPP3V3_UPC_XA_LDO - 0.478\nPP3V3_TBT_X_SX - 0.506\nPP1V8_UPC_XA_LDOA - 0.485\nPP1V8_UPC_XA_LDOD - 0.451\nPP1V1_UPC_XA_LDO_BMC - 0.461\n\nU3200:\nPP3V3_UPC_XB_LDO - 0.478\nPP3V3_TBT_X_SX - 0.506\nPP1V8_UPC_XB_LDOA - 0.510\nPP1V8_UPC_XB_LDOD - 0.472\nPP1V1_UPC_XB_LDO_BMC - 0.487\n\nUB300:\nPP3V3_UPC_TA_LDO - 0.479\nPP3V3_TBT_T_SX - 0.502\nPP1V8_UPC_TA_LDOA - 0.488\nPP1V8_UPC_TA_LDOD - 0.454\nPP1V1_UPC_TA_LDO_BMC - 0.463\n\nUB400:\nPP3V3_UPC_TB_LDO - 0.484\nPP3V3_TBT_T_SX - 0.505\nPP1V8_UPC_TB_LDOA - 0.490\nPP1V8_UPC_TB_LDOD - 0.457\nPP1V1_UPC_TB_LDO_BMC - 0.465"
+    },
+    {
+        "post_id":57550,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-16 15:45:10",
+        "message":"Should try replacing U3200.\nUsually fault chip has lower values, but is not normal to have one chip with such differencies; even values are higher."
+    },
+    {
+        "post_id":57555,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-03-16 18:55:26",
+        "message":"I replaced U3200 with a new one and now the diode mode values are about the same as the others but I still have the same symptoms. I tried the T2 firmware restore again but got the same message about \"Cannot Use Thunderbolt Accessory\" when connecting this board to the other mac. I tried all 4 ports and another cable but still get the same error message."
+    },
+    {
+        "post_id":57567,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2020-03-17 04:18:23",
+        "message":"0.28A is way too high for hanging on 5V. There must be a short or low resistance on some rail somewhere. Another short in the board is very likely as you cannot just drill into a board and not expect to short other layers together.\nPPBUS is also too low so SMC is probably not running, so SMC may be suspect too. With 0.28A flowing something may be getting warm. Feel the board with your lips or thermal cam if you have it.\n\nHonestly I think this board is a time waster :("
+    },
+    {
+        "post_id":57587,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-03-17 16:29:38",
+        "message":"Yea I think your right. I checked to see if anything was getting hot but could not feel anything. I left the board connected to the charger for a long time too. One thing I noticed is that when I touched the area around U6940, the amps dropped from 0.28 to 0.22 and it would stay like that until I unplugged the charger and plugged it back in. This only happens when I touched that area of the board but I did not feel anything hot. I checked for shorts around that area and did find some rails that seems to either be short or have low diode mode values around U7800. I removed some of the coils around U7800 to check which side the shorts are on and these are the rails I found to have low diode mode values.\n\nPP0V82_SLPDDR - 0.016\nPP0V9_SLPDDR - 0.024\nPPVCCPRIMCORE_PRIM_REG - 0.060\nPPVDDCPU_AWAKE - 0.005\n\nShould I try injecting voltage into one or all of these lines or do you think this board is hopeless? I also connected the charger after removing the coils and its now shows 0.03A then goes up to 0.06A, then back to 0.03A."
+    },
+    {
+        "post_id":57588,
+        "thread_id":57527,
+        "title":"820-01041 5v only",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-17 17:49:14",
+        "message":"You've mentioned voltages around CPU and can have low values as normal.\nYou should compare them with a good working board.\n\nSincerely, I will not waste more time on this board..."
+    }
+]

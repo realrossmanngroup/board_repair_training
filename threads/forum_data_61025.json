@@ -1,20 +1,182 @@
-{"post_id":74030,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-07 14:33:38","message":"820-3435 - Minor Liquid Damage, dead\n\nIt was actually on when I got it. Shut it down for inspection and it hasn't come back on since. SMC Reset changes the magsafe light, and PPBUS is 8.6v.\n\nThere was corrosion on U8005, and C8005 right beside it. I replaced both. \n\nI have PPBUS, PP3V42_G3H, PPVRTC_G3H, PP5V_S5. \n\nI'm missing PP5V_S4RS3. Missing PP3V3_SUS at BIOS, and missing SUS_EN as well.\n\nAt this point I'm beyond my limited expertise with power issues. Thanks for any advice!"}
-{"post_id":74034,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-07 15:18:37","message":"Check PCH's RTC signals, PM_DSW_PWRGD and PCH_DSWVRMEN.\nAlso check PM_BATLOW_L.\nDo you get 3V3_S5?"}
-{"post_id":74055,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-07 21:15:47","message":"PCH_SRTCRST_L is 3.3v\nPCH_CLK32K_RTCX1 is 0.4v\nPM_DSW_PWRGD is 0.00v\nPCH_DSWVRMEN is 1.528v\nPM_BATLOW_L is 3.3v\nPP3V3_S5 IS 3.4V"}
-{"post_id":74063,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-08 04:06:09","message":"\"Check PCH's RTC signals\"\nYou have some time on the forum, should know what I asked for.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\n\n\"PM_DSW_PWRGD is 0.00v\nPCH_DSWVRMEN is 1.528v\"\nBad signals, both.\nPost voltage on both pins of R1450.\nCheck S5_PWRGD level too."}
-{"post_id":74079,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-08 12:35:56","message":"Ah apologies, thanks for the explanation. \n\nRTC_RESET_L is 3.3v\nPCH_SRTCRST_L is 3.3v\nPCH_INTRUDER_L is 3.06v\nPCH_INTVRMEN is 3.2v\n\nS5_PWRGD is 3.4v\n\nR1450: \nPin 1: 3.337v\nPin 2: 3.24v"}
-{"post_id":74091,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-08 15:38:54","message":"\"PCH_DSWVRMEN is 1.528v\n------------------------\nR1450: \n---\nPin 2: 3.24v\"\nAre you really sure???\nPlease, check the schematic and try to understand it..."}
-{"post_id":74093,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-08 18:06:34","message":"Pin 2 of R1450 is truly 3.24v. R1450 is 330k as per schematic. Not sure why I got 1.528 before... sorry. \n\nPM_DSW_PWRGD is still 0.00v"}
-{"post_id":74094,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-08 18:21:30","message":"Looks like SMC issue, reball it."}
-{"post_id":74125,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-09 17:56:17","message":"I replaced SMC to be safe, no change in voltages on R1450. PM_DSW_PWRGD still 0.00v"}
-{"post_id":74128,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-09 18:58:20","message":"If S5_PWRGD is high, PM_DSW_PWRGD should go high too.\nThis signal is controlled by SMC, but I suppose the pull-up resistor is inside PCH.\nHeat PCH area until 180-200 degrees, for 15-20s; use quality flux, not chinese honey."}
-{"post_id":74129,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-09 19:21:24","message":"I have AMTECH from Rossman store :) . Done... no change."}
-{"post_id":74136,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-10 02:32:48","message":"Force PM_DSW_PWRGD with 10K resistor to 3V3_S5."}
-{"post_id":74189,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-10 15:43:54","message":"Done, 0.035v after the resistor on PM_DSW_PWRGD. No change otherwise."}
-{"post_id":74195,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-10 15:59:55","message":"Did you get SMC from donor board, same model?"}
-{"post_id":74196,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-10 16:00:26","message":"I did yep."}
-{"post_id":74198,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-10 16:03:41","message":"As last resource, try 470 ohm resistor as pull-up."}
-{"post_id":74200,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-10 16:17:48","message":"Do you mean \"Force PM_DSW_PWRGD with 10K resistor to 3V3_S5\" but with a 470k resistor instead?"}
-{"post_id":74205,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-10 16:49:09","message":"NO, I said 470 ohm (0.47K)."}
-{"post_id":74207,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":1597,"username":"baker_jeff","post_date":"2021-04-10 16:51:32","message":"Ok... desperately searching PDF but no 0.47K resistor on the 3435 donor. Any suggestions for where you would commonly find one?"}
-{"post_id":74217,"thread_id":61025,"title":"820-3435 - Minor Liquid Damage, dead","user_id":682,"username":"2informaticos","post_date":"2021-04-11 04:51:52","message":"What about 390, 430, 560, 680 ohm???\nAnyone can serve here."}
+[
+    {
+        "post_id":74030,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-07 12:33:38",
+        "message":"820-3435 - Minor Liquid Damage, dead\n\nIt was actually on when I got it. Shut it down for inspection and it hasn't come back on since. SMC Reset changes the magsafe light, and PPBUS is 8.6v.\n\nThere was corrosion on U8005, and C8005 right beside it. I replaced both. \n\nI have PPBUS, PP3V42_G3H, PPVRTC_G3H, PP5V_S5. \n\nI'm missing PP5V_S4RS3. Missing PP3V3_SUS at BIOS, and missing SUS_EN as well.\n\nAt this point I'm beyond my limited expertise with power issues. Thanks for any advice!"
+    },
+    {
+        "post_id":74034,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-07 13:18:37",
+        "message":"Check PCH's RTC signals, PM_DSW_PWRGD and PCH_DSWVRMEN.\nAlso check PM_BATLOW_L.\nDo you get 3V3_S5?"
+    },
+    {
+        "post_id":74055,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-07 19:15:47",
+        "message":"PCH_SRTCRST_L is 3.3v\nPCH_CLK32K_RTCX1 is 0.4v\nPM_DSW_PWRGD is 0.00v\nPCH_DSWVRMEN is 1.528v\nPM_BATLOW_L is 3.3v\nPP3V3_S5 IS 3.4V"
+    },
+    {
+        "post_id":74063,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-08 02:06:09",
+        "message":"\"Check PCH's RTC signals\"\nYou have some time on the forum, should know what I asked for.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\n\n\"PM_DSW_PWRGD is 0.00v\nPCH_DSWVRMEN is 1.528v\"\nBad signals, both.\nPost voltage on both pins of R1450.\nCheck S5_PWRGD level too."
+    },
+    {
+        "post_id":74079,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-08 10:35:56",
+        "message":"Ah apologies, thanks for the explanation. \n\nRTC_RESET_L is 3.3v\nPCH_SRTCRST_L is 3.3v\nPCH_INTRUDER_L is 3.06v\nPCH_INTVRMEN is 3.2v\n\nS5_PWRGD is 3.4v\n\nR1450: \nPin 1: 3.337v\nPin 2: 3.24v"
+    },
+    {
+        "post_id":74091,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-08 13:38:54",
+        "message":"\"PCH_DSWVRMEN is 1.528v\n------------------------\nR1450: \n---\nPin 2: 3.24v\"\nAre you really sure???\nPlease, check the schematic and try to understand it..."
+    },
+    {
+        "post_id":74093,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-08 16:06:34",
+        "message":"Pin 2 of R1450 is truly 3.24v. R1450 is 330k as per schematic. Not sure why I got 1.528 before... sorry. \n\nPM_DSW_PWRGD is still 0.00v"
+    },
+    {
+        "post_id":74094,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-08 16:21:30",
+        "message":"Looks like SMC issue, reball it."
+    },
+    {
+        "post_id":74125,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-09 15:56:17",
+        "message":"I replaced SMC to be safe, no change in voltages on R1450. PM_DSW_PWRGD still 0.00v"
+    },
+    {
+        "post_id":74128,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-09 16:58:20",
+        "message":"If S5_PWRGD is high, PM_DSW_PWRGD should go high too.\nThis signal is controlled by SMC, but I suppose the pull-up resistor is inside PCH.\nHeat PCH area until 180-200 degrees, for 15-20s; use quality flux, not chinese honey."
+    },
+    {
+        "post_id":74129,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-09 17:21:24",
+        "message":"I have AMTECH from Rossman store :) . Done... no change."
+    },
+    {
+        "post_id":74136,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-10 00:32:48",
+        "message":"Force PM_DSW_PWRGD with 10K resistor to 3V3_S5."
+    },
+    {
+        "post_id":74189,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-10 13:43:54",
+        "message":"Done, 0.035v after the resistor on PM_DSW_PWRGD. No change otherwise."
+    },
+    {
+        "post_id":74195,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-10 13:59:55",
+        "message":"Did you get SMC from donor board, same model?"
+    },
+    {
+        "post_id":74196,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-10 14:00:26",
+        "message":"I did yep."
+    },
+    {
+        "post_id":74198,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-10 14:03:41",
+        "message":"As last resource, try 470 ohm resistor as pull-up."
+    },
+    {
+        "post_id":74200,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-10 14:17:48",
+        "message":"Do you mean \"Force PM_DSW_PWRGD with 10K resistor to 3V3_S5\" but with a 470k resistor instead?"
+    },
+    {
+        "post_id":74205,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-10 14:49:09",
+        "message":"NO, I said 470 ohm (0.47K)."
+    },
+    {
+        "post_id":74207,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":1597,
+        "username":"baker_jeff",
+        "post_date":"2021-04-10 14:51:32",
+        "message":"Ok... desperately searching PDF but no 0.47K resistor on the 3435 donor. Any suggestions for where you would commonly find one?"
+    },
+    {
+        "post_id":74217,
+        "thread_id":61025,
+        "title":"820-3435 - Minor Liquid Damage, dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-11 02:51:52",
+        "message":"What about 390, 430, 560, 680 ohm???\nAnyone can serve here."
+    }
+]

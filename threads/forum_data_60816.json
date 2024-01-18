@@ -1,30 +1,272 @@
-{"post_id":71949,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-20 19:26:26","message":"Folks, I just joined the group. Just a hobbyist. Bought a non-working 2007 17\" Macbook Pro. Very nice and not working :) Will attempt to repair.\nI had green light. Took out the motherboard and no green light now. a few questions if you could please answer.\n1- Does the Magsafe charger has a right way to plug in? Its not keyed so can be plugged in any which way!\n2- What are the voltage levels on the Charger?\n3- This board A1229  820-2132 is supposed to have 18.5v in PPBUS_G3H. I measure 16.5v. Does this mean the Magsafe is inadequate? If so can I test with 18.5 Power Injection?\n4- Have purchased a boardview file for this from appleschematics.com. I also have a PDF with matching numbers. There are transistors in both which are not present on the board. There is not even a place for it. It was not taken out. Just wondering if I have the right boardview file. How do I know I have the correct boardview file and where do I get just the one I need? Don't want to buy the whole pack just yet.\n5- Louis does not have tutoring anymore. Is there any place which does?\n\nThanks in advance for your attention."}
-{"post_id":71955,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":1057,"username":"piernov","post_date":"2021-02-21 09:32:17","message":"Be aware that this will have a dead GPU in any case. Also it's easy to have bad contact in the Magsafe port with old machines, and in the FFC connector between LIO board and logic board.\n1\/ Magsafe can be plugged in both ways. If you don't have at least some experience with these machines I'd not recommend trying to jump straight into board repair.\n2\/ It depends on the Magsafe. This board requires a Magsafe1 85W which can send out 18.5V but it can also decrease the voltage a little bit when idling, and it'll only send out 6V when not connected to the machine.\n3\/ PPBUS_G3H should be somewhere around 12.6V as usual.\n4\/ No sure why you'd pay for schematics\/boardviews when they're available for free.\nLike every logic boards, some components will not be populated because they're not necessary on production boards. They're annotated with NO STUFF or a BOM option that's not listed for production in the BOM option table.\n5\/ I'd recommend watching Louis Rossmann videos as most of the information is readily available in them. There's also his repair guide and his wiki as well as other sources of information such as [URL]https:\/\/logi.wiki\/[\/URL] , badcaps.net and this forum."}
-{"post_id":71956,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-21 13:19:43","message":"First of all, welcome to the forum!\n\nYou can try to solve the power problem for this machine, but as already mentioned, this board could have bad GPU; so be aware of that.\n\n\"is supposed to have 18.5v in PPBUS_G3H. I measure 16.5v\"\nOnly possible if Q7901 is shorted.\nChange it and also check R\/C7903 and D7900; may need to change U7900 too.\n\nAbout Magsafe light, which is the code of your LIO board?\nMany times LM397 gets burnt there, but could be other thing."}
-{"post_id":72039,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-22 17:48:01","message":"Thanks for your response.\nHere is what I have:\nPower Board\n820-2140-A\n\nQ7901:\nPIN VOLTAGE\n5       16.26\n1,2,3 12.69\n4       13.43 \n\nD7900:\n1         5.08\n2       17.38\n\nI have all pics attached.\nI have done more testing and tracing. Kind of fun until I get to the end and hit a block:\n\nMissing PPVCORE_S0_CPU_REG which points to U7100\nVDD is missing in U7100\nWhich depends on PP5V_S0_CPU_IMVP\nPP5V_S0_CPU_IMVP depends on PP5V_S0_FET\nPP5_S0_FET depends on PP5V_S0P5VS0FET and P5VS0_EN\nGot 5 volts on the first and 0 on P5VS0_EN\nP5VS0_EN comes from PM_SLP_S3_L\nPM_SLP_S3_L comes from ICHM8M U2300\n\nI have all pics attached.\nWhat is this chip?\nHow do I go forward from here?"}
-{"post_id":72040,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-22 18:01:50","message":"U2300 is the Intel sothbridge chip.\n\nPlease post accurate and actual measurments.\nYou've said to have 16.5V at PPBUS_G3H; which is same at L7900 and pins 1-3 of Q7900.\n12.6V is good voltage there; do not waste time around U7900, if you get this voltage.\n\nHow do you get 5V_S0_FET, with 0V at 5VS0_EN???\nIs Q7020 shorted I\/O?\n\n\"VDD is missing in U7100\"\nCheck diode mode to ground there.\nIs R7112 burnt?\nDo you get PVCC?"}
-{"post_id":72049,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-22 23:45:41","message":"Sorry for inaccuracy.\n\nI have measured again and very accurately and its been fun.\n\nPPBUS_G3H 12.65v checked at L7900\n\nMissing PPVCORE_S0_CPU_REG, and no screen, no chime...\n\nOn Q7100 pin 5 I have 12.65 ( PPBUS_G3H )\n\nOn U7100 pins 34 and 35 are Zero and both sides of R7112 are Zero and R7112 is 10 Ohms\n\nOn U7100 VDD is missing. Ohmmeter test to ground is 16.89Kh ( red probe on ground). Pin 22 is Zero, VDD depends on PP5V_S0_CPU_IMVP and this depends on PP5V_S0_FET\n\nPP5V_S0_FET Comes from Q7020\n\nOn Q7020, there is 4.97v on PP5V_S0_P5VS0FET at pin7, [B]3.38v on PP5V_S0_FET at pins1,5,8,[\/B] I have 4.94v on pin4\n\nThe question is why we have 3.38v instead of 5v!\n\nChecking around Q7020 I see Q7002\n\nOn Q7002 ( confusing data between boardview and Schematics on which pin is which )\n\npin 6 is 4.96v ( used for other circuit )\n\npin 3 is 4.96v\n\npin 5 is zero\n\nAll other pins are zero\n\n\n\nPin 5 which is Gate comes from P5VS0_EN which comes from PM_SLP_S3_L\n\nPM_SLP_S3_L comes from ICH8M\/U2300\n\n\n Where to go from here?"}
-{"post_id":72051,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-23 02:25:20","message":"So you are searching for CPU vcore before geting the voltages from pages 62-64?\nYou can't get S0 voltage before S3.\n\nDo you say PM_SLP_S3_L is not prresent?\nWhat about PM_SLP_S4_L?\n\nTake a look at Power On Sequence List from page 3."}
-{"post_id":72091,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-23 11:14:03","message":"Thanks for the hints. I followed your suggestions as per below.\nPPBUS_G3H 12.65V\n\nPPDCIN_G3H 16V\n\nPP3V42_G3H 3.42V\n\nPP5V_S5 4.97V\n\nPP5V_S3 25mV\n\nMoving to Q7000 to find PP5V_S3\n\nPin 4 has 4.97v\n\nPin 3 has 4.94v\n\nMoving to Q7012 to see if it opens to ground\n\nPin 6 has 4.96v\n\nPin 2 has ZERO which comes in from P5VS3_EN\n\nThis leads to PM_S4_STATE_L which comes from ICH8M\/U2300\n\n\n\nWhere to go from here?"}
-{"post_id":72094,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-23 12:15:22","message":"You didn't really post exact level for PM_SLP_S4\/3_L signals.\nCheck for pulse at least; triggering SMC_ONOFF_L to ground (temporary contact only).\n\nSouthbridge requires some other signals (reset, RTC?), to start power on sequence."}
-{"post_id":72099,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-23 12:50:02","message":"I am not quite sure what I should check. Where to check for PM_SLP_S4\/3?\nWhere do I check for those 2? At ICH8M? That has lots of pins and not exposed. So not sure how to check that.\nI followed the diagram and went forward from G3H and S5 and did not run into those 2 above to test.\nTo answer SMC_ONOFF_L is 3.4v. Checked that on J9600 pin 5.\nIf you could please state what I should check next. Appreciate."}
-{"post_id":72104,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-23 13:11:19","message":"Trigger SMC_ONOFF_L and check for pulse at PM_SLP_S4\/3_L.\nUse boardview, you will find points where to test them."}
-{"post_id":72106,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-23 13:37:44","message":"On baordview I can find PM_SLP_S3_L on Q7051 and its zero at the moment. cannot find S4_L\nForgive me but how do I trigger SMC_ONOFF? And what will that tell me?"}
-{"post_id":72112,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-23 14:34:48","message":"Use R5015 pads, instead of power button.\nWhen pressing power button, PM_SLP_S4\/3_L both must pulse, at least.\nIf not, check for drop pulse at PM_PWRBTN_L at same time.\nPM_RSMRST_L must be steady high."}
-{"post_id":72114,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-23 15:49:27","message":"I am guessing you mean to short the pads which does the same as power button.\nShorted the pads together, PM_SLP_S3_L was dead zero.\nCould not find a test point for PM_PWRBTN_L accessible. Under U4900 pin 45 and no test point.\nPM_RSMRST_L is steady 3.39"}
-{"post_id":72120,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-23 17:22:30","message":"\"short the pads which does the same as power button\"\nOnly temporar contact, like prressing power button.\nDo not keep the pads shorted.\n\nCheck RTC signals of U2300."}
-{"post_id":72128,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-23 19:48:33","message":"I did it as you mentioned.\n PM_SLP_S3_L was dead zero\nI checked across R2811 for the RTC\nSB_RTC_X1 300mV\nSB_RTC_X2 227mV"}
-{"post_id":72129,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-23 20:00:52","message":"Also u7100 is a tiny bit warm after being on the charger for couple of hours"}
-{"post_id":72130,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-23 21:06:11","message":"Reading your posts, I was thinking you want to learn.\nWe have lot of information on the forum.\nWe discussed many-many times about what we understand as RTC signals.\nI didn't mention RTC clock, what you've checked.\n\nPlease, post SB_RTC_RST_L, SB_SM_INTRUDER_L, SB_INTVRMEN and SB_LAN100_SLP.\nAs you can see in page 23, all go to southbridge RTC block.\n\nBe aware, this old board can already have a dead GPU.\nIt may worth the time only for training.\n\nThe forum goal is to help the members in a repair process.\nIf you are interested in training, contact Rossmann staff.\nThis may depend on your location.\nI can tell you that reading the forum you can learn a lot of things.\nApart of solutions, we have theory posted too."}
-{"post_id":72132,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-23 21:54:55","message":"Would love to get training. They state no more training on their site. I am on the West Coast far away from NY. Will call them and try.\nI will look at other parts of the Forum. The videos from Louis do not discuss what you are asking here. They discuss mostly the power rails. If this problem were just power rails I would have gotten it by now. Would be nice to see what the problem is here.\nHere are the measurements you asked:\nSB_RTC_RST_L 3.29V\nSB_SM_INTRUDER_L 3.0V\nSB_INTVRMEN 3.2V\nSB_LAN100_SLP 3.2V"}
-{"post_id":72139,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-24 04:38:43","message":"Do you get steady voltage at L7320\/60?\n\nDo you have schematic\/boardview for LIO board?\nStill missing Magsafe light?"}
-{"post_id":72167,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-24 10:09:00","message":"4.97v across L7320\nWhile I was moving the board around the charger light came on.\nreseated the power cables and the green charge light came on.\nThat is my inexperience.\nWill go through all the rails over again."}
-{"post_id":72169,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-24 10:41:58","message":"Got green charger light by moving reseating cables. Testing from square 1.\nL7320 has consistent voltage across.\n\nGoing down the power rails\n\nPP5VS3 missing\n\nPM_S4_STATE_L missing on Q7002\n\nWhich goes back to U2300 Chip\n\nIt all winds up at U2300"}
-{"post_id":72172,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-24 11:31:22","message":"You can touch PM_PWRBTN_L ball under U4900; use fine tip multimeter probes.\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/wholesale?catId=0&initiative_id=SB_20210224093000&SearchText=fine+tip+multimeter+lead[\/URL]\nIf you catch drop pulse there, when triggering SMC_ONOFF_L, the the problem is on U2300 side."}
-{"post_id":72190,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-24 13:00:05","message":"That is pin 45 on U4900. I cannot find any test points for that."}
-{"post_id":72198,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-24 14:02:08","message":"That ball is just on the border.\nA fine tip can reach it..."}
-{"post_id":72203,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-24 15:21:14","message":"I could reach pins on the border. The 3rd one in I believe its pin 45 and has constant 3.3V. Attached the keyboard and pressed the power button and no change to the voltage. The other 2 , i.e. pins 15 and 30 were Zero."}
-{"post_id":72207,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-24 17:19:24","message":"Attached keyboard why?\nI already explained you how to simulate power button.\nPower button can be bad.\nIf you use R5015 pads, is better.\nJust check first if SMC_ONOFF_L drops to 0V.\nPM_PWRBTN_L should react at same time."}
-{"post_id":72223,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-24 19:52:37","message":"This was tough one. I have 3.4v at R5070\nI don't get any pulse SMC_ONOFF_L when I short the pads.\nIt remains at 3.4V.\nNo voltage at pin 45 on u2300. Its tough to measure this one. I was wrong previously."}
-{"post_id":72229,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":682,"username":"2informaticos","post_date":"2021-02-25 02:45:16","message":"R5015 pad 1 is placed on SMC_ONOFF_L.\nPad 2 is ground.\nHow can't drop SMC_ONOFF_L, if you tie it to ground???"}
-{"post_id":72410,"thread_id":60816,"title":"A1229 Voltages and Magsafe","user_id":29906,"username":"cptnzod","post_date":"2021-02-28 11:27:32","message":"Thanks for you support.\nI hit a snag. Have to figure out what went wrong.\nHad some smoke and I think I fried u7600.\nWill get that part from Louis and will replace."}
+[
+    {
+        "post_id":71949,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-20 17:26:26",
+        "message":"Folks, I just joined the group. Just a hobbyist. Bought a non-working 2007 17\" Macbook Pro. Very nice and not working :) Will attempt to repair.\nI had green light. Took out the motherboard and no green light now. a few questions if you could please answer.\n1- Does the Magsafe charger has a right way to plug in? Its not keyed so can be plugged in any which way!\n2- What are the voltage levels on the Charger?\n3- This board A1229  820-2132 is supposed to have 18.5v in PPBUS_G3H. I measure 16.5v. Does this mean the Magsafe is inadequate? If so can I test with 18.5 Power Injection?\n4- Have purchased a boardview file for this from appleschematics.com. I also have a PDF with matching numbers. There are transistors in both which are not present on the board. There is not even a place for it. It was not taken out. Just wondering if I have the right boardview file. How do I know I have the correct boardview file and where do I get just the one I need? Don't want to buy the whole pack just yet.\n5- Louis does not have tutoring anymore. Is there any place which does?\n\nThanks in advance for your attention."
+    },
+    {
+        "post_id":71955,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-02-21 07:32:17",
+        "message":"Be aware that this will have a dead GPU in any case. Also it's easy to have bad contact in the Magsafe port with old machines, and in the FFC connector between LIO board and logic board.\n1\/ Magsafe can be plugged in both ways. If you don't have at least some experience with these machines I'd not recommend trying to jump straight into board repair.\n2\/ It depends on the Magsafe. This board requires a Magsafe1 85W which can send out 18.5V but it can also decrease the voltage a little bit when idling, and it'll only send out 6V when not connected to the machine.\n3\/ PPBUS_G3H should be somewhere around 12.6V as usual.\n4\/ No sure why you'd pay for schematics\/boardviews when they're available for free.\nLike every logic boards, some components will not be populated because they're not necessary on production boards. They're annotated with NO STUFF or a BOM option that's not listed for production in the BOM option table.\n5\/ I'd recommend watching Louis Rossmann videos as most of the information is readily available in them. There's also his repair guide and his wiki as well as other sources of information such as [URL]https:\/\/logi.wiki\/[\/URL] , badcaps.net and this forum."
+    },
+    {
+        "post_id":71956,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-21 11:19:43",
+        "message":"First of all, welcome to the forum!\n\nYou can try to solve the power problem for this machine, but as already mentioned, this board could have bad GPU; so be aware of that.\n\n\"is supposed to have 18.5v in PPBUS_G3H. I measure 16.5v\"\nOnly possible if Q7901 is shorted.\nChange it and also check R\/C7903 and D7900; may need to change U7900 too.\n\nAbout Magsafe light, which is the code of your LIO board?\nMany times LM397 gets burnt there, but could be other thing."
+    },
+    {
+        "post_id":72039,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-22 15:48:01",
+        "message":"Thanks for your response.\nHere is what I have:\nPower Board\n820-2140-A\n\nQ7901:\nPIN VOLTAGE\n5       16.26\n1,2,3 12.69\n4       13.43 \n\nD7900:\n1         5.08\n2       17.38\n\nI have all pics attached.\nI have done more testing and tracing. Kind of fun until I get to the end and hit a block:\n\nMissing PPVCORE_S0_CPU_REG which points to U7100\nVDD is missing in U7100\nWhich depends on PP5V_S0_CPU_IMVP\nPP5V_S0_CPU_IMVP depends on PP5V_S0_FET\nPP5_S0_FET depends on PP5V_S0P5VS0FET and P5VS0_EN\nGot 5 volts on the first and 0 on P5VS0_EN\nP5VS0_EN comes from PM_SLP_S3_L\nPM_SLP_S3_L comes from ICHM8M U2300\n\nI have all pics attached.\nWhat is this chip?\nHow do I go forward from here?"
+    },
+    {
+        "post_id":72040,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-22 16:01:50",
+        "message":"U2300 is the Intel sothbridge chip.\n\nPlease post accurate and actual measurments.\nYou've said to have 16.5V at PPBUS_G3H; which is same at L7900 and pins 1-3 of Q7900.\n12.6V is good voltage there; do not waste time around U7900, if you get this voltage.\n\nHow do you get 5V_S0_FET, with 0V at 5VS0_EN???\nIs Q7020 shorted I\/O?\n\n\"VDD is missing in U7100\"\nCheck diode mode to ground there.\nIs R7112 burnt?\nDo you get PVCC?"
+    },
+    {
+        "post_id":72049,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-22 21:45:41",
+        "message":"Sorry for inaccuracy.\n\nI have measured again and very accurately and its been fun.\n\nPPBUS_G3H 12.65v checked at L7900\n\nMissing PPVCORE_S0_CPU_REG, and no screen, no chime...\n\nOn Q7100 pin 5 I have 12.65 ( PPBUS_G3H )\n\nOn U7100 pins 34 and 35 are Zero and both sides of R7112 are Zero and R7112 is 10 Ohms\n\nOn U7100 VDD is missing. Ohmmeter test to ground is 16.89Kh ( red probe on ground). Pin 22 is Zero, VDD depends on PP5V_S0_CPU_IMVP and this depends on PP5V_S0_FET\n\nPP5V_S0_FET Comes from Q7020\n\nOn Q7020, there is 4.97v on PP5V_S0_P5VS0FET at pin7, [B]3.38v on PP5V_S0_FET at pins1,5,8,[\/B] I have 4.94v on pin4\n\nThe question is why we have 3.38v instead of 5v!\n\nChecking around Q7020 I see Q7002\n\nOn Q7002 ( confusing data between boardview and Schematics on which pin is which )\n\npin 6 is 4.96v ( used for other circuit )\n\npin 3 is 4.96v\n\npin 5 is zero\n\nAll other pins are zero\n\n\n\nPin 5 which is Gate comes from P5VS0_EN which comes from PM_SLP_S3_L\n\nPM_SLP_S3_L comes from ICH8M\/U2300\n\n\n Where to go from here?"
+    },
+    {
+        "post_id":72051,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-23 00:25:20",
+        "message":"So you are searching for CPU vcore before geting the voltages from pages 62-64?\nYou can't get S0 voltage before S3.\n\nDo you say PM_SLP_S3_L is not prresent?\nWhat about PM_SLP_S4_L?\n\nTake a look at Power On Sequence List from page 3."
+    },
+    {
+        "post_id":72091,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-23 09:14:03",
+        "message":"Thanks for the hints. I followed your suggestions as per below.\nPPBUS_G3H 12.65V\n\nPPDCIN_G3H 16V\n\nPP3V42_G3H 3.42V\n\nPP5V_S5 4.97V\n\nPP5V_S3 25mV\n\nMoving to Q7000 to find PP5V_S3\n\nPin 4 has 4.97v\n\nPin 3 has 4.94v\n\nMoving to Q7012 to see if it opens to ground\n\nPin 6 has 4.96v\n\nPin 2 has ZERO which comes in from P5VS3_EN\n\nThis leads to PM_S4_STATE_L which comes from ICH8M\/U2300\n\n\n\nWhere to go from here?"
+    },
+    {
+        "post_id":72094,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-23 10:15:22",
+        "message":"You didn't really post exact level for PM_SLP_S4\/3_L signals.\nCheck for pulse at least; triggering SMC_ONOFF_L to ground (temporary contact only).\n\nSouthbridge requires some other signals (reset, RTC?), to start power on sequence."
+    },
+    {
+        "post_id":72099,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-23 10:50:02",
+        "message":"I am not quite sure what I should check. Where to check for PM_SLP_S4\/3?\nWhere do I check for those 2? At ICH8M? That has lots of pins and not exposed. So not sure how to check that.\nI followed the diagram and went forward from G3H and S5 and did not run into those 2 above to test.\nTo answer SMC_ONOFF_L is 3.4v. Checked that on J9600 pin 5.\nIf you could please state what I should check next. Appreciate."
+    },
+    {
+        "post_id":72104,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-23 11:11:19",
+        "message":"Trigger SMC_ONOFF_L and check for pulse at PM_SLP_S4\/3_L.\nUse boardview, you will find points where to test them."
+    },
+    {
+        "post_id":72106,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-23 11:37:44",
+        "message":"On baordview I can find PM_SLP_S3_L on Q7051 and its zero at the moment. cannot find S4_L\nForgive me but how do I trigger SMC_ONOFF? And what will that tell me?"
+    },
+    {
+        "post_id":72112,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-23 12:34:48",
+        "message":"Use R5015 pads, instead of power button.\nWhen pressing power button, PM_SLP_S4\/3_L both must pulse, at least.\nIf not, check for drop pulse at PM_PWRBTN_L at same time.\nPM_RSMRST_L must be steady high."
+    },
+    {
+        "post_id":72114,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-23 13:49:27",
+        "message":"I am guessing you mean to short the pads which does the same as power button.\nShorted the pads together, PM_SLP_S3_L was dead zero.\nCould not find a test point for PM_PWRBTN_L accessible. Under U4900 pin 45 and no test point.\nPM_RSMRST_L is steady 3.39"
+    },
+    {
+        "post_id":72120,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-23 15:22:30",
+        "message":"\"short the pads which does the same as power button\"\nOnly temporar contact, like prressing power button.\nDo not keep the pads shorted.\n\nCheck RTC signals of U2300."
+    },
+    {
+        "post_id":72128,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-23 17:48:33",
+        "message":"I did it as you mentioned.\n PM_SLP_S3_L was dead zero\nI checked across R2811 for the RTC\nSB_RTC_X1 300mV\nSB_RTC_X2 227mV"
+    },
+    {
+        "post_id":72129,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-23 18:00:52",
+        "message":"Also u7100 is a tiny bit warm after being on the charger for couple of hours"
+    },
+    {
+        "post_id":72130,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-23 19:06:11",
+        "message":"Reading your posts, I was thinking you want to learn.\nWe have lot of information on the forum.\nWe discussed many-many times about what we understand as RTC signals.\nI didn't mention RTC clock, what you've checked.\n\nPlease, post SB_RTC_RST_L, SB_SM_INTRUDER_L, SB_INTVRMEN and SB_LAN100_SLP.\nAs you can see in page 23, all go to southbridge RTC block.\n\nBe aware, this old board can already have a dead GPU.\nIt may worth the time only for training.\n\nThe forum goal is to help the members in a repair process.\nIf you are interested in training, contact Rossmann staff.\nThis may depend on your location.\nI can tell you that reading the forum you can learn a lot of things.\nApart of solutions, we have theory posted too."
+    },
+    {
+        "post_id":72132,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-23 19:54:55",
+        "message":"Would love to get training. They state no more training on their site. I am on the West Coast far away from NY. Will call them and try.\nI will look at other parts of the Forum. The videos from Louis do not discuss what you are asking here. They discuss mostly the power rails. If this problem were just power rails I would have gotten it by now. Would be nice to see what the problem is here.\nHere are the measurements you asked:\nSB_RTC_RST_L 3.29V\nSB_SM_INTRUDER_L 3.0V\nSB_INTVRMEN 3.2V\nSB_LAN100_SLP 3.2V"
+    },
+    {
+        "post_id":72139,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-24 02:38:43",
+        "message":"Do you get steady voltage at L7320\/60?\n\nDo you have schematic\/boardview for LIO board?\nStill missing Magsafe light?"
+    },
+    {
+        "post_id":72167,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-24 08:09:00",
+        "message":"4.97v across L7320\nWhile I was moving the board around the charger light came on.\nreseated the power cables and the green charge light came on.\nThat is my inexperience.\nWill go through all the rails over again."
+    },
+    {
+        "post_id":72169,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-24 08:41:58",
+        "message":"Got green charger light by moving reseating cables. Testing from square 1.\nL7320 has consistent voltage across.\n\nGoing down the power rails\n\nPP5VS3 missing\n\nPM_S4_STATE_L missing on Q7002\n\nWhich goes back to U2300 Chip\n\nIt all winds up at U2300"
+    },
+    {
+        "post_id":72172,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-24 09:31:22",
+        "message":"You can touch PM_PWRBTN_L ball under U4900; use fine tip multimeter probes.\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/wholesale?catId=0&initiative_id=SB_20210224093000&SearchText=fine+tip+multimeter+lead[\/URL]\nIf you catch drop pulse there, when triggering SMC_ONOFF_L, the the problem is on U2300 side."
+    },
+    {
+        "post_id":72190,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-24 11:00:05",
+        "message":"That is pin 45 on U4900. I cannot find any test points for that."
+    },
+    {
+        "post_id":72198,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-24 12:02:08",
+        "message":"That ball is just on the border.\nA fine tip can reach it..."
+    },
+    {
+        "post_id":72203,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-24 13:21:14",
+        "message":"I could reach pins on the border. The 3rd one in I believe its pin 45 and has constant 3.3V. Attached the keyboard and pressed the power button and no change to the voltage. The other 2 , i.e. pins 15 and 30 were Zero."
+    },
+    {
+        "post_id":72207,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-24 15:19:24",
+        "message":"Attached keyboard why?\nI already explained you how to simulate power button.\nPower button can be bad.\nIf you use R5015 pads, is better.\nJust check first if SMC_ONOFF_L drops to 0V.\nPM_PWRBTN_L should react at same time."
+    },
+    {
+        "post_id":72223,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-24 17:52:37",
+        "message":"This was tough one. I have 3.4v at R5070\nI don't get any pulse SMC_ONOFF_L when I short the pads.\nIt remains at 3.4V.\nNo voltage at pin 45 on u2300. Its tough to measure this one. I was wrong previously."
+    },
+    {
+        "post_id":72229,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-25 00:45:16",
+        "message":"R5015 pad 1 is placed on SMC_ONOFF_L.\nPad 2 is ground.\nHow can't drop SMC_ONOFF_L, if you tie it to ground???"
+    },
+    {
+        "post_id":72410,
+        "thread_id":60816,
+        "title":"A1229 Voltages and Magsafe",
+        "user_id":29906,
+        "username":"cptnzod",
+        "post_date":"2021-02-28 09:27:32",
+        "message":"Thanks for you support.\nI hit a snag. Have to figure out what went wrong.\nHad some smoke and I think I fried u7600.\nWill get that part from Louis and will replace."
+    }
+]

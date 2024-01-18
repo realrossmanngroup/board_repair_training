@@ -1,20 +1,182 @@
-{"post_id":70924,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-01-30 01:07:52","message":"Customer says it just won't turn on.  I tried another battery, and then another whole top case with new battery already installed.  No change.  5v negotiates to 20v after about 10 seconds, .468A drops to .0178A after 20v reached. Dual mosfet gates never told to open by U7000\n\nInspection, pretty thoroughly, no obvious damage, no obvious holes in resistors, clean overall.\n\nRails i've tested:\n\nPPBUS_G3H :  [B].77v[\/B] (no shorts to CPU\/GPU inductors, no shorts to any major inductors)\nPP3V3_G3H: 3.4\nPPVCCIO_S0 [I]and[\/I] PPVCC_S0_CPU : 0v (obv but just to show no short and cpu stays cold)\nPP3v3_S5: [B]0[\/B]\nPP3v3_S5_T139: 0\nPP5V_S5: [B]1.05v[\/B]\nPP3V3_SUS: .163v\nPP1V2_S5_SMC_VDDC: 1.2v\nPP1V_S5_PCH_DCPDSW: [B]0[\/B]\nSMC_RST_L: 3.4v\nHPWR_EN_L: 3.37v\nTBA_VDDA: 5v\nTBA_VDDP: 5v\nPPDCIN_G3H: 20v\nPPVBAT_G3H_CHGR_R: .769v\nPM_EN_P3V3_G3H: 5v\nSMC_BC_AC_OK: 3.4v\n\n\nReplaced U7000 with one from store dot rossmanngroup dot com as I'm used to doing automatically, no change. Did a bunch of diode measurements using a working 00281 (so far only around u7000, gonna do the rest of page 64 later).  The only differences are small, one is to pp3v3_g3h which measured at 3.4v while plugged in, another difference was on TBA_BOOT1_RC, it measured lower drop in diode mode unplugged.  Checked basically every resistor around U7000, only found the 750K slightly out of spec, replaced, no change.  \n\nI've yet to compare resistances\/diode to ground on inductors, or remove fuses and test.\n\n25k PCH Clock present.  That's all the things I know to check on these fucking boards.  I could use some help, thanks."}
-{"post_id":70925,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":682,"username":"2informaticos","post_date":"2021-01-30 01:32:17","message":"Can you post diode mode (red probe connected to ground) at PPBUS_G3H?\nAlso post TBA_AUX_DET and SMC_BC_ACOK levels.\n\nRemove F7000\/1 and check voltage at C7050.\nBe sure C7030\/40 are good."}
-{"post_id":70949,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-01-30 16:29:58","message":"Diode mode, red on ground, PPBUS @ F7000 pin 2: .409\nTBA_AUX_DET: 5.01v\nSMC_BC_ACOK 3.4v\n\nRemoved Fuses, Plugged in adapter, C7050 .244v\n\nC7030\/40: Both caps measure 110nf, after removing from board.\n\nDiode at REMOVED Fuses Pin 2: .398.   Pin 1: .505"}
-{"post_id":70950,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":682,"username":"2informaticos","post_date":"2021-01-30 20:31:58","message":"Change again U7000, be sure to get good solders."}
-{"post_id":71007,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-01 15:02:56","message":"Did it again.  Fresh 9239 from sealed package.  Same exact result. :( Do these have SMC issues or BIOS issues?\n\nWould it be any use to remove the U7000 and provide diode measurements?"}
-{"post_id":71008,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":7922,"username":"tcampbell34","post_date":"2021-02-01 15:18:00","message":"Check voltage on SMC_USBC_INT_L. I had a board with similar issue (0.77v on PPBUS) and it was R3038 causing the issue."}
-{"post_id":71015,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-02 00:04:07","message":"Yeah I saw your other thread where you found that.  It's good unfortunately. :("}
-{"post_id":71018,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":682,"username":"2informaticos","post_date":"2021-02-02 03:58:42","message":"ISL9239 requires good communication with SMC.\nIs weird, that SMC works partially at least, switching USB-C input to 20V.\nYou should change it, just in case.\n\nFirst check voltage and diode mode on SCL\/SDA lines of battery bus."}
-{"post_id":71019,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-02 04:24:03","message":"Yeah. I'm gonna try that actually. Thanks. \n\nIt does actually take quite some time to get to 20v. Like 20 - 30 seconds, like it was a 2014 air going through 2 restarts before starting up"}
-{"post_id":71271,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-06 16:20:51","message":"HA! OK so SCL on J6951 (battery data cable) was low in diode mode.  Replaced TVS diode D6950.  Now it negotiates 20v at a normal speed, instead of taking 10 seconds or more.  Board Takes .320 mA now according to ammeter. Same with a battery.\n\nI have one 00928 SMC if needed, don't suppose a 00281 will work though?"}
-{"post_id":71272,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":682,"username":"2informaticos","post_date":"2021-02-06 16:23:43","message":"Still no PPBUS_G3H present?\n\nSMC must be from same model board."}
-{"post_id":71284,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-07 01:17:34","message":"Thanks, yes PPBUS is present at 12.60.  I know that a 00281 and 00928 aren't compatible SMC wise, it was wishful thinking is all.\n\nI'll start going down the lines again to check I haven't lost anything else now."}
-{"post_id":71293,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":682,"username":"2informaticos","post_date":"2021-02-07 06:07:33","message":"Which other voltages appear on the board?\nCheck at all coils."}
-{"post_id":71383,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-08 20:08:19","message":"DCIN: 20V\nPPBUS\/PPVBAT_G3H_CHGR_R: 12.6\n3V3_G3H: 3.4\n3V3_S4: 0\n3V3_S5: 3.3\n5V_S5: 5\n5V_S4: 0\n3V3_SUS: 3.3\n1V2_S5_SMC_VDDC: 1.2\nSMC_RST_L: 3.4\nHPWR_EN_L: 3.38\n1V_S5_PCH_BLAHBLAH: 1.0\nTBA_VDDA\/P: 5\nPM_EN_P3V3_G3H: 5\nSMC_BC_ACOK: 3.4\nPLT_RST_L: 0\nPM_SLP_S5_L: 0\nPM_SLP_S4_L: 0\nPM_SLP_SUS_L: 0.98\nSMC_PM_G2_EN: 3.4\nPP3V3_PMICLDO: 3.3\nALL_SYS_PWRGD: 0\nS5_PWRGD: 3.3\nPM_RSMRST_L: 0.026\nSMC_PCH_SUSACK_L: 0\nPM_PCH_SYS_PWROK: 0\nPM_PCH_PWROK: 0\nPM_RSMRST_L: 0.02\nSMC_PCH_SUSWARN_L: 0\nPM_PWRBTN_L: 3.3\nSSD_SR_EN_L: 0.03\nPM_BATLOW_L: 3.3\nSYSCLK_CLK32K_PCH: 32.9 kHz\nPCH_INTRUDER_L: 2.84\nPCH_SRTCRST_L: 3.09\nRTC_RESET_L: 3.08\n\n\nI'm sure this is way too much, and possibly missing something critical. I want to be thorough for fellow techs who find this.  \nLooks like i'm not getting s4 enable? Who's responsible for that?"}
-{"post_id":71385,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":1057,"username":"piernov","post_date":"2021-02-08 20:54:23","message":"\"PP3V3_SUS: .163v\"\n\"3V3_SUS: 3.3\"\nPlease clarify"}
-{"post_id":71386,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-08 23:02:40","message":"It got better looks like.  Am I wrong in not adding PP beforehand?\n\nEdit: when i reread this it looks like i'm being a jerk, i'm not. Maybe I measured at a different point before?  Is .98 low enough to assert pm_slp_sus_l?"}
-{"post_id":71387,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":682,"username":"2informaticos","post_date":"2021-02-09 02:00:50","message":"PM_SLP_SUS_L must be high to get 3V3_SUS.\nHow can you get 3V3_SUS now?\nUnless U8200 is shorted I\/O."}
-{"post_id":71390,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-09 02:12:07","message":"PM_SLP_SUS_L shows .003 in diode mode. 10 ohms black on ground in resistance mode.\n\nU8200 removed = same. r1237 @ 100k out of circuit\n\nSo PCH or PMIC?  PMIC on the data lines that dead TVS diode was on."}
-{"post_id":71391,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":682,"username":"2informaticos","post_date":"2021-02-09 03:20:16","message":"Remove PMIC; if still low, then bad PCH..."}
-{"post_id":71480,"thread_id":60697,"title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage","user_id":27543,"username":"down1nit","post_date":"2021-02-10 18:11:02","message":"Thank you again 2.   It was thankfully the PMIC.  Had to reball a donor like 3 times because I've never been good at doing the real big chips, and it likes to fly off.\n\nI learned to control my airflow, change to a larger nozzle, and move my scope so i can blow straight down onto the chip.\n\nGetting boot current now!"}
+[
+    {
+        "post_id":70924,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-01-29 23:07:52",
+        "message":"Customer says it just won't turn on.  I tried another battery, and then another whole top case with new battery already installed.  No change.  5v negotiates to 20v after about 10 seconds, .468A drops to .0178A after 20v reached. Dual mosfet gates never told to open by U7000\n\nInspection, pretty thoroughly, no obvious damage, no obvious holes in resistors, clean overall.\n\nRails i've tested:\n\nPPBUS_G3H :  [B].77v[\/B] (no shorts to CPU\/GPU inductors, no shorts to any major inductors)\nPP3V3_G3H: 3.4\nPPVCCIO_S0 [I]and[\/I] PPVCC_S0_CPU : 0v (obv but just to show no short and cpu stays cold)\nPP3v3_S5: [B]0[\/B]\nPP3v3_S5_T139: 0\nPP5V_S5: [B]1.05v[\/B]\nPP3V3_SUS: .163v\nPP1V2_S5_SMC_VDDC: 1.2v\nPP1V_S5_PCH_DCPDSW: [B]0[\/B]\nSMC_RST_L: 3.4v\nHPWR_EN_L: 3.37v\nTBA_VDDA: 5v\nTBA_VDDP: 5v\nPPDCIN_G3H: 20v\nPPVBAT_G3H_CHGR_R: .769v\nPM_EN_P3V3_G3H: 5v\nSMC_BC_AC_OK: 3.4v\n\n\nReplaced U7000 with one from store dot rossmanngroup dot com as I'm used to doing automatically, no change. Did a bunch of diode measurements using a working 00281 (so far only around u7000, gonna do the rest of page 64 later).  The only differences are small, one is to pp3v3_g3h which measured at 3.4v while plugged in, another difference was on TBA_BOOT1_RC, it measured lower drop in diode mode unplugged.  Checked basically every resistor around U7000, only found the 750K slightly out of spec, replaced, no change.  \n\nI've yet to compare resistances\/diode to ground on inductors, or remove fuses and test.\n\n25k PCH Clock present.  That's all the things I know to check on these fucking boards.  I could use some help, thanks."
+    },
+    {
+        "post_id":70925,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-01-29 23:32:17",
+        "message":"Can you post diode mode (red probe connected to ground) at PPBUS_G3H?\nAlso post TBA_AUX_DET and SMC_BC_ACOK levels.\n\nRemove F7000\/1 and check voltage at C7050.\nBe sure C7030\/40 are good."
+    },
+    {
+        "post_id":70949,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-01-30 14:29:58",
+        "message":"Diode mode, red on ground, PPBUS @ F7000 pin 2: .409\nTBA_AUX_DET: 5.01v\nSMC_BC_ACOK 3.4v\n\nRemoved Fuses, Plugged in adapter, C7050 .244v\n\nC7030\/40: Both caps measure 110nf, after removing from board.\n\nDiode at REMOVED Fuses Pin 2: .398.   Pin 1: .505"
+    },
+    {
+        "post_id":70950,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-01-30 18:31:58",
+        "message":"Change again U7000, be sure to get good solders."
+    },
+    {
+        "post_id":71007,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-01 13:02:56",
+        "message":"Did it again.  Fresh 9239 from sealed package.  Same exact result. :( Do these have SMC issues or BIOS issues?\n\nWould it be any use to remove the U7000 and provide diode measurements?"
+    },
+    {
+        "post_id":71008,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-02-01 13:18:00",
+        "message":"Check voltage on SMC_USBC_INT_L. I had a board with similar issue (0.77v on PPBUS) and it was R3038 causing the issue."
+    },
+    {
+        "post_id":71015,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-01 22:04:07",
+        "message":"Yeah I saw your other thread where you found that.  It's good unfortunately. :("
+    },
+    {
+        "post_id":71018,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-02 01:58:42",
+        "message":"ISL9239 requires good communication with SMC.\nIs weird, that SMC works partially at least, switching USB-C input to 20V.\nYou should change it, just in case.\n\nFirst check voltage and diode mode on SCL\/SDA lines of battery bus."
+    },
+    {
+        "post_id":71019,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-02 02:24:03",
+        "message":"Yeah. I'm gonna try that actually. Thanks. \n\nIt does actually take quite some time to get to 20v. Like 20 - 30 seconds, like it was a 2014 air going through 2 restarts before starting up"
+    },
+    {
+        "post_id":71271,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-06 14:20:51",
+        "message":"HA! OK so SCL on J6951 (battery data cable) was low in diode mode.  Replaced TVS diode D6950.  Now it negotiates 20v at a normal speed, instead of taking 10 seconds or more.  Board Takes .320 mA now according to ammeter. Same with a battery.\n\nI have one 00928 SMC if needed, don't suppose a 00281 will work though?"
+    },
+    {
+        "post_id":71272,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-06 14:23:43",
+        "message":"Still no PPBUS_G3H present?\n\nSMC must be from same model board."
+    },
+    {
+        "post_id":71284,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-06 23:17:34",
+        "message":"Thanks, yes PPBUS is present at 12.60.  I know that a 00281 and 00928 aren't compatible SMC wise, it was wishful thinking is all.\n\nI'll start going down the lines again to check I haven't lost anything else now."
+    },
+    {
+        "post_id":71293,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-07 04:07:33",
+        "message":"Which other voltages appear on the board?\nCheck at all coils."
+    },
+    {
+        "post_id":71383,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-08 18:08:19",
+        "message":"DCIN: 20V\nPPBUS\/PPVBAT_G3H_CHGR_R: 12.6\n3V3_G3H: 3.4\n3V3_S4: 0\n3V3_S5: 3.3\n5V_S5: 5\n5V_S4: 0\n3V3_SUS: 3.3\n1V2_S5_SMC_VDDC: 1.2\nSMC_RST_L: 3.4\nHPWR_EN_L: 3.38\n1V_S5_PCH_BLAHBLAH: 1.0\nTBA_VDDA\/P: 5\nPM_EN_P3V3_G3H: 5\nSMC_BC_ACOK: 3.4\nPLT_RST_L: 0\nPM_SLP_S5_L: 0\nPM_SLP_S4_L: 0\nPM_SLP_SUS_L: 0.98\nSMC_PM_G2_EN: 3.4\nPP3V3_PMICLDO: 3.3\nALL_SYS_PWRGD: 0\nS5_PWRGD: 3.3\nPM_RSMRST_L: 0.026\nSMC_PCH_SUSACK_L: 0\nPM_PCH_SYS_PWROK: 0\nPM_PCH_PWROK: 0\nPM_RSMRST_L: 0.02\nSMC_PCH_SUSWARN_L: 0\nPM_PWRBTN_L: 3.3\nSSD_SR_EN_L: 0.03\nPM_BATLOW_L: 3.3\nSYSCLK_CLK32K_PCH: 32.9 kHz\nPCH_INTRUDER_L: 2.84\nPCH_SRTCRST_L: 3.09\nRTC_RESET_L: 3.08\n\n\nI'm sure this is way too much, and possibly missing something critical. I want to be thorough for fellow techs who find this.  \nLooks like i'm not getting s4 enable? Who's responsible for that?"
+    },
+    {
+        "post_id":71385,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-02-08 18:54:23",
+        "message":"\"PP3V3_SUS: .163v\"\n\"3V3_SUS: 3.3\"\nPlease clarify"
+    },
+    {
+        "post_id":71386,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-08 21:02:40",
+        "message":"It got better looks like.  Am I wrong in not adding PP beforehand?\n\nEdit: when i reread this it looks like i'm being a jerk, i'm not. Maybe I measured at a different point before?  Is .98 low enough to assert pm_slp_sus_l?"
+    },
+    {
+        "post_id":71387,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-09 00:00:50",
+        "message":"PM_SLP_SUS_L must be high to get 3V3_SUS.\nHow can you get 3V3_SUS now?\nUnless U8200 is shorted I\/O."
+    },
+    {
+        "post_id":71390,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-09 00:12:07",
+        "message":"PM_SLP_SUS_L shows .003 in diode mode. 10 ohms black on ground in resistance mode.\n\nU8200 removed = same. r1237 @ 100k out of circuit\n\nSo PCH or PMIC?  PMIC on the data lines that dead TVS diode was on."
+    },
+    {
+        "post_id":71391,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-09 01:20:16",
+        "message":"Remove PMIC; if still low, then bad PCH..."
+    },
+    {
+        "post_id":71480,
+        "thread_id":60697,
+        "title":"[Solved, bad PMIC] 820-00928, 20V @ 0.0178A.  No water damage",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2021-02-10 16:11:02",
+        "message":"Thank you again 2.   It was thankfully the PMIC.  Had to reball a donor like 3 times because I've never been good at doing the real big chips, and it likes to fly off.\n\nI learned to control my airflow, change to a larger nozzle, and move my scope so i can blow straight down onto the chip.\n\nGetting boot current now!"
+    }
+]

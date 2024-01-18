@@ -1,32 +1,290 @@
-{"post_id":82848,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-19 10:24:36","message":"Hi guys.\n\nFirst i wanna congratulate to everyone in this community for the progress made with the right to repair  \ud83d\udd96 :cool: .\n\nNow... I have this board A1708 820-00840 which gets 20v powers on fan spins fast and no image no backlight. All diode mode measurements on all Coils are fine and also getting all necessary voltages just not getting backlight and CPU voltages. No liquid spill or corrosion anywhere the board looks like new. Any ideas would be appreciated \n\nThanks"}
-{"post_id":82849,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-11-19 11:20:17","message":"What is start and final CPU core voltage?\nAny fault history available?"}
-{"post_id":82891,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-22 09:09:01","message":"No repairs done before. I compared to a working board on L7370 pin 1 i should have 6.8v but it's 0v. Also on L7210 and L7220 no voltage i didn't have time today to check I'll see tomorrow..."}
-{"post_id":82907,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-11-22 16:09:40","message":"Stop to check DC voltage on the input pin of the coils from buck converters.\nDidn't look strange that value for you?\nWhat is R7370 voltage?\n\nDo you get L7730 and other voltages from pages 61 & 62?"}
-{"post_id":82923,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-23 02:10:59","message":"On L7730 i get 1.06v and on R7370 0.72v sometimes it's losing it \nPPBUS_G3H_CPU is 13v\nL7930 1.8v\nL7960 pin 1 0.5v and pin 2 0.9v\nL8060 pin 2 it's 1v\nL8030  it's 1v"}
-{"post_id":82924,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-23 02:18:51","message":"I didn't write:\nL8060 pin 1 0.3v\nL7960 pin 1 now showing 0.9v maybe i didn't measure good first time.\nL7900 pin 1 sits around 2.6v and pin 2 is 1v \ud83e\udd73"}
-{"post_id":82925,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-11-23 03:05:00","message":"Any reason to continue verifying DC voltage on the wrong pin of a buck converter coil???\nAs I said, pin 1 (input) is not for DC voltage.\nIf you don't believe me, use an o-scope and don't waste your time in the future.\n\nDo you get PM_EN_CPUVCC?\nIf yes, try known good BIOS."}
-{"post_id":83086,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-26 10:49:59","message":"PM_EN_CPUVCC it's 0v"}
-{"post_id":83087,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-26 10:56:52","message":"Now even PPBUS_G3H is 0.5 and shows 20v drawn. Type C controllers issues? No short on PPBUS_G3H"}
-{"post_id":83092,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-11-26 14:07:35","message":"What happened to lose PPBUS_G3H?\n\nPost U7000 basic voltages: P_IN, AUX_DET, VDDA\/P, AUX_OK, A\/BMON.\nRemove F7000 and check C7050 voltage.\n\nDoes the board turn on with known good battery?"}
-{"post_id":83162,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-29 09:43:22","message":"Hi 2informaticos. \n\nThe laptop got back the voltages probably the cable was bad. On R7148 both  ALL_SYS_PWRGD the voltage goes up to 1.8v and goes down. The signal comes from PMIC..."}
-{"post_id":83164,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-11-29 09:47:14","message":"All other basic voltages are stable?"}
-{"post_id":83188,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-11-30 09:13:17","message":"Yes all else is good I double checked and also Diode mode on every coil"}
-{"post_id":83189,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-11-30 10:07:24","message":"U7800 requires some power good signals, to release ALL_SYS_PWRGD.\nALL_SYS_PWRGD is pulled-up to 3V_S0 through R7846, check it; should pulse higher than 1.8V.\nIf all these good, something happens when CPU power supply tries to start."}
-{"post_id":83214,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-01 05:26:58","message":"R7846 on PP3V3_S0 i have 3v and 0v on ALL_SYS_PWRGD. R7846 is 10k as it should be. R7842 is 100k and R7841is 40k instead of 100k"}
-{"post_id":83220,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-12-01 08:33:38","message":"Force the board to S5 state; short SMC_ONOFF_L to ground 5s.\nThen trigger SMC_ONOFF_L and check for pulse at ALL_SYS_PWRGD, at same time."}
-{"post_id":83222,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-01 09:22:43","message":"I forced the S5state and now when plugged in i get 3v on button when pressed comes back and i get 1.6v on  ALL_SYS_PWRGD and goes back to 0v. Few times stayed longer at 1.6v"}
-{"post_id":83226,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-12-01 10:11:02","message":"1.6V is lower than expected, as it is pulled-up to 3V.\nMay have a problem with U7800, or other chip connected there; SMC, or PCH.\nBe sure all power good signals received by U7800 are good.\nOf course, do not expect PM_PGOOD_CPUVCC yet."}
-{"post_id":83590,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-10 03:33:44","message":"I took out and resoldered both U7800 and the SMC still the same. All contact under then are good. It boosts up to 1.9v and stays there. PCH issue?"}
-{"post_id":83591,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-10 03:44:50","message":"Just as i wrote the last reply i said let me measure again and i got a fan spin and 3.3v all power good. Now not showing picture  :ROFLMAO:"}
-{"post_id":83592,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-10 03:54:05","message":"Powers on on battery or on charger fan spins no backlight voltage and no chime..."}
-{"post_id":83605,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-12-10 09:37:54","message":"Board turns on every time now?\nDo you get USB activity, external video?"}
-{"post_id":83610,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-10 10:49:06","message":"Yes turns on every time fan spins for a bit and turns off and CPU stays cold. No external and USB only the type c hub lights up but when i plug in a mouse nothing happens"}
-{"post_id":83611,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-12-10 11:06:06","message":"\"fan spins for a bit and turns off\"\nSo doesn't really turns on, just trying...\nWhen fan spins, check which coils get voltage.\nDid you try known good BIOS?\n\nPLT_RESET_L comes high?"}
-{"post_id":83975,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-20 06:14:26","message":"Getting back to this one :)\n\nI have on all coils voltage besides CPU and backlight. PLT_RST_L is 0v measured on R2014. Bios I haven't tried still"}
-{"post_id":83976,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-20 07:26:56","message":"I just tried a new bios but still the same..."}
-{"post_id":83977,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-12-20 07:30:29","message":"\"I have on all coils voltage besides CPU and backlight.\"\nSteady voltage, not pulsing?"}
-{"post_id":83985,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-20 10:07:46","message":"No all steady like it's powering on and staying stable.  PLT_RST_L  comes from SMC right?"}
-{"post_id":83988,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-12-20 10:44:20","message":"Before L7210\/20, you must get voltage at L7370 and L7730; check that.\nIf yes, check U7100 voltage; pins 41, 42, 48."}
-{"post_id":84284,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2021-12-28 02:00:32","message":"L7730 i have 1v and on L7370 0v. \nU7100  Pin 41 13v, pin42 5v and on pin 48 0.8v"}
-{"post_id":84285,"thread_id":61988,"title":"820-00840","user_id":682,"username":"2informaticos","post_date":"2021-12-28 03:02:52","message":"You don't have ALL_SYS_PWRGD.\nCheck the power good signals of U7800 (1 OF 10) block.\n\nBe aware, voltages generated by U7800 don't have accessible power good signal.\nSo check in pages 61 & 62 if all voltages are correct."}
-{"post_id":85316,"thread_id":61988,"title":"820-00840","user_id":20112,"username":"iFix","post_date":"2022-01-20 10:48:22","message":"The client decided to replace the board. Thank you :)"}
+[
+    {
+        "post_id":82848,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-19 08:24:36",
+        "message":"Hi guys.\n\nFirst i wanna congratulate to everyone in this community for the progress made with the right to repair  \ud83d\udd96 :cool: .\n\nNow... I have this board A1708 820-00840 which gets 20v powers on fan spins fast and no image no backlight. All diode mode measurements on all Coils are fine and also getting all necessary voltages just not getting backlight and CPU voltages. No liquid spill or corrosion anywhere the board looks like new. Any ideas would be appreciated \n\nThanks"
+    },
+    {
+        "post_id":82849,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-19 09:20:17",
+        "message":"What is start and final CPU core voltage?\nAny fault history available?"
+    },
+    {
+        "post_id":82891,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-22 07:09:01",
+        "message":"No repairs done before. I compared to a working board on L7370 pin 1 i should have 6.8v but it's 0v. Also on L7210 and L7220 no voltage i didn't have time today to check I'll see tomorrow..."
+    },
+    {
+        "post_id":82907,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-22 14:09:40",
+        "message":"Stop to check DC voltage on the input pin of the coils from buck converters.\nDidn't look strange that value for you?\nWhat is R7370 voltage?\n\nDo you get L7730 and other voltages from pages 61 & 62?"
+    },
+    {
+        "post_id":82923,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-23 00:10:59",
+        "message":"On L7730 i get 1.06v and on R7370 0.72v sometimes it's losing it \nPPBUS_G3H_CPU is 13v\nL7930 1.8v\nL7960 pin 1 0.5v and pin 2 0.9v\nL8060 pin 2 it's 1v\nL8030  it's 1v"
+    },
+    {
+        "post_id":82924,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-23 00:18:51",
+        "message":"I didn't write:\nL8060 pin 1 0.3v\nL7960 pin 1 now showing 0.9v maybe i didn't measure good first time.\nL7900 pin 1 sits around 2.6v and pin 2 is 1v \ud83e\udd73"
+    },
+    {
+        "post_id":82925,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-23 01:05:00",
+        "message":"Any reason to continue verifying DC voltage on the wrong pin of a buck converter coil???\nAs I said, pin 1 (input) is not for DC voltage.\nIf you don't believe me, use an o-scope and don't waste your time in the future.\n\nDo you get PM_EN_CPUVCC?\nIf yes, try known good BIOS."
+    },
+    {
+        "post_id":83086,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-26 08:49:59",
+        "message":"PM_EN_CPUVCC it's 0v"
+    },
+    {
+        "post_id":83087,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-26 08:56:52",
+        "message":"Now even PPBUS_G3H is 0.5 and shows 20v drawn. Type C controllers issues? No short on PPBUS_G3H"
+    },
+    {
+        "post_id":83092,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-26 12:07:35",
+        "message":"What happened to lose PPBUS_G3H?\n\nPost U7000 basic voltages: P_IN, AUX_DET, VDDA\/P, AUX_OK, A\/BMON.\nRemove F7000 and check C7050 voltage.\n\nDoes the board turn on with known good battery?"
+    },
+    {
+        "post_id":83162,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-29 07:43:22",
+        "message":"Hi 2informaticos. \n\nThe laptop got back the voltages probably the cable was bad. On R7148 both  ALL_SYS_PWRGD the voltage goes up to 1.8v and goes down. The signal comes from PMIC..."
+    },
+    {
+        "post_id":83164,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-29 07:47:14",
+        "message":"All other basic voltages are stable?"
+    },
+    {
+        "post_id":83188,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-11-30 07:13:17",
+        "message":"Yes all else is good I double checked and also Diode mode on every coil"
+    },
+    {
+        "post_id":83189,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-30 08:07:24",
+        "message":"U7800 requires some power good signals, to release ALL_SYS_PWRGD.\nALL_SYS_PWRGD is pulled-up to 3V_S0 through R7846, check it; should pulse higher than 1.8V.\nIf all these good, something happens when CPU power supply tries to start."
+    },
+    {
+        "post_id":83214,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-01 03:26:58",
+        "message":"R7846 on PP3V3_S0 i have 3v and 0v on ALL_SYS_PWRGD. R7846 is 10k as it should be. R7842 is 100k and R7841is 40k instead of 100k"
+    },
+    {
+        "post_id":83220,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-01 06:33:38",
+        "message":"Force the board to S5 state; short SMC_ONOFF_L to ground 5s.\nThen trigger SMC_ONOFF_L and check for pulse at ALL_SYS_PWRGD, at same time."
+    },
+    {
+        "post_id":83222,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-01 07:22:43",
+        "message":"I forced the S5state and now when plugged in i get 3v on button when pressed comes back and i get 1.6v on  ALL_SYS_PWRGD and goes back to 0v. Few times stayed longer at 1.6v"
+    },
+    {
+        "post_id":83226,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-01 08:11:02",
+        "message":"1.6V is lower than expected, as it is pulled-up to 3V.\nMay have a problem with U7800, or other chip connected there; SMC, or PCH.\nBe sure all power good signals received by U7800 are good.\nOf course, do not expect PM_PGOOD_CPUVCC yet."
+    },
+    {
+        "post_id":83590,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-10 01:33:44",
+        "message":"I took out and resoldered both U7800 and the SMC still the same. All contact under then are good. It boosts up to 1.9v and stays there. PCH issue?"
+    },
+    {
+        "post_id":83591,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-10 01:44:50",
+        "message":"Just as i wrote the last reply i said let me measure again and i got a fan spin and 3.3v all power good. Now not showing picture  :ROFLMAO:"
+    },
+    {
+        "post_id":83592,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-10 01:54:05",
+        "message":"Powers on on battery or on charger fan spins no backlight voltage and no chime..."
+    },
+    {
+        "post_id":83605,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-10 07:37:54",
+        "message":"Board turns on every time now?\nDo you get USB activity, external video?"
+    },
+    {
+        "post_id":83610,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-10 08:49:06",
+        "message":"Yes turns on every time fan spins for a bit and turns off and CPU stays cold. No external and USB only the type c hub lights up but when i plug in a mouse nothing happens"
+    },
+    {
+        "post_id":83611,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-10 09:06:06",
+        "message":"\"fan spins for a bit and turns off\"\nSo doesn't really turns on, just trying...\nWhen fan spins, check which coils get voltage.\nDid you try known good BIOS?\n\nPLT_RESET_L comes high?"
+    },
+    {
+        "post_id":83975,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-20 04:14:26",
+        "message":"Getting back to this one :)\n\nI have on all coils voltage besides CPU and backlight. PLT_RST_L is 0v measured on R2014. Bios I haven't tried still"
+    },
+    {
+        "post_id":83976,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-20 05:26:56",
+        "message":"I just tried a new bios but still the same..."
+    },
+    {
+        "post_id":83977,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-20 05:30:29",
+        "message":"\"I have on all coils voltage besides CPU and backlight.\"\nSteady voltage, not pulsing?"
+    },
+    {
+        "post_id":83985,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-20 08:07:46",
+        "message":"No all steady like it's powering on and staying stable.  PLT_RST_L  comes from SMC right?"
+    },
+    {
+        "post_id":83988,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-20 08:44:20",
+        "message":"Before L7210\/20, you must get voltage at L7370 and L7730; check that.\nIf yes, check U7100 voltage; pins 41, 42, 48."
+    },
+    {
+        "post_id":84284,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2021-12-28 00:00:32",
+        "message":"L7730 i have 1v and on L7370 0v. \nU7100  Pin 41 13v, pin42 5v and on pin 48 0.8v"
+    },
+    {
+        "post_id":84285,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-28 01:02:52",
+        "message":"You don't have ALL_SYS_PWRGD.\nCheck the power good signals of U7800 (1 OF 10) block.\n\nBe aware, voltages generated by U7800 don't have accessible power good signal.\nSo check in pages 61 & 62 if all voltages are correct."
+    },
+    {
+        "post_id":85316,
+        "thread_id":61988,
+        "title":"820-00840",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-01-20 08:48:22",
+        "message":"The client decided to replace the board. Thank you :)"
+    }
+]

@@ -1,35 +1,317 @@
-{"post_id":96267,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-03 08:54:16","message":"Hi,\n\nGot a perfect logicbiard no traces of liquid only on pin 17 en 18 of UP800. Got chip off and saw that pin 18 was corroded bad. Cleaned it and replaced UP800 with one from 820-01598 (according to PDF, same model) Chip should get 5v.\n\nDiode mode readings are ok except for pin 17 and 4\n\nPin 17 (BKLT_EN_R) is 0.208 should be 0.374 and give 0,82v\nPin 4  (LCDBKLT_FET_DRV) is 0.422 should be 0.550 (According to PLDaniels database).\n\nWhat voltage should pin 17 be? And what can I do?"}
-{"post_id":96283,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-03 11:58:27","message":"Do you get image for sure?\nIf yes, check BL_PWR_EN voltage."}
-{"post_id":96288,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-03 12:23:37","message":"I get picture for shure! Will check BL_PWR_EN\u2026\nBut what is correct voltage for BLKT_EN_R?"}
-{"post_id":96294,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-03 14:03:18","message":"As per schematic, VIH=1.2V; so it comes from 1.8V powered logic.\n0.82V is prohibited value, can't be correctly recognized.\n0 logic is between 0-0.4V and 1 logic is 1.2-1.8V..."}
-{"post_id":96369,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-06 03:11:31","message":"BL_PWR_EN is getting also 0.8v..."}
-{"post_id":96371,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-06 04:24:43","message":"Did you test with known good LCD assembly?\n\nCheck UD050 area, related components and traces."}
-{"post_id":96374,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-06 06:26:31","message":"Yes, sure tested with 2 different screens. Screens work on other board. \n\nUB050 area very clean... Measured alle traces on UB050, diode mode readings all ok according to PLDaniels."}
-{"post_id":96379,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-06 09:41:43","message":"Check RP850-53 and their traces.\nAlso check diode mode and voltage on SCL\/SDA lines."}
-{"post_id":96412,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-07 04:26:37","message":"RP850 starts with 5.1v as soon as image apears goes to 4.9v, diode mode 0.491\nRP851 starts with 5.1v as soon as image apears goes to 4.8v, diode mode 0.491\nRP852 5.1v, diode mode 0.276, also give 1.3kohm, according to schematics should be 1.8kohm\nRP853 5.1v, diode mode 0.276, also give 1.3kohm, according to schematics should be 1.8kohm"}
-{"post_id":96413,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-07 04:54:51","message":"Be sure DP800 is not shorted A-K.\nPost diode mode to ground on both sides; w\/ and w\/o screen connected."}
-{"post_id":96414,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-07 05:00:34","message":"DP800 is not shorted\nA= 0.937 w\/ and w\/o screen\nK= 1.251w\/ and w\/o screen"}
-{"post_id":96415,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-07 05:02:21","message":"noticed that RP845 is 10ohm instead of 0ohm... Should it make a difference such low difference>?"}
-{"post_id":96418,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-07 06:11:21","message":"Maybe increased its value because of previous UP800 failure.\nBe sure both RP844\/5 have 0 ohm."}
-{"post_id":96419,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-07 06:32:37","message":"RP844 is also 10 ohm... Changed them with good 0 ohm donors from an 820-01598. Still same..."}
-{"post_id":96422,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-07 09:34:38","message":"Wauw, the fuse FP800 was blown... Gave 2.4v on pin 2. Changed that now getting 12v on source QP800, but gate is also 12v so no power to drain...\n\n\n[QUOTE=\"Bravo2001, post: 96267, member: 27549\"]\nPin 17 (BKLT_EN_R) is 0.208 should be 0.374 and give 0,82v\n[\/QUOTE]\nStill think, it has something to do with the Enable signal? After all without EN the chip doesn't do anything... Why do you think EN is 0,8V? Is this enough to enable chip?"}
-{"post_id":96427,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-07 11:48:30","message":"0.8V is not sufficient.\nI tought was clear before:\n\"0.82V is prohibited value, can't be correctly recognized.\n0 logic is between 0-0.4V and 1 logic is 1.2-1.8V\"\n\nApart of enable, UP800 requires correct communication through I2C_BKLT bus.\nYou should try to get UP800 from another M1 board.\nThis chip has firmware, not sure if is compatible the one you've used."}
-{"post_id":96431,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-07 12:50:43","message":"Ohh you mean the chip needs communication before it will get enable signal. But shouldn\u2019t diode mode reading on EN pin 17 still be 0.374?\nIm having a feeling the source of the enable signal is effected when up800 was shorted\u2026 \n\nIs there a way to rule that out?"}
-{"post_id":96432,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-07 13:38:12","message":"M1 may disable the backlight, if receives an error reported by UP800."}
-{"post_id":96519,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-09 07:59:09","message":"Hi, I read another forum that the backlight chips are interchangeable... \n\nSeems like not an issue with UP800... But even when UP800 removed pin 17 stays @ 0.187 in diode mode! Should this not be 0.374? \n\n[URL unfurl=\"true\"]https:\/\/www.badcaps.net\/forum\/showthread.php?t=102194&highlight=m1+backlight&page=3[\/URL]\n[ATTACH type=\"full\"]60981[\/ATTACH]"}
-{"post_id":96531,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-09 12:21:09","message":"\"But even when UP800 removed pin 17 stays @ 0.187 in diode mode! Should this not be 0.374?\"\nYou may have a problem with U8100 then; is connected on the same line.\nNo idea what should be the correct reading there."}
-{"post_id":96532,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-09 12:29:06","message":"Can't I just transform the low signal (0.8v) u8100 is giving to 1.8v? How would that work? I have a lot of donor boards but don't now which part I can use...\n\nApart from the backlight, this logicboard works perfectly with external screen and dim internal screen...\n\nps. this MacBook came in as \"dropped damage\" It has a small dent at the bottom case but no visual damage on board. Can it be that the screen is not being recognized? IPD_LID_OPEN_1V8 is 1.8v, can I test anything else?"}
-{"post_id":96535,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-09 12:37:12","message":"If you get image on it, internal LCD is recognized.\n\nYou can force the enable signal, but is not sufficient for the backlight to work.\nBacklight adjust is controlled through I2C bus.\n\nIf you want to test, remove RP842 and bring 3V3_SW_LCD to BKLT_EN_R (CP842 pad 1)."}
-{"post_id":96536,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-09 12:43:01","message":"[QUOTE=\"2informaticos, post: 96535, member: 682\"]\nIf you want to test, remove RP842 and bring 3V3_SW_LCD to BKLT_EN_R (CP842 pad 1).\n[\/QUOTE]\n\nYeah, this I'll test tomorrow. Was looking for something like this... (hope it will work)!"}
-{"post_id":96565,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-10 13:34:00","message":"Tried but no luck! What I noticed is that \n\n\u201cRP851 starts with 5.1v as soon as image apears goes to 4.8v\u201d\n\nthis is not 4.8v it stays 5.1v. but the scl line still starts with 5.1v and goes to 4.8v. So as I understand there is no good communication\u2026\n\nWhat can I look at more?!?"}
-{"post_id":96571,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-10 14:23:35","message":"Communication on the I2C bus can be confirmed with o-scope.\n\nIf you have time to waste, inspect SCL\/SDA lines on both sides of UD050.\nShould catch traffic when using backlight adjust.\nThen you can check for activity on SCL\/SDA lines of the I2C bus to UP800.\n\nI suspect broken traces, or solders somewhere..."}
-{"post_id":96694,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-16 04:00:20","message":"Could not see anything extraordinary on UD050...\n\nFigured out something else! On the small lcd flexcable pin 24 is broken. On the connector on the logicboard I get a good diode measurement (0.507) but when I connect the small lcd flex cable I get a O\/L on the other side... So the LCD doesn't get a connection! \n\nTried different Flex cables but when I use another one I don't get image.  Is there a difference between the M1 small lcd flex cable and the once before the m1?\n\nTo bad I only have 1 M1 here, so can't check... Maybe I can try to repair the flex cable?!\n\nCould this be the reason why BKLT_EN is low?"}
-{"post_id":96697,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-16 05:11:52","message":"Bad connections between MLB and T-CON is a good reason for your problem.\nUse correct cable for your model!"}
-{"post_id":96711,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-02-16 09:01:40","message":"Let me order one, was thinking every flexible is the same but now I have my doubts...."}
-{"post_id":96718,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-02-16 10:33:25","message":"M1 video connector has different layout.\nDon't expect for video cable to have the same traces routed as old models."}
-{"post_id":97237,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-03-06 08:33:47","message":"Back at it again! Was on a holiday. Got my small LCD cable but still no luck. Now im thinking this was the problem all along... But while I was looking somewhere else I destroyed something!\n\n[QUOTE=\"Bravo2001, post: 96267, member: 27549\"]\nPin 17 (BKLT_EN_R) is 0.208 should be 0.374 and give 0,82v\n[\/QUOTE]\n\nI noticed that RP842 pin 1 has a diode mode reading 0.019 and 0v which was 0.187 and 0.8v. But should have been 0.375. \n\nWhen I remove RP842 I can see diode mode reading of pin 2 is 0.575 and pin 1 is 0.019! im really out of ideas now!"}
-{"post_id":97243,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-03-06 11:05:11","message":"\"When I remove RP842 I can see diode mode reading of pin 2 is 0.575 and pin 1 is 0.019\"\nBad U8100..."}
-{"post_id":97245,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-03-06 11:09:59","message":"Was afraid of that... Is there a way I can get a u8100 anywhere? Rossmangroup store?!?!"}
-{"post_id":97247,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":682,"username":"2informaticos","post_date":"2023-03-06 11:14:45","message":"From scrap board.\nM1 14\" and 16\" PMUs are compatibile."}
-{"post_id":97248,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-03-06 11:18:52","message":"Hard to find these kind of scrap boards... Thxs anyways"}
-{"post_id":97327,"thread_id":63556,"title":"820-02020 No backlight 0,8v on BKLT_EN_R","user_id":27549,"username":"Bravo2001","post_date":"2023-03-09 07:00:42","message":"By some miraculous reason it works now.  Al this time I was testing it out of the casing only with a screen connected. \n\nI removed RP842 and forgot the put it back. When I put The logic board back in the casing it worked?! Only some times de screen stays black until the login screen comes. then it flikkers 5 times and comes back on. \n\nI'm guessing the backlight chip is getting its enable signal from somewhere else?! I measured on pin 2 voltage is 0.180v."}
+[
+    {
+        "post_id":96267,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-03 06:54:16",
+        "message":"Hi,\n\nGot a perfect logicbiard no traces of liquid only on pin 17 en 18 of UP800. Got chip off and saw that pin 18 was corroded bad. Cleaned it and replaced UP800 with one from 820-01598 (according to PDF, same model) Chip should get 5v.\n\nDiode mode readings are ok except for pin 17 and 4\n\nPin 17 (BKLT_EN_R) is 0.208 should be 0.374 and give 0,82v\nPin 4  (LCDBKLT_FET_DRV) is 0.422 should be 0.550 (According to PLDaniels database).\n\nWhat voltage should pin 17 be? And what can I do?"
+    },
+    {
+        "post_id":96283,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-03 09:58:27",
+        "message":"Do you get image for sure?\nIf yes, check BL_PWR_EN voltage."
+    },
+    {
+        "post_id":96288,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-03 10:23:37",
+        "message":"I get picture for shure! Will check BL_PWR_EN\u2026\nBut what is correct voltage for BLKT_EN_R?"
+    },
+    {
+        "post_id":96294,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-03 12:03:18",
+        "message":"As per schematic, VIH=1.2V; so it comes from 1.8V powered logic.\n0.82V is prohibited value, can't be correctly recognized.\n0 logic is between 0-0.4V and 1 logic is 1.2-1.8V..."
+    },
+    {
+        "post_id":96369,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-06 01:11:31",
+        "message":"BL_PWR_EN is getting also 0.8v..."
+    },
+    {
+        "post_id":96371,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-06 02:24:43",
+        "message":"Did you test with known good LCD assembly?\n\nCheck UD050 area, related components and traces."
+    },
+    {
+        "post_id":96374,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-06 04:26:31",
+        "message":"Yes, sure tested with 2 different screens. Screens work on other board. \n\nUB050 area very clean... Measured alle traces on UB050, diode mode readings all ok according to PLDaniels."
+    },
+    {
+        "post_id":96379,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-06 07:41:43",
+        "message":"Check RP850-53 and their traces.\nAlso check diode mode and voltage on SCL\/SDA lines."
+    },
+    {
+        "post_id":96412,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-07 02:26:37",
+        "message":"RP850 starts with 5.1v as soon as image apears goes to 4.9v, diode mode 0.491\nRP851 starts with 5.1v as soon as image apears goes to 4.8v, diode mode 0.491\nRP852 5.1v, diode mode 0.276, also give 1.3kohm, according to schematics should be 1.8kohm\nRP853 5.1v, diode mode 0.276, also give 1.3kohm, according to schematics should be 1.8kohm"
+    },
+    {
+        "post_id":96413,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-07 02:54:51",
+        "message":"Be sure DP800 is not shorted A-K.\nPost diode mode to ground on both sides; w\/ and w\/o screen connected."
+    },
+    {
+        "post_id":96414,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-07 03:00:34",
+        "message":"DP800 is not shorted\nA= 0.937 w\/ and w\/o screen\nK= 1.251w\/ and w\/o screen"
+    },
+    {
+        "post_id":96415,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-07 03:02:21",
+        "message":"noticed that RP845 is 10ohm instead of 0ohm... Should it make a difference such low difference>?"
+    },
+    {
+        "post_id":96418,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-07 04:11:21",
+        "message":"Maybe increased its value because of previous UP800 failure.\nBe sure both RP844\/5 have 0 ohm."
+    },
+    {
+        "post_id":96419,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-07 04:32:37",
+        "message":"RP844 is also 10 ohm... Changed them with good 0 ohm donors from an 820-01598. Still same..."
+    },
+    {
+        "post_id":96422,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-07 07:34:38",
+        "message":"Wauw, the fuse FP800 was blown... Gave 2.4v on pin 2. Changed that now getting 12v on source QP800, but gate is also 12v so no power to drain...\n\n\n[QUOTE=\"Bravo2001, post: 96267, member: 27549\"]\nPin 17 (BKLT_EN_R) is 0.208 should be 0.374 and give 0,82v\n[\/QUOTE]\nStill think, it has something to do with the Enable signal? After all without EN the chip doesn't do anything... Why do you think EN is 0,8V? Is this enough to enable chip?"
+    },
+    {
+        "post_id":96427,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-07 09:48:30",
+        "message":"0.8V is not sufficient.\nI tought was clear before:\n\"0.82V is prohibited value, can't be correctly recognized.\n0 logic is between 0-0.4V and 1 logic is 1.2-1.8V\"\n\nApart of enable, UP800 requires correct communication through I2C_BKLT bus.\nYou should try to get UP800 from another M1 board.\nThis chip has firmware, not sure if is compatible the one you've used."
+    },
+    {
+        "post_id":96431,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-07 10:50:43",
+        "message":"Ohh you mean the chip needs communication before it will get enable signal. But shouldn\u2019t diode mode reading on EN pin 17 still be 0.374?\nIm having a feeling the source of the enable signal is effected when up800 was shorted\u2026 \n\nIs there a way to rule that out?"
+    },
+    {
+        "post_id":96432,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-07 11:38:12",
+        "message":"M1 may disable the backlight, if receives an error reported by UP800."
+    },
+    {
+        "post_id":96519,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-09 05:59:09",
+        "message":"Hi, I read another forum that the backlight chips are interchangeable... \n\nSeems like not an issue with UP800... But even when UP800 removed pin 17 stays @ 0.187 in diode mode! Should this not be 0.374? \n\n[URL unfurl=\"true\"]https:\/\/www.badcaps.net\/forum\/showthread.php?t=102194&highlight=m1+backlight&page=3[\/URL]\n[ATTACH type=\"full\"]60981[\/ATTACH]"
+    },
+    {
+        "post_id":96531,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-09 10:21:09",
+        "message":"\"But even when UP800 removed pin 17 stays @ 0.187 in diode mode! Should this not be 0.374?\"\nYou may have a problem with U8100 then; is connected on the same line.\nNo idea what should be the correct reading there."
+    },
+    {
+        "post_id":96532,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-09 10:29:06",
+        "message":"Can't I just transform the low signal (0.8v) u8100 is giving to 1.8v? How would that work? I have a lot of donor boards but don't now which part I can use...\n\nApart from the backlight, this logicboard works perfectly with external screen and dim internal screen...\n\nps. this MacBook came in as \"dropped damage\" It has a small dent at the bottom case but no visual damage on board. Can it be that the screen is not being recognized? IPD_LID_OPEN_1V8 is 1.8v, can I test anything else?"
+    },
+    {
+        "post_id":96535,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-09 10:37:12",
+        "message":"If you get image on it, internal LCD is recognized.\n\nYou can force the enable signal, but is not sufficient for the backlight to work.\nBacklight adjust is controlled through I2C bus.\n\nIf you want to test, remove RP842 and bring 3V3_SW_LCD to BKLT_EN_R (CP842 pad 1)."
+    },
+    {
+        "post_id":96536,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-09 10:43:01",
+        "message":"[QUOTE=\"2informaticos, post: 96535, member: 682\"]\nIf you want to test, remove RP842 and bring 3V3_SW_LCD to BKLT_EN_R (CP842 pad 1).\n[\/QUOTE]\n\nYeah, this I'll test tomorrow. Was looking for something like this... (hope it will work)!"
+    },
+    {
+        "post_id":96565,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-10 11:34:00",
+        "message":"Tried but no luck! What I noticed is that \n\n\u201cRP851 starts with 5.1v as soon as image apears goes to 4.8v\u201d\n\nthis is not 4.8v it stays 5.1v. but the scl line still starts with 5.1v and goes to 4.8v. So as I understand there is no good communication\u2026\n\nWhat can I look at more?!?"
+    },
+    {
+        "post_id":96571,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-10 12:23:35",
+        "message":"Communication on the I2C bus can be confirmed with o-scope.\n\nIf you have time to waste, inspect SCL\/SDA lines on both sides of UD050.\nShould catch traffic when using backlight adjust.\nThen you can check for activity on SCL\/SDA lines of the I2C bus to UP800.\n\nI suspect broken traces, or solders somewhere..."
+    },
+    {
+        "post_id":96694,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-16 02:00:20",
+        "message":"Could not see anything extraordinary on UD050...\n\nFigured out something else! On the small lcd flexcable pin 24 is broken. On the connector on the logicboard I get a good diode measurement (0.507) but when I connect the small lcd flex cable I get a O\/L on the other side... So the LCD doesn't get a connection! \n\nTried different Flex cables but when I use another one I don't get image.  Is there a difference between the M1 small lcd flex cable and the once before the m1?\n\nTo bad I only have 1 M1 here, so can't check... Maybe I can try to repair the flex cable?!\n\nCould this be the reason why BKLT_EN is low?"
+    },
+    {
+        "post_id":96697,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-16 03:11:52",
+        "message":"Bad connections between MLB and T-CON is a good reason for your problem.\nUse correct cable for your model!"
+    },
+    {
+        "post_id":96711,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-02-16 07:01:40",
+        "message":"Let me order one, was thinking every flexible is the same but now I have my doubts...."
+    },
+    {
+        "post_id":96718,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-02-16 08:33:25",
+        "message":"M1 video connector has different layout.\nDon't expect for video cable to have the same traces routed as old models."
+    },
+    {
+        "post_id":97237,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-03-06 06:33:47",
+        "message":"Back at it again! Was on a holiday. Got my small LCD cable but still no luck. Now im thinking this was the problem all along... But while I was looking somewhere else I destroyed something!\n\n[QUOTE=\"Bravo2001, post: 96267, member: 27549\"]\nPin 17 (BKLT_EN_R) is 0.208 should be 0.374 and give 0,82v\n[\/QUOTE]\n\nI noticed that RP842 pin 1 has a diode mode reading 0.019 and 0v which was 0.187 and 0.8v. But should have been 0.375. \n\nWhen I remove RP842 I can see diode mode reading of pin 2 is 0.575 and pin 1 is 0.019! im really out of ideas now!"
+    },
+    {
+        "post_id":97243,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-06 09:05:11",
+        "message":"\"When I remove RP842 I can see diode mode reading of pin 2 is 0.575 and pin 1 is 0.019\"\nBad U8100..."
+    },
+    {
+        "post_id":97245,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-03-06 09:09:59",
+        "message":"Was afraid of that... Is there a way I can get a u8100 anywhere? Rossmangroup store?!?!"
+    },
+    {
+        "post_id":97247,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-06 09:14:45",
+        "message":"From scrap board.\nM1 14\" and 16\" PMUs are compatibile."
+    },
+    {
+        "post_id":97248,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-03-06 09:18:52",
+        "message":"Hard to find these kind of scrap boards... Thxs anyways"
+    },
+    {
+        "post_id":97327,
+        "thread_id":63556,
+        "title":"820-02020 No backlight 0,8v on BKLT_EN_R",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-03-09 05:00:42",
+        "message":"By some miraculous reason it works now.  Al this time I was testing it out of the casing only with a screen connected. \n\nI removed RP842 and forgot the put it back. When I put The logic board back in the casing it worked?! Only some times de screen stays black until the login screen comes. then it flikkers 5 times and comes back on. \n\nI'm guessing the backlight chip is getting its enable signal from somewhere else?! I measured on pin 2 voltage is 0.180v."
+    }
+]

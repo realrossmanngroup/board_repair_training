@@ -1,21 +1,191 @@
-{"post_id":92600,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-14 07:55:40","message":"Hi\n\nUnit stopped turning on, no visible liquid or other damage\n\nGetting 5v then goes up to 20v and stays there forever but pulling only 0.01A\nchecked a few things\n\nPPBUS_G3H 12.99v\n3V3_G3H       3.39v\n\nL6995 to ground\nPin 1 277\nPin 2 276 (is it too low?)\n\nU7000\nP_IN 20.1v\nAUX_DET 5v\nVDDA 12.9v\nVDDP 5v\nSMC_RST* 3.3v\nAUX_OK 3.3v\nAMON 0v\nBMON 0v\n\n\nBUF_SMC_RESET_L 3.3v\n\nAny advice appreciated"}
-{"post_id":92604,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-14 10:06:04","message":"Forget U7000 and 3V3_G3H, if already got 13V at PPBUS_G3H.\n\nDo you get 3V3_S5?"}
-{"post_id":92607,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-14 10:12:24","message":"Thanks\n\nNothing on  3V3_S5\n\nPlease advise, I cant seem to work out where 3v3_s5 originates from"}
-{"post_id":92645,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-15 14:07:40","message":"Check U7800's (7 OF 10) LDO voltages."}
-{"post_id":92651,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-15 14:27:57","message":"Thank you\n\nI hope I checked the right ones\n\nPin 16 PP5V_LDO5V 4.9v\nPin 39 PP3V3_LDO3V 3.2V\nPin 46 BANJO_FBLDO1 0v\nPin 73 BANJO_VINLDO1S 0v\n\nThe rest is just copies of the LDO5V or LDO3V\nYou have asked me to check 7 of 10 if I understand correctly so I am obviously missing something."}
-{"post_id":92652,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-15 16:06:16","message":"(7 OF 10) is the U7800 block in schematic.\n\nSMC_PM_G2_EN comes on?\nCheck PMIC_SHUTDOWN_L.\nAlso check U7890, pins 2, 4, 6."}
-{"post_id":92659,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-16 04:19:59","message":"Ok, thanks\n\nSMC_PM_G2_EN 3.3v\nPMIC_SHUTDOWN_L 3.2V\n\nU7890\n\nPin2 0v\nPin4 0v\nPin6 3.3V"}
-{"post_id":92660,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-16 05:30:53","message":"Be sure R7822 is good.\n\nPP3V1_RTC is there?\n\nTest starting in SMC bypass mode.\nCheck for short on all big coils."}
-{"post_id":92662,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-16 07:50:57","message":"PP3V1_RTC 3v\n\nR7822 no matches found C7822 doesnt exist either I hope its a typo\n\nTest starting in SMC bypass mode. - I've tried that with\/without battery - doesnt seem to make any difference. I dont have a test chassis thou so maybe keyboard is bad but thats a long shot. Lots of shorts on coils so I am guessing this is something to work out\n\nChecking coils (motherboard disconnected, red on ground, COM on coil terminal)\n\nL7370 short to ground on pin 1(SAVR_SW) not sure if that's normal\n( checked around L7370 - all seems fine, the small cap by the cpu short on both ends C10C5. PPVCCSA_S0G short to ground everywhere I check)\nL7220 short to ground on both terminals (tested caps around the cpu PPVCCGT_S0G is shorted to ground)\nL7210 short to ground on both terminals\nL7410\/20\/30 short on both terminals\nL7730 no shorts\nL7030 - no shorts\nL8030 - no shorts\nL7960  - no shorts\nL8410 no shorts\nL7690 - short on both ends\nL7670 - no shorts"}
-{"post_id":92667,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-16 10:22:59","message":"Sorry, check R7862 instead.\n\nIf you associate beep with short, is a big mistake!\nMultimeters beep until 0.050-0.075, depending by model.\n\nPlease post diode mode to ground readings on the coils.\nSwitch to ohm scale for values lower than 0.010 in diode mode."}
-{"post_id":92668,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-16 12:31:58","message":"R7862 3.2v on both pins\n\nYes, it was the beeps that I considered shorts\n2k scale\n\nL7900 Pin 1 .046 Pin 2 .046\nL8060   Pin 1  .061      Pin 2  .061\nL7370   Pin 1  .009      Pin 2  .009\nL7220   Pin 1  .006      Pin 2  .006\nL7210   Pin 1  .006      Pin 2  .006\nL7410   Pin 1  .002      Pin 2  .002\nL7420   Pin 1  .002      Pin 2  .003 \nL8030   Pin 1  .561      Pin 2  .561\nL7960   Pin 1  .065      Pin 2  .066\nL7730   Pin 1  .484      Pin 2  .484\n\nL7430   Pin 1  very jumpy to infinity and down to .003        Pin 2  .003  \n\nL7030   this one 20k scale  Pin 1  13.43      Pin 2  13.43\n\nL8410   this one 200M scale  Pin 1 1.1  Pin 2  1.1\n\nL7690   this one 200 scale  Pin 1 0.5   Pin 2 0.5\n\nL7670   this one 20k Pin 1 14.25  Pin 2 14.25\n\nI hope it makes sense"}
-{"post_id":92669,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-16 12:54:31","message":"Not too much sense; did you read my last post?\n\"post [U]diode mode[\/U] to ground readings\"\n\nMore information here, in case didn't read all thread before.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\n\"[U]Test in diode mode:[\/U]\n   Connect positive probe of the multimeter (red) to ground and touch the test point with black probe.\n   Sometime (rarely) we need to test in reverse direction.\"\n\nBTW, don't waste time checking on both pins of a coil."}
-{"post_id":92676,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-16 17:21:19","message":"I did just that. All readings are diode mode to ground, red to ground\nSome of the coils would show out of range so I had to change the scale\nAttached picture of my multimeter"}
-{"post_id":92677,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-16 18:20:29","message":"L7410\/20\/30 are tied together.\nAny reason to check any of them?\nGood enough to check on common (output) pin.\nSame applies for L7210\/20.\nTry to understand a schematic, instead of wasting time.\nAnd stop to check on both pins; do you really expect to get different readings?\n\nYou can't get out of range reading in diode mode, when red probe is connectd to ground!\nI already said to switch to ohm (not K\/M) scale for very low values only.\nI'm sure you will understand the reason in time.\n\nHowever, I don't see any strange value, but should be better to compare with good board.\n\nRemove U7890 and join together pads 4 & 6.\nThen check for voltage at L7690."}
-{"post_id":92681,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-17 06:52:05","message":"Hi\nI simply don't know what I don't know. I've signed up for electronic engineering course as I am getting more and more of such jobs. Thank you for bearing with my pure ignorance.\n\nRemoved U7890, joined 4&6\n\nL7690 1.08v\nas it was plugged C7933 went red hot - removed it, line is not shorted, I have another cap from 820-4924, original is X6S and the replacement is X5R, does it matter if other specs match?\n\nEdit: well replaced it and it didnt burn so seems fine, now L7690 has 3.28v"}
-{"post_id":92682,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-17 07:40:02","message":"Is important to be 10uF\/6.3V.\nBut you can also use one rated for higher nominal voltage, like10V; just make space for it."}
-{"post_id":92683,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-17 08:13:48","message":"Ok, C7933 replaced,\nWith U7890 removed and pins 4&6 connected, PP3v3S5 is 3.28v\nWhen I put U7890 back, PP3v3S5 is 0.01v\nIs it U7890 then? or does it mean something else?"}
-{"post_id":92686,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-17 09:00:34","message":"So 3V3_S5 power supply is good now.\nBut still not enabled by PMIC.\n\nKeep U7890 soldered and check again voltage on its pins 2, 4, 6."}
-{"post_id":92688,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-17 09:17:50","message":"Ok\nPin 2  0v\nPin 4  0v\nPin 6  3.28v"}
-{"post_id":92698,"thread_id":63089,"title":"820-00840 wont boot","user_id":682,"username":"2informaticos","post_date":"2022-09-17 11:49:38","message":"Try changing U7800..."}
-{"post_id":92702,"thread_id":63089,"title":"820-00840 wont boot","user_id":1063,"username":"estelanim416","post_date":"2022-09-17 12:10:51","message":"I am guessing those have to be harvested?"}
+[
+    {
+        "post_id":92600,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-14 05:55:40",
+        "message":"Hi\n\nUnit stopped turning on, no visible liquid or other damage\n\nGetting 5v then goes up to 20v and stays there forever but pulling only 0.01A\nchecked a few things\n\nPPBUS_G3H 12.99v\n3V3_G3H       3.39v\n\nL6995 to ground\nPin 1 277\nPin 2 276 (is it too low?)\n\nU7000\nP_IN 20.1v\nAUX_DET 5v\nVDDA 12.9v\nVDDP 5v\nSMC_RST* 3.3v\nAUX_OK 3.3v\nAMON 0v\nBMON 0v\n\n\nBUF_SMC_RESET_L 3.3v\n\nAny advice appreciated"
+    },
+    {
+        "post_id":92604,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-14 08:06:04",
+        "message":"Forget U7000 and 3V3_G3H, if already got 13V at PPBUS_G3H.\n\nDo you get 3V3_S5?"
+    },
+    {
+        "post_id":92607,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-14 08:12:24",
+        "message":"Thanks\n\nNothing on  3V3_S5\n\nPlease advise, I cant seem to work out where 3v3_s5 originates from"
+    },
+    {
+        "post_id":92645,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-15 12:07:40",
+        "message":"Check U7800's (7 OF 10) LDO voltages."
+    },
+    {
+        "post_id":92651,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-15 12:27:57",
+        "message":"Thank you\n\nI hope I checked the right ones\n\nPin 16 PP5V_LDO5V 4.9v\nPin 39 PP3V3_LDO3V 3.2V\nPin 46 BANJO_FBLDO1 0v\nPin 73 BANJO_VINLDO1S 0v\n\nThe rest is just copies of the LDO5V or LDO3V\nYou have asked me to check 7 of 10 if I understand correctly so I am obviously missing something."
+    },
+    {
+        "post_id":92652,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-15 14:06:16",
+        "message":"(7 OF 10) is the U7800 block in schematic.\n\nSMC_PM_G2_EN comes on?\nCheck PMIC_SHUTDOWN_L.\nAlso check U7890, pins 2, 4, 6."
+    },
+    {
+        "post_id":92659,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-16 02:19:59",
+        "message":"Ok, thanks\n\nSMC_PM_G2_EN 3.3v\nPMIC_SHUTDOWN_L 3.2V\n\nU7890\n\nPin2 0v\nPin4 0v\nPin6 3.3V"
+    },
+    {
+        "post_id":92660,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-16 03:30:53",
+        "message":"Be sure R7822 is good.\n\nPP3V1_RTC is there?\n\nTest starting in SMC bypass mode.\nCheck for short on all big coils."
+    },
+    {
+        "post_id":92662,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-16 05:50:57",
+        "message":"PP3V1_RTC 3v\n\nR7822 no matches found C7822 doesnt exist either I hope its a typo\n\nTest starting in SMC bypass mode. - I've tried that with\/without battery - doesnt seem to make any difference. I dont have a test chassis thou so maybe keyboard is bad but thats a long shot. Lots of shorts on coils so I am guessing this is something to work out\n\nChecking coils (motherboard disconnected, red on ground, COM on coil terminal)\n\nL7370 short to ground on pin 1(SAVR_SW) not sure if that's normal\n( checked around L7370 - all seems fine, the small cap by the cpu short on both ends C10C5. PPVCCSA_S0G short to ground everywhere I check)\nL7220 short to ground on both terminals (tested caps around the cpu PPVCCGT_S0G is shorted to ground)\nL7210 short to ground on both terminals\nL7410\/20\/30 short on both terminals\nL7730 no shorts\nL7030 - no shorts\nL8030 - no shorts\nL7960  - no shorts\nL8410 no shorts\nL7690 - short on both ends\nL7670 - no shorts"
+    },
+    {
+        "post_id":92667,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-16 08:22:59",
+        "message":"Sorry, check R7862 instead.\n\nIf you associate beep with short, is a big mistake!\nMultimeters beep until 0.050-0.075, depending by model.\n\nPlease post diode mode to ground readings on the coils.\nSwitch to ohm scale for values lower than 0.010 in diode mode."
+    },
+    {
+        "post_id":92668,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-16 10:31:58",
+        "message":"R7862 3.2v on both pins\n\nYes, it was the beeps that I considered shorts\n2k scale\n\nL7900 Pin 1 .046 Pin 2 .046\nL8060   Pin 1  .061      Pin 2  .061\nL7370   Pin 1  .009      Pin 2  .009\nL7220   Pin 1  .006      Pin 2  .006\nL7210   Pin 1  .006      Pin 2  .006\nL7410   Pin 1  .002      Pin 2  .002\nL7420   Pin 1  .002      Pin 2  .003 \nL8030   Pin 1  .561      Pin 2  .561\nL7960   Pin 1  .065      Pin 2  .066\nL7730   Pin 1  .484      Pin 2  .484\n\nL7430   Pin 1  very jumpy to infinity and down to .003        Pin 2  .003  \n\nL7030   this one 20k scale  Pin 1  13.43      Pin 2  13.43\n\nL8410   this one 200M scale  Pin 1 1.1  Pin 2  1.1\n\nL7690   this one 200 scale  Pin 1 0.5   Pin 2 0.5\n\nL7670   this one 20k Pin 1 14.25  Pin 2 14.25\n\nI hope it makes sense"
+    },
+    {
+        "post_id":92669,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-16 10:54:31",
+        "message":"Not too much sense; did you read my last post?\n\"post [U]diode mode[\/U] to ground readings\"\n\nMore information here, in case didn't read all thread before.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\n\"[U]Test in diode mode:[\/U]\n   Connect positive probe of the multimeter (red) to ground and touch the test point with black probe.\n   Sometime (rarely) we need to test in reverse direction.\"\n\nBTW, don't waste time checking on both pins of a coil."
+    },
+    {
+        "post_id":92676,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-16 15:21:19",
+        "message":"I did just that. All readings are diode mode to ground, red to ground\nSome of the coils would show out of range so I had to change the scale\nAttached picture of my multimeter"
+    },
+    {
+        "post_id":92677,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-16 16:20:29",
+        "message":"L7410\/20\/30 are tied together.\nAny reason to check any of them?\nGood enough to check on common (output) pin.\nSame applies for L7210\/20.\nTry to understand a schematic, instead of wasting time.\nAnd stop to check on both pins; do you really expect to get different readings?\n\nYou can't get out of range reading in diode mode, when red probe is connectd to ground!\nI already said to switch to ohm (not K\/M) scale for very low values only.\nI'm sure you will understand the reason in time.\n\nHowever, I don't see any strange value, but should be better to compare with good board.\n\nRemove U7890 and join together pads 4 & 6.\nThen check for voltage at L7690."
+    },
+    {
+        "post_id":92681,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-17 04:52:05",
+        "message":"Hi\nI simply don't know what I don't know. I've signed up for electronic engineering course as I am getting more and more of such jobs. Thank you for bearing with my pure ignorance.\n\nRemoved U7890, joined 4&6\n\nL7690 1.08v\nas it was plugged C7933 went red hot - removed it, line is not shorted, I have another cap from 820-4924, original is X6S and the replacement is X5R, does it matter if other specs match?\n\nEdit: well replaced it and it didnt burn so seems fine, now L7690 has 3.28v"
+    },
+    {
+        "post_id":92682,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-17 05:40:02",
+        "message":"Is important to be 10uF\/6.3V.\nBut you can also use one rated for higher nominal voltage, like10V; just make space for it."
+    },
+    {
+        "post_id":92683,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-17 06:13:48",
+        "message":"Ok, C7933 replaced,\nWith U7890 removed and pins 4&6 connected, PP3v3S5 is 3.28v\nWhen I put U7890 back, PP3v3S5 is 0.01v\nIs it U7890 then? or does it mean something else?"
+    },
+    {
+        "post_id":92686,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-17 07:00:34",
+        "message":"So 3V3_S5 power supply is good now.\nBut still not enabled by PMIC.\n\nKeep U7890 soldered and check again voltage on its pins 2, 4, 6."
+    },
+    {
+        "post_id":92688,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-17 07:17:50",
+        "message":"Ok\nPin 2  0v\nPin 4  0v\nPin 6  3.28v"
+    },
+    {
+        "post_id":92698,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-17 09:49:38",
+        "message":"Try changing U7800..."
+    },
+    {
+        "post_id":92702,
+        "thread_id":63089,
+        "title":"820-00840 wont boot",
+        "user_id":1063,
+        "username":"estelanim416",
+        "post_date":"2022-09-17 10:10:51",
+        "message":"I am guessing those have to be harvested?"
+    }
+]

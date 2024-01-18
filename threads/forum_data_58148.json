@@ -1,16 +1,146 @@
-{"post_id":58148,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-11 13:39:51","message":"Hi\n\nBit of a noob here so please excuse the no doubt dumb questions.\n\nI?ve been working on fixing a A1466 \/ 820-00165 Mac Book Air and I?ve got to the point where the main power rails are looking correct but I?m not sure where to go from here.  I'm getting a green then organ light from the charger but no fan spin when powered.\n\nMeasured voltages:\n\nPP3v3_s5 = 3.336\nPP3V3_G3H = 3.401\nPP3V3_SUS = 3.336\nPPBUS_G3H = 8.589\nPP5V_S5 = 5.014\nPP5V_S4RS3 = 0.0012\nPP5V_S0 = 0.00\n\nAm I expecting PP5V_S0 or PP5V_S4RS3 as soon as the power connector is plugged in? or do I need to hit the keyboard power button.  I notice in Louis? videos he never seems to have a keyboard plugged in or ?do anything? to initiate boot up\n\nAny help much appreciated."}
-{"post_id":58152,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":682,"username":"2informaticos","post_date":"2020-04-11 15:41:06","message":"First of all, welcome to the forum!\n\nAll iCore boards should start automatically when charger is connected, if no battery present.\nTry the board itself, disconnecting LIO flex, airport card, internal SSD and trackpad.\n\nBe sure to use original Magsafe 2 charger; post PM_BATLOW_L level.\n\nAlso post PM_DSW_PWRGD, PCH_DSWVRMEN, PM_RSMRST_L and PM_PAWRBTN_L.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\nIf present, check for pulse at all PM_SLP_Sx_L signals at same time."}
-{"post_id":58154,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-11 16:24:19","message":"Hey there thanks very much! \n\nHere are some voltages after a bit of probing.  Annoying the damn fan started spinning during the probing, then stopped.\n\nPM_BATLOW_L = 3.331v\nPM_DSW_PWRGD = 3.341v\nPCH_DSWVRMEN = 3.002v\nPM_PWRBTN_L = 3.4003v\nPM_RSMRST_L = 2.734v\n\nMy scope is otherwise engaged for the next few hours but it looks like PM_SLP_S4_L is pulsing - difficult to see the frequency on a 8808 but looks like every second or so."}
-{"post_id":58162,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":682,"username":"2informaticos","post_date":"2020-04-12 03:16:14","message":"All PM_SLP_Sx_L signals should pulse then.\nCheck for pulse at all big coils, if fan spins.\n\nNo need of o-scope.\nRepeatedly trigger SMC_ONOFF_L and check for pulses..."}
-{"post_id":58163,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-12 05:31:23","message":"Yup .. so all PM_SLP_Sx_L lines all pulse to 3.2v every 4.2 seconds, the pulse width is about 200ms\n\nBy triggering the SMC_ONOFF_L just pull it to ground?"}
-{"post_id":58164,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-12 06:02:20","message":"Well pulling SMC_ONOFF_L at R5116 (OMIT) doesn't seem to have any effect, pulses remain constant."}
-{"post_id":58167,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":682,"username":"2informaticos","post_date":"2020-04-12 07:37:50","message":"You must simulate power button; do NOT maintain SMC_ONOFF_L to ground, just do temporary contact.\n\nSo you are in 5s cycling power loop.\nDo you get pulse at L7310\/20 too?\nWhat about pins 7 & 3 of U1950?"}
-{"post_id":58169,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-12 08:13:43","message":"Yup looks like a power loop to me!\n\nPulse at L7320 \nCPUVR_PHASE2 = 8.5v\nPPVCC_S0_CPU_PH2 = 1.75 (ish)\n\nPulse at L7310\nCPUVR_PHASE1 = 8.5v\nPPVCC_S0_CPU_PH1 = 1.75 (ish)\n\nU1950\nPIN 3 - SYS_PWROK = pulsing\nPIN 7 - PM_S0_PGOOD = pulsing\nPIN 2 - CPUVR_PGOOD = pulsing\nPIN 1 - ALL_SYS_PWRGD = pulsing"}
-{"post_id":58170,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":682,"username":"2informaticos","post_date":"2020-04-12 08:51:29","message":"Try to start in SMC bypass mode.\n\nAny history fault available?"}
-{"post_id":58172,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-12 09:05:39","message":"History wise, no idea, an acquired laptop :-) Given to me with no more than the words 'it doesn't work'.\n\nThe inside didn't look messed with, judging by the thick layer of dust.  The only thing that looked corroded out of place was a bit of corrosion at J6100.\n\nJust working out how to start in SMC bypass mode now"}
-{"post_id":58175,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-12 10:05:38","message":"Ok - I give up.  Lots of mentioned of people saying they did start up in bypass mode but I cant find out how to do it. \n\nHow exactly does one start up in SMB bypass mode? \n\nDid I say I was vanilla \/ a noob \/ pure with this ?"}
-{"post_id":58176,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":682,"username":"2informaticos","post_date":"2020-04-12 10:39:46","message":"Press power button (use the same wire from SMC_ONOFF_L), connect charger, mantain pressed and release it after 5-10s.\n\nI suppose you don't have Medusa programmer, so I recommend to remove J6100.\nCheck all SPI Bus Series Termination resistors and their traces; page 46, more than 20 resistors.\nIf all good, try known good BIOS file (U6100)."}
-{"post_id":58222,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-14 09:30:36","message":"Removing J6100 seems to have sorted it - I should have really just removed\/replaced it when I first noticed the corrosion.\n\nThanks for your help with this.  Much appreciated - can I get you a beer as a thank you somehow?"}
-{"post_id":58238,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":682,"username":"2informaticos","post_date":"2020-04-14 15:41:24","message":"Glad to hear is solved.\nYou should send the beer via UPS\/Fedex, if you are not in Madrid ;)."}
-{"post_id":58738,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":24053,"username":"acowan","post_date":"2020-04-24 08:53:49","message":"Well just tried to send you a pvt message with some beer information - but you have exceeded your \"private message quota\" according to the ever knowing vBulletin"}
-{"post_id":58741,"thread_id":58148,"title":"A1466 \/?820-00165 - power rails but no fan spin","user_id":682,"username":"2informaticos","post_date":"2020-04-24 10:24:41","message":"I just made space on Inbox.\nHowever, PM doesn't help too much, as I can only receive a truncated message in my eMail.\nI cannot read entire PM on the forum..."}
+[
+    {
+        "post_id":58148,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-11 11:39:51",
+        "message":"Hi\n\nBit of a noob here so please excuse the no doubt dumb questions.\n\nI?ve been working on fixing a A1466 \/ 820-00165 Mac Book Air and I?ve got to the point where the main power rails are looking correct but I?m not sure where to go from here.  I'm getting a green then organ light from the charger but no fan spin when powered.\n\nMeasured voltages:\n\nPP3v3_s5 = 3.336\nPP3V3_G3H = 3.401\nPP3V3_SUS = 3.336\nPPBUS_G3H = 8.589\nPP5V_S5 = 5.014\nPP5V_S4RS3 = 0.0012\nPP5V_S0 = 0.00\n\nAm I expecting PP5V_S0 or PP5V_S4RS3 as soon as the power connector is plugged in? or do I need to hit the keyboard power button.  I notice in Louis? videos he never seems to have a keyboard plugged in or ?do anything? to initiate boot up\n\nAny help much appreciated."
+    },
+    {
+        "post_id":58152,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-11 13:41:06",
+        "message":"First of all, welcome to the forum!\n\nAll iCore boards should start automatically when charger is connected, if no battery present.\nTry the board itself, disconnecting LIO flex, airport card, internal SSD and trackpad.\n\nBe sure to use original Magsafe 2 charger; post PM_BATLOW_L level.\n\nAlso post PM_DSW_PWRGD, PCH_DSWVRMEN, PM_RSMRST_L and PM_PAWRBTN_L.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\nIf present, check for pulse at all PM_SLP_Sx_L signals at same time."
+    },
+    {
+        "post_id":58154,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-11 14:24:19",
+        "message":"Hey there thanks very much! \n\nHere are some voltages after a bit of probing.  Annoying the damn fan started spinning during the probing, then stopped.\n\nPM_BATLOW_L = 3.331v\nPM_DSW_PWRGD = 3.341v\nPCH_DSWVRMEN = 3.002v\nPM_PWRBTN_L = 3.4003v\nPM_RSMRST_L = 2.734v\n\nMy scope is otherwise engaged for the next few hours but it looks like PM_SLP_S4_L is pulsing - difficult to see the frequency on a 8808 but looks like every second or so."
+    },
+    {
+        "post_id":58162,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 01:16:14",
+        "message":"All PM_SLP_Sx_L signals should pulse then.\nCheck for pulse at all big coils, if fan spins.\n\nNo need of o-scope.\nRepeatedly trigger SMC_ONOFF_L and check for pulses..."
+    },
+    {
+        "post_id":58163,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-12 03:31:23",
+        "message":"Yup .. so all PM_SLP_Sx_L lines all pulse to 3.2v every 4.2 seconds, the pulse width is about 200ms\n\nBy triggering the SMC_ONOFF_L just pull it to ground?"
+    },
+    {
+        "post_id":58164,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-12 04:02:20",
+        "message":"Well pulling SMC_ONOFF_L at R5116 (OMIT) doesn't seem to have any effect, pulses remain constant."
+    },
+    {
+        "post_id":58167,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 05:37:50",
+        "message":"You must simulate power button; do NOT maintain SMC_ONOFF_L to ground, just do temporary contact.\n\nSo you are in 5s cycling power loop.\nDo you get pulse at L7310\/20 too?\nWhat about pins 7 & 3 of U1950?"
+    },
+    {
+        "post_id":58169,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-12 06:13:43",
+        "message":"Yup looks like a power loop to me!\n\nPulse at L7320 \nCPUVR_PHASE2 = 8.5v\nPPVCC_S0_CPU_PH2 = 1.75 (ish)\n\nPulse at L7310\nCPUVR_PHASE1 = 8.5v\nPPVCC_S0_CPU_PH1 = 1.75 (ish)\n\nU1950\nPIN 3 - SYS_PWROK = pulsing\nPIN 7 - PM_S0_PGOOD = pulsing\nPIN 2 - CPUVR_PGOOD = pulsing\nPIN 1 - ALL_SYS_PWRGD = pulsing"
+    },
+    {
+        "post_id":58170,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 06:51:29",
+        "message":"Try to start in SMC bypass mode.\n\nAny history fault available?"
+    },
+    {
+        "post_id":58172,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-12 07:05:39",
+        "message":"History wise, no idea, an acquired laptop :-) Given to me with no more than the words 'it doesn't work'.\n\nThe inside didn't look messed with, judging by the thick layer of dust.  The only thing that looked corroded out of place was a bit of corrosion at J6100.\n\nJust working out how to start in SMC bypass mode now"
+    },
+    {
+        "post_id":58175,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-12 08:05:38",
+        "message":"Ok - I give up.  Lots of mentioned of people saying they did start up in bypass mode but I cant find out how to do it. \n\nHow exactly does one start up in SMB bypass mode? \n\nDid I say I was vanilla \/ a noob \/ pure with this ?"
+    },
+    {
+        "post_id":58176,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 08:39:46",
+        "message":"Press power button (use the same wire from SMC_ONOFF_L), connect charger, mantain pressed and release it after 5-10s.\n\nI suppose you don't have Medusa programmer, so I recommend to remove J6100.\nCheck all SPI Bus Series Termination resistors and their traces; page 46, more than 20 resistors.\nIf all good, try known good BIOS file (U6100)."
+    },
+    {
+        "post_id":58222,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-14 07:30:36",
+        "message":"Removing J6100 seems to have sorted it - I should have really just removed\/replaced it when I first noticed the corrosion.\n\nThanks for your help with this.  Much appreciated - can I get you a beer as a thank you somehow?"
+    },
+    {
+        "post_id":58238,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-14 13:41:24",
+        "message":"Glad to hear is solved.\nYou should send the beer via UPS\/Fedex, if you are not in Madrid ;)."
+    },
+    {
+        "post_id":58738,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":24053,
+        "username":"acowan",
+        "post_date":"2020-04-24 06:53:49",
+        "message":"Well just tried to send you a pvt message with some beer information - but you have exceeded your \"private message quota\" according to the ever knowing vBulletin"
+    },
+    {
+        "post_id":58741,
+        "thread_id":58148,
+        "title":"A1466 \/?820-00165 - power rails but no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-24 08:24:41",
+        "message":"I just made space on Inbox.\nHowever, PM doesn't help too much, as I can only receive a truncated message in my eMail.\nI cannot read entire PM on the forum..."
+    }
+]

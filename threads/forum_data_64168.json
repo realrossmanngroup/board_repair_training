@@ -1,15 +1,137 @@
-{"post_id":101355,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-09-02 09:35:56","message":"Hello,\n\nI'm working on a A1990 that does not turn on anymore. Charger is stuck at 5.19V (stable) on each of the 4 USB-C ports, power stays at 0.036A (+\/-0.002A).\n\nWith the battery plugged in, logic board not taken out, I measured:\n3.37V on the testpad PP3V3_G3H_RTC_X\n7.59V to 12.27 on the PPBUS_G3H, unstable.\n\nWith the battery unplugged, logic board not taken out, I measured:\n40 to 160mV on the testpad PP3V3_G3H_RTC_X\n20mV for PPBUS_G3H measured on R3451, pin2\n17mV for PPBUS_G3H measured on C3503, pin1\nThen I checked CHGR_EN_MVR on R6968, pin1 and pin2. It reads a 200 to 400mV, fluctuating a lot. Might peaks very briefly at 1.x V, unless it's due to the autorange of the multimeter\n\nThere is no short on PPBUS_G3H; red probe on pin1 of C3503, black probe on a screw shows 0.7 MOhm\n\nGiven the ~20mV of CHGR_EN_MVR, the value of PP3V3_G3H_RTC_X is not a surprise.\n\nPage 68 shows ISL9240 should give CHGR_EN_MVR, which, on page 67, enables PP3V3_G3H_RTC_X, whose value should be 3.38V.\n\n\n\nCurrently taking the logic board out of the case to measure what the ISL9240 receives as inputs.\n\n\n\nBackground:\nThe defective logic board is in a MacBook that had its top case+keyboard+battery replaced at the Apple Store in May.\nThe logic board, in its current condition, could win a beauty contest.\n\n\nIs there any way to make sure that the ISL 9240 is the culprit at 100% ?\nI never had to unsolder such a chip so far. Wondering if I would be better off finding a rat lab to train myself before."}
-{"post_id":101358,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":682,"username":"2informaticos","post_date":"2023-09-02 14:44:34","message":"Getting EN_MVR will not help you, until you get PPBUS_G3H; it powers 3V3_G3H_RTC power supply.\n\nPost U7000 basic voltages, with charger alone (no battery); P_IN, AUX_DET, SMC_RST_IN, VDDA\/P, CBC_ON, A\/BMON."}
-{"post_id":101363,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-09-03 06:04:56","message":"Hi,\nSorry for the delay in posting the missing voltages; the idiots at the apple store messed up with the screws heads holding the logic board, I had to find an iron bit to get rid off several heads with a driller -_-\n\nOut of the case, with just one pair of Thunderbolt ports plugged on it, the ampmeter reads 5.17V at 0.172A.\n(Yesterday in the top case it was 5.19V at 0.036A)\n\nMy PPBUS_G3H is at 0.00 mV measured on C6582, pin1\n\nRegarding the U7000:\nP_IN (PPDCIN_G3H_CHGR) : 0 mV [COLOR=rgb(40, 50, 78)](C7027 pin 1)[\/COLOR]\nAUX_DET : 0mV [COLOR=rgb(40, 50, 78)](R7015 pin 2)[\/COLOR]\nCHGR_RST_IN : 12.7mV\nSMC_RST_IN :\nVDDA: 110mV (test pad & R7075 pin1)\nVDDP: 110mV (test pad)\nCBC_ON:  could not find a way to measure this one\nA MON: 20mV (R5439 pin1)\nB MON: 3mV (R5429)\n_________\n\nI plugged the charger cable into the other USB-C port, but part of the same pair. This time, the multimeter shows 5.17V, and it's fluctuating between 0.36 and 0.48A.\nMoreover, I measured PPBUS_G3H again, on R4802, pin1, and it's cycling: 7.9V to 12.28V\n\n________\nI moved the same connector on the other side of the board. When plugged, one port shows 5.19V and 0.036A; the other one 5.14V and fluctuating between 0.36A and 0.48A\nUSB_C_XB_CC1_CONN, PPBUS_G3H on R3451 pin 2 shows a cycling PPBUS_G3H 7.9V to 12.28V\nUSB_C_XB_CC2_CONN, PPBUS_G3H on R3461 pin 2 shows 0.0V\n(when charger plugged in the relevant USB-C port, obviously)\n\nDid the same test with the other pair of USB-Connector; plugged into each side of the logic board;\n1 port shows 5.17V and fluctuating Amps (0.36-0.48), with PPBUS_G3H cycling,\nthe second one is either stuck at 0.036A one one side, or at 0.172A the other side\n\nR3452 and R3462 are good, 4.04 kOhms\nR3451 and R3461 are good, 10.1kOhms\nR3453 and R3463 are good, 5.00 kOhms\n\n________\nMeasurements taken again on U7000, but this time with the charger plugged on the USB-C port at 5.13V (0.36-0.48A)\nRegarding the U7000:\nP_IN (PPDCIN_G3H_CHGR) : 5.10 V (C7027 pin 1)\nAUX_DET : 120 to 300mV (R7015 pin 2)\nTP_CHGR_SMC_RST_L : 37mV to 3.2V\nCHGR_RST_IN : 0mV\n\nVDDA: 5.16V (test pad & R7075 pin1)\nVDDP: 5.14V (test pad)\nCBC_ON:  could not find a way to measure this one\nA MON:   13 to 84mV (R5439 pin1)\nB MON:  1mV (R5429)\n\nCurrently reading [URL]https:\/\/logi.wiki\/index.php\/CD3215_Bootup_Sequence[\/URL]"}
-{"post_id":101364,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":682,"username":"2informaticos","post_date":"2023-09-03 12:18:37","message":"You must get same behavior on all USB-C ports.\nIf not, you have problems on USB-C areas.\n\nCheck and compare diode mode readings around CD3215 chips.\nStart with their LDOs and CC1\/2 lines."}
-{"post_id":101438,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-09-07 10:49:06","message":"Hi [USER=682]@2informaticos[\/USER],\n\nI did the measurements for U3100 and U3200, then when I saw the UB300 the cause of the issue became kind of obvious...\n\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]U3100[\/TD]\n[TD]U3200[\/TD]\n[TD]UB300[\/TD]\n[TD]UB400[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD]{} = XA[\/TD]\n[TD]{} = XB[\/TD]\n[TD]{}=TA[\/TD]\n[TD]{}=TB[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOD[\/TD]\n[TD]0.445V[\/TD]\n[TD]0.445V[\/TD]\n[TD][COLOR=rgb(226, 80, 65)]0.009V[\/COLOR][\/TD]\n[TD]0.446V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_{}_LDO_BMC[\/TD]\n[TD]0.451V[\/TD]\n[TD]0.459V[\/TD]\n[TD]0.45V[\/TD]\n[TD]0.455V[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_{}_LDO[\/TD]\n[TD]0.41V[\/TD]\n[TD]0.406V[\/TD]\n[TD][COLOR=rgb(226, 80, 65)]0.009V[\/COLOR][\/TD]\n[TD]0.41V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOA[\/TD]\n[TD]0.478V[\/TD]\n[TD]0.48V[\/TD]\n[TD]0.477V[\/TD]\n[TD]0.48V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC1[\/TD]\n[TD]0.535V[\/TD]\n[TD]0.539V[\/TD]\n[TD]0.5V[\/TD]\n[TD]0.537V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC2[\/TD]\n[TD]0.535V[\/TD]\n[TD]0.54V[\/TD]\n[TD]0.000V[\/TD]\n[TD]0.473V[\/TD]\n[\/TR]\n[\/TABLE]\n\nI missed it the first time I inspected the board; it was the single part of the Logic Board covered by a layer of dust."}
-{"post_id":102460,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-11-05 15:23:38","message":"I removed the UB300, cleaned the pad and reapplied solder, but the pad 91 seems gone. I can't re-apply solder on it. What's the best way to fix that?\n\nI assume I will have to solder a tiny wire from pin 2 of DB529 to pin 91 of the new CD3215.\n\nBut pin42 of JB500 seems a bit more problematic...It seems there is a trace from Pin 2 of DB529 to pin42 of JB500 though. So, would a wire from \"pad 91\" of UB300 to pin 2 of DB529 be enough ?"}
-{"post_id":102464,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":682,"username":"2informaticos","post_date":"2023-11-05 17:11:36","message":"There are 3 more USB ports to use.\nI don't think someone really needs to connect the charger and 3 USB devices at same time.\nAnd probably that port will also work when you flip the USB device connected.\n\nIf you want to fix it properly, check trace continuity and see which part need to rebuild."}
-{"post_id":102466,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-11-05 18:13:10","message":"I agree but ideally I'ld like to give back the device with 4 working USB-C port.\nI blew away the ESD 8011 protection diodes DB504 and DB529:("}
-{"post_id":102526,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-11-08 17:58:07","message":"I replaced the burnt CD3215. I did not put back theDB504 and DB529.\n\nI now have 5.19V and 0.4A on 2 USB-C port (1 on each side of the board), the 2 other are still stuck at 0.034A\n\nNew measurements for U3100 and U3200\n\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]U3100[\/TD]\n[TD]U3200[\/TD]\n[TD]UB300[\/TD]\n[TD]UB400[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD]{} = XA[\/TD]\n[TD]{} = XB[\/TD]\n[TD]{}=TA[\/TD]\n[TD]{}=TB[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOD[\/TD]\n[TD]0.44V[\/TD]\n[TD]0.453V[\/TD]\n[TD]0.[COLOR=rgb(26, 188, 156)]465[\/COLOR]V[\/TD]\n[TD]0.455V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_{}_LDO_BMC[\/TD]\n[TD]0.458V[\/TD]\n[TD]0.466V[\/TD]\n[TD]0.[COLOR=rgb(235, 107, 86)]72[\/COLOR]V[\/TD]\n[TD]0.463V[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_{}_LDO[\/TD]\n[TD]0.417V[\/TD]\n[TD]0.414V[\/TD]\n[TD]0.[COLOR=rgb(26, 188, 156)]36[\/COLOR]V[\/TD]\n[TD]0.417V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOA[\/TD]\n[TD]0.485V[\/TD]\n[TD]0.487V[\/TD]\n[TD]0[COLOR=rgb(235, 107, 86)].[\/COLOR][COLOR=rgb(26, 188, 156)]49[\/COLOR][COLOR=rgb(0, 0, 0)]V[\/COLOR][\/TD]\n[TD]0.488V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC1[\/TD]\n[TD]0.54V[\/TD]\n[TD]0.55V[\/TD]\n[TD]0.54V[\/TD]\n[TD]0.548V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC2[\/TD]\n[TD]0.55V[\/TD]\n[TD]0.55V[\/TD]\n[TD]0.[COLOR=rgb(26, 188, 156)]54[\/COLOR]V[\/TD]\n[TD]0.548V[\/TD]\n[\/TR]\n[\/TABLE]\n\nI checked 3 times PP1V1_UPC_TA_LDO_BMC on UB300, I got 0.72V each time, seems a bit high.\nAnd LDO at 0.36V a little bit low"}
-{"post_id":102527,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":682,"username":"2informaticos","post_date":"2023-11-08 18:35:19","message":"Did you solder same termination code?\nC00, A12, B03 are not compatible.\n\nDid you compare again diode mode readings around the CD3215 chips?\nDo you get correct LDOs voltage on all of them?"}
-{"post_id":102528,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-11-08 18:53:06","message":"[QUOTE=\"2informaticos, post: 102527, member: 682\"]\nDid you solder same termination code?\nC00, A12, B03 are not compatible.\n\nDid you compare again diode mode readings around the CD3215 chips?\nDo you get correct LDOs voltage on all of them?\n[\/QUOTE]\nYes sir I did, CD3215C00Z,\nYes I did took new measurements around the CD3215, I was editing my post to include these measurement when you replied :)\n\nLDO reading seems a bit high for PP1V1_UPC_{}_LDO_BMC and a bit low for PP3V3_UPC_{}_LDO"}
-{"post_id":102536,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":682,"username":"2informaticos","post_date":"2023-11-09 05:30:50","message":"I don't like the reading at 1V1_LDO_BMC.\nDid you let the board cool down before measure it?"}
-{"post_id":102552,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-11-09 13:57:17","message":"Yesterday evening, probably yes as I cleaned everything for a few minutes. Tonight, the measurement is the same: 0.72V"}
-{"post_id":102554,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":682,"username":"2informaticos","post_date":"2023-11-09 16:30:53","message":"Then you have bad solders, or that chips is bad.\n\nPlease, don't quote an entire post, visible few centimeters above..."}
-{"post_id":102557,"thread_id":64168,"title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable","user_id":22065,"username":"stef4n","post_date":"2023-11-10 03:24:44","message":"Sorry for the quote, i must have missclicked.\nWIll redo the job this evening and let you know. Thanks.\n\nEdit: CB304 is now out of the board,it looks like I perhaps broke it while trying to measure 1V1_LDO_BMC. Can't solder it back in place.\nI measured it, 1.12uF. If I can measure it, I don't understand why I can't put it back in place.\n\nEdit: I found a 820-1958 (MAcBook Air 2020) donor board, took the C2830, schematics shows 2.2uF, measured it, 0.3nF...going to pick them all one by one and test as I do not have any 2018 MacBook Pro donor board\nMight be luckier if I pick one on the same part of the circuitry xD\n\nEdit: C3206, 1.03uF, but 6.3V; C4423, 2.1uF, 4V\nLooks like I ripped off the pad of CB304, will scratch the surface to solder on the trace\n\nI replaced the CD3215;\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]UB300[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD]{}=TA[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOD[\/TD]\n[TD]0.44V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_{}_LDO_BMC[\/TD]\n[TD]0.455V[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_{}_LDO[\/TD]\n[TD]0.355V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOA[\/TD]\n[TD]0.478V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC1[\/TD]\n[TD]0.542V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC2[\/TD]\n[TD]0.543V[\/TD]\n[\/TR]\n[\/TABLE]\n\n1V1_UPC_TA_LDO_BMC is now in line. But, I still have to solder back a new CB304\n\nI didn't succeed, but I plugged the power, and I still get [email]5.19V@0.03A[\/email] on 1 port on each side, and [email]5V@0.36A[\/email] on the other. That's less than before actually."}
+[
+    {
+        "post_id":101355,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-09-02 07:35:56",
+        "message":"Hello,\n\nI'm working on a A1990 that does not turn on anymore. Charger is stuck at 5.19V (stable) on each of the 4 USB-C ports, power stays at 0.036A (+\/-0.002A).\n\nWith the battery plugged in, logic board not taken out, I measured:\n3.37V on the testpad PP3V3_G3H_RTC_X\n7.59V to 12.27 on the PPBUS_G3H, unstable.\n\nWith the battery unplugged, logic board not taken out, I measured:\n40 to 160mV on the testpad PP3V3_G3H_RTC_X\n20mV for PPBUS_G3H measured on R3451, pin2\n17mV for PPBUS_G3H measured on C3503, pin1\nThen I checked CHGR_EN_MVR on R6968, pin1 and pin2. It reads a 200 to 400mV, fluctuating a lot. Might peaks very briefly at 1.x V, unless it's due to the autorange of the multimeter\n\nThere is no short on PPBUS_G3H; red probe on pin1 of C3503, black probe on a screw shows 0.7 MOhm\n\nGiven the ~20mV of CHGR_EN_MVR, the value of PP3V3_G3H_RTC_X is not a surprise.\n\nPage 68 shows ISL9240 should give CHGR_EN_MVR, which, on page 67, enables PP3V3_G3H_RTC_X, whose value should be 3.38V.\n\n\n\nCurrently taking the logic board out of the case to measure what the ISL9240 receives as inputs.\n\n\n\nBackground:\nThe defective logic board is in a MacBook that had its top case+keyboard+battery replaced at the Apple Store in May.\nThe logic board, in its current condition, could win a beauty contest.\n\n\nIs there any way to make sure that the ISL 9240 is the culprit at 100% ?\nI never had to unsolder such a chip so far. Wondering if I would be better off finding a rat lab to train myself before."
+    },
+    {
+        "post_id":101358,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-09-02 12:44:34",
+        "message":"Getting EN_MVR will not help you, until you get PPBUS_G3H; it powers 3V3_G3H_RTC power supply.\n\nPost U7000 basic voltages, with charger alone (no battery); P_IN, AUX_DET, SMC_RST_IN, VDDA\/P, CBC_ON, A\/BMON."
+    },
+    {
+        "post_id":101363,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-09-03 04:04:56",
+        "message":"Hi,\nSorry for the delay in posting the missing voltages; the idiots at the apple store messed up with the screws heads holding the logic board, I had to find an iron bit to get rid off several heads with a driller -_-\n\nOut of the case, with just one pair of Thunderbolt ports plugged on it, the ampmeter reads 5.17V at 0.172A.\n(Yesterday in the top case it was 5.19V at 0.036A)\n\nMy PPBUS_G3H is at 0.00 mV measured on C6582, pin1\n\nRegarding the U7000:\nP_IN (PPDCIN_G3H_CHGR) : 0 mV [COLOR=rgb(40, 50, 78)](C7027 pin 1)[\/COLOR]\nAUX_DET : 0mV [COLOR=rgb(40, 50, 78)](R7015 pin 2)[\/COLOR]\nCHGR_RST_IN : 12.7mV\nSMC_RST_IN :\nVDDA: 110mV (test pad & R7075 pin1)\nVDDP: 110mV (test pad)\nCBC_ON:  could not find a way to measure this one\nA MON: 20mV (R5439 pin1)\nB MON: 3mV (R5429)\n_________\n\nI plugged the charger cable into the other USB-C port, but part of the same pair. This time, the multimeter shows 5.17V, and it's fluctuating between 0.36 and 0.48A.\nMoreover, I measured PPBUS_G3H again, on R4802, pin1, and it's cycling: 7.9V to 12.28V\n\n________\nI moved the same connector on the other side of the board. When plugged, one port shows 5.19V and 0.036A; the other one 5.14V and fluctuating between 0.36A and 0.48A\nUSB_C_XB_CC1_CONN, PPBUS_G3H on R3451 pin 2 shows a cycling PPBUS_G3H 7.9V to 12.28V\nUSB_C_XB_CC2_CONN, PPBUS_G3H on R3461 pin 2 shows 0.0V\n(when charger plugged in the relevant USB-C port, obviously)\n\nDid the same test with the other pair of USB-Connector; plugged into each side of the logic board;\n1 port shows 5.17V and fluctuating Amps (0.36-0.48), with PPBUS_G3H cycling,\nthe second one is either stuck at 0.036A one one side, or at 0.172A the other side\n\nR3452 and R3462 are good, 4.04 kOhms\nR3451 and R3461 are good, 10.1kOhms\nR3453 and R3463 are good, 5.00 kOhms\n\n________\nMeasurements taken again on U7000, but this time with the charger plugged on the USB-C port at 5.13V (0.36-0.48A)\nRegarding the U7000:\nP_IN (PPDCIN_G3H_CHGR) : 5.10 V (C7027 pin 1)\nAUX_DET : 120 to 300mV (R7015 pin 2)\nTP_CHGR_SMC_RST_L : 37mV to 3.2V\nCHGR_RST_IN : 0mV\n\nVDDA: 5.16V (test pad & R7075 pin1)\nVDDP: 5.14V (test pad)\nCBC_ON:  could not find a way to measure this one\nA MON:   13 to 84mV (R5439 pin1)\nB MON:  1mV (R5429)\n\nCurrently reading [URL]https:\/\/logi.wiki\/index.php\/CD3215_Bootup_Sequence[\/URL]"
+    },
+    {
+        "post_id":101364,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-09-03 10:18:37",
+        "message":"You must get same behavior on all USB-C ports.\nIf not, you have problems on USB-C areas.\n\nCheck and compare diode mode readings around CD3215 chips.\nStart with their LDOs and CC1\/2 lines."
+    },
+    {
+        "post_id":101438,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-09-07 08:49:06",
+        "message":"Hi [USER=682]@2informaticos[\/USER],\n\nI did the measurements for U3100 and U3200, then when I saw the UB300 the cause of the issue became kind of obvious...\n\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]U3100[\/TD]\n[TD]U3200[\/TD]\n[TD]UB300[\/TD]\n[TD]UB400[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD]{} = XA[\/TD]\n[TD]{} = XB[\/TD]\n[TD]{}=TA[\/TD]\n[TD]{}=TB[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOD[\/TD]\n[TD]0.445V[\/TD]\n[TD]0.445V[\/TD]\n[TD][COLOR=rgb(226, 80, 65)]0.009V[\/COLOR][\/TD]\n[TD]0.446V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_{}_LDO_BMC[\/TD]\n[TD]0.451V[\/TD]\n[TD]0.459V[\/TD]\n[TD]0.45V[\/TD]\n[TD]0.455V[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_{}_LDO[\/TD]\n[TD]0.41V[\/TD]\n[TD]0.406V[\/TD]\n[TD][COLOR=rgb(226, 80, 65)]0.009V[\/COLOR][\/TD]\n[TD]0.41V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOA[\/TD]\n[TD]0.478V[\/TD]\n[TD]0.48V[\/TD]\n[TD]0.477V[\/TD]\n[TD]0.48V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC1[\/TD]\n[TD]0.535V[\/TD]\n[TD]0.539V[\/TD]\n[TD]0.5V[\/TD]\n[TD]0.537V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC2[\/TD]\n[TD]0.535V[\/TD]\n[TD]0.54V[\/TD]\n[TD]0.000V[\/TD]\n[TD]0.473V[\/TD]\n[\/TR]\n[\/TABLE]\n\nI missed it the first time I inspected the board; it was the single part of the Logic Board covered by a layer of dust."
+    },
+    {
+        "post_id":102460,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-11-05 13:23:38",
+        "message":"I removed the UB300, cleaned the pad and reapplied solder, but the pad 91 seems gone. I can't re-apply solder on it. What's the best way to fix that?\n\nI assume I will have to solder a tiny wire from pin 2 of DB529 to pin 91 of the new CD3215.\n\nBut pin42 of JB500 seems a bit more problematic...It seems there is a trace from Pin 2 of DB529 to pin42 of JB500 though. So, would a wire from \"pad 91\" of UB300 to pin 2 of DB529 be enough ?"
+    },
+    {
+        "post_id":102464,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-11-05 15:11:36",
+        "message":"There are 3 more USB ports to use.\nI don't think someone really needs to connect the charger and 3 USB devices at same time.\nAnd probably that port will also work when you flip the USB device connected.\n\nIf you want to fix it properly, check trace continuity and see which part need to rebuild."
+    },
+    {
+        "post_id":102466,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-11-05 16:13:10",
+        "message":"I agree but ideally I'ld like to give back the device with 4 working USB-C port.\nI blew away the ESD 8011 protection diodes DB504 and DB529:("
+    },
+    {
+        "post_id":102526,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-11-08 15:58:07",
+        "message":"I replaced the burnt CD3215. I did not put back theDB504 and DB529.\n\nI now have 5.19V and 0.4A on 2 USB-C port (1 on each side of the board), the 2 other are still stuck at 0.034A\n\nNew measurements for U3100 and U3200\n\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]U3100[\/TD]\n[TD]U3200[\/TD]\n[TD]UB300[\/TD]\n[TD]UB400[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD]{} = XA[\/TD]\n[TD]{} = XB[\/TD]\n[TD]{}=TA[\/TD]\n[TD]{}=TB[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOD[\/TD]\n[TD]0.44V[\/TD]\n[TD]0.453V[\/TD]\n[TD]0.[COLOR=rgb(26, 188, 156)]465[\/COLOR]V[\/TD]\n[TD]0.455V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_{}_LDO_BMC[\/TD]\n[TD]0.458V[\/TD]\n[TD]0.466V[\/TD]\n[TD]0.[COLOR=rgb(235, 107, 86)]72[\/COLOR]V[\/TD]\n[TD]0.463V[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_{}_LDO[\/TD]\n[TD]0.417V[\/TD]\n[TD]0.414V[\/TD]\n[TD]0.[COLOR=rgb(26, 188, 156)]36[\/COLOR]V[\/TD]\n[TD]0.417V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOA[\/TD]\n[TD]0.485V[\/TD]\n[TD]0.487V[\/TD]\n[TD]0[COLOR=rgb(235, 107, 86)].[\/COLOR][COLOR=rgb(26, 188, 156)]49[\/COLOR][COLOR=rgb(0, 0, 0)]V[\/COLOR][\/TD]\n[TD]0.488V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC1[\/TD]\n[TD]0.54V[\/TD]\n[TD]0.55V[\/TD]\n[TD]0.54V[\/TD]\n[TD]0.548V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC2[\/TD]\n[TD]0.55V[\/TD]\n[TD]0.55V[\/TD]\n[TD]0.[COLOR=rgb(26, 188, 156)]54[\/COLOR]V[\/TD]\n[TD]0.548V[\/TD]\n[\/TR]\n[\/TABLE]\n\nI checked 3 times PP1V1_UPC_TA_LDO_BMC on UB300, I got 0.72V each time, seems a bit high.\nAnd LDO at 0.36V a little bit low"
+    },
+    {
+        "post_id":102527,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-11-08 16:35:19",
+        "message":"Did you solder same termination code?\nC00, A12, B03 are not compatible.\n\nDid you compare again diode mode readings around the CD3215 chips?\nDo you get correct LDOs voltage on all of them?"
+    },
+    {
+        "post_id":102528,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-11-08 16:53:06",
+        "message":"[QUOTE=\"2informaticos, post: 102527, member: 682\"]\nDid you solder same termination code?\nC00, A12, B03 are not compatible.\n\nDid you compare again diode mode readings around the CD3215 chips?\nDo you get correct LDOs voltage on all of them?\n[\/QUOTE]\nYes sir I did, CD3215C00Z,\nYes I did took new measurements around the CD3215, I was editing my post to include these measurement when you replied :)\n\nLDO reading seems a bit high for PP1V1_UPC_{}_LDO_BMC and a bit low for PP3V3_UPC_{}_LDO"
+    },
+    {
+        "post_id":102536,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-11-09 03:30:50",
+        "message":"I don't like the reading at 1V1_LDO_BMC.\nDid you let the board cool down before measure it?"
+    },
+    {
+        "post_id":102552,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-11-09 11:57:17",
+        "message":"Yesterday evening, probably yes as I cleaned everything for a few minutes. Tonight, the measurement is the same: 0.72V"
+    },
+    {
+        "post_id":102554,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-11-09 14:30:53",
+        "message":"Then you have bad solders, or that chips is bad.\n\nPlease, don't quote an entire post, visible few centimeters above..."
+    },
+    {
+        "post_id":102557,
+        "thread_id":64168,
+        "title":"820-01041-07 Stuck at 5.19V and 0.035A - PPBUS_G3H at 20mV - CHGR_EN_MVR unstable",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2023-11-10 01:24:44",
+        "message":"Sorry for the quote, i must have missclicked.\nWIll redo the job this evening and let you know. Thanks.\n\nEdit: CB304 is now out of the board,it looks like I perhaps broke it while trying to measure 1V1_LDO_BMC. Can't solder it back in place.\nI measured it, 1.12uF. If I can measure it, I don't understand why I can't put it back in place.\n\nEdit: I found a 820-1958 (MAcBook Air 2020) donor board, took the C2830, schematics shows 2.2uF, measured it, 0.3nF...going to pick them all one by one and test as I do not have any 2018 MacBook Pro donor board\nMight be luckier if I pick one on the same part of the circuitry xD\n\nEdit: C3206, 1.03uF, but 6.3V; C4423, 2.1uF, 4V\nLooks like I ripped off the pad of CB304, will scratch the surface to solder on the trace\n\nI replaced the CD3215;\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]UB300[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD]{}=TA[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOD[\/TD]\n[TD]0.44V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_{}_LDO_BMC[\/TD]\n[TD]0.455V[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_{}_LDO[\/TD]\n[TD]0.355V[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_{}_LDOA[\/TD]\n[TD]0.478V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC1[\/TD]\n[TD]0.542V[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_{}_CC2[\/TD]\n[TD]0.543V[\/TD]\n[\/TR]\n[\/TABLE]\n\n1V1_UPC_TA_LDO_BMC is now in line. But, I still have to solder back a new CB304\n\nI didn't succeed, but I plugged the power, and I still get [email]5.19V@0.03A[\/email] on 1 port on each side, and [email]5V@0.36A[\/email] on the other. That's less than before actually."
+    }
+]

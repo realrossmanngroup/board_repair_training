@@ -1,12 +1,110 @@
-{"post_id":50493,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":5272,"username":"SargFowler","post_date":"2019-07-06 03:03:35","message":"Struggling with this board that was very clean.\nThe S5 rails are jumping up and down from 50% to 100%.\n\nPPBUS_G3H 13v steady\nCharger 20v 0.01A\nPP5V_S5 jumping 2.5v-5v\nPP3V3_S5 jumping 1.5v-3.3v\nPP3V3_G3H 3.4v\n\nP3V3S5_EN pulsing 0 - 3.3v\nPP3v3_S5 diode mode around 18K.\nPMIC_EN_P3V3S5 pulsing\nU7650 replaced - still pulsing\nU1900 replaced - still pulsing\n\nIt doesn't appear to charge the battery either, but the cell voltage was really low."}
-{"post_id":50494,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":682,"username":"2informaticos","post_date":"2019-07-06 06:19:07","message":"Looks like a problem in a secondary power supply.\nFirst of all, try to start in SMC bypass, to discard a SMC sensor issue.\nNext, check if any PM_SLP_Sx_L signals pulse at least.\nCheck for short on all big coils.\nAny pulse at L7670?\nWhat about 3V3_SUS?"}
-{"post_id":50498,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":1153,"username":"JohnB8812","post_date":"2019-07-06 11:43:08","message":"Does CPU VCore pulse as well?"}
-{"post_id":50513,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":5272,"username":"SargFowler","post_date":"2019-07-07 09:57:04","message":"Thanks for the response guys.\nTried SMC bypass, no difference.\n\nPM_SLP_S5_L shows 20mv every now and then, but otherwise 0v.\nNothing on PM_SLP_S4_L - 0v.\n\nIt doesn't get anywhere through the power up sequence, so there's no Vcore.\n\nThere's no pulses on L7670 as there's no P5VS4_EN signal.\n\n3v3_SUS comes from PP3V3_S5G right? I'm not getting this cos its dependent on PP3V3_S5 via U8205"}
-{"post_id":50515,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":682,"username":"2informaticos","post_date":"2019-07-07 10:50:22","message":"\"Tried SMC reset, no difference.\"\n[I] I said SMC BYPASS; many times explained on the forum...[\/I]"}
-{"post_id":50516,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":5272,"username":"SargFowler","post_date":"2019-07-07 11:19:53","message":"Sorry, typo. It was a bypass, not a reset.\n\nThe battery should still charge even without S5 state shouldn't it?\n\nAlso, just discovered PP1V_S5 has a short. It's 1R. That's gotta be too low surely?"}
-{"post_id":50520,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":1153,"username":"JohnB8812","post_date":"2019-07-07 13:13:12","message":"If VCore doesn't pulse check all rails for shorts seems you may have found one"}
-{"post_id":50584,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":5272,"username":"SargFowler","post_date":"2019-07-09 13:35:15","message":"I've injected voltage into the PP1V_S5G rail but couldn't find anything getting remotely hot. It took 1v at 1a.\nI've also noticed PP1V8_S5G is also low resistance. I hope this doesn't mean the CPU is blown.\nI removed FET Q8060 but the short is still there on the PP1V_S5G rail \n\n[I]Can anyone else provide readings for these rails on a good board please?[\/I]\n\nOther observations are:\nPP5V_S5_LDO jumping 2.5v - 5v\nCHGR_ACOK 3.4v\nSMC_PM_G2_EN steady 3.4v\n\nDiode mode tests:\nPP3V3_S4 0.439v\nPP5V_S4 0.40v\nPP5V_S5 0.40v\n\nI'm trying to figure out if it's a short or a signal problem.\nAny advice greatly appreciated."}
-{"post_id":50585,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":682,"username":"2informaticos","post_date":"2019-07-09 14:19:52","message":"\"It took 1v at 1a\"\nThat means 1W only.\nProbably nor even FLIR cam will detect something; but could be an option to try.\nYou can also inject until 1.3V without risk.\n\nLift pin1\/L8060 ans see where the short remains.\nIf on pin2, then is probably bad CPU..."}
-{"post_id":50587,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":5272,"username":"SargFowler","post_date":"2019-07-09 15:19:17","message":"I've temporarily removed Q8060 which is just before L8060 and the short was still there.\n\nI'm going to check the PP5V_S4 circuit to see if there's an issue on this rail as the other side PP3V3_S5, appears OK even though the voltage is briefly there.\n\nHowever, I thought the board would stick in S5 state if it couldn't get into S4 and wouldn't reboot as this board seems to be doing?"}
-{"post_id":50588,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":682,"username":"2informaticos","post_date":"2019-07-09 15:34:46","message":"\"I've temporarily removed Q8060\"\nU7800 is still connected there.\nThat's the reason I told you to lift L8060.\n\nIf S5 voltages pulse, board could try to move into S4, or something connected to S5 rails is bad.\nDid you try the board alone, without anything connected?\nOnly charger, eventually USB mouse.\n\nRemove R7661\/62 and see if get steady voltage at L7670\/90."}
-{"post_id":50592,"thread_id":50493,"title":"820-00840 S5 rails not steady","user_id":5272,"username":"SargFowler","post_date":"2019-07-10 01:39:58","message":"OK, with L8060 removed, 43K on pin1, 1R on pin2. PP3v3_S5 still jumping.\n\nI just have the board on the bench, nothing else connected.\n\nR7662 removed, no 3v3 S5.\nR7661 removed, PP5V_S4 still jumping up to 5v (?!)\n\nI'm going to try injecting in to each S5 rail to make sure they're OK."}
+[
+    {
+        "post_id":50493,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":5272,
+        "username":"SargFowler",
+        "post_date":"2019-07-06 01:03:35",
+        "message":"Struggling with this board that was very clean.\nThe S5 rails are jumping up and down from 50% to 100%.\n\nPPBUS_G3H 13v steady\nCharger 20v 0.01A\nPP5V_S5 jumping 2.5v-5v\nPP3V3_S5 jumping 1.5v-3.3v\nPP3V3_G3H 3.4v\n\nP3V3S5_EN pulsing 0 - 3.3v\nPP3v3_S5 diode mode around 18K.\nPMIC_EN_P3V3S5 pulsing\nU7650 replaced - still pulsing\nU1900 replaced - still pulsing\n\nIt doesn't appear to charge the battery either, but the cell voltage was really low."
+    },
+    {
+        "post_id":50494,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-06 04:19:07",
+        "message":"Looks like a problem in a secondary power supply.\nFirst of all, try to start in SMC bypass, to discard a SMC sensor issue.\nNext, check if any PM_SLP_Sx_L signals pulse at least.\nCheck for short on all big coils.\nAny pulse at L7670?\nWhat about 3V3_SUS?"
+    },
+    {
+        "post_id":50498,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-07-06 09:43:08",
+        "message":"Does CPU VCore pulse as well?"
+    },
+    {
+        "post_id":50513,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":5272,
+        "username":"SargFowler",
+        "post_date":"2019-07-07 07:57:04",
+        "message":"Thanks for the response guys.\nTried SMC bypass, no difference.\n\nPM_SLP_S5_L shows 20mv every now and then, but otherwise 0v.\nNothing on PM_SLP_S4_L - 0v.\n\nIt doesn't get anywhere through the power up sequence, so there's no Vcore.\n\nThere's no pulses on L7670 as there's no P5VS4_EN signal.\n\n3v3_SUS comes from PP3V3_S5G right? I'm not getting this cos its dependent on PP3V3_S5 via U8205"
+    },
+    {
+        "post_id":50515,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-07 08:50:22",
+        "message":"\"Tried SMC reset, no difference.\"\n[I] I said SMC BYPASS; many times explained on the forum...[\/I]"
+    },
+    {
+        "post_id":50516,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":5272,
+        "username":"SargFowler",
+        "post_date":"2019-07-07 09:19:53",
+        "message":"Sorry, typo. It was a bypass, not a reset.\n\nThe battery should still charge even without S5 state shouldn't it?\n\nAlso, just discovered PP1V_S5 has a short. It's 1R. That's gotta be too low surely?"
+    },
+    {
+        "post_id":50520,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-07-07 11:13:12",
+        "message":"If VCore doesn't pulse check all rails for shorts seems you may have found one"
+    },
+    {
+        "post_id":50584,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":5272,
+        "username":"SargFowler",
+        "post_date":"2019-07-09 11:35:15",
+        "message":"I've injected voltage into the PP1V_S5G rail but couldn't find anything getting remotely hot. It took 1v at 1a.\nI've also noticed PP1V8_S5G is also low resistance. I hope this doesn't mean the CPU is blown.\nI removed FET Q8060 but the short is still there on the PP1V_S5G rail \n\n[I]Can anyone else provide readings for these rails on a good board please?[\/I]\n\nOther observations are:\nPP5V_S5_LDO jumping 2.5v - 5v\nCHGR_ACOK 3.4v\nSMC_PM_G2_EN steady 3.4v\n\nDiode mode tests:\nPP3V3_S4 0.439v\nPP5V_S4 0.40v\nPP5V_S5 0.40v\n\nI'm trying to figure out if it's a short or a signal problem.\nAny advice greatly appreciated."
+    },
+    {
+        "post_id":50585,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-09 12:19:52",
+        "message":"\"It took 1v at 1a\"\nThat means 1W only.\nProbably nor even FLIR cam will detect something; but could be an option to try.\nYou can also inject until 1.3V without risk.\n\nLift pin1\/L8060 ans see where the short remains.\nIf on pin2, then is probably bad CPU..."
+    },
+    {
+        "post_id":50587,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":5272,
+        "username":"SargFowler",
+        "post_date":"2019-07-09 13:19:17",
+        "message":"I've temporarily removed Q8060 which is just before L8060 and the short was still there.\n\nI'm going to check the PP5V_S4 circuit to see if there's an issue on this rail as the other side PP3V3_S5, appears OK even though the voltage is briefly there.\n\nHowever, I thought the board would stick in S5 state if it couldn't get into S4 and wouldn't reboot as this board seems to be doing?"
+    },
+    {
+        "post_id":50588,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-09 13:34:46",
+        "message":"\"I've temporarily removed Q8060\"\nU7800 is still connected there.\nThat's the reason I told you to lift L8060.\n\nIf S5 voltages pulse, board could try to move into S4, or something connected to S5 rails is bad.\nDid you try the board alone, without anything connected?\nOnly charger, eventually USB mouse.\n\nRemove R7661\/62 and see if get steady voltage at L7670\/90."
+    },
+    {
+        "post_id":50592,
+        "thread_id":50493,
+        "title":"820-00840 S5 rails not steady",
+        "user_id":5272,
+        "username":"SargFowler",
+        "post_date":"2019-07-09 23:39:58",
+        "message":"OK, with L8060 removed, 43K on pin1, 1R on pin2. PP3v3_S5 still jumping.\n\nI just have the board on the bench, nothing else connected.\n\nR7662 removed, no 3v3 S5.\nR7661 removed, PP5V_S4 still jumping up to 5v (?!)\n\nI'm going to try injecting in to each S5 rail to make sure they're OK."
+    }
+]

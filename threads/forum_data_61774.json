@@ -1,31 +1,281 @@
-{"post_id":80700,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-09-28 20:33:24","message":"I have an 820-00138 on the bench that isn't charging the battery, but runs fine from the battery. No liquid damage, was dropped on its side and hasn't charged since then. Tried a known working DC board but same result. I tested with an el cheapo charger and it does charge, just not with my bench psu. U7000 has continuity to the Magsafe and voltages seem good (1 - 3.45v   4 - 3.42v   5  - 3.42v). Given that it charges fine with the shitty charger, is this a leakage issue like some of the previous forum threads? If so, how do I test to find the culprit?"}
-{"post_id":80703,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-09-29 05:45:02","message":"Did you test with 85W charger for sure?\nMachine works good with charger alone (no battery)?\nMagsafe light stays amber?"}
-{"post_id":80704,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-09-29 06:13:28","message":"It's a genuine 85w charger. Machine runs without batt and light stays amber. Tried a brand new battery to rule that out too and the new battery wouldn't charge either."}
-{"post_id":80705,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-09-29 07:04:27","message":"What's the exact PPBUS_G3H voltage, w\/ and w\/o battery connected?\nCheck SMC_CHGR_BMON\/DCIN_ISENSE levels, with battery connected (page 45)."}
-{"post_id":80741,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-09-29 23:46:29","message":"PPBUS_G3H with the battery is 12.5v when powered off, but it falls to 10.8v when I power on the machine. On charger without battery it's steady 12.5v. SMC_CHGR_BMON is 0.049v and DCIN_ISENSE is 1.05v"}
-{"post_id":80744,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-09-30 02:53:16","message":"1V at SMC_DCIN_ISENSE means a lot of current consumed from charger.\nIs that value in off state with battery connected?\nPost exact resistance between pins 27\/28 of U7100."}
-{"post_id":80760,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-09-30 08:52:18","message":"With battery DCIN_ISENSE is 1.05v and without it is 0.24v. Resistance between  pins 27\/28 of U7100 is 20.9 ohms"}
-{"post_id":80765,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-09-30 10:59:02","message":"1.05V in off state???"}
-{"post_id":80766,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-09-30 11:01:44","message":"Correct, both of those measurements were taken while the board is plugged in to power but turned off."}
-{"post_id":80770,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-09-30 11:25:02","message":"Then is strange; SMC_CHGR_BMON_ISENSE should increase too.\n1V at SMC_DCIN_ISENSE denotes approx 2.5A through R7020.\nIf board is off, almost all current should go through R7050.\nIn such case, SMC_CHGR_BMON_ISENSE should be approx 0.45V; you've reported less than 0.05V there.\n\n0.24V at SMC_DCIN_ISENSE is also too much for off state without battery.\nIt suppose approx 0.6A consumption.\nYou may need to change U7100.\nPost its voltages; 1, 2, 3, 9, 12, 13, 14, 15, 17, 19, 20, 25, 27."}
-{"post_id":80794,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-09-30 22:06:42","message":"Went to go take measurements and the first few were 0v and I noticed I lost my green light and PSU now pulls 0 amps. Did some checking and I seem to be missing SMC_BC_ACOK at U7001, but I still have PP3V42 going in. Is that a good sign U7100 is pooched?"}
-{"post_id":80803,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-01 02:26:01","message":"So you cannot measure above mentioned pins without Magsafe light???"}
-{"post_id":80824,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-01 09:00:44","message":"Apologies, forgot to paste my results\n1 - 17.15v\n2- 18.08v\n3 - 0.762v\n9 - 0.030\n12 - 3.4v\n13 - 3.4v\n14 - 0v\n15 - 0.046v\n17 - 0.262v\n19 - 5.502v\n20 - 5.507v\n25 - 5.190v\n27 - 0.005v"}
-{"post_id":80825,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-01 09:10:02","message":"\"3 - 0.762v\"\nBad value!\nCheck R7110, possibly open\/corroded.\nAlso remove C7111 and check again."}
-{"post_id":80828,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-01 09:18:06","message":"Just to check my understanding (hopefully I'm learning lol) pin 3 receives its power from PPDCIN_G3H_ISOL which is what also powers U7090 through D7005. So that should be the same voltage as my power supply is outputting then, not next to nothing?"}
-{"post_id":80836,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-01 13:45:00","message":"Yeah, R7110\/11 divisor creates ACIN signal for U7100."}
-{"post_id":80854,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-02 17:36:30","message":"R7110\/11 looked like they had some gunk around them, so I replaced both from a donor - same voltage as before. Removed C7111, voltage dropped to 0.006v."}
-{"post_id":80855,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-02 17:54:32","message":"Do you have correct voltage at pin 1 of R7110?\nIf you've changed the resistors with correct values, then change U7100 and check again the voltage."}
-{"post_id":80974,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-04 19:47:53","message":"Did have correct voltage at R7110 pin 1, double checked the values of resistors. I went ahead and replaced U7100, got green light back. When booted board still does not charge though. Here are my U7100 voltages now:\n\n1 - 0.004v\n2- 17.90v\n3 - 4.32v\n9 - 0.293v\n12 - 3.4v\n13 - 3.4v\n14 - 3.305v\n15 - 0.080v\n17 - 12.58v\n19 - 5.513v\n20 - 5.522v\n25 - 17.50v\n27 - 18.33v"}
-{"post_id":80998,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-05 04:46:41","message":"Post PPBUS_G3H voltage with both charger and battery connected.\n12.58V is good without battery.\nAlso post resistance between pins 17\/18 of U7100."}
-{"post_id":81027,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-05 08:44:59","message":"Voltage with battery is fluctuating between 11.3 and 11.7v (tested with brand new battery). Resistance of pins 17\/18 of U7100 is 3.3 ohms."}
-{"post_id":81031,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-05 09:35:00","message":"Magsafe light flashing green\/amber with battery?\nCheck now 3V42_G3H and PPBUS_G3H with only battery (no charger)."}
-{"post_id":81065,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-05 20:15:07","message":"I do get green to amber with the battery plugged in. Voltages with only battery, no charger: \nPPBUS_G3H 11.26v \nPP3V42_G3H 3.43v"}
-{"post_id":81077,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-06 03:56:10","message":"Amber light comes on without battery too.\nYou've said to get fluctuating PPBUS_G3H with charger and battery connected at same time.\nI asked to check if Magsafe light color fluctuates then too.\n\nDoes the board turn on with battery alone?"}
-{"post_id":81089,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-06 08:38:14","message":"Oh I see, sorry. No, the light doesn't fluctuate, it stays solid amber after turning from green.\n\nThe board does not turn on with battery alone, and while running with battery and charger if I disconnect charger the laptop shuts off immediately."}
-{"post_id":81095,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-06 12:05:20","message":"Can you get a known good battery for test?\nBe aware, new chinese doesn't mean known good!"}
-{"post_id":81098,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-06 12:17:36","message":"I have 2 in my stock right now that I've tried, I get mine from Mobilesentrix so I'm hoping they're decent quality"}
-{"post_id":81103,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-06 16:38:23","message":"It is not same as known good.\nI saw so many strange behaviors of bad new batteries, that you cannot imagine."}
-{"post_id":81110,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-06 22:30:28","message":"Very weird. Reassembled everything with the original battery the and it's charging properly now. Gonna test it over the weekend to make sure it's consistent but I think this is solved?! Thanks so much for the help! I feel like I'm slowly figuring things out."}
-{"post_id":81111,"thread_id":61774,"title":"820-00138 Not Charging","user_id":31025,"username":"hambook","post_date":"2021-10-06 22:49:07","message":"Update: Genuine charger stops working after 15-20 seconds of charging, but a knock off charger charges fine."}
-{"post_id":81117,"thread_id":61774,"title":"820-00138 Not Charging","user_id":682,"username":"2informaticos","post_date":"2021-10-07 04:13:00","message":"Machine works with original charger, only stops charging battery?\nTry another original 85W Magsafe 2 charger."}
+[
+    {
+        "post_id":80700,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-09-28 18:33:24",
+        "message":"I have an 820-00138 on the bench that isn't charging the battery, but runs fine from the battery. No liquid damage, was dropped on its side and hasn't charged since then. Tried a known working DC board but same result. I tested with an el cheapo charger and it does charge, just not with my bench psu. U7000 has continuity to the Magsafe and voltages seem good (1 - 3.45v   4 - 3.42v   5  - 3.42v). Given that it charges fine with the shitty charger, is this a leakage issue like some of the previous forum threads? If so, how do I test to find the culprit?"
+    },
+    {
+        "post_id":80703,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-29 03:45:02",
+        "message":"Did you test with 85W charger for sure?\nMachine works good with charger alone (no battery)?\nMagsafe light stays amber?"
+    },
+    {
+        "post_id":80704,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-09-29 04:13:28",
+        "message":"It's a genuine 85w charger. Machine runs without batt and light stays amber. Tried a brand new battery to rule that out too and the new battery wouldn't charge either."
+    },
+    {
+        "post_id":80705,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-29 05:04:27",
+        "message":"What's the exact PPBUS_G3H voltage, w\/ and w\/o battery connected?\nCheck SMC_CHGR_BMON\/DCIN_ISENSE levels, with battery connected (page 45)."
+    },
+    {
+        "post_id":80741,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-09-29 21:46:29",
+        "message":"PPBUS_G3H with the battery is 12.5v when powered off, but it falls to 10.8v when I power on the machine. On charger without battery it's steady 12.5v. SMC_CHGR_BMON is 0.049v and DCIN_ISENSE is 1.05v"
+    },
+    {
+        "post_id":80744,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-30 00:53:16",
+        "message":"1V at SMC_DCIN_ISENSE means a lot of current consumed from charger.\nIs that value in off state with battery connected?\nPost exact resistance between pins 27\/28 of U7100."
+    },
+    {
+        "post_id":80760,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-09-30 06:52:18",
+        "message":"With battery DCIN_ISENSE is 1.05v and without it is 0.24v. Resistance between  pins 27\/28 of U7100 is 20.9 ohms"
+    },
+    {
+        "post_id":80765,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-30 08:59:02",
+        "message":"1.05V in off state???"
+    },
+    {
+        "post_id":80766,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-09-30 09:01:44",
+        "message":"Correct, both of those measurements were taken while the board is plugged in to power but turned off."
+    },
+    {
+        "post_id":80770,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-30 09:25:02",
+        "message":"Then is strange; SMC_CHGR_BMON_ISENSE should increase too.\n1V at SMC_DCIN_ISENSE denotes approx 2.5A through R7020.\nIf board is off, almost all current should go through R7050.\nIn such case, SMC_CHGR_BMON_ISENSE should be approx 0.45V; you've reported less than 0.05V there.\n\n0.24V at SMC_DCIN_ISENSE is also too much for off state without battery.\nIt suppose approx 0.6A consumption.\nYou may need to change U7100.\nPost its voltages; 1, 2, 3, 9, 12, 13, 14, 15, 17, 19, 20, 25, 27."
+    },
+    {
+        "post_id":80794,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-09-30 20:06:42",
+        "message":"Went to go take measurements and the first few were 0v and I noticed I lost my green light and PSU now pulls 0 amps. Did some checking and I seem to be missing SMC_BC_ACOK at U7001, but I still have PP3V42 going in. Is that a good sign U7100 is pooched?"
+    },
+    {
+        "post_id":80803,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-01 00:26:01",
+        "message":"So you cannot measure above mentioned pins without Magsafe light???"
+    },
+    {
+        "post_id":80824,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-01 07:00:44",
+        "message":"Apologies, forgot to paste my results\n1 - 17.15v\n2- 18.08v\n3 - 0.762v\n9 - 0.030\n12 - 3.4v\n13 - 3.4v\n14 - 0v\n15 - 0.046v\n17 - 0.262v\n19 - 5.502v\n20 - 5.507v\n25 - 5.190v\n27 - 0.005v"
+    },
+    {
+        "post_id":80825,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-01 07:10:02",
+        "message":"\"3 - 0.762v\"\nBad value!\nCheck R7110, possibly open\/corroded.\nAlso remove C7111 and check again."
+    },
+    {
+        "post_id":80828,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-01 07:18:06",
+        "message":"Just to check my understanding (hopefully I'm learning lol) pin 3 receives its power from PPDCIN_G3H_ISOL which is what also powers U7090 through D7005. So that should be the same voltage as my power supply is outputting then, not next to nothing?"
+    },
+    {
+        "post_id":80836,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-01 11:45:00",
+        "message":"Yeah, R7110\/11 divisor creates ACIN signal for U7100."
+    },
+    {
+        "post_id":80854,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-02 15:36:30",
+        "message":"R7110\/11 looked like they had some gunk around them, so I replaced both from a donor - same voltage as before. Removed C7111, voltage dropped to 0.006v."
+    },
+    {
+        "post_id":80855,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-02 15:54:32",
+        "message":"Do you have correct voltage at pin 1 of R7110?\nIf you've changed the resistors with correct values, then change U7100 and check again the voltage."
+    },
+    {
+        "post_id":80974,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-04 17:47:53",
+        "message":"Did have correct voltage at R7110 pin 1, double checked the values of resistors. I went ahead and replaced U7100, got green light back. When booted board still does not charge though. Here are my U7100 voltages now:\n\n1 - 0.004v\n2- 17.90v\n3 - 4.32v\n9 - 0.293v\n12 - 3.4v\n13 - 3.4v\n14 - 3.305v\n15 - 0.080v\n17 - 12.58v\n19 - 5.513v\n20 - 5.522v\n25 - 17.50v\n27 - 18.33v"
+    },
+    {
+        "post_id":80998,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-05 02:46:41",
+        "message":"Post PPBUS_G3H voltage with both charger and battery connected.\n12.58V is good without battery.\nAlso post resistance between pins 17\/18 of U7100."
+    },
+    {
+        "post_id":81027,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-05 06:44:59",
+        "message":"Voltage with battery is fluctuating between 11.3 and 11.7v (tested with brand new battery). Resistance of pins 17\/18 of U7100 is 3.3 ohms."
+    },
+    {
+        "post_id":81031,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-05 07:35:00",
+        "message":"Magsafe light flashing green\/amber with battery?\nCheck now 3V42_G3H and PPBUS_G3H with only battery (no charger)."
+    },
+    {
+        "post_id":81065,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-05 18:15:07",
+        "message":"I do get green to amber with the battery plugged in. Voltages with only battery, no charger: \nPPBUS_G3H 11.26v \nPP3V42_G3H 3.43v"
+    },
+    {
+        "post_id":81077,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-06 01:56:10",
+        "message":"Amber light comes on without battery too.\nYou've said to get fluctuating PPBUS_G3H with charger and battery connected at same time.\nI asked to check if Magsafe light color fluctuates then too.\n\nDoes the board turn on with battery alone?"
+    },
+    {
+        "post_id":81089,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-06 06:38:14",
+        "message":"Oh I see, sorry. No, the light doesn't fluctuate, it stays solid amber after turning from green.\n\nThe board does not turn on with battery alone, and while running with battery and charger if I disconnect charger the laptop shuts off immediately."
+    },
+    {
+        "post_id":81095,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-06 10:05:20",
+        "message":"Can you get a known good battery for test?\nBe aware, new chinese doesn't mean known good!"
+    },
+    {
+        "post_id":81098,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-06 10:17:36",
+        "message":"I have 2 in my stock right now that I've tried, I get mine from Mobilesentrix so I'm hoping they're decent quality"
+    },
+    {
+        "post_id":81103,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-06 14:38:23",
+        "message":"It is not same as known good.\nI saw so many strange behaviors of bad new batteries, that you cannot imagine."
+    },
+    {
+        "post_id":81110,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-06 20:30:28",
+        "message":"Very weird. Reassembled everything with the original battery the and it's charging properly now. Gonna test it over the weekend to make sure it's consistent but I think this is solved?! Thanks so much for the help! I feel like I'm slowly figuring things out."
+    },
+    {
+        "post_id":81111,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":31025,
+        "username":"hambook",
+        "post_date":"2021-10-06 20:49:07",
+        "message":"Update: Genuine charger stops working after 15-20 seconds of charging, but a knock off charger charges fine."
+    },
+    {
+        "post_id":81117,
+        "thread_id":61774,
+        "title":"820-00138 Not Charging",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-07 02:13:00",
+        "message":"Machine works with original charger, only stops charging battery?\nTry another original 85W Magsafe 2 charger."
+    }
+]

@@ -1,20 +1,200 @@
-{"post_id":102937,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-04 12:14:38","message":"Clean board, no history.\n\nPPBUS 12.3V\nPP3V3_G3H_RTC_X 3.3V\nPP3V3_UPC_XB_LDO 3.3V\nPP3V3_UPC_XB_LDO 1.5V\n\nAlready replaced all CD3217 and also U2890\/UB090 from same board model donor."}
-{"post_id":102950,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-05 01:40:04","message":"\"PP3V3_UPC_XB_LDO 3.3V\nPP3V3_UPC_XB_LDO 1.5\"\nWhat do you mean?\n\nDid you check diode mode to ground on coils?\nIs the machine recognized into DFU?"}
-{"post_id":102962,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-05 13:16:44","message":"Sorry for the lack in information, this Mac boots fully with charged battery and I get 20V with battery installed but 0A so it wont charge, board alone takes 5V and 0.280A, T2 revive works all the way to the end but no change.\n\nI dont even know where to start, but I just replaced U7000 and same thing.\n\nPlease advice."}
-{"post_id":102968,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-05 22:42:15","message":"In this case you have a problem on USB-C area.\nCompare diode mode readings and voltages between the 4 channels.\n\nDid you test with correct (96\/140W) charger?\nCheck UPC_I2C_INT_L signal."}
-{"post_id":102980,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-06 11:59:00","message":"Yes 96W charger used.\n\nAll 4 CD3217 were replaced from same donor board that had 20V \n\nAlready replaced from donor board U2890 and UB090\n\nUPC_I2C_INT_L is 0V Diode 426 with board alone\nJust in case I2C_PWR_SDA\/SLC 1.8V with correct Diode read\n\nDiode and voltages\nPP3V3_G3H_RTC_X 3.3V 460 Diode\nPP3V3_UPC_**_LDO in all 4 ports 480 diode and 3.3V\nPP1V5_UPC_**_LDO_CORE in all 4 ports 520 diode and 1.5V\n\nWhat else should I check"}
-{"post_id":102984,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-06 18:44:16","message":"\"UPC_I2C_INT_L is 0V\"\nThat is the problem; should find why stays low.\nAny CD3217 chip can pull it down, if detects a problem on its area."}
-{"post_id":102985,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-07 00:14:44","message":"Diode read on UPC_I2C_INT_L is on par with know good.\n\nChecked for shorts around all CD3217s and all is fine, I have had this board for a while now and I am ready to give up unless you think I should check something else."}
-{"post_id":102991,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-07 02:38:21","message":"The problem is not on UPC_I2C_INT_L line; unless R5246 is bad (open), or have corrosion between pads of J3000, or JB200.\nThis line is used to report problems on USB-C power channels.\n\nYou may have just a bad resistor, or broken trace; possibly input ESD diode damaged also.\nCheck diode mode to ground on J3300 and JB500.\n\nWhen working on battery, do you get USB activity on all ports?"}
-{"post_id":103004,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-07 17:04:03","message":"R5246 ok\nJ3300 and JB500 are on par with known good board in diode mode\nMac only has USB activity in bottom left port (the one used for restoring) the other ports dont have voltage nor activity"}
-{"post_id":103005,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-07 18:47:29","message":"Check L3500 and LB700 areas.\nYou should get 5V one coil, according with connected port."}
-{"post_id":103047,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-09 11:41:40","message":"LB700 and L3500 0 to 0.200V depending on port used"}
-{"post_id":103051,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-09 14:59:18","message":"L3500 should get voltage when you connect the device on working port."}
-{"post_id":103074,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-11 17:44:34","message":"Ok I have P5V_G3S missing and U3500 needs that in order to work, when I check U7650 I see that P5VG3S_EN_R missing, following that P5VG3S_EN is missing too as well as PMU_PVDDMAIN_EN and that only comes out of PMU, all AWAKE and SLPS2R signals are present, so far this is what I got, would that mean PMU is the problem?"}
-{"post_id":103086,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-12 03:14:36","message":"Do you get 1V8\/3V3_G3S?\nThese (and also 5V_G3S) must appear before S5 state."}
-{"post_id":103102,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-12 15:15:48","message":"PP1V8_G3S missing not shorted, U8220 has power but missing enable signal PP1V8G3S_EN\nPP3V3_G3S missing too not shorted\nTried a new PMU with same result"}
-{"post_id":103105,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-12 16:41:26","message":"I'm wondering how this machine boots with all these missing voltages..."}
-{"post_id":103112,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-12 23:20:06","message":"I will install it into its case again and test, but it only boots with battery connected."}
-{"post_id":103115,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-13 01:00:21","message":"No reason to check for L3500, or LB700 voltage if board didn't boot.\nUse a spare battery and test the board on the desk.\n\nYou should still inspect USB-C areas to find the main problem.\nRemove the USB-C ports and check their terminals."}
-{"post_id":103130,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":2508,"username":"No-Clean","post_date":"2023-12-13 16:38:54","message":"In its case board does indeed still boots fully, 20V with battery connected but wont charge.\nLeft side has USB voltage and activity, right side is missing both, this gives me something to look for.\nWith battery alone no trackpad I still dont get voltage on those 2 coils (remember this board requires battery and trackpad to boot fully)\nAll my testing is done with new know working C ports"}
-{"post_id":103136,"thread_id":64364,"title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.","user_id":682,"username":"2informaticos","post_date":"2023-12-14 09:50:00","message":"Your problem should be on USB-C right side..."}
+[
+    {
+        "post_id":102937,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-04 10:14:38",
+        "message":"Clean board, no history.\n\nPPBUS 12.3V\nPP3V3_G3H_RTC_X 3.3V\nPP3V3_UPC_XB_LDO 3.3V\nPP3V3_UPC_XB_LDO 1.5V\n\nAlready replaced all CD3217 and also U2890\/UB090 from same board model donor."
+    },
+    {
+        "post_id":102950,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-04 23:40:04",
+        "message":"\"PP3V3_UPC_XB_LDO 3.3V\nPP3V3_UPC_XB_LDO 1.5\"\nWhat do you mean?\n\nDid you check diode mode to ground on coils?\nIs the machine recognized into DFU?"
+    },
+    {
+        "post_id":102962,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-05 11:16:44",
+        "message":"Sorry for the lack in information, this Mac boots fully with charged battery and I get 20V with battery installed but 0A so it wont charge, board alone takes 5V and 0.280A, T2 revive works all the way to the end but no change.\n\nI dont even know where to start, but I just replaced U7000 and same thing.\n\nPlease advice."
+    },
+    {
+        "post_id":102968,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-05 20:42:15",
+        "message":"In this case you have a problem on USB-C area.\nCompare diode mode readings and voltages between the 4 channels.\n\nDid you test with correct (96\/140W) charger?\nCheck UPC_I2C_INT_L signal."
+    },
+    {
+        "post_id":102980,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-06 09:59:00",
+        "message":"Yes 96W charger used.\n\nAll 4 CD3217 were replaced from same donor board that had 20V \n\nAlready replaced from donor board U2890 and UB090\n\nUPC_I2C_INT_L is 0V Diode 426 with board alone\nJust in case I2C_PWR_SDA\/SLC 1.8V with correct Diode read\n\nDiode and voltages\nPP3V3_G3H_RTC_X 3.3V 460 Diode\nPP3V3_UPC_**_LDO in all 4 ports 480 diode and 3.3V\nPP1V5_UPC_**_LDO_CORE in all 4 ports 520 diode and 1.5V\n\nWhat else should I check"
+    },
+    {
+        "post_id":102984,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-06 16:44:16",
+        "message":"\"UPC_I2C_INT_L is 0V\"\nThat is the problem; should find why stays low.\nAny CD3217 chip can pull it down, if detects a problem on its area."
+    },
+    {
+        "post_id":102985,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-06 22:14:44",
+        "message":"Diode read on UPC_I2C_INT_L is on par with know good.\n\nChecked for shorts around all CD3217s and all is fine, I have had this board for a while now and I am ready to give up unless you think I should check something else."
+    },
+    {
+        "post_id":102991,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-07 00:38:21",
+        "message":"The problem is not on UPC_I2C_INT_L line; unless R5246 is bad (open), or have corrosion between pads of J3000, or JB200.\nThis line is used to report problems on USB-C power channels.\n\nYou may have just a bad resistor, or broken trace; possibly input ESD diode damaged also.\nCheck diode mode to ground on J3300 and JB500.\n\nWhen working on battery, do you get USB activity on all ports?"
+    },
+    {
+        "post_id":103004,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-07 15:04:03",
+        "message":"R5246 ok\nJ3300 and JB500 are on par with known good board in diode mode\nMac only has USB activity in bottom left port (the one used for restoring) the other ports dont have voltage nor activity"
+    },
+    {
+        "post_id":103005,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-07 16:47:29",
+        "message":"Check L3500 and LB700 areas.\nYou should get 5V one coil, according with connected port."
+    },
+    {
+        "post_id":103047,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-09 09:41:40",
+        "message":"LB700 and L3500 0 to 0.200V depending on port used"
+    },
+    {
+        "post_id":103051,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-09 12:59:18",
+        "message":"L3500 should get voltage when you connect the device on working port."
+    },
+    {
+        "post_id":103074,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-11 15:44:34",
+        "message":"Ok I have P5V_G3S missing and U3500 needs that in order to work, when I check U7650 I see that P5VG3S_EN_R missing, following that P5VG3S_EN is missing too as well as PMU_PVDDMAIN_EN and that only comes out of PMU, all AWAKE and SLPS2R signals are present, so far this is what I got, would that mean PMU is the problem?"
+    },
+    {
+        "post_id":103086,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-12 01:14:36",
+        "message":"Do you get 1V8\/3V3_G3S?\nThese (and also 5V_G3S) must appear before S5 state."
+    },
+    {
+        "post_id":103102,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-12 13:15:48",
+        "message":"PP1V8_G3S missing not shorted, U8220 has power but missing enable signal PP1V8G3S_EN\nPP3V3_G3S missing too not shorted\nTried a new PMU with same result"
+    },
+    {
+        "post_id":103105,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-12 14:41:26",
+        "message":"I'm wondering how this machine boots with all these missing voltages..."
+    },
+    {
+        "post_id":103112,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-12 21:20:06",
+        "message":"I will install it into its case again and test, but it only boots with battery connected."
+    },
+    {
+        "post_id":103115,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-12 23:00:21",
+        "message":"No reason to check for L3500, or LB700 voltage if board didn't boot.\nUse a spare battery and test the board on the desk.\n\nYou should still inspect USB-C areas to find the main problem.\nRemove the USB-C ports and check their terminals."
+    },
+    {
+        "post_id":103130,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-13 14:38:54",
+        "message":"In its case board does indeed still boots fully, 20V with battery connected but wont charge.\nLeft side has USB voltage and activity, right side is missing both, this gives me something to look for.\nWith battery alone no trackpad I still dont get voltage on those 2 coils (remember this board requires battery and trackpad to boot fully)\nAll my testing is done with new know working C ports"
+    },
+    {
+        "post_id":103136,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-14 07:50:00",
+        "message":"Your problem should be on USB-C right side..."
+    },
+    {
+        "post_id":103316,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":2508,
+        "username":"No-Clean",
+        "post_date":"2023-12-23 17:00:28",
+        "message":"Ok now I do have 20V in all ports without battery connected, I do have usb voltage and activity on left side, however on right side only UB300 has voltage and no activity, UB400 has none, I have already replaced UB000, UB090 with correct firmware, UB700, QB701, U8285, YB200, DB503 and both UB300\/400 but same thing, no charge yet and USB problems with UB400, I have invested so much time on this board that I would hate to give up, customer is willing to wait so any additional help will be greatly appreciated.\n\nHappy holidays by the way!"
+    },
+    {
+        "post_id":103317,
+        "thread_id":64364,
+        "title":"820-01700 Wont charge 5V 0.280A without battery 20V with battery.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-24 01:49:58",
+        "message":"Do you get LB700 voltage when insert an USB device on any right port?\n\nCompare diode mode readings between left\/right ports.\n\n\u00a1FELIZ NAVIDAD!"
+    }
+]

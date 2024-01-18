@@ -1,17 +1,155 @@
-{"post_id":60804,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-11 01:53:57","message":"This board works fully (in limp mode \/ 800MHz) when the battery is disconnected. When the battery is connected it chimes repeatedly, so at the end of the chime, it chimes again. A different battery produces the same result. Replaced ISL6259, didn't help. Any thoughts? Could this be GPU related?"}
-{"post_id":60810,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-11 03:56:50","message":"Does it boot in SMC bypass with both charger and battery connected?\nCheck exact ohm resistance between pins 17\/18 and 27\/28 of ISL6259."}
-{"post_id":60841,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-11 09:22:54","message":"Assuming you mean safe mode (holding shift), same behaviour. Both current sense circuits measured fine when I replaced the ISL."}
-{"post_id":60848,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-11 11:48:34","message":"NO, I exactly mean SMC bypass mode; explained many times on the forum how to do it.\nGoogle can help you, in case forum search not..."}
-{"post_id":60880,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-11 14:13:48","message":"It won't let me do that, it starts instantly when I press the power button. Only thing I have left to try is corrupted BIOS maybe? Any other ideas?"}
-{"post_id":60883,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-11 14:32:43","message":"\"Check exact ohm resistance between pins 17\/18 and 27\/28 of ISL6259.\"\n\nDid you try original battery, even old?\nDo not try new battery from same batch..."}
-{"post_id":60925,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-12 07:52:03","message":"17\/18:  3ohms\n27\/28: 20,9 ohms\n\nKnown good battery tested, same behaviour."}
-{"post_id":60928,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-12 11:48:11","message":"Does the board start on battery only (no charger)?"}
-{"post_id":60933,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-12 12:55:53","message":"Yes, it starts on only the (known good) battery. Same behaviour."}
-{"post_id":60944,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-12 17:59:33","message":"What is the fault history?"}
-{"post_id":60952,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-13 02:41:14","message":"According to the customer it just started doing this, no specific history."}
-{"post_id":60955,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-13 04:57:31","message":"Monitor SMC_DCIN_ISENSE and SMC_CHGR_BMON_ISENSE levels.\nAny sign of corrosion around SMC?"}
-{"post_id":60978,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-13 14:44:13","message":"Ok, I started testing for the suggestions above, but noticed the heatsink got hot real quick. Turns out phase 1 of the GPU is pulling \u00b135A from the start. GPU problem? I'm confused as to why that VR would even start at this point during POST\/boot."}
-{"post_id":60982,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-13 17:34:48","message":"GPU should have the same behaviour for start sequence, w\/ or w\/o battery.\nCheck the mentioned sensors level and post PPBUS_G3H voltage with both battery and charger connected.\nIs the battery charging?"}
-{"post_id":60997,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-14 05:56:22","message":"[TABLE]\n[TR]\n[TH]Measurement[\/TH]\n[TH]with  batt connected[\/TH]\n[TH]w\/o batt connected[\/TH]\n[\/TR]\n[TR]\n[TD]PPBUS_G3H[\/TD]\n[TD][B]12.2 V rising to 12.7+ V[\/B][\/TD]\n[TD]12.57 V steady[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_DCIN_ISENSE[\/TD]\n[TD]1.62 V[\/TD]\n[TD]0.4 V[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_DCIN_VSENSE[\/TD]\n[TD]2.89 V[\/TD]\n[TD]2.98 V[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_CHGR_BMON_ISENSE[\/TD]\n[TD][B]0.05 V[\/B][\/TD]\n[TD]0.05 V[\/TD]\n[\/TR]\n[TR]\n[TD]Difference over R9398 (GPU Phase 2)[\/TD]\n[TD]0 V >> 0 A draw[\/TD]\n[TD]0 V[\/TD]\n[\/TR]\n[TR]\n[TD]Difference over R9399 (GPU Phase 1)[\/TD]\n[TD]2.6 mV >> 3.5 A @0.85V >> \u00b13.0 W\n(Miscalculated earlier)[\/TD]\n[TD]2.6 mV[\/TD]\n[\/TR]\n[TR]\n[TD]Current draw from power supply[\/TD]\n[TD]2.25 A[\/TD]\n[TD]1.2 A[\/TD]\n[\/TR]\n[TR]\n[TD]Difference over R7150 (BMON)[\/TD]\n[TD]-13 mV (w\/o charger) >>  -2.6 A\n8.5 mV (with charger) >> [B]1.7 A[\/B][\/TD]\n[TD]0 mV[\/TD]\n[\/TR]\n[\/TABLE]\n\nThe BMON isense does not seem to change when disconnecting the battery. I've replaced the cap and 3 resistors for battery Isensing, no change. R5423 (between BMON and SMC) measures fine and is not shorted to ground."}
-{"post_id":60998,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":682,"username":"2informaticos","post_date":"2020-06-14 06:16:45","message":"With 1.7-2.6A through R7150, CHGR_BMON should be higher than 0.05V.\nISL6259 gain for BMON is 36X.\n2.6 x 0.005 x 36 = 0.468V which should get there.\nYour problem could be ISL6259, or SMC..."}
-{"post_id":61050,"thread_id":59485,"title":"820-3787 - Chime loop wich battery","user_id":547,"username":"rvanpruissen","post_date":"2020-06-16 10:36:55","message":"So, I've been struggling with this one over the last few days.\n* Replaced ISL > No change\n* Replaced SMC > Didn't work (possibly faulty SMC)\n* Replaced SMC with 3662 version and clean BIOS > Same behaviour (this one is just for testing, as I don't have any more 3787 donors)\n\nI'm guessing some line gets overloaded, but not sure how to check this..."}
+[
+    {
+        "post_id":60804,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-10 23:53:57",
+        "message":"This board works fully (in limp mode \/ 800MHz) when the battery is disconnected. When the battery is connected it chimes repeatedly, so at the end of the chime, it chimes again. A different battery produces the same result. Replaced ISL6259, didn't help. Any thoughts? Could this be GPU related?"
+    },
+    {
+        "post_id":60810,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 01:56:50",
+        "message":"Does it boot in SMC bypass with both charger and battery connected?\nCheck exact ohm resistance between pins 17\/18 and 27\/28 of ISL6259."
+    },
+    {
+        "post_id":60841,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-11 07:22:54",
+        "message":"Assuming you mean safe mode (holding shift), same behaviour. Both current sense circuits measured fine when I replaced the ISL."
+    },
+    {
+        "post_id":60848,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 09:48:34",
+        "message":"NO, I exactly mean SMC bypass mode; explained many times on the forum how to do it.\nGoogle can help you, in case forum search not..."
+    },
+    {
+        "post_id":60880,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-11 12:13:48",
+        "message":"It won't let me do that, it starts instantly when I press the power button. Only thing I have left to try is corrupted BIOS maybe? Any other ideas?"
+    },
+    {
+        "post_id":60883,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 12:32:43",
+        "message":"\"Check exact ohm resistance between pins 17\/18 and 27\/28 of ISL6259.\"\n\nDid you try original battery, even old?\nDo not try new battery from same batch..."
+    },
+    {
+        "post_id":60925,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-12 05:52:03",
+        "message":"17\/18:  3ohms\n27\/28: 20,9 ohms\n\nKnown good battery tested, same behaviour."
+    },
+    {
+        "post_id":60928,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-12 09:48:11",
+        "message":"Does the board start on battery only (no charger)?"
+    },
+    {
+        "post_id":60933,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-12 10:55:53",
+        "message":"Yes, it starts on only the (known good) battery. Same behaviour."
+    },
+    {
+        "post_id":60944,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-12 15:59:33",
+        "message":"What is the fault history?"
+    },
+    {
+        "post_id":60952,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-13 00:41:14",
+        "message":"According to the customer it just started doing this, no specific history."
+    },
+    {
+        "post_id":60955,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-13 02:57:31",
+        "message":"Monitor SMC_DCIN_ISENSE and SMC_CHGR_BMON_ISENSE levels.\nAny sign of corrosion around SMC?"
+    },
+    {
+        "post_id":60978,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-13 12:44:13",
+        "message":"Ok, I started testing for the suggestions above, but noticed the heatsink got hot real quick. Turns out phase 1 of the GPU is pulling \u00b135A from the start. GPU problem? I'm confused as to why that VR would even start at this point during POST\/boot."
+    },
+    {
+        "post_id":60982,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-13 15:34:48",
+        "message":"GPU should have the same behaviour for start sequence, w\/ or w\/o battery.\nCheck the mentioned sensors level and post PPBUS_G3H voltage with both battery and charger connected.\nIs the battery charging?"
+    },
+    {
+        "post_id":60997,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-14 03:56:22",
+        "message":"[TABLE]\n[TR]\n[TH]Measurement[\/TH]\n[TH]with  batt connected[\/TH]\n[TH]w\/o batt connected[\/TH]\n[\/TR]\n[TR]\n[TD]PPBUS_G3H[\/TD]\n[TD][B]12.2 V rising to 12.7+ V[\/B][\/TD]\n[TD]12.57 V steady[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_DCIN_ISENSE[\/TD]\n[TD]1.62 V[\/TD]\n[TD]0.4 V[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_DCIN_VSENSE[\/TD]\n[TD]2.89 V[\/TD]\n[TD]2.98 V[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_CHGR_BMON_ISENSE[\/TD]\n[TD][B]0.05 V[\/B][\/TD]\n[TD]0.05 V[\/TD]\n[\/TR]\n[TR]\n[TD]Difference over R9398 (GPU Phase 2)[\/TD]\n[TD]0 V >> 0 A draw[\/TD]\n[TD]0 V[\/TD]\n[\/TR]\n[TR]\n[TD]Difference over R9399 (GPU Phase 1)[\/TD]\n[TD]2.6 mV >> 3.5 A @0.85V >> \u00b13.0 W\n(Miscalculated earlier)[\/TD]\n[TD]2.6 mV[\/TD]\n[\/TR]\n[TR]\n[TD]Current draw from power supply[\/TD]\n[TD]2.25 A[\/TD]\n[TD]1.2 A[\/TD]\n[\/TR]\n[TR]\n[TD]Difference over R7150 (BMON)[\/TD]\n[TD]-13 mV (w\/o charger) >>  -2.6 A\n8.5 mV (with charger) >> [B]1.7 A[\/B][\/TD]\n[TD]0 mV[\/TD]\n[\/TR]\n[\/TABLE]\n\nThe BMON isense does not seem to change when disconnecting the battery. I've replaced the cap and 3 resistors for battery Isensing, no change. R5423 (between BMON and SMC) measures fine and is not shorted to ground."
+    },
+    {
+        "post_id":60998,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-14 04:16:45",
+        "message":"With 1.7-2.6A through R7150, CHGR_BMON should be higher than 0.05V.\nISL6259 gain for BMON is 36X.\n2.6 x 0.005 x 36 = 0.468V which should get there.\nYour problem could be ISL6259, or SMC..."
+    },
+    {
+        "post_id":61050,
+        "thread_id":59485,
+        "title":"820-3787 - Chime loop wich battery",
+        "user_id":547,
+        "username":"rvanpruissen",
+        "post_date":"2020-06-16 08:36:55",
+        "message":"So, I've been struggling with this one over the last few days.\n* Replaced ISL > No change\n* Replaced SMC > Didn't work (possibly faulty SMC)\n* Replaced SMC with 3662 version and clean BIOS > Same behaviour (this one is just for testing, as I don't have any more 3787 donors)\n\nI'm guessing some line gets overloaded, but not sure how to check this..."
+    }
+]

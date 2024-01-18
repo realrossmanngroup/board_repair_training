@@ -1,9 +1,389 @@
-{"post_id":103073,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":32178,"username":"prodigy83","post_date":"2023-12-11 16:12:18","message":"My reference only: TT10031\nBoard history is unknown. Everything looks clean, no visible liquid damage.\nUSB-C meter is stuck at 5v. I have isolated the issue to PPBUS_AON by removing F5200\/01.\nWhen both fuses are removed I get 12.59v on PPVBAT_AON_CHGR_REG, but on the PPBUS_AON I get 1.42 which slowly drops.\nWhen these fuses are back on, I get 6.78v something is pulling it down, .93 amps are being drawn according to the USB-C meter and U8100 is getting quite hot with fuses back in place. It seems like I got a problem with PPBUS_AON but I cannot figure out what the problem is."}
-{"post_id":103075,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":682,"username":"2informaticos","post_date":"2023-12-11 17:50:52","message":"Check diode mode to ground on all secondary power supplies.\nCheck on U7700 and U8100 LDOs and coils too."}
-{"post_id":103090,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":32178,"username":"prodigy83","post_date":"2023-12-12 07:41:23","message":"[QUOTE=\"2informaticos, post: 103075, member: 682\"]\nCheck diode mode to ground on all secondary power supplies.\n[\/QUOTE]\nCould you provide me an example of a secondary power supply on this board? Keep the fuses on while checking using diode mode?\nSo far... Fuses still on, L8280 using diode mode shows .003v."}
-{"post_id":103093,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":682,"username":"2informaticos","post_date":"2023-12-12 09:12:25","message":"Looks like dead M1 CPU...\n[URL unfurl=\"true\"]https:\/\/openboarddata.org\/?a=showboardsolutions&bpath=laptops\/apple\/820-02098[\/URL]\n\nBTW, don't write \"V\" after diode mode readings; avoid any future misunderstood."}
-{"post_id":103095,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":32178,"username":"prodigy83","post_date":"2023-12-12 09:41:07","message":"Gotcha.\nIn the interim I did find a short coming from UR200, I have replaced it and the Diode mode reading is now .267. CPU still dead?\nLooks like the link you sent me is now the correct reading. Thank you for sharing that, this is super helpful. Do you have a list of links or tools you have compiled that I could bookmark here as well?\nForgot to mention this board still stuck at the 5 volts."}
-{"post_id":103097,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":32178,"username":"prodigy83","post_date":"2023-12-12 11:38:20","message":"Diode mode reading is at .066 for PP3V8AON_SW2_PH2. I did a Google search and have been looking at a prior post with you talking to another person about this same area: [URL]https:\/\/boards.rossmanngroup.com\/threads\/820-02020-liquid-damage-short-on-ppbus_aon.61713\/[\/URL]"}
-{"post_id":103100,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":682,"username":"2informaticos","post_date":"2023-12-12 13:55:04","message":"0.066 looks to low.\nReference table specifies 0.360."}
-{"post_id":103123,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":32178,"username":"prodigy83","post_date":"2023-12-13 09:45:36","message":"R5710 is at 5.1 volts, seems a bit too high?\nR5712 pin 2 jumps to 1.8 when plugging in the usb-c meter but goes to 0 right away. Pin 1 is at 5 volts.\n148 degrees Fahrenheit on U8100.\nThe row of capacitors above U5700 seem to be out of character for how they are supposed to look. I will include a picture. This is also measuring in diode mode @ that .066.\nBelow images show U8100, and that row of capacitors above U5700. Is U8100 fried? What do you think?\n[ATTACH type=\"full\"]61429[\/ATTACH][ATTACH type=\"full\"]61430[\/ATTACH]"}
-{"post_id":103133,"thread_id":64380,"title":"820-02098 Stuck at 5v","user_id":682,"username":"2informaticos","post_date":"2023-12-14 09:43:01","message":"You can remove the caps, one by one, and check if value jumps up from 0.066."}
+[
+    {
+        "post_id":103073,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-11 14:12:18",
+        "message":"My reference only: TT10031\nBoard history is unknown. Everything looks clean, no visible liquid damage.\nUSB-C meter is stuck at 5v. I have isolated the issue to PPBUS_AON by removing F5200\/01.\nWhen both fuses are removed I get 12.59v on PPVBAT_AON_CHGR_REG, but on the PPBUS_AON I get 1.42 which slowly drops.\nWhen these fuses are back on, I get 6.78v something is pulling it down, .93 amps are being drawn according to the USB-C meter and U8100 is getting quite hot with fuses back in place. It seems like I got a problem with PPBUS_AON but I cannot figure out what the problem is."
+    },
+    {
+        "post_id":103075,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-11 15:50:52",
+        "message":"Check diode mode to ground on all secondary power supplies.\nCheck on U7700 and U8100 LDOs and coils too."
+    },
+    {
+        "post_id":103090,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-12 05:41:23",
+        "message":"[QUOTE=\"2informaticos, post: 103075, member: 682\"]\nCheck diode mode to ground on all secondary power supplies.\n[\/QUOTE]\nCould you provide me an example of a secondary power supply on this board? Keep the fuses on while checking using diode mode?\nSo far... Fuses still on, L8280 using diode mode shows .003v."
+    },
+    {
+        "post_id":103093,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-12 07:12:25",
+        "message":"Looks like dead M1 CPU...\n[URL unfurl=\"true\"]https:\/\/openboarddata.org\/?a=showboardsolutions&bpath=laptops\/apple\/820-02098[\/URL]\n\nBTW, don't write \"V\" after diode mode readings; avoid any future misunderstood."
+    },
+    {
+        "post_id":103095,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-12 07:41:07",
+        "message":"Gotcha.\nIn the interim I did find a short coming from UR200, I have replaced it and the Diode mode reading is now .267. CPU still dead?\nLooks like the link you sent me is now the correct reading. Thank you for sharing that, this is super helpful. Do you have a list of links or tools you have compiled that I could bookmark here as well?\nForgot to mention this board still stuck at the 5 volts."
+    },
+    {
+        "post_id":103097,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-12 09:38:20",
+        "message":"Diode mode reading is at .066 for PP3V8AON_SW2_PH2. I did a Google search and have been looking at a prior post with you talking to another person about this same area: [URL]https:\/\/boards.rossmanngroup.com\/threads\/820-02020-liquid-damage-short-on-ppbus_aon.61713\/[\/URL]"
+    },
+    {
+        "post_id":103100,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-12 11:55:04",
+        "message":"0.066 looks to low.\nReference table specifies 0.360."
+    },
+    {
+        "post_id":103123,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-13 07:45:36",
+        "message":"R5710 is at 5.1 volts, seems a bit too high?\nR5712 pin 2 jumps to 1.8 when plugging in the usb-c meter but goes to 0 right away. Pin 1 is at 5 volts.\n148 degrees Fahrenheit on U8100.\nThe row of capacitors above U5700 seem to be out of character for how they are supposed to look. I will include a picture. This is also measuring in diode mode @ that .066.\nBelow images show U8100, and that row of capacitors above U5700. Is U8100 fried? What do you think?\n[ATTACH type=\"full\"]61429[\/ATTACH][ATTACH type=\"full\"]61430[\/ATTACH]"
+    },
+    {
+        "post_id":103133,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-14 07:43:01",
+        "message":"You can remove the caps, one by one, and check if value jumps up from 0.066."
+    },
+    {
+        "post_id":103252,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-20 11:53:35",
+        "message":"Removed that row of caps and the diode mode reading is .062.\nWhen I remove F5200\/01, I get 12.27v on PPVBAT_AON_CHGR_REG, however when the 2 fuses are placed back on, I get 7v. Something is pulling the voltage down."
+    },
+    {
+        "post_id":103253,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-20 16:07:01",
+        "message":"What is exact resistance (ohm scale) between PPBUS_AON and 3V8_AON?\nCompare with good board."
+    },
+    {
+        "post_id":103265,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-21 07:41:04",
+        "message":"I get 4.3m but it just keeps falling lower and lower. I had already removed Q5240 when taking this measurement. Should I redo with it back on? I also do not have another board.\nWith Q5240 still removed, pins 11 and 12 are O\/L, openboarddata shows this is not correct. The other pins using diode mode seem to be close enough when measuring.\nCHGR_AUX_DET_3V3 I get 0 volts. Then with diode mode I get .620. I have the two fuses off F5200\/01.\nWhen I remove the fuses, I get the 12.26volts (PPBUS_AON), but when the fuses are on, it drops to 6volts.\nI did also replace both U5200 and Q5240."
+    },
+    {
+        "post_id":103269,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-21 17:11:49",
+        "message":"If you get 12.26V at C5250 removing F5200\/1, then your problem is on the other side of the fuses (system side, PPBUS_AON)."
+    },
+    {
+        "post_id":103281,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-22 07:26:39",
+        "message":"Yes, I see that. I just don't know where else to go or how to track this down further. There are a bunch of resistors. U5700? 0 volts at pin 8 for U5700.\nDiode mode .472 on PPVIN_P3V8AON_ISNS. Thats not too far off is it? Fuses are still off.\n\nWith fuses back on, PPVIN_P3V8AON_ISNS is 6.129volts\n\nDiode mode: PP5V_AON_P3V8AON .511 looks good.\nP3V8AON_PVCC .553 looks good.\nP3V8AON_PWR_EN_R .585 looks good.\nP3V8AON_LPM_R .679 spot on.\nPP5V_AON_P3V8AON .518 looks good.\nP3V8AON_FAULT_L .694 looks good.\nP3V8AON_IMON_P3V8AON .775 looks good.\nP3V8AON_GPIO .695 looks good.\nP3V8AON_SS .749 looks off, supposed to be .694. I am getting .282 volts.\nAm I looking in the right area?"
+    },
+    {
+        "post_id":103282,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-22 07:44:44",
+        "message":"With fuses in place, what is 3V8_AON voltage?"
+    },
+    {
+        "post_id":103285,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-22 07:59:34",
+        "message":"3V8_AON voltage is: 1.48volts.\nSorry, I must have been editing my post when you wrote in. Here are my findings to your question and more I did:\nWith fuses back on, PPVIN_P3V8AON_ISNS is 6.129volts\n\nDiode mode: PP5V_AON_P3V8AON .511 looks good.\nP3V8AON_PVCC .553 looks good.\nP3V8AON_PWR_EN_R .585 looks good.\nP3V8AON_LPM_R .679 spot on.\nPP5V_AON_P3V8AON .518 looks good.\nP3V8AON_FAULT_L .694 looks good.\nP3V8AON_IMON_P3V8AON .775 looks good.\nP3V8AON_GPIO .695 looks good.\nP3V8AON_SS .749 looks off, supposed to be .694. I am getting .282 volts.\nAm I looking in the right area?"
+    },
+    {
+        "post_id":103288,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-22 08:07:08",
+        "message":"Seems to have problems with 3V8_AON power supply.\nTry changing U5700..."
+    },
+    {
+        "post_id":103289,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-22 09:06:30",
+        "message":"No dice, I had a donor board with the same chip, swapped it out, no change, the U8100 chips is still heating up. I did reach back out to the customer to get further clarification on the problem and this is what he told me:\n The computer was working fine with no issues. I use it for work and it's usually on about 8 hrs a day. When I returned home I decided to update Ventura. I think it was OS 13.4, I clicked update and walked away. Upon returning the computer was dark and unresponsive.  There was nothing plugged into the computer, no peripherals, no power as the battery was fully charged."
+    },
+    {
+        "post_id":103293,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2023-12-22 12:51:20",
+        "message":"Okay, trying to isolate the problem  I have removed the following in this order: rd503, rd591, rd590. As soon as I removed I got 12.26v back on pin 2. Pin 4 and pin 3 were at first pulsing 1.4v to 1.5 but now those same pins are .500 thru .200 volts.\nYea, measuring again, it has gotta be on the PPVIN_P3V8AON_ISNS side of things. Maybe my donor board chip u5700 was bad, not sure. I will try to isolate the problem further.\nAnother update: I removed U5700 again, and I am now getting 3.8v at rd590 pin 1, so this is indeed a bad U5700?\nAnother update: I decided to remove Q5840, Q5820, and Q5800. When I did this, PPVIN_P3V8AON_ISNS went back to the 12.6v. R5840 seems to be a connection somewhere here.\nUpdate: P3V8AON_SW1 I am getting 1.46v, and diode mode reads .025, should be .356. I have already replaced, and reflowed U5700. Bad Q5800?\nJust replaced Q8500 and now I have a short to ground on P3V8AON_VSW1. When I inject voltage the U8100 chip gets warm just like it always has. Any other ideas? \nHope you had a great holiday(s) by the way."
+    },
+    {
+        "post_id":103447,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-03 09:06:42",
+        "message":"The above message I left edited on this past Saturday but I see responses to other peoples posts as recent as of today, could I get a response please?"
+    },
+    {
+        "post_id":103448,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-03 09:32:42",
+        "message":"If machine dean on update, DFU should recover it.\nBut missing 3V8_AON doesn't allow DFU.\nNot sure what could happen there..."
+    },
+    {
+        "post_id":103461,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-03 12:21:52",
+        "message":"With both Q8500 and L8500 removed, I do get 3.8v on P3V8AON_SW1. I also get 12.2v on PPVIN_P3V8AON_ISNS.\nSo I very carefully put back on Q8500 and I am getting the 3.8v now on P3V8AON_VSW1, but as soon as I stick back on L5800, it brings the voltage down to 1.4v. Something on the side PP3V8AON_PH1 is bring everything down."
+    },
+    {
+        "post_id":103462,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-03 15:35:37",
+        "message":"Just in case, change L\/Q5800..."
+    },
+    {
+        "post_id":103561,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-08 14:09:34",
+        "message":"I have replaced L\/Q5800, U5700, R5800, and I still am getting low voltage at L5800, it is still bringing the voltage down. I got 5.04v on the amp meter and it is pulling .42 amps. \nP3V8AON_SW2 diode mode reading is .03, it should be .360.\nWhat should I try next?"
+    },
+    {
+        "post_id":103566,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-08 15:42:49",
+        "message":"\"P3V8AON_SW2 diode mode reading is .03, it should be .360\"\nDid you lift L5820, to see where the low value remains?"
+    },
+    {
+        "post_id":103588,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-09 09:18:11",
+        "message":"Yes, 1.44v on pin 2 of L5820."
+    },
+    {
+        "post_id":103597,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-09 12:18:59",
+        "message":"I was talking about 0.03 reading..."
+    },
+    {
+        "post_id":103598,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-09 13:40:50",
+        "message":"[QUOTE=\"2informaticos, post: 103566, member: 682\"]\n\"P3V8AON_SW2 diode mode reading is .03, it should be .360\"\nDid you lift L5820, to see where the low value remains?\n[\/QUOTE]\nDiode mode reading on pin 1 is .149\npin 2 is .030."
+    },
+    {
+        "post_id":103599,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-09 15:28:26",
+        "message":"There is common point for all 3 coils.\nWhy did you fix on L5820 then?\n\nYou have something pulling down 3V8_AON rail."
+    },
+    {
+        "post_id":103617,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-10 06:55:50",
+        "message":"[QUOTE=\"2informaticos, post: 103599, member: 682\"]\nWhy did you fix on L5820 then?\n[\/QUOTE]\nSorry? I don't understand what you mean by this?\nI know 3V8_AON is the problem but I am not sure how to narrow this down to find what exactly problem is?"
+    },
+    {
+        "post_id":103620,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-10 07:19:54",
+        "message":"You've mentioned a problem with L5820.\nBut low diode mode reading is on its output pin; common with 3V8_AON power rail.\nI don't know why you went for L5820.\n\nThere are many components connected, including PMICs and M1 CPU.\nIs dificult to detect the culprit, once you don't have a pure short.\nThe problem may also be caused by some secondary power supply, derived from 3V8_AON."
+    },
+    {
+        "post_id":103622,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-10 07:44:06",
+        "message":"[QUOTE=\"2informaticos, post: 103620, member: 682\"]\nI don't know why you went for L5820.\n[\/QUOTE]\nOh okay, I went to that originally because when I removed all three L5820\/40\/00, the voltage went back up to 3.4v on pin 1 for all three. Where would you look to next then knowing this?\nWith L5800\/20 both removed and L5840 back on, L5800 pin 1 is flucuating constantly from 4.7v to 5.7v."
+    },
+    {
+        "post_id":103629,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-10 08:52:40",
+        "message":"Stop checking that point on a buck converter; there is no (pure) DC volatge!\n\nInject 3.5-4V into 3V8_AON and use thermal camera.\nGive it some minutes and look for small temp diferences.\nThis may be waste of time..."
+    },
+    {
+        "post_id":103632,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-10 09:21:33",
+        "message":"Everytime I have done this, it comes back to U8100. UN400 could be an issue?"
+    },
+    {
+        "post_id":103635,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-10 09:38:34",
+        "message":"You can remove it and check if diode mode reading go high enough..."
+    },
+    {
+        "post_id":103785,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-16 06:06:29",
+        "message":"Removed U8100, PP3V8_AON is .054 diode mode. Did not go all that high."
+    },
+    {
+        "post_id":103788,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-16 06:48:08",
+        "message":"The culprit is somewhere else..."
+    },
+    {
+        "post_id":103803,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-16 11:17:10",
+        "message":"Okay, let me bounce this off you then if I may. Since I removed U8100, the up and down voltage on L5800 pad 1 is now for the most part stable at 3.9v. This may be because of removing U8100? However in the process, I knocked a few other components around U8100 off. So I will be cleaning the area, reballing U8100, then sticking back all the components. I did however decide to take back up Q5800 (after having removed U8100) cause the solder did not look so great anymore. In doing so, I did see some of the solder under Q5800 looked somewhat grainy. I wonder if this may have been the issue? I keep going back to Q5800 because voltage in is at 12v, but voltage going to pins 6\/7\/8 are off. This appears to me to be an issue?\nYour thoughts\/knowledge?"
+    },
+    {
+        "post_id":103804,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-16 11:55:42",
+        "message":"Q5800's output voltage is controlled by U5700.\nKeep in mind, there is no stable DC voltage; you get that after L5800.\n\nWhen replace\/resolder components, always apply leaded solder on the pads first."
+    },
+    {
+        "post_id":103806,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-16 14:02:37",
+        "message":"Thank you. I have not put back U8100 yet but poking around P3V8AON_VSENSE diode mode reading is .05, should be .356. What is this sensing? I keep coming back to this area too but NOSTUFF is in this area."
+    },
+    {
+        "post_id":103808,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-16 15:03:34",
+        "message":"Remove R5870 and see where the low reading remains."
+    },
+    {
+        "post_id":103813,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2024-01-17 10:58:36",
+        "message":"Diode mode shows pin 1 @ .053\npin 2 shows @ .770."
+    },
+    {
+        "post_id":103814,
+        "thread_id":64380,
+        "title":"820-02098 Stuck at 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2024-01-17 13:02:40",
+        "message":"So your problem is still on pin 1 (3V8_AON)."
+    }
+]

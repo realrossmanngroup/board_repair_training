@@ -1,22 +1,200 @@
-{"post_id":82442,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-09 20:57:00","message":"Hello.\n\nI have this 820-2915-B, no power. It takes 270mA from the PSU and GPU gets hot.\n\nPPBus_G3H=1.2V\nPPBus_G3H= 6 ohms to ground. \n\nI have 0.2ohm between F7040 and L8920. Any advice?\n\n\nThanks!"}
-{"post_id":82443,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-09 21:13:19","message":"Q8950 is shorted, change it.\nBe sure C8956 is on its place."}
-{"post_id":82447,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-09 22:39:13","message":"After removing Q8950 the short is gone. Unfortunately I do not have one to replace it.\n\nIf I disable the GPU (using dosdude method) could I leave the board without that Mosfet?"}
-{"post_id":82448,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-09 23:21:10","message":"Yes..."}
-{"post_id":82863,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-20 17:26:52","message":"Client needs the Dedicated GPU. I bought a donor board, replaced Q8950 and when turning on the GPU gets ultra hot and the board takes 4A.\nI imagine death GPU?  Can replace the 216-0810084 with a 216-081005?"}
-{"post_id":82864,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-21 03:33:40","message":"You've changed Q8950 and powered up the board without checking anything else on the GPU power supply?\nIf you change GPU and do the same, you'll probably fry the new GPU too.\n\nIf you want to use 216-081005, then move R8610 to R8612 and solder 10K resistor in place of R8613."}
-{"post_id":82917,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-22 17:47:24","message":"What else should I have mesured? \nWith Q8950 removed I powered up the board, green light but obviously no video. Measured all coils and nothing extrange found.  PPBus_G3H= 12v.\n\nWhat is the normal voltage value of PPVCORE_GPU?\n\nCurrently I have the GPU out, what should I measure?"}
-{"post_id":82922,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-22 19:09:53","message":"Q8950 got burnt because of some reason.\nPossibly bad C8956, or U8900.\nCan also be broken traces, or bad solders.\nBetter to change Q8950\/51 and U8900 at same time."}
-{"post_id":83002,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-24 22:57:58","message":"You were right. I was getting 3V on PPVCORE_GPU_REG_R.\n\nReplaced Q8950\/51, C8956 and U8900 and now I have 1.1V on PPVCORE_GPU_REG_R (Is this ok?).\n\nCurrently not GPU Soldered. What else should I measure before installing GPU?"}
-{"post_id":83010,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-25 03:08:51","message":"You should consider disabling GPU for such old machine.\n\nNow GPU can be soldered if you want.\nIts core voltage looks good."}
-{"post_id":83064,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-25 23:44:40","message":"Hello.\nCustomer insists on the dedicated GPU.\n\nI have replaced GPU ( moved R8610 to R8612 and soldered 10K resistor in place of R8613 since I am using a  216-081005). But I am not getting\nPPVCORE_S0_CPU.\n\nPPVCORE_S0_CPU: 0V\nPP5V_S0: 5V\nCPUIMVP_VR_ON: 0V\nPP1V05_S0: 0V\nCPUVCCIOS0_EN: 3V"}
-{"post_id":83065,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-26 00:02:05","message":"More info: \nPP1V8_S0:1.8V\nPP1V5_S0: 1.54V\nPP1V2_S0: 1.22V\nPP1V05_SUS: 1.18V"}
-{"post_id":83070,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-26 03:04:33","message":"1V05_S0 must appear before CPU core voltage.\nThis also causes missing ALL_SYS_PWRGD.\nSo fix the problem on U7600 area first.\nCheck diode mode to ground at L7630.\nPost U7600 voltage; pins 13, 14, 3."}
-{"post_id":83097,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-26 18:20:45","message":"Diode mode to ground at L7630: 0.032V\nU7600 \nPin 13: 5.07V\nPin 14: 5.07V\nPin 3: 3.32V"}
-{"post_id":83098,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-26 18:52:53","message":"Replaced U7600 and now I have \n1V05_S0=1.09V\nStill no CPU Voltages\n\nVR_ON: 0V"}
-{"post_id":83099,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-26 19:05:01","message":"So ALL_SYS_PWRGD still missing.\nRemove Q7950 and test it again."}
-{"post_id":83100,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-11-26 20:14:02","message":"Removed Q7950 and still ALL_SYS_PWRGD: 0V.\n\nCan you explain the  ALL_SYS_PWRGD? \nI need all of the yellow voltages to create  ALL_SYS_PWRGD  right (see attached)?? U7960 is no present on the Board.\n\nP5VS3_PGOOD: 0V (I replaced U7201 and same)\nP1V5S0_PGOOD: 0V"}
-{"post_id":83108,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-11-27 03:59:09","message":"You should remove the resistors from ALL_SYS_PWRGD (one by one), until found which power supply cause the problem.\nKeep R7967 in place; hope it has 3V at pin 1.\n\nU7960 is not used..."}
-{"post_id":83373,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-12-04 17:08:00","message":"U7100 was the problem. Now the board power up, the screen is white but never shows the folder (with thunderbolt)\nBlack screen with its screen. \nIt chimes\n Could be Bios since I changed the GPU 084 for one 081005? Could you provide good bios file?"}
-{"post_id":83374,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-12-04 17:32:27","message":"Did you configure VRAM resistors correctly?\nDo you get external video?\nCaps Lock light reacts, USB activity?\n\nInternal LCD is pure white, or classic Apple grey?\nDid you try another LCD assembly?"}
-{"post_id":83376,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":32898,"username":"javier_herart","post_date":"2021-12-04 18:04:54","message":"R8613= 10k\nR8612=10k\nR8610= REMOVED\n\nOn external monitor turn white\/grey (just like if it were going to show the folder.)\nInternal LCD is black, like if it was disconnected.\n\nCaps Lock light does react."}
-{"post_id":83379,"thread_id":61946,"title":"820-2915-B PPBus_G3H=1.2V","user_id":682,"username":"2informaticos","post_date":"2021-12-05 05:02:32","message":"Check on external monitor booting ASD, or accessing boot menu.\n\nDid you check some voltage and signals on the LCD connetor.\nInternal screen should have same (no) image as external.\nSo there is a problem too.\n\nPRAM reset done?\nYou can try known good BIOS, just in case."}
+[
+    {
+        "post_id":82442,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-09 18:57:00",
+        "message":"Hello.\n\nI have this 820-2915-B, no power. It takes 270mA from the PSU and GPU gets hot.\n\nPPBus_G3H=1.2V\nPPBus_G3H= 6 ohms to ground. \n\nI have 0.2ohm between F7040 and L8920. Any advice?\n\n\nThanks!"
+    },
+    {
+        "post_id":82443,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-09 19:13:19",
+        "message":"Q8950 is shorted, change it.\nBe sure C8956 is on its place."
+    },
+    {
+        "post_id":82447,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-09 20:39:13",
+        "message":"After removing Q8950 the short is gone. Unfortunately I do not have one to replace it.\n\nIf I disable the GPU (using dosdude method) could I leave the board without that Mosfet?"
+    },
+    {
+        "post_id":82448,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-09 21:21:10",
+        "message":"Yes..."
+    },
+    {
+        "post_id":82863,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-20 15:26:52",
+        "message":"Client needs the Dedicated GPU. I bought a donor board, replaced Q8950 and when turning on the GPU gets ultra hot and the board takes 4A.\nI imagine death GPU?  Can replace the 216-0810084 with a 216-081005?"
+    },
+    {
+        "post_id":82864,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-21 01:33:40",
+        "message":"You've changed Q8950 and powered up the board without checking anything else on the GPU power supply?\nIf you change GPU and do the same, you'll probably fry the new GPU too.\n\nIf you want to use 216-081005, then move R8610 to R8612 and solder 10K resistor in place of R8613."
+    },
+    {
+        "post_id":82917,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-22 15:47:24",
+        "message":"What else should I have mesured? \nWith Q8950 removed I powered up the board, green light but obviously no video. Measured all coils and nothing extrange found.  PPBus_G3H= 12v.\n\nWhat is the normal voltage value of PPVCORE_GPU?\n\nCurrently I have the GPU out, what should I measure?"
+    },
+    {
+        "post_id":82922,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-22 17:09:53",
+        "message":"Q8950 got burnt because of some reason.\nPossibly bad C8956, or U8900.\nCan also be broken traces, or bad solders.\nBetter to change Q8950\/51 and U8900 at same time."
+    },
+    {
+        "post_id":83002,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-24 20:57:58",
+        "message":"You were right. I was getting 3V on PPVCORE_GPU_REG_R.\n\nReplaced Q8950\/51, C8956 and U8900 and now I have 1.1V on PPVCORE_GPU_REG_R (Is this ok?).\n\nCurrently not GPU Soldered. What else should I measure before installing GPU?"
+    },
+    {
+        "post_id":83010,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-25 01:08:51",
+        "message":"You should consider disabling GPU for such old machine.\n\nNow GPU can be soldered if you want.\nIts core voltage looks good."
+    },
+    {
+        "post_id":83064,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-25 21:44:40",
+        "message":"Hello.\nCustomer insists on the dedicated GPU.\n\nI have replaced GPU ( moved R8610 to R8612 and soldered 10K resistor in place of R8613 since I am using a  216-081005). But I am not getting\nPPVCORE_S0_CPU.\n\nPPVCORE_S0_CPU: 0V\nPP5V_S0: 5V\nCPUIMVP_VR_ON: 0V\nPP1V05_S0: 0V\nCPUVCCIOS0_EN: 3V"
+    },
+    {
+        "post_id":83065,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-25 22:02:05",
+        "message":"More info: \nPP1V8_S0:1.8V\nPP1V5_S0: 1.54V\nPP1V2_S0: 1.22V\nPP1V05_SUS: 1.18V"
+    },
+    {
+        "post_id":83070,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-26 01:04:33",
+        "message":"1V05_S0 must appear before CPU core voltage.\nThis also causes missing ALL_SYS_PWRGD.\nSo fix the problem on U7600 area first.\nCheck diode mode to ground at L7630.\nPost U7600 voltage; pins 13, 14, 3."
+    },
+    {
+        "post_id":83097,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-26 16:20:45",
+        "message":"Diode mode to ground at L7630: 0.032V\nU7600 \nPin 13: 5.07V\nPin 14: 5.07V\nPin 3: 3.32V"
+    },
+    {
+        "post_id":83098,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-26 16:52:53",
+        "message":"Replaced U7600 and now I have \n1V05_S0=1.09V\nStill no CPU Voltages\n\nVR_ON: 0V"
+    },
+    {
+        "post_id":83099,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-26 17:05:01",
+        "message":"So ALL_SYS_PWRGD still missing.\nRemove Q7950 and test it again."
+    },
+    {
+        "post_id":83100,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-11-26 18:14:02",
+        "message":"Removed Q7950 and still ALL_SYS_PWRGD: 0V.\n\nCan you explain the  ALL_SYS_PWRGD? \nI need all of the yellow voltages to create  ALL_SYS_PWRGD  right (see attached)?? U7960 is no present on the Board.\n\nP5VS3_PGOOD: 0V (I replaced U7201 and same)\nP1V5S0_PGOOD: 0V"
+    },
+    {
+        "post_id":83108,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-27 01:59:09",
+        "message":"You should remove the resistors from ALL_SYS_PWRGD (one by one), until found which power supply cause the problem.\nKeep R7967 in place; hope it has 3V at pin 1.\n\nU7960 is not used..."
+    },
+    {
+        "post_id":83373,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-12-04 15:08:00",
+        "message":"U7100 was the problem. Now the board power up, the screen is white but never shows the folder (with thunderbolt)\nBlack screen with its screen. \nIt chimes\n Could be Bios since I changed the GPU 084 for one 081005? Could you provide good bios file?"
+    },
+    {
+        "post_id":83374,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-04 15:32:27",
+        "message":"Did you configure VRAM resistors correctly?\nDo you get external video?\nCaps Lock light reacts, USB activity?\n\nInternal LCD is pure white, or classic Apple grey?\nDid you try another LCD assembly?"
+    },
+    {
+        "post_id":83376,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":32898,
+        "username":"javier_herart",
+        "post_date":"2021-12-04 16:04:54",
+        "message":"R8613= 10k\nR8612=10k\nR8610= REMOVED\n\nOn external monitor turn white\/grey (just like if it were going to show the folder.)\nInternal LCD is black, like if it was disconnected.\n\nCaps Lock light does react."
+    },
+    {
+        "post_id":83379,
+        "thread_id":61946,
+        "title":"820-2915-B PPBus_G3H=1.2V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-05 03:02:32",
+        "message":"Check on external monitor booting ASD, or accessing boot menu.\n\nDid you check some voltage and signals on the LCD connetor.\nInternal screen should have same (no) image as external.\nSo there is a problem too.\n\nPRAM reset done?\nYou can try known good BIOS, just in case."
+    }
+]

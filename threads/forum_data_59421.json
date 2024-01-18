@@ -1,38 +1,344 @@
-{"post_id":60230,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-05-31 00:28:29","message":"Greetings Forum, \n\nI'm new here, new to MacBook repair, and new to cleaning out electronic devices filled with lotion. \n\nI've been microsoldering for about 6 months, and have started up a device repair business where I live in Western North Carolina. I got into this so that I can always have a working iPod classic, and not many places will solder on those 30 pin connectors when you break them. I attended PBRS at iPad Rehab, downloaded and viewed Mike H.'s (from microsoldering.com) microsoldering course, and have been pretty much soldering something every day since getting into this. \n\nThough I've gotten pretty good at reading phone schematics, the MacBook schematics are new to me. I did go through the Rossman Repair Training Guide, and it's certainly helpful, but I'll need to a bit to get up to speed. \n\nAs stated above, I recently received a MacBook Pro that was filled with lotion on the MagSafe 2 adapter side. I've pulled it apart, cleaned out the lotion, washed the board and MagSafe connector in the ultrasonic bath, and reassembled. During this process, I realized that the microphone connector had shorted so badly that the ribbon cable had actually fused with the connector. In order to eliminate this as a source of potential short, I removed that connector from the board. \n\nThis is where the computer is at: plugging it in results in expected behavior from the MagSafe adapter: the light turns on and responds. The fan kicks on immediately and runs at what appears to be full speed. Disconnecting the DC power and hooking up the battery will result in more-or-less the same behavior. No boot, obviously, and no chime. \n\nLooking at the board while its running with the thermal camera shows no obvious hot spots. I can see a warm spot in the flash drive, the fan connector, and many of the ground connections on different components are warm. Based on this, I'm hypothesizing that something, somewhere is shorted to ground. I'm just not sure where to start. \n\nBased on the Rossman Repair Training Guide, I feel confident in stating that PPBUS_G3H is functioning properly, and I believe my next step is to assess the state of the SMC, and\/or check all of the G3 always hot lines, though I am totally not confident in this plan. \n\nAny thoughts or insights that can be provided would be helpful and much appreciated, especially from those of you who've cleaned lotion out of MacBooks in the past. \n\nThanks."}
-{"post_id":60233,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-05-31 05:55:44","message":"First of all, welcome to the forum!\n\nIf fan spins, forget about checking G3H lines; you are already in S0 state!\n\nDisconnect any thing form the board; no RIO flex, SSD, trackpad flex, nor other cables.\nKeep only DCIN board and use an USB device to test for activity; more information available on the forum.\n\nIf fan started high spin, there is a problem with at least one SMC sensor.\nDon't worry about that yet.\n\nWe need you to post voltage on all big coils.\nIf board stays on, then should not have any short..."}
-{"post_id":60256,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-05-31 14:03:05","message":"Forgive me for asking what are probably basic questions. \n\n1. This first one is probably ridiculous, but I have to ask: I can assume the board stays on if the orange light on MagSafe stays lit, is that correct? \n2. What kind of values should I be posting, for example, L7630 is pretty consistently testing around 1.5 mV with my auto ranging DMM. Is that 1.5 important. For the most part, with the exception of L7630, which is pretty consistently around 1.5mV, everything else is given below: \n\nL7630 -- 1.4mV\nL7310 -- 100 mV\nL7320 -- 30 mV\nL7430 -- 32 mV\nL7710 -- 46 mV\nL7720 -- 46 mV\nL3095 -- 25 mV\nL7195 -- 23 mV\nL7520 -- 0\nL7130 -- 5.5 mV\nL7870 -- 0 \n\nI'm not sure if those are all of the big coils; if not let me know. \n\nThanks for your help."}
-{"post_id":60259,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-05-31 15:38:32","message":"\"What kind of values should I be posting \"\nYou can guess many voltages because the name of their power rails.\nWhat do you expect to get on L7630 (1V05_S0_REG)?\nSometime the voltage appears in the top of the page; L7430 (DDR_S3_REG) marked clearly on top as \"1.2V S3 Regulator\".\nMahe use of your logic, please...\n\n\"I can assume the board stays on if the orange light on MagSafe stays lit, is that correct? \"\nNOT at all.\nIn time you will find working boards which don't have Magsafe light.\nSuch board will not charge the battery, so still need to be repaired somehow.\n\n\"Is that 1.5 important. \"\nIs completely irrelevant, as 100mV too.\n\n\"The fan kicks on immediately and runs at what appears to be full speed\n-----------------\nLooking at the board while its running\"\nYou've said the board is running.\nAlso, is no possible to have fan spinning, if no 5V_S0 present, at least.\n\nNo matters which state is the board, we need some volatges; not irrelevant mV please.\nTo be more specific, post exact PPBUS_G3H voltage and 3V3_S5\/SUS.\nAlso check PM_SLP_SUS_L, as other PM_SLP_Sx_L signals too."}
-{"post_id":60264,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-05-31 17:28:38","message":"Thanks again for your help. I apologize for my ignorance here; forgive me, as I come from a research background, and in my experience it's better to be complete than not.\n\nI'm pretty familiar with Boardview files and have better than rudimentary schematic reading skills, so I am aware of the voltages that should be on those lines; again, in my experience it's better to be more complete than not.\n\nRegarding the lines you mentioned:\n\nPPBUS_G3H -- 12.55 V\nPVP3V3_S5 -- 3.33 V\nPM_SLP_SUS_L -- 3.32 V\nPM_SLP_S0_L -- [COLOR=rgb(226, 80, 65)]5.14 V edit[\/COLOR]\nPM_SLP_S3_L -- 3.3 V\nPM_SLP_S4_L -- 3.3 V\nPM_SLP_S0_L -- 3.3V"}
-{"post_id":60270,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-05-31 18:25:23","message":"If you have high level for PM_SLP_Sx_L signals, you should have almost all voltage rails present, including S0.\n\nBTW, please correct the error about PM_SLP_S0_L in your last post.\nIt is not very important at this moment, but I wonder how can you get two different voltages on the same line...\n\nPost again voltages on the coils before mentioned."}
-{"post_id":60274,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-05-31 21:27:29","message":"Okay... \nNot sure what happened when I measured these the first time around. My bad and my apologies to you. I just now changed the battery in my DMM; perhaps that has something to do with it. \n\nPlease note the edit in the previous post regarding 5.14 V on PM_SLP_S0_L. \n\nL7630 -- 1.05 V\nL7310 -- 0 V\nL7320 -- 0 V\nL7430 -- 1.2 V\nL7710 -- 0 V\nL7720 -- 5.14 V\nL3095 -- 0 V\nL7195 -- 5.43 V\nL7520 -- 5.14V\nL7130 -- 12.32 V\nL7870 -- 1.5 V"}
-{"post_id":60285,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-01 04:51:29","message":"\"Please note the edit in the previous post regarding 5.14 V on PM_SLP_S0_L. \"\nStill bad to get 3.3V and 5.14V at same line, believe me!\nI suppose you got confused and there are two different signals instead.\n\nLooks like you get many voltages, including S0 ones.\nNo pulse at all at L7310\/20?\nCheck pins 7 & 3 of u1950."}
-{"post_id":60314,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-01 14:34:14","message":"[QUOTE=\"2informaticos, post: 60285, member: 682\"]\n\"Please note the edit in the previous post regarding 5.14 V on PM_SLP_S0_L. \"\nStill bad to get 3.3V and 5.14V at same line, believe me!\nI suppose you got confused and there are two different signals instead.\n\nLooks like you get many voltages, including S0 ones.\nNo pulse at all at L7310\/20?\nCheck pins 7 & 3 of u1950.\n[\/QUOTE]\nOkay, sorry about that; my fault again; PM_SLP_S0_L is 3.3 V\n\nI've check both 7310\/20 again--at least a dozen times--and nothing. \n\nNo power at pins, 7 or 3, but just to confirm that everything was working as expected based on what is known thus far, I confirmed the 3.42 V on pin 8."}
-{"post_id":60316,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-01 15:16:37","message":"Do you get steady voltage at L7720, L7430, L7870 and L7630?\nIf yes, ALL_SYS_PWRGD should be high too."}
-{"post_id":60322,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-01 18:31:50","message":"[QUOTE=\"2informaticos, post: 60316, member: 682\"]\nDo you get steady voltage at L7720, L7430, L7870 and L7630?\nIf yes, ALL_SYS_PWRGD should be high too.\n[\/QUOTE]\n\n\nOkay... Checking them all again: \n\nL7720 -- 5.14\nL7430 -- 1.20\nL7630 -- 1.05\nL7870 -- 1.50\nALL_SYS_PWRGD -- 0\n\nThat said, I followed ALL_SYS_PWRGD, which is when I realized that U1860 is actually missing. I'm going to have to go through and look at all of these pads that have no components on them, and confirm which are NOSTUFF and which are not. \n\nI feel better that the measurements I was taking have some basis in reality. \n\nThanks for your help."}
-{"post_id":60326,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-01 18:45:16","message":"ALL_SYS_PWRGD is the sum of several power goods signals.\nThe reason, one power supply doesn't work properly, or fails its power good.\n\nStart removing Q8150; is a redundant protection amd you can leave it out...\n\nBTW, any reason to quote an entire post visible few centimeters above???"}
-{"post_id":60641,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-08 21:50:04","message":"Okay... I replaced a bunch of stuff on this board, and I have 1.8 V at both L7310\/20\n\nPins 7 and 3 on U1950 - 3.4 V\nALL_SYS_PWRGD - 3.3 V\n\nWhat are my next steps here? Thanks for your help."}
-{"post_id":60664,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-09 08:56:18","message":"So the board stays on now, but no activity at all?\nDid you check for USB activity at least?\nPLT_RESET_L is high?"}
-{"post_id":60672,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-09 09:54:42","message":"Prior to my message yesterday, I replaced a few components and this is the state of the board currently. I haven't tried anything other than replacing those components; now that I've replaced them, I have power back at those specific components. Should I put the board back in the case and try to boot it? If so, do I need the battery to boot? I'm not sure if the battery was damaged. Also, what if the top case is messed up, like the keyboard doesn't work, is there a way to boot in that scenario?"}
-{"post_id":60677,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-09 11:24:40","message":"This is iCore platform, should boot automatically when proper charger is connected.\nWork with board alone on the desk; no battery needed, uet.\nUse an USB mouse to check for USB acrivity."}
-{"post_id":60696,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-09 15:35:47","message":"Nothing with my USB mouse, in that that laser didn't come on, but checked with my USB ammeter, and have 5.25 V @ USB"}
-{"post_id":60703,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-09 17:21:08","message":"USB power and activity is not the same thing!\n\n\"PLT_RESET_L is high?\"\nYou can try known good BIOS now..."}
-{"post_id":60716,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-09 23:57:11","message":"PLT_RESET_L is 3.3 V\n\nPardon my total ignorance once again here, but can you please provide some clarification regarding 'trying a known good BIOS,' please? I'm not sure how to do that. Again, my apologies for my total ignorance here."}
-{"post_id":60726,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-10 05:28:57","message":"You need to reflash the BIOS, located on the SPI chip U6100.\nI guess you don't have Medusa programmer, so you need to remove the chip and attach it (with proper adapter) to an USB programmer."}
-{"post_id":60777,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-10 14:53:09","message":"Okay... sorry that you have to walk me through this, but BIOS is flashed."}
-{"post_id":60779,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-10 18:08:12","message":"What BIOS file did you use?"}
-{"post_id":60800,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-11 00:03:08","message":"MBP112.0138.B16"}
-{"post_id":60813,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-11 03:59:52","message":"I mean where did you get it?"}
-{"post_id":60843,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-11 10:29:11","message":"Dr. BIOS"}
-{"post_id":60846,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-11 11:41:00","message":"Didn't find any clean BIOS on our forum???"}
-{"post_id":60858,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-11 12:59:16","message":"I didn't look. As I mentioned, I'm totally new on this forum; I came because the forum is advertised as, more-or-less, providing a resource that can walk you through logic board repair. This is most difficult logic board repair I've encountered, hence, here I am. I am unaware of the breadth of resources that may or may not be available on this forum, being a new member. \n\nWith that said, if there is an expectation or preference that I acquire certain resources such as a BIOS from this forum, then perhaps you could provide a link, or even mention that such a resource is available here, when you state that I should 'flash the BIOS' of the board on which I'm working.  \n\nCan we assume, for the time being, that I did manage to complete this step properly and move on to the next step?"}
-{"post_id":60863,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-11 13:11:51","message":"Try this BIOS first...\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1Hhdhd_t-9FxALozsa2067WnfRAUZqxNr\/view?usp=sharing[\/URL]"}
-{"post_id":60937,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-12 17:23:51","message":"Thank you. BIOS installed."}
-{"post_id":60938,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-12 17:51:14","message":"Any change?"}
-{"post_id":60946,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-12 19:18:15","message":"Sorry, am I just looking for USB activity at this point? The major thing that happened was power restored to all major lines on the board, 5.25 V @ USB, and me asking if I should try to boot this board. You wrote that I should try a known good BIOS. I reflashed the BIOS with the file you linked me to. Now, I was waiting for you again, for more or less a next step. \n\nThanks."}
-{"post_id":60959,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-13 05:09:06","message":"You said BIOS done, but didn't specify the actual state of the board.\nNo idea if new BIOS helped..."}
-{"post_id":60968,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-13 12:04:39","message":"I guess I\u2019m going to have to ask for clarification again; I\u2019m not sure what you\u2019re asking when you say the \u201cstate of the board.\u201d From my perspective the board, seems to have expected power in the expected locations.\n\nPreviously, I asked if I should try to boot the board, to which you replied I needed to try a known good BIOS first. This is where I\u2019m at: seemingly functional board, new BIOS installed.\n\nCan you please clarify what I\u2019m looking for regarding \u2018board state?\u2019\n\nThanks."}
-{"post_id":60972,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-13 12:54:46","message":"Power up the board and tell us what happens..."}
-{"post_id":60979,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-13 15:08:11","message":"Okay... just to clarify: by power up, you mean put the board back in the case and try to boot it?\nDo I need the battery hooked up to do this?"}
-{"post_id":60980,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-13 15:42:59","message":"iCore boards usually turn on automatically, when charger is connected.\nBut recent thread for the same board, mentioned didn't start without battery; so test both cases.\n\nTry the board out of case, with only USB mouseto check for activity.\nCheck first if you get voltage on all coils and CPU heats..."}
-{"post_id":61051,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":26495,"username":"matthewgreene","post_date":"2020-06-16 10:39:35","message":"Voltage on all coils, and the CPU is heating. I can't swear to USB activity, but my USB mouse seems to be responding. \n\nNext Step?"}
-{"post_id":61054,"thread_id":59421,"title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion","user_id":682,"username":"2informaticos","post_date":"2020-06-16 11:35:08","message":"Disconnect\/reconnect USB mouse when board is turned on; mouse gets steady light again?"}
+[
+    {
+        "post_id":60230,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-05-30 22:28:29",
+        "message":"Greetings Forum, \n\nI'm new here, new to MacBook repair, and new to cleaning out electronic devices filled with lotion. \n\nI've been microsoldering for about 6 months, and have started up a device repair business where I live in Western North Carolina. I got into this so that I can always have a working iPod classic, and not many places will solder on those 30 pin connectors when you break them. I attended PBRS at iPad Rehab, downloaded and viewed Mike H.'s (from microsoldering.com) microsoldering course, and have been pretty much soldering something every day since getting into this. \n\nThough I've gotten pretty good at reading phone schematics, the MacBook schematics are new to me. I did go through the Rossman Repair Training Guide, and it's certainly helpful, but I'll need to a bit to get up to speed. \n\nAs stated above, I recently received a MacBook Pro that was filled with lotion on the MagSafe 2 adapter side. I've pulled it apart, cleaned out the lotion, washed the board and MagSafe connector in the ultrasonic bath, and reassembled. During this process, I realized that the microphone connector had shorted so badly that the ribbon cable had actually fused with the connector. In order to eliminate this as a source of potential short, I removed that connector from the board. \n\nThis is where the computer is at: plugging it in results in expected behavior from the MagSafe adapter: the light turns on and responds. The fan kicks on immediately and runs at what appears to be full speed. Disconnecting the DC power and hooking up the battery will result in more-or-less the same behavior. No boot, obviously, and no chime. \n\nLooking at the board while its running with the thermal camera shows no obvious hot spots. I can see a warm spot in the flash drive, the fan connector, and many of the ground connections on different components are warm. Based on this, I'm hypothesizing that something, somewhere is shorted to ground. I'm just not sure where to start. \n\nBased on the Rossman Repair Training Guide, I feel confident in stating that PPBUS_G3H is functioning properly, and I believe my next step is to assess the state of the SMC, and\/or check all of the G3 always hot lines, though I am totally not confident in this plan. \n\nAny thoughts or insights that can be provided would be helpful and much appreciated, especially from those of you who've cleaned lotion out of MacBooks in the past. \n\nThanks."
+    },
+    {
+        "post_id":60233,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 03:55:44",
+        "message":"First of all, welcome to the forum!\n\nIf fan spins, forget about checking G3H lines; you are already in S0 state!\n\nDisconnect any thing form the board; no RIO flex, SSD, trackpad flex, nor other cables.\nKeep only DCIN board and use an USB device to test for activity; more information available on the forum.\n\nIf fan started high spin, there is a problem with at least one SMC sensor.\nDon't worry about that yet.\n\nWe need you to post voltage on all big coils.\nIf board stays on, then should not have any short..."
+    },
+    {
+        "post_id":60256,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-05-31 12:03:05",
+        "message":"Forgive me for asking what are probably basic questions. \n\n1. This first one is probably ridiculous, but I have to ask: I can assume the board stays on if the orange light on MagSafe stays lit, is that correct? \n2. What kind of values should I be posting, for example, L7630 is pretty consistently testing around 1.5 mV with my auto ranging DMM. Is that 1.5 important. For the most part, with the exception of L7630, which is pretty consistently around 1.5mV, everything else is given below: \n\nL7630 -- 1.4mV\nL7310 -- 100 mV\nL7320 -- 30 mV\nL7430 -- 32 mV\nL7710 -- 46 mV\nL7720 -- 46 mV\nL3095 -- 25 mV\nL7195 -- 23 mV\nL7520 -- 0\nL7130 -- 5.5 mV\nL7870 -- 0 \n\nI'm not sure if those are all of the big coils; if not let me know. \n\nThanks for your help."
+    },
+    {
+        "post_id":60259,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 13:38:32",
+        "message":"\"What kind of values should I be posting \"\nYou can guess many voltages because the name of their power rails.\nWhat do you expect to get on L7630 (1V05_S0_REG)?\nSometime the voltage appears in the top of the page; L7430 (DDR_S3_REG) marked clearly on top as \"1.2V S3 Regulator\".\nMahe use of your logic, please...\n\n\"I can assume the board stays on if the orange light on MagSafe stays lit, is that correct? \"\nNOT at all.\nIn time you will find working boards which don't have Magsafe light.\nSuch board will not charge the battery, so still need to be repaired somehow.\n\n\"Is that 1.5 important. \"\nIs completely irrelevant, as 100mV too.\n\n\"The fan kicks on immediately and runs at what appears to be full speed\n-----------------\nLooking at the board while its running\"\nYou've said the board is running.\nAlso, is no possible to have fan spinning, if no 5V_S0 present, at least.\n\nNo matters which state is the board, we need some volatges; not irrelevant mV please.\nTo be more specific, post exact PPBUS_G3H voltage and 3V3_S5\/SUS.\nAlso check PM_SLP_SUS_L, as other PM_SLP_Sx_L signals too."
+    },
+    {
+        "post_id":60264,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-05-31 15:28:38",
+        "message":"Thanks again for your help. I apologize for my ignorance here; forgive me, as I come from a research background, and in my experience it's better to be complete than not.\n\nI'm pretty familiar with Boardview files and have better than rudimentary schematic reading skills, so I am aware of the voltages that should be on those lines; again, in my experience it's better to be more complete than not.\n\nRegarding the lines you mentioned:\n\nPPBUS_G3H -- 12.55 V\nPVP3V3_S5 -- 3.33 V\nPM_SLP_SUS_L -- 3.32 V\nPM_SLP_S0_L -- [COLOR=rgb(226, 80, 65)]5.14 V edit[\/COLOR]\nPM_SLP_S3_L -- 3.3 V\nPM_SLP_S4_L -- 3.3 V\nPM_SLP_S0_L -- 3.3V"
+    },
+    {
+        "post_id":60270,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 16:25:23",
+        "message":"If you have high level for PM_SLP_Sx_L signals, you should have almost all voltage rails present, including S0.\n\nBTW, please correct the error about PM_SLP_S0_L in your last post.\nIt is not very important at this moment, but I wonder how can you get two different voltages on the same line...\n\nPost again voltages on the coils before mentioned."
+    },
+    {
+        "post_id":60274,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-05-31 19:27:29",
+        "message":"Okay... \nNot sure what happened when I measured these the first time around. My bad and my apologies to you. I just now changed the battery in my DMM; perhaps that has something to do with it. \n\nPlease note the edit in the previous post regarding 5.14 V on PM_SLP_S0_L. \n\nL7630 -- 1.05 V\nL7310 -- 0 V\nL7320 -- 0 V\nL7430 -- 1.2 V\nL7710 -- 0 V\nL7720 -- 5.14 V\nL3095 -- 0 V\nL7195 -- 5.43 V\nL7520 -- 5.14V\nL7130 -- 12.32 V\nL7870 -- 1.5 V"
+    },
+    {
+        "post_id":60285,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-01 02:51:29",
+        "message":"\"Please note the edit in the previous post regarding 5.14 V on PM_SLP_S0_L. \"\nStill bad to get 3.3V and 5.14V at same line, believe me!\nI suppose you got confused and there are two different signals instead.\n\nLooks like you get many voltages, including S0 ones.\nNo pulse at all at L7310\/20?\nCheck pins 7 & 3 of u1950."
+    },
+    {
+        "post_id":60314,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-01 12:34:14",
+        "message":"[QUOTE=\"2informaticos, post: 60285, member: 682\"]\n\"Please note the edit in the previous post regarding 5.14 V on PM_SLP_S0_L. \"\nStill bad to get 3.3V and 5.14V at same line, believe me!\nI suppose you got confused and there are two different signals instead.\n\nLooks like you get many voltages, including S0 ones.\nNo pulse at all at L7310\/20?\nCheck pins 7 & 3 of u1950.\n[\/QUOTE]\nOkay, sorry about that; my fault again; PM_SLP_S0_L is 3.3 V\n\nI've check both 7310\/20 again--at least a dozen times--and nothing. \n\nNo power at pins, 7 or 3, but just to confirm that everything was working as expected based on what is known thus far, I confirmed the 3.42 V on pin 8."
+    },
+    {
+        "post_id":60316,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-01 13:16:37",
+        "message":"Do you get steady voltage at L7720, L7430, L7870 and L7630?\nIf yes, ALL_SYS_PWRGD should be high too."
+    },
+    {
+        "post_id":60322,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-01 16:31:50",
+        "message":"[QUOTE=\"2informaticos, post: 60316, member: 682\"]\nDo you get steady voltage at L7720, L7430, L7870 and L7630?\nIf yes, ALL_SYS_PWRGD should be high too.\n[\/QUOTE]\n\n\nOkay... Checking them all again: \n\nL7720 -- 5.14\nL7430 -- 1.20\nL7630 -- 1.05\nL7870 -- 1.50\nALL_SYS_PWRGD -- 0\n\nThat said, I followed ALL_SYS_PWRGD, which is when I realized that U1860 is actually missing. I'm going to have to go through and look at all of these pads that have no components on them, and confirm which are NOSTUFF and which are not. \n\nI feel better that the measurements I was taking have some basis in reality. \n\nThanks for your help."
+    },
+    {
+        "post_id":60326,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-01 16:45:16",
+        "message":"ALL_SYS_PWRGD is the sum of several power goods signals.\nThe reason, one power supply doesn't work properly, or fails its power good.\n\nStart removing Q8150; is a redundant protection amd you can leave it out...\n\nBTW, any reason to quote an entire post visible few centimeters above???"
+    },
+    {
+        "post_id":60641,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-08 19:50:04",
+        "message":"Okay... I replaced a bunch of stuff on this board, and I have 1.8 V at both L7310\/20\n\nPins 7 and 3 on U1950 - 3.4 V\nALL_SYS_PWRGD - 3.3 V\n\nWhat are my next steps here? Thanks for your help."
+    },
+    {
+        "post_id":60664,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-09 06:56:18",
+        "message":"So the board stays on now, but no activity at all?\nDid you check for USB activity at least?\nPLT_RESET_L is high?"
+    },
+    {
+        "post_id":60672,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-09 07:54:42",
+        "message":"Prior to my message yesterday, I replaced a few components and this is the state of the board currently. I haven't tried anything other than replacing those components; now that I've replaced them, I have power back at those specific components. Should I put the board back in the case and try to boot it? If so, do I need the battery to boot? I'm not sure if the battery was damaged. Also, what if the top case is messed up, like the keyboard doesn't work, is there a way to boot in that scenario?"
+    },
+    {
+        "post_id":60677,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-09 09:24:40",
+        "message":"This is iCore platform, should boot automatically when proper charger is connected.\nWork with board alone on the desk; no battery needed, uet.\nUse an USB mouse to check for USB acrivity."
+    },
+    {
+        "post_id":60696,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-09 13:35:47",
+        "message":"Nothing with my USB mouse, in that that laser didn't come on, but checked with my USB ammeter, and have 5.25 V @ USB"
+    },
+    {
+        "post_id":60703,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-09 15:21:08",
+        "message":"USB power and activity is not the same thing!\n\n\"PLT_RESET_L is high?\"\nYou can try known good BIOS now..."
+    },
+    {
+        "post_id":60716,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-09 21:57:11",
+        "message":"PLT_RESET_L is 3.3 V\n\nPardon my total ignorance once again here, but can you please provide some clarification regarding 'trying a known good BIOS,' please? I'm not sure how to do that. Again, my apologies for my total ignorance here."
+    },
+    {
+        "post_id":60726,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-10 03:28:57",
+        "message":"You need to reflash the BIOS, located on the SPI chip U6100.\nI guess you don't have Medusa programmer, so you need to remove the chip and attach it (with proper adapter) to an USB programmer."
+    },
+    {
+        "post_id":60777,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-10 12:53:09",
+        "message":"Okay... sorry that you have to walk me through this, but BIOS is flashed."
+    },
+    {
+        "post_id":60779,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-10 16:08:12",
+        "message":"What BIOS file did you use?"
+    },
+    {
+        "post_id":60800,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-10 22:03:08",
+        "message":"MBP112.0138.B16"
+    },
+    {
+        "post_id":60813,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 01:59:52",
+        "message":"I mean where did you get it?"
+    },
+    {
+        "post_id":60843,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-11 08:29:11",
+        "message":"Dr. BIOS"
+    },
+    {
+        "post_id":60846,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 09:41:00",
+        "message":"Didn't find any clean BIOS on our forum???"
+    },
+    {
+        "post_id":60858,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-11 10:59:16",
+        "message":"I didn't look. As I mentioned, I'm totally new on this forum; I came because the forum is advertised as, more-or-less, providing a resource that can walk you through logic board repair. This is most difficult logic board repair I've encountered, hence, here I am. I am unaware of the breadth of resources that may or may not be available on this forum, being a new member. \n\nWith that said, if there is an expectation or preference that I acquire certain resources such as a BIOS from this forum, then perhaps you could provide a link, or even mention that such a resource is available here, when you state that I should 'flash the BIOS' of the board on which I'm working.  \n\nCan we assume, for the time being, that I did manage to complete this step properly and move on to the next step?"
+    },
+    {
+        "post_id":60863,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 11:11:51",
+        "message":"Try this BIOS first...\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1Hhdhd_t-9FxALozsa2067WnfRAUZqxNr\/view?usp=sharing[\/URL]"
+    },
+    {
+        "post_id":60937,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-12 15:23:51",
+        "message":"Thank you. BIOS installed."
+    },
+    {
+        "post_id":60938,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-12 15:51:14",
+        "message":"Any change?"
+    },
+    {
+        "post_id":60946,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-12 17:18:15",
+        "message":"Sorry, am I just looking for USB activity at this point? The major thing that happened was power restored to all major lines on the board, 5.25 V @ USB, and me asking if I should try to boot this board. You wrote that I should try a known good BIOS. I reflashed the BIOS with the file you linked me to. Now, I was waiting for you again, for more or less a next step. \n\nThanks."
+    },
+    {
+        "post_id":60959,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-13 03:09:06",
+        "message":"You said BIOS done, but didn't specify the actual state of the board.\nNo idea if new BIOS helped..."
+    },
+    {
+        "post_id":60968,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-13 10:04:39",
+        "message":"I guess I\u2019m going to have to ask for clarification again; I\u2019m not sure what you\u2019re asking when you say the \u201cstate of the board.\u201d From my perspective the board, seems to have expected power in the expected locations.\n\nPreviously, I asked if I should try to boot the board, to which you replied I needed to try a known good BIOS first. This is where I\u2019m at: seemingly functional board, new BIOS installed.\n\nCan you please clarify what I\u2019m looking for regarding \u2018board state?\u2019\n\nThanks."
+    },
+    {
+        "post_id":60972,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-13 10:54:46",
+        "message":"Power up the board and tell us what happens..."
+    },
+    {
+        "post_id":60979,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-13 13:08:11",
+        "message":"Okay... just to clarify: by power up, you mean put the board back in the case and try to boot it?\nDo I need the battery hooked up to do this?"
+    },
+    {
+        "post_id":60980,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-13 13:42:59",
+        "message":"iCore boards usually turn on automatically, when charger is connected.\nBut recent thread for the same board, mentioned didn't start without battery; so test both cases.\n\nTry the board out of case, with only USB mouseto check for activity.\nCheck first if you get voltage on all coils and CPU heats..."
+    },
+    {
+        "post_id":61051,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":26495,
+        "username":"matthewgreene",
+        "post_date":"2020-06-16 08:39:35",
+        "message":"Voltage on all coils, and the CPU is heating. I can't swear to USB activity, but my USB mouse seems to be responding. \n\nNext Step?"
+    },
+    {
+        "post_id":61054,
+        "thread_id":59421,
+        "title":"Bizarre Repair 2020: 13\" Macbook Pro (A1502, 2015) Filled with Lotion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-16 09:35:08",
+        "message":"Disconnect\/reconnect USB mouse when board is turned on; mouse gets steady light again?"
+    }
+]

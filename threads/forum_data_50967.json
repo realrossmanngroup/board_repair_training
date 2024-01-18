@@ -1,18 +1,164 @@
-{"post_id":50967,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-07-23 19:51:26","message":"Power on cycles 3 times befor giving 7 beeps error.\n\nsualaptop365.edu.vn_15or17 LA-B753P.pdf is the schematic file name I found for this board. No boardview available but chips are labeled on the board.\n\nUA4 gets warm (audio amp, starts getting warm when beeps start, not crazy hot, just warm). As does PL503, PL502, PL501 (gets very hot, but the CPU isn't taking any of the power). 1.703v  when system is on, no heat at the CPU? The CPU is BGA, so is this an issue with the BGA or am I having an issue with voltage not getting stable fast enough to start?\n\nNo signs of spill damage, no burns. System looks like it was low hours of use.\n\nNot sure where else to check."}
-{"post_id":50968,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2019-07-23 19:59:37","message":"Start with new BIOS..."}
-{"post_id":50969,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-07-23 20:56:48","message":"I had found instructions for BIOS recovery on an Alienware forum and it starts, but I can't seem to get a file to load. I get a flash on the USB drive and then nothing. Tried the instructions from Dell for BIOS recovery but the process doesn't work. \n\nnotebookforums has this:\n\n\n\nI'm assuming since your online, you have access to another machine.. Lets fix yours..\nWe're going to do a AMI BIOS Bootblock recovery.. It requires a USB stick.. [IMG]http:\/\/forum.notebookreview.com\/styles\/default\/xenforo\/clear.png[\/IMG] Simple fix.\n\nFollow these instructions to get back on your system WITHOUT a MB replacement.\n\n1. Do a bootblock recovery to flash the proper rom.\n\n2. If you have access to another machine, format a USB stick to FAT32.\n\n3. Run AW15A05.EXE \/writehdrfile. (Or whatever version you used BEFORE you bricked, as usually the bootblock isn't updated, but with some BIOS updates, it can be, so your more safe to use the same version you had on the machine BEFORE it bricked from improper flash.)\n\n4. Now take this HDR file and rename it to AAP10.hdr. Put it on the root of the USB.\n\n5. Now make a copy of this file and rename it AMIBOOT.ROM (all caps) so now there's 2 files on the USB key, AMIBOOT.ROM and AAP10.hdr. (Unconfirmed if uses old AMIBOOT.ROM or the new filename I found.. New aptio platform we haven't really played with yet, so lets use both..)\n\n6. Now here's the fun part, you need the technical guide from [URL=\"http:\/\/euro.dell.com\/\"]dell[\/URL] and disconnect your MAIN battery, not the CMOS battery.. And unplug the PSU..\n\n7. Now, insert your USB stick, hold down END key, plug PSU back in with battery removed.\n\n8. It should turn on and after 5-10 mins, you should see USB activity.. Wait the FULL 10 mins. (Or until it shuts off on its own). Some have reported it took 2 mins when we were testing.\n\n9. After this, try to shut it down using POWER if it didn't on its own, but it should. Then turn it back on.. You should be back on your system.\n\nYou don't need to flash again after, as this recovery will flash the complete ROM.. And don't' forget to reconnect your battery..\n\n\n\n\nNow Boot block recovery does start on this system with the 'End\" key. My board is AAP20 as printed on the motherboard before the model LA-B753p so I used this for BIOS file name. Tried a few other make file commands to get .hdr, ROM, BIN just to see if I could get it to start the flash process. Tried AMIBOOT also. Fans should stay on if it starts to flash, and at some point the USB should light up as it is reading the file, but it just shuts off instead. I'll play around with this a little more, maybe I can find another way to name the files. I could check for replacement chips too."}
-{"post_id":50984,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2019-07-24 03:28:25","message":"Use external programmer, like TL866, or cheaper CH341.\nMake backup of you chip first.\nSearch dump file from working machine, or merge your backup with official Dell update.\nWe see later if ME region needs to clean also."}
-{"post_id":51070,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-07-29 19:22:19","message":"I was just able to get around to placing the order for a programmer. Found a US seller for the TL866li Plus. Never used a EEPROM tool before, but I doubt it will be hard to manage. ME region is in the same chip, right? These boards have two Winbond chips, Should i do a dump of both?"}
-{"post_id":51071,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2019-07-30 02:19:12","message":"ALWAYS make backup of any BIOS chip, before modify it!!!"}
-{"post_id":51359,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-08-11 16:42:08","message":"Schematic says it should be W25Q64FVSSIQ, my board has 25Q32FVSIQ, and when I go to read it, the software says \"external short or IC revers or incorrect package\".\n\nSecond Winbond chip is EC. 25Q80DV, marked on the board as UE2, BIOS is UH4. There is flux left around and on both of these chips, dump of EC went fine. Do I need to replace the 25Q32FV with a 25Q64FV?"}
-{"post_id":51361,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2019-08-11 19:27:15","message":"This board should have 8MB main BIOS.\nSomeone messed up with BIOS before you.\n\nGet correct 8MB chip and try to find a dump on Internet.\nIf not possible, let us know and we try to build one from scratch."}
-{"post_id":51363,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-08-11 19:43:02","message":"Got the chip needed from an AW Ranger. Used BIOS ver. A00. and programmed before placing it on the board and flashed EC to match. First boot was 5 beeps (normal after BIOS rest) power on to black screen, no beeps, reboots after about 1 minute and does the same, reboot, black screen. BIOS recovery mode now runs for 1 minute with fans at full speed. I was going to grab a different bin file, but the programming tool, still gives the \"external short \" error with the chip on the board. (I disconnect the CMOS battery too when connecting to the chip).\n\nCPU does get warm now and I get RAM error beeps if using the wrong type memory.\n\nEN25Q80A-100HIP_SO8; is the UE2 chip I said was EC and also looked like it had fresh flux on it. The model on my board is 25Q80DV Winbond chip; Is this going to be an issue too?"}
-{"post_id":51373,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2019-08-12 08:45:51","message":"Try these files...\n[url]https:\/\/drive.google.com\/open?id=1d1lCre2N32xIiGSVYLpozLXZSPnIaEah[\/url]"}
-{"post_id":51380,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-08-12 14:41:08","message":"Same behavior, just a different color on the AW FX LEDs."}
-{"post_id":51381,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2019-08-12 17:46:02","message":"Did you reflash both chips with external programmer?"}
-{"post_id":51382,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-08-12 17:51:30","message":"Yes. Redid the flashing again. Back to 7 beeps.\n\nAlso redid the EC chip solider after finding a loose leg."}
-{"post_id":51410,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2019-08-13 15:35:19","message":"What BIOS version is the files you posted?"}
-{"post_id":57708,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":331,"username":"daxxone","post_date":"2020-03-22 20:14:27","message":"the fix was to flash Super I\/O. Connection was done through keyboard connection. Still used the TL866 II to flash it, then flashed a matching EC and BIOS. Everything is working again."}
-{"post_id":57720,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2020-03-23 07:02:54","message":"Thanks for feedback, this can help someone else in the future..."}
-{"post_id":77692,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":31464,"username":"Jameswis","post_date":"2021-07-14 13:29:26","message":"Sorry for jumping in here, but i do have the boardview for this board if interested.  I'm also looking for which chip is the bios chip.  It has 2 chips.  1 is 8m and is other is 64m...\nAlso, I've tried extracting the dell bios from their .exe file from the website.. Does anyone know if that works?"}
-{"post_id":77695,"thread_id":50967,"title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2","user_id":682,"username":"2informaticos","post_date":"2021-07-14 13:52:03","message":"Main BIOS is UH4, 8MB (64Mb) in size.\nEC ROM is included in KBC.\n\nUsually can't extract full BIOS from Dell update."}
+[
+    {
+        "post_id":50967,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-07-23 17:51:26",
+        "message":"Power on cycles 3 times befor giving 7 beeps error.\n\nsualaptop365.edu.vn_15or17 LA-B753P.pdf is the schematic file name I found for this board. No boardview available but chips are labeled on the board.\n\nUA4 gets warm (audio amp, starts getting warm when beeps start, not crazy hot, just warm). As does PL503, PL502, PL501 (gets very hot, but the CPU isn't taking any of the power). 1.703v  when system is on, no heat at the CPU? The CPU is BGA, so is this an issue with the BGA or am I having an issue with voltage not getting stable fast enough to start?\n\nNo signs of spill damage, no burns. System looks like it was low hours of use.\n\nNot sure where else to check."
+    },
+    {
+        "post_id":50968,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-23 17:59:37",
+        "message":"Start with new BIOS..."
+    },
+    {
+        "post_id":50969,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-07-23 18:56:48",
+        "message":"I had found instructions for BIOS recovery on an Alienware forum and it starts, but I can't seem to get a file to load. I get a flash on the USB drive and then nothing. Tried the instructions from Dell for BIOS recovery but the process doesn't work. \n\nnotebookforums has this:\n\n\n\nI'm assuming since your online, you have access to another machine.. Lets fix yours..\nWe're going to do a AMI BIOS Bootblock recovery.. It requires a USB stick.. [IMG]http:\/\/forum.notebookreview.com\/styles\/default\/xenforo\/clear.png[\/IMG] Simple fix.\n\nFollow these instructions to get back on your system WITHOUT a MB replacement.\n\n1. Do a bootblock recovery to flash the proper rom.\n\n2. If you have access to another machine, format a USB stick to FAT32.\n\n3. Run AW15A05.EXE \/writehdrfile. (Or whatever version you used BEFORE you bricked, as usually the bootblock isn't updated, but with some BIOS updates, it can be, so your more safe to use the same version you had on the machine BEFORE it bricked from improper flash.)\n\n4. Now take this HDR file and rename it to AAP10.hdr. Put it on the root of the USB.\n\n5. Now make a copy of this file and rename it AMIBOOT.ROM (all caps) so now there's 2 files on the USB key, AMIBOOT.ROM and AAP10.hdr. (Unconfirmed if uses old AMIBOOT.ROM or the new filename I found.. New aptio platform we haven't really played with yet, so lets use both..)\n\n6. Now here's the fun part, you need the technical guide from [URL=\"http:\/\/euro.dell.com\/\"]dell[\/URL] and disconnect your MAIN battery, not the CMOS battery.. And unplug the PSU..\n\n7. Now, insert your USB stick, hold down END key, plug PSU back in with battery removed.\n\n8. It should turn on and after 5-10 mins, you should see USB activity.. Wait the FULL 10 mins. (Or until it shuts off on its own). Some have reported it took 2 mins when we were testing.\n\n9. After this, try to shut it down using POWER if it didn't on its own, but it should. Then turn it back on.. You should be back on your system.\n\nYou don't need to flash again after, as this recovery will flash the complete ROM.. And don't' forget to reconnect your battery..\n\n\n\n\nNow Boot block recovery does start on this system with the 'End\" key. My board is AAP20 as printed on the motherboard before the model LA-B753p so I used this for BIOS file name. Tried a few other make file commands to get .hdr, ROM, BIN just to see if I could get it to start the flash process. Tried AMIBOOT also. Fans should stay on if it starts to flash, and at some point the USB should light up as it is reading the file, but it just shuts off instead. I'll play around with this a little more, maybe I can find another way to name the files. I could check for replacement chips too."
+    },
+    {
+        "post_id":50984,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-24 01:28:25",
+        "message":"Use external programmer, like TL866, or cheaper CH341.\nMake backup of you chip first.\nSearch dump file from working machine, or merge your backup with official Dell update.\nWe see later if ME region needs to clean also."
+    },
+    {
+        "post_id":51070,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-07-29 17:22:19",
+        "message":"I was just able to get around to placing the order for a programmer. Found a US seller for the TL866li Plus. Never used a EEPROM tool before, but I doubt it will be hard to manage. ME region is in the same chip, right? These boards have two Winbond chips, Should i do a dump of both?"
+    },
+    {
+        "post_id":51071,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-30 00:19:12",
+        "message":"ALWAYS make backup of any BIOS chip, before modify it!!!"
+    },
+    {
+        "post_id":51359,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-08-11 14:42:08",
+        "message":"Schematic says it should be W25Q64FVSSIQ, my board has 25Q32FVSIQ, and when I go to read it, the software says \"external short or IC revers or incorrect package\".\n\nSecond Winbond chip is EC. 25Q80DV, marked on the board as UE2, BIOS is UH4. There is flux left around and on both of these chips, dump of EC went fine. Do I need to replace the 25Q32FV with a 25Q64FV?"
+    },
+    {
+        "post_id":51361,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-11 17:27:15",
+        "message":"This board should have 8MB main BIOS.\nSomeone messed up with BIOS before you.\n\nGet correct 8MB chip and try to find a dump on Internet.\nIf not possible, let us know and we try to build one from scratch."
+    },
+    {
+        "post_id":51363,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-08-11 17:43:02",
+        "message":"Got the chip needed from an AW Ranger. Used BIOS ver. A00. and programmed before placing it on the board and flashed EC to match. First boot was 5 beeps (normal after BIOS rest) power on to black screen, no beeps, reboots after about 1 minute and does the same, reboot, black screen. BIOS recovery mode now runs for 1 minute with fans at full speed. I was going to grab a different bin file, but the programming tool, still gives the \"external short \" error with the chip on the board. (I disconnect the CMOS battery too when connecting to the chip).\n\nCPU does get warm now and I get RAM error beeps if using the wrong type memory.\n\nEN25Q80A-100HIP_SO8; is the UE2 chip I said was EC and also looked like it had fresh flux on it. The model on my board is 25Q80DV Winbond chip; Is this going to be an issue too?"
+    },
+    {
+        "post_id":51373,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-12 06:45:51",
+        "message":"Try these files...\n[url]https:\/\/drive.google.com\/open?id=1d1lCre2N32xIiGSVYLpozLXZSPnIaEah[\/url]"
+    },
+    {
+        "post_id":51380,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-08-12 12:41:08",
+        "message":"Same behavior, just a different color on the AW FX LEDs."
+    },
+    {
+        "post_id":51381,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-12 15:46:02",
+        "message":"Did you reflash both chips with external programmer?"
+    },
+    {
+        "post_id":51382,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-08-12 15:51:30",
+        "message":"Yes. Redid the flashing again. Back to 7 beeps.\n\nAlso redid the EC chip solider after finding a loose leg."
+    },
+    {
+        "post_id":51410,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2019-08-13 13:35:19",
+        "message":"What BIOS version is the files you posted?"
+    },
+    {
+        "post_id":57708,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":331,
+        "username":"daxxone",
+        "post_date":"2020-03-22 18:14:27",
+        "message":"the fix was to flash Super I\/O. Connection was done through keyboard connection. Still used the TL866 II to flash it, then flashed a matching EC and BIOS. Everything is working again."
+    },
+    {
+        "post_id":57720,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-23 05:02:54",
+        "message":"Thanks for feedback, this can help someone else in the future..."
+    },
+    {
+        "post_id":77692,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":31464,
+        "username":"Jameswis",
+        "post_date":"2021-07-14 11:29:26",
+        "message":"Sorry for jumping in here, but i do have the boardview for this board if interested.  I'm also looking for which chip is the bios chip.  It has 2 chips.  1 is 8m and is other is 64m...\nAlso, I've tried extracting the dell bios from their .exe file from the website.. Does anyone know if that works?"
+    },
+    {
+        "post_id":77695,
+        "thread_id":50967,
+        "title":"LA-B753P CPU error, 7 beeps. Alienware 17 R2",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-14 11:52:03",
+        "message":"Main BIOS is UH4, 8MB (64Mb) in size.\nEC ROM is included in KBC.\n\nUsually can't extract full BIOS from Dell update."
+    }
+]

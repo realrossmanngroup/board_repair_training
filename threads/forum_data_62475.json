@@ -1,52 +1,470 @@
-{"post_id":87460,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-03-15 17:31:12","message":"Hi have a weird problem, Received liquid damaged a2141 16\" the two left USB-C ports stay on 5v, 0,330A Upper on steady lower boot loops. The right ones go to 20v 0,107A both steady. When connected to either 4 USB_C  PPBUS_G3H goes to 12,3V. Also received with a solder blob below F7001 connecting 20v to a test probe below it which is not in the schematic. See attached picture.\n[ATTACH type=\"full\" width=\"259px\" alt=\"IMG_1736.jpeg\"]60510[\/ATTACH][ATTACH type=\"full\" width=\"257px\" alt=\"IMG_1737.jpeg\"]60511[\/ATTACH]\n\nAfter removing the solder joint the test probe measures 5V But can not lead it anywhere... Is the the rabbithole...\n\nAlso replaced both CD3217 on the left side with donor cd3217 which I reballed myself (I'm skeptical if I reballed them good) But after putting them back gave exact the same measurement as before. So nothing changed. Please help.\n\nMeasuerments:\n\nPPBUS-G3H 12,3V\nPP3V3_G3H 3,3V\n\nTHXS"}
-{"post_id":87463,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-03-15 18:00:44","message":"Compare diode mode readings around CD3217 chips, between left\/right channels.\nYou need to get 01700 board and check if that is just a test pad, or broken trace."}
-{"post_id":88111,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-03-30 09:33:42","message":"Hi, checked diode mode readings around CD3217 chips left en right Found an OL on Pin79 UB300 USBC-TA-SBU1 on the left. On the right it was 0.625. So  changed the CD3217 which I ordered new. Now boft sides give same results. But still 5v on left side and 20v on right side. \n\nPPBUS_g3h is 12,3v that should be 12,6v right? \n\nWhat can I Check more?"}
-{"post_id":88122,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-03-30 11:51:49","message":"Yeah, 12.3V is incorrect voltage; no good communication between T2 and CD3217 chips.\n\nSomething more affected by liquid spill.\nInspect UB090 surrounding resistors and its traces."}
-{"post_id":88309,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-04-04 05:57:50","message":"[QUOTE=\"2informaticos, post: 88122, member: 682\"]\nInspect UB090 surrounding resistors and its traces.\n[\/QUOTE]\n\nYou where RIGHT again... It was RB281 which had a different diode mode measurement than corresponding measurement on right channel. Now all 4 ports give 20v 0.1a. But still getting 12.3v on ppbus. \n\nTried to get in DFU mode to restore t2... But can't get it in DFU mode. (I know how, done it a bunch of times) Could It be that keyboard not working? Is there a way to to without keyboard. \n\nWhat more tips can you give me, You are spot on every time! This"}
-{"post_id":88315,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-04-04 09:29:45","message":"Remember that this machine requires 96W charger to boot; if no good battery connected.\n\nYou can use SWK003 pads, instead of keyboard; to force DFU mode."}
-{"post_id":88316,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-04-04 10:12:10","message":"Hi Thxs for the fast reply. \n\nI know about the charger. I always use the 96W charger...\nGot to force DFU mode but came back with error. [ATTACH type=\"full\" width=\"188px\"]60563[\/ATTACH] \n\nIt feels like I'm olmost there...please advice further."}
-{"post_id":88317,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-04-04 11:08:26","message":"Do you get all SSD voltages?"}
-{"post_id":88329,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-04-04 16:42:19","message":"Did not check, was assuming that first we had to have ppbus_g3h before anything else. Will check for ssd voltages."}
-{"post_id":88333,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-04-04 18:15:47","message":"If you can enter DFU mode, PPBUS_G3H is present.\nAlso check the G3S voltages."}
-{"post_id":88383,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-04-06 06:59:43","message":"[QUOTE=\"2informaticos, post: 88317, member: 682\"]\nDo you get all SSD voltages?\n[\/QUOTE]\n\nPP3V3_G3H_SSD0_SNS  3,3V\nPP3V3_G3H_SSD1_SNS  3,3V\nPPBUS_G3H_SSD0_SNS 12,3V\nPPBUS_G3H_SSD1_SNS 12,3V\nPP2V5_NAND_SSD0 0V 56ohm to ground\nPP2V5_NAND_SSD1 0V 56ohm to ground\n\nPP1v8_g3s 0v\nPP5v_g3s 0v\npp3v3_g3s_t 0v\n\nIs there a short in de Nand? Had that ones before and was unfixable..."}
-{"post_id":88386,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-04-06 09:33:39","message":"\"L9080\/81    424\"\nDiode mode reading from good board.\nYou should get a value in the same range.\nYou can't get exact same reading, but 56 ohm is really bad; points to damaged NAND."}
-{"post_id":88456,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-04-08 08:38:55","message":"Diode mode reading\nL9080\/81 397 \n\nWhat does this mean? Is this the same range or to big a difference?"}
-{"post_id":88457,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-04-08 08:51:33","message":"[QUOTE=\"Bravo2001, post: 88456, member: 27549\"]\nDiode mode reading\nL9080\/81 0.397\n[\/QUOTE]\nBut after I connect the USB-C charger and disconnect the diode mode is very low. 0.047 and after 2 minutes it is back to 0.397\n\nThis does not feel good..."}
-{"post_id":88458,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-04-08 09:07:34","message":"Is normal; allow some time to discharge the remanent voltage.\nAlso disconnect the battery, before measuring in diode mode.\n\nL9080\/81 look good.\nDo you get similar reading at L9580\/81?\nBTW, good enough to check one coil, when more connected together."}
-{"post_id":89244,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-05-12 09:54:41","message":"Hi 2 informaticos, Back after a long while again with this board. \nL9580\/81 are same reading 372. \n\nI was checking booting sequence and all the rails are ok until I get to P5VG3S_EN That one is missing... Looks like the PMU does not send Enable signal. Should I further investigate there?\n\nThxs again"}
-{"post_id":89247,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-05-12 11:09:29","message":"Did you try both DFU revive and restore?"}
-{"post_id":89268,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-05-13 03:35:24","message":"[QUOTE=\"2informaticos, post: 89247, member: 682\"]\nDid you try both DFU revive and restore?\n[\/QUOTE]\nYeah done them both. Came back with same error as before in post.\n\nHad to use the pads to get in DFU mode. Maybe keyboard\/powerbutton also not working."}
-{"post_id":89274,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-05-13 06:51:12","message":"This must be T2 firmware issue.\nApple doesn't care at all about the problems generated by T2."}
-{"post_id":89338,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-05-15 14:45:03","message":"Any more suggestions? What can I do next\u2026"}
-{"post_id":89339,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-05-15 15:13:07","message":"This is how Apple builds new machines.\nYou can try 100 times DFU and doesn't complete.\nThen, after some days, weeks (maybe never), you may have luck and complete DFU."}
-{"post_id":89356,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-05-16 10:29:25","message":"Ohh really?!? That really is shitty... So just keep on trying to restore!?\n\n\nAnother question, does DFU mode require a working Keyboard and screen. Because I received this repair only with topcase, without screen. And don't now for sure if keyboard is working."}
-{"post_id":89360,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-05-16 16:13:22","message":"You can use SWK003 pads, without connecting keyboard.\nMust connect charger with pads closed, then open pads after 3-10s; or when you see it on AC2."}
-{"post_id":92562,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2022-09-13 04:19:06","message":"I tried not many many times but every time it fails. Do you have any other options?"}
-{"post_id":92563,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2022-09-13 04:41:51","message":"I bet for T2 internal problem..."}
-{"post_id":95509,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-12 15:44:19","message":"Wauwww, After months I the closet. I have an update... I flashed the T2 rom file just a hell Mary and connected on a battery with a charge in it and it is recognized as in DFU. After DFU restore I got an Apple logo.\n\nBecause it won't charge I can't complete the setup, to check for further problems (if any)\n\nSo looks like it will work on battery but now it won't charge.\n\nPPBUS_G3H with battery is 11.3V\nPPBUS_G3H without battery is 12,3V\n\nAmp meter on all ports 20v 0.100a with no batt connected\nAmp meter on all ports 20v 0.030a with batt connected.\n\nI have a working 820-01700 But don't now where to start comparing... \n\nFeel like im olmost there"}
-{"post_id":95512,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-12 16:22:00","message":"Is that battery working with the good board?\nBe sure to use 96\/140W charger."}
-{"post_id":95515,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-12 17:13:25","message":"Yes the battery works with a good board. And I use a 100W Not original but good Branded charger. Which also works with other good Board... Should this make a difference?!\n\nDid some measurements. Think it has something to do withPPBUS_G3H which is 12.3v on this board and should be 12.6V."}
-{"post_id":95525,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-13 02:32:30","message":"There is no good communication between U7000 and T2 (SMC).\nThat's the reason of incorrect PPBUS_G3H and not charging battery.\n\nCompare diode mode and voltage readings around U7000 and Q7065\/70 between both boards.\nTry changing U7000."}
-{"post_id":95551,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":29740,"username":"MarcinRdm","post_date":"2023-01-13 07:53:16","message":"In diode mode, everything looked the same. I replaced the Q7065 and the MacBook started to charging.  CHGR_BGATE with battery and power supply was around 12v all the time. Should I still replace the Q7070 ?"}
-{"post_id":95613,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-16 05:45:29","message":"Checked all diode mode readings for u7000 all are similar to working board. \n\nAlso changed u7000 stil same issue...\n\nWhat else can disrupt communication between u7000 and t2? Could it have something to do with u4770 SoC Rom? But it works with Batt so SoC rom shouldn't be the issue..."}
-{"post_id":95615,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-16 06:26:44","message":"Also as you can read, this board had some issues before... Around UB090 USB-Rom chip. Could that have effected the communication with T2."}
-{"post_id":95620,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-16 09:04:21","message":"Does the machine work with charger alone (no battery connected)?\nAll USB-C ports have the same behavior?\n\nA problem with TBT ROM shouldn't allow charger to switch from 5V to 20V; on the corresponding ports (without battery)."}
-{"post_id":95625,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-16 09:43:43","message":"No, without battery doesn't work. Machine works on battery with charger connected but doesn't charge. \n\nI tried a SoC Rom flash. Didn't do a thing...\n \nAll USB-C port have same behavior..."}
-{"post_id":95634,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-16 12:06:24","message":"TBT ROM is involved, so may have a problem there.\nCheck traces and adjacent components for U2890\/B090."}
-{"post_id":95671,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-17 20:57:28","message":"Before I look at the TBT rom area. I noticed that after I flashed the SoC rom with  the working one. It now stays in DFU mode. Even when I restore or revive it can\u2019t complete and always stays in dfu mode\u2026 \n\nAlso put back the original Rom file, can\u2019t get it to boot with battery to anymore."}
-{"post_id":95676,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-18 03:04:10","message":"Maybe the heat applied several times on the board affected T2, or CPU."}
-{"post_id":95683,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-18 10:01:34","message":"Ok, got it back to working on Battery...\n\nNeed some help figuring out why ppbus won't go up to 12.6v\n\nFeels like im so close!"}
-{"post_id":95692,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-18 14:40:36","message":"You can't get 12.6V with only battery.\nWhat is PPBUS_G3H voltage now (charger alone)?\nWhat you've done to make it works again with battery?\n\nThe charger used (not original) works with good board without battery connected?"}
-{"post_id":95700,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-18 16:35:51","message":"PPBUS_G3H is 12.25v charger alone. I did another dfu restore and it works with battery and charger connected. Amp meter shows 20v 0.1a. I bought original 96w Apple charger.\n\nCharger works with good board perfectly.\n\nToday I saw a Spanish video (used CC with translation) on YouTube [MEDIA=youtube]PIDIFer6Z4s[\/MEDIA]\n\nWho had same issue, and he changed all USB-C Controllers\u2026 and got PPBUS back to 12.6v.\n\nI checked all pins of CD3217 with diode mode (easy job with S-UEM2 recommend to everyone! [MEDIA=youtube]IaTuD7A0MU8[\/MEDIA] )\n\nMaybe reflashing TBT rom?"}
-{"post_id":95701,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-18 17:11:44","message":"You can try reflashing TBT ROMs; make backup first.\nSome peoples complain on Internet that CD3217 chips give problems on A2141 machine.\nYou may need to change them from donor board, same model."}
-{"post_id":95735,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-20 02:52:36","message":"Reflashing of TBT Rom's did nothing... \n\nThe CD3217 are the original ones they are untouched! Maybe I can just compare in diode mode all pins of cd3217 with good board, I don't have to change all cd3217?!"}
-{"post_id":95738,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-20 03:11:56","message":"Check UPC_I2C_INT_L.\nAlso check the pull-up resistors on the corresponding bus (page 51).\nBe sure to get correct voltage and diode mode to ground on both SCL\/SDA lines."}
-{"post_id":95740,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-20 04:29:13","message":"Ok, weird enough all diode mode readings look good. But when I check voltage I see some weird stuff.\n\nI checked UPC_I2C_INT_L 0v\nR5246 1=1.8v 2=0v\nR5200 1=1.8v 2=1,4v\nR5201 1=1.8v 2=1,1v\n\nOn working board all voltages are 1.8v So looks like something is pulling them down. How can I find out what is? \n\nI'm guessing one of the CD3217's... But which one?"}
-{"post_id":95743,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-20 05:09:58","message":"So actually what I see is\nR5200 is connected to other resistor R3021 and RB241.\nR3021 is the going to U3100 & U3200.\nRB241 is going to UB300 & UB400.\n\nsame for R5201 is connected to other resistor R3025 and RB242. \nR3025 is the going to U3100 & U3200. \nRB242 is going to UB300 & UB400.\n\nIs it possible that disconnect R3021 and R3025 that will isolate U3100&U3200. Maybe if the voltages to R5200 & R5201 will come back, at least I'll know which side the problem will be? Or do you think there is another way... or this won't work"}
-{"post_id":95744,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-20 06:13:35","message":"T2 MUST talk with U3100\/200 and UB300\/400; you can't isolate SCL\/SDA lines.\n\nIf one CD3217 pulls down UPC_I2C_INT_L, will still keep it low if you separate its SCL\/SDA lines from that bus.\nUnfortunatelly, there's no way to isolate UPC_I2C_INT_L from a single CD3217 chip.\nYou should compare diode mode readings around all CD3217 chips and also on J3300 and JB500.\nS-UEM2 tester can help you..."}
-{"post_id":95774,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-21 14:38:00","message":"I tested all four CD3217 chips with diode mode... Every single point on them! (Hell of a job!) All 4 are same as know good board.\n\nWhat I noticed is that UPC_I2C_INT_L is 13 Ohm to ground when power is connected. So It looks like is being pulled down. When I look with thermal imager only thing which gets a little bit hot 29degrees is T2 chip.\n\nWhen I got 1 CD3217 chip off, R5246,R5200 &R5201 Got back to 1.8v! I got 4 working CD3217 from a donor a2141and TBT rom's. Changed all , but still same...\n\nHELP!"}
-{"post_id":95777,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-21 17:21:37","message":"\"UPC_I2C_INT_L is 13 Ohm to ground when power is connected.\"\nChecking ohm scale, or diode mode with power applied to the board???\nOh god; PLEASE stop doing that!\n\nJust an idea; try removing CD3217 chips one by one.\nCheck when\/if UPC_I2C_INT_L goes high.\nInput can't switch to 20V if one CD3217 chip is missing, but may help to locate the channel which pulls down the signal."}
-{"post_id":95778,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-21 18:06:29","message":"I tested while one chip was removed and then got 20v on the other side. And UPC_I2C_INT_L was high... But doesn't this mean there is no communication between the chips. That's why it's not getting pulled down. I'm thinking as soon as the communication begins it's getting pulled down. With only 3 chips there is no COM.\n\nI followed the link @tcampell34 [URL]https:\/\/logi.wiki\/index.php\/CD3217_and_T2_Power_on_Sequence#820-001700_CD3217_Compatibility_issues[\/URL] Where is said to change all CD3217 and TBT rom...\n\nBut still same... I'm running out of ideas"}
-{"post_id":95779,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-21 18:46:03","message":"Put back that chip and remove another; from the other board side.\nCheck if same thing happens.\n\nThat is an interrupt request and can be activated (0V) at any moment."}
-{"post_id":95791,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":27549,"username":"Bravo2001","post_date":"2023-01-23 06:11:45","message":"[QUOTE=\"2informaticos, post: 95779, member: 682\"]\nThat is an interrupt request and can be activated (0V) at any moment.\n[\/QUOTE]\nI don't understand this part..."}
-{"post_id":95794,"thread_id":62475,"title":"820-01700 A2141 ppbus 12,3v","user_id":682,"username":"2informaticos","post_date":"2023-01-23 06:52:58","message":"If any CD3215 detects a problem on its area, will pull down the signal; no matters there is communication (or not) on the corresponding bus."}
+[
+    {
+        "post_id":87460,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-03-15 15:31:12",
+        "message":"Hi have a weird problem, Received liquid damaged a2141 16\" the two left USB-C ports stay on 5v, 0,330A Upper on steady lower boot loops. The right ones go to 20v 0,107A both steady. When connected to either 4 USB_C  PPBUS_G3H goes to 12,3V. Also received with a solder blob below F7001 connecting 20v to a test probe below it which is not in the schematic. See attached picture.\n[ATTACH type=\"full\" width=\"259px\" alt=\"IMG_1736.jpeg\"]60510[\/ATTACH][ATTACH type=\"full\" width=\"257px\" alt=\"IMG_1737.jpeg\"]60511[\/ATTACH]\n\nAfter removing the solder joint the test probe measures 5V But can not lead it anywhere... Is the the rabbithole...\n\nAlso replaced both CD3217 on the left side with donor cd3217 which I reballed myself (I'm skeptical if I reballed them good) But after putting them back gave exact the same measurement as before. So nothing changed. Please help.\n\nMeasuerments:\n\nPPBUS-G3H 12,3V\nPP3V3_G3H 3,3V\n\nTHXS"
+    },
+    {
+        "post_id":87463,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-15 16:00:44",
+        "message":"Compare diode mode readings around CD3217 chips, between left\/right channels.\nYou need to get 01700 board and check if that is just a test pad, or broken trace."
+    },
+    {
+        "post_id":88111,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-03-30 07:33:42",
+        "message":"Hi, checked diode mode readings around CD3217 chips left en right Found an OL on Pin79 UB300 USBC-TA-SBU1 on the left. On the right it was 0.625. So  changed the CD3217 which I ordered new. Now boft sides give same results. But still 5v on left side and 20v on right side. \n\nPPBUS_g3h is 12,3v that should be 12,6v right? \n\nWhat can I Check more?"
+    },
+    {
+        "post_id":88122,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-30 09:51:49",
+        "message":"Yeah, 12.3V is incorrect voltage; no good communication between T2 and CD3217 chips.\n\nSomething more affected by liquid spill.\nInspect UB090 surrounding resistors and its traces."
+    },
+    {
+        "post_id":88309,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-04-04 03:57:50",
+        "message":"[QUOTE=\"2informaticos, post: 88122, member: 682\"]\nInspect UB090 surrounding resistors and its traces.\n[\/QUOTE]\n\nYou where RIGHT again... It was RB281 which had a different diode mode measurement than corresponding measurement on right channel. Now all 4 ports give 20v 0.1a. But still getting 12.3v on ppbus. \n\nTried to get in DFU mode to restore t2... But can't get it in DFU mode. (I know how, done it a bunch of times) Could It be that keyboard not working? Is there a way to to without keyboard. \n\nWhat more tips can you give me, You are spot on every time! This"
+    },
+    {
+        "post_id":88315,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-04 07:29:45",
+        "message":"Remember that this machine requires 96W charger to boot; if no good battery connected.\n\nYou can use SWK003 pads, instead of keyboard; to force DFU mode."
+    },
+    {
+        "post_id":88316,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-04-04 08:12:10",
+        "message":"Hi Thxs for the fast reply. \n\nI know about the charger. I always use the 96W charger...\nGot to force DFU mode but came back with error. [ATTACH type=\"full\" width=\"188px\"]60563[\/ATTACH] \n\nIt feels like I'm olmost there...please advice further."
+    },
+    {
+        "post_id":88317,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-04 09:08:26",
+        "message":"Do you get all SSD voltages?"
+    },
+    {
+        "post_id":88329,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-04-04 14:42:19",
+        "message":"Did not check, was assuming that first we had to have ppbus_g3h before anything else. Will check for ssd voltages."
+    },
+    {
+        "post_id":88333,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-04 16:15:47",
+        "message":"If you can enter DFU mode, PPBUS_G3H is present.\nAlso check the G3S voltages."
+    },
+    {
+        "post_id":88383,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-04-06 04:59:43",
+        "message":"[QUOTE=\"2informaticos, post: 88317, member: 682\"]\nDo you get all SSD voltages?\n[\/QUOTE]\n\nPP3V3_G3H_SSD0_SNS  3,3V\nPP3V3_G3H_SSD1_SNS  3,3V\nPPBUS_G3H_SSD0_SNS 12,3V\nPPBUS_G3H_SSD1_SNS 12,3V\nPP2V5_NAND_SSD0 0V 56ohm to ground\nPP2V5_NAND_SSD1 0V 56ohm to ground\n\nPP1v8_g3s 0v\nPP5v_g3s 0v\npp3v3_g3s_t 0v\n\nIs there a short in de Nand? Had that ones before and was unfixable..."
+    },
+    {
+        "post_id":88386,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-06 07:33:39",
+        "message":"\"L9080\/81    424\"\nDiode mode reading from good board.\nYou should get a value in the same range.\nYou can't get exact same reading, but 56 ohm is really bad; points to damaged NAND."
+    },
+    {
+        "post_id":88456,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-04-08 06:38:55",
+        "message":"Diode mode reading\nL9080\/81 397 \n\nWhat does this mean? Is this the same range or to big a difference?"
+    },
+    {
+        "post_id":88457,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-04-08 06:51:33",
+        "message":"[QUOTE=\"Bravo2001, post: 88456, member: 27549\"]\nDiode mode reading\nL9080\/81 0.397\n[\/QUOTE]\nBut after I connect the USB-C charger and disconnect the diode mode is very low. 0.047 and after 2 minutes it is back to 0.397\n\nThis does not feel good..."
+    },
+    {
+        "post_id":88458,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-08 07:07:34",
+        "message":"Is normal; allow some time to discharge the remanent voltage.\nAlso disconnect the battery, before measuring in diode mode.\n\nL9080\/81 look good.\nDo you get similar reading at L9580\/81?\nBTW, good enough to check one coil, when more connected together."
+    },
+    {
+        "post_id":89244,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-05-12 07:54:41",
+        "message":"Hi 2 informaticos, Back after a long while again with this board. \nL9580\/81 are same reading 372. \n\nI was checking booting sequence and all the rails are ok until I get to P5VG3S_EN That one is missing... Looks like the PMU does not send Enable signal. Should I further investigate there?\n\nThxs again"
+    },
+    {
+        "post_id":89247,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-12 09:09:29",
+        "message":"Did you try both DFU revive and restore?"
+    },
+    {
+        "post_id":89268,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-05-13 01:35:24",
+        "message":"[QUOTE=\"2informaticos, post: 89247, member: 682\"]\nDid you try both DFU revive and restore?\n[\/QUOTE]\nYeah done them both. Came back with same error as before in post.\n\nHad to use the pads to get in DFU mode. Maybe keyboard\/powerbutton also not working."
+    },
+    {
+        "post_id":89274,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-13 04:51:12",
+        "message":"This must be T2 firmware issue.\nApple doesn't care at all about the problems generated by T2."
+    },
+    {
+        "post_id":89338,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-05-15 12:45:03",
+        "message":"Any more suggestions? What can I do next\u2026"
+    },
+    {
+        "post_id":89339,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-15 13:13:07",
+        "message":"This is how Apple builds new machines.\nYou can try 100 times DFU and doesn't complete.\nThen, after some days, weeks (maybe never), you may have luck and complete DFU."
+    },
+    {
+        "post_id":89356,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-05-16 08:29:25",
+        "message":"Ohh really?!? That really is shitty... So just keep on trying to restore!?\n\n\nAnother question, does DFU mode require a working Keyboard and screen. Because I received this repair only with topcase, without screen. And don't now for sure if keyboard is working."
+    },
+    {
+        "post_id":89360,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-16 14:13:22",
+        "message":"You can use SWK003 pads, without connecting keyboard.\nMust connect charger with pads closed, then open pads after 3-10s; or when you see it on AC2."
+    },
+    {
+        "post_id":92562,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-09-13 02:19:06",
+        "message":"I tried not many many times but every time it fails. Do you have any other options?"
+    },
+    {
+        "post_id":92563,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-13 02:41:51",
+        "message":"I bet for T2 internal problem..."
+    },
+    {
+        "post_id":95509,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-12 13:44:19",
+        "message":"Wauwww, After months I the closet. I have an update... I flashed the T2 rom file just a hell Mary and connected on a battery with a charge in it and it is recognized as in DFU. After DFU restore I got an Apple logo.\n\nBecause it won't charge I can't complete the setup, to check for further problems (if any)\n\nSo looks like it will work on battery but now it won't charge.\n\nPPBUS_G3H with battery is 11.3V\nPPBUS_G3H without battery is 12,3V\n\nAmp meter on all ports 20v 0.100a with no batt connected\nAmp meter on all ports 20v 0.030a with batt connected.\n\nI have a working 820-01700 But don't now where to start comparing... \n\nFeel like im olmost there"
+    },
+    {
+        "post_id":95512,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-12 14:22:00",
+        "message":"Is that battery working with the good board?\nBe sure to use 96\/140W charger."
+    },
+    {
+        "post_id":95515,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-12 15:13:25",
+        "message":"Yes the battery works with a good board. And I use a 100W Not original but good Branded charger. Which also works with other good Board... Should this make a difference?!\n\nDid some measurements. Think it has something to do withPPBUS_G3H which is 12.3v on this board and should be 12.6V."
+    },
+    {
+        "post_id":95525,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-13 00:32:30",
+        "message":"There is no good communication between U7000 and T2 (SMC).\nThat's the reason of incorrect PPBUS_G3H and not charging battery.\n\nCompare diode mode and voltage readings around U7000 and Q7065\/70 between both boards.\nTry changing U7000."
+    },
+    {
+        "post_id":95551,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":29740,
+        "username":"MarcinRdm",
+        "post_date":"2023-01-13 05:53:16",
+        "message":"In diode mode, everything looked the same. I replaced the Q7065 and the MacBook started to charging.  CHGR_BGATE with battery and power supply was around 12v all the time. Should I still replace the Q7070 ?"
+    },
+    {
+        "post_id":95613,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-16 03:45:29",
+        "message":"Checked all diode mode readings for u7000 all are similar to working board. \n\nAlso changed u7000 stil same issue...\n\nWhat else can disrupt communication between u7000 and t2? Could it have something to do with u4770 SoC Rom? But it works with Batt so SoC rom shouldn't be the issue..."
+    },
+    {
+        "post_id":95615,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-16 04:26:44",
+        "message":"Also as you can read, this board had some issues before... Around UB090 USB-Rom chip. Could that have effected the communication with T2."
+    },
+    {
+        "post_id":95620,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-16 07:04:21",
+        "message":"Does the machine work with charger alone (no battery connected)?\nAll USB-C ports have the same behavior?\n\nA problem with TBT ROM shouldn't allow charger to switch from 5V to 20V; on the corresponding ports (without battery)."
+    },
+    {
+        "post_id":95625,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-16 07:43:43",
+        "message":"No, without battery doesn't work. Machine works on battery with charger connected but doesn't charge. \n\nI tried a SoC Rom flash. Didn't do a thing...\n \nAll USB-C port have same behavior..."
+    },
+    {
+        "post_id":95634,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-16 10:06:24",
+        "message":"TBT ROM is involved, so may have a problem there.\nCheck traces and adjacent components for U2890\/B090."
+    },
+    {
+        "post_id":95671,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-17 18:57:28",
+        "message":"Before I look at the TBT rom area. I noticed that after I flashed the SoC rom with  the working one. It now stays in DFU mode. Even when I restore or revive it can\u2019t complete and always stays in dfu mode\u2026 \n\nAlso put back the original Rom file, can\u2019t get it to boot with battery to anymore."
+    },
+    {
+        "post_id":95676,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-18 01:04:10",
+        "message":"Maybe the heat applied several times on the board affected T2, or CPU."
+    },
+    {
+        "post_id":95683,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-18 08:01:34",
+        "message":"Ok, got it back to working on Battery...\n\nNeed some help figuring out why ppbus won't go up to 12.6v\n\nFeels like im so close!"
+    },
+    {
+        "post_id":95692,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-18 12:40:36",
+        "message":"You can't get 12.6V with only battery.\nWhat is PPBUS_G3H voltage now (charger alone)?\nWhat you've done to make it works again with battery?\n\nThe charger used (not original) works with good board without battery connected?"
+    },
+    {
+        "post_id":95700,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-18 14:35:51",
+        "message":"PPBUS_G3H is 12.25v charger alone. I did another dfu restore and it works with battery and charger connected. Amp meter shows 20v 0.1a. I bought original 96w Apple charger.\n\nCharger works with good board perfectly.\n\nToday I saw a Spanish video (used CC with translation) on YouTube [MEDIA=youtube]PIDIFer6Z4s[\/MEDIA]\n\nWho had same issue, and he changed all USB-C Controllers\u2026 and got PPBUS back to 12.6v.\n\nI checked all pins of CD3217 with diode mode (easy job with S-UEM2 recommend to everyone! [MEDIA=youtube]IaTuD7A0MU8[\/MEDIA] )\n\nMaybe reflashing TBT rom?"
+    },
+    {
+        "post_id":95701,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-18 15:11:44",
+        "message":"You can try reflashing TBT ROMs; make backup first.\nSome peoples complain on Internet that CD3217 chips give problems on A2141 machine.\nYou may need to change them from donor board, same model."
+    },
+    {
+        "post_id":95735,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-20 00:52:36",
+        "message":"Reflashing of TBT Rom's did nothing... \n\nThe CD3217 are the original ones they are untouched! Maybe I can just compare in diode mode all pins of cd3217 with good board, I don't have to change all cd3217?!"
+    },
+    {
+        "post_id":95738,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-20 01:11:56",
+        "message":"Check UPC_I2C_INT_L.\nAlso check the pull-up resistors on the corresponding bus (page 51).\nBe sure to get correct voltage and diode mode to ground on both SCL\/SDA lines."
+    },
+    {
+        "post_id":95740,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-20 02:29:13",
+        "message":"Ok, weird enough all diode mode readings look good. But when I check voltage I see some weird stuff.\n\nI checked UPC_I2C_INT_L 0v\nR5246 1=1.8v 2=0v\nR5200 1=1.8v 2=1,4v\nR5201 1=1.8v 2=1,1v\n\nOn working board all voltages are 1.8v So looks like something is pulling them down. How can I find out what is? \n\nI'm guessing one of the CD3217's... But which one?"
+    },
+    {
+        "post_id":95743,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-20 03:09:58",
+        "message":"So actually what I see is\nR5200 is connected to other resistor R3021 and RB241.\nR3021 is the going to U3100 & U3200.\nRB241 is going to UB300 & UB400.\n\nsame for R5201 is connected to other resistor R3025 and RB242. \nR3025 is the going to U3100 & U3200. \nRB242 is going to UB300 & UB400.\n\nIs it possible that disconnect R3021 and R3025 that will isolate U3100&U3200. Maybe if the voltages to R5200 & R5201 will come back, at least I'll know which side the problem will be? Or do you think there is another way... or this won't work"
+    },
+    {
+        "post_id":95744,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-20 04:13:35",
+        "message":"T2 MUST talk with U3100\/200 and UB300\/400; you can't isolate SCL\/SDA lines.\n\nIf one CD3217 pulls down UPC_I2C_INT_L, will still keep it low if you separate its SCL\/SDA lines from that bus.\nUnfortunatelly, there's no way to isolate UPC_I2C_INT_L from a single CD3217 chip.\nYou should compare diode mode readings around all CD3217 chips and also on J3300 and JB500.\nS-UEM2 tester can help you..."
+    },
+    {
+        "post_id":95774,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-21 12:38:00",
+        "message":"I tested all four CD3217 chips with diode mode... Every single point on them! (Hell of a job!) All 4 are same as know good board.\n\nWhat I noticed is that UPC_I2C_INT_L is 13 Ohm to ground when power is connected. So It looks like is being pulled down. When I look with thermal imager only thing which gets a little bit hot 29degrees is T2 chip.\n\nWhen I got 1 CD3217 chip off, R5246,R5200 &R5201 Got back to 1.8v! I got 4 working CD3217 from a donor a2141and TBT rom's. Changed all , but still same...\n\nHELP!"
+    },
+    {
+        "post_id":95777,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-21 15:21:37",
+        "message":"\"UPC_I2C_INT_L is 13 Ohm to ground when power is connected.\"\nChecking ohm scale, or diode mode with power applied to the board???\nOh god; PLEASE stop doing that!\n\nJust an idea; try removing CD3217 chips one by one.\nCheck when\/if UPC_I2C_INT_L goes high.\nInput can't switch to 20V if one CD3217 chip is missing, but may help to locate the channel which pulls down the signal."
+    },
+    {
+        "post_id":95778,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-21 16:06:29",
+        "message":"I tested while one chip was removed and then got 20v on the other side. And UPC_I2C_INT_L was high... But doesn't this mean there is no communication between the chips. That's why it's not getting pulled down. I'm thinking as soon as the communication begins it's getting pulled down. With only 3 chips there is no COM.\n\nI followed the link @tcampell34 [URL]https:\/\/logi.wiki\/index.php\/CD3217_and_T2_Power_on_Sequence#820-001700_CD3217_Compatibility_issues[\/URL] Where is said to change all CD3217 and TBT rom...\n\nBut still same... I'm running out of ideas"
+    },
+    {
+        "post_id":95779,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-21 16:46:03",
+        "message":"Put back that chip and remove another; from the other board side.\nCheck if same thing happens.\n\nThat is an interrupt request and can be activated (0V) at any moment."
+    },
+    {
+        "post_id":95791,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2023-01-23 04:11:45",
+        "message":"[QUOTE=\"2informaticos, post: 95779, member: 682\"]\nThat is an interrupt request and can be activated (0V) at any moment.\n[\/QUOTE]\nI don't understand this part..."
+    },
+    {
+        "post_id":95794,
+        "thread_id":62475,
+        "title":"820-01700 A2141 ppbus 12,3v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-01-23 04:52:58",
+        "message":"If any CD3215 detects a problem on its area, will pull down the signal; no matters there is communication (or not) on the corresponding bus."
+    }
+]

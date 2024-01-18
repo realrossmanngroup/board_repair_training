@@ -1,15 +1,137 @@
-{"post_id":57333,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-06 19:15:21","message":"No signs of liquid damage on the board. All voltages on backlight circuit look normal but still no backlight. I have narrowed it down to it being EDP_BKLT_EN, and EDP_PANEL_PWR.\n\nBoth of those are at 0V.\n\nEDP_PANEL_PWR pulses on start, goes to about 5V for half a second, then to 0V.\n\nEDP_BKLT_EN does not pulse, but is at 0V.\n\nI dont know if this is relevant but SMC LID is always at 3V42V, I dont know if these relate to each other.\n\nEDIT: System does power on and boots, chimes, and shows image"}
-{"post_id":57340,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":682,"username":"2informaticos","post_date":"2020-03-07 05:39:08","message":"You messed something there.\nHow do you get image, if ED_PANEL_PWR goes to 0V???\nIt controls PP3V3_S0SW_LCD.\n\nPlease post accurate information."}
-{"post_id":57344,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-07 10:16:55","message":"[QUOTE=\"2informaticos, post: 57340\"]You messed something there.\nHow do you get image, if ED_PANEL_PWR goes to 0V???\nIt controls PP3V3_S0SW_LCD.\n\nPlease post accurate information.[\/QUOTE]\n\nOops sorry, I was reading these voltages when the display was unplugged, I get 3V on EDP_PANEL_PWR and still 0V on EDP_BKLT_EN.\n\nEDIT: 3V on both, replaced Q7707. Still no backlight.\n\nBKL_PWM is 1.4V, BKL_EN is 2.7V, BKL_ISET is 0V.\n\nPRAM reset does not fix the issue."}
-{"post_id":57345,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":682,"username":"2informaticos","post_date":"2020-03-07 12:26:02","message":"Probably corroded A5 ball of U7701.\nAlso check XW7720 trace...\n\nBTW, do NOT quote entire post visible few centimeters above.\nPlease, maintain forum aesthetic..."}
-{"post_id":57350,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-07 22:55:25","message":"You were correct, not sure if it was corrosion but A5 ball was definitely not making contact, ball was almost gone. Ordered a LP8550, will report back with results.\n\nSorry about quoting."}
-{"post_id":57470,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-12 19:31:30","message":"Replaced LP8550 but still no backlight, PWM signal still at 1.3V (EDP_BKL_PWM)\n\nEDIT: LCDBKLT_BOOST is 0V"}
-{"post_id":57474,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":682,"username":"2informaticos","post_date":"2020-03-12 19:47:32","message":"Do few times PRAM reset first.\n\nDid you check continuity from A5\/U7701 to K\/D7701?\n\nDo you get image, only missing backlight?\nCheck F7700 and post Q7706 voltages."}
-{"post_id":57476,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-12 20:03:47","message":"F7700 is blown. Will replace and report back\n\nEDIT: However I can confirm it was not blown before, must have just happend."}
-{"post_id":57486,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":682,"username":"2informaticos","post_date":"2020-03-13 04:50:31","message":"Check for short on backlight output, w\/ and w\/o LCD connected; BEFORE applying power again!!!"}
-{"post_id":57509,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-14 18:27:32","message":"No short, Q7706 Voltages, all pins are 8.4V"}
-{"post_id":57510,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":682,"username":"2informaticos","post_date":"2020-03-14 19:37:52","message":"\"all pins are 8.4V\"\nThen is shorted; it requires aprox 3V at pin 3 (Gate).\n\nYou still have other problem too, but start changing Q7706.\nCheck continuity from Q7706 to L7701."}
-{"post_id":57748,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-23 23:22:36","message":"Pin 3 is 8V, When I remove Q7706 it is still 8V.\n\nI replaced R7788, thinking it would fix the issue but it is still 8V. R7788 is 301K (Correct) and R7789 is 147K (Correct). Im thinking it is C7782 that is the issue."}
-{"post_id":57752,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":682,"username":"2informaticos","post_date":"2020-03-24 06:06:00","message":"Q7706 cannot have 8V at Drain, if pin 3 (Gate) doesn't drop.\nEDP_BKLT_EN and BKLT_PLT_RST_L MUST be present.\n\n\"Do you get image, only missing backlight?\"\n???"}
-{"post_id":57754,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":20634,"username":"StraightToThePoint","post_date":"2020-03-24 10:10:07","message":"Both are present and that problem is now fixed, no more short on Q7706. I get about 3V on Pin 3, the rest are 8V. I get image but still no backlight. BKL_EN is 2.7V, however BKL_PWM is 1.4V, which im confused why it is still that voltage because I have done 3 PRAM resets. EDP_BKLT_PWM is also 1.4V.\n\nEDIT: Im going to recheck continuity of A5 to D7701\n\nEDIT: I get continuity from A5 to D7701\n\nLast EDIT: You can mark fix, BKL_ISEN6 pad looked a little small, scraped it a little bit to make it bigger, and scraped FB (A5) to make it bigger as well. Then replaced U7701, and now backlight works.\n\nTHANKS!"}
-{"post_id":57762,"thread_id":57333,"title":"820-3437 No Backlight \/ Strange Issue","user_id":682,"username":"2informaticos","post_date":"2020-03-24 15:33:34","message":"You're welcome!\nThank you too for feedback repair.\nThis can help other people in the future."}
+[
+    {
+        "post_id":57333,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-06 17:15:21",
+        "message":"No signs of liquid damage on the board. All voltages on backlight circuit look normal but still no backlight. I have narrowed it down to it being EDP_BKLT_EN, and EDP_PANEL_PWR.\n\nBoth of those are at 0V.\n\nEDP_PANEL_PWR pulses on start, goes to about 5V for half a second, then to 0V.\n\nEDP_BKLT_EN does not pulse, but is at 0V.\n\nI dont know if this is relevant but SMC LID is always at 3V42V, I dont know if these relate to each other.\n\nEDIT: System does power on and boots, chimes, and shows image"
+    },
+    {
+        "post_id":57340,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-07 03:39:08",
+        "message":"You messed something there.\nHow do you get image, if ED_PANEL_PWR goes to 0V???\nIt controls PP3V3_S0SW_LCD.\n\nPlease post accurate information."
+    },
+    {
+        "post_id":57344,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-07 08:16:55",
+        "message":"[QUOTE=\"2informaticos, post: 57340\"]You messed something there.\nHow do you get image, if ED_PANEL_PWR goes to 0V???\nIt controls PP3V3_S0SW_LCD.\n\nPlease post accurate information.[\/QUOTE]\n\nOops sorry, I was reading these voltages when the display was unplugged, I get 3V on EDP_PANEL_PWR and still 0V on EDP_BKLT_EN.\n\nEDIT: 3V on both, replaced Q7707. Still no backlight.\n\nBKL_PWM is 1.4V, BKL_EN is 2.7V, BKL_ISET is 0V.\n\nPRAM reset does not fix the issue."
+    },
+    {
+        "post_id":57345,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-07 10:26:02",
+        "message":"Probably corroded A5 ball of U7701.\nAlso check XW7720 trace...\n\nBTW, do NOT quote entire post visible few centimeters above.\nPlease, maintain forum aesthetic..."
+    },
+    {
+        "post_id":57350,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-07 20:55:25",
+        "message":"You were correct, not sure if it was corrosion but A5 ball was definitely not making contact, ball was almost gone. Ordered a LP8550, will report back with results.\n\nSorry about quoting."
+    },
+    {
+        "post_id":57470,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-12 17:31:30",
+        "message":"Replaced LP8550 but still no backlight, PWM signal still at 1.3V (EDP_BKL_PWM)\n\nEDIT: LCDBKLT_BOOST is 0V"
+    },
+    {
+        "post_id":57474,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-12 17:47:32",
+        "message":"Do few times PRAM reset first.\n\nDid you check continuity from A5\/U7701 to K\/D7701?\n\nDo you get image, only missing backlight?\nCheck F7700 and post Q7706 voltages."
+    },
+    {
+        "post_id":57476,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-12 18:03:47",
+        "message":"F7700 is blown. Will replace and report back\n\nEDIT: However I can confirm it was not blown before, must have just happend."
+    },
+    {
+        "post_id":57486,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-13 02:50:31",
+        "message":"Check for short on backlight output, w\/ and w\/o LCD connected; BEFORE applying power again!!!"
+    },
+    {
+        "post_id":57509,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-14 16:27:32",
+        "message":"No short, Q7706 Voltages, all pins are 8.4V"
+    },
+    {
+        "post_id":57510,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-14 17:37:52",
+        "message":"\"all pins are 8.4V\"\nThen is shorted; it requires aprox 3V at pin 3 (Gate).\n\nYou still have other problem too, but start changing Q7706.\nCheck continuity from Q7706 to L7701."
+    },
+    {
+        "post_id":57748,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-23 21:22:36",
+        "message":"Pin 3 is 8V, When I remove Q7706 it is still 8V.\n\nI replaced R7788, thinking it would fix the issue but it is still 8V. R7788 is 301K (Correct) and R7789 is 147K (Correct). Im thinking it is C7782 that is the issue."
+    },
+    {
+        "post_id":57752,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-24 04:06:00",
+        "message":"Q7706 cannot have 8V at Drain, if pin 3 (Gate) doesn't drop.\nEDP_BKLT_EN and BKLT_PLT_RST_L MUST be present.\n\n\"Do you get image, only missing backlight?\"\n???"
+    },
+    {
+        "post_id":57754,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-03-24 08:10:07",
+        "message":"Both are present and that problem is now fixed, no more short on Q7706. I get about 3V on Pin 3, the rest are 8V. I get image but still no backlight. BKL_EN is 2.7V, however BKL_PWM is 1.4V, which im confused why it is still that voltage because I have done 3 PRAM resets. EDP_BKLT_PWM is also 1.4V.\n\nEDIT: Im going to recheck continuity of A5 to D7701\n\nEDIT: I get continuity from A5 to D7701\n\nLast EDIT: You can mark fix, BKL_ISEN6 pad looked a little small, scraped it a little bit to make it bigger, and scraped FB (A5) to make it bigger as well. Then replaced U7701, and now backlight works.\n\nTHANKS!"
+    },
+    {
+        "post_id":57762,
+        "thread_id":57333,
+        "title":"820-3437 No Backlight \/ Strange Issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-24 13:33:34",
+        "message":"You're welcome!\nThank you too for feedback repair.\nThis can help other people in the future."
+    }
+]

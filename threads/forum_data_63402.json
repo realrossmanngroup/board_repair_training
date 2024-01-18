@@ -1,31 +1,281 @@
-{"post_id":95023,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-22 15:27:58","message":"So, I got a 820-00597 logic board to replace the one in a 2017 21.5 4K iMac.  It worked fine when I got it, powered up fine, was able to install MacOS on it.  All done on the bench of course.  I decided before putting it in the chassis to reapply the thermal paste for the CPU and GPU and look over the board to make sure there weren't any issues.  I noticed a cap had been pulled up off the board (still attached on one side) and soldered it back in place. It was part of the Ethernet circuit, I can look up the specific one if it's important.  I also decided to swap the EFI rom chip from the original board so the serial number would match.  I had done it several times before on other boards with no issues. After these several steps, I put everything back together and the logic board won't power on.  It draws ~ 0.1Amps when power is applied, drops to 0.08 amps then stays there.  Strange thing is, if I short the power pads the logic board will act like it is powering off, dropping to 0.03 amps drawn.  If I then short the power pads it will go back up to 0.1 amps and do the same thing again.  I checked that PPBUS_G3H is being generated.  Also diagnostic LED 1 stays solid, it doesn't flicker.  None of the other LEDs come on.  Anyway, just wanted to see if anyone had any idea what might have happened to it.  I wanted to get this board working again because it's got the Radeon 560 4GB graphics."}
-{"post_id":95026,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-22 17:38:54","message":"\"I also decided to swap the EFI rom chip from the original board so the serial number would match.  I had done it several times before on other boards with no issues.\"\nDid you ever concern about ME region?\nHow do you think the PCH will feel with incorrect ME region?\nSTOP doing that.\nChange the serial number manually with HxD and fix the Fsys checksum; videos available on Internet (even on this forum).\nOr clean ME region in the old BIOS chip.\n\nWhere did you find PPBUS_G3H in this MLB?\n\nDid you try disconnecting CMOS cell?\nCan you tell us in schematic, which was the unsoldered cap?\nDo you get PP12V_S0_FET?"}
-{"post_id":95037,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-23 12:05:26","message":"Thanks for the quick response.  Unfortunately, I've gone out of town, but I'll be back in a couple days.  I'll post the info as soon as I get back."}
-{"post_id":95043,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-25 22:24:39","message":"Ok, I will take your advice regarding the BIOS chip.\n\nThere is no PPBUS_G3H on this iMac board.  I think the equivelant P3V3_G3H.  On C6922 I get 3.7V.  On U6970 I get 3.8V on PIN 8, P3V3_S5.  Pin 7 which is \nFET_EN_P12V_S5, I read 23.17V, which is obviously not good.  All other values on U6970 and U6920 are nominal.\n\nI've tried without the CMOS cell.  The cap that got detached was C4003. \n\nAgain, thanks."}
-{"post_id":95044,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 01:24:28","message":"Ignore the 23.17V reading, that was a mistake on my part I think.  I found PP12V_S0 and FET_EN_P12V_S0, on Q8450 and U8450, and they are both missing (0V) but PP12V_G3H is present."}
-{"post_id":95045,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-26 03:08:47","message":"\"Pin 7 which is FET_EN_P12V_S5, I read 23.17V, which is obviously not good.\"\nWhy do you think that?\nDon't make wrong assumption so easy, try to understand a schematic first.\n\nYou can't make any relation between actual 3V3_G3H and PPBUS_G3H from a Macbook.\nBTW, you can check 3V3_G3H at L6930\/C6932 (not C6922).\n\n\"Also diagnostic LED 1 stays solid, it doesn't flicker\"\nSo 12V_S5 must be there.\nThat's the reason nobody asked about U\/Q6970.\n\nQ8450 also needs more than 20V on its Gate to work properly.\nTrigger SMC_ONOFF_L and check for drop pulse (3V->0V->3V) at PM_PWRBTN_L (at same time).\nIf detected, you should catch a pulse at PM_SLP_S4_L and PM_EN_FET_P12V_S0 too; check at same time with trigger event.\nUse J5120 pads instead of power button.\n\nC4003 is not critical and you can leave it unsoldered without problems."}
-{"post_id":95057,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 14:45:38","message":"I see the voltage drop on PM_PWRBTN_L when triggering SMC_ONOFF_L, 3.3V -> 0V -> 3.3V (using J5120).  PM_SLP_S4_L stays at 3.3V when triggering SMC_ONOFF_L, unless I short it (at J5120) until the board turns off, then it drops to 0V.  PM_EN_FET_P12V_S0 stays at 0V during all of this.  I measured these voltages at the respective test points."}
-{"post_id":95058,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-26 14:53:59","message":"So you have stable 3V at PM_SLP_S4_L when charger is connected?\nThat means PCH already started power on sequence; no need to trigger SMC_ONOFF_L.\nCheck PM_SLP_S3_L level too.\n\nDo you get voltage at L7650 and L7310?"}
-{"post_id":95059,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 15:00:06","message":"If I measure PM_EN_FET_P12V_S0 to ground I get about 240 Ohm.  So if I measure the voltage to PP12V_G3H on U8450 I get ~12V, which stays steady if I short J5120.\n\nYes, I agree that I need assistance in understanding schematics.  If you have any suggestions on a guide that would help me, I would appreciate it."}
-{"post_id":95060,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 15:10:32","message":"PMP_SLP_S3_L is at ~3.3V.  L7650 is ~5V to ground.  L7310 is at ~5V to L7650."}
-{"post_id":95061,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-26 17:09:39","message":"\"L7310 is at ~5V to L7650\"\nNo idea what you've meant.\nI hope you don't have 5V at L7310.\nCorrect voltage is explained on page 63; Vout=1.8*(Rb\/(Ra+Rb)), with Ra\/b marked on the schematic (R7330\/31).\nIn other words, 1.2V for DDR4 type.\n\n\"If I measure PM_EN_FET_P12V_S0 to ground I get about 240 Ohm\"\nNobody asked about ohm resistance there.\nBe patient, you will understand schematics in time.\nJust don't waste time with irrelevant checkings.\n\nPost U8500 voltages (pins 8, 9, 10, 14), when both PM_SLP_S4\/3_L are present."}
-{"post_id":95062,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 17:54:19","message":"If I measure L7310 to ground I have 0.048V.  Is that what I should be measuring it to?  The only reason I mentioned the ohm value was to see if you thought I had a short.  I'll measure the voltages from U8500 in a bit and post those."}
-{"post_id":95063,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 18:02:51","message":"Voltages on U8500 - Pin 8: 0V, Pin 9: 3.3V, Pin 10: 0.013V, Pin 14: 3.3V.  These are all measured to ground."}
-{"post_id":95065,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-26 18:27:09","message":"\"all measured to ground\"\nNobody expects to measure voltage in other way.\n\n\"Pin 10: 0.013V\"\nDon't you get L7310 voltage?\nYou've said PM_SLP_S4_L is high.\nPost U8500 pins 1 to 6 voltages too.\nAlso check U7350 and U8410 output voltage."}
-{"post_id":95066,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 18:56:01","message":"I wasn't sure that some voltages might not be able to be measured to common ground due to diodes restricting voltage direction. But I suppose the schematics would show where that was the case?  I'll post the other voltages as soon as I get a chance."}
-{"post_id":95067,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-26 21:02:11","message":"U8500 Voltages: Pin 1: 3.324V, Pin 2: 1.00V, Pin 3: 0.00V, Pin 4: 3.324V, Pin 5: 0.016V. Pin 6: 0.00V\nU7350 Voltage Out (Pin 1 & 2): 0V\nU8410 Voltage Out (Pin 8): 1.00V\nI can't see why U8500 Pin 10 and L7310 should have the same voltage, but the readings are the same: U8500 Pin 10: 0.013V, L7310 Pin 1 & 2: 0.048V"}
-{"post_id":95072,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-27 03:08:03","message":"\"I can't see why U8500 Pin 10 and L7310 should have the same voltage\"\nWho said that?\nDon't make assumptions based on wrong suppositions.\nOutput voltage is not same as its power good, but directly related.\n\n\"Pin 2: 1.00V\"\nAre you sure about this?\nIs not good voltage; should be 3.3V, check it again.\nIf really bad, then check R8410\/11, which one is there."}
-{"post_id":95082,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-27 13:21:07","message":"Ok, I measured Pin 2 on U8500 again.  It is 1.00V.  The schmetics say Pin 2 is PM_PGOOD_FET_P1V0_S3, so wouldn't that be the proper voltage?"}
-{"post_id":95083,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-27 14:28:23","message":"PM_PGOOD_FET_P1V0_S3  is pulled high to 3.3V; did you check which resistor is mounted there?"}
-{"post_id":95089,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-27 16:19:28","message":"Ok, hopefully we're looking at the same schematic.  Pin 2 on U8500 is fed off U8410 Pin 7.  There is a 10K resistor, R8410, with PP3V3_S5_PWRCTL on one side and PM_PGOOD_FET_P1V0_S3 on the other.  Both voltages are nominal: 3.3V for PP3V3_S5_PWRCTL on R8410 Pin 1 and 1.0V for PM_PGOOD_FET_P1V0_S3 on R8410 Pin 2."}
-{"post_id":95090,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-27 17:58:29","message":"\"1.0V for PM_PGOOD_FET_P1V0_S3 on R8410 Pin 2\"\nThat's no good; check if R8410 has 10K (measure it out of board).\nIf really good, try changing U8500.\nIf still the same, change U8410."}
-{"post_id":95092,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-27 19:00:28","message":"Alright, I checked R8410 off the board and it came in at ~10K Ohm like it should.  So I replaced U8500 as recommended and now I get 3.3V for PM_PGOOD_FET_P1V0_S3.  However, the board still won't power on.  Should I replace U8410?  I suppose I can go back and recheck all the other voltages."}
-{"post_id":95093,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-27 19:24:18","message":"Don't tocuh U8410!\nDon't you have correct 1V0_S3 on its pin 8?\n\nPost again voltage on all U8500 above mentioned pins."}
-{"post_id":95094,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-27 20:55:55","message":"On U8410 Pin 8 I have 1.0V.  The voltages for U8500 are:  Pin 1: 3.325V, Pin 2: 3.322V, Pin 3: 3.325V, Pin 4: 3.325V, Pin 5: 3.325V. Pin 6: 3.325V, Pin 8: 3.271V, Pin 9: 3.325V, Pin 10: 3.319V, Pin 14: 3.326V"}
-{"post_id":95100,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-28 04:10:48","message":"U8500 looks good, so you must have voltage on various coils of the board.\nDo you get 12V output now from Q8450?"}
-{"post_id":95105,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-28 07:51:42","message":"I get 0V output on Q450 (Pins 1, 2, 3).  I also have 0V on FET_EN_P12V_S0 (Pin 4).  I do get 12V on PP12V_G3H_P12V_S0 (Pin 5).\n\nJust in case it helps, U8450 voltages are as follows: Pin 1: 11.97V, Pin 2: 1.77V, Pin 5: 11.97V, Pin 6: 0V, PIN 7: 0V, Pin 8: 0.051V.  On R8542, Pin 1 has 3.3V (Pin 2 is connected to U8450 Pin 8)."}
-{"post_id":95112,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-28 11:15:06","message":"\"U8450\nPin 2: 1.77V\"\nYou've said to have 3.2V on pin 8\/U8500; confirm that.\nIf yes, check the components in between.\n\nQ8450 is classic failure, you can try changing it directly.\nMay need to change U8450 also."}
-{"post_id":95119,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-28 12:49:00","message":"Alright, looks like the issue was U8450.  I replaced Q8450 but it didn't fix the issue until I replaced U8450.  Hopefully this is all that's going to be needed.  Should I check or replace any other components?"}
-{"post_id":95120,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-28 14:03:39","message":"Don't touch anything else, if machine works good."}
-{"post_id":95125,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":35583,"username":"ideachief","post_date":"2022-12-28 20:17:14","message":"Can I ask what programmer would you recommend to flash the BIOS on this iMac?"}
-{"post_id":95134,"thread_id":63402,"title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On","user_id":682,"username":"2informaticos","post_date":"2022-12-29 03:46:24","message":"Any BIOS programmer should work; even the cheapest CH341A."}
+[
+    {
+        "post_id":95023,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-22 13:27:58",
+        "message":"So, I got a 820-00597 logic board to replace the one in a 2017 21.5 4K iMac.  It worked fine when I got it, powered up fine, was able to install MacOS on it.  All done on the bench of course.  I decided before putting it in the chassis to reapply the thermal paste for the CPU and GPU and look over the board to make sure there weren't any issues.  I noticed a cap had been pulled up off the board (still attached on one side) and soldered it back in place. It was part of the Ethernet circuit, I can look up the specific one if it's important.  I also decided to swap the EFI rom chip from the original board so the serial number would match.  I had done it several times before on other boards with no issues. After these several steps, I put everything back together and the logic board won't power on.  It draws ~ 0.1Amps when power is applied, drops to 0.08 amps then stays there.  Strange thing is, if I short the power pads the logic board will act like it is powering off, dropping to 0.03 amps drawn.  If I then short the power pads it will go back up to 0.1 amps and do the same thing again.  I checked that PPBUS_G3H is being generated.  Also diagnostic LED 1 stays solid, it doesn't flicker.  None of the other LEDs come on.  Anyway, just wanted to see if anyone had any idea what might have happened to it.  I wanted to get this board working again because it's got the Radeon 560 4GB graphics."
+    },
+    {
+        "post_id":95026,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-22 15:38:54",
+        "message":"\"I also decided to swap the EFI rom chip from the original board so the serial number would match.  I had done it several times before on other boards with no issues.\"\nDid you ever concern about ME region?\nHow do you think the PCH will feel with incorrect ME region?\nSTOP doing that.\nChange the serial number manually with HxD and fix the Fsys checksum; videos available on Internet (even on this forum).\nOr clean ME region in the old BIOS chip.\n\nWhere did you find PPBUS_G3H in this MLB?\n\nDid you try disconnecting CMOS cell?\nCan you tell us in schematic, which was the unsoldered cap?\nDo you get PP12V_S0_FET?"
+    },
+    {
+        "post_id":95037,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-23 10:05:26",
+        "message":"Thanks for the quick response.  Unfortunately, I've gone out of town, but I'll be back in a couple days.  I'll post the info as soon as I get back."
+    },
+    {
+        "post_id":95043,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-25 20:24:39",
+        "message":"Ok, I will take your advice regarding the BIOS chip.\n\nThere is no PPBUS_G3H on this iMac board.  I think the equivelant P3V3_G3H.  On C6922 I get 3.7V.  On U6970 I get 3.8V on PIN 8, P3V3_S5.  Pin 7 which is \nFET_EN_P12V_S5, I read 23.17V, which is obviously not good.  All other values on U6970 and U6920 are nominal.\n\nI've tried without the CMOS cell.  The cap that got detached was C4003. \n\nAgain, thanks."
+    },
+    {
+        "post_id":95044,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-25 23:24:28",
+        "message":"Ignore the 23.17V reading, that was a mistake on my part I think.  I found PP12V_S0 and FET_EN_P12V_S0, on Q8450 and U8450, and they are both missing (0V) but PP12V_G3H is present."
+    },
+    {
+        "post_id":95045,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-26 01:08:47",
+        "message":"\"Pin 7 which is FET_EN_P12V_S5, I read 23.17V, which is obviously not good.\"\nWhy do you think that?\nDon't make wrong assumption so easy, try to understand a schematic first.\n\nYou can't make any relation between actual 3V3_G3H and PPBUS_G3H from a Macbook.\nBTW, you can check 3V3_G3H at L6930\/C6932 (not C6922).\n\n\"Also diagnostic LED 1 stays solid, it doesn't flicker\"\nSo 12V_S5 must be there.\nThat's the reason nobody asked about U\/Q6970.\n\nQ8450 also needs more than 20V on its Gate to work properly.\nTrigger SMC_ONOFF_L and check for drop pulse (3V->0V->3V) at PM_PWRBTN_L (at same time).\nIf detected, you should catch a pulse at PM_SLP_S4_L and PM_EN_FET_P12V_S0 too; check at same time with trigger event.\nUse J5120 pads instead of power button.\n\nC4003 is not critical and you can leave it unsoldered without problems."
+    },
+    {
+        "post_id":95057,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-26 12:45:38",
+        "message":"I see the voltage drop on PM_PWRBTN_L when triggering SMC_ONOFF_L, 3.3V -> 0V -> 3.3V (using J5120).  PM_SLP_S4_L stays at 3.3V when triggering SMC_ONOFF_L, unless I short it (at J5120) until the board turns off, then it drops to 0V.  PM_EN_FET_P12V_S0 stays at 0V during all of this.  I measured these voltages at the respective test points."
+    },
+    {
+        "post_id":95058,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-26 12:53:59",
+        "message":"So you have stable 3V at PM_SLP_S4_L when charger is connected?\nThat means PCH already started power on sequence; no need to trigger SMC_ONOFF_L.\nCheck PM_SLP_S3_L level too.\n\nDo you get voltage at L7650 and L7310?"
+    },
+    {
+        "post_id":95059,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-26 13:00:06",
+        "message":"If I measure PM_EN_FET_P12V_S0 to ground I get about 240 Ohm.  So if I measure the voltage to PP12V_G3H on U8450 I get ~12V, which stays steady if I short J5120.\n\nYes, I agree that I need assistance in understanding schematics.  If you have any suggestions on a guide that would help me, I would appreciate it."
+    },
+    {
+        "post_id":95060,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-26 13:10:32",
+        "message":"PMP_SLP_S3_L is at ~3.3V.  L7650 is ~5V to ground.  L7310 is at ~5V to L7650."
+    },
+    {
+        "post_id":95061,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-26 15:09:39",
+        "message":"\"L7310 is at ~5V to L7650\"\nNo idea what you've meant.\nI hope you don't have 5V at L7310.\nCorrect voltage is explained on page 63; Vout=1.8*(Rb\/(Ra+Rb)), with Ra\/b marked on the schematic (R7330\/31).\nIn other words, 1.2V for DDR4 type.\n\n\"If I measure PM_EN_FET_P12V_S0 to ground I get about 240 Ohm\"\nNobody asked about ohm resistance there.\nBe patient, you will understand schematics in time.\nJust don't waste time with irrelevant checkings.\n\nPost U8500 voltages (pins 8, 9, 10, 14), when both PM_SLP_S4\/3_L are present."
+    },
+    {
+        "post_id":95062,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-26 15:54:19",
+        "message":"If I measure L7310 to ground I have 0.048V.  Is that what I should be measuring it to?  The only reason I mentioned the ohm value was to see if you thought I had a short.  I'll measure the voltages from U8500 in a bit and post those."
+    },
+    {
+        "post_id":95063,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-26 16:02:51",
+        "message":"Voltages on U8500 - Pin 8: 0V, Pin 9: 3.3V, Pin 10: 0.013V, Pin 14: 3.3V.  These are all measured to ground."
+    },
+    {
+        "post_id":95065,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-26 16:27:09",
+        "message":"\"all measured to ground\"\nNobody expects to measure voltage in other way.\n\n\"Pin 10: 0.013V\"\nDon't you get L7310 voltage?\nYou've said PM_SLP_S4_L is high.\nPost U8500 pins 1 to 6 voltages too.\nAlso check U7350 and U8410 output voltage."
+    },
+    {
+        "post_id":95066,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-26 16:56:01",
+        "message":"I wasn't sure that some voltages might not be able to be measured to common ground due to diodes restricting voltage direction. But I suppose the schematics would show where that was the case?  I'll post the other voltages as soon as I get a chance."
+    },
+    {
+        "post_id":95067,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-26 19:02:11",
+        "message":"U8500 Voltages: Pin 1: 3.324V, Pin 2: 1.00V, Pin 3: 0.00V, Pin 4: 3.324V, Pin 5: 0.016V. Pin 6: 0.00V\nU7350 Voltage Out (Pin 1 & 2): 0V\nU8410 Voltage Out (Pin 8): 1.00V\nI can't see why U8500 Pin 10 and L7310 should have the same voltage, but the readings are the same: U8500 Pin 10: 0.013V, L7310 Pin 1 & 2: 0.048V"
+    },
+    {
+        "post_id":95072,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-27 01:08:03",
+        "message":"\"I can't see why U8500 Pin 10 and L7310 should have the same voltage\"\nWho said that?\nDon't make assumptions based on wrong suppositions.\nOutput voltage is not same as its power good, but directly related.\n\n\"Pin 2: 1.00V\"\nAre you sure about this?\nIs not good voltage; should be 3.3V, check it again.\nIf really bad, then check R8410\/11, which one is there."
+    },
+    {
+        "post_id":95082,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-27 11:21:07",
+        "message":"Ok, I measured Pin 2 on U8500 again.  It is 1.00V.  The schmetics say Pin 2 is PM_PGOOD_FET_P1V0_S3, so wouldn't that be the proper voltage?"
+    },
+    {
+        "post_id":95083,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-27 12:28:23",
+        "message":"PM_PGOOD_FET_P1V0_S3  is pulled high to 3.3V; did you check which resistor is mounted there?"
+    },
+    {
+        "post_id":95089,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-27 14:19:28",
+        "message":"Ok, hopefully we're looking at the same schematic.  Pin 2 on U8500 is fed off U8410 Pin 7.  There is a 10K resistor, R8410, with PP3V3_S5_PWRCTL on one side and PM_PGOOD_FET_P1V0_S3 on the other.  Both voltages are nominal: 3.3V for PP3V3_S5_PWRCTL on R8410 Pin 1 and 1.0V for PM_PGOOD_FET_P1V0_S3 on R8410 Pin 2."
+    },
+    {
+        "post_id":95090,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-27 15:58:29",
+        "message":"\"1.0V for PM_PGOOD_FET_P1V0_S3 on R8410 Pin 2\"\nThat's no good; check if R8410 has 10K (measure it out of board).\nIf really good, try changing U8500.\nIf still the same, change U8410."
+    },
+    {
+        "post_id":95092,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-27 17:00:28",
+        "message":"Alright, I checked R8410 off the board and it came in at ~10K Ohm like it should.  So I replaced U8500 as recommended and now I get 3.3V for PM_PGOOD_FET_P1V0_S3.  However, the board still won't power on.  Should I replace U8410?  I suppose I can go back and recheck all the other voltages."
+    },
+    {
+        "post_id":95093,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-27 17:24:18",
+        "message":"Don't tocuh U8410!\nDon't you have correct 1V0_S3 on its pin 8?\n\nPost again voltage on all U8500 above mentioned pins."
+    },
+    {
+        "post_id":95094,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-27 18:55:55",
+        "message":"On U8410 Pin 8 I have 1.0V.  The voltages for U8500 are:  Pin 1: 3.325V, Pin 2: 3.322V, Pin 3: 3.325V, Pin 4: 3.325V, Pin 5: 3.325V. Pin 6: 3.325V, Pin 8: 3.271V, Pin 9: 3.325V, Pin 10: 3.319V, Pin 14: 3.326V"
+    },
+    {
+        "post_id":95100,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-28 02:10:48",
+        "message":"U8500 looks good, so you must have voltage on various coils of the board.\nDo you get 12V output now from Q8450?"
+    },
+    {
+        "post_id":95105,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-28 05:51:42",
+        "message":"I get 0V output on Q450 (Pins 1, 2, 3).  I also have 0V on FET_EN_P12V_S0 (Pin 4).  I do get 12V on PP12V_G3H_P12V_S0 (Pin 5).\n\nJust in case it helps, U8450 voltages are as follows: Pin 1: 11.97V, Pin 2: 1.77V, Pin 5: 11.97V, Pin 6: 0V, PIN 7: 0V, Pin 8: 0.051V.  On R8542, Pin 1 has 3.3V (Pin 2 is connected to U8450 Pin 8)."
+    },
+    {
+        "post_id":95112,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-28 09:15:06",
+        "message":"\"U8450\nPin 2: 1.77V\"\nYou've said to have 3.2V on pin 8\/U8500; confirm that.\nIf yes, check the components in between.\n\nQ8450 is classic failure, you can try changing it directly.\nMay need to change U8450 also."
+    },
+    {
+        "post_id":95119,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-28 10:49:00",
+        "message":"Alright, looks like the issue was U8450.  I replaced Q8450 but it didn't fix the issue until I replaced U8450.  Hopefully this is all that's going to be needed.  Should I check or replace any other components?"
+    },
+    {
+        "post_id":95120,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-28 12:03:39",
+        "message":"Don't touch anything else, if machine works good."
+    },
+    {
+        "post_id":95125,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":35583,
+        "username":"ideachief",
+        "post_date":"2022-12-28 18:17:14",
+        "message":"Can I ask what programmer would you recommend to flash the BIOS on this iMac?"
+    },
+    {
+        "post_id":95134,
+        "thread_id":63402,
+        "title":"iMac 2017 21.5 820-00597 Logic Board Will Not Power On",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-12-29 01:46:24",
+        "message":"Any BIOS programmer should work; even the cheapest CH341A."
+    }
+]

@@ -1,18 +1,164 @@
-{"post_id":85506,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-01-24 11:55:10","message":"820-01949-A board came in with liquid damage concentrated around U3100_W and _R. After cleaning up the area, freshening resistors, lifting and cleaning everything affected, etc. I had 3X ports at 5V 0.25A, and one looping with the same consumption, controlled by U3100_R. Replaced U3100_R to no effect, then found a bad SPI resistor for the ROM, and after replacing it all four ports are stable at 5V 0.25A. I really thought that was going to be the end of it, and am not sure where to look next, there's no major shorts on the board, and I'm having a much harder time working through the power on sequence for the CD3217 than CD3215 as I can't find anything nearly as well documented as the diagrams I've used in the past. What's the best way to tackle this from here?"}
-{"post_id":85509,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-01-24 13:44:27","message":"As always when you meet the T2 chip, try DFU..."}
-{"post_id":85516,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-01-24 15:51:01","message":"Is there any way to tell if the device is in DFU mode without another working Mac to connect it to? Looks like I'll have to fix something else first and circle back if not. Or by try dfu, do you mean to do a revive\/restore even if the device is'nt booting into dfu automatically, if it'll let me?"}
-{"post_id":85517,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-01-24 16:46:52","message":"You need another machine with Apple Configurator 2 installed; also proper connection cable.\nFollow the DFU tutorial linked on the forum.\n\nIf machine is not recognized in DFU, then check if all AWAKE and SLPS2R voltages are present."}
-{"post_id":85751,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-01-31 12:24:04","message":"Okay, I finally got everything together for DFU, the progress bar got stuck at like 99% on step 4 out of 4, and after 5-10 minutes \"Gave up while waiting for device to transition from DFU state to DFU state\" with error code 0xFCA or 4042. I haven't found much information about this code.\n\nDoes this mean my CD3217's and their supporting circuits are okay if I'm able to at least attempt a dfu restore? Or is that still a potential problem spot? What should I be looking at to even troubleshoot this kind of an issue?\n\nAs a lot of dfu issues seem to stem from incorrect procedure, so here's my setup:\n-Host device is an A1932 on the latest Monterey update\n-Using two genuine Apple USB-C cables to power the problematic board and connect to the host device\n-Following the guide posted on the how to section of the forum, and supplementing with information from [URL]https:\/\/logi.wiki\/index.php\/DFU_Mode_Restore_(Macs)[\/URL] to perform a bare board restore by temporarily pulling up the force dfu line\n-Using the left USB-C port closest to the trackpad for data on the target device\n-I have no idea what version of MacOS the target device last had installed, I've seen conflicting information on if this matters?"}
-{"post_id":85758,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-01-31 13:42:49","message":"The machine is not recognized on AC2 with key combination?\nDo you need to force onboard SOC_FORCE_DFU line?"}
-{"post_id":85762,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-01-31 13:51:13","message":"The keyboard is extremely sticky, I haven\u2019t tried entering dfu with it, but wouldn\u2019t be surprised if it needs to be replaced. Does it make any difference?"}
-{"post_id":85766,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-01-31 13:55:15","message":"Disconnect keyboard in this case.\nTry forcing DFU, avoiding any influence from sticky keys..."}
-{"post_id":85768,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-01-31 13:58:03","message":"That is my current setup. As described above, I have no problem accessing dfu on the bare board by pulling SOC_FORCE_DFU high, and then releasing it once dfu mode is reached. The restore operation fails with the error code I noted. The board has a single USB-C flex connected and nothing else."}
-{"post_id":85782,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-01-31 19:20:26","message":"There may be a problem with the SSD.\nCan you start in Target Disk mode?"}
-{"post_id":85784,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-01-31 19:46:15","message":"Looks like no. I Connected the power button, keyboard, trackpad, screen, and USB-C port flex's to the board, and tried holding \"T\" while booting the board in every configuration I could think of with the battery and other mac connected or disconnected. Not sure what to expect when the device is only taking 5V, but there were no signs of life whatsoever, and the drive never became accessible on the other Mac.\n\nI keep bringing up the CD3217s because this is where most of the damage was located, and where I've worked on the board with some definite progress made, does any of the information I've provided tell you if they're functioning properly or not?"}
-{"post_id":85785,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-01-31 20:09:19","message":"All USB-C ports have exact the same behavior?"}
-{"post_id":85787,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-01-31 20:13:45","message":"Yes, currently 5V 0.25A stable on all ports.\n\nBefore applying power to anything I replaced one CD3217 that was clearly hit by liquid, after that one port was looping and the other three were stable. I found a bad resistor near the CD3217 ROM and after replacing it, the fourth port stabilized. I've tried to check everything, but would not be surprised if there was still an additional issue in the CD3217 circuit. I'm not sure if the other one on that side of the board got hit by liquid or not, it doesn't look like it, but I've contemplated replacing it. (My stencil for these is taking forever in the mail, but I have pre-reballed replacements from MS)."}
-{"post_id":85947,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-02-03 14:40:24","message":"Any other advice for this one? Thank you!"}
-{"post_id":85949,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-02-03 15:28:01","message":"Check if SSD gets its power rails."}
-{"post_id":85956,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-02-03 20:29:12","message":"Nothing SSD related has power, and I don't see any shorts. Liquid didn't touch U9000 or U9080, SSD0_VR_2V5_EN is 0V, PPBUS_G3H_SSD0 is good.\n\nI started working through this document to try and identify what power rails aren't present\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1oBr-qxYVfghYimgX6pwkNbwSjpQfYbKq\/view[\/URL]\n\nI didn't check every line, but went down the main ones until I found that PP5V_G3S is missing. Investigating further revealed that P5VG3S_EN is also missing, PCH_RTC_RESET_L and PP3V_G3H_RTC are present,  PMU_PVDDMAIN_EN and  P3V3MAIN_PGOOD  are missing... Kept working back up until I found that PMU_SYS_ALIVE,  PMU_ACTIVE_READY , and PMU_COLD_RESET_L are all present at 1.8V. The next several rails above that were all good, but I can measure all the way to the top if need be.\n\nIs this sufficient to conclude that something related to the \"H9M LOAD SECURE ROM, SMC BATTERY TRAP\" step is the issue?"}
-{"post_id":85957,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":34273,"username":"Alex Thayer","post_date":"2022-02-04 00:36:53","message":"Resolved... My CD3217 stencil finally arrived... Took off the CD3217's from MS, reballed the originals, and the board works again. &$*@^$*! The MS ones were soldered properly, and the top serial number matched exactly. Won't be using those again."}
-{"post_id":85959,"thread_id":62254,"title":"820-01949-A Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2022-02-04 02:56:24","message":"Thanks for feedback.\n\nWorking with bad replacement parts (supposed to be good), make us lost a lot of time.\nSometime even damage more the boards, with such bad parts.\nThis happens in our job."}
+[
+    {
+        "post_id":85506,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-24 09:55:10",
+        "message":"820-01949-A board came in with liquid damage concentrated around U3100_W and _R. After cleaning up the area, freshening resistors, lifting and cleaning everything affected, etc. I had 3X ports at 5V 0.25A, and one looping with the same consumption, controlled by U3100_R. Replaced U3100_R to no effect, then found a bad SPI resistor for the ROM, and after replacing it all four ports are stable at 5V 0.25A. I really thought that was going to be the end of it, and am not sure where to look next, there's no major shorts on the board, and I'm having a much harder time working through the power on sequence for the CD3217 than CD3215 as I can't find anything nearly as well documented as the diagrams I've used in the past. What's the best way to tackle this from here?"
+    },
+    {
+        "post_id":85509,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-24 11:44:27",
+        "message":"As always when you meet the T2 chip, try DFU..."
+    },
+    {
+        "post_id":85516,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-24 13:51:01",
+        "message":"Is there any way to tell if the device is in DFU mode without another working Mac to connect it to? Looks like I'll have to fix something else first and circle back if not. Or by try dfu, do you mean to do a revive\/restore even if the device is'nt booting into dfu automatically, if it'll let me?"
+    },
+    {
+        "post_id":85517,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-24 14:46:52",
+        "message":"You need another machine with Apple Configurator 2 installed; also proper connection cable.\nFollow the DFU tutorial linked on the forum.\n\nIf machine is not recognized in DFU, then check if all AWAKE and SLPS2R voltages are present."
+    },
+    {
+        "post_id":85751,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-31 10:24:04",
+        "message":"Okay, I finally got everything together for DFU, the progress bar got stuck at like 99% on step 4 out of 4, and after 5-10 minutes \"Gave up while waiting for device to transition from DFU state to DFU state\" with error code 0xFCA or 4042. I haven't found much information about this code.\n\nDoes this mean my CD3217's and their supporting circuits are okay if I'm able to at least attempt a dfu restore? Or is that still a potential problem spot? What should I be looking at to even troubleshoot this kind of an issue?\n\nAs a lot of dfu issues seem to stem from incorrect procedure, so here's my setup:\n-Host device is an A1932 on the latest Monterey update\n-Using two genuine Apple USB-C cables to power the problematic board and connect to the host device\n-Following the guide posted on the how to section of the forum, and supplementing with information from [URL]https:\/\/logi.wiki\/index.php\/DFU_Mode_Restore_(Macs)[\/URL] to perform a bare board restore by temporarily pulling up the force dfu line\n-Using the left USB-C port closest to the trackpad for data on the target device\n-I have no idea what version of MacOS the target device last had installed, I've seen conflicting information on if this matters?"
+    },
+    {
+        "post_id":85758,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-31 11:42:49",
+        "message":"The machine is not recognized on AC2 with key combination?\nDo you need to force onboard SOC_FORCE_DFU line?"
+    },
+    {
+        "post_id":85762,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-31 11:51:13",
+        "message":"The keyboard is extremely sticky, I haven\u2019t tried entering dfu with it, but wouldn\u2019t be surprised if it needs to be replaced. Does it make any difference?"
+    },
+    {
+        "post_id":85766,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-31 11:55:15",
+        "message":"Disconnect keyboard in this case.\nTry forcing DFU, avoiding any influence from sticky keys..."
+    },
+    {
+        "post_id":85768,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-31 11:58:03",
+        "message":"That is my current setup. As described above, I have no problem accessing dfu on the bare board by pulling SOC_FORCE_DFU high, and then releasing it once dfu mode is reached. The restore operation fails with the error code I noted. The board has a single USB-C flex connected and nothing else."
+    },
+    {
+        "post_id":85782,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-31 17:20:26",
+        "message":"There may be a problem with the SSD.\nCan you start in Target Disk mode?"
+    },
+    {
+        "post_id":85784,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-31 17:46:15",
+        "message":"Looks like no. I Connected the power button, keyboard, trackpad, screen, and USB-C port flex's to the board, and tried holding \"T\" while booting the board in every configuration I could think of with the battery and other mac connected or disconnected. Not sure what to expect when the device is only taking 5V, but there were no signs of life whatsoever, and the drive never became accessible on the other Mac.\n\nI keep bringing up the CD3217s because this is where most of the damage was located, and where I've worked on the board with some definite progress made, does any of the information I've provided tell you if they're functioning properly or not?"
+    },
+    {
+        "post_id":85785,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-31 18:09:19",
+        "message":"All USB-C ports have exact the same behavior?"
+    },
+    {
+        "post_id":85787,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-31 18:13:45",
+        "message":"Yes, currently 5V 0.25A stable on all ports.\n\nBefore applying power to anything I replaced one CD3217 that was clearly hit by liquid, after that one port was looping and the other three were stable. I found a bad resistor near the CD3217 ROM and after replacing it, the fourth port stabilized. I've tried to check everything, but would not be surprised if there was still an additional issue in the CD3217 circuit. I'm not sure if the other one on that side of the board got hit by liquid or not, it doesn't look like it, but I've contemplated replacing it. (My stencil for these is taking forever in the mail, but I have pre-reballed replacements from MS)."
+    },
+    {
+        "post_id":85947,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-03 12:40:24",
+        "message":"Any other advice for this one? Thank you!"
+    },
+    {
+        "post_id":85949,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-03 13:28:01",
+        "message":"Check if SSD gets its power rails."
+    },
+    {
+        "post_id":85956,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-03 18:29:12",
+        "message":"Nothing SSD related has power, and I don't see any shorts. Liquid didn't touch U9000 or U9080, SSD0_VR_2V5_EN is 0V, PPBUS_G3H_SSD0 is good.\n\nI started working through this document to try and identify what power rails aren't present\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1oBr-qxYVfghYimgX6pwkNbwSjpQfYbKq\/view[\/URL]\n\nI didn't check every line, but went down the main ones until I found that PP5V_G3S is missing. Investigating further revealed that P5VG3S_EN is also missing, PCH_RTC_RESET_L and PP3V_G3H_RTC are present,  PMU_PVDDMAIN_EN and  P3V3MAIN_PGOOD  are missing... Kept working back up until I found that PMU_SYS_ALIVE,  PMU_ACTIVE_READY , and PMU_COLD_RESET_L are all present at 1.8V. The next several rails above that were all good, but I can measure all the way to the top if need be.\n\nIs this sufficient to conclude that something related to the \"H9M LOAD SECURE ROM, SMC BATTERY TRAP\" step is the issue?"
+    },
+    {
+        "post_id":85957,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-03 22:36:53",
+        "message":"Resolved... My CD3217 stencil finally arrived... Took off the CD3217's from MS, reballed the originals, and the board works again. &$*@^$*! The MS ones were soldered properly, and the top serial number matched exactly. Won't be using those again."
+    },
+    {
+        "post_id":85959,
+        "thread_id":62254,
+        "title":"820-01949-A Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-04 00:56:24",
+        "message":"Thanks for feedback.\n\nWorking with bad replacement parts (supposed to be good), make us lost a lot of time.\nSometime even damage more the boards, with such bad parts.\nThis happens in our job."
+    }
+]

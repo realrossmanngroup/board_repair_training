@@ -1,27 +1,245 @@
-{"post_id":48589,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-24 05:53:08","message":"This 820-3115 had waterdamage and wont start. I cleaned that and now it only starts if there is no monitor attached to it (internal and external). It i plug any monitor in fan just twitch once every time i press the power button. Without a screen it chimes but turns off after ~20 seconds. It beeps without ram and also stays on beeping forewer without ram (not turning off like it does with ram - i tested every combination of the two sticks in both slots and also one of mine - everytime with the same result.). If i \"trick\" it by starting it and instantly plugging in a external monitor after it chimed it shows a white screen but turns off same way as if there is no screen at all. I tested a known good LCD and it still wont start with the LCD connected. I measured all Pins of J9000 in diode mode and compared it betreen screen plugged in, screen unplugged and  a working board (with screen plugged in and also unplugged) and i cant find any differences. So i am stuck."}
-{"post_id":48593,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-24 08:37:48","message":"Check if R7403 OK?"}
-{"post_id":48598,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-24 09:15:29","message":"R7403 = 181,7 kOhm (should be 182 kOhm), there was no Corrosion in that area.\nR7402 is also exact 150,0 kOhm as it should be"}
-{"post_id":48609,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-24 10:29:43","message":"Seems thatb turns off only when AXG voltage is enabled.\nCheck for corroded traces, or components (resistor maybe) on CPU area...\nAlso try to start in SMC bypass mode..."}
-{"post_id":48610,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-24 10:49:12","message":"There is not really any corrosion on the cpu Side. It was just a little bit near U7200 and J4510 aswell as j3502\nSMC Bypass did not help aswell"}
-{"post_id":48616,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-24 15:47:34","message":"Your symptom points to AXG issue.\nIf fails to start even with (only) external monitor...\n\nTry new BIOS, just in case.\nYou can also try removing Q3880; only internal LCD available then."}
-{"post_id":48654,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-26 05:23:54","message":"I have no board with bios on it here today. I?ill swap bios an monday (saying the original one). \nCould i also remove one of these instead of Q3880: R3881 or Q3805 or D3895? This should also stop thunderbold from working and would be easier to replace..."}
-{"post_id":48655,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-26 05:39:00","message":"R3881, or Q3805 disable TBT too.\n\nDo not swap the BIOS chip, reflash with new clean ME file.\nI suppose can be found on the forum..."}
-{"post_id":48657,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-26 07:06:15","message":"As i want to disable thunderbold i want to check the voltage that U3890 prodces before i remove R3881 and after to make sure TBT is disabled. I measured without LCD and there are just 2,5 V at D3890 (both sides - diode mode measurement > 0,5 V at both sides - no short). That should be 12.6 V (if not boosting) or 0 V if i am right. Also i would expect it to be 0 V with R3881 removed. With R3881 back in place i get 12,6 V at the top of the voltage divider, 8,4 V at TBT_div_L and ~6 V at Pin 2 of R3881 (i expected that to be 0 V). So i came to Q3805 and the enable is 0 V. To be sure i am not out of mind here i removed Q3880 (as you suggested) and i still get 2,5 V at PPVIN_SW_T29BST and i cant understand where that voltage is coming from... But also with Q3881 removed board wont start with lcd plugged in...\nAlso i wrote down all parts that had corrosion on them as i got the board. Heres the list maybe that helps.\n\n\nU3890\nQ5480\nU4900\nR2570\nD9498\nU7542\nU4582\nU5701\nU7200\n\n\nU3890 is one of them. The corrosion was in the area of pins 1-10... R3889 and the traces to U3890 are fine."}
-{"post_id":48689,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-29 02:55:10","message":"I tested with a clean bios today but still the same behaviour. I am not sure but as far as i understand it couod be a TBT issue as the Voltage at D3895 is not correct. Should i try a new U3890?"}
-{"post_id":48690,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-29 04:11:11","message":"15V_T29 is enabled only if an external device is detected on the thunderbolt port."}
-{"post_id":48693,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-29 04:56:06","message":"Even if i start it and plug in the external monitor while its on i get only 2.5 V at D3895 but it shows a questionmark folder. So thunderbold is working i guess. Is there anything else i can check in a case like this?"}
-{"post_id":48695,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-29 07:20:26","message":"Which pin of D3895?\nHigh voltage should appear on K.\nBut you should get 5V on A, if Q3880 is enabled..."}
-{"post_id":48696,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-29 08:37:23","message":"I get on both sides 2.5 V at D3895. TBT_A_HV_EN is not there but at the same time i can see a question mark folder on external monitor plugged into J9400"}
-{"post_id":48702,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-29 14:53:55","message":"Did you reflash BIOS?"}
-{"post_id":48705,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-29 16:08:58","message":"yes but no change unfortunately"}
-{"post_id":48708,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-29 19:51:30","message":"Known good working BIOS, with clean ME for sure?"}
-{"post_id":48710,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-30 00:25:22","message":"I hope so. If you have one that is 100% sure working and it you would provide that i can try that aswell but as i get the exact same issue i guess thats not a bios thing."}
-{"post_id":48711,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-30 03:24:17","message":"Link already uploaded on the forum...\n[url]https:\/\/boards.rossmanngroup.com\/forum\/board-repair-troubleshooting\/44989-820-3115-corrupt-efi-firmware[\/url]\nIf still the same, then 100% no BIOS issue."}
-{"post_id":48716,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-30 05:36:10","message":"I tested the file from the other post you linked me to but still the exact same issue."}
-{"post_id":48718,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-30 06:44:43","message":"Recharge original BIOS, as is not BIOS issue.\n\nSo machine doesn't even start if external monitor is connected?\nDo you also need to unplug LCD to start?"}
-{"post_id":48720,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-30 06:55:58","message":"Ok i flash original Bios back. Yes, it only starts with both monitors disconnected. If there is any monitor plugged in (internal or external) fan just twitch one time. After the fan twitched i can hear a quiet \"brumming\" sound from the fan and can feel it vibrating until i unplug battery... Pressing power again results in no reaction (no 2nd fan twitch)"}
-{"post_id":48723,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-04-30 06:59:05","message":"Machine stays on for long time if no monitors connected?\nTest it only with USB mouse and OSX pendrive, to assure stable activity"}
-{"post_id":48726,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-04-30 07:50:40","message":"Yes it stays on with everything except monitor connected (+USB mouse and pen drive). It starts, chimes and even talks to me after few seconds if i plug my Mavericks USB drive in (it has the voice over thing enabled...)"}
-{"post_id":48804,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-05-02 01:28:01","message":"Is there something else i could try?"}
-{"post_id":48809,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":682,"username":"2informaticos","post_date":"2019-05-02 05:56:50","message":"This should be something related with AXG block from CPU.\nTry to reflow CPU.\nCheck first if R7403 is correct."}
-{"post_id":48949,"thread_id":48589,"title":"820-3115 only starting without screen attached","user_id":149,"username":"Fizzl92","post_date":"2019-05-06 10:24:14","message":"R7430 is correct. I gave CPU a reflow same way i do with 2011 MBP\/iMac GPU issues to test if its really a GPU problem but that did not change anything aswell...\nSo i think its time to give up here..."}
+[
+    {
+        "post_id":48589,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-24 03:53:08",
+        "message":"This 820-3115 had waterdamage and wont start. I cleaned that and now it only starts if there is no monitor attached to it (internal and external). It i plug any monitor in fan just twitch once every time i press the power button. Without a screen it chimes but turns off after ~20 seconds. It beeps without ram and also stays on beeping forewer without ram (not turning off like it does with ram - i tested every combination of the two sticks in both slots and also one of mine - everytime with the same result.). If i \"trick\" it by starting it and instantly plugging in a external monitor after it chimed it shows a white screen but turns off same way as if there is no screen at all. I tested a known good LCD and it still wont start with the LCD connected. I measured all Pins of J9000 in diode mode and compared it betreen screen plugged in, screen unplugged and  a working board (with screen plugged in and also unplugged) and i cant find any differences. So i am stuck."
+    },
+    {
+        "post_id":48593,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-24 06:37:48",
+        "message":"Check if R7403 OK?"
+    },
+    {
+        "post_id":48598,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-24 07:15:29",
+        "message":"R7403 = 181,7 kOhm (should be 182 kOhm), there was no Corrosion in that area.\nR7402 is also exact 150,0 kOhm as it should be"
+    },
+    {
+        "post_id":48609,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-24 08:29:43",
+        "message":"Seems thatb turns off only when AXG voltage is enabled.\nCheck for corroded traces, or components (resistor maybe) on CPU area...\nAlso try to start in SMC bypass mode..."
+    },
+    {
+        "post_id":48610,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-24 08:49:12",
+        "message":"There is not really any corrosion on the cpu Side. It was just a little bit near U7200 and J4510 aswell as j3502\nSMC Bypass did not help aswell"
+    },
+    {
+        "post_id":48616,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-24 13:47:34",
+        "message":"Your symptom points to AXG issue.\nIf fails to start even with (only) external monitor...\n\nTry new BIOS, just in case.\nYou can also try removing Q3880; only internal LCD available then."
+    },
+    {
+        "post_id":48654,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-26 03:23:54",
+        "message":"I have no board with bios on it here today. I?ill swap bios an monday (saying the original one). \nCould i also remove one of these instead of Q3880: R3881 or Q3805 or D3895? This should also stop thunderbold from working and would be easier to replace..."
+    },
+    {
+        "post_id":48655,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-26 03:39:00",
+        "message":"R3881, or Q3805 disable TBT too.\n\nDo not swap the BIOS chip, reflash with new clean ME file.\nI suppose can be found on the forum..."
+    },
+    {
+        "post_id":48657,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-26 05:06:15",
+        "message":"As i want to disable thunderbold i want to check the voltage that U3890 prodces before i remove R3881 and after to make sure TBT is disabled. I measured without LCD and there are just 2,5 V at D3890 (both sides - diode mode measurement > 0,5 V at both sides - no short). That should be 12.6 V (if not boosting) or 0 V if i am right. Also i would expect it to be 0 V with R3881 removed. With R3881 back in place i get 12,6 V at the top of the voltage divider, 8,4 V at TBT_div_L and ~6 V at Pin 2 of R3881 (i expected that to be 0 V). So i came to Q3805 and the enable is 0 V. To be sure i am not out of mind here i removed Q3880 (as you suggested) and i still get 2,5 V at PPVIN_SW_T29BST and i cant understand where that voltage is coming from... But also with Q3881 removed board wont start with lcd plugged in...\nAlso i wrote down all parts that had corrosion on them as i got the board. Heres the list maybe that helps.\n\n\nU3890\nQ5480\nU4900\nR2570\nD9498\nU7542\nU4582\nU5701\nU7200\n\n\nU3890 is one of them. The corrosion was in the area of pins 1-10... R3889 and the traces to U3890 are fine."
+    },
+    {
+        "post_id":48689,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-29 00:55:10",
+        "message":"I tested with a clean bios today but still the same behaviour. I am not sure but as far as i understand it couod be a TBT issue as the Voltage at D3895 is not correct. Should i try a new U3890?"
+    },
+    {
+        "post_id":48690,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-29 02:11:11",
+        "message":"15V_T29 is enabled only if an external device is detected on the thunderbolt port."
+    },
+    {
+        "post_id":48693,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-29 02:56:06",
+        "message":"Even if i start it and plug in the external monitor while its on i get only 2.5 V at D3895 but it shows a questionmark folder. So thunderbold is working i guess. Is there anything else i can check in a case like this?"
+    },
+    {
+        "post_id":48695,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-29 05:20:26",
+        "message":"Which pin of D3895?\nHigh voltage should appear on K.\nBut you should get 5V on A, if Q3880 is enabled..."
+    },
+    {
+        "post_id":48696,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-29 06:37:23",
+        "message":"I get on both sides 2.5 V at D3895. TBT_A_HV_EN is not there but at the same time i can see a question mark folder on external monitor plugged into J9400"
+    },
+    {
+        "post_id":48702,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-29 12:53:55",
+        "message":"Did you reflash BIOS?"
+    },
+    {
+        "post_id":48705,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-29 14:08:58",
+        "message":"yes but no change unfortunately"
+    },
+    {
+        "post_id":48708,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-29 17:51:30",
+        "message":"Known good working BIOS, with clean ME for sure?"
+    },
+    {
+        "post_id":48710,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-29 22:25:22",
+        "message":"I hope so. If you have one that is 100% sure working and it you would provide that i can try that aswell but as i get the exact same issue i guess thats not a bios thing."
+    },
+    {
+        "post_id":48711,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-30 01:24:17",
+        "message":"Link already uploaded on the forum...\n[url]https:\/\/boards.rossmanngroup.com\/forum\/board-repair-troubleshooting\/44989-820-3115-corrupt-efi-firmware[\/url]\nIf still the same, then 100% no BIOS issue."
+    },
+    {
+        "post_id":48716,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-30 03:36:10",
+        "message":"I tested the file from the other post you linked me to but still the exact same issue."
+    },
+    {
+        "post_id":48718,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-30 04:44:43",
+        "message":"Recharge original BIOS, as is not BIOS issue.\n\nSo machine doesn't even start if external monitor is connected?\nDo you also need to unplug LCD to start?"
+    },
+    {
+        "post_id":48720,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-30 04:55:58",
+        "message":"Ok i flash original Bios back. Yes, it only starts with both monitors disconnected. If there is any monitor plugged in (internal or external) fan just twitch one time. After the fan twitched i can hear a quiet \"brumming\" sound from the fan and can feel it vibrating until i unplug battery... Pressing power again results in no reaction (no 2nd fan twitch)"
+    },
+    {
+        "post_id":48723,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-04-30 04:59:05",
+        "message":"Machine stays on for long time if no monitors connected?\nTest it only with USB mouse and OSX pendrive, to assure stable activity"
+    },
+    {
+        "post_id":48726,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-04-30 05:50:40",
+        "message":"Yes it stays on with everything except monitor connected (+USB mouse and pen drive). It starts, chimes and even talks to me after few seconds if i plug my Mavericks USB drive in (it has the voice over thing enabled...)"
+    },
+    {
+        "post_id":48804,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-05-01 23:28:01",
+        "message":"Is there something else i could try?"
+    },
+    {
+        "post_id":48809,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-05-02 03:56:50",
+        "message":"This should be something related with AXG block from CPU.\nTry to reflow CPU.\nCheck first if R7403 is correct."
+    },
+    {
+        "post_id":48949,
+        "thread_id":48589,
+        "title":"820-3115 only starting without screen attached",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2019-05-06 08:24:14",
+        "message":"R7430 is correct. I gave CPU a reflow same way i do with 2011 MBP\/iMac GPU issues to test if its really a GPU problem but that did not change anything aswell...\nSo i think its time to give up here..."
+    }
+]

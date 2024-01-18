@@ -1,9 +1,83 @@
-{"post_id":58607,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":24055,"username":"JCE","post_date":"2020-04-22 08:06:32","message":"Dear all,\n\nI have an 820-00923 A1706 Touchbar MacBookPro, which had a minor liquid damage. CB300 was corroded which I was able to replace thanks to Louis' video! THX for that!\n\n\u2022 PPBUS_G3H = 13V\n\nNow I am stuck. The backlight works, I have fanspin (but only if I do not attach the trackpad connector), but no image on the screen nor on the touchbar. The only image I saw once was the red \"battery-low\" image, so the screen works in principle. I tried to attach an external screen, but no luck with that either. Current drawn at 20V changes goes up to 0.9A and then changes between 0.4A and 0.6A. But no sign of boot.\n\n\u2022 PPVCC_S0_CPU is between 0.64V and 1.2V which seems to be OK\n\u2022 PP3V3_S4_TPAD = 3.3V (with and without trackpad, so no shortcut on power line from trackpad)\n\nBut:\n\n\u2022 PPVCCGT_S0_CPU = 0V (Graphic cores of CPU do not get any power), but there is\/was no corrosion around these chips (U7410, U7420, U7430)\n\u2022 PPVCCEDRAM_S0_CPU = 0V (not OK)\n\u2022 PPVCCEDRAM_S0_REG_F = 1.05V (OK)\n\nQuestions:\n\n\u2022 Any clue why connecting the Trackpad (being optically in perfect condition, no corrosion or signs of liquid) prevents fans to spin?\n\u2022 Is it normal that PPVCCGT_S0_CPU has 0V in early boot stage?\n\u2022 Any clue on how to proceed?\n\nAttached is a movie of the power drawn during boot:\n\nKind regards,\n\nJean-Claude"}
-{"post_id":58608,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":682,"username":"2informaticos","post_date":"2020-04-22 09:30:51","message":"PPVCCGT_S0_CPU will only appear under graphics load; like playing YouTube videos.\n\nI don't exactly know if fan should spin from the begining on this board; no one available to test.\nHowever, without trackapd connected, is normal to get full fan spin; palm rest temperature sensor is not detected.\nIn normal mode, fan will supposedly start when CPU gets hot.\n\nBacklight presence means board boots (usually), but check if there is USB activity.\n\nTest the board alone, without any device connected.\nNo touchbar, trackpad, audio, nor even LCD; use OSX pendrive with Link LED to confirm USB activity."}
-{"post_id":58641,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":24055,"username":"JCE","post_date":"2020-04-22 16:41:38","message":"Hi 2informaticos,\n\nthx for the quick answer.\n\nYou were right, the trackpad was not the issue. The fans start to spin when the CPU gets really hot. I switched the power off too early fearing the CPU could overheat. But also with the trackpad connector attached, the fans eventually start to spin. I was not aware of the palm rest temperature sensor.\n\nI was able to check: there is USB activity. The USB pendrive LED now allows me to see a little bit more what happens. THX for that tip!\n\nIn the meantime I did a lot of tests, removing all connectors etc.\n\nI was then able to boot in the diagnostics mode. And run through it with \"no issues found\", but this happened only once. Normally the test crashes after around 20s and the computer is in boot loop again, not showing any apple logo or boot bar. The same thing happens if I try to do internet recovery, it starts the recovery (after I connected to WLAN) and it also crashes after around 20s. I attached 2 images showing how far I got.\n\nWhat is really strange is that I was only able to boot into internet recovery and diagnostics mode with the help of an external keyboard. No success with the internal keyboard. The internal keyboard however seems to work, as I was able to test it in the the WLAN connection dialog when entering the WLAN SID manually.\n\nI was not able to boot from the external pendrive (pressing the C or option key during boot), but I have no second identical machine to test the bootable pendrive (Mojave 10.14.6). On my sightly older machine (A1398) it works fine however.\n\nDo you think it is possible that the internal SSD is messed up? An that the system crashes as soon as it wants to access it? But why did the diagnostics run through one without any error or crash?\n\nWhat are the possible newbie errors I could have made? I am not so experienced with these newer machines.\n\nKind regards,\n\nJean-Claude"}
-{"post_id":58646,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":682,"username":"2informaticos","post_date":"2020-04-22 17:37:39","message":"Did you try to access boot menu using USB keyboard?\nTry disconnecting J9600 plate."}
-{"post_id":58796,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":24055,"username":"JCE","post_date":"2020-04-26 12:01:20","message":"Hi 2informaticos,\n\nthx again for the tip. I detached the internal SSD by removing the J9600 plate and the behaviour remains the same.\n\nWhen I boot in diagnostics mode, this mode is not available because of the lacking SSD so it switches to internet diagnostics mode which gets stuck at the same point as the internet recovery mode.\n\nWhen I boot from the external USB stick (Catalina) it gets stuck at the apple logo just when the progress bar appears. I was able to reproduce the same behaviour with the internal SSD when leaving the connector J9600 connected.\n\nI did an PRAM reset and an SMC reset several times but the behavior remains the same.\n\nI then tried if I was able to boot in verbose and single user modes and to my astonishment this was possible and I got a kernel panics with the attached screens.\n\nI also tried running the diagnostic mode without the internal keyboard attached which gave a fan error as expected as the fans are attached to the same connector. I then reconnected the keyboard and was able to rerun the test without any error.\n\nDo you have any clue why the internal keyboard is not working when trying to boot in single user mode but however it works as expected when selecting entering the WLAN ID manually?\n\nDo have any tip on what else to try\/measure, I am close to giving up... :-)\n\nKind regards,\n\nJean-Claude\n\n[ATTACH]58797._xfImport[\/ATTACH][ATTACH]58798._xfImport[\/ATTACH][ATTACH]58799._xfImport[\/ATTACH][ATTACH]58800._xfImport[\/ATTACH]"}
-{"post_id":59248,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":24055,"username":"JCE","post_date":"2020-05-06 16:06:38","message":"Hi 2informaticos,\n\nAny hint?\n\nKind regards,\n\nJean-Claude"}
-{"post_id":59251,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":2,"username":"dukefawks","post_date":"2020-05-06 16:21:53","message":"I don't see a successful Single user boot. Just the verbose screen and a Kernel panic. So that is why the keyboard does not work. \n\nThe kernel panic could be anything as I see it happening at different times in those screen shots. I would inspect the board closer for liquid damage. There must be crap under a chip somewhere so it is important that you documented where the original liquid damage was. The CD3215 will usually not cause panics, but it may be around that area of course, thunderbolt chip certainly can."}
-{"post_id":59307,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":24055,"username":"JCE","post_date":"2020-05-09 15:32:18","message":"Hi Duke,\n\nHere are the pictures of the original water damage (which I should have posted from the beginning). The voltage regulators in picture 24 worked after cleaning and reflowing\/retinning. The same for the regulators in picture 25. In picture 26 the capacitor CB300 had a short so that I replaced it. After this replacement the USB-C input voltage switched again to 20V as it was supposed to. In the meantime I also replaced CB308 even if it was not shorted, but it seemed to have heated up from the marks on the shield of the SSD chip. \n\nSo you would suggest I reflow the CD3215 chip as it also does thunderbolt stuff? Just \"Reflow\" or \"take off, clean and put back\" or even \"replace\"?\n\nKind regards,\n\nJean-Claude"}
-{"post_id":59326,"thread_id":58607,"title":"820-00923 A1706 Touchbar MacBookPro not booting","user_id":24055,"username":"JCE","post_date":"2020-05-10 09:55:37","message":"Here is a closeup of the CD3215 after the replacement of the 2 capacitors CB300 and CB308 (10uF, 6.3V, 0402) at the top edge.\n[ATTACH]59241[\/ATTACH]"}
+[
+    {
+        "post_id":58607,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":24055,
+        "username":"JCE",
+        "post_date":"2020-04-22 06:06:32",
+        "message":"Dear all,\n\nI have an 820-00923 A1706 Touchbar MacBookPro, which had a minor liquid damage. CB300 was corroded which I was able to replace thanks to Louis' video! THX for that!\n\n\u2022 PPBUS_G3H = 13V\n\nNow I am stuck. The backlight works, I have fanspin (but only if I do not attach the trackpad connector), but no image on the screen nor on the touchbar. The only image I saw once was the red \"battery-low\" image, so the screen works in principle. I tried to attach an external screen, but no luck with that either. Current drawn at 20V changes goes up to 0.9A and then changes between 0.4A and 0.6A. But no sign of boot.\n\n\u2022 PPVCC_S0_CPU is between 0.64V and 1.2V which seems to be OK\n\u2022 PP3V3_S4_TPAD = 3.3V (with and without trackpad, so no shortcut on power line from trackpad)\n\nBut:\n\n\u2022 PPVCCGT_S0_CPU = 0V (Graphic cores of CPU do not get any power), but there is\/was no corrosion around these chips (U7410, U7420, U7430)\n\u2022 PPVCCEDRAM_S0_CPU = 0V (not OK)\n\u2022 PPVCCEDRAM_S0_REG_F = 1.05V (OK)\n\nQuestions:\n\n\u2022 Any clue why connecting the Trackpad (being optically in perfect condition, no corrosion or signs of liquid) prevents fans to spin?\n\u2022 Is it normal that PPVCCGT_S0_CPU has 0V in early boot stage?\n\u2022 Any clue on how to proceed?\n\nAttached is a movie of the power drawn during boot:\n\nKind regards,\n\nJean-Claude"
+    },
+    {
+        "post_id":58608,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-22 07:30:51",
+        "message":"PPVCCGT_S0_CPU will only appear under graphics load; like playing YouTube videos.\n\nI don't exactly know if fan should spin from the begining on this board; no one available to test.\nHowever, without trackapd connected, is normal to get full fan spin; palm rest temperature sensor is not detected.\nIn normal mode, fan will supposedly start when CPU gets hot.\n\nBacklight presence means board boots (usually), but check if there is USB activity.\n\nTest the board alone, without any device connected.\nNo touchbar, trackpad, audio, nor even LCD; use OSX pendrive with Link LED to confirm USB activity."
+    },
+    {
+        "post_id":58641,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":24055,
+        "username":"JCE",
+        "post_date":"2020-04-22 14:41:38",
+        "message":"Hi 2informaticos,\n\nthx for the quick answer.\n\nYou were right, the trackpad was not the issue. The fans start to spin when the CPU gets really hot. I switched the power off too early fearing the CPU could overheat. But also with the trackpad connector attached, the fans eventually start to spin. I was not aware of the palm rest temperature sensor.\n\nI was able to check: there is USB activity. The USB pendrive LED now allows me to see a little bit more what happens. THX for that tip!\n\nIn the meantime I did a lot of tests, removing all connectors etc.\n\nI was then able to boot in the diagnostics mode. And run through it with \"no issues found\", but this happened only once. Normally the test crashes after around 20s and the computer is in boot loop again, not showing any apple logo or boot bar. The same thing happens if I try to do internet recovery, it starts the recovery (after I connected to WLAN) and it also crashes after around 20s. I attached 2 images showing how far I got.\n\nWhat is really strange is that I was only able to boot into internet recovery and diagnostics mode with the help of an external keyboard. No success with the internal keyboard. The internal keyboard however seems to work, as I was able to test it in the the WLAN connection dialog when entering the WLAN SID manually.\n\nI was not able to boot from the external pendrive (pressing the C or option key during boot), but I have no second identical machine to test the bootable pendrive (Mojave 10.14.6). On my sightly older machine (A1398) it works fine however.\n\nDo you think it is possible that the internal SSD is messed up? An that the system crashes as soon as it wants to access it? But why did the diagnostics run through one without any error or crash?\n\nWhat are the possible newbie errors I could have made? I am not so experienced with these newer machines.\n\nKind regards,\n\nJean-Claude"
+    },
+    {
+        "post_id":58646,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-22 15:37:39",
+        "message":"Did you try to access boot menu using USB keyboard?\nTry disconnecting J9600 plate."
+    },
+    {
+        "post_id":58796,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":24055,
+        "username":"JCE",
+        "post_date":"2020-04-26 10:01:20",
+        "message":"Hi 2informaticos,\n\nthx again for the tip. I detached the internal SSD by removing the J9600 plate and the behaviour remains the same.\n\nWhen I boot in diagnostics mode, this mode is not available because of the lacking SSD so it switches to internet diagnostics mode which gets stuck at the same point as the internet recovery mode.\n\nWhen I boot from the external USB stick (Catalina) it gets stuck at the apple logo just when the progress bar appears. I was able to reproduce the same behaviour with the internal SSD when leaving the connector J9600 connected.\n\nI did an PRAM reset and an SMC reset several times but the behavior remains the same.\n\nI then tried if I was able to boot in verbose and single user modes and to my astonishment this was possible and I got a kernel panics with the attached screens.\n\nI also tried running the diagnostic mode without the internal keyboard attached which gave a fan error as expected as the fans are attached to the same connector. I then reconnected the keyboard and was able to rerun the test without any error.\n\nDo you have any clue why the internal keyboard is not working when trying to boot in single user mode but however it works as expected when selecting entering the WLAN ID manually?\n\nDo have any tip on what else to try\/measure, I am close to giving up... :-)\n\nKind regards,\n\nJean-Claude\n\n[ATTACH]58797._xfImport[\/ATTACH][ATTACH]58798._xfImport[\/ATTACH][ATTACH]58799._xfImport[\/ATTACH][ATTACH]58800._xfImport[\/ATTACH]"
+    },
+    {
+        "post_id":59248,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":24055,
+        "username":"JCE",
+        "post_date":"2020-05-06 14:06:38",
+        "message":"Hi 2informaticos,\n\nAny hint?\n\nKind regards,\n\nJean-Claude"
+    },
+    {
+        "post_id":59251,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2020-05-06 14:21:53",
+        "message":"I don't see a successful Single user boot. Just the verbose screen and a Kernel panic. So that is why the keyboard does not work. \n\nThe kernel panic could be anything as I see it happening at different times in those screen shots. I would inspect the board closer for liquid damage. There must be crap under a chip somewhere so it is important that you documented where the original liquid damage was. The CD3215 will usually not cause panics, but it may be around that area of course, thunderbolt chip certainly can."
+    },
+    {
+        "post_id":59307,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":24055,
+        "username":"JCE",
+        "post_date":"2020-05-09 13:32:18",
+        "message":"Hi Duke,\n\nHere are the pictures of the original water damage (which I should have posted from the beginning). The voltage regulators in picture 24 worked after cleaning and reflowing\/retinning. The same for the regulators in picture 25. In picture 26 the capacitor CB300 had a short so that I replaced it. After this replacement the USB-C input voltage switched again to 20V as it was supposed to. In the meantime I also replaced CB308 even if it was not shorted, but it seemed to have heated up from the marks on the shield of the SSD chip. \n\nSo you would suggest I reflow the CD3215 chip as it also does thunderbolt stuff? Just \"Reflow\" or \"take off, clean and put back\" or even \"replace\"?\n\nKind regards,\n\nJean-Claude"
+    },
+    {
+        "post_id":59326,
+        "thread_id":58607,
+        "title":"820-00923 A1706 Touchbar MacBookPro not booting",
+        "user_id":24055,
+        "username":"JCE",
+        "post_date":"2020-05-10 07:55:37",
+        "message":"Here is a closeup of the CD3215 after the replacement of the 2 capacitors CB300 and CB308 (10uF, 6.3V, 0402) at the top edge.\n[ATTACH]59241[\/ATTACH]"
+    }
+]

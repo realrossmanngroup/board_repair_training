@@ -1,32 +1,290 @@
-{"post_id":38452,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 08:47:23","message":"I'm a little confused by this one. The only liquid damage is in the upper lefthand corner beside the backlight circuit. I have checked that area for shorts with no luck. I have the g3 hot rails, but no P5vS0 rail. And I think (I am new to this) the P5vS3 rail is required for P5vs0 to work. I do not have P5vs3 either. Any guidance on finding out what is going on is appreciated. thanks!\n\n\nOne other interesting thing: I check P5vs3 in continuity mode and everything looks good, but when plugging in DC power the impedance drops down to around 18 ohms (sill 0v)\nI'm checking the line now for some mosfets that may have opened to a shorted line or something."}
-{"post_id":38453,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":682,"username":"2informaticos","post_date":"2018-08-15 09:39:55","message":"Ooops, do NOT measure resistance to ground on a powered board, on any point!!!\n\nExact voltage at F7040?\nDo you get steady 3.3V at L7260 and 0.9V at L7750??\nTouch SMC_ONOFF_L to ground and look if L7220 pulses atleast?\nIf not, check if PM_SLP_S4_L and PM_PWRBTN_L pulse any.\nPM_RSMRST_L should be high always, as RTC signals too."}
-{"post_id":38455,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 09:45:16","message":"R7760 is missing. I am not sure if that is normal. On the schematic it doesn't say nostuff. I think this is what connects the s5 to the s3 rail. I am getting s5 LDO, just no s3."}
-{"post_id":38457,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 09:48:20","message":"f7040 is 8.37\nL7260  gives me 0v\nL7750 gives me nothing\n\nI am not sure how to check the rest for pulses and what not"}
-{"post_id":38458,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 09:59:58","message":"no pulse at L7220 when using power on pads. \nPM_SLP_S4_L gives me a steady .19v no matter what. with the pwr pads. \nPM_PWRBTN_L is not pulsing either."}
-{"post_id":38460,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":682,"username":"2informaticos","post_date":"2018-08-15 10:32:03","message":"\"L7750 gives me nothing\"\nSolve that first, if not shorted...\n\nAlso check if L6995 shows more than 30K (200k scale), as normal for MCP platform."}
-{"post_id":38461,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 10:36:28","message":"Ok, L7750 is not shorted to ground, but the resistance is around 1k. \nL6995 is showing around 6.6k"}
-{"post_id":38462,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 11:18:35","message":"I'm getting no P3v3S5, which is needed for pv095. The enable pin (p3v3s5_EN) is fine, yet I am getting 0 volts out of the chip. could be a dead chip."}
-{"post_id":38463,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 11:32:41","message":"SLG4AP012 is the chip that I think needs replacing.. now if I could just find a replacement."}
-{"post_id":38464,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1153,"username":"JohnB8812","post_date":"2018-08-15 12:02:36","message":"6.6Kohms on PP3v42 is too low. MCP is dead this is done tbh."}
-{"post_id":38465,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 12:06:09","message":"what is MCP?"}
-{"post_id":38466,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 12:10:31","message":"PP3v42 is actually 60k ohms. I must have measured something else."}
-{"post_id":38470,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":682,"username":"2informaticos","post_date":"2018-08-15 12:45:29","message":"\"L7260 gives me 0v\"\nSorry, I forgot about this.\n\n\"what is MCP?\"\nTry to find a coincidence in the first schematic page.\nOr look directly at schematic block.\n\nAny short\/low value at L7220\/60?\nPost U7840 voltages first."}
-{"post_id":38471,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 13:05:42","message":"U7840\n\n1 3.42V\n2 3.4V\n3 3.48\n4 0V\n5 0V\n6 0V\n7 0V\n8 0V\n9 0v"}
-{"post_id":38472,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-15 13:08:50","message":"L7220 20k and rising\nL7260 30k and rising"}
-{"post_id":38497,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-16 04:34:28","message":"So, from what I can gather, pin 4 is EN_L, which I think means enable low. This maybe means there should be voltage on this pin too to enable the circuit,  but when I look upstream from there, there are two transistors that seem to come from the cpu to send a signal to it. There could be something wrong with one of the transistors or something else, but it seems likely to me at this point to be a dead mcp. \nThe weird part to me, is that on the schematic the EN_L pin seems to be only related to wlan, which shouldn\u2019t be needed to achieve an S5 state. \n\nI couldnt find find a data sheet on the chip to tell what that pin did, but I think the pin 4 is preventing it from turning on."}
-{"post_id":38499,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":682,"username":"2informaticos","post_date":"2018-08-16 05:02:08","message":"U7840 is OK.\nPay atention to the circle from pin4; that means inverted output (as _L specifies low level)!\n\nNow post some voltages at U7201; pins 23, 29, 22, 4, 21."}
-{"post_id":38518,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-16 14:52:15","message":"23  8.38v\n29 5v\n22  3.3v\n4 0\n21  3.5v"}
-{"post_id":38519,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-16 15:02:51","message":"It may be 0v because of R7864 missing on the PM_SLP_S4_L line. this is needed to allow the voltage through the transistor I think"}
-{"post_id":38522,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-16 17:43:12","message":"from all I can tell, the signal coming from the MCP or SMC is not telling the transistor to turn on, so It must be a dead MCP"}
-{"post_id":38556,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":2,"username":"dukefawks","post_date":"2018-08-17 14:29:54","message":"Voltage on the RTC crystal? You are shorting the power pads to try and turn it on? Does the light turn orange when battery connected?"}
-{"post_id":38624,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-20 10:51:19","message":"1. The voltage on y2810 is 1.7 on the top and 1.5 on the bottom\n2. I do short the pads to turn it on, but  I get the same voltages regardless.\n3. The light turns green, but does not turn orange with battery connected."}
-{"post_id":38644,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":2,"username":"dukefawks","post_date":"2018-08-20 14:50:54","message":"3V3_S5 even present? PPBUS voltage?"}
-{"post_id":38649,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-20 15:13:15","message":"3v3 S5 is not present. PPbus 3v42g3h is present. so it's like it's getting to U7840 and not coming out. P3v3S5_EN is present but P3v3S5_EN_L is not showing DC voltage."}
-{"post_id":38654,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":682,"username":"2informaticos","post_date":"2018-08-20 17:48:39","message":"\"P3v3S5_EN is present but P3v3S5_EN_L is not showing DC voltage.\"\n\"Pay atention to the circle from pin4; that means inverted output (as _L specifies low level)!\"\nUnfortunatelly you don't pay such atention; P3v3S5_EN_L is correct...\n\n\"3v3 S5 is not present.\"\n\"21 3.5v\"\nSo 3V3_S5 is enabled.\nChange U7201 if you don't find any short around."}
-{"post_id":38658,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-20 22:50:42","message":"Ok, I think it makes sense now. Inverted means it's basically 0 and that makes it in an ON state. I'll double check 7201. it seems to be working, but it could be a sensitive chip if the outputs were shorted momentarily."}
-{"post_id":38664,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1153,"username":"JohnB8812","post_date":"2018-08-21 09:02:40","message":"What is your voltage on PPBUS_G3H?"}
-{"post_id":38683,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-21 17:07:53","message":"8.6 is the voltage of G3H la la la"}
-{"post_id":38748,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1,"username":"larossmann","post_date":"2018-08-23 16:34:09","message":"Is PP3V3_S5 present or not?"}
-{"post_id":39041,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-29 21:06:32","message":"PP3v3_S5 is not present."}
-{"post_id":39055,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":682,"username":"2informaticos","post_date":"2018-08-30 03:28:48","message":"\"\"3v3 S5 is not present.\"\n\"21 3.5v\"\nSo 3V3_S5 is enabled.\nChange [URL=\"https:\/\/store.rossmanngroup.com\/d2-tps51125.html\"]U7201[\/URL] if you don't find any short around.\""}
-{"post_id":39069,"thread_id":38452,"title":"820-2838 greenlight, but no fanspin","user_id":1803,"username":"acehobojoe","post_date":"2018-08-30 06:05:15","message":"Thanks for the help. I\u2019ll make an order for that chip as soon as I can figure out if I need some others for another board"}
+[
+    {
+        "post_id":38452,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 06:47:23",
+        "message":"I'm a little confused by this one. The only liquid damage is in the upper lefthand corner beside the backlight circuit. I have checked that area for shorts with no luck. I have the g3 hot rails, but no P5vS0 rail. And I think (I am new to this) the P5vS3 rail is required for P5vs0 to work. I do not have P5vs3 either. Any guidance on finding out what is going on is appreciated. thanks!\n\n\nOne other interesting thing: I check P5vs3 in continuity mode and everything looks good, but when plugging in DC power the impedance drops down to around 18 ohms (sill 0v)\nI'm checking the line now for some mosfets that may have opened to a shorted line or something."
+    },
+    {
+        "post_id":38453,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-15 07:39:55",
+        "message":"Ooops, do NOT measure resistance to ground on a powered board, on any point!!!\n\nExact voltage at F7040?\nDo you get steady 3.3V at L7260 and 0.9V at L7750??\nTouch SMC_ONOFF_L to ground and look if L7220 pulses atleast?\nIf not, check if PM_SLP_S4_L and PM_PWRBTN_L pulse any.\nPM_RSMRST_L should be high always, as RTC signals too."
+    },
+    {
+        "post_id":38455,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 07:45:16",
+        "message":"R7760 is missing. I am not sure if that is normal. On the schematic it doesn't say nostuff. I think this is what connects the s5 to the s3 rail. I am getting s5 LDO, just no s3."
+    },
+    {
+        "post_id":38457,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 07:48:20",
+        "message":"f7040 is 8.37\nL7260  gives me 0v\nL7750 gives me nothing\n\nI am not sure how to check the rest for pulses and what not"
+    },
+    {
+        "post_id":38458,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 07:59:58",
+        "message":"no pulse at L7220 when using power on pads. \nPM_SLP_S4_L gives me a steady .19v no matter what. with the pwr pads. \nPM_PWRBTN_L is not pulsing either."
+    },
+    {
+        "post_id":38460,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-15 08:32:03",
+        "message":"\"L7750 gives me nothing\"\nSolve that first, if not shorted...\n\nAlso check if L6995 shows more than 30K (200k scale), as normal for MCP platform."
+    },
+    {
+        "post_id":38461,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 08:36:28",
+        "message":"Ok, L7750 is not shorted to ground, but the resistance is around 1k. \nL6995 is showing around 6.6k"
+    },
+    {
+        "post_id":38462,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 09:18:35",
+        "message":"I'm getting no P3v3S5, which is needed for pv095. The enable pin (p3v3s5_EN) is fine, yet I am getting 0 volts out of the chip. could be a dead chip."
+    },
+    {
+        "post_id":38463,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 09:32:41",
+        "message":"SLG4AP012 is the chip that I think needs replacing.. now if I could just find a replacement."
+    },
+    {
+        "post_id":38464,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-08-15 10:02:36",
+        "message":"6.6Kohms on PP3v42 is too low. MCP is dead this is done tbh."
+    },
+    {
+        "post_id":38465,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 10:06:09",
+        "message":"what is MCP?"
+    },
+    {
+        "post_id":38466,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 10:10:31",
+        "message":"PP3v42 is actually 60k ohms. I must have measured something else."
+    },
+    {
+        "post_id":38470,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-15 10:45:29",
+        "message":"\"L7260 gives me 0v\"\nSorry, I forgot about this.\n\n\"what is MCP?\"\nTry to find a coincidence in the first schematic page.\nOr look directly at schematic block.\n\nAny short\/low value at L7220\/60?\nPost U7840 voltages first."
+    },
+    {
+        "post_id":38471,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 11:05:42",
+        "message":"U7840\n\n1 3.42V\n2 3.4V\n3 3.48\n4 0V\n5 0V\n6 0V\n7 0V\n8 0V\n9 0v"
+    },
+    {
+        "post_id":38472,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-15 11:08:50",
+        "message":"L7220 20k and rising\nL7260 30k and rising"
+    },
+    {
+        "post_id":38497,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-16 02:34:28",
+        "message":"So, from what I can gather, pin 4 is EN_L, which I think means enable low. This maybe means there should be voltage on this pin too to enable the circuit,  but when I look upstream from there, there are two transistors that seem to come from the cpu to send a signal to it. There could be something wrong with one of the transistors or something else, but it seems likely to me at this point to be a dead mcp. \nThe weird part to me, is that on the schematic the EN_L pin seems to be only related to wlan, which shouldn\u2019t be needed to achieve an S5 state. \n\nI couldnt find find a data sheet on the chip to tell what that pin did, but I think the pin 4 is preventing it from turning on."
+    },
+    {
+        "post_id":38499,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-16 03:02:08",
+        "message":"U7840 is OK.\nPay atention to the circle from pin4; that means inverted output (as _L specifies low level)!\n\nNow post some voltages at U7201; pins 23, 29, 22, 4, 21."
+    },
+    {
+        "post_id":38518,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-16 12:52:15",
+        "message":"23  8.38v\n29 5v\n22  3.3v\n4 0\n21  3.5v"
+    },
+    {
+        "post_id":38519,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-16 13:02:51",
+        "message":"It may be 0v because of R7864 missing on the PM_SLP_S4_L line. this is needed to allow the voltage through the transistor I think"
+    },
+    {
+        "post_id":38522,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-16 15:43:12",
+        "message":"from all I can tell, the signal coming from the MCP or SMC is not telling the transistor to turn on, so It must be a dead MCP"
+    },
+    {
+        "post_id":38556,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-08-17 12:29:54",
+        "message":"Voltage on the RTC crystal? You are shorting the power pads to try and turn it on? Does the light turn orange when battery connected?"
+    },
+    {
+        "post_id":38624,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-20 08:51:19",
+        "message":"1. The voltage on y2810 is 1.7 on the top and 1.5 on the bottom\n2. I do short the pads to turn it on, but  I get the same voltages regardless.\n3. The light turns green, but does not turn orange with battery connected."
+    },
+    {
+        "post_id":38644,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-08-20 12:50:54",
+        "message":"3V3_S5 even present? PPBUS voltage?"
+    },
+    {
+        "post_id":38649,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-20 13:13:15",
+        "message":"3v3 S5 is not present. PPbus 3v42g3h is present. so it's like it's getting to U7840 and not coming out. P3v3S5_EN is present but P3v3S5_EN_L is not showing DC voltage."
+    },
+    {
+        "post_id":38654,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-20 15:48:39",
+        "message":"\"P3v3S5_EN is present but P3v3S5_EN_L is not showing DC voltage.\"\n\"Pay atention to the circle from pin4; that means inverted output (as _L specifies low level)!\"\nUnfortunatelly you don't pay such atention; P3v3S5_EN_L is correct...\n\n\"3v3 S5 is not present.\"\n\"21 3.5v\"\nSo 3V3_S5 is enabled.\nChange U7201 if you don't find any short around."
+    },
+    {
+        "post_id":38658,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-20 20:50:42",
+        "message":"Ok, I think it makes sense now. Inverted means it's basically 0 and that makes it in an ON state. I'll double check 7201. it seems to be working, but it could be a sensitive chip if the outputs were shorted momentarily."
+    },
+    {
+        "post_id":38664,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-08-21 07:02:40",
+        "message":"What is your voltage on PPBUS_G3H?"
+    },
+    {
+        "post_id":38683,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-21 15:07:53",
+        "message":"8.6 is the voltage of G3H la la la"
+    },
+    {
+        "post_id":38748,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2018-08-23 14:34:09",
+        "message":"Is PP3V3_S5 present or not?"
+    },
+    {
+        "post_id":39041,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-29 19:06:32",
+        "message":"PP3v3_S5 is not present."
+    },
+    {
+        "post_id":39055,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-30 01:28:48",
+        "message":"\"\"3v3 S5 is not present.\"\n\"21 3.5v\"\nSo 3V3_S5 is enabled.\nChange [URL=\"https:\/\/store.rossmanngroup.com\/d2-tps51125.html\"]U7201[\/URL] if you don't find any short around.\""
+    },
+    {
+        "post_id":39069,
+        "thread_id":38452,
+        "title":"820-2838 greenlight, but no fanspin",
+        "user_id":1803,
+        "username":"acehobojoe",
+        "post_date":"2018-08-30 04:05:15",
+        "message":"Thanks for the help. I\u2019ll make an order for that chip as soon as I can figure out if I need some others for another board"
+    }
+]

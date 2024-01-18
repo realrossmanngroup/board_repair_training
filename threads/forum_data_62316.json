@@ -1,12 +1,110 @@
-{"post_id":86093,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":34064,"username":"OzNitzan","post_date":"2022-02-09 08:21:41","message":"Hello ,\n\nI have A1990 2018 macbook pro  . The MB number is: 820-01041A.\nA little bit of water touched the USB C port of U3200 and U3100 ( i think that only in one of them ).\nNo trace of liquid damage .\n\nHere is the situation:\n\nAt the beginning all the 4 USB C ports were stuck on 5V and draw 380mA - 400mA .\nAfter power rail check and ACE LDO check i decided to replace U3200 .\n\nThe new situation is this :\n\nUSB C ports of UB300 and UB400 are stuck on 20v and drawing after a current cycle 110mA . I already checked SSD0 power rail and i am getting 2.5v.\ni can also say that i have all the power rails including the PMU_ONOFF_L which is 3.38v ( the power sequence was taken from  820-01598). moreover in this case PP3V3_S5 is 1.329v and PP1v8_S5 is 0.44v however no short on those rails . PP3v3_s5 resistance to ground is 74Kohm and PP1v8_S5 is 23.33Kohm.\nforgot to mention that all the ACE LDO voltage are present.\n\nUSB C ports of U3200 and U3100 are stuck on 5v and drawing 380mA - 400mA .\nFor those chips the 2 X 1.8v_LDO and the 3.3v_LDO are present however the 1.1v_LDO is missing.\nPPBUS is present 12.6v and also PP3V3_G3H is present 3.34v.\nI checked the resistance of C3104 and C3204 ( Use for CC1 and CC2 communication )  and both of them are 198kohm.\nmoreover i checked the CC1(USBC_XB\/XA_CC1) and CC2 (USB_XB\/XA_CC2)  of those CD3215 in diode mode and got :\nCC1 - 0.585v\nCC2 - 0.59v\n\nI also checked the ACE_I2C_lines and got the following values on  R2834 and R2835 ( I2C_TBT_X_SCL and I2C_TBT_X_SDA ) [B]Both of them are on 3.31v .[\/B]\n\nI also decided to check and compare QB400 and Q3100 and Q3200 .\nThose chips as i see it are responsible to deliver 20v to the board ( PPDCIN_G3H).\n\nthe results on the [B]working[\/B] USB C , QB400 and QB300 :\n1. UPC_TB_GATE1 : 26V ( FROM CD3215)\n2. UNCONNECTED\n3. UNCONNECTED\n4. UPC_TB_GATE2 : 22.5V ( FROM CD3215)\n5\/6\/7 : PP20V_USBC_TB_VBUS: 20.37V\n8: PPDCIN_G3H: 20.37V\n\nthe results on the [B]un working[\/B] USB C , Q3100 :\n1. UPC_XA_GATE1 : 10.83V ( FROM CD3215)\n2. TP_Q3100_DRAIN: 5.11 V\n3. UNCONNECTED\n4. UPC_XA_GATE2 : 8.27V ( FROM CD3215)\n5\/6\/7 : PP20V_USBC_XA_VBUS: 5.11V\n8: PPDCIN_G3H: 5.11V\n\nthe results on the [B]un working[\/B] USB C , Q3200 :\n1. UPC_XB_GATE1 : unable to measure ( FROM CD3215)\n2. TP_Q3200_DRAIN: 5.11 V\n3. UNCONNECTED\n4. UPC_XB_GATE2 : 6.87V ( FROM CD3215)\n5\/6\/7 : PP20V_USBC_XB_VBUS: 5.11V\n8: PPDCIN_G3H: 5.11V\n\n\nSo anyone can please assist ?\nwhy when i replaced U3200 the volatge of UB400 and UB300 was increased to 20v but U3200 and U3100 are still stuck on 5v ?\nmaybe i have a problem in the soldering ? maybe the call to replace U3200 was a mistake?\nIf you read this , please go to the last post. The board fell on the ground and bent a little bit. maybe you have an idea :("}
-{"post_id":86096,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":682,"username":"2informaticos","post_date":"2022-02-09 08:45:00","message":"First of all, welcome to the forum!\n\nAlways check power rails in diode mode, not ohm scale.\nSwitch to ohm scale only for very low values; usually under 0.010 reading.\nRead here about correct way to do it.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\n\nDisconnect everything from the board; test it alone on the desk.\nOf course, keep the charger connected.\n\nWhere did you get the new CD3215 chip?\nDoes it have the same termination code?\nB03 is not compatible with C00.\n\n Check U2890 traces, solders and adjacent resistors."}
-{"post_id":86099,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":34064,"username":"OzNitzan","post_date":"2022-02-09 08:49:18","message":"Hey ,\n\nThank you very much.\n\nI got the new CD3215 from your store :) , bought 2 chips from you and two other from beetstech. But the soldered on is from your store.\nyes , they have the same termination code C00.\n\nI checked U2890 :\n\nPin1 TBT_X_SPI_CS_L : 3.3v\nPin2 TBT_X_SPI_MISO : 3.33v\nPin3 TBT_X_SPI_ROM_WP_L :0.726v\nPin4 GND : 0v\nPin5 TBT_X_SPI_MOSI: 0v\nPin6 TBT_X_SPI_CLK: 0.07v\nPin7 TBT_X_ROM_HOLD_L: 3.33v\nPin8 PP3V3_UPC_XB_LDO: 3.33v\n\nalso checked resistors : R3095\/R3096 and R3097 all of them are 15ohm and looks fine.\n[B]By the way ,general questions :\n1.  Is it normal that one side of USB C port show 20v and the other side show 5V ? And most important why it happened after the replacement of U3200?\n2.  How do i know if i replaced the right ACE controller ? maybe i had to replace U3100 ? In order to get 1.1v_LDO on U3100 ,do i need to get 1.1v_LDO on U3200 first ?[\/B]"}
-{"post_id":86111,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":682,"username":"2informaticos","post_date":"2022-02-09 15:12:42","message":"1V1 LDO appears only on the powered port.\n\nDepending which block of CD3215 chip is affected, you can get 20V on other port.\nIn such case, may have bad chip on the input side.\nIt is still able to communicate with SMC (T2), but can't control the input.\nThat's the reason to get 20V on the other port.\nIf one CD3215 doesn't communicate with SMC, will not get 20V on any port.\n\nNow try to replace U3100 too."}
-{"post_id":86112,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":34064,"username":"OzNitzan","post_date":"2022-02-09 15:27:24","message":"Hey ,\n\nWhen You say :  \" If one CD3215 doesn't communicate with SMC, will not get 20V on any port \" , you mean that in the ACE controller pair , even if one of them is faulty , none of them will generate 1.1v LDO and this is why the 20v will not be generate? ( for example  if U3200 is faulty and U3100 is fine so none of them will generate the 1.1v LDO )\n\nAnd again for my knowledge : at the beginning all the USB C port showed 5v and draw 380mA-390mA . only when i replaced U3200 , UB300 and UB400 rise to 20v , but U3200 and U3100 are still stuck on 5v . why did it happened ? why U3200 is still stuck on 5v if its okay ?\n\nIf replacing U3100 will fix the macbook  , the voltage will be 20v and how much current will it draw ?\nwill replace U3100 and keep you update"}
-{"post_id":86117,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":682,"username":"2informaticos","post_date":"2022-02-09 18:09:39","message":"You should replace U3100 and see what happens.\nBe sure to get good solders.\n\nThe behavior of USB-C ports depends of the internal problem of a CD3215 chip."}
-{"post_id":86122,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":34064,"username":"OzNitzan","post_date":"2022-02-10 06:45:32","message":"Hey ,\n\nBefore replacing U3100 i looked once again on the trace to U2890 . Than i saw that U2890 is  a little bit off its pads. Reflow it and U3100 and U3200 are now on 20v . Than unfortunately, the board fell on ground and bend a little bit . now all the USB C ports presents 5v and drawing 250mA . :(\nDoes it means that its over ?"}
-{"post_id":86125,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":682,"username":"2informaticos","post_date":"2022-02-10 07:05:01","message":"Ooops, that's no good at all.\nYou may have knocked off components, or even broken solders under BGA chips."}
-{"post_id":86126,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":34064,"username":"OzNitzan","post_date":"2022-02-10 07:08:33","message":":( Any Ideas?"}
-{"post_id":86128,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":682,"username":"2informaticos","post_date":"2022-02-10 07:09:31","message":"Inspect the board under microscope.\nUnfortunatelly, this may be a lost cause..."}
-{"post_id":86255,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":34064,"username":"OzNitzan","post_date":"2022-02-14 03:09:36","message":"Hey , \n\nI checked the board today .\nhere is what i have till now :\n\nFirst : all the USB C port are stuck on 5v and drawing 250mA.\n\n1.  All The LDO rails  of each CD3215C are on, of course the LDO 1.1V is on for each  ACE when its connected to power adapter.\n2. PPBUS_G3H :12.3 v\n3. \n\n U2890 flash - each pin\nPin1 TBT_X_SPI_CS_L : 3.3v\nPin2 TBT_X_SPI_MISO : 3.33v\nPin3 TBT_X_SPI_ROM_WP_L :3.34\nPin4 GND : 0v\nPin5 TBT_X_SPI_MOSI: 1.434v\nPin6 TBT_X_SPI_CLK: 1.08v\nPin7 TBT_X_ROM_HOLD_L: 3.33v\nPin8 PP3V3_UPC_XB_LDO: 3.33v\n\n4. \nUB090 flash - each pin\nPin1: TBT_T_SPI_CS_L : 3.34v\nPin2: TBT_T_SPI_MISO: 3.34v\nPin3: TBT_T_ROM_WP_L : 3.34v\nPin4 : GND\nPin5 : TBT_T_SPI_MOSI: 1.51v\nPin6: TBT_T_SPI_CLK: 1.152v\nPin7: TBT_T_ROM_HOLD_L: 3.34v\nPin8: PP3V3_UPC_TA_LDO: 3.34v\nPin9: GND\n\n5. \nI2C_TBT_T_SCL (RB034, pin #2)\nI2C_TBT_T_SDA (RB034, pin #2)\n[B]the voltage is 0v[\/B] \n\n6.\n\nI2C_TBT_X_SCL (R2834, pin # 2)\nI2C_TBT_X_SDA (R2835, pin # 2)\n[B]the voltage is 0v[\/B] \n \n7.\n\n i checked diode mode for the CC1 and CC2 lines:\n\nU3100 and U3200 :\n\nCC1 : 0.424\nCC2 : 0.472\n\nUB300 and UB400 :\n\nCC1 : 0.469\nCC2 : 0.421 \n \nAny Idea ?"}
-{"post_id":86256,"thread_id":62316,"title":"A1990 doesn't turning on","user_id":682,"username":"2informaticos","post_date":"2022-02-14 04:17:30","message":"Probably broken trace, or solders..."}
+[
+    {
+        "post_id":86093,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":34064,
+        "username":"OzNitzan",
+        "post_date":"2022-02-09 06:21:41",
+        "message":"Hello ,\n\nI have A1990 2018 macbook pro  . The MB number is: 820-01041A.\nA little bit of water touched the USB C port of U3200 and U3100 ( i think that only in one of them ).\nNo trace of liquid damage .\n\nHere is the situation:\n\nAt the beginning all the 4 USB C ports were stuck on 5V and draw 380mA - 400mA .\nAfter power rail check and ACE LDO check i decided to replace U3200 .\n\nThe new situation is this :\n\nUSB C ports of UB300 and UB400 are stuck on 20v and drawing after a current cycle 110mA . I already checked SSD0 power rail and i am getting 2.5v.\ni can also say that i have all the power rails including the PMU_ONOFF_L which is 3.38v ( the power sequence was taken from  820-01598). moreover in this case PP3V3_S5 is 1.329v and PP1v8_S5 is 0.44v however no short on those rails . PP3v3_s5 resistance to ground is 74Kohm and PP1v8_S5 is 23.33Kohm.\nforgot to mention that all the ACE LDO voltage are present.\n\nUSB C ports of U3200 and U3100 are stuck on 5v and drawing 380mA - 400mA .\nFor those chips the 2 X 1.8v_LDO and the 3.3v_LDO are present however the 1.1v_LDO is missing.\nPPBUS is present 12.6v and also PP3V3_G3H is present 3.34v.\nI checked the resistance of C3104 and C3204 ( Use for CC1 and CC2 communication )  and both of them are 198kohm.\nmoreover i checked the CC1(USBC_XB\/XA_CC1) and CC2 (USB_XB\/XA_CC2)  of those CD3215 in diode mode and got :\nCC1 - 0.585v\nCC2 - 0.59v\n\nI also checked the ACE_I2C_lines and got the following values on  R2834 and R2835 ( I2C_TBT_X_SCL and I2C_TBT_X_SDA ) [B]Both of them are on 3.31v .[\/B]\n\nI also decided to check and compare QB400 and Q3100 and Q3200 .\nThose chips as i see it are responsible to deliver 20v to the board ( PPDCIN_G3H).\n\nthe results on the [B]working[\/B] USB C , QB400 and QB300 :\n1. UPC_TB_GATE1 : 26V ( FROM CD3215)\n2. UNCONNECTED\n3. UNCONNECTED\n4. UPC_TB_GATE2 : 22.5V ( FROM CD3215)\n5\/6\/7 : PP20V_USBC_TB_VBUS: 20.37V\n8: PPDCIN_G3H: 20.37V\n\nthe results on the [B]un working[\/B] USB C , Q3100 :\n1. UPC_XA_GATE1 : 10.83V ( FROM CD3215)\n2. TP_Q3100_DRAIN: 5.11 V\n3. UNCONNECTED\n4. UPC_XA_GATE2 : 8.27V ( FROM CD3215)\n5\/6\/7 : PP20V_USBC_XA_VBUS: 5.11V\n8: PPDCIN_G3H: 5.11V\n\nthe results on the [B]un working[\/B] USB C , Q3200 :\n1. UPC_XB_GATE1 : unable to measure ( FROM CD3215)\n2. TP_Q3200_DRAIN: 5.11 V\n3. UNCONNECTED\n4. UPC_XB_GATE2 : 6.87V ( FROM CD3215)\n5\/6\/7 : PP20V_USBC_XB_VBUS: 5.11V\n8: PPDCIN_G3H: 5.11V\n\n\nSo anyone can please assist ?\nwhy when i replaced U3200 the volatge of UB400 and UB300 was increased to 20v but U3200 and U3100 are still stuck on 5v ?\nmaybe i have a problem in the soldering ? maybe the call to replace U3200 was a mistake?\nIf you read this , please go to the last post. The board fell on the ground and bent a little bit. maybe you have an idea :("
+    },
+    {
+        "post_id":86096,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-09 06:45:00",
+        "message":"First of all, welcome to the forum!\n\nAlways check power rails in diode mode, not ohm scale.\nSwitch to ohm scale only for very low values; usually under 0.010 reading.\nRead here about correct way to do it.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\n\nDisconnect everything from the board; test it alone on the desk.\nOf course, keep the charger connected.\n\nWhere did you get the new CD3215 chip?\nDoes it have the same termination code?\nB03 is not compatible with C00.\n\n Check U2890 traces, solders and adjacent resistors."
+    },
+    {
+        "post_id":86099,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":34064,
+        "username":"OzNitzan",
+        "post_date":"2022-02-09 06:49:18",
+        "message":"Hey ,\n\nThank you very much.\n\nI got the new CD3215 from your store :) , bought 2 chips from you and two other from beetstech. But the soldered on is from your store.\nyes , they have the same termination code C00.\n\nI checked U2890 :\n\nPin1 TBT_X_SPI_CS_L : 3.3v\nPin2 TBT_X_SPI_MISO : 3.33v\nPin3 TBT_X_SPI_ROM_WP_L :0.726v\nPin4 GND : 0v\nPin5 TBT_X_SPI_MOSI: 0v\nPin6 TBT_X_SPI_CLK: 0.07v\nPin7 TBT_X_ROM_HOLD_L: 3.33v\nPin8 PP3V3_UPC_XB_LDO: 3.33v\n\nalso checked resistors : R3095\/R3096 and R3097 all of them are 15ohm and looks fine.\n[B]By the way ,general questions :\n1.  Is it normal that one side of USB C port show 20v and the other side show 5V ? And most important why it happened after the replacement of U3200?\n2.  How do i know if i replaced the right ACE controller ? maybe i had to replace U3100 ? In order to get 1.1v_LDO on U3100 ,do i need to get 1.1v_LDO on U3200 first ?[\/B]"
+    },
+    {
+        "post_id":86111,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-09 13:12:42",
+        "message":"1V1 LDO appears only on the powered port.\n\nDepending which block of CD3215 chip is affected, you can get 20V on other port.\nIn such case, may have bad chip on the input side.\nIt is still able to communicate with SMC (T2), but can't control the input.\nThat's the reason to get 20V on the other port.\nIf one CD3215 doesn't communicate with SMC, will not get 20V on any port.\n\nNow try to replace U3100 too."
+    },
+    {
+        "post_id":86112,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":34064,
+        "username":"OzNitzan",
+        "post_date":"2022-02-09 13:27:24",
+        "message":"Hey ,\n\nWhen You say :  \" If one CD3215 doesn't communicate with SMC, will not get 20V on any port \" , you mean that in the ACE controller pair , even if one of them is faulty , none of them will generate 1.1v LDO and this is why the 20v will not be generate? ( for example  if U3200 is faulty and U3100 is fine so none of them will generate the 1.1v LDO )\n\nAnd again for my knowledge : at the beginning all the USB C port showed 5v and draw 380mA-390mA . only when i replaced U3200 , UB300 and UB400 rise to 20v , but U3200 and U3100 are still stuck on 5v . why did it happened ? why U3200 is still stuck on 5v if its okay ?\n\nIf replacing U3100 will fix the macbook  , the voltage will be 20v and how much current will it draw ?\nwill replace U3100 and keep you update"
+    },
+    {
+        "post_id":86117,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-09 16:09:39",
+        "message":"You should replace U3100 and see what happens.\nBe sure to get good solders.\n\nThe behavior of USB-C ports depends of the internal problem of a CD3215 chip."
+    },
+    {
+        "post_id":86122,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":34064,
+        "username":"OzNitzan",
+        "post_date":"2022-02-10 04:45:32",
+        "message":"Hey ,\n\nBefore replacing U3100 i looked once again on the trace to U2890 . Than i saw that U2890 is  a little bit off its pads. Reflow it and U3100 and U3200 are now on 20v . Than unfortunately, the board fell on ground and bend a little bit . now all the USB C ports presents 5v and drawing 250mA . :(\nDoes it means that its over ?"
+    },
+    {
+        "post_id":86125,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-10 05:05:01",
+        "message":"Ooops, that's no good at all.\nYou may have knocked off components, or even broken solders under BGA chips."
+    },
+    {
+        "post_id":86126,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":34064,
+        "username":"OzNitzan",
+        "post_date":"2022-02-10 05:08:33",
+        "message":":( Any Ideas?"
+    },
+    {
+        "post_id":86128,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-10 05:09:31",
+        "message":"Inspect the board under microscope.\nUnfortunatelly, this may be a lost cause..."
+    },
+    {
+        "post_id":86255,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":34064,
+        "username":"OzNitzan",
+        "post_date":"2022-02-14 01:09:36",
+        "message":"Hey , \n\nI checked the board today .\nhere is what i have till now :\n\nFirst : all the USB C port are stuck on 5v and drawing 250mA.\n\n1.  All The LDO rails  of each CD3215C are on, of course the LDO 1.1V is on for each  ACE when its connected to power adapter.\n2. PPBUS_G3H :12.3 v\n3. \n\n U2890 flash - each pin\nPin1 TBT_X_SPI_CS_L : 3.3v\nPin2 TBT_X_SPI_MISO : 3.33v\nPin3 TBT_X_SPI_ROM_WP_L :3.34\nPin4 GND : 0v\nPin5 TBT_X_SPI_MOSI: 1.434v\nPin6 TBT_X_SPI_CLK: 1.08v\nPin7 TBT_X_ROM_HOLD_L: 3.33v\nPin8 PP3V3_UPC_XB_LDO: 3.33v\n\n4. \nUB090 flash - each pin\nPin1: TBT_T_SPI_CS_L : 3.34v\nPin2: TBT_T_SPI_MISO: 3.34v\nPin3: TBT_T_ROM_WP_L : 3.34v\nPin4 : GND\nPin5 : TBT_T_SPI_MOSI: 1.51v\nPin6: TBT_T_SPI_CLK: 1.152v\nPin7: TBT_T_ROM_HOLD_L: 3.34v\nPin8: PP3V3_UPC_TA_LDO: 3.34v\nPin9: GND\n\n5. \nI2C_TBT_T_SCL (RB034, pin #2)\nI2C_TBT_T_SDA (RB034, pin #2)\n[B]the voltage is 0v[\/B] \n\n6.\n\nI2C_TBT_X_SCL (R2834, pin # 2)\nI2C_TBT_X_SDA (R2835, pin # 2)\n[B]the voltage is 0v[\/B] \n \n7.\n\n i checked diode mode for the CC1 and CC2 lines:\n\nU3100 and U3200 :\n\nCC1 : 0.424\nCC2 : 0.472\n\nUB300 and UB400 :\n\nCC1 : 0.469\nCC2 : 0.421 \n \nAny Idea ?"
+    },
+    {
+        "post_id":86256,
+        "thread_id":62316,
+        "title":"A1990 doesn't turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-14 02:17:30",
+        "message":"Probably broken trace, or solders..."
+    }
+]

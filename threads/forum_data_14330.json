@@ -1,16 +1,146 @@
-{"post_id":14330,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-05 18:36:00","message":"I was using a working 3787 to compare measurements around L7130\/L7520 when my probes slipped and shorted some things together (not sure what). The computer immediately shut down, and now when I boot it there is no display on the internal LCD as well as over HDMI with and without the LCD unplugged. It does seem to boot because it chimes and the volume keys work, and it responds to the ALS. I tried PRAM and SMC reset, nothing.\n\nIs there any hope or is the GPU dead?"}
-{"post_id":14331,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":2,"username":"dukefawks","post_date":"2017-02-05 18:43:11","message":"More likely something in the MUXing circuit, voltage spike on 3V to one of the MUXes. This is going to suck.\n\nEnable remote desktop on the OS and log into the machine to see if the GPU is recognized."}
-{"post_id":14333,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-05 18:48:18","message":"How do you suggest I enable remote desktop? Boot the SSD in a working machine?\n\nI'm getting 0v on C8760 also."}
-{"post_id":14334,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":2,"username":"dukefawks","post_date":"2017-02-05 19:21:52","message":"That is controlled by U9600 MUX. This whole circuit of MUXes is so complex, I don't even know exactly how it works. GPU getting core power?"}
-{"post_id":14335,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-05 19:41:45","message":"No, 0v on C9363. 15 ohms to ground."}
-{"post_id":14336,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":2,"username":"dukefawks","post_date":"2017-02-05 20:22:56","message":"Again the enable comes from U9600. Any of the 5 rails that U9600 controls coming on? May only pulse once, as U9600 might shut everything down when the PGOOD signals are not coming high, but not sure about that."}
-{"post_id":14378,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-06 16:28:37","message":"No, I don't think any of them are coming up. PP3V3_S0GPU_MISC has ~0.38v on it if that means anything."}
-{"post_id":14379,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-06 16:32:38","message":"Is there any chance this is BIOS?"}
-{"post_id":14385,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":2,"username":"dukefawks","post_date":"2017-02-06 17:14:12","message":"I'd like to hear your logic behind that besides it being easy........"}
-{"post_id":14388,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-06 17:22:25","message":"It's the only thing in the area that could have been shorted with the probes?"}
-{"post_id":14391,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":2,"username":"dukefawks","post_date":"2017-02-06 17:48:14","message":"I'll give that a 1% chance. More likely there was a voltage spike on 3 or 5V bus."}
-{"post_id":14399,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-06 19:38:02","message":"So I checked in system profiler and it doesn't see any GPU, only Intel Iris. Should I replace U9600 or fucked?"}
-{"post_id":14402,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-06 20:21:21","message":"I haven't checked yet if U9600 is getting 3.3v on R9600 R9601 but I would assume so at this point. The only other thing I'm thinking it could possibly be is that somehow the backlight IC got fucked since it is in the area I was working in and is sending the wrong signal on the I2C bus to the U9600 mux and shutting it down. Would that make sense?"}
-{"post_id":14406,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":2,"username":"dukefawks","post_date":"2017-02-06 22:20:15","message":"I doubt the BKL chip would cause this but you can pull R7781\/82, should work without. Of course the GPU is not recognized, it is not getting power. Check power to U9600"}
-{"post_id":14493,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":558,"username":"arghhh","post_date":"2017-02-07 21:14:02","message":"I have 3v on R9600\/R9601."}
-{"post_id":14537,"thread_id":14330,"title":"820-3787 no display on internal or external","user_id":2,"username":"dukefawks","post_date":"2017-02-08 15:16:48","message":"Watch Louis's latest video please."}
+[
+    {
+        "post_id":14330,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-05 16:36:00",
+        "message":"I was using a working 3787 to compare measurements around L7130\/L7520 when my probes slipped and shorted some things together (not sure what). The computer immediately shut down, and now when I boot it there is no display on the internal LCD as well as over HDMI with and without the LCD unplugged. It does seem to boot because it chimes and the volume keys work, and it responds to the ALS. I tried PRAM and SMC reset, nothing.\n\nIs there any hope or is the GPU dead?"
+    },
+    {
+        "post_id":14331,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-05 16:43:11",
+        "message":"More likely something in the MUXing circuit, voltage spike on 3V to one of the MUXes. This is going to suck.\n\nEnable remote desktop on the OS and log into the machine to see if the GPU is recognized."
+    },
+    {
+        "post_id":14333,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-05 16:48:18",
+        "message":"How do you suggest I enable remote desktop? Boot the SSD in a working machine?\n\nI'm getting 0v on C8760 also."
+    },
+    {
+        "post_id":14334,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-05 17:21:52",
+        "message":"That is controlled by U9600 MUX. This whole circuit of MUXes is so complex, I don't even know exactly how it works. GPU getting core power?"
+    },
+    {
+        "post_id":14335,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-05 17:41:45",
+        "message":"No, 0v on C9363. 15 ohms to ground."
+    },
+    {
+        "post_id":14336,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-05 18:22:56",
+        "message":"Again the enable comes from U9600. Any of the 5 rails that U9600 controls coming on? May only pulse once, as U9600 might shut everything down when the PGOOD signals are not coming high, but not sure about that."
+    },
+    {
+        "post_id":14378,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-06 14:28:37",
+        "message":"No, I don't think any of them are coming up. PP3V3_S0GPU_MISC has ~0.38v on it if that means anything."
+    },
+    {
+        "post_id":14379,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-06 14:32:38",
+        "message":"Is there any chance this is BIOS?"
+    },
+    {
+        "post_id":14385,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-06 15:14:12",
+        "message":"I'd like to hear your logic behind that besides it being easy........"
+    },
+    {
+        "post_id":14388,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-06 15:22:25",
+        "message":"It's the only thing in the area that could have been shorted with the probes?"
+    },
+    {
+        "post_id":14391,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-06 15:48:14",
+        "message":"I'll give that a 1% chance. More likely there was a voltage spike on 3 or 5V bus."
+    },
+    {
+        "post_id":14399,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-06 17:38:02",
+        "message":"So I checked in system profiler and it doesn't see any GPU, only Intel Iris. Should I replace U9600 or fucked?"
+    },
+    {
+        "post_id":14402,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-06 18:21:21",
+        "message":"I haven't checked yet if U9600 is getting 3.3v on R9600 R9601 but I would assume so at this point. The only other thing I'm thinking it could possibly be is that somehow the backlight IC got fucked since it is in the area I was working in and is sending the wrong signal on the I2C bus to the U9600 mux and shutting it down. Would that make sense?"
+    },
+    {
+        "post_id":14406,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-06 20:20:15",
+        "message":"I doubt the BKL chip would cause this but you can pull R7781\/82, should work without. Of course the GPU is not recognized, it is not getting power. Check power to U9600"
+    },
+    {
+        "post_id":14493,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":558,
+        "username":"arghhh",
+        "post_date":"2017-02-07 19:14:02",
+        "message":"I have 3v on R9600\/R9601."
+    },
+    {
+        "post_id":14537,
+        "thread_id":14330,
+        "title":"820-3787 no display on internal or external",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-08 13:16:48",
+        "message":"Watch Louis's latest video please."
+    }
+]

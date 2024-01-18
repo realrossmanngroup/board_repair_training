@@ -1,5 +1,47 @@
-{"post_id":102456,"thread_id":64312,"title":"820-00165 PM_SLP_S4L missing","user_id":30216,"username":"tomtom67","post_date":"2023-11-04 09:57:06","message":"Just to be completely sure this is a no-fix:\n\nBoard won't power on, but takes ~ .17 A from the bench supply.\nPPBUS_G3H = 8.58v, PP3V42_G3H = 3.42V\n\nPM_SLP_S4L is low, so I followed the guide from OBData, all logic signals are as they should be.\n\nThe I checked all rails from S5 state (also from OBData), and found XDP_PCH_TMS to be around .6v, where it should have 1.05v. Pull-up resistor R1892 (50 \u03a9) is fine, 1.05v on the other end. PCH is warm, but not hot.\n\nI think this is a bad PCH, have I missed something?\n\nBest\n  Thomas"}
-{"post_id":102457,"thread_id":64312,"title":"820-00165 PM_SLP_S4L missing","user_id":682,"username":"2informaticos","post_date":"2023-11-04 12:27:04","message":"First of all, welcome to the forum!\n\nDo you get 3V3_S5 and 3V3_SUS?\nPost basic signals, like PM_BATLOW_L, SMC_ADAPTER_EN, SMC_PM_G2_EN, PCH_DSWVRMEN, PM_DSW_PWRGD, PM_RSMRST_L, PM_PWRBTN_L and the 4 PCH's (DC) RTC signals."}
-{"post_id":102458,"thread_id":64312,"title":"820-00165 PM_SLP_S4L missing","user_id":30216,"username":"tomtom67","post_date":"2023-11-05 06:14:08","message":"I checked these signals \/ rails:\n[LIST]\n[*]PPVRTC_G3H\n[*]RTC_RESET_L\n[*]SRTCRST_L\n[*]PCH_INTVRMEN\n[*]PCH_DSWVRMEN\n[*]PCH_CLK32K_RTCX1 (skipped, my Owon sucks at frequencies)\n[*]PP3V3_S5\n[*]PM_DSW_PWRGD\n[*]PP3V3_SUS\n[*]PM_BATLOW_L\n[*]PM_RSMRST_L\n[*]PM_PWRBTN_L\n[\/LIST]\n\nNext on my list was this:\n[LIST]\n[*]SMC_ADAPTER_EN = 3.42V\n[*]PM_DSW_PWRGD = 3.42V\n[*]PM_SLP_SUS_L = 3.3V -> Deep State\n[*]DCINVSENS_EN_L = 0V\n[*]SMC_DCIN_VSENSE >= 2.3V && <= 3.3V (Ignored in SMC Bypass mode)\n[*]P3V3SUS_EN 3.3V\n[*]PP3V3_SUS = 3.3V\n[*]PP1V05_SUS = 1.05V\n[*]PM_RSMRST_L = 3.3V\n[*]XDP_PCH_TMS = 1.05V\n[*]XDP_PCH_TDO = 1.05V\n[*]XDP_PCH_TDI = 1.05V\n[*]...\n[\/LIST]\nwhere I stopped at XDP_PCH_TMS b\/c signal was fishy. All other signals\/rails were like expected and stable."}
-{"post_id":102459,"thread_id":64312,"title":"820-00165 PM_SLP_S4L missing","user_id":682,"username":"2informaticos","post_date":"2023-11-05 11:20:06","message":"Trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time).\n\nWhat's AVREF_SMC voltage?"}
-{"post_id":102621,"thread_id":64312,"title":"820-00165 PM_SLP_S4L missing","user_id":30216,"username":"tomtom67","post_date":"2023-11-17 08:44:31","message":"As I have enough other 00165 boards, i decided it is not viable to invest more time into this issue.\n\nThank you!"}
+[
+    {
+        "post_id":102456,
+        "thread_id":64312,
+        "title":"820-00165 PM_SLP_S4L missing",
+        "user_id":30216,
+        "username":"tomtom67",
+        "post_date":"2023-11-04 07:57:06",
+        "message":"Just to be completely sure this is a no-fix:\n\nBoard won't power on, but takes ~ .17 A from the bench supply.\nPPBUS_G3H = 8.58v, PP3V42_G3H = 3.42V\n\nPM_SLP_S4L is low, so I followed the guide from OBData, all logic signals are as they should be.\n\nThe I checked all rails from S5 state (also from OBData), and found XDP_PCH_TMS to be around .6v, where it should have 1.05v. Pull-up resistor R1892 (50 \u03a9) is fine, 1.05v on the other end. PCH is warm, but not hot.\n\nI think this is a bad PCH, have I missed something?\n\nBest\n  Thomas"
+    },
+    {
+        "post_id":102457,
+        "thread_id":64312,
+        "title":"820-00165 PM_SLP_S4L missing",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-11-04 10:27:04",
+        "message":"First of all, welcome to the forum!\n\nDo you get 3V3_S5 and 3V3_SUS?\nPost basic signals, like PM_BATLOW_L, SMC_ADAPTER_EN, SMC_PM_G2_EN, PCH_DSWVRMEN, PM_DSW_PWRGD, PM_RSMRST_L, PM_PWRBTN_L and the 4 PCH's (DC) RTC signals."
+    },
+    {
+        "post_id":102458,
+        "thread_id":64312,
+        "title":"820-00165 PM_SLP_S4L missing",
+        "user_id":30216,
+        "username":"tomtom67",
+        "post_date":"2023-11-05 04:14:08",
+        "message":"I checked these signals \/ rails:\n[LIST]\n[*]PPVRTC_G3H\n[*]RTC_RESET_L\n[*]SRTCRST_L\n[*]PCH_INTVRMEN\n[*]PCH_DSWVRMEN\n[*]PCH_CLK32K_RTCX1 (skipped, my Owon sucks at frequencies)\n[*]PP3V3_S5\n[*]PM_DSW_PWRGD\n[*]PP3V3_SUS\n[*]PM_BATLOW_L\n[*]PM_RSMRST_L\n[*]PM_PWRBTN_L\n[\/LIST]\n\nNext on my list was this:\n[LIST]\n[*]SMC_ADAPTER_EN = 3.42V\n[*]PM_DSW_PWRGD = 3.42V\n[*]PM_SLP_SUS_L = 3.3V -> Deep State\n[*]DCINVSENS_EN_L = 0V\n[*]SMC_DCIN_VSENSE >= 2.3V && <= 3.3V (Ignored in SMC Bypass mode)\n[*]P3V3SUS_EN 3.3V\n[*]PP3V3_SUS = 3.3V\n[*]PP1V05_SUS = 1.05V\n[*]PM_RSMRST_L = 3.3V\n[*]XDP_PCH_TMS = 1.05V\n[*]XDP_PCH_TDO = 1.05V\n[*]XDP_PCH_TDI = 1.05V\n[*]...\n[\/LIST]\nwhere I stopped at XDP_PCH_TMS b\/c signal was fishy. All other signals\/rails were like expected and stable."
+    },
+    {
+        "post_id":102459,
+        "thread_id":64312,
+        "title":"820-00165 PM_SLP_S4L missing",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-11-05 09:20:06",
+        "message":"Trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time).\n\nWhat's AVREF_SMC voltage?"
+    },
+    {
+        "post_id":102621,
+        "thread_id":64312,
+        "title":"820-00165 PM_SLP_S4L missing",
+        "user_id":30216,
+        "username":"tomtom67",
+        "post_date":"2023-11-17 06:44:31",
+        "message":"As I have enough other 00165 boards, i decided it is not viable to invest more time into this issue.\n\nThank you!"
+    }
+]

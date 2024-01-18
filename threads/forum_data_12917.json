@@ -1,23 +1,209 @@
-{"post_id":12917,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-14 15:00:10","message":"howdy, I've been arguing with a board all day long, and I've got most of everything fixed but this SMC error. does anyone know what the difference between PFM001 or 006 or 003 is?"}
-{"post_id":12953,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-15 17:37:16","message":"Usually the trackpad cable\/connector. What board is this?"}
-{"post_id":13089,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-17 12:15:22","message":"it's an 820-3588 (late 2013 imac), I'll give you a rundown on what I've done so far. I'm the first person to take a crack at this board, no liquyid damage or anything, just got dropped off stone dead.\nu7600 and q6970 were bad, got it up and running but SMC and audio errors. replaced u610 and SMC, and now I'm finally getting no errors with diagnostics, but I can't boot to anything but diagnostic. booting off internet recovery just reboots after a few minutes halfway through the download, and booting off USB installer boots really slowly and eventually hangs up after\n\nimac.local com.apple.xpc.launchd[1] (com.apple.xpc.launchd.domain.user.202) : Failed to bootstrap path: path = \/Library\/LaunchAgends, error = 2: no such file or directory)\n\na few lines earlier I get\nbusy timeout [240s] kextd wait (0): \"IGPU'\n\nbut I'm kind of at a loss for troubleshooting the GPU on this, since my schematic is right but my brd is for an 820-3302-a and they don't really line up that well."}
-{"post_id":13122,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-17 17:08:03","message":"Run ASD 3S157 to see the sensor that is failing. I don't even have that one so good luck finding it. I doubt 3S155 will work...."}
-{"post_id":13154,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-18 09:51:37","message":"didn't even realize there was an ASD for this pile of crap, but here we go\n\nChipset (test 1) - Management Engine Presense Test\n-verifies the presence of the Management Engine.\nERROR-not found\n\nand VR3R sensor is reading low. schematics has it labeled u5520, but I don't have any u5520 in my 820-3302 boardview so I'm gonna need you to hold my hand on this one"}
-{"post_id":13156,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":36,"username":"aprendiz","post_date":"2017-01-18 10:07:33","message":"Did you run ASD 3S157 EFI version???"}
-{"post_id":13157,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-18 10:09:41","message":"yes, and I got Chipset (test 1) - Management Engine Presense Test\n-verifies the presence of the Management Engine.\nERROR-not found\n\nand VR3R, which I can't physically locate because I don[t have the right brd for this board"}
-{"post_id":13173,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-18 12:15:24","message":"ME region issue, did someone fuck with the BIOS chip?"}
-{"post_id":13180,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-18 12:26:14","message":"doubtful, I am 99% sure that I cracked the seal on this originally. I'll pop the chip and scrub the ME region, yes? any idea about solving the VR3R issue?"}
-{"post_id":13182,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-18 12:29:25","message":"I have no idea what VR3R is. Backup the old ME it may be another issue. No schematic mentions VR3R that I have. Usually ASD EFI gives some sort of description what it is."}
-{"post_id":13185,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-18 12:36:18","message":"it's the vsense for 3v3_s5, pg 49 of schematics\n\nSensor- Voltage (VR3R) -- VR 3.3v (test1) sensor test\n-verifies that the sensor reads within the sensor limits.\nERROR - sensor is reading below the low limit."}
-{"post_id":13198,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-18 14:22:50","message":"on a side note, cant find a dump of this BIOS that isn't through a paywal, is there a place I can post this for future people? didn't see anything in the forum rules about posting BIOS dumps"}
-{"post_id":13218,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-19 05:01:28","message":"The voltage sensor is a simple resistor from 3v3_s5 straight into the SMC. So if the resistor is good and traces are good the SMC will be dead.\n\nA BIOS dump will not help you as you need a \"clean\" ME region. There are many sites that explain how to do this. I do not have one ready for 3588 board.\n\nI somehow doubt that the ME is bad as it does not \"just\" happen. You might want to check out the circuit around Q1920 as that can disable the ME to allow it to be flashed during an EFI update."}
-{"post_id":13260,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-19 09:19:36","message":"what I meant is that I'd like to post a cleaned dump for other people, since I couldn't find one online, but I wasn't sure if that was against the rules of the forum. I'm off for the day but I'll get back tomorrow"}
-{"post_id":13268,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-19 11:13:07","message":"Don't see why a BIOS dump would be a problem to post. Schematics and BV should not be posted."}
-{"post_id":13324,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-20 10:09:45","message":"drain of q1920 is high, what I *think* is r1921 is fine. do you have any idea where the heck R5526 may be located? I can't find its analogue in the 3588 schematic anywhere, so I don't even know where to start looking"}
-{"post_id":13328,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-20 12:22:14","message":"cleaned and swapped the SPI and the SMC from a donor board, and I'm still getting the same two errors in ASD. anything else I can check?"}
-{"post_id":13331,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-20 12:40:28","message":"omg, I'm a certifiable retarded, misread schematic and thought drain was an _L on q1920. I'm getting 4.5V, 3.3, and 4.4v on pins 1 2 and 3, so I'm guessing since SPI_DESCRIPTOR_OVERRIDE_L is high, this fet is open when it should be closed, ie. bad fet?\nswapped fet, still failing test. I'm getting mighy burnt out on this stupid machine"}
-{"post_id":13335,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-20 14:49:44","message":"Did you check the voltage after R5526, should be 3v3? I have no idea with the ME with these machines, never done one of them."}
-{"post_id":13358,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-21 09:19:52","message":"I can't figure out *where* r5526 is, the 820-3302 doesn't seem to have this at all. on the schematic it says \"U5000.A7:10mm \", does that mean it should be right beside the SMC?"}
-{"post_id":13368,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":596,"username":"rmd","post_date":"2017-01-21 12:10:33","message":"alright, figured out where R5526 is, getting 4.5 on p1 and 4.35 on p2. since I replaced the SMC and I'm still getting the exact same error, does it seem possible that the trace going from r5526 to pin7 on the SMC is gone? \n\n(for future reference, C5526 is right beside what is C5441 on the 820-3302 schematic, and R5526 is right beside it. )"}
-{"post_id":13398,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":2,"username":"dukefawks","post_date":"2017-01-21 16:12:41","message":"How can you get 4.5V on R5526 when it is connected to the 3V3 bus?"}
-{"post_id":13584,"thread_id":12917,"title":"PFM006 code from apple diagnostics","user_id":635,"username":"fbarcella","post_date":"2017-01-24 15:48:46","message":"Have you found the board view for this board ? I could get only the schematics. Thnks"}
+[
+    {
+        "post_id":12917,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-14 13:00:10",
+        "message":"howdy, I've been arguing with a board all day long, and I've got most of everything fixed but this SMC error. does anyone know what the difference between PFM001 or 006 or 003 is?"
+    },
+    {
+        "post_id":12953,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-15 15:37:16",
+        "message":"Usually the trackpad cable\/connector. What board is this?"
+    },
+    {
+        "post_id":13089,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-17 10:15:22",
+        "message":"it's an 820-3588 (late 2013 imac), I'll give you a rundown on what I've done so far. I'm the first person to take a crack at this board, no liquyid damage or anything, just got dropped off stone dead.\nu7600 and q6970 were bad, got it up and running but SMC and audio errors. replaced u610 and SMC, and now I'm finally getting no errors with diagnostics, but I can't boot to anything but diagnostic. booting off internet recovery just reboots after a few minutes halfway through the download, and booting off USB installer boots really slowly and eventually hangs up after\n\nimac.local com.apple.xpc.launchd[1] (com.apple.xpc.launchd.domain.user.202) : Failed to bootstrap path: path = \/Library\/LaunchAgends, error = 2: no such file or directory)\n\na few lines earlier I get\nbusy timeout [240s] kextd wait (0): \"IGPU'\n\nbut I'm kind of at a loss for troubleshooting the GPU on this, since my schematic is right but my brd is for an 820-3302-a and they don't really line up that well."
+    },
+    {
+        "post_id":13122,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-17 15:08:03",
+        "message":"Run ASD 3S157 to see the sensor that is failing. I don't even have that one so good luck finding it. I doubt 3S155 will work...."
+    },
+    {
+        "post_id":13154,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-18 07:51:37",
+        "message":"didn't even realize there was an ASD for this pile of crap, but here we go\n\nChipset (test 1) - Management Engine Presense Test\n-verifies the presence of the Management Engine.\nERROR-not found\n\nand VR3R sensor is reading low. schematics has it labeled u5520, but I don't have any u5520 in my 820-3302 boardview so I'm gonna need you to hold my hand on this one"
+    },
+    {
+        "post_id":13156,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2017-01-18 08:07:33",
+        "message":"Did you run ASD 3S157 EFI version???"
+    },
+    {
+        "post_id":13157,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-18 08:09:41",
+        "message":"yes, and I got Chipset (test 1) - Management Engine Presense Test\n-verifies the presence of the Management Engine.\nERROR-not found\n\nand VR3R, which I can't physically locate because I don[t have the right brd for this board"
+    },
+    {
+        "post_id":13173,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-18 10:15:24",
+        "message":"ME region issue, did someone fuck with the BIOS chip?"
+    },
+    {
+        "post_id":13180,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-18 10:26:14",
+        "message":"doubtful, I am 99% sure that I cracked the seal on this originally. I'll pop the chip and scrub the ME region, yes? any idea about solving the VR3R issue?"
+    },
+    {
+        "post_id":13182,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-18 10:29:25",
+        "message":"I have no idea what VR3R is. Backup the old ME it may be another issue. No schematic mentions VR3R that I have. Usually ASD EFI gives some sort of description what it is."
+    },
+    {
+        "post_id":13185,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-18 10:36:18",
+        "message":"it's the vsense for 3v3_s5, pg 49 of schematics\n\nSensor- Voltage (VR3R) -- VR 3.3v (test1) sensor test\n-verifies that the sensor reads within the sensor limits.\nERROR - sensor is reading below the low limit."
+    },
+    {
+        "post_id":13198,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-18 12:22:50",
+        "message":"on a side note, cant find a dump of this BIOS that isn't through a paywal, is there a place I can post this for future people? didn't see anything in the forum rules about posting BIOS dumps"
+    },
+    {
+        "post_id":13218,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-19 03:01:28",
+        "message":"The voltage sensor is a simple resistor from 3v3_s5 straight into the SMC. So if the resistor is good and traces are good the SMC will be dead.\n\nA BIOS dump will not help you as you need a \"clean\" ME region. There are many sites that explain how to do this. I do not have one ready for 3588 board.\n\nI somehow doubt that the ME is bad as it does not \"just\" happen. You might want to check out the circuit around Q1920 as that can disable the ME to allow it to be flashed during an EFI update."
+    },
+    {
+        "post_id":13260,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-19 07:19:36",
+        "message":"what I meant is that I'd like to post a cleaned dump for other people, since I couldn't find one online, but I wasn't sure if that was against the rules of the forum. I'm off for the day but I'll get back tomorrow"
+    },
+    {
+        "post_id":13268,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-19 09:13:07",
+        "message":"Don't see why a BIOS dump would be a problem to post. Schematics and BV should not be posted."
+    },
+    {
+        "post_id":13324,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-20 08:09:45",
+        "message":"drain of q1920 is high, what I *think* is r1921 is fine. do you have any idea where the heck R5526 may be located? I can't find its analogue in the 3588 schematic anywhere, so I don't even know where to start looking"
+    },
+    {
+        "post_id":13328,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-20 10:22:14",
+        "message":"cleaned and swapped the SPI and the SMC from a donor board, and I'm still getting the same two errors in ASD. anything else I can check?"
+    },
+    {
+        "post_id":13331,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-20 10:40:28",
+        "message":"omg, I'm a certifiable retarded, misread schematic and thought drain was an _L on q1920. I'm getting 4.5V, 3.3, and 4.4v on pins 1 2 and 3, so I'm guessing since SPI_DESCRIPTOR_OVERRIDE_L is high, this fet is open when it should be closed, ie. bad fet?\nswapped fet, still failing test. I'm getting mighy burnt out on this stupid machine"
+    },
+    {
+        "post_id":13335,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-20 12:49:44",
+        "message":"Did you check the voltage after R5526, should be 3v3? I have no idea with the ME with these machines, never done one of them."
+    },
+    {
+        "post_id":13358,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-21 07:19:52",
+        "message":"I can't figure out *where* r5526 is, the 820-3302 doesn't seem to have this at all. on the schematic it says \"U5000.A7:10mm \", does that mean it should be right beside the SMC?"
+    },
+    {
+        "post_id":13368,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":596,
+        "username":"rmd",
+        "post_date":"2017-01-21 10:10:33",
+        "message":"alright, figured out where R5526 is, getting 4.5 on p1 and 4.35 on p2. since I replaced the SMC and I'm still getting the exact same error, does it seem possible that the trace going from r5526 to pin7 on the SMC is gone? \n\n(for future reference, C5526 is right beside what is C5441 on the 820-3302 schematic, and R5526 is right beside it. )"
+    },
+    {
+        "post_id":13398,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-21 14:12:41",
+        "message":"How can you get 4.5V on R5526 when it is connected to the 3V3 bus?"
+    },
+    {
+        "post_id":13584,
+        "thread_id":12917,
+        "title":"PFM006 code from apple diagnostics",
+        "user_id":635,
+        "username":"fbarcella",
+        "post_date":"2017-01-24 13:48:46",
+        "message":"Have you found the board view for this board ? I could get only the schematics. Thnks"
+    }
+]

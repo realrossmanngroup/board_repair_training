@@ -1,19 +1,173 @@
-{"post_id":38428,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-14 23:53:46","message":"Liquid damage all around U7701 and pin 3 & 4 on J8300 was 8.6v. Made me think LED Driver was dead.\n\nSwapped it out and same behaviour.\n\nBKL_EN = 3.1\nBKL_PWM = 3.1"}
-{"post_id":38429,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-14 23:58:22","message":"Take that back. Batteries just died in DMM.\n\nEDP_PANEL_PWR = 3.3"}
-{"post_id":38459,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":1153,"username":"JohnB8812","post_date":"2018-08-15 10:00:50","message":"Diode mode on backlight output?"}
-{"post_id":38483,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-15 17:01:44","message":"[QUOTE=\"JohnB8812, post: 38459\"]Diode mode on backlight output? [\/QUOTE]\n\n0.580v @ C8317::1"}
-{"post_id":38495,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":682,"username":"2informaticos","post_date":"2018-08-16 04:21:19","message":"Any voltage at J8300, pins 14, 18?\nCheck on the first seconds when board gets power..."}
-{"post_id":38506,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":1153,"username":"JohnB8812","post_date":"2018-08-16 09:17:31","message":"0.58 would indicate an issue near the LED driver for the switch trace. Inspect the LED driver for corrosion and make sure the A5 ball and the pads for balls 6 and 7 have continuity for feedback and switching."}
-{"post_id":38568,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-17 17:56:48","message":"[QUOTE=\"2informaticos, post: 38495\"]Any voltage at J8300, pins 14, 18?\nCheck on the first seconds when board gets power...[\/QUOTE]\n\n::18 has 3.3v and ::14 sits at 2.6V (This is with a screen)\n\n\nWhat should BKL_EN @ R7731 be?\nI'm getting 4mV and at C7712 I get 8.59. (which becomes BKL_EN via R7731 right?)\n\nI'll remove the LED driver and check all the traces if needed, but would prefer not to waste the chip if possible.\nServes me right for not measuring when it was off though, but the chip looked toast."}
-{"post_id":38570,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":682,"username":"2informaticos","post_date":"2018-08-17 19:03:57","message":"Did you try PRAM reset?\nCheck if there is image at least, as display should be detected (HPD signal is high).\n\n\"BKL_EN = 3.1\nWhat should BKL_EN @ R7731 be?\nI'm getting 4mV\"\nSo???"}
-{"post_id":38717,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-22 19:17:30","message":"Just getting back to this job now.\n\nPRAM reset already done, there is definitely a picture on the screen, just no backlight.\n\nWill measure BKL_EN again from a few different places to see what it definitely is."}
-{"post_id":38743,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":1,"username":"larossmann","post_date":"2018-08-23 16:19:58","message":"BKL_EN should be around 2.7v . You had 3.3v then 0.04v, that is confusing. There is something simple missing here, bad feedback or switch, I imagine it is the switch trace that is missing due to 0.580. \n\n0.511-0.546 is normal, 0.450-0.511 is bad feedback, over 0.556 is usually switch trace not making contact."}
-{"post_id":38848,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-27 01:06:20","message":"Thanks Louis, How can I check the switch trace?\n\nIs that pin 5 continuity to D7701?\n\nI pulled the LED Driver off again and pin5 has continuity to D7701."}
-{"post_id":38856,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":682,"username":"2informaticos","post_date":"2018-08-27 04:36:59","message":"Start from zero...\nIf U7701 already ripped, check continuity from all its pads to other components.\nNext, aolder new chip and post voltages at Q7706\/07 and U7701, power and controls."}
-{"post_id":38951,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-28 16:49:37","message":"Every pin on U7701 beeped out okay.\n\nWill replace it and measure Q7706."}
-{"post_id":38958,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-28 17:49:11","message":"Q7706\n::1 = 8.59\n::2 = 8.59\n::3 = 2.86\n::4 = 8.59\n::5 = 8.59\n::6 = 8.59\n\nQ7707\n::1 = g\n::2 = 3.3\n::3 = 0\n::4 = 0\n::5 = 3.3\n::6 = 0"}
-{"post_id":38968,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":682,"username":"2informaticos","post_date":"2018-08-28 19:36:31","message":"So now PPBUS past over Q7706, L7701 gets power.\nHow much you get after D7701?\nAny sign of backlight?"}
-{"post_id":38973,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-28 19:43:09","message":"No sign of backlight, just a picture.\n\nD7701::1 = 8.59\nD7701::2 = 8.55"}
-{"post_id":38976,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":682,"username":"2informaticos","post_date":"2018-08-28 19:53:17","message":"Change\/resolder U7701.\nCjeck again EN and PWM, as its power too.\nCheck every resistor from return lines.\nMeasure on diode mode all 6 lines; you must get almost same value, no open line permited.\nDon't forget XW7720.\nAnd test known good assembly screen+video cable..."}
-{"post_id":38977,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-28 19:56:41","message":"Return lines being R7717 to R7722?\n\nThey're all OL.\nUnless I'm measuring wrong somehow."}
-{"post_id":38984,"thread_id":38428,"title":"820-00165 - No backlight.","user_id":375,"username":"gcain","post_date":"2018-08-28 22:30:51","message":"Thanks 2informaticos, Turns out my soldering was crappy.\n\n:)\n\nThe feedback pins on U7701 weren't touching properly.\n\nMark Solved please."}
+[
+    {
+        "post_id":38428,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-14 21:53:46",
+        "message":"Liquid damage all around U7701 and pin 3 & 4 on J8300 was 8.6v. Made me think LED Driver was dead.\n\nSwapped it out and same behaviour.\n\nBKL_EN = 3.1\nBKL_PWM = 3.1"
+    },
+    {
+        "post_id":38429,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-14 21:58:22",
+        "message":"Take that back. Batteries just died in DMM.\n\nEDP_PANEL_PWR = 3.3"
+    },
+    {
+        "post_id":38459,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-08-15 08:00:50",
+        "message":"Diode mode on backlight output?"
+    },
+    {
+        "post_id":38483,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-15 15:01:44",
+        "message":"[QUOTE=\"JohnB8812, post: 38459\"]Diode mode on backlight output? [\/QUOTE]\n\n0.580v @ C8317::1"
+    },
+    {
+        "post_id":38495,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-16 02:21:19",
+        "message":"Any voltage at J8300, pins 14, 18?\nCheck on the first seconds when board gets power..."
+    },
+    {
+        "post_id":38506,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-08-16 07:17:31",
+        "message":"0.58 would indicate an issue near the LED driver for the switch trace. Inspect the LED driver for corrosion and make sure the A5 ball and the pads for balls 6 and 7 have continuity for feedback and switching."
+    },
+    {
+        "post_id":38568,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-17 15:56:48",
+        "message":"[QUOTE=\"2informaticos, post: 38495\"]Any voltage at J8300, pins 14, 18?\nCheck on the first seconds when board gets power...[\/QUOTE]\n\n::18 has 3.3v and ::14 sits at 2.6V (This is with a screen)\n\n\nWhat should BKL_EN @ R7731 be?\nI'm getting 4mV and at C7712 I get 8.59. (which becomes BKL_EN via R7731 right?)\n\nI'll remove the LED driver and check all the traces if needed, but would prefer not to waste the chip if possible.\nServes me right for not measuring when it was off though, but the chip looked toast."
+    },
+    {
+        "post_id":38570,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-17 17:03:57",
+        "message":"Did you try PRAM reset?\nCheck if there is image at least, as display should be detected (HPD signal is high).\n\n\"BKL_EN = 3.1\nWhat should BKL_EN @ R7731 be?\nI'm getting 4mV\"\nSo???"
+    },
+    {
+        "post_id":38717,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-22 17:17:30",
+        "message":"Just getting back to this job now.\n\nPRAM reset already done, there is definitely a picture on the screen, just no backlight.\n\nWill measure BKL_EN again from a few different places to see what it definitely is."
+    },
+    {
+        "post_id":38743,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2018-08-23 14:19:58",
+        "message":"BKL_EN should be around 2.7v . You had 3.3v then 0.04v, that is confusing. There is something simple missing here, bad feedback or switch, I imagine it is the switch trace that is missing due to 0.580. \n\n0.511-0.546 is normal, 0.450-0.511 is bad feedback, over 0.556 is usually switch trace not making contact."
+    },
+    {
+        "post_id":38848,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-26 23:06:20",
+        "message":"Thanks Louis, How can I check the switch trace?\n\nIs that pin 5 continuity to D7701?\n\nI pulled the LED Driver off again and pin5 has continuity to D7701."
+    },
+    {
+        "post_id":38856,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-27 02:36:59",
+        "message":"Start from zero...\nIf U7701 already ripped, check continuity from all its pads to other components.\nNext, aolder new chip and post voltages at Q7706\/07 and U7701, power and controls."
+    },
+    {
+        "post_id":38951,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-28 14:49:37",
+        "message":"Every pin on U7701 beeped out okay.\n\nWill replace it and measure Q7706."
+    },
+    {
+        "post_id":38958,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-28 15:49:11",
+        "message":"Q7706\n::1 = 8.59\n::2 = 8.59\n::3 = 2.86\n::4 = 8.59\n::5 = 8.59\n::6 = 8.59\n\nQ7707\n::1 = g\n::2 = 3.3\n::3 = 0\n::4 = 0\n::5 = 3.3\n::6 = 0"
+    },
+    {
+        "post_id":38968,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-28 17:36:31",
+        "message":"So now PPBUS past over Q7706, L7701 gets power.\nHow much you get after D7701?\nAny sign of backlight?"
+    },
+    {
+        "post_id":38973,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-28 17:43:09",
+        "message":"No sign of backlight, just a picture.\n\nD7701::1 = 8.59\nD7701::2 = 8.55"
+    },
+    {
+        "post_id":38976,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-08-28 17:53:17",
+        "message":"Change\/resolder U7701.\nCjeck again EN and PWM, as its power too.\nCheck every resistor from return lines.\nMeasure on diode mode all 6 lines; you must get almost same value, no open line permited.\nDon't forget XW7720.\nAnd test known good assembly screen+video cable..."
+    },
+    {
+        "post_id":38977,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-28 17:56:41",
+        "message":"Return lines being R7717 to R7722?\n\nThey're all OL.\nUnless I'm measuring wrong somehow."
+    },
+    {
+        "post_id":38984,
+        "thread_id":38428,
+        "title":"820-00165 - No backlight.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2018-08-28 20:30:51",
+        "message":"Thanks 2informaticos, Turns out my soldering was crappy.\n\n:)\n\nThe feedback pins on U7701 weren't touching properly.\n\nMark Solved please."
+    }
+]

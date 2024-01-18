@@ -1,27 +1,245 @@
-{"post_id":27089,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-10-21 04:37:32","message":"Hello,\n\nI have that 820-00165 which won't start however it is getting 2 pulses of the CPU_Vcore and ALL_sys_pwrgd.\n\nLiquid damaged near the Bios and U7600.\nI have reflowed the area and replaced the dirty looking resistors. U7600 was also replaced.\nI have followed the SPI traces and everything seems to connect. I haven't checked the resistors values yet around the Bios (Note to self)\nI was able to make a backup of the Bios 3 times with no errors.\n\nPPBUS_G3H, PPVRTC_G3H and PP3V42 have a nice stable voltage.\n\nSMC area looks fine, no liquid damage there. I haven't reflowed it yet.\n\nI have tried plugging a battery but no cigar.\n\nAny idea?"}
-{"post_id":27102,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":36,"username":"aprendiz","post_date":"2017-10-21 11:54:11","message":"Corrosion under J6100??, corrosion around U1900?? PPVRTC_G3H present???"}
-{"post_id":27112,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2017-10-21 13:39:41","message":"Termination resistors and\/or traces to U6100."}
-{"post_id":28005,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-11-13 22:22:01","message":"Hello guys,\n\nWell I did some more work and ended up replacing both U7600 and its transistor.\nNow I can see the fan shaking when the charger is plugged.\n\nI did spend hours trying to measure each individual resistors surrounding the Bios + checking the traces\/pads but everything seem to connect.\n\nOnly the ones going under the SMC or the CPU can't be trusted. Shall I start removing the SMC to test?\n\nTo you, that issue has to be related with the Bios not being seen by the CPU?"}
-{"post_id":28009,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2017-11-14 04:11:30","message":"Is CPU Vcore pulsing now? Can you post a HiRes picture of BIOS area?"}
-{"post_id":28054,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-11-14 22:06:56","message":"Hello Duke,\n\nYes it is pulsing. I even have the time to see it showing up on the multimeter.\nIt is so frustrating, you feel so close to have it work.\n\nI will post a picture later on. Thanks Duke!"}
-{"post_id":28712,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-12-01 00:23:51","message":"No Title\n\nHello Duke,\n\nHere are some shots. Pretty tough to tell. Shitty camera."}
-{"post_id":28728,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":289,"username":"smiba","post_date":"2017-12-01 07:44:23","message":"The bios and clock chip area look abused\n\nCan you try and see if the balls on U6101 look alright? If they look merged or messed up reball or replace it.\n\nIf you dumped the BIOS by using J6100 you can ignore this, but if you didn't make sure the BIOS (U6100) has proper connection to the board by cleaning up the loads of flux surrounding it and manually inspecting the solder joints. If its messed up desolder it, put some solder on the pads and solder it back on again.\nYou said you already checked the bios traces and termination resistors so I assume that part of the circuit is alright. Make sure the traces that do no longer have their coating on them are not shorting to other traces though\n\nInspect the clock chip if it looks questionable or the solder joints aren't that great you can either touch them up or just replace the chip to be sure (Its just about $2).\n\nMaybe duke has some other tips as well"}
-{"post_id":28739,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2017-12-01 09:46:00","message":"That just looks like everything was messed with. Can't trust any of those traces\/resistors without 100% verifying all of them have the correct value and continuity to the next part, what a mess!"}
-{"post_id":29853,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-12-25 21:12:02","message":"Thanks for answering both!\n\nWell after digging again on that one, I realized that it may not be a problem near the Bios chip but probably on the PP1V05_S0 line.\nI guess a possible short could make the the Fan quarter spin right?\nSince you can see on the pictures that line also had liquid coming onto it (near U7600), I've checked the voltage drop to ground and it seems low compared to a known good working board.\n\nWorking board has a 1V drop to ground whereas this damaged board has .4 drop to ground.\n\nI can assume it is not a cap since it is not totally shorted right?!\nMost likely another line connected with a resistor to that line is shorted, don't you think?\nOr maybe the CPU...\n\nI've removed the inductor L7630 and saw it was on the system side, not the creation side, even though I have replaced U7600 and Q7630.\n\nI do hope the CPU is not shorted...\n\nLooking forward hearing some of your thoughts."}
-{"post_id":29857,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":289,"username":"smiba","post_date":"2017-12-25 22:18:13","message":"Diode mode is a bad way for comparing the resistance to ground on low resistance lines like PP1V05_S0. (Its ok for finding power lines or shorts to inspect though, but when comparing boards do it in ohm).\n\nA semi-short can cause a quarter fan spin in rare situations.\n\nAnyways what is the resistance to ground in Ohms on PP1V05_S0? Keep in mind this is going into the CPU so it will probably be just a couple of Ohm."}
-{"post_id":29860,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-12-25 23:04:33","message":"Hello Smiba,\n\nThanks for your precious help.\nBad board has a 186ohms resistance to ground whereas the known good board a 300ohms resistance to ground.\n\nEDIT: By the way, I have replaced the clock chip with a new one. same behavior.\nI have removed the bios chip and U6101 which I have both replaced. Same behavior.\n\nI have followed every traces from the bios area.\nThe only traces I can't confirm are the ones going to the CPU and SMC.\n\nI also use the diode mode near the bios chip and U6101 and the only difference I get is on SPI_MLBROM_CS_L which is different between the known good board and the bad one."}
-{"post_id":29867,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":289,"username":"smiba","post_date":"2017-12-26 06:20:09","message":"186ohms to ground is alright, its probably not the issue.\n(We're looking at 0.003675W vs 0.005927W)\n\nYou replaced the BIOS chip? Well now we have a whole different issue on our hands because you can't just swap them over like that! Please place back the original one\n\nWhen you made this topic, did you had the bios replaced already? Or did you only do that later on?"}
-{"post_id":29875,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-12-27 03:01:05","message":"I did backup the Bios first before messing with it.\n\nNow that I have replaced the chip, I have also upload the image on the new chip.\n\nAt the time I've started the thread, Bios chip was the original one. Only the U6101 has been replaced with a new one but I assume they are not programmable, am I right?"}
-{"post_id":29880,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":289,"username":"smiba","post_date":"2017-12-27 05:55:26","message":"The replacement bios, did it come from another Macbook or was it a new one? If it's new, did you set the quad enable bit?\n\nSee if replacing the clock chip U1900 resolves your issues."}
-{"post_id":29909,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2017-12-27 20:43:11","message":"What are diode measurement on SPI_MLBROM_CS_L? You can only compare it to a working board that has the exact same type of BIOS chips as diode readings will vary between different brands."}
-{"post_id":29952,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2017-12-29 04:34:53","message":"Hello Duke,\n\nKnown good board: (MXIC chip)\n\n- Diode mode: .625V\n- Resistance to ground: 7M ohms\n\nFaulty board: (MXIC chip)\n\n- Diode mode: .54V\n- Resistance to ground: 7.3M ohms"}
-{"post_id":29965,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2017-12-29 13:41:36","message":"There are only 2 components on this line so should not be that hard to figure out. But really they are kind of close and probably it is fine. I have no more ideas for this one besides still an issue with the U6100 data lines."}
-{"post_id":30361,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2018-01-13 02:03:57","message":"Ok thanks for your help Duke!"}
-{"post_id":35721,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2018-06-11 22:10:00","message":"[QUOTE=\"smiba, post: 29880\"]The replacement bios, did it come from another Macbook or was it a new one? If it's new, did you set the quad enable bit?\n\nSee if replacing the clock chip U1900 resolves your issues.[\/QUOTE]\n\nHi Smiba,\n\nCan you explain how to set up that quad enable bit please?"}
-{"post_id":35748,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2018-06-12 19:18:20","message":"In TL866 software you can enable it under the \"config\" tab I believe. EZP2010 can not do this."}
-{"post_id":36014,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2018-06-21 05:56:52","message":"That was already enabled. I've replaced every single resistor next to the Bios chip but same behavior.\nIt quarter fan spins.\n\nDuke, do you believe it could be something other than the Bios area?\nI am getting .4A once I plug the charger which makes the quarter fan spin, then simple pulse on PM_SLP_S4_L.\nDoes it sound like a short on some random rails?\n\nAlso I am wondering what that U6101 does?\nDo you know which values I should get on SPI_MLB_CS_L, SPIROM_USE_MLB and SPI_MLBROM_CS_L when the system is pulsing please?"}
-{"post_id":36035,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2018-06-21 15:42:43","message":"U6101 switches between SPI and quad SPI. The SMC talks SPI to U6100 and the CPU uses quad SPI. Is CPU Vcore coming on?"}
-{"post_id":36049,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2018-06-21 22:06:11","message":"Yes it does.\n\nI am getting 2 pulses of PPVCORE_S0_CPU to 1.7V."}
-{"post_id":36060,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2018-06-22 15:31:31","message":"Picture of U6100 area, good quality plz."}
-{"post_id":36136,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":680,"username":"phuketmymac","post_date":"2018-06-25 02:05:19","message":"I already did put 4 pictures a while ago. Yes that area has been abused, mostly by corrosion.\nI did, like you advised, check every single resistor value, even replacing them all + checking the continuity from any signals going to U6100 and U6101 and I got them.\n\nNow I am seriously thinking I am getting trolled by the CPU...\n\nThat board has been liquid damaged around U6100 (Bios), U3210 (Thunderbolt circuitry) and U7600 (PP1V05_S0).\nDuring my last test, I have had these behaviors:\n\n-Tried a different Bios for the same board model on the Vietnamese website and the board did start but I got no picture.\nReading the comment, the guy had the same issue using this Bios so I thought \"Yeah that's it!\"\nTried a different Bios, but wouldn't start.\nTried to go back to the same Bios which did start to do some measurements but it wouldn't start...\nI've tried all the different Bios I could find but again, wouldn't start.\n\nPut back the original Bios and now, here is what is happening:\nEither I am getting 2 pulses on All_sys_pwrgd or I am getting a 0.235V on PP1V05_S0 (remember U7600 was liquid damaged) with 0.1A of current usage.\nNow I've checked and replaced U7600 twice + all the surrounding resistors and even compared the U7600 diode mode measurements with a known working board and the values are very similar.\n\nI am just not getting how come I am getting 0.235V on that rail?!...\nWhen I am getting the pulses, I can see it reaching 1.05V using my oscilloscope."}
-{"post_id":36160,"thread_id":27089,"title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip","user_id":2,"username":"dukefawks","post_date":"2018-06-25 17:21:46","message":"You are getting Vcore so there is no reason to mess with any power rails really. Vcore will only come high once all other rails are ok. It is power cycling and that could be anything. The usual suspects are U6100 traces and resistors, crap under SMC."}
+[
+    {
+        "post_id":27089,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-10-21 02:37:32",
+        "message":"Hello,\n\nI have that 820-00165 which won't start however it is getting 2 pulses of the CPU_Vcore and ALL_sys_pwrgd.\n\nLiquid damaged near the Bios and U7600.\nI have reflowed the area and replaced the dirty looking resistors. U7600 was also replaced.\nI have followed the SPI traces and everything seems to connect. I haven't checked the resistors values yet around the Bios (Note to self)\nI was able to make a backup of the Bios 3 times with no errors.\n\nPPBUS_G3H, PPVRTC_G3H and PP3V42 have a nice stable voltage.\n\nSMC area looks fine, no liquid damage there. I haven't reflowed it yet.\n\nI have tried plugging a battery but no cigar.\n\nAny idea?"
+    },
+    {
+        "post_id":27102,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2017-10-21 09:54:11",
+        "message":"Corrosion under J6100??, corrosion around U1900?? PPVRTC_G3H present???"
+    },
+    {
+        "post_id":27112,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-10-21 11:39:41",
+        "message":"Termination resistors and\/or traces to U6100."
+    },
+    {
+        "post_id":28005,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-11-13 20:22:01",
+        "message":"Hello guys,\n\nWell I did some more work and ended up replacing both U7600 and its transistor.\nNow I can see the fan shaking when the charger is plugged.\n\nI did spend hours trying to measure each individual resistors surrounding the Bios + checking the traces\/pads but everything seem to connect.\n\nOnly the ones going under the SMC or the CPU can't be trusted. Shall I start removing the SMC to test?\n\nTo you, that issue has to be related with the Bios not being seen by the CPU?"
+    },
+    {
+        "post_id":28009,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-11-14 02:11:30",
+        "message":"Is CPU Vcore pulsing now? Can you post a HiRes picture of BIOS area?"
+    },
+    {
+        "post_id":28054,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-11-14 20:06:56",
+        "message":"Hello Duke,\n\nYes it is pulsing. I even have the time to see it showing up on the multimeter.\nIt is so frustrating, you feel so close to have it work.\n\nI will post a picture later on. Thanks Duke!"
+    },
+    {
+        "post_id":28712,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-11-30 22:23:51",
+        "message":"No Title\n\nHello Duke,\n\nHere are some shots. Pretty tough to tell. Shitty camera."
+    },
+    {
+        "post_id":28728,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-01 05:44:23",
+        "message":"The bios and clock chip area look abused\n\nCan you try and see if the balls on U6101 look alright? If they look merged or messed up reball or replace it.\n\nIf you dumped the BIOS by using J6100 you can ignore this, but if you didn't make sure the BIOS (U6100) has proper connection to the board by cleaning up the loads of flux surrounding it and manually inspecting the solder joints. If its messed up desolder it, put some solder on the pads and solder it back on again.\nYou said you already checked the bios traces and termination resistors so I assume that part of the circuit is alright. Make sure the traces that do no longer have their coating on them are not shorting to other traces though\n\nInspect the clock chip if it looks questionable or the solder joints aren't that great you can either touch them up or just replace the chip to be sure (Its just about $2).\n\nMaybe duke has some other tips as well"
+    },
+    {
+        "post_id":28739,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-12-01 07:46:00",
+        "message":"That just looks like everything was messed with. Can't trust any of those traces\/resistors without 100% verifying all of them have the correct value and continuity to the next part, what a mess!"
+    },
+    {
+        "post_id":29853,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-12-25 19:12:02",
+        "message":"Thanks for answering both!\n\nWell after digging again on that one, I realized that it may not be a problem near the Bios chip but probably on the PP1V05_S0 line.\nI guess a possible short could make the the Fan quarter spin right?\nSince you can see on the pictures that line also had liquid coming onto it (near U7600), I've checked the voltage drop to ground and it seems low compared to a known good working board.\n\nWorking board has a 1V drop to ground whereas this damaged board has .4 drop to ground.\n\nI can assume it is not a cap since it is not totally shorted right?!\nMost likely another line connected with a resistor to that line is shorted, don't you think?\nOr maybe the CPU...\n\nI've removed the inductor L7630 and saw it was on the system side, not the creation side, even though I have replaced U7600 and Q7630.\n\nI do hope the CPU is not shorted...\n\nLooking forward hearing some of your thoughts."
+    },
+    {
+        "post_id":29857,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-25 20:18:13",
+        "message":"Diode mode is a bad way for comparing the resistance to ground on low resistance lines like PP1V05_S0. (Its ok for finding power lines or shorts to inspect though, but when comparing boards do it in ohm).\n\nA semi-short can cause a quarter fan spin in rare situations.\n\nAnyways what is the resistance to ground in Ohms on PP1V05_S0? Keep in mind this is going into the CPU so it will probably be just a couple of Ohm."
+    },
+    {
+        "post_id":29860,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-12-25 21:04:33",
+        "message":"Hello Smiba,\n\nThanks for your precious help.\nBad board has a 186ohms resistance to ground whereas the known good board a 300ohms resistance to ground.\n\nEDIT: By the way, I have replaced the clock chip with a new one. same behavior.\nI have removed the bios chip and U6101 which I have both replaced. Same behavior.\n\nI have followed every traces from the bios area.\nThe only traces I can't confirm are the ones going to the CPU and SMC.\n\nI also use the diode mode near the bios chip and U6101 and the only difference I get is on SPI_MLBROM_CS_L which is different between the known good board and the bad one."
+    },
+    {
+        "post_id":29867,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-26 04:20:09",
+        "message":"186ohms to ground is alright, its probably not the issue.\n(We're looking at 0.003675W vs 0.005927W)\n\nYou replaced the BIOS chip? Well now we have a whole different issue on our hands because you can't just swap them over like that! Please place back the original one\n\nWhen you made this topic, did you had the bios replaced already? Or did you only do that later on?"
+    },
+    {
+        "post_id":29875,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-12-27 01:01:05",
+        "message":"I did backup the Bios first before messing with it.\n\nNow that I have replaced the chip, I have also upload the image on the new chip.\n\nAt the time I've started the thread, Bios chip was the original one. Only the U6101 has been replaced with a new one but I assume they are not programmable, am I right?"
+    },
+    {
+        "post_id":29880,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-27 03:55:26",
+        "message":"The replacement bios, did it come from another Macbook or was it a new one? If it's new, did you set the quad enable bit?\n\nSee if replacing the clock chip U1900 resolves your issues."
+    },
+    {
+        "post_id":29909,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-12-27 18:43:11",
+        "message":"What are diode measurement on SPI_MLBROM_CS_L? You can only compare it to a working board that has the exact same type of BIOS chips as diode readings will vary between different brands."
+    },
+    {
+        "post_id":29952,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-12-29 02:34:53",
+        "message":"Hello Duke,\n\nKnown good board: (MXIC chip)\n\n- Diode mode: .625V\n- Resistance to ground: 7M ohms\n\nFaulty board: (MXIC chip)\n\n- Diode mode: .54V\n- Resistance to ground: 7.3M ohms"
+    },
+    {
+        "post_id":29965,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-12-29 11:41:36",
+        "message":"There are only 2 components on this line so should not be that hard to figure out. But really they are kind of close and probably it is fine. I have no more ideas for this one besides still an issue with the U6100 data lines."
+    },
+    {
+        "post_id":30361,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2018-01-13 00:03:57",
+        "message":"Ok thanks for your help Duke!"
+    },
+    {
+        "post_id":35721,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2018-06-11 20:10:00",
+        "message":"[QUOTE=\"smiba, post: 29880\"]The replacement bios, did it come from another Macbook or was it a new one? If it's new, did you set the quad enable bit?\n\nSee if replacing the clock chip U1900 resolves your issues.[\/QUOTE]\n\nHi Smiba,\n\nCan you explain how to set up that quad enable bit please?"
+    },
+    {
+        "post_id":35748,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-12 17:18:20",
+        "message":"In TL866 software you can enable it under the \"config\" tab I believe. EZP2010 can not do this."
+    },
+    {
+        "post_id":36014,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2018-06-21 03:56:52",
+        "message":"That was already enabled. I've replaced every single resistor next to the Bios chip but same behavior.\nIt quarter fan spins.\n\nDuke, do you believe it could be something other than the Bios area?\nI am getting .4A once I plug the charger which makes the quarter fan spin, then simple pulse on PM_SLP_S4_L.\nDoes it sound like a short on some random rails?\n\nAlso I am wondering what that U6101 does?\nDo you know which values I should get on SPI_MLB_CS_L, SPIROM_USE_MLB and SPI_MLBROM_CS_L when the system is pulsing please?"
+    },
+    {
+        "post_id":36035,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-21 13:42:43",
+        "message":"U6101 switches between SPI and quad SPI. The SMC talks SPI to U6100 and the CPU uses quad SPI. Is CPU Vcore coming on?"
+    },
+    {
+        "post_id":36049,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2018-06-21 20:06:11",
+        "message":"Yes it does.\n\nI am getting 2 pulses of PPVCORE_S0_CPU to 1.7V."
+    },
+    {
+        "post_id":36060,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-22 13:31:31",
+        "message":"Picture of U6100 area, good quality plz."
+    },
+    {
+        "post_id":36136,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2018-06-25 00:05:19",
+        "message":"I already did put 4 pictures a while ago. Yes that area has been abused, mostly by corrosion.\nI did, like you advised, check every single resistor value, even replacing them all + checking the continuity from any signals going to U6100 and U6101 and I got them.\n\nNow I am seriously thinking I am getting trolled by the CPU...\n\nThat board has been liquid damaged around U6100 (Bios), U3210 (Thunderbolt circuitry) and U7600 (PP1V05_S0).\nDuring my last test, I have had these behaviors:\n\n-Tried a different Bios for the same board model on the Vietnamese website and the board did start but I got no picture.\nReading the comment, the guy had the same issue using this Bios so I thought \"Yeah that's it!\"\nTried a different Bios, but wouldn't start.\nTried to go back to the same Bios which did start to do some measurements but it wouldn't start...\nI've tried all the different Bios I could find but again, wouldn't start.\n\nPut back the original Bios and now, here is what is happening:\nEither I am getting 2 pulses on All_sys_pwrgd or I am getting a 0.235V on PP1V05_S0 (remember U7600 was liquid damaged) with 0.1A of current usage.\nNow I've checked and replaced U7600 twice + all the surrounding resistors and even compared the U7600 diode mode measurements with a known working board and the values are very similar.\n\nI am just not getting how come I am getting 0.235V on that rail?!...\nWhen I am getting the pulses, I can see it reaching 1.05V using my oscilloscope."
+    },
+    {
+        "post_id":36160,
+        "thread_id":27089,
+        "title":"820-00165 Pulsing. No Fan spin. Liquid damage near U7600 and the Bios chip",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-25 15:21:46",
+        "message":"You are getting Vcore so there is no reason to mess with any power rails really. Vcore will only come high once all other rails are ok. It is power cycling and that could be anything. The usual suspects are U6100 traces and resistors, crap under SMC."
+    }
+]

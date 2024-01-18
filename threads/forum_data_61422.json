@@ -1,15 +1,137 @@
-{"post_id":77542,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-10 18:05:51","message":"This is a liquid damaged board stuck at 5V. I have the option to decline repair of this board, so I need to quickly assess if it\u2019s repairable (i.e no bad SMC\/CPU\/GPU\/etc)\n\nPPDCIN_G3H is stuck at 5.2V. \nPP3V3_G3H is at 3.4V.\nPPBUS_G3H is at 3.8V.\nAll four CD3215s have all LDOs except PP1V1_UPC on UB300 and UB400. No short to ground on the missing PP1V1_UPCs."}
-{"post_id":77545,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":1057,"username":"piernov","post_date":"2021-07-11 14:36:10","message":"If it's only a USB-C controller problem it may turn on from charged battery.\nLiquid damage should give you hint on where to look.\nCompare diode mode to ground on all LDO outputs of all USB-C controllers."}
-{"post_id":77551,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-11 17:53:56","message":"Diode mode readings are comparable across all 4 controllers (0.48-0.51). \n\nI'm new to the USB-C models. What are the requirements for the releasing 20V from the charger?"}
-{"post_id":77556,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":1057,"username":"piernov","post_date":"2021-07-12 04:09:49","message":"[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/CD3215_Bootup_Sequence[\/URL]"}
-{"post_id":77565,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":682,"username":"2informaticos","post_date":"2021-07-12 10:44:02","message":"Did you test what happen with both charger and battery connected?"}
-{"post_id":77594,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-12 15:56:22","message":"The machine's battery is empty and I have no other way of charging it; I have a replacement battery on order to test this."}
-{"post_id":77595,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":682,"username":"2informaticos","post_date":"2021-07-12 16:34:52","message":"There is a problem on the USB-C area where no 1V1 LDO present (UB300\/400).\nDid you compare diode mode readings on all 4 LDO rails of each cheap?\n\n\"PPBUS_G3H is at 3.8V\"\nOn all ports?"}
-{"post_id":77600,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-12 16:49:33","message":"When I use the USB-C ports on the other side of the board, I get 1.1V on the previously missing LDOs (sorry, I forgot there are 4 ports)."}
-{"post_id":77602,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-12 16:50:20","message":"Upon further inspection, I noticed that the SMC appears to be off. Some SMC-related signals are below. What should I check next?\n\nSMC_BC_ACOK: 3.4\nSMC_RESET_L: 3.4\nSMC_USBC_INT_L: 0 (briefly 3.4, then pulled low)\nSMC_ONOFF_L: 3.4\nSMC_WAKE_L: 2.8\n\nSMC_PM_G2_EN: 0\nSMC_S5_PWRGD: 0\n\nPP1V2_S5_SMC_VDDC: 1.2\nPP3V0_S5_AVREF_SMC: 3.0\nSMBUS_SMC_4_G3H_SCL: 3.4\nSMBUS_SMC_4_G3H_SDA: 3.4"}
-{"post_id":77606,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":682,"username":"2informaticos","post_date":"2021-07-12 17:28:04","message":"4 ports and each CD3215 has 4 LDO rails.\nDid you check diode mode readings on all 16?"}
-{"post_id":77608,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-12 17:33:18","message":"Diode and voltage measurements for LDOs\n\nUB400   \n    PP3V3_UPC_TB_LDO    0.503    3.39\n    PP1V8_UPC_TB_LDOA    0.515    1.79\n    PP1V8_UPC_TB_LDOD    0.479    1.79\n    PP1V1_UPC_TB_LDO_BMC    0.504    1.1\n            \nUB300   \n    PP3V3_UPC_TA_LDO    0.503    3.39\n    PP1V8_UPC_TA_LDOA    0.510    1.8\n    PP1V8_UPC_TA_LDOD    0.473    1.8\n    PP1V1_UPC_TA_LDO_BMC    0.500    1.1\n            \nU3100\n    PP3V3_UPC_XA_LDO    0.502    3.37\n    PP1V8_UPC_XA_LDOA    0.515    1.8\n    PP1V8_UPC_XA_LDOD    0.48    1.8\n    PP1V1_UPC_XA_LDO_BMC    0.505    1.1\n            \nU3200\n    PP3V3_UPC_XB_LDO    0.500    3.37\n    PP1V8_UPC_XB_LDOA    0.516    1.8\n    PP1V8_UPC_XB_LDOD    0.477    1.8\n    PP1V1_UPC_XB_LDO_BMC    0.505    1.1"}
-{"post_id":77614,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":682,"username":"2informaticos","post_date":"2021-07-12 19:17:52","message":"So you get 1V1 LDO on every port.\n\nStill 3.8V at PPBUS_G3H?\nRemove both F7000\/1 and check C7050 voltage."}
-{"post_id":77656,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-13 09:27:51","message":"No, PPBUS_G3H is at 0V now. I noticed liquid damage in the U7000 area, which is probably the culprit. But the SMC should turn on independently of PPBUS_G3H, isn't that right?"}
-{"post_id":77659,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":682,"username":"2informaticos","post_date":"2021-07-13 09:40:49","message":"SMC communicates with U7000; which can block the bus, if bad."}
-{"post_id":77931,"thread_id":61422,"title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V","user_id":28264,"username":"sekidata","post_date":"2021-07-19 13:17:45","message":"Update: I replaced U7000. The SMC is now on, the charger supplies 20V, and PPBUS_G3H is working.\nThank you!"}
+[
+    {
+        "post_id":77542,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-10 16:05:51",
+        "message":"This is a liquid damaged board stuck at 5V. I have the option to decline repair of this board, so I need to quickly assess if it\u2019s repairable (i.e no bad SMC\/CPU\/GPU\/etc)\n\nPPDCIN_G3H is stuck at 5.2V. \nPP3V3_G3H is at 3.4V.\nPPBUS_G3H is at 3.8V.\nAll four CD3215s have all LDOs except PP1V1_UPC on UB300 and UB400. No short to ground on the missing PP1V1_UPCs."
+    },
+    {
+        "post_id":77545,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-07-11 12:36:10",
+        "message":"If it's only a USB-C controller problem it may turn on from charged battery.\nLiquid damage should give you hint on where to look.\nCompare diode mode to ground on all LDO outputs of all USB-C controllers."
+    },
+    {
+        "post_id":77551,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-11 15:53:56",
+        "message":"Diode mode readings are comparable across all 4 controllers (0.48-0.51). \n\nI'm new to the USB-C models. What are the requirements for the releasing 20V from the charger?"
+    },
+    {
+        "post_id":77556,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-07-12 02:09:49",
+        "message":"[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/CD3215_Bootup_Sequence[\/URL]"
+    },
+    {
+        "post_id":77565,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-12 08:44:02",
+        "message":"Did you test what happen with both charger and battery connected?"
+    },
+    {
+        "post_id":77594,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-12 13:56:22",
+        "message":"The machine's battery is empty and I have no other way of charging it; I have a replacement battery on order to test this."
+    },
+    {
+        "post_id":77595,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-12 14:34:52",
+        "message":"There is a problem on the USB-C area where no 1V1 LDO present (UB300\/400).\nDid you compare diode mode readings on all 4 LDO rails of each cheap?\n\n\"PPBUS_G3H is at 3.8V\"\nOn all ports?"
+    },
+    {
+        "post_id":77600,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-12 14:49:33",
+        "message":"When I use the USB-C ports on the other side of the board, I get 1.1V on the previously missing LDOs (sorry, I forgot there are 4 ports)."
+    },
+    {
+        "post_id":77602,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-12 14:50:20",
+        "message":"Upon further inspection, I noticed that the SMC appears to be off. Some SMC-related signals are below. What should I check next?\n\nSMC_BC_ACOK: 3.4\nSMC_RESET_L: 3.4\nSMC_USBC_INT_L: 0 (briefly 3.4, then pulled low)\nSMC_ONOFF_L: 3.4\nSMC_WAKE_L: 2.8\n\nSMC_PM_G2_EN: 0\nSMC_S5_PWRGD: 0\n\nPP1V2_S5_SMC_VDDC: 1.2\nPP3V0_S5_AVREF_SMC: 3.0\nSMBUS_SMC_4_G3H_SCL: 3.4\nSMBUS_SMC_4_G3H_SDA: 3.4"
+    },
+    {
+        "post_id":77606,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-12 15:28:04",
+        "message":"4 ports and each CD3215 has 4 LDO rails.\nDid you check diode mode readings on all 16?"
+    },
+    {
+        "post_id":77608,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-12 15:33:18",
+        "message":"Diode and voltage measurements for LDOs\n\nUB400   \n    PP3V3_UPC_TB_LDO    0.503    3.39\n    PP1V8_UPC_TB_LDOA    0.515    1.79\n    PP1V8_UPC_TB_LDOD    0.479    1.79\n    PP1V1_UPC_TB_LDO_BMC    0.504    1.1\n            \nUB300   \n    PP3V3_UPC_TA_LDO    0.503    3.39\n    PP1V8_UPC_TA_LDOA    0.510    1.8\n    PP1V8_UPC_TA_LDOD    0.473    1.8\n    PP1V1_UPC_TA_LDO_BMC    0.500    1.1\n            \nU3100\n    PP3V3_UPC_XA_LDO    0.502    3.37\n    PP1V8_UPC_XA_LDOA    0.515    1.8\n    PP1V8_UPC_XA_LDOD    0.48    1.8\n    PP1V1_UPC_XA_LDO_BMC    0.505    1.1\n            \nU3200\n    PP3V3_UPC_XB_LDO    0.500    3.37\n    PP1V8_UPC_XB_LDOA    0.516    1.8\n    PP1V8_UPC_XB_LDOD    0.477    1.8\n    PP1V1_UPC_XB_LDO_BMC    0.505    1.1"
+    },
+    {
+        "post_id":77614,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-12 17:17:52",
+        "message":"So you get 1V1 LDO on every port.\n\nStill 3.8V at PPBUS_G3H?\nRemove both F7000\/1 and check C7050 voltage."
+    },
+    {
+        "post_id":77656,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-13 07:27:51",
+        "message":"No, PPBUS_G3H is at 0V now. I noticed liquid damage in the U7000 area, which is probably the culprit. But the SMC should turn on independently of PPBUS_G3H, isn't that right?"
+    },
+    {
+        "post_id":77659,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-13 07:40:49",
+        "message":"SMC communicates with U7000; which can block the bus, if bad."
+    },
+    {
+        "post_id":77931,
+        "thread_id":61422,
+        "title":"2016 MacBook Pro 15\u201d 820-00281 stuck at 5V",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2021-07-19 11:17:45",
+        "message":"Update: I replaced U7000. The SMC is now on, the charger supplies 20V, and PPBUS_G3H is working.\nThank you!"
+    }
+]

@@ -1,10 +1,92 @@
-{"post_id":88219,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":32178,"username":"prodigy83","post_date":"2022-04-01 16:37:20","message":"Board 820-4924 is back, the issue before was the computer ran super slow, that is until you guys told me to remove pins 9\/8 on J4002 (camera sensor issue). This did fix that problem, but now the board is back for not powering on. \nC7500 on pin 1 is 12.57v\nI could be wrong, but isn't it supposed to be 8.6v?\nI have been checking all over and I seem to have S5 5v rails, until I get to 5v S4 rails no voltage at all. \nWhat should I try to do next? Thank you!"}
-{"post_id":88220,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":682,"username":"2informaticos","post_date":"2022-04-01 16:53:35","message":"PPBUS_G3H depends of R7112 position.\nIt is connected according with battery type.\nCompare 4924 with 00165 schematic, for example; is R7113 in last case.\nThe level on CELL pin of ISL6259 decides the output voltage.\n\nDid you test the board alone on the desk?\nBe sure to use 60\/85W Magsafe 2 charger.\nDo you get amber light at least?\n\n3V3_SUS comes on?"}
-{"post_id":88312,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":32178,"username":"prodigy83","post_date":"2022-04-04 09:03:01","message":"Yes, I plug it in and it goes from green to amber like normal without the battery. I have been using the 60watt MagSafe 2, I have not tried the 85w. Yes I have been testing the board alone. I have been able to reset the SMC. I will check out the other things and post my findings on those, thank you."}
-{"post_id":88325,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":32178,"username":"prodigy83","post_date":"2022-04-04 13:57:18","message":"Okay, new development. When I tried with the 85w MagSafe, it actually came on. I am having problems now though with the keyboard and trackpad not working. Also the battery is charged up, but the computer will only power on with the Magsafe. I can now use the 60w Magsafe now every time.\nI do have a new keyboard and trackpad cable. I replaced both of these, and this did not work. The power button does work because I am able to power off the computer holding it down for several seconds. When I tested the trackpad and keyboard on another palm rest I had in stock with the keyboard and mouse, the external display was not sending any kind of signal through the mini display port. So external video is not working, but I hear it doing the chime. I then tested with an external keyboard and mouse, and both of these work (boots up to the customers name\/login screen). I am thinking this is all relating back to a sensor issue? A bit more history on this Mac, and it originally had a lot of heat damage inside, meaning a lot of the parts that I would normally unplug, some had cracked or broke (plastic) from the heat over the years, which I had to replace, even the keyboard was replaced. Why the problem with the computer not turning on from the battery, and trackpad\/keyboard is not working? Am I not getting enough power from something?"}
-{"post_id":88336,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":682,"username":"2informaticos","post_date":"2022-04-04 19:07:27","message":"Machine boots with charger and battery connected?\nJust doesn't turn on from battery alone?\nCheck PPBUS_G3H and 3V42_G3H in last case.\n\nDo you get image internal\/external only if trackpad flex is not connected?\nIn such case, check SMC_LID signal."}
-{"post_id":88349,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":32178,"username":"prodigy83","post_date":"2022-04-05 11:05:38","message":"[QUOTE=\"2informaticos, post: 88336, member: 682\"]\nMachine boots with charger and battery connected?[\/QUOTE] Correct, battery must be connected or it won't turn on.\n[QUOTE=\"2informaticos, post: 88336, member: 682\"]Just doesn't turn on from battery alone?[\/quote] Correct.\n[QUOTE=\"2informaticos, post: 88336, member: 682\"]Check PPBUS_G3H and 3V42_G3H in last case.[\/quote] I get both of these with no problem.\n\n[QUOTE=\"2informaticos, post: 88336, member: 682\"]Do you get image internal\/external only if trackpad flex is not connected?[\/quote] The trackpad cable makes no difference if it is plugged in or not, so no change.\nI just did a bit more troubleshooting, and the external video does work fine, I placed the motherboard in with our donor screen and keyboard\/trackpad\/palmrest and found the computer kept booting in to the password reset screen. After I got it out of there, and logged in as a guest, I got picture from the HDMI port, but not until I was fully logged in as a guest. \n[QUOTE=\"2informaticos, post: 88336, member: 682\"]In such case, check SMC_LID signal.[\/QUOTE]\nThis is at 3.4v. To add from some additional testing last night, I found the following to pulse:\nU7100 on pin 16 fluctuates from 5.24 to 12.53, then 5.24 to 12.53 again, and it keeps doing this."}
-{"post_id":88353,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":682,"username":"2informaticos","post_date":"2022-04-05 11:48:11","message":"If internal LCD is disconnetced, do you get external video from the start?\n\nWhen just battery is connected, trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time).\nPM_RSMRST_L should go high then."}
-{"post_id":88394,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":32178,"username":"prodigy83","post_date":"2022-04-06 12:56:35","message":"[QUOTE=\"2informaticos, post: 88353, member: 682\"]\nIf internal LCD is disconnetced, do you get external video from the start?[\/quote] From the start with the external display? No.\n\n[QUOTE=\"2informaticos, post: 88353, member: 682\"]When just battery is connected, trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time).\nPM_RSMRST_L should go high then.\n[\/QUOTE] I apologize for my ignorance, but I read your article on this located here: [URL]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\nand I am just a little confused. You said to touch any metal plate. Does this mean I can take any SMC_ONOFF_L line, and solder a wire on to one of these, in my case I have soldered on to R4810 pin 1, and touch ground on the motherboard?"}
-{"post_id":88397,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":682,"username":"2informaticos","post_date":"2022-04-06 14:59:05","message":"R4810 is good enough.\nI prefer to use corresponding pad of R5115\/16; more easy to solder there."}
-{"post_id":88429,"thread_id":62555,"title":"820-4924 No power J4002 has history","user_id":32178,"username":"prodigy83","post_date":"2022-04-07 11:23:58","message":"I got it working, thank you very much. I ended up replacing U8000, and I looked at the trackpad connector on the motherboard, and the metal contacts on the exterior of the connector, the plastic ended up needing to be scraped away with tweezers. After this, I hooked it all back up and it was all working. Thank you so very much!! :)"}
+[
+    {
+        "post_id":88219,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2022-04-01 14:37:20",
+        "message":"Board 820-4924 is back, the issue before was the computer ran super slow, that is until you guys told me to remove pins 9\/8 on J4002 (camera sensor issue). This did fix that problem, but now the board is back for not powering on. \nC7500 on pin 1 is 12.57v\nI could be wrong, but isn't it supposed to be 8.6v?\nI have been checking all over and I seem to have S5 5v rails, until I get to 5v S4 rails no voltage at all. \nWhat should I try to do next? Thank you!"
+    },
+    {
+        "post_id":88220,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-01 14:53:35",
+        "message":"PPBUS_G3H depends of R7112 position.\nIt is connected according with battery type.\nCompare 4924 with 00165 schematic, for example; is R7113 in last case.\nThe level on CELL pin of ISL6259 decides the output voltage.\n\nDid you test the board alone on the desk?\nBe sure to use 60\/85W Magsafe 2 charger.\nDo you get amber light at least?\n\n3V3_SUS comes on?"
+    },
+    {
+        "post_id":88312,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2022-04-04 07:03:01",
+        "message":"Yes, I plug it in and it goes from green to amber like normal without the battery. I have been using the 60watt MagSafe 2, I have not tried the 85w. Yes I have been testing the board alone. I have been able to reset the SMC. I will check out the other things and post my findings on those, thank you."
+    },
+    {
+        "post_id":88325,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2022-04-04 11:57:18",
+        "message":"Okay, new development. When I tried with the 85w MagSafe, it actually came on. I am having problems now though with the keyboard and trackpad not working. Also the battery is charged up, but the computer will only power on with the Magsafe. I can now use the 60w Magsafe now every time.\nI do have a new keyboard and trackpad cable. I replaced both of these, and this did not work. The power button does work because I am able to power off the computer holding it down for several seconds. When I tested the trackpad and keyboard on another palm rest I had in stock with the keyboard and mouse, the external display was not sending any kind of signal through the mini display port. So external video is not working, but I hear it doing the chime. I then tested with an external keyboard and mouse, and both of these work (boots up to the customers name\/login screen). I am thinking this is all relating back to a sensor issue? A bit more history on this Mac, and it originally had a lot of heat damage inside, meaning a lot of the parts that I would normally unplug, some had cracked or broke (plastic) from the heat over the years, which I had to replace, even the keyboard was replaced. Why the problem with the computer not turning on from the battery, and trackpad\/keyboard is not working? Am I not getting enough power from something?"
+    },
+    {
+        "post_id":88336,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-04 17:07:27",
+        "message":"Machine boots with charger and battery connected?\nJust doesn't turn on from battery alone?\nCheck PPBUS_G3H and 3V42_G3H in last case.\n\nDo you get image internal\/external only if trackpad flex is not connected?\nIn such case, check SMC_LID signal."
+    },
+    {
+        "post_id":88349,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2022-04-05 09:05:38",
+        "message":"[QUOTE=\"2informaticos, post: 88336, member: 682\"]\nMachine boots with charger and battery connected?[\/QUOTE] Correct, battery must be connected or it won't turn on.\n[QUOTE=\"2informaticos, post: 88336, member: 682\"]Just doesn't turn on from battery alone?[\/quote] Correct.\n[QUOTE=\"2informaticos, post: 88336, member: 682\"]Check PPBUS_G3H and 3V42_G3H in last case.[\/quote] I get both of these with no problem.\n\n[QUOTE=\"2informaticos, post: 88336, member: 682\"]Do you get image internal\/external only if trackpad flex is not connected?[\/quote] The trackpad cable makes no difference if it is plugged in or not, so no change.\nI just did a bit more troubleshooting, and the external video does work fine, I placed the motherboard in with our donor screen and keyboard\/trackpad\/palmrest and found the computer kept booting in to the password reset screen. After I got it out of there, and logged in as a guest, I got picture from the HDMI port, but not until I was fully logged in as a guest. \n[QUOTE=\"2informaticos, post: 88336, member: 682\"]In such case, check SMC_LID signal.[\/QUOTE]\nThis is at 3.4v. To add from some additional testing last night, I found the following to pulse:\nU7100 on pin 16 fluctuates from 5.24 to 12.53, then 5.24 to 12.53 again, and it keeps doing this."
+    },
+    {
+        "post_id":88353,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-05 09:48:11",
+        "message":"If internal LCD is disconnetced, do you get external video from the start?\n\nWhen just battery is connected, trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time).\nPM_RSMRST_L should go high then."
+    },
+    {
+        "post_id":88394,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2022-04-06 10:56:35",
+        "message":"[QUOTE=\"2informaticos, post: 88353, member: 682\"]\nIf internal LCD is disconnetced, do you get external video from the start?[\/quote] From the start with the external display? No.\n\n[QUOTE=\"2informaticos, post: 88353, member: 682\"]When just battery is connected, trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time).\nPM_RSMRST_L should go high then.\n[\/QUOTE] I apologize for my ignorance, but I read your article on this located here: [URL]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]\nand I am just a little confused. You said to touch any metal plate. Does this mean I can take any SMC_ONOFF_L line, and solder a wire on to one of these, in my case I have soldered on to R4810 pin 1, and touch ground on the motherboard?"
+    },
+    {
+        "post_id":88397,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-06 12:59:05",
+        "message":"R4810 is good enough.\nI prefer to use corresponding pad of R5115\/16; more easy to solder there."
+    },
+    {
+        "post_id":88429,
+        "thread_id":62555,
+        "title":"820-4924 No power J4002 has history",
+        "user_id":32178,
+        "username":"prodigy83",
+        "post_date":"2022-04-07 09:23:58",
+        "message":"I got it working, thank you very much. I ended up replacing U8000, and I looked at the trackpad connector on the motherboard, and the metal contacts on the exterior of the connector, the plastic ended up needing to be scraped away with tweezers. After this, I hooked it all back up and it was all working. Thank you so very much!! :)"
+    }
+]

@@ -1,17 +1,155 @@
-{"post_id":86803,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-01 06:00:48","message":"Hi guys.\n\nI have this 820-3437 green light no power. \n\n3v & 5V present created from U7501\nPPBUS_G3H - 8.6v\nSMC_ONOFF_L Triggers\n\nI found that i'm missing P5VS0_EN which comes from S0 Enables and i don't have voltage even from R1462 and the resistor is fine 100K but it shows when measured on board 36.4k.\n\nPP3V3_S5 i get3.3v on U8180. I tried to solder together pins 4 and 5 on U8180 to get the voltage but still no power.\n\nOn U1930 pin 6 i have 3.3v but also normally ALL_SYS_PWRGD is missing. \n\nAny ideas?"}
-{"post_id":86810,"thread_id":62401,"title":"820-3437","user_id":682,"username":"2informaticos","post_date":"2022-03-01 07:48:24","message":"Do you get 3V3_SUS?\nAny pulse at L7520?"}
-{"post_id":86817,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-01 09:32:49","message":"3V3_SUS it's 0v and L7520 i don't have a o-scope but when trigger SMC bypass  no changes"}
-{"post_id":86818,"thread_id":62401,"title":"820-3437","user_id":682,"username":"2informaticos","post_date":"2022-03-01 10:23:12","message":"Check PM_DSW_PWRGD, PCH_DSWVRMEN, PM_BATLOW_L and SMC_ADAPTER_EN."}
-{"post_id":86839,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 02:24:32","message":"PM_DSW_PWRGD - 0v\nPCH_DSWVRMEN - 2.4v\nPM_BATLOW_L - 0v\nSMC_ADAPTER_EN - 0v\n\nI remeasured and re-soldering the SMC and i don't have 5 and 3v on coils but i get green and then orange light no power"}
-{"post_id":86840,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 02:25:04","message":"after* re-soldering the SMC"}
-{"post_id":86841,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 02:42:47","message":"I got back the 3 and 5v there was a broken line near U7501.\n\nNow i have:\nPM_DSW_PWRGD - 1.05v\nPCH_DSWVRMEN  -  2.4v\nPM_BATLOW_L   - 3.4v\nSMC_ADAPTER_EN  - 3.4v"}
-{"post_id":86842,"thread_id":62401,"title":"820-3437","user_id":682,"username":"2informaticos","post_date":"2022-03-02 02:54:09","message":"\"PM_DSW_PWRGD - 1.05v\"\nNot good, need to fix it.\nCheck first S5_PWRGD."}
-{"post_id":86845,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 03:17:26","message":"S5_PWRGD it's 3.25v"}
-{"post_id":86846,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 03:18:36","message":"PM_DSW_PWRGD  now it's  3.4v strange :D"}
-{"post_id":86849,"thread_id":62401,"title":"820-3437","user_id":682,"username":"2informaticos","post_date":"2022-03-02 05:21:17","message":"PM_BATLOW_L level?\nBe sure to use original Magsafe 2 charger."}
-{"post_id":86850,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 05:37:34","message":"PM_BATLOW_L  it's 3.34v. I use original charger"}
-{"post_id":86851,"thread_id":62401,"title":"820-3437","user_id":682,"username":"2informaticos","post_date":"2022-03-02 06:28:36","message":"Post again all above mentioned signals.\nAlso check the 4 PCH's RTC signals.\n\n3V3_SUS must appear before pressing power button."}
-{"post_id":86855,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 08:41:35","message":"PM_DSW_PWRGD - 3.4v at first but after some time drops to 1.05v\nPCH_DSWVRMEN  - 2.7v\nPM_BATLOW_L  - 3.3v\nSMC_ADAPTER_EN  - 3.4v then sometimes drops to 1v\n\nThe only place that shows heat on the thermal camera is U7100 but the temperature is below 30"}
-{"post_id":86856,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 09:24:27","message":"PCH_INTRUDER_L - 3v\nPCH_INTVRMEN - 3.2v\nPCH_SRTCRST_L - 0v \nRTC_RESET_L - 3.3v\n\nI bridged PCH_SRTCRST_L and RTC_RESET_L and got 3v and a fan spin and power on. I really don't know why PCH_SRTCRST_L  was stuck"}
-{"post_id":86857,"thread_id":62401,"title":"820-3437","user_id":682,"username":"2informaticos","post_date":"2022-03-02 09:26:44","message":"Change C1300, just in case..."}
-{"post_id":86865,"thread_id":62401,"title":"820-3437","user_id":20112,"username":"iFix","post_date":"2022-03-02 10:34:52","message":"I did change it before i assemble it :) Thanks for the help"}
+[
+    {
+        "post_id":86803,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-01 04:00:48",
+        "message":"Hi guys.\n\nI have this 820-3437 green light no power. \n\n3v & 5V present created from U7501\nPPBUS_G3H - 8.6v\nSMC_ONOFF_L Triggers\n\nI found that i'm missing P5VS0_EN which comes from S0 Enables and i don't have voltage even from R1462 and the resistor is fine 100K but it shows when measured on board 36.4k.\n\nPP3V3_S5 i get3.3v on U8180. I tried to solder together pins 4 and 5 on U8180 to get the voltage but still no power.\n\nOn U1930 pin 6 i have 3.3v but also normally ALL_SYS_PWRGD is missing. \n\nAny ideas?"
+    },
+    {
+        "post_id":86810,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-01 05:48:24",
+        "message":"Do you get 3V3_SUS?\nAny pulse at L7520?"
+    },
+    {
+        "post_id":86817,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-01 07:32:49",
+        "message":"3V3_SUS it's 0v and L7520 i don't have a o-scope but when trigger SMC bypass  no changes"
+    },
+    {
+        "post_id":86818,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-01 08:23:12",
+        "message":"Check PM_DSW_PWRGD, PCH_DSWVRMEN, PM_BATLOW_L and SMC_ADAPTER_EN."
+    },
+    {
+        "post_id":86839,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 00:24:32",
+        "message":"PM_DSW_PWRGD - 0v\nPCH_DSWVRMEN - 2.4v\nPM_BATLOW_L - 0v\nSMC_ADAPTER_EN - 0v\n\nI remeasured and re-soldering the SMC and i don't have 5 and 3v on coils but i get green and then orange light no power"
+    },
+    {
+        "post_id":86840,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 00:25:04",
+        "message":"after* re-soldering the SMC"
+    },
+    {
+        "post_id":86841,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 00:42:47",
+        "message":"I got back the 3 and 5v there was a broken line near U7501.\n\nNow i have:\nPM_DSW_PWRGD - 1.05v\nPCH_DSWVRMEN  -  2.4v\nPM_BATLOW_L   - 3.4v\nSMC_ADAPTER_EN  - 3.4v"
+    },
+    {
+        "post_id":86842,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-02 00:54:09",
+        "message":"\"PM_DSW_PWRGD - 1.05v\"\nNot good, need to fix it.\nCheck first S5_PWRGD."
+    },
+    {
+        "post_id":86845,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 01:17:26",
+        "message":"S5_PWRGD it's 3.25v"
+    },
+    {
+        "post_id":86846,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 01:18:36",
+        "message":"PM_DSW_PWRGD  now it's  3.4v strange :D"
+    },
+    {
+        "post_id":86849,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-02 03:21:17",
+        "message":"PM_BATLOW_L level?\nBe sure to use original Magsafe 2 charger."
+    },
+    {
+        "post_id":86850,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 03:37:34",
+        "message":"PM_BATLOW_L  it's 3.34v. I use original charger"
+    },
+    {
+        "post_id":86851,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-02 04:28:36",
+        "message":"Post again all above mentioned signals.\nAlso check the 4 PCH's RTC signals.\n\n3V3_SUS must appear before pressing power button."
+    },
+    {
+        "post_id":86855,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 06:41:35",
+        "message":"PM_DSW_PWRGD - 3.4v at first but after some time drops to 1.05v\nPCH_DSWVRMEN  - 2.7v\nPM_BATLOW_L  - 3.3v\nSMC_ADAPTER_EN  - 3.4v then sometimes drops to 1v\n\nThe only place that shows heat on the thermal camera is U7100 but the temperature is below 30"
+    },
+    {
+        "post_id":86856,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 07:24:27",
+        "message":"PCH_INTRUDER_L - 3v\nPCH_INTVRMEN - 3.2v\nPCH_SRTCRST_L - 0v \nRTC_RESET_L - 3.3v\n\nI bridged PCH_SRTCRST_L and RTC_RESET_L and got 3v and a fan spin and power on. I really don't know why PCH_SRTCRST_L  was stuck"
+    },
+    {
+        "post_id":86857,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-02 07:26:44",
+        "message":"Change C1300, just in case..."
+    },
+    {
+        "post_id":86865,
+        "thread_id":62401,
+        "title":"820-3437",
+        "user_id":20112,
+        "username":"iFix",
+        "post_date":"2022-03-02 08:34:52",
+        "message":"I did change it before i assemble it :) Thanks for the help"
+    }
+]

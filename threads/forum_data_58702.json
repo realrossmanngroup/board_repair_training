@@ -1,18 +1,164 @@
-{"post_id":58702,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-23 19:03:58","message":"Hi Guys, \n\nBasically i got most of the rails,  except the PPVCC_S0_CPU.\nAny hint from this point?\n\nHere is some measurements:\n\nPPBUS_G3H = 8.6V\npp3v3_s5 = 3.3\nPP5V_S0 - 5V\nS5_PWRGD = 3.35V\nSmc_s5_pwrgd_vin = 3.3V\nPP1V05_S0 = 1.05V\nPP1V8_S3 = 1.7V\nPP3V3_SUS = 3.3v\nPP3V3_S0 = 3.32v\n[B]PPVCC_S0_CPU = 0v[\/B]\n\n\nThank you"}
-{"post_id":58704,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":20634,"username":"StraightToThePoint","post_date":"2020-04-23 20:19:59","message":"SYS_PWROK present? Check U1950"}
-{"post_id":58716,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-24 02:15:36","message":"Do you get ALL_SYS_PWRGD?\nDidn't mention RAM voltage, if present."}
-{"post_id":58760,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-24 15:38:12","message":"SYS_PWROK 3.3V\nU1950 = ALL_SYS_PWRGD = 3.38V\nDDRREG_PGOOD = 3.3V\nL7430 = 1.2V\nPP0V6_S0_DDRVTT - 0.59V\n\nU7400\nPin 2 = 1.2V\nPin 12 = 5V"}
-{"post_id":58761,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-24 15:57:42","message":"VCORE voltage must be present, to get SYS_PWROK.\nPost U1950 voltages..."}
-{"post_id":58766,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-24 16:22:54","message":"U1950\nPin 1 = 3.3V\nPin 2 = 3.3V\nPin 3 = 3.38V\n\nPin 5-7 = 3.38V\nPin 6 - 3.38V\nPin 8 = 3.38V"}
-{"post_id":58767,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-24 16:52:24","message":"If SMC_DELAYED_PWRGD is high, VCORE should be present too; check it again.\nAlso check PLT_RESET_L and PLT_RST_BUF_L."}
-{"post_id":58768,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-24 16:53:18","message":"Cpu_vr_en = 0v"}
-{"post_id":58769,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-24 16:57:10","message":"Plt_reset_l = 0v\nplt_rst_buf_l. = 0v"}
-{"post_id":58771,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-24 17:25:53","message":"Do you get CPU_VCCST_PWRGD?"}
-{"post_id":58772,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-24 17:29:39","message":"Cpu_vccst_pwrgd = 0.34v"}
-{"post_id":58777,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-25 03:24:46","message":"That is the problem.\nCheck U1930 area."}
-{"post_id":58843,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-27 16:50:25","message":"Looks clean. However, i replaced and i got the same measurements:\n\nR1931 =\n1 = 1.05V\n2 = 0V\n\nC1930 =\n1 = 3.3V\n\n\n\n\nU1930 =\nPin 1 = 3.3V\nPin 2 = 3.3V\nPin 6 = 3.3V\nPin 4 = 0V"}
-{"post_id":58854,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-28 05:11:46","message":"Post diode mode to ground at CPU_VCCST_PWRGD.\nCheck J1800 area for corrosion; remove R1800.\nChange U1930 again.\n\nYou can also try the board removing U1930.\n\nCPU remains as the culprit in the end."}
-{"post_id":58877,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-28 18:30:32","message":"CPU_VCCST_PWRGD = DM = 0.724\nJ1800 Clean\nR18000 Removed\nU1930 Replaced (twice)"}
-{"post_id":58878,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-28 19:07:30","message":"\"You can also try the board removing U1930.\"\n???"}
-{"post_id":58882,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":79,"username":"menatwork","post_date":"2020-04-28 19:24:21","message":"U1930 Removed.\nStill."}
-{"post_id":58891,"thread_id":58702,"title":"820-000165 - Missing PPVCC_S0_CPU","user_id":682,"username":"2informaticos","post_date":"2020-04-29 03:41:07","message":"CPU_VCCST_PWRGD still low and PP1V05_S0 present?\nThen is dead CPU..."}
+[
+    {
+        "post_id":58702,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-23 17:03:58",
+        "message":"Hi Guys, \n\nBasically i got most of the rails,  except the PPVCC_S0_CPU.\nAny hint from this point?\n\nHere is some measurements:\n\nPPBUS_G3H = 8.6V\npp3v3_s5 = 3.3\nPP5V_S0 - 5V\nS5_PWRGD = 3.35V\nSmc_s5_pwrgd_vin = 3.3V\nPP1V05_S0 = 1.05V\nPP1V8_S3 = 1.7V\nPP3V3_SUS = 3.3v\nPP3V3_S0 = 3.32v\n[B]PPVCC_S0_CPU = 0v[\/B]\n\n\nThank you"
+    },
+    {
+        "post_id":58704,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":20634,
+        "username":"StraightToThePoint",
+        "post_date":"2020-04-23 18:19:59",
+        "message":"SYS_PWROK present? Check U1950"
+    },
+    {
+        "post_id":58716,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-24 00:15:36",
+        "message":"Do you get ALL_SYS_PWRGD?\nDidn't mention RAM voltage, if present."
+    },
+    {
+        "post_id":58760,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-24 13:38:12",
+        "message":"SYS_PWROK 3.3V\nU1950 = ALL_SYS_PWRGD = 3.38V\nDDRREG_PGOOD = 3.3V\nL7430 = 1.2V\nPP0V6_S0_DDRVTT - 0.59V\n\nU7400\nPin 2 = 1.2V\nPin 12 = 5V"
+    },
+    {
+        "post_id":58761,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-24 13:57:42",
+        "message":"VCORE voltage must be present, to get SYS_PWROK.\nPost U1950 voltages..."
+    },
+    {
+        "post_id":58766,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-24 14:22:54",
+        "message":"U1950\nPin 1 = 3.3V\nPin 2 = 3.3V\nPin 3 = 3.38V\n\nPin 5-7 = 3.38V\nPin 6 - 3.38V\nPin 8 = 3.38V"
+    },
+    {
+        "post_id":58767,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-24 14:52:24",
+        "message":"If SMC_DELAYED_PWRGD is high, VCORE should be present too; check it again.\nAlso check PLT_RESET_L and PLT_RST_BUF_L."
+    },
+    {
+        "post_id":58768,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-24 14:53:18",
+        "message":"Cpu_vr_en = 0v"
+    },
+    {
+        "post_id":58769,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-24 14:57:10",
+        "message":"Plt_reset_l = 0v\nplt_rst_buf_l. = 0v"
+    },
+    {
+        "post_id":58771,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-24 15:25:53",
+        "message":"Do you get CPU_VCCST_PWRGD?"
+    },
+    {
+        "post_id":58772,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-24 15:29:39",
+        "message":"Cpu_vccst_pwrgd = 0.34v"
+    },
+    {
+        "post_id":58777,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-25 01:24:46",
+        "message":"That is the problem.\nCheck U1930 area."
+    },
+    {
+        "post_id":58843,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-27 14:50:25",
+        "message":"Looks clean. However, i replaced and i got the same measurements:\n\nR1931 =\n1 = 1.05V\n2 = 0V\n\nC1930 =\n1 = 3.3V\n\n\n\n\nU1930 =\nPin 1 = 3.3V\nPin 2 = 3.3V\nPin 6 = 3.3V\nPin 4 = 0V"
+    },
+    {
+        "post_id":58854,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-28 03:11:46",
+        "message":"Post diode mode to ground at CPU_VCCST_PWRGD.\nCheck J1800 area for corrosion; remove R1800.\nChange U1930 again.\n\nYou can also try the board removing U1930.\n\nCPU remains as the culprit in the end."
+    },
+    {
+        "post_id":58877,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-28 16:30:32",
+        "message":"CPU_VCCST_PWRGD = DM = 0.724\nJ1800 Clean\nR18000 Removed\nU1930 Replaced (twice)"
+    },
+    {
+        "post_id":58878,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-28 17:07:30",
+        "message":"\"You can also try the board removing U1930.\"\n???"
+    },
+    {
+        "post_id":58882,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":79,
+        "username":"menatwork",
+        "post_date":"2020-04-28 17:24:21",
+        "message":"U1930 Removed.\nStill."
+    },
+    {
+        "post_id":58891,
+        "thread_id":58702,
+        "title":"820-000165 - Missing PPVCC_S0_CPU",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-29 01:41:07",
+        "message":"CPU_VCCST_PWRGD still low and PP1V05_S0 present?\nThen is dead CPU..."
+    }
+]

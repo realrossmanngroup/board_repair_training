@@ -1,42 +1,380 @@
-{"post_id":7657,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-05 00:03:04","message":"I have an 820-2850 board. The customer told me there was a liquid spill a long time but they cleaned it up and it was working for a long time until it stopped turning on one day.\nWhen I plug in the charger I get a green light but no fan spin or anything. I removed the board from the machine in order to test the power rails.\n\nPPBUS_G3H - 12.59v\nPP3v42_G3H - 3.4v\nSMC_RESET_L - 3.4v\nSMC_ONOFF_L - 3.4v\nPM_PWRBTN_L - 3.4v\n\nThe current sensing pins on u7000 all measured properly.\n\nPP5V_S5 and PP3v3_S5 are both present\nPP5V_S3, PP3v3_S3 and the S0 rails are missing\n\nI checked U7201 and these are some of the voltages I got.\nPin 1(ENTRIP1) - 0v\nPin 6(ENTRIP2) - 0v\nPin 4(TONSEL) - 4.96v\n\nIs this an issue with the TPS51125?"}
-{"post_id":7663,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-05 02:13:21","message":"PP3V3_S5 cannot be present if ENTRIP2 is low......should be 0.75V or so."}
-{"post_id":7664,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-05 02:52:14","message":"Yes. you are correct. ENTRIP2 is 0.875v."}
-{"post_id":7665,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-05 02:59:02","message":"First inspect board for corrosion closely. Check if 5V_S3 comes on for a fraction when plugging in the power."}
-{"post_id":7666,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-05 03:15:43","message":"I can't find any corrosion on the board since the customer said they cleaned the board after the liquid spill a while ago. I can see some probe points and pads on J2650 that look like they had liquid spilled on them.\nI measured 5V_S3 and it is not coming on at all when the charger is plugged in.\n\nI checked for PM_SLP_S4_L on R7912 and I got 0v.\n\nShould I throw this is in the ultrasonic and see if that fixes it?"}
-{"post_id":7669,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-05 05:51:45","message":"Well, yeah give it a clean first. You need to check SLP_S4 when you plug it in, it may only pulse once."}
-{"post_id":7670,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-05 09:57:56","message":"Okay I gave the board an ultrasonic cleaning and still no change.\nWith my multimeter PM_SLP_S4_L is not present at all even when the charger is initially plugged in."}
-{"post_id":7685,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-05 13:09:26","message":"Check voltage R1800-03 on both sides."}
-{"post_id":7716,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-05 23:46:51","message":"Okay here are the measurements I took.\nr1800 - Pin 1(3.41v) Pin 2(3.31v)\nr1801 - Pin 1(3.41v) Pin 2(3.13v)\nr1802 - Pin 1(3.41v) Pin 2 (3.40v)\nr1803 - Pin 1(3.415v) Pin 2(3.409v)\n\nI checked PM_PCH_PWRGD and PM_SYSRST_L and I got 0v. PM_PWRBTN_L and PM_SUS_PWR_ACK both show 3.4v\nPLT_RST_L gives me around 0.25v as soon as I plug the charger in then it goes to and stays at 0v.\n\nPM_BATLOW_L pulsed up to around 1.5v when the charger is first plugged in then it also goes down to 0v.\n\nAll of these measurements are done with only the board and no external components plugged in besides the dc-inboard and fans."}
-{"post_id":7722,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-06 05:38:23","message":"Uhm are you using a REAL 85W charger??"}
-{"post_id":7724,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-06 05:55:45","message":"Oh crap. I've been using a 60w charger this whole time. I will go to best buy and purchase an 85w charger."}
-{"post_id":7747,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-06 13:01:35","message":"Okay. I went and got a genuine 85w apple charger and it is still not turning on.\nI re-took the measurements and they are the same except that PM_BATLOW_L is now pulsing almost every 5 seconds and goes up to around 3v then back to 0v and it repeats.\nPM_PCH_PWRGD is also pulsing every 5 seconds and goes up to around 0.31v.\n\nUpdate: Now when I check PM_BATLOW_L it pulses up to around 0.85v as soon as the charger is plugged in and doesn't come back high."}
-{"post_id":7752,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-06 14:14:32","message":"Connect a battery and let it charge for a bit then check again."}
-{"post_id":7753,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-06 14:53:35","message":"I connected the battery then the charger but the charger light is staying green and not turning orange. Shouldn't it turn orange once the battery is detected and charging?\n\nAnyways I left it on the charger with the battery connected so I will check on it in a bit. What should I do afterwards. Short the SMC_ONOFF_L to ground and see if it turns on?"}
-{"post_id":7756,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-06 16:23:31","message":"It should turn orange. Does the battery indicator do anything when pressed?"}
-{"post_id":7773,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-07 03:19:06","message":"No nothing happens."}
-{"post_id":7778,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-07 03:38:12","message":"Well, that indicates a communication issue with the SMC. Check the data bus from SMC to battery on diode mode. But in your first measurements you say PPBUS @12.56V so SMC must be working. Disconnect battery indicator and try charging again."}
-{"post_id":7779,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-07 03:57:37","message":"I checked r5280 and r5281 in diode mode with no charger plugged in and this is what I got. The readings were the same for both resistors\nPin 1 - -OL\nPin 2 - -0.97v (Its showing what looks to be a negative number. Didnt know that was possible and the multimeter beeps the entire time I have the probe on pin 2)\n\nIn resistance mode both showed over 2kohms when the schematic says it should be 1kohms\n\nThe area around the ISL6259 looks clean with no liquid damage."}
-{"post_id":7782,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-07 04:46:00","message":"Measurements do not make sense. No idea what you are doing here....Red probe to GND black to the data bus, multimeter on diode mode. No power and battery of course!"}
-{"post_id":7784,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-07 05:09:47","message":"When you say the data bus  are you referring to the 2 resistors R5280 and R5281 correct?\n\nI had the battery plugged in which was probably causing those bad readings. I removed the battery and measured in diode mode with red probe on ground.\nPin 1 - 0.38v\nPin 2 - 0.503v \nThe measurements were the same for both resistors.\n\nAlso, In resistance mode they are both measuring 2kohms."}
-{"post_id":7787,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-07 06:49:25","message":".503 seems ok.\nMeasure PPBUS again and see if it is at 12.3 or 12.56V"}
-{"post_id":7790,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-07 07:10:56","message":"Okay with only charger plugged in PPBUS_G3H pulses and is not stable from anywhere around 3v- 12v\nWith the battery plugged in and charger plugged in it pulses from around 12.1v to 12.5v\nWith the battery only it is at a stable 12.1v."}
-{"post_id":7796,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-07 07:53:04","message":"I suspect a short, check all coils for shorts. You can remove F7040\/41 and see if PPBUS is stable then."}
-{"post_id":7797,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-07 08:14:02","message":"When you say check all coils for shorts which coils are you referring to?\n\nThe fuse 0v in diode mode so I believe it is fine. L7030 did not measure as a short.\n\nI removed F7040 and checked ppbus_g3h again and this is what I got.\nPin 1 - still pulses from 12.57 not stable.\nPin 2(PPBUS_G3H) - 0.56v and slowly goes down.\n\n(Measurements with F7040 removed from the board)\nI went and checked the current sensing on u7000 they all measured fine. I got 5v on VDD but on Pin 3(ACIN) I was getting 0v.\nD7005 is pulsing between 16.3v - 16.83v. Pin 1 of R7010 also had the 16v but Pin 2 shows 0v.\nIn resistance mode R7010 measured 30kohms but r7011 measured only 2ohms.\n\n\nWhile taking those measurements I noticed the charger light is now dim green and doesn't turn bright green anymore when I plug the charger. Tested with another Dcin board and same issue.\nPP3v42_G3H is 3.41 while SMC_BC_ACOK is 0v."}
-{"post_id":7807,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-07 13:16:55","message":"I don't know what you are doing but now it seems you killed the 6259.....\nAlso according to the diagram there are 2 fuses 7040 and 7041, no idea if they are on the board too."}
-{"post_id":7828,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-07 16:32:48","message":"There is no f7041 on the board.\nI put F7040 back on the board and replaced the isl6259 and the green light came back on and SMC_BC_ACOK is 3.1v and CHGR_ACIN is back at 3.9v\nPPBUS_G3H is still at only giving me around 1.08v"}
-{"post_id":7835,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-07 18:17:45","message":"Well, remove F7040 and check again. This time don't kill the 6259...\nIf it still is not stable at 12.xx volts then check the sense resistors and traces."}
-{"post_id":7845,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-08 07:22:51","message":"Some more crap happened. I removed F7040 and measured Pin 1 of F7040 and it was stable around 6v. Pin 2 had around 0.3v. I unplugged the charger and plugged in back in about 10 seconds later and now I have no light on the charger at all. I didn't take any measurements other than on the pads of F7040 so I don't think I killed anything.\nF6905 is pulsing and only goes up to 0.23v.\n\nI measured the current sensing on U7000. Pins 27\/28 - 20.5ohms Pins 17\/18 - 3.1ohms\nThe traces are good when I measured in continuity mode.\n\nI've tried putting F7040 back on but still no change and I tested with another Dc-in board and the same thing happens.\n\nIs this issue worth continuing to troubleshoot it?"}
-{"post_id":7847,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-08 09:15:53","message":"Did the charger trip? Test on other macbook or unplug for a few minutes."}
-{"post_id":7855,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-08 12:48:31","message":"I don't think its the charger. I plugged the charger into my 2011 MBA and the light came on the charger and it was working.\nIts not the Dc-in board because I plugged the same one into a 2012 MBP and it had a light on the charger.\n\nWhen I plug it back into the 820-2850 there is no light on the charger at all."}
-{"post_id":7861,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-08 16:41:31","message":"Well, go check the usual for green light. 3V42? SMC_RESET? ACOK?"}
-{"post_id":7868,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-08 19:33:19","message":"I get 0v on all of those. The only voltage I get is on PPDCIN_G3H. It pulses every few seconds and only goes up to 0.25v\n\nWhen I measure in diode mode on pin 1 of R7010 I just get OL."}
-{"post_id":7871,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-08 19:52:39","message":"Something wrong in 6259 circuit. Do you have a fake chinese charger to check, it will not shut down like an Apple one."}
-{"post_id":7872,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-08 20:30:11","message":"I only have a fake 60w charger."}
-{"post_id":7873,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-08 20:36:02","message":"60W is fine for testing this."}
-{"post_id":7875,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-08 20:48:08","message":"Ok. The fake charger lights up. SMC_RESET_L and pp3v42_g3h are both high. SMC_BC_ACOK is 3.26v and ppbus_g3h is around 0.09v (F7040 is still removed from the board)\nPins 27\/28 of U7000 - 20.7ohms - Pins 17\/18 - 3.1ohms"}
-{"post_id":7876,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-08 20:49:44","message":"Short on PPBUS?"}
-{"post_id":7878,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-08 21:17:47","message":"No short on ppbus_g3h. In diode mode I get 0.49 on Pin 1 of F7040(PPBUS_G3H).\nCould this be an issue with the isl6259? Should I try putting a new ISL on there?"}
-{"post_id":7883,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-09 05:25:54","message":"Test all sense resistors and traces first then replace 6259"}
-{"post_id":7901,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-09 11:32:23","message":"I think I might just send this machine back.\nI replaced the ISL6259 and the green light came on I was able to see PPBUS_G3H was pulsing from 12.56 to 4v on Pin 1 of F7040. I also took some other measurements.\nU7000\nPin 13(CHGR_RST_L) - 3.36v\nPin 3(CHGR_ACIN) - 4v\nPin 2(CHGR_DCIN) - Pulses from 16.2v to 15.7v\n\nThen minutes later the green light went away as if the isl died again. I replaced with another 6259 and that had a dim green light until about 20 minutes later I plugged the charger in and the light turned green again. The light went away and I replaced the 6259 again and now it is again giving me a dim green light and 0v on SMC_BC_ACOK.\nI don't know what keeps killing the ISL6259. All of the sense resistors and the traces are fine."}
-{"post_id":7906,"thread_id":7657,"title":"820-2850 not turning on","user_id":2,"username":"dukefawks","post_date":"2016-10-09 16:29:35","message":"I dunno, this may not be worth the effort. Could be SMC issue too."}
-{"post_id":7909,"thread_id":7657,"title":"820-2850 not turning on","user_id":90,"username":"ytesfay80","post_date":"2016-10-09 16:34:40","message":"Okay. This is going back."}
+[
+    {
+        "post_id":7657,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-04 22:03:04",
+        "message":"I have an 820-2850 board. The customer told me there was a liquid spill a long time but they cleaned it up and it was working for a long time until it stopped turning on one day.\nWhen I plug in the charger I get a green light but no fan spin or anything. I removed the board from the machine in order to test the power rails.\n\nPPBUS_G3H - 12.59v\nPP3v42_G3H - 3.4v\nSMC_RESET_L - 3.4v\nSMC_ONOFF_L - 3.4v\nPM_PWRBTN_L - 3.4v\n\nThe current sensing pins on u7000 all measured properly.\n\nPP5V_S5 and PP3v3_S5 are both present\nPP5V_S3, PP3v3_S3 and the S0 rails are missing\n\nI checked U7201 and these are some of the voltages I got.\nPin 1(ENTRIP1) - 0v\nPin 6(ENTRIP2) - 0v\nPin 4(TONSEL) - 4.96v\n\nIs this an issue with the TPS51125?"
+    },
+    {
+        "post_id":7663,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-05 00:13:21",
+        "message":"PP3V3_S5 cannot be present if ENTRIP2 is low......should be 0.75V or so."
+    },
+    {
+        "post_id":7664,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-05 00:52:14",
+        "message":"Yes. you are correct. ENTRIP2 is 0.875v."
+    },
+    {
+        "post_id":7665,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-05 00:59:02",
+        "message":"First inspect board for corrosion closely. Check if 5V_S3 comes on for a fraction when plugging in the power."
+    },
+    {
+        "post_id":7666,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-05 01:15:43",
+        "message":"I can't find any corrosion on the board since the customer said they cleaned the board after the liquid spill a while ago. I can see some probe points and pads on J2650 that look like they had liquid spilled on them.\nI measured 5V_S3 and it is not coming on at all when the charger is plugged in.\n\nI checked for PM_SLP_S4_L on R7912 and I got 0v.\n\nShould I throw this is in the ultrasonic and see if that fixes it?"
+    },
+    {
+        "post_id":7669,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-05 03:51:45",
+        "message":"Well, yeah give it a clean first. You need to check SLP_S4 when you plug it in, it may only pulse once."
+    },
+    {
+        "post_id":7670,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-05 07:57:56",
+        "message":"Okay I gave the board an ultrasonic cleaning and still no change.\nWith my multimeter PM_SLP_S4_L is not present at all even when the charger is initially plugged in."
+    },
+    {
+        "post_id":7685,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-05 11:09:26",
+        "message":"Check voltage R1800-03 on both sides."
+    },
+    {
+        "post_id":7716,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-05 21:46:51",
+        "message":"Okay here are the measurements I took.\nr1800 - Pin 1(3.41v) Pin 2(3.31v)\nr1801 - Pin 1(3.41v) Pin 2(3.13v)\nr1802 - Pin 1(3.41v) Pin 2 (3.40v)\nr1803 - Pin 1(3.415v) Pin 2(3.409v)\n\nI checked PM_PCH_PWRGD and PM_SYSRST_L and I got 0v. PM_PWRBTN_L and PM_SUS_PWR_ACK both show 3.4v\nPLT_RST_L gives me around 0.25v as soon as I plug the charger in then it goes to and stays at 0v.\n\nPM_BATLOW_L pulsed up to around 1.5v when the charger is first plugged in then it also goes down to 0v.\n\nAll of these measurements are done with only the board and no external components plugged in besides the dc-inboard and fans."
+    },
+    {
+        "post_id":7722,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-06 03:38:23",
+        "message":"Uhm are you using a REAL 85W charger??"
+    },
+    {
+        "post_id":7724,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-06 03:55:45",
+        "message":"Oh crap. I've been using a 60w charger this whole time. I will go to best buy and purchase an 85w charger."
+    },
+    {
+        "post_id":7747,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-06 11:01:35",
+        "message":"Okay. I went and got a genuine 85w apple charger and it is still not turning on.\nI re-took the measurements and they are the same except that PM_BATLOW_L is now pulsing almost every 5 seconds and goes up to around 3v then back to 0v and it repeats.\nPM_PCH_PWRGD is also pulsing every 5 seconds and goes up to around 0.31v.\n\nUpdate: Now when I check PM_BATLOW_L it pulses up to around 0.85v as soon as the charger is plugged in and doesn't come back high."
+    },
+    {
+        "post_id":7752,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-06 12:14:32",
+        "message":"Connect a battery and let it charge for a bit then check again."
+    },
+    {
+        "post_id":7753,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-06 12:53:35",
+        "message":"I connected the battery then the charger but the charger light is staying green and not turning orange. Shouldn't it turn orange once the battery is detected and charging?\n\nAnyways I left it on the charger with the battery connected so I will check on it in a bit. What should I do afterwards. Short the SMC_ONOFF_L to ground and see if it turns on?"
+    },
+    {
+        "post_id":7756,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-06 14:23:31",
+        "message":"It should turn orange. Does the battery indicator do anything when pressed?"
+    },
+    {
+        "post_id":7773,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-07 01:19:06",
+        "message":"No nothing happens."
+    },
+    {
+        "post_id":7778,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-07 01:38:12",
+        "message":"Well, that indicates a communication issue with the SMC. Check the data bus from SMC to battery on diode mode. But in your first measurements you say PPBUS @12.56V so SMC must be working. Disconnect battery indicator and try charging again."
+    },
+    {
+        "post_id":7779,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-07 01:57:37",
+        "message":"I checked r5280 and r5281 in diode mode with no charger plugged in and this is what I got. The readings were the same for both resistors\nPin 1 - -OL\nPin 2 - -0.97v (Its showing what looks to be a negative number. Didnt know that was possible and the multimeter beeps the entire time I have the probe on pin 2)\n\nIn resistance mode both showed over 2kohms when the schematic says it should be 1kohms\n\nThe area around the ISL6259 looks clean with no liquid damage."
+    },
+    {
+        "post_id":7782,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-07 02:46:00",
+        "message":"Measurements do not make sense. No idea what you are doing here....Red probe to GND black to the data bus, multimeter on diode mode. No power and battery of course!"
+    },
+    {
+        "post_id":7784,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-07 03:09:47",
+        "message":"When you say the data bus  are you referring to the 2 resistors R5280 and R5281 correct?\n\nI had the battery plugged in which was probably causing those bad readings. I removed the battery and measured in diode mode with red probe on ground.\nPin 1 - 0.38v\nPin 2 - 0.503v \nThe measurements were the same for both resistors.\n\nAlso, In resistance mode they are both measuring 2kohms."
+    },
+    {
+        "post_id":7787,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-07 04:49:25",
+        "message":".503 seems ok.\nMeasure PPBUS again and see if it is at 12.3 or 12.56V"
+    },
+    {
+        "post_id":7790,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-07 05:10:56",
+        "message":"Okay with only charger plugged in PPBUS_G3H pulses and is not stable from anywhere around 3v- 12v\nWith the battery plugged in and charger plugged in it pulses from around 12.1v to 12.5v\nWith the battery only it is at a stable 12.1v."
+    },
+    {
+        "post_id":7796,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-07 05:53:04",
+        "message":"I suspect a short, check all coils for shorts. You can remove F7040\/41 and see if PPBUS is stable then."
+    },
+    {
+        "post_id":7797,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-07 06:14:02",
+        "message":"When you say check all coils for shorts which coils are you referring to?\n\nThe fuse 0v in diode mode so I believe it is fine. L7030 did not measure as a short.\n\nI removed F7040 and checked ppbus_g3h again and this is what I got.\nPin 1 - still pulses from 12.57 not stable.\nPin 2(PPBUS_G3H) - 0.56v and slowly goes down.\n\n(Measurements with F7040 removed from the board)\nI went and checked the current sensing on u7000 they all measured fine. I got 5v on VDD but on Pin 3(ACIN) I was getting 0v.\nD7005 is pulsing between 16.3v - 16.83v. Pin 1 of R7010 also had the 16v but Pin 2 shows 0v.\nIn resistance mode R7010 measured 30kohms but r7011 measured only 2ohms.\n\n\nWhile taking those measurements I noticed the charger light is now dim green and doesn't turn bright green anymore when I plug the charger. Tested with another Dcin board and same issue.\nPP3v42_G3H is 3.41 while SMC_BC_ACOK is 0v."
+    },
+    {
+        "post_id":7807,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-07 11:16:55",
+        "message":"I don't know what you are doing but now it seems you killed the 6259.....\nAlso according to the diagram there are 2 fuses 7040 and 7041, no idea if they are on the board too."
+    },
+    {
+        "post_id":7828,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-07 14:32:48",
+        "message":"There is no f7041 on the board.\nI put F7040 back on the board and replaced the isl6259 and the green light came back on and SMC_BC_ACOK is 3.1v and CHGR_ACIN is back at 3.9v\nPPBUS_G3H is still at only giving me around 1.08v"
+    },
+    {
+        "post_id":7835,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-07 16:17:45",
+        "message":"Well, remove F7040 and check again. This time don't kill the 6259...\nIf it still is not stable at 12.xx volts then check the sense resistors and traces."
+    },
+    {
+        "post_id":7845,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-08 05:22:51",
+        "message":"Some more crap happened. I removed F7040 and measured Pin 1 of F7040 and it was stable around 6v. Pin 2 had around 0.3v. I unplugged the charger and plugged in back in about 10 seconds later and now I have no light on the charger at all. I didn't take any measurements other than on the pads of F7040 so I don't think I killed anything.\nF6905 is pulsing and only goes up to 0.23v.\n\nI measured the current sensing on U7000. Pins 27\/28 - 20.5ohms Pins 17\/18 - 3.1ohms\nThe traces are good when I measured in continuity mode.\n\nI've tried putting F7040 back on but still no change and I tested with another Dc-in board and the same thing happens.\n\nIs this issue worth continuing to troubleshoot it?"
+    },
+    {
+        "post_id":7847,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-08 07:15:53",
+        "message":"Did the charger trip? Test on other macbook or unplug for a few minutes."
+    },
+    {
+        "post_id":7855,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-08 10:48:31",
+        "message":"I don't think its the charger. I plugged the charger into my 2011 MBA and the light came on the charger and it was working.\nIts not the Dc-in board because I plugged the same one into a 2012 MBP and it had a light on the charger.\n\nWhen I plug it back into the 820-2850 there is no light on the charger at all."
+    },
+    {
+        "post_id":7861,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-08 14:41:31",
+        "message":"Well, go check the usual for green light. 3V42? SMC_RESET? ACOK?"
+    },
+    {
+        "post_id":7868,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-08 17:33:19",
+        "message":"I get 0v on all of those. The only voltage I get is on PPDCIN_G3H. It pulses every few seconds and only goes up to 0.25v\n\nWhen I measure in diode mode on pin 1 of R7010 I just get OL."
+    },
+    {
+        "post_id":7871,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-08 17:52:39",
+        "message":"Something wrong in 6259 circuit. Do you have a fake chinese charger to check, it will not shut down like an Apple one."
+    },
+    {
+        "post_id":7872,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-08 18:30:11",
+        "message":"I only have a fake 60w charger."
+    },
+    {
+        "post_id":7873,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-08 18:36:02",
+        "message":"60W is fine for testing this."
+    },
+    {
+        "post_id":7875,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-08 18:48:08",
+        "message":"Ok. The fake charger lights up. SMC_RESET_L and pp3v42_g3h are both high. SMC_BC_ACOK is 3.26v and ppbus_g3h is around 0.09v (F7040 is still removed from the board)\nPins 27\/28 of U7000 - 20.7ohms - Pins 17\/18 - 3.1ohms"
+    },
+    {
+        "post_id":7876,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-08 18:49:44",
+        "message":"Short on PPBUS?"
+    },
+    {
+        "post_id":7878,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-08 19:17:47",
+        "message":"No short on ppbus_g3h. In diode mode I get 0.49 on Pin 1 of F7040(PPBUS_G3H).\nCould this be an issue with the isl6259? Should I try putting a new ISL on there?"
+    },
+    {
+        "post_id":7883,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-09 03:25:54",
+        "message":"Test all sense resistors and traces first then replace 6259"
+    },
+    {
+        "post_id":7901,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-09 09:32:23",
+        "message":"I think I might just send this machine back.\nI replaced the ISL6259 and the green light came on I was able to see PPBUS_G3H was pulsing from 12.56 to 4v on Pin 1 of F7040. I also took some other measurements.\nU7000\nPin 13(CHGR_RST_L) - 3.36v\nPin 3(CHGR_ACIN) - 4v\nPin 2(CHGR_DCIN) - Pulses from 16.2v to 15.7v\n\nThen minutes later the green light went away as if the isl died again. I replaced with another 6259 and that had a dim green light until about 20 minutes later I plugged the charger in and the light turned green again. The light went away and I replaced the 6259 again and now it is again giving me a dim green light and 0v on SMC_BC_ACOK.\nI don't know what keeps killing the ISL6259. All of the sense resistors and the traces are fine."
+    },
+    {
+        "post_id":7906,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-09 14:29:35",
+        "message":"I dunno, this may not be worth the effort. Could be SMC issue too."
+    },
+    {
+        "post_id":7909,
+        "thread_id":7657,
+        "title":"820-2850 not turning on",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-10-09 14:34:40",
+        "message":"Okay. This is going back."
+    }
+]

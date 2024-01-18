@@ -1,18 +1,164 @@
-{"post_id":91943,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-08-21 03:42:33","message":"Bit shooting in the dark here without schematic and boardview.\n\nI can detect shorts in the PPBUS_AON[B] [\/B]fuses. \nI pushed 2V through the shorted PPBUS_AON[B] [\/B]line but did not pull any current. Perhaps too low voltage to trigger any short.  Anything to consider before I ramp up the injected voltage to detect a short location? \n\nAlso, shall I UC the board as it is very sticky after the energy drink spillage and seems heavy oxidation around the SSD, audio amplifier chips in particular?\n\nLift up the F5200\/01 fuses, and it seems short is on the PPBUS_AON side.\nPP3V8_AON - 0.156\nPP5v_S2_MAIN - 0.397\nPP1v8_S1_CLVR_VDDH - 0.101\n\n\nNot sure what area to concentrate on first."}
-{"post_id":91944,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-08-21 04:38:42","message":"What is the exact ohm reaidng for that short?\nCompare its value with the big coils readings.\nIf you don't get similar reading on any coil, then is safe to inject voltage.\nRemember to set amp limit to max on your lab PSU first.\nIf there is pure short, 1-2V should be enough to find the culprit; but you need at least 10A (recommended 20A) PSU."}
-{"post_id":91947,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-08-21 06:10:09","message":"Fuse Side - 50Ohm. I cannot find the same or lower value on any coils. The closest I get is 120Ohms.\nI usually use this little buck converter with a Lithium battery limited to 2V and 2.5A.\n[ATTACH]60741[\/ATTACH][ATTACH]60744[\/ATTACH]\nI also tried with the 1V and 2V 15A linear bench supply. But not pulling any current. Strange.\n\n[ATTACH]60745[\/ATTACH][ATTACH]60746[\/ATTACH]\n[B][QUOTE]PPBUS_AON - ~ 12.00v. Measurable on the 2 fuses at the edge of the board, adjacent to the battery flex marked \"12.\" (See photo below for reference.)[\/QUOTE][\/B][QUOTE]\n\nDiode mode reading: 0.430[\/QUOTE] - [URL]https:\/\/repair.wiki\/w\/A2442_2021_14%22_MacBook_Pro[\/URL]\nis described in Repair Wiki, that should be over 50Ohms right?"}
-{"post_id":91948,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-08-21 06:37:27","message":"50 ohm doesn't allow you to heat anything with low voltage injected.\nPlease, read Ohm law and get some basic electronics knowledges also.\n\n2V into 50 ohm generates 40mA; which means 80mW in power disipation (no heat detected).\nNot strange at all.\n\nOhm scale is used for low readings, like under 0.010 in diode mode.\nSo post diode mode readings, on both ways; red to ground, also black to ground.\n\nRemove F5200\/01 and check where the low reading remains.\nIf is for sure on PPBUS_AON power rail, is safe to inject until 15V, getting 4.5W (for 50 ohm); enough to detect heat on the board.\n16V filter caps resist until 18-20V, but is not recommended to stress them too much; let more time the 15V applied eventually.\nHowever, be very sure the low value doesn't come from a secondary power supply; like L5800, L9400\/20, etc."}
-{"post_id":92060,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-08-25 07:10:48","message":"I am aware of the Ohm law, but I haven't thought of how it will apply in this scenario. What first-hand materials would you suggest for basic electronics knowledge?\n\n\nMy 50Ohm on the PPBUS_AON fuses now measures 150Ohm. PPBUS_AON - 0.152 (both ways in diode mode), still lower than TCSR reported at 0.430\n\nI took measurements around the coils, and there are no coils measuring below 0.105 red probe to the ground. Snapped some measurements in this photo both ways red probe to ground (Green Measurements) and black probe to ground (Red measurements)\n[ATTACH type=\"full\" alt=\"1661429016675.png\"]60752[\/ATTACH]\n\nRed probe to the ground in diode mode\nPP3V8_AON coils measure - 0.160\nPP5v_S2_MAIN - 0.397\nPP1v8_S1_CLVR_VDDH - 0.101"}
-{"post_id":92064,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-08-25 07:33:56","message":"\"I am aware of the Ohm law\"\nThen you should know that is impossible to adjust voltage and current at same time, when inject voltage (into a fixed resistor).\nYou can only set a max current over the expected one for a giving voltage; to avoid PSU going into protection mode.\nActual current is decided by the voltage applied; you can't change resistance value on the board.\nThat's the reason you can't use 2.5A PSU for this purpose.\n\nYou should get big difference between diode mode readings on PPBUS_AON.\nIn reverse way (black on ground) should rise much more.\n\nCheck direct resistance (ohm scale) between PPBUS_AON and 3V8_AON.\n\nFor basic electronics I recommend to read old electronics papers, available now for download on Internet; like Elektor, Electronica, Tehnium, Radio, etc..."}
-{"post_id":92111,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-08-25 18:09:54","message":"Thanks for the explanation. Much appreciated. \nI use this portable buck converted with CV\/CC protection, and I usually set\/limit it to 2.5A with 2V when injecting, and if nothing heats up, then I start ramping up the current (if CC triggers) or voltage(if line permits). This time it was not pulling any current, hence didn't see the reason for ramping current limitation. \n\nWhen measured this morning, both ways, it measured at 0.350 at first, then dropped to 0.155\n\n490 Ohms between  PPBUS_AON and 3V8_AON \n1.2 MOhms between  PPVBAT_AON_CHGR_REG and 3V8_AON"}
-{"post_id":92112,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-08-25 19:46:41","message":"Do you actually get any voltage at PPBUS_AON?\nIf not, remove the fuses and check C5250 voltage.\nIf still nothing, check R5220 voltage presence.\nTry to detect basic connections of U5200, using 02100 schematic; P_IN, AUX_DET, VDDA\/P."}
-{"post_id":92115,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-08-26 03:42:59","message":"Using the magsafe charger stuck at 5V\nPPBUS_AON - 0.169V with fuses on; 12.93V with removed fuses. Seems like U5200 is fine. Shall I lift up all coils and determine where it is reaching?\n\nParticularly audio amplifiers look bad , but no direct short\n[ATTACH type=\"full\"]60756[\/ATTACH]"}
-{"post_id":92116,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-08-26 04:51:58","message":"If these caps are connected to PPBUS_AON, remove them and clean all area.\nThen check again diode mode."}
-{"post_id":92119,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-08-26 08:25:45","message":"It turned out that the caps on the other side were shorting. PPBUS_AON is stable now. However, that middle amplifier had corroded pads and had to remove it. together with a bunch of filtering caps around it. It seems to be the same amplifier as -02100 SN012776B0YBH\n\n[ATTACH type=\"full\" alt=\"1661519592366.png\"]60757[\/ATTACH]\n\nWithout it, it turns on now and pulls 20V 0.4 without battery and 2.2A on battery. Works for a minute (with no screen) and shuts off, then turns on by itself. Repeats about five times then shut down to 0.02A draw. Until reconnect the charger to MagSafe, then repeats.\n\nI wonder if this model can fire up without the one amplifier chip, they seem to be 3.\n\nVoltages on big coils seems to be stable, except this one.\n[ATTACH type=\"full\" alt=\"1661519937918.png\"]60758[\/ATTACH][ATTACH type=\"full\" alt=\"1661520254676.png\"]60759[\/ATTACH]\n\nNot sure what area this chip covers. I could not locate these markings on 02100\n\n\nShall I run it by UC first, as this gunk becomes harder to remove each time I reheat? I am not even sure if the 70*C UC batch can clean it."}
-{"post_id":92120,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-08-26 09:26:06","message":"Gently scratch the affected areas, around components; be aware don't knock off components, or damage traces.\nThen clean with IPA and toothbrush.\nUse ultrasonic cleaning only if you note corrosion under BGA chips."}
-{"post_id":92437,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-09-08 02:34:02","message":"OK managed to bring it to life, it turns on now, and I can load the system. Though due to the missing amp seems like the sound is not working okay and not getting recognised. Comes up with an error message - \"Could not load up sound preferences\".\n[ATTACH type=\"full\"]60768[\/ATTACH]\n\n[QUOTE]It turned out that the caps on the other side were shorting. PPBUS_AON is stable now. However, that middle amplifier had corroded pads and had to remove it together with a bunch of filtering caps around it. It seems to be the same amplifier as -02100 SN012776B0YBH\n\n[IMG alt=\"1661519592366.png\"]https:\/\/boards.rossmanngroup.com\/attachments\/1661519592366-png.60757\/[\/IMG][\/QUOTE]\n\nDoes anyone have an idea where I can get it online? Apart from a donor, 02100 or 02098 boards.\n\nAlso, does anyone experience missing audio on these M1s that may cause a video not to play? When I load Youtube\/Yahoo videos, it is just stuck on one frame. If I forward it to another frame, it just stays at it without playing it. I erased and reinstalled it to eliminate Software issues. Wonder if Sound related issue may cause it. Magnetic charger models will happily play audio without a sound chip."}
-{"post_id":92439,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-09-08 03:39:17","message":"The audio codec must be recognized, even audio amps are missing.\nThe problem is that these amplifiers are powered from PPBUS_AON.\nSuch advanced corrosion caused leakage to M1 data lines, directly connected.\nI don't see a solution for this case.\n\nYou can find the corroded small caps in older MacBook boards for sure.\nBut changing them don't help.\n\nDo you get audio on HDMI at least?"}
-{"post_id":92440,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-09-08 03:52:15","message":"Yes Audio Amps were nasty, probably still corrosion underneath, haven't UC'd yet. This is how it was when remove dthe middle one\n\n[ATTACH type=\"full\"]60770[\/ATTACH]\n\n\nHDMI Audio is working\nBT Audio is working\n\nVideo start playing now once I get it connected, it keeps playing when disconnected too.\n\n[ATTACH type=\"full\" alt=\"1662627264845.png\"]60769[\/ATTACH]"}
-{"post_id":92447,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-09-08 05:43:55","message":"So you get audio on the speakers now?\n\n\"Video start playing now once I get it connected, it keeps playing when disconnected too.\"\nDisconnecting what?"}
-{"post_id":92464,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":25485,"username":"it-solve","post_date":"2022-09-08 17:18:08","message":"Sorry I wasn't clear. No audio on speakers. Audio plays over HDMI\/BT. The video keeps playing with no sound when disconnected HDMI\/BT. While before I connected HDMI, it would stay stuck on a frame but show playing."}
-{"post_id":92465,"thread_id":63007,"title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON","user_id":682,"username":"2informaticos","post_date":"2022-09-08 17:59:19","message":"I bet for T2 internal damage, caused by leakage from audio amplifiers.\n\nIf you still want to use it in laptop mode, get a portable USB speakers."}
+[
+    {
+        "post_id":91943,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-08-21 01:42:33",
+        "message":"Bit shooting in the dark here without schematic and boardview.\n\nI can detect shorts in the PPBUS_AON[B] [\/B]fuses. \nI pushed 2V through the shorted PPBUS_AON[B] [\/B]line but did not pull any current. Perhaps too low voltage to trigger any short.  Anything to consider before I ramp up the injected voltage to detect a short location? \n\nAlso, shall I UC the board as it is very sticky after the energy drink spillage and seems heavy oxidation around the SSD, audio amplifier chips in particular?\n\nLift up the F5200\/01 fuses, and it seems short is on the PPBUS_AON side.\nPP3V8_AON - 0.156\nPP5v_S2_MAIN - 0.397\nPP1v8_S1_CLVR_VDDH - 0.101\n\n\nNot sure what area to concentrate on first."
+    },
+    {
+        "post_id":91944,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-21 02:38:42",
+        "message":"What is the exact ohm reaidng for that short?\nCompare its value with the big coils readings.\nIf you don't get similar reading on any coil, then is safe to inject voltage.\nRemember to set amp limit to max on your lab PSU first.\nIf there is pure short, 1-2V should be enough to find the culprit; but you need at least 10A (recommended 20A) PSU."
+    },
+    {
+        "post_id":91947,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-08-21 04:10:09",
+        "message":"Fuse Side - 50Ohm. I cannot find the same or lower value on any coils. The closest I get is 120Ohms.\nI usually use this little buck converter with a Lithium battery limited to 2V and 2.5A.\n[ATTACH]60741[\/ATTACH][ATTACH]60744[\/ATTACH]\nI also tried with the 1V and 2V 15A linear bench supply. But not pulling any current. Strange.\n\n[ATTACH]60745[\/ATTACH][ATTACH]60746[\/ATTACH]\n[B][QUOTE]PPBUS_AON - ~ 12.00v. Measurable on the 2 fuses at the edge of the board, adjacent to the battery flex marked \"12.\" (See photo below for reference.)[\/QUOTE][\/B][QUOTE]\n\nDiode mode reading: 0.430[\/QUOTE] - [URL]https:\/\/repair.wiki\/w\/A2442_2021_14%22_MacBook_Pro[\/URL]\nis described in Repair Wiki, that should be over 50Ohms right?"
+    },
+    {
+        "post_id":91948,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-21 04:37:27",
+        "message":"50 ohm doesn't allow you to heat anything with low voltage injected.\nPlease, read Ohm law and get some basic electronics knowledges also.\n\n2V into 50 ohm generates 40mA; which means 80mW in power disipation (no heat detected).\nNot strange at all.\n\nOhm scale is used for low readings, like under 0.010 in diode mode.\nSo post diode mode readings, on both ways; red to ground, also black to ground.\n\nRemove F5200\/01 and check where the low reading remains.\nIf is for sure on PPBUS_AON power rail, is safe to inject until 15V, getting 4.5W (for 50 ohm); enough to detect heat on the board.\n16V filter caps resist until 18-20V, but is not recommended to stress them too much; let more time the 15V applied eventually.\nHowever, be very sure the low value doesn't come from a secondary power supply; like L5800, L9400\/20, etc."
+    },
+    {
+        "post_id":92060,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-08-25 05:10:48",
+        "message":"I am aware of the Ohm law, but I haven't thought of how it will apply in this scenario. What first-hand materials would you suggest for basic electronics knowledge?\n\n\nMy 50Ohm on the PPBUS_AON fuses now measures 150Ohm. PPBUS_AON - 0.152 (both ways in diode mode), still lower than TCSR reported at 0.430\n\nI took measurements around the coils, and there are no coils measuring below 0.105 red probe to the ground. Snapped some measurements in this photo both ways red probe to ground (Green Measurements) and black probe to ground (Red measurements)\n[ATTACH type=\"full\" alt=\"1661429016675.png\"]60752[\/ATTACH]\n\nRed probe to the ground in diode mode\nPP3V8_AON coils measure - 0.160\nPP5v_S2_MAIN - 0.397\nPP1v8_S1_CLVR_VDDH - 0.101"
+    },
+    {
+        "post_id":92064,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-25 05:33:56",
+        "message":"\"I am aware of the Ohm law\"\nThen you should know that is impossible to adjust voltage and current at same time, when inject voltage (into a fixed resistor).\nYou can only set a max current over the expected one for a giving voltage; to avoid PSU going into protection mode.\nActual current is decided by the voltage applied; you can't change resistance value on the board.\nThat's the reason you can't use 2.5A PSU for this purpose.\n\nYou should get big difference between diode mode readings on PPBUS_AON.\nIn reverse way (black on ground) should rise much more.\n\nCheck direct resistance (ohm scale) between PPBUS_AON and 3V8_AON.\n\nFor basic electronics I recommend to read old electronics papers, available now for download on Internet; like Elektor, Electronica, Tehnium, Radio, etc..."
+    },
+    {
+        "post_id":92111,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-08-25 16:09:54",
+        "message":"Thanks for the explanation. Much appreciated. \nI use this portable buck converted with CV\/CC protection, and I usually set\/limit it to 2.5A with 2V when injecting, and if nothing heats up, then I start ramping up the current (if CC triggers) or voltage(if line permits). This time it was not pulling any current, hence didn't see the reason for ramping current limitation. \n\nWhen measured this morning, both ways, it measured at 0.350 at first, then dropped to 0.155\n\n490 Ohms between  PPBUS_AON and 3V8_AON \n1.2 MOhms between  PPVBAT_AON_CHGR_REG and 3V8_AON"
+    },
+    {
+        "post_id":92112,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-25 17:46:41",
+        "message":"Do you actually get any voltage at PPBUS_AON?\nIf not, remove the fuses and check C5250 voltage.\nIf still nothing, check R5220 voltage presence.\nTry to detect basic connections of U5200, using 02100 schematic; P_IN, AUX_DET, VDDA\/P."
+    },
+    {
+        "post_id":92115,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-08-26 01:42:59",
+        "message":"Using the magsafe charger stuck at 5V\nPPBUS_AON - 0.169V with fuses on; 12.93V with removed fuses. Seems like U5200 is fine. Shall I lift up all coils and determine where it is reaching?\n\nParticularly audio amplifiers look bad , but no direct short\n[ATTACH type=\"full\"]60756[\/ATTACH]"
+    },
+    {
+        "post_id":92116,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-26 02:51:58",
+        "message":"If these caps are connected to PPBUS_AON, remove them and clean all area.\nThen check again diode mode."
+    },
+    {
+        "post_id":92119,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-08-26 06:25:45",
+        "message":"It turned out that the caps on the other side were shorting. PPBUS_AON is stable now. However, that middle amplifier had corroded pads and had to remove it. together with a bunch of filtering caps around it. It seems to be the same amplifier as -02100 SN012776B0YBH\n\n[ATTACH type=\"full\" alt=\"1661519592366.png\"]60757[\/ATTACH]\n\nWithout it, it turns on now and pulls 20V 0.4 without battery and 2.2A on battery. Works for a minute (with no screen) and shuts off, then turns on by itself. Repeats about five times then shut down to 0.02A draw. Until reconnect the charger to MagSafe, then repeats.\n\nI wonder if this model can fire up without the one amplifier chip, they seem to be 3.\n\nVoltages on big coils seems to be stable, except this one.\n[ATTACH type=\"full\" alt=\"1661519937918.png\"]60758[\/ATTACH][ATTACH type=\"full\" alt=\"1661520254676.png\"]60759[\/ATTACH]\n\nNot sure what area this chip covers. I could not locate these markings on 02100\n\n\nShall I run it by UC first, as this gunk becomes harder to remove each time I reheat? I am not even sure if the 70*C UC batch can clean it."
+    },
+    {
+        "post_id":92120,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-26 07:26:06",
+        "message":"Gently scratch the affected areas, around components; be aware don't knock off components, or damage traces.\nThen clean with IPA and toothbrush.\nUse ultrasonic cleaning only if you note corrosion under BGA chips."
+    },
+    {
+        "post_id":92437,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-09-08 00:34:02",
+        "message":"OK managed to bring it to life, it turns on now, and I can load the system. Though due to the missing amp seems like the sound is not working okay and not getting recognised. Comes up with an error message - \"Could not load up sound preferences\".\n[ATTACH type=\"full\"]60768[\/ATTACH]\n\n[QUOTE]It turned out that the caps on the other side were shorting. PPBUS_AON is stable now. However, that middle amplifier had corroded pads and had to remove it together with a bunch of filtering caps around it. It seems to be the same amplifier as -02100 SN012776B0YBH\n\n[IMG alt=\"1661519592366.png\"]https:\/\/boards.rossmanngroup.com\/attachments\/1661519592366-png.60757\/[\/IMG][\/QUOTE]\n\nDoes anyone have an idea where I can get it online? Apart from a donor, 02100 or 02098 boards.\n\nAlso, does anyone experience missing audio on these M1s that may cause a video not to play? When I load Youtube\/Yahoo videos, it is just stuck on one frame. If I forward it to another frame, it just stays at it without playing it. I erased and reinstalled it to eliminate Software issues. Wonder if Sound related issue may cause it. Magnetic charger models will happily play audio without a sound chip."
+    },
+    {
+        "post_id":92439,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-08 01:39:17",
+        "message":"The audio codec must be recognized, even audio amps are missing.\nThe problem is that these amplifiers are powered from PPBUS_AON.\nSuch advanced corrosion caused leakage to M1 data lines, directly connected.\nI don't see a solution for this case.\n\nYou can find the corroded small caps in older MacBook boards for sure.\nBut changing them don't help.\n\nDo you get audio on HDMI at least?"
+    },
+    {
+        "post_id":92440,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-09-08 01:52:15",
+        "message":"Yes Audio Amps were nasty, probably still corrosion underneath, haven't UC'd yet. This is how it was when remove dthe middle one\n\n[ATTACH type=\"full\"]60770[\/ATTACH]\n\n\nHDMI Audio is working\nBT Audio is working\n\nVideo start playing now once I get it connected, it keeps playing when disconnected too.\n\n[ATTACH type=\"full\" alt=\"1662627264845.png\"]60769[\/ATTACH]"
+    },
+    {
+        "post_id":92447,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-08 03:43:55",
+        "message":"So you get audio on the speakers now?\n\n\"Video start playing now once I get it connected, it keeps playing when disconnected too.\"\nDisconnecting what?"
+    },
+    {
+        "post_id":92464,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-09-08 15:18:08",
+        "message":"Sorry I wasn't clear. No audio on speakers. Audio plays over HDMI\/BT. The video keeps playing with no sound when disconnected HDMI\/BT. While before I connected HDMI, it would stay stuck on a frame but show playing."
+    },
+    {
+        "post_id":92465,
+        "thread_id":63007,
+        "title":"A2442 820-02098 Heavy liquid Damage and short on PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-09-08 15:59:19",
+        "message":"I bet for T2 internal damage, caused by leakage from audio amplifiers.\n\nIf you still want to use it in laptop mode, get a portable USB speakers."
+    }
+]

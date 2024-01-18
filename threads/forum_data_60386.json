@@ -1,8 +1,74 @@
-{"post_id":68316,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":28597,"username":"DavutAmana","post_date":"2020-11-25 06:33:57","message":"Hello,\n\nI have this A1708 board which does not go up to 20V\nThe USB-C controller area is clean\n\nThe u2800 area very damaged, I replaced U2800 and do some retrofitting, now very clean\n\nNow I have these abnormal measurements:\nQ3100\nPPDCIN_G3H = 5V (GOOD)\nUPC_XA_GATE1 = 7.25V (NOT GOOD)\nUPC_XA_GATE2 = 10V (NOT GOOD)\nQ3200\nPPDCIN_G3H = 5V (GOOD)\nUPC_XB_GATE1 = 5V (GOOD)\nUPC_XB_GATE2 = 0V (NOT GOOD)\n\nLDO rails are good\n\nChanging U3100 and U3200 seems like a solution to me, but I would like to know your opinion to avoid wasting time.\n\nThanks in advance"}
-{"post_id":68328,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":1057,"username":"piernov","post_date":"2020-11-25 11:37:47","message":"Measuring voltages on Q3200 with USB-C connected to the corresponding port right?\nStart by measuring voltage on the 4 LDOs of each CD3215 (USB-C connected to corresponding port)."}
-{"post_id":68330,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":28597,"username":"DavutAmana","post_date":"2020-11-25 12:00:51","message":"Thank you for your fast reply :)\n\nWhen I plug into USB-C A I get:\nCD3215 (U3200):\nPP3V3_UPC_XB_LDO = 3.3V (OK)\nPP1V8_UPC_XB_LDOA = 1.8V (OK)\nPP1V8_UPC_XB_LDOD = 1.8V (OK)\nPP1V1_UPC_XB_LDO_BMC = 0V (I THINK OK?)\nPP3V3_UPC_XA_LDO = 3.3V (OK)\nPP1V8_UPC_XA_LDOA = 1.8V (OK)\nPP1V8_UPC_XA_LDOD = 1.8V (OK)\nPP1V1_UPC_XA_LDO_BMC = 0V (I THINK OK?)\nQ3100:\nPPDCIN_G3H = 5V (OK)\nUPC_XA_GATE1 = 7.25V (NOT OK)\nUPC_XA_GATE2 = 10V (NOT OK)\nQ3200:\nPPDCIN_G3H = 5V (OK)\nUPC_XB_GATE1 = 5V (OK)\nUPC_XB_GATE2 = 0V (NOT OK)\n\nWhen I plug into USB-C B I get:\nCD3215 (U3200): the same voltage\nQ3100:\nPPDCIN_G3H = 5V\nUPC_XA_GATE1 = 5V\nUPC_XA_GATE2 = 0V\nQ3200:\nPPDCIN_G3H = 5V\nUPC_XB_GATE1 = 7.5V\nUPC_XB_GATE2 = 10V\n\nI have 2 board with this identical problem."}
-{"post_id":68335,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":1057,"username":"piernov","post_date":"2020-11-25 13:22:09","message":"1.1V LDO BMC is at least a problem. If it's not present the circuit for USB-PD negotiation in the CD3215 won't work.\nOn A1708, U3200 is the master and U3100 is the slave. There is a chance the issue is with U3200, or there is a communication issue between U3200 and U2890. More info here: [URL]https:\/\/logi.wiki\/index.php\/CD3215_Bootup_Sequence[\/URL] .\n\nMeasure diode mode to ground on the 4 LDOs of both CD3215 to try to see if there's a problem."}
-{"post_id":68349,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":682,"username":"2informaticos","post_date":"2020-11-25 17:08:36","message":"Does this board have the USB redriver chip?\nInspect under microscope for any small hole on it."}
-{"post_id":68500,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":28597,"username":"DavutAmana","post_date":"2020-11-28 07:02:31","message":"Bonjour,\n\nMerci pour vos r\u00e9ponses, qu'appelez vous USB redriver chip ? U2800 ?"}
-{"post_id":68897,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":28597,"username":"DavutAmana","post_date":"2020-12-08 10:06:45","message":"Hello,\n\nThanks for your answers, what do you call usb redriver chip? its U2800?"}
-{"post_id":68920,"thread_id":60386,"title":"820-00840 Anormal Q3100","user_id":682,"username":"2informaticos","post_date":"2020-12-08 17:44:35","message":"It does not appear on schematic, nor boardview.\nVery close to USB connector, opposite side of CD3215 chips; look for PI3USB32224 chip."}
+[
+    {
+        "post_id":68316,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":28597,
+        "username":"DavutAmana",
+        "post_date":"2020-11-25 04:33:57",
+        "message":"Hello,\n\nI have this A1708 board which does not go up to 20V\nThe USB-C controller area is clean\n\nThe u2800 area very damaged, I replaced U2800 and do some retrofitting, now very clean\n\nNow I have these abnormal measurements:\nQ3100\nPPDCIN_G3H = 5V (GOOD)\nUPC_XA_GATE1 = 7.25V (NOT GOOD)\nUPC_XA_GATE2 = 10V (NOT GOOD)\nQ3200\nPPDCIN_G3H = 5V (GOOD)\nUPC_XB_GATE1 = 5V (GOOD)\nUPC_XB_GATE2 = 0V (NOT GOOD)\n\nLDO rails are good\n\nChanging U3100 and U3200 seems like a solution to me, but I would like to know your opinion to avoid wasting time.\n\nThanks in advance"
+    },
+    {
+        "post_id":68328,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2020-11-25 09:37:47",
+        "message":"Measuring voltages on Q3200 with USB-C connected to the corresponding port right?\nStart by measuring voltage on the 4 LDOs of each CD3215 (USB-C connected to corresponding port)."
+    },
+    {
+        "post_id":68330,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":28597,
+        "username":"DavutAmana",
+        "post_date":"2020-11-25 10:00:51",
+        "message":"Thank you for your fast reply :)\n\nWhen I plug into USB-C A I get:\nCD3215 (U3200):\nPP3V3_UPC_XB_LDO = 3.3V (OK)\nPP1V8_UPC_XB_LDOA = 1.8V (OK)\nPP1V8_UPC_XB_LDOD = 1.8V (OK)\nPP1V1_UPC_XB_LDO_BMC = 0V (I THINK OK?)\nPP3V3_UPC_XA_LDO = 3.3V (OK)\nPP1V8_UPC_XA_LDOA = 1.8V (OK)\nPP1V8_UPC_XA_LDOD = 1.8V (OK)\nPP1V1_UPC_XA_LDO_BMC = 0V (I THINK OK?)\nQ3100:\nPPDCIN_G3H = 5V (OK)\nUPC_XA_GATE1 = 7.25V (NOT OK)\nUPC_XA_GATE2 = 10V (NOT OK)\nQ3200:\nPPDCIN_G3H = 5V (OK)\nUPC_XB_GATE1 = 5V (OK)\nUPC_XB_GATE2 = 0V (NOT OK)\n\nWhen I plug into USB-C B I get:\nCD3215 (U3200): the same voltage\nQ3100:\nPPDCIN_G3H = 5V\nUPC_XA_GATE1 = 5V\nUPC_XA_GATE2 = 0V\nQ3200:\nPPDCIN_G3H = 5V\nUPC_XB_GATE1 = 7.5V\nUPC_XB_GATE2 = 10V\n\nI have 2 board with this identical problem."
+    },
+    {
+        "post_id":68335,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2020-11-25 11:22:09",
+        "message":"1.1V LDO BMC is at least a problem. If it's not present the circuit for USB-PD negotiation in the CD3215 won't work.\nOn A1708, U3200 is the master and U3100 is the slave. There is a chance the issue is with U3200, or there is a communication issue between U3200 and U2890. More info here: [URL]https:\/\/logi.wiki\/index.php\/CD3215_Bootup_Sequence[\/URL] .\n\nMeasure diode mode to ground on the 4 LDOs of both CD3215 to try to see if there's a problem."
+    },
+    {
+        "post_id":68349,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-25 15:08:36",
+        "message":"Does this board have the USB redriver chip?\nInspect under microscope for any small hole on it."
+    },
+    {
+        "post_id":68500,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":28597,
+        "username":"DavutAmana",
+        "post_date":"2020-11-28 05:02:31",
+        "message":"Bonjour,\n\nMerci pour vos r\u00e9ponses, qu'appelez vous USB redriver chip ? U2800 ?"
+    },
+    {
+        "post_id":68897,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":28597,
+        "username":"DavutAmana",
+        "post_date":"2020-12-08 08:06:45",
+        "message":"Hello,\n\nThanks for your answers, what do you call usb redriver chip? its U2800?"
+    },
+    {
+        "post_id":68920,
+        "thread_id":60386,
+        "title":"820-00840 Anormal Q3100",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-12-08 15:44:35",
+        "message":"It does not appear on schematic, nor boardview.\nVery close to USB connector, opposite side of CD3215 chips; look for PI3USB32224 chip."
+    }
+]

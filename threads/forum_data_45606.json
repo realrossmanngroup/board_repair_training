@@ -1,11 +1,101 @@
-{"post_id":45606,"thread_id":45606,"title":"820-4924 charger problem.","user_id":624,"username":"Alan.L","post_date":"2019-02-03 11:33:09","message":"initially, the board couldn't see the original apple charger but works well with PSU\/fake charger.\nso I changed Q1780 and it still didn't work then I changed ISL and works for a few hours with original apple charger but later on, it stops working.\nthen I changed Q1780 and ISL at the same time in case it will kill ISL or Q1780 but it still not working.\nthen i changed Q1780, ISL, SMC and now it is working, passed ASD and can charge the battery with no problem\n\nwith a fully charged battery, sometimes the charger's green light goes out. i'll have to turn off the charger from the mains then turn it on then i get a green light.\n\nwith charger only\n------------------------\nPPBUS_G3 = 12.58v\nPP3V42 = 3.399V\n\nwith battery\n------------------------\nPPBUS_G3 = 12.75v\nPP3V42 = 3.399V\n\nwith battery and charger\n------------------------\nPPBUS_G3 = 13v\nPP3V42 = 3.399V\n\n\nResistance on 17\/18, 27\/28 OF ISL. = 4 ohms, 20 ohms\nResistance to ground on the DC-in fuse = 68.1k ohms"}
-{"post_id":45608,"thread_id":45606,"title":"820-4924 charger problem.","user_id":682,"username":"2informaticos","post_date":"2019-02-03 12:07:52","message":"Check Q\/D7010.\nMeasure (onboard, ohm scale) exact value for R7012.\nPost CHGR_A\/BMON voltage when it doesn't want to start.\nDoes it always start in SMC bypass  mode?"}
-{"post_id":45614,"thread_id":45606,"title":"820-4924 charger problem.","user_id":624,"username":"Alan.L","post_date":"2019-02-03 14:51:43","message":"R7012 = 67.9k ohm\nD7010 and Q7010 are present. i don't see anything wrong with them.\n\nstarts up fine, I've never used SMC bypass mode on this board.\n\nwith a 100% charged battery and charger connected, when the MagSafe's light is green\nCHGR_AMON = 0.092v\nCHGR_BMON = 0.054v\nPP18V5_DCIN_fuse = 16.49v\n\nwith a 100% battery and charger connected, when the MagSafe's light goes out\nCHGR_AMON = drop from 0.092v to 0.031v to 0v\nCHGR_BMON = 0.054v\nPP18V5_DCIN_fuse = 0v\n\nmmm just notice..\nthe green light will come back on repeatedly when I wait 2 minutes after the green light fades out.\n\n\ndo you think there could be a broken trace?"}
-{"post_id":45615,"thread_id":45606,"title":"820-4924 charger problem.","user_id":682,"username":"2informaticos","post_date":"2019-02-03 15:11:50","message":"\"PP18V5_DCIN_fuse = 0v\"\nSeems that charger detects leakage and get blocked.\nTry the machine with Original Apple 60W and also 85W and comment.\nApple chargers have a microprocessor which detects leakage.\nFake chargers always send out full voltage, no protection at all.\nThis is the reason machine always starts with fake charger; same happens with bench power supply.\n\n\"R7012 = 67.9k ohm\"\nDid you measure onboard?\n\nCheck D7012 voltage.\nPost exact value (onboard measured) for R7180\/81 and R7185\/86."}
-{"post_id":45616,"thread_id":45606,"title":"820-4924 charger problem.","user_id":624,"username":"Alan.L","post_date":"2019-02-03 15:17:15","message":"what do you mean by onboard, with power?\ni thought you are not supposed to measure a resistor with the power on.\nmy resistance measurements are done with the components are soldered on the board.\n\n-----------------------------------------------------\n\nD7010:\noriginal 85w charger plugged-in with green light = 6.79v\noriginal 85w charger plugged-in when the green light disappeared = 0v\n\n\nR7180 = 99.4k ohms\nR7180 = 61.15k ohms\nR7185 = 469k ohms\nR7186 = 331k ohms\n\n\n-----------------------------------------------------\n\njust tested with another palm-rest with genuine battery. it's same.\n\ni'll try 60w next.."}
-{"post_id":45624,"thread_id":45606,"title":"820-4924 charger problem.","user_id":682,"username":"2informaticos","post_date":"2019-02-03 20:54:09","message":"Of course no power when measure ohm, or diode mode.\nI just specified to measure components onboard, not removed.\nBecause this kind of measure intents to discard other components, apart of the tested one.\n\nAre you using Magsafe 1 --> 2 adapter?\nDo NOT do that!"}
-{"post_id":45630,"thread_id":45606,"title":"820-4924 charger problem.","user_id":624,"username":"Alan.L","post_date":"2019-02-04 04:00:36","message":"original magsafe 2."}
-{"post_id":45631,"thread_id":45606,"title":"820-4924 charger problem.","user_id":682,"username":"2informaticos","post_date":"2019-02-04 04:19:01","message":"Try known good DCIN board."}
-{"post_id":45635,"thread_id":45606,"title":"820-4924 charger problem.","user_id":624,"username":"Alan.L","post_date":"2019-02-04 06:37:15","message":"did that already, i'am now testing with a 60w magsafe2 original, so far so good. need more testing,\n\nif 60w is ok, then where is on the logic board i need to look?"}
-{"post_id":45736,"thread_id":45606,"title":"820-4924 charger problem.","user_id":624,"username":"Alan.L","post_date":"2019-02-05 17:50:58","message":"ok. i can confirm a 60w original MagSafe2 is fine, the green light always stays on. any idea how to fix an 85w original MagSafe 2 issue?\n\nI've already replaced every component on the Q7010 area,"}
-{"post_id":45745,"thread_id":45606,"title":"820-4924 charger problem.","user_id":682,"username":"2informaticos","post_date":"2019-02-05 20:29:26","message":"Post C5499 voltage with both chargers.\nDoes it start in SMC bypass with 85W charger?"}
+[
+    {
+        "post_id":45606,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":624,
+        "username":"Alan.L",
+        "post_date":"2019-02-03 09:33:09",
+        "message":"initially, the board couldn't see the original apple charger but works well with PSU\/fake charger.\nso I changed Q1780 and it still didn't work then I changed ISL and works for a few hours with original apple charger but later on, it stops working.\nthen I changed Q1780 and ISL at the same time in case it will kill ISL or Q1780 but it still not working.\nthen i changed Q1780, ISL, SMC and now it is working, passed ASD and can charge the battery with no problem\n\nwith a fully charged battery, sometimes the charger's green light goes out. i'll have to turn off the charger from the mains then turn it on then i get a green light.\n\nwith charger only\n------------------------\nPPBUS_G3 = 12.58v\nPP3V42 = 3.399V\n\nwith battery\n------------------------\nPPBUS_G3 = 12.75v\nPP3V42 = 3.399V\n\nwith battery and charger\n------------------------\nPPBUS_G3 = 13v\nPP3V42 = 3.399V\n\n\nResistance on 17\/18, 27\/28 OF ISL. = 4 ohms, 20 ohms\nResistance to ground on the DC-in fuse = 68.1k ohms"
+    },
+    {
+        "post_id":45608,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-03 10:07:52",
+        "message":"Check Q\/D7010.\nMeasure (onboard, ohm scale) exact value for R7012.\nPost CHGR_A\/BMON voltage when it doesn't want to start.\nDoes it always start in SMC bypass  mode?"
+    },
+    {
+        "post_id":45614,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":624,
+        "username":"Alan.L",
+        "post_date":"2019-02-03 12:51:43",
+        "message":"R7012 = 67.9k ohm\nD7010 and Q7010 are present. i don't see anything wrong with them.\n\nstarts up fine, I've never used SMC bypass mode on this board.\n\nwith a 100% charged battery and charger connected, when the MagSafe's light is green\nCHGR_AMON = 0.092v\nCHGR_BMON = 0.054v\nPP18V5_DCIN_fuse = 16.49v\n\nwith a 100% battery and charger connected, when the MagSafe's light goes out\nCHGR_AMON = drop from 0.092v to 0.031v to 0v\nCHGR_BMON = 0.054v\nPP18V5_DCIN_fuse = 0v\n\nmmm just notice..\nthe green light will come back on repeatedly when I wait 2 minutes after the green light fades out.\n\n\ndo you think there could be a broken trace?"
+    },
+    {
+        "post_id":45615,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-03 13:11:50",
+        "message":"\"PP18V5_DCIN_fuse = 0v\"\nSeems that charger detects leakage and get blocked.\nTry the machine with Original Apple 60W and also 85W and comment.\nApple chargers have a microprocessor which detects leakage.\nFake chargers always send out full voltage, no protection at all.\nThis is the reason machine always starts with fake charger; same happens with bench power supply.\n\n\"R7012 = 67.9k ohm\"\nDid you measure onboard?\n\nCheck D7012 voltage.\nPost exact value (onboard measured) for R7180\/81 and R7185\/86."
+    },
+    {
+        "post_id":45616,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":624,
+        "username":"Alan.L",
+        "post_date":"2019-02-03 13:17:15",
+        "message":"what do you mean by onboard, with power?\ni thought you are not supposed to measure a resistor with the power on.\nmy resistance measurements are done with the components are soldered on the board.\n\n-----------------------------------------------------\n\nD7010:\noriginal 85w charger plugged-in with green light = 6.79v\noriginal 85w charger plugged-in when the green light disappeared = 0v\n\n\nR7180 = 99.4k ohms\nR7180 = 61.15k ohms\nR7185 = 469k ohms\nR7186 = 331k ohms\n\n\n-----------------------------------------------------\n\njust tested with another palm-rest with genuine battery. it's same.\n\ni'll try 60w next.."
+    },
+    {
+        "post_id":45624,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-03 18:54:09",
+        "message":"Of course no power when measure ohm, or diode mode.\nI just specified to measure components onboard, not removed.\nBecause this kind of measure intents to discard other components, apart of the tested one.\n\nAre you using Magsafe 1 --> 2 adapter?\nDo NOT do that!"
+    },
+    {
+        "post_id":45630,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":624,
+        "username":"Alan.L",
+        "post_date":"2019-02-04 02:00:36",
+        "message":"original magsafe 2."
+    },
+    {
+        "post_id":45631,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-04 02:19:01",
+        "message":"Try known good DCIN board."
+    },
+    {
+        "post_id":45635,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":624,
+        "username":"Alan.L",
+        "post_date":"2019-02-04 04:37:15",
+        "message":"did that already, i'am now testing with a 60w magsafe2 original, so far so good. need more testing,\n\nif 60w is ok, then where is on the logic board i need to look?"
+    },
+    {
+        "post_id":45736,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":624,
+        "username":"Alan.L",
+        "post_date":"2019-02-05 15:50:58",
+        "message":"ok. i can confirm a 60w original MagSafe2 is fine, the green light always stays on. any idea how to fix an 85w original MagSafe 2 issue?\n\nI've already replaced every component on the Q7010 area,"
+    },
+    {
+        "post_id":45745,
+        "thread_id":45606,
+        "title":"820-4924 charger problem.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-05 18:29:26",
+        "message":"Post C5499 voltage with both chargers.\nDoes it start in SMC bypass with 85W charger?"
+    }
+]

@@ -1,14 +1,128 @@
-{"post_id":65544,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":24780,"username":"bradinboise","post_date":"2020-09-23 10:20:23","message":"Hello all,\n\nDoes anybody know in what order should I check power rails as far as importance. Example, I do not have PPBUS_G3H. Should I just stop there and chase that one down first on this board, or is there another rail I must chase down first then chase down PPBUS_G3H. \n\nOn older boards, if I did not have the above rail, all other rails were irrelevant until I figured that out first. But while I'm reading other questions on this board I'm confused about what powers need to be present 1st - 2nd- 3rd etc. in order to get PPBUS_G3H and etc. Just looking for some kind of flow chart procedure if possible.\n\nI have voltage right now on my usb meter of 5.14v.\nI do not have PP3V3_G3H_RTC at either CD3215 chips but do have PP3V3_UPC_XB_LDO 3.3v at both same chips. \n\nAnd on a side note, are there any specific rails NOT to inject voltage on in order to test? \n\nThanks again."}
-{"post_id":65551,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":682,"username":"2informaticos","post_date":"2020-09-23 10:50:22","message":"First of all check diode mode to ground at F7000 and L6960; red probe connected to ground.\n\nDo you get voltage at R7020?"}
-{"post_id":65581,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":24780,"username":"bradinboise","post_date":"2020-09-23 23:08:18","message":"R7020 0v\nF7000 1.300\nL6960 .465\n\nSo I take it from the direction this is going PPDCIN_G3H would be the first voltage to make sure is there before the others? Like the PPBUS_G3H was on older boards?\n\nThanks"}
-{"post_id":65589,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":682,"username":"2informaticos","post_date":"2020-09-24 03:56:28","message":"You must get R7020 voltage first.\nLooks like input MOSFETs are not controlled by CD3215 chips.\nPost diode mode at R7020 too."}
-{"post_id":66447,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":24780,"username":"bradinboise","post_date":"2020-10-10 15:20:42","message":"R7020 .563 diode mode\nI now have 5v at R7020\nLooks like input MOSFETs are not controlled by CD3215 chips (what did you mean by that?) Thanks"}
-{"post_id":66452,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":682,"username":"2informaticos","post_date":"2020-10-10 17:39:34","message":"VBUS voltage must pass through Q3100, or other input MOSFET to arrive at R7020.\nAs you didn't get 5V at R7020 (initially), was because input MOSFETs were not correctly controlled.\nAny voltage at F7000 now?"}
-{"post_id":66469,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":24780,"username":"bradinboise","post_date":"2020-10-12 00:45:19","message":"Thanks. I went ahead and replaced both CD3215 because there was a little corrosion around both. I now have 20v at usb meter but 0amps.\nF7000 shows 12.63v but it cycles down to 0v and then back to 12.63v. it does this continually. I rechecked F7000 in diode mode and now I get OL reading and not the 1.300 I had before replacing the CD3215's. \n\nI have all my rails except all of the cpu core voltages and PP3V3_G3SSW_SNS and PP3V3_TBT_X_S0 and PP1V2_S0SW.\nI chased these all down to all the enables are not working. They all seem to come from U7800. \n\nThere was a slight amount of corrosion around U7800 also. I heated it up with some flux to get rid of any water\/corrosion under it but still no go.\n\nWhat things do I need to check as far as voltages on u7800 before condemning it bad? Or, am I heading down the wrong direction going after U7800 as the fault area?\n\nThanks"}
-{"post_id":66473,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":682,"username":"2informaticos","post_date":"2020-10-12 07:34:49","message":"Should be better to reball\/change U7800.\nIf PPBUS_G3H is cycling, check for short, or low resistance, on secondary power rails."}
-{"post_id":66495,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":24780,"username":"bradinboise","post_date":"2020-10-12 20:17:47","message":"When you say secondary power rails, what rails are those? I checked all the rails on page 121. Is there another page that has the rails you are referring to?\nAs far as the U7800, do you know if there is firmware on that chip? Does your store sell those chips?\n\nThanks"}
-{"post_id":66500,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":682,"username":"2informaticos","post_date":"2020-10-13 05:13:36","message":"Secondary rail is any other voltage than PPBUS_G3H, which derives from it; all big coil, for example.\nBut also voltages derived from a rail generated in base of PPBUS_G3H, or 3V3_G3H; like in page 67.\n\nShould be good to take U7800 from donor board, to prevent any issue.\nNot sure if has board specific firmware, or not."}
-{"post_id":66552,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":24780,"username":"bradinboise","post_date":"2020-10-13 22:30:53","message":"Great! Where do I get a stencil for U7800? What reballing paste do you recommend?"}
-{"post_id":66564,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":682,"username":"2informaticos","post_date":"2020-10-14 04:33:07","message":"You will need universal stencil, I suppose.\nJust find one with correct pitch, no matters if bigger.\n\nAny solder paste should be good.\nJust be sure to get leaded, 183 degrees."}
-{"post_id":66742,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":24780,"username":"bradinboise","post_date":"2020-10-17 22:05:37","message":"Great! What settings do you use on the hot air station for reballing? Thanks"}
-{"post_id":66747,"thread_id":60056,"title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails","user_id":682,"username":"2informaticos","post_date":"2020-10-18 05:21:55","message":"Practice with scrap boards and dead chips.\nSettings depend by hot air station."}
+[
+    {
+        "post_id":65544,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":24780,
+        "username":"bradinboise",
+        "post_date":"2020-09-23 08:20:23",
+        "message":"Hello all,\n\nDoes anybody know in what order should I check power rails as far as importance. Example, I do not have PPBUS_G3H. Should I just stop there and chase that one down first on this board, or is there another rail I must chase down first then chase down PPBUS_G3H. \n\nOn older boards, if I did not have the above rail, all other rails were irrelevant until I figured that out first. But while I'm reading other questions on this board I'm confused about what powers need to be present 1st - 2nd- 3rd etc. in order to get PPBUS_G3H and etc. Just looking for some kind of flow chart procedure if possible.\n\nI have voltage right now on my usb meter of 5.14v.\nI do not have PP3V3_G3H_RTC at either CD3215 chips but do have PP3V3_UPC_XB_LDO 3.3v at both same chips. \n\nAnd on a side note, are there any specific rails NOT to inject voltage on in order to test? \n\nThanks again."
+    },
+    {
+        "post_id":65551,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-23 08:50:22",
+        "message":"First of all check diode mode to ground at F7000 and L6960; red probe connected to ground.\n\nDo you get voltage at R7020?"
+    },
+    {
+        "post_id":65581,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":24780,
+        "username":"bradinboise",
+        "post_date":"2020-09-23 21:08:18",
+        "message":"R7020 0v\nF7000 1.300\nL6960 .465\n\nSo I take it from the direction this is going PPDCIN_G3H would be the first voltage to make sure is there before the others? Like the PPBUS_G3H was on older boards?\n\nThanks"
+    },
+    {
+        "post_id":65589,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-24 01:56:28",
+        "message":"You must get R7020 voltage first.\nLooks like input MOSFETs are not controlled by CD3215 chips.\nPost diode mode at R7020 too."
+    },
+    {
+        "post_id":66447,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":24780,
+        "username":"bradinboise",
+        "post_date":"2020-10-10 13:20:42",
+        "message":"R7020 .563 diode mode\nI now have 5v at R7020\nLooks like input MOSFETs are not controlled by CD3215 chips (what did you mean by that?) Thanks"
+    },
+    {
+        "post_id":66452,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-10 15:39:34",
+        "message":"VBUS voltage must pass through Q3100, or other input MOSFET to arrive at R7020.\nAs you didn't get 5V at R7020 (initially), was because input MOSFETs were not correctly controlled.\nAny voltage at F7000 now?"
+    },
+    {
+        "post_id":66469,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":24780,
+        "username":"bradinboise",
+        "post_date":"2020-10-11 22:45:19",
+        "message":"Thanks. I went ahead and replaced both CD3215 because there was a little corrosion around both. I now have 20v at usb meter but 0amps.\nF7000 shows 12.63v but it cycles down to 0v and then back to 12.63v. it does this continually. I rechecked F7000 in diode mode and now I get OL reading and not the 1.300 I had before replacing the CD3215's. \n\nI have all my rails except all of the cpu core voltages and PP3V3_G3SSW_SNS and PP3V3_TBT_X_S0 and PP1V2_S0SW.\nI chased these all down to all the enables are not working. They all seem to come from U7800. \n\nThere was a slight amount of corrosion around U7800 also. I heated it up with some flux to get rid of any water\/corrosion under it but still no go.\n\nWhat things do I need to check as far as voltages on u7800 before condemning it bad? Or, am I heading down the wrong direction going after U7800 as the fault area?\n\nThanks"
+    },
+    {
+        "post_id":66473,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-12 05:34:49",
+        "message":"Should be better to reball\/change U7800.\nIf PPBUS_G3H is cycling, check for short, or low resistance, on secondary power rails."
+    },
+    {
+        "post_id":66495,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":24780,
+        "username":"bradinboise",
+        "post_date":"2020-10-12 18:17:47",
+        "message":"When you say secondary power rails, what rails are those? I checked all the rails on page 121. Is there another page that has the rails you are referring to?\nAs far as the U7800, do you know if there is firmware on that chip? Does your store sell those chips?\n\nThanks"
+    },
+    {
+        "post_id":66500,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-13 03:13:36",
+        "message":"Secondary rail is any other voltage than PPBUS_G3H, which derives from it; all big coil, for example.\nBut also voltages derived from a rail generated in base of PPBUS_G3H, or 3V3_G3H; like in page 67.\n\nShould be good to take U7800 from donor board, to prevent any issue.\nNot sure if has board specific firmware, or not."
+    },
+    {
+        "post_id":66552,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":24780,
+        "username":"bradinboise",
+        "post_date":"2020-10-13 20:30:53",
+        "message":"Great! Where do I get a stencil for U7800? What reballing paste do you recommend?"
+    },
+    {
+        "post_id":66564,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-14 02:33:07",
+        "message":"You will need universal stencil, I suppose.\nJust find one with correct pitch, no matters if bigger.\n\nAny solder paste should be good.\nJust be sure to get leaded, 183 degrees."
+    },
+    {
+        "post_id":66742,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":24780,
+        "username":"bradinboise",
+        "post_date":"2020-10-17 20:05:37",
+        "message":"Great! What settings do you use on the hot air station for reballing? Thanks"
+    },
+    {
+        "post_id":66747,
+        "thread_id":60056,
+        "title":"820-01521-02 Macbook Air 2018 No PPBUS_G3H and other Rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-18 03:21:55",
+        "message":"Practice with scrap boards and dead chips.\nSettings depend by hot air station."
+    }
+]

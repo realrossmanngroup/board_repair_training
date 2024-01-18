@@ -1,13 +1,119 @@
-{"post_id":87286,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":29424,"username":"donnos","post_date":"2022-03-12 11:24:15","message":"we refurbish this 820-00840 before selling it out to customer, about 2 month later customer complains that it randomly shuts down. 1 week about ~3 times.\nwe took back the laptop and now it does not boot at all.\n\nFound out that when battery is not plugged in, it boots fine with just charger\nBattery + charger = no boot, charger loops after charger hits 20V and goes back to 5V.\nBattery only = no boot.\n\nmeasuring on battery terminal itself i get 0V but if i measure the cells i get 11.8V. Battery lock up, but same case when using known good battery.\nwhen on only battery, ppbus is pulsing about 12v(can't get a good ready from osope) 2 short pulse within 1sec and 2\/3 sec of no activity and loops.\n\nMeasure current sensing for ISL R7061\/R7062 and all is good, measured SMB_SMC_CHGR_SDA and SCL and i get normal communication with SMC(diode reading at 0.395)\nnot sure what else is wrong here"}
-{"post_id":87288,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":682,"username":"2informaticos","post_date":"2022-03-12 18:04:57","message":"Check resistance (ohm scale), over C7020\/23.\nAlso check if Q7065 is not shorted.\n\nWhat is exact F7000 voltage w\/ and w\/o battery (charger connected)?"}
-{"post_id":87324,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":29424,"username":"donnos","post_date":"2022-03-13 13:08:51","message":"C7020 is 2ohms\nc7023 is 2ohms\nQ7065 not shorted\n\nF7000 with battery + charger = 3+V and dropping\nF7000 without battery + charger = 13v"}
-{"post_id":87325,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":682,"username":"2informaticos","post_date":"2022-03-13 17:05:01","message":"Check SMC_BMON\/DCIN_ISENSE, with both charger and battery connected.\nAlso try starting in SMC bypass, in same case."}
-{"post_id":87341,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":29424,"username":"donnos","post_date":"2022-03-14 04:56:23","message":"okay, was poking around to measure with DMM to measure R5438\/39, resister is good. but i noticed R5498 alittle \"out of colour\"\nmeasure resistance all good. tried measuring voltage, i get 0v. i maybe thought its pulsing and DMM not picking up. i used oscope and touch R5498 pin1. suddenly it boots up. now its working good with only battery\n\nwhen i unplugged the battery, its dead again"}
-{"post_id":87342,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":682,"username":"2informaticos","post_date":"2022-03-14 05:15:16","message":"We need voltage of mentioned signals.\nAlso check SMC_DCIN\/PBUS_VSENSE levels."}
-{"post_id":87356,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":29424,"username":"donnos","post_date":"2022-03-14 11:37:20","message":"in terms of resistance they all measure within spec.\nSMC_BMON_ISENSE = 500mv pulsing\nDCIN_ISENSE = 0v\nDCIN_VSENSE = 0v\nPBUS_VSENSE = 0v\nall measure when charger is + battery plugged in"}
-{"post_id":87370,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":682,"username":"2informaticos","post_date":"2022-03-14 14:40:43","message":"Post these signals with charger (not battery) connected only."}
-{"post_id":87398,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":29424,"username":"donnos","post_date":"2022-03-15 03:43:52","message":"DCIN_VSENSE = 2.9v\nDCIN_ISENSE = 0.2v\nSMC_BMON_ISENSE = 1v\nPBUS_VSENSE = 2.1v"}
-{"post_id":87399,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":682,"username":"2informaticos","post_date":"2022-03-15 03:53:20","message":"Check R7061\/62 and their traces."}
-{"post_id":87423,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":29424,"username":"donnos","post_date":"2022-03-15 09:24:39","message":"yeap. traces are good to u7000(have tried replacing as well) and to R7060. both resister read 2ohms"}
-{"post_id":87438,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":682,"username":"2informaticos","post_date":"2022-03-15 12:35:42","message":"Check both SMC_BMON_ISENSE and CHGR_BMON levels, without battery.\nYou should get almost 0V there, not 1V."}
-{"post_id":87515,"thread_id":62459,"title":"820-00840 does not boot when battery is connected","user_id":29424,"username":"donnos","post_date":"2022-03-16 11:16:22","message":"the board has gone from working state to a non-working 20v 450ma now. its a sad sad day\ncpuvcore is 0.95v no usb activity"}
+[
+    {
+        "post_id":87286,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":29424,
+        "username":"donnos",
+        "post_date":"2022-03-12 09:24:15",
+        "message":"we refurbish this 820-00840 before selling it out to customer, about 2 month later customer complains that it randomly shuts down. 1 week about ~3 times.\nwe took back the laptop and now it does not boot at all.\n\nFound out that when battery is not plugged in, it boots fine with just charger\nBattery + charger = no boot, charger loops after charger hits 20V and goes back to 5V.\nBattery only = no boot.\n\nmeasuring on battery terminal itself i get 0V but if i measure the cells i get 11.8V. Battery lock up, but same case when using known good battery.\nwhen on only battery, ppbus is pulsing about 12v(can't get a good ready from osope) 2 short pulse within 1sec and 2\/3 sec of no activity and loops.\n\nMeasure current sensing for ISL R7061\/R7062 and all is good, measured SMB_SMC_CHGR_SDA and SCL and i get normal communication with SMC(diode reading at 0.395)\nnot sure what else is wrong here"
+    },
+    {
+        "post_id":87288,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-12 16:04:57",
+        "message":"Check resistance (ohm scale), over C7020\/23.\nAlso check if Q7065 is not shorted.\n\nWhat is exact F7000 voltage w\/ and w\/o battery (charger connected)?"
+    },
+    {
+        "post_id":87324,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":29424,
+        "username":"donnos",
+        "post_date":"2022-03-13 11:08:51",
+        "message":"C7020 is 2ohms\nc7023 is 2ohms\nQ7065 not shorted\n\nF7000 with battery + charger = 3+V and dropping\nF7000 without battery + charger = 13v"
+    },
+    {
+        "post_id":87325,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-13 15:05:01",
+        "message":"Check SMC_BMON\/DCIN_ISENSE, with both charger and battery connected.\nAlso try starting in SMC bypass, in same case."
+    },
+    {
+        "post_id":87341,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":29424,
+        "username":"donnos",
+        "post_date":"2022-03-14 02:56:23",
+        "message":"okay, was poking around to measure with DMM to measure R5438\/39, resister is good. but i noticed R5498 alittle \"out of colour\"\nmeasure resistance all good. tried measuring voltage, i get 0v. i maybe thought its pulsing and DMM not picking up. i used oscope and touch R5498 pin1. suddenly it boots up. now its working good with only battery\n\nwhen i unplugged the battery, its dead again"
+    },
+    {
+        "post_id":87342,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-14 03:15:16",
+        "message":"We need voltage of mentioned signals.\nAlso check SMC_DCIN\/PBUS_VSENSE levels."
+    },
+    {
+        "post_id":87356,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":29424,
+        "username":"donnos",
+        "post_date":"2022-03-14 09:37:20",
+        "message":"in terms of resistance they all measure within spec.\nSMC_BMON_ISENSE = 500mv pulsing\nDCIN_ISENSE = 0v\nDCIN_VSENSE = 0v\nPBUS_VSENSE = 0v\nall measure when charger is + battery plugged in"
+    },
+    {
+        "post_id":87370,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-14 12:40:43",
+        "message":"Post these signals with charger (not battery) connected only."
+    },
+    {
+        "post_id":87398,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":29424,
+        "username":"donnos",
+        "post_date":"2022-03-15 01:43:52",
+        "message":"DCIN_VSENSE = 2.9v\nDCIN_ISENSE = 0.2v\nSMC_BMON_ISENSE = 1v\nPBUS_VSENSE = 2.1v"
+    },
+    {
+        "post_id":87399,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-15 01:53:20",
+        "message":"Check R7061\/62 and their traces."
+    },
+    {
+        "post_id":87423,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":29424,
+        "username":"donnos",
+        "post_date":"2022-03-15 07:24:39",
+        "message":"yeap. traces are good to u7000(have tried replacing as well) and to R7060. both resister read 2ohms"
+    },
+    {
+        "post_id":87438,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-15 10:35:42",
+        "message":"Check both SMC_BMON_ISENSE and CHGR_BMON levels, without battery.\nYou should get almost 0V there, not 1V."
+    },
+    {
+        "post_id":87515,
+        "thread_id":62459,
+        "title":"820-00840 does not boot when battery is connected",
+        "user_id":29424,
+        "username":"donnos",
+        "post_date":"2022-03-16 09:16:22",
+        "message":"the board has gone from working state to a non-working 20v 450ma now. its a sad sad day\ncpuvcore is 0.95v no usb activity"
+    }
+]

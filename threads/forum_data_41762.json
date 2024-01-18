@@ -1,37 +1,335 @@
-{"post_id":41762,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 07:43:34","message":"no liquid damage signs anywhere, not dropped. at first all rails were present, cpu becoming warm but no spin. after a bit it went worse. 5vs5 and 3.3sv5 present, but PM_SLP_S5_L so no 5vs4. no corrosion sign anywhere."}
-{"post_id":41763,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-06 07:50:21","message":"Don't get any pulse at PM_SLP_S5\/4_L?\nPM_SLP_SUS_L present?\nAre you using original Apple charger, 60\/85W?\nCheck SMC_ADAPTER_EN, PM_BATLOW_L and S5_PWRGD..."}
-{"post_id":41767,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 08:06:14","message":"PM_SLP_S5 completely 0 no pulse\nPM_SLP_S4 ditto\n\nbrand new original 85 watt. whole charger not just the cable\n\n SMC_ADAPTER_EN = 3.39v\nPM_BATLOW_L = 3.34v\nS5_PWRGD= 3.32v"}
-{"post_id":41770,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-06 08:36:24","message":"\"PM_SLP_SUS_L present?\"\n\nCheck RTC signals and PCH_DSWVRMEN, PM_DSW_PWRGD, PM_RSMRST_L.\nPM_PWRBTN_L reacts when you toggle SMC_ONOFF_L?"}
-{"post_id":41771,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 08:51:41","message":"SRTCRST# 3,3v\nINTVRMEN# 3.11v\nRSMRST# 3.31v\nPWRBTN# 3.42v\n\nPM_SLP_SUS_L 3.34v\nPCH_DSWVRMEN 3.34v\nPM_DSW_PWRGD 3.42v\nPM_RSMRST_L 3.31v\n\nPM_PWRBTN_L 3.42 on normal state 1.02v after shorting SMC_ONOFF_L but once it went to 0.34v"}
-{"post_id":41773,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-06 09:04:18","message":"32KHz oscillation comes out from U1900?\n\n\"PM_PWRBTN_L 3.42 on normal state 1.02v after shorting SMC_ONOFF_L but once it went to 0.34v\"\nPM_SLP_S5\/4\/3_L react at the same moment?"}
-{"post_id":41774,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 09:32:01","message":"PM_SLP_S4 and s5 goes up to 3.3 for an instant when you plug in magsafe or when you short SMC_ONOFF_L then back to 0.\n\nno chanhe on s3 that remains on 0\n\non the rtc my scope measures the 25mhz but they are not always present. 25mhz present for a sec, then nothing then back and so, 32khz are present and well stable"}
-{"post_id":41778,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-06 10:37:54","message":"\"PM_SLP_S4 and s5 goes up to 3.3 for an instant when you plug in magsafe or when you short SMC_ONOFF_L then back to 0.\"\nSo SMC so power button info to PCH and this one reacts too.\nIn this case, check if power supplies controlled by SLP_S5\/4 pulse at least; should do it...\n\n25MHz comes out only when board starts; or tries to do it.\n\nCheck again, better with o-scope, if SLP_S3 pulses at least."}
-{"post_id":41779,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 10:40:50","message":"i just found out that \nc2436\nc2407\nc2441\nc2401\nc2432\n\nhave been riped off from the board.. but i doubt they are the cause of my issue"}
-{"post_id":41780,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 10:43:49","message":"also yes 5vs4 and all the stuff commanded by  SLP_S5\/4 pulse at button press\/magsafe insertion"}
-{"post_id":41781,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 10:46:48","message":"also slp_s3 pulses for a micro instant but i can detect it only with the oscilloscope"}
-{"post_id":41782,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 11:06:35","message":"i checked the bios chip.\n\nspi_mlb_io0_mos1\nspi_mlb_io1_mos0\nspi_mlb_io2_wp_l\nspi_mlb_io3_hold_l\n\nare stuck at 50hz."}
-{"post_id":41783,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-06 11:10:04","message":"Check if all power supplies controlled by SLP_S3 pulse too; the _S0 ones.\nALL_SYS_PWRGD should pulse too.\nIf not, one S0 supply is bad..."}
-{"post_id":41786,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-06 11:30:27","message":"ALL_SYS_PWRGD  jumps an instant to 0,4v then back to 0... ugh this is a nightmare"}
-{"post_id":41798,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-06 12:53:22","message":"Check U1950 for pulses at pins 7 & 3."}
-{"post_id":41819,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 02:51:48","message":"pin 7 jumps to 2.66\npin 3 jumps to 3.47\n\nonly at magsafe connected or on button pressed"}
-{"post_id":41822,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-07 03:21:07","message":"That means even CPU VCORE tries to appear and PCH knows that.\nCheck now SPI termination resistors and traces around SPI chip U6100.\nYou can also try new BIOS."}
-{"post_id":41825,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 04:21:25","message":"tried a new bios but nothing changed. u6100 seems healthy on my reader\n\nr6130\nr6131\nr6122\nr6123\n\nseems ok\n\nal bios pins but gnd have 3.3 v"}
-{"post_id":41827,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-07 05:12:01","message":"3.3V at SPI chip means PCH doesn't access it.\nThere are 24 resistors, not 4...\nCheck U6101 too, resolder both chips.\nBe sure no corrosion there, nor on U1950 area.\nDo you get 24MHz oscillation at Y1915?"}
-{"post_id":41832,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 05:53:58","message":"no oscillation on y1915\n\nwill reflow u6101 but i see no oxyde\n\nchecked:\n\nr6110  ok\nr6111 ok\nr6112 ok\nr6113 ok\nr6118 ok\nr6119 ok\n\n\nr6114 ok\nr6115 ok\nr6116 ok\nr6117  ok\n\nr6120 ok\nr6121 ok\nr6122 ok\nr6123  ok\nr6130 ok\nr6131 ok\n\nr6133 ok \nr6132  ok\nr6128 ok\nr6127 ok\n\u200b\u200b\u200b\u200b\u200b\u200b\u200br6126 ok\n\u200b\u200b\u200b\u200b\u200b\u200b\u200br6125 ok"}
-{"post_id":41833,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 06:05:09","message":"R1548 ok\nR1549 ok"}
-{"post_id":41834,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 06:12:40","message":"reflowed both U6101  and U1950  no change, still no 24mhz on Y1915"}
-{"post_id":41835,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 06:22:14","message":"well it goes to 24mhz only on on buton press or magsafe plug in. for an instant"}
-{"post_id":41841,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-07 07:16:35","message":"So 24MHz is OK.\nFor some reason board turns off and oscillation disappears too.\n\nSee if pins 2, 5, 6 of U6100 react when press power button.\nMaybe need to remove J6100; sometime gets invisible corrosion under..."}
-{"post_id":41843,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 07:31:18","message":"r1632 is 100k off circuit (like schematics) but on circuit it drop to 5k.\nbad u6101?"}
-{"post_id":41844,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 07:35:46","message":"pin 2 5 6 do the following at on button press\/ magasafe in\n\n0 v\n\nrubbish oscillation\n\n0 v\n\nquick constant oscillation\n\n0v\n\n3.3v fixed no oscillation\n\nit is very very very sudden"}
-{"post_id":41845,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 07:42:53","message":"actually only 5 and 6 get that quick oscillation. 2 goes directly to 3.3v"}
-{"post_id":41846,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 08:01:50","message":"removed u6101 but r1632 remains (on the circuit) at 5k"}
-{"post_id":41849,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-07 08:58:17","message":"Did you remove J6100?"}
-{"post_id":41850,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 09:17:16","message":"yes of course. first thing i did"}
-{"post_id":41859,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-07 10:32:18","message":"Let see if starts in SMC bypass mode..."}
-{"post_id":41863,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 10:58:58","message":"i tried earlier... no change... gonna try again in a second. so frustrating"}
-{"post_id":41872,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-07 14:33:50","message":"Nope :( same stuff only thing that changes is the one wire led not turning on but that is normal"}
-{"post_id":41873,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-07 15:14:47","message":"Check for short on any power rails; not only big coils.\nPay atention to Power FETs, at page 63; all these voltages should try to appear."}
-{"post_id":41890,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-08 05:14:15","message":"fun. ok getting on this now. it is the last one of this batch.. hopefully i get it working. i contacted the guy who previusly atempted to fix it. he said the only thing he tried to do was injecting around 5 v into L7520 but i doubt this caused any damage"}
-{"post_id":41891,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":700,"username":"Nick","post_date":"2018-11-08 06:07:45","message":"u8000 \n\nu8010\n\nU8030\n\nU8050\n\n\n\nu8020\n\nU8070\n\nu8060\n\nu8080\n\nU8005\n\n\n\nall have no shorted output ;("}
-{"post_id":41902,"thread_id":41762,"title":"missing PM_SLP_S5_L on a 820-4924a","user_id":682,"username":"2informaticos","post_date":"2018-11-08 11:11:37","message":"Can you see pulsing any of these outputs?\nMaybe one has missing enable control..."}
+[
+    {
+        "post_id":41762,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 05:43:34",
+        "message":"no liquid damage signs anywhere, not dropped. at first all rails were present, cpu becoming warm but no spin. after a bit it went worse. 5vs5 and 3.3sv5 present, but PM_SLP_S5_L so no 5vs4. no corrosion sign anywhere."
+    },
+    {
+        "post_id":41763,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-06 05:50:21",
+        "message":"Don't get any pulse at PM_SLP_S5\/4_L?\nPM_SLP_SUS_L present?\nAre you using original Apple charger, 60\/85W?\nCheck SMC_ADAPTER_EN, PM_BATLOW_L and S5_PWRGD..."
+    },
+    {
+        "post_id":41767,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 06:06:14",
+        "message":"PM_SLP_S5 completely 0 no pulse\nPM_SLP_S4 ditto\n\nbrand new original 85 watt. whole charger not just the cable\n\n SMC_ADAPTER_EN = 3.39v\nPM_BATLOW_L = 3.34v\nS5_PWRGD= 3.32v"
+    },
+    {
+        "post_id":41770,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-06 06:36:24",
+        "message":"\"PM_SLP_SUS_L present?\"\n\nCheck RTC signals and PCH_DSWVRMEN, PM_DSW_PWRGD, PM_RSMRST_L.\nPM_PWRBTN_L reacts when you toggle SMC_ONOFF_L?"
+    },
+    {
+        "post_id":41771,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 06:51:41",
+        "message":"SRTCRST# 3,3v\nINTVRMEN# 3.11v\nRSMRST# 3.31v\nPWRBTN# 3.42v\n\nPM_SLP_SUS_L 3.34v\nPCH_DSWVRMEN 3.34v\nPM_DSW_PWRGD 3.42v\nPM_RSMRST_L 3.31v\n\nPM_PWRBTN_L 3.42 on normal state 1.02v after shorting SMC_ONOFF_L but once it went to 0.34v"
+    },
+    {
+        "post_id":41773,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-06 07:04:18",
+        "message":"32KHz oscillation comes out from U1900?\n\n\"PM_PWRBTN_L 3.42 on normal state 1.02v after shorting SMC_ONOFF_L but once it went to 0.34v\"\nPM_SLP_S5\/4\/3_L react at the same moment?"
+    },
+    {
+        "post_id":41774,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 07:32:01",
+        "message":"PM_SLP_S4 and s5 goes up to 3.3 for an instant when you plug in magsafe or when you short SMC_ONOFF_L then back to 0.\n\nno chanhe on s3 that remains on 0\n\non the rtc my scope measures the 25mhz but they are not always present. 25mhz present for a sec, then nothing then back and so, 32khz are present and well stable"
+    },
+    {
+        "post_id":41778,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-06 08:37:54",
+        "message":"\"PM_SLP_S4 and s5 goes up to 3.3 for an instant when you plug in magsafe or when you short SMC_ONOFF_L then back to 0.\"\nSo SMC so power button info to PCH and this one reacts too.\nIn this case, check if power supplies controlled by SLP_S5\/4 pulse at least; should do it...\n\n25MHz comes out only when board starts; or tries to do it.\n\nCheck again, better with o-scope, if SLP_S3 pulses at least."
+    },
+    {
+        "post_id":41779,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 08:40:50",
+        "message":"i just found out that \nc2436\nc2407\nc2441\nc2401\nc2432\n\nhave been riped off from the board.. but i doubt they are the cause of my issue"
+    },
+    {
+        "post_id":41780,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 08:43:49",
+        "message":"also yes 5vs4 and all the stuff commanded by  SLP_S5\/4 pulse at button press\/magsafe insertion"
+    },
+    {
+        "post_id":41781,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 08:46:48",
+        "message":"also slp_s3 pulses for a micro instant but i can detect it only with the oscilloscope"
+    },
+    {
+        "post_id":41782,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 09:06:35",
+        "message":"i checked the bios chip.\n\nspi_mlb_io0_mos1\nspi_mlb_io1_mos0\nspi_mlb_io2_wp_l\nspi_mlb_io3_hold_l\n\nare stuck at 50hz."
+    },
+    {
+        "post_id":41783,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-06 09:10:04",
+        "message":"Check if all power supplies controlled by SLP_S3 pulse too; the _S0 ones.\nALL_SYS_PWRGD should pulse too.\nIf not, one S0 supply is bad..."
+    },
+    {
+        "post_id":41786,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-06 09:30:27",
+        "message":"ALL_SYS_PWRGD  jumps an instant to 0,4v then back to 0... ugh this is a nightmare"
+    },
+    {
+        "post_id":41798,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-06 10:53:22",
+        "message":"Check U1950 for pulses at pins 7 & 3."
+    },
+    {
+        "post_id":41819,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 00:51:48",
+        "message":"pin 7 jumps to 2.66\npin 3 jumps to 3.47\n\nonly at magsafe connected or on button pressed"
+    },
+    {
+        "post_id":41822,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-07 01:21:07",
+        "message":"That means even CPU VCORE tries to appear and PCH knows that.\nCheck now SPI termination resistors and traces around SPI chip U6100.\nYou can also try new BIOS."
+    },
+    {
+        "post_id":41825,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 02:21:25",
+        "message":"tried a new bios but nothing changed. u6100 seems healthy on my reader\n\nr6130\nr6131\nr6122\nr6123\n\nseems ok\n\nal bios pins but gnd have 3.3 v"
+    },
+    {
+        "post_id":41827,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-07 03:12:01",
+        "message":"3.3V at SPI chip means PCH doesn't access it.\nThere are 24 resistors, not 4...\nCheck U6101 too, resolder both chips.\nBe sure no corrosion there, nor on U1950 area.\nDo you get 24MHz oscillation at Y1915?"
+    },
+    {
+        "post_id":41832,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 03:53:58",
+        "message":"no oscillation on y1915\n\nwill reflow u6101 but i see no oxyde\n\nchecked:\n\nr6110  ok\nr6111 ok\nr6112 ok\nr6113 ok\nr6118 ok\nr6119 ok\n\n\nr6114 ok\nr6115 ok\nr6116 ok\nr6117  ok\n\nr6120 ok\nr6121 ok\nr6122 ok\nr6123  ok\nr6130 ok\nr6131 ok\n\nr6133 ok \nr6132  ok\nr6128 ok\nr6127 ok\n\u200b\u200b\u200b\u200b\u200b\u200b\u200br6126 ok\n\u200b\u200b\u200b\u200b\u200b\u200b\u200br6125 ok"
+    },
+    {
+        "post_id":41833,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 04:05:09",
+        "message":"R1548 ok\nR1549 ok"
+    },
+    {
+        "post_id":41834,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 04:12:40",
+        "message":"reflowed both U6101  and U1950  no change, still no 24mhz on Y1915"
+    },
+    {
+        "post_id":41835,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 04:22:14",
+        "message":"well it goes to 24mhz only on on buton press or magsafe plug in. for an instant"
+    },
+    {
+        "post_id":41841,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-07 05:16:35",
+        "message":"So 24MHz is OK.\nFor some reason board turns off and oscillation disappears too.\n\nSee if pins 2, 5, 6 of U6100 react when press power button.\nMaybe need to remove J6100; sometime gets invisible corrosion under..."
+    },
+    {
+        "post_id":41843,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 05:31:18",
+        "message":"r1632 is 100k off circuit (like schematics) but on circuit it drop to 5k.\nbad u6101?"
+    },
+    {
+        "post_id":41844,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 05:35:46",
+        "message":"pin 2 5 6 do the following at on button press\/ magasafe in\n\n0 v\n\nrubbish oscillation\n\n0 v\n\nquick constant oscillation\n\n0v\n\n3.3v fixed no oscillation\n\nit is very very very sudden"
+    },
+    {
+        "post_id":41845,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 05:42:53",
+        "message":"actually only 5 and 6 get that quick oscillation. 2 goes directly to 3.3v"
+    },
+    {
+        "post_id":41846,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 06:01:50",
+        "message":"removed u6101 but r1632 remains (on the circuit) at 5k"
+    },
+    {
+        "post_id":41849,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-07 06:58:17",
+        "message":"Did you remove J6100?"
+    },
+    {
+        "post_id":41850,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 07:17:16",
+        "message":"yes of course. first thing i did"
+    },
+    {
+        "post_id":41859,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-07 08:32:18",
+        "message":"Let see if starts in SMC bypass mode..."
+    },
+    {
+        "post_id":41863,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 08:58:58",
+        "message":"i tried earlier... no change... gonna try again in a second. so frustrating"
+    },
+    {
+        "post_id":41872,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-07 12:33:50",
+        "message":"Nope :( same stuff only thing that changes is the one wire led not turning on but that is normal"
+    },
+    {
+        "post_id":41873,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-07 13:14:47",
+        "message":"Check for short on any power rails; not only big coils.\nPay atention to Power FETs, at page 63; all these voltages should try to appear."
+    },
+    {
+        "post_id":41890,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-08 03:14:15",
+        "message":"fun. ok getting on this now. it is the last one of this batch.. hopefully i get it working. i contacted the guy who previusly atempted to fix it. he said the only thing he tried to do was injecting around 5 v into L7520 but i doubt this caused any damage"
+    },
+    {
+        "post_id":41891,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":700,
+        "username":"Nick",
+        "post_date":"2018-11-08 04:07:45",
+        "message":"u8000 \n\nu8010\n\nU8030\n\nU8050\n\n\n\nu8020\n\nU8070\n\nu8060\n\nu8080\n\nU8005\n\n\n\nall have no shorted output ;("
+    },
+    {
+        "post_id":41902,
+        "thread_id":41762,
+        "title":"missing PM_SLP_S5_L on a 820-4924a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-08 09:11:37",
+        "message":"Can you see pulsing any of these outputs?\nMaybe one has missing enable control..."
+    }
+]

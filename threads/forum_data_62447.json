@@ -1,17 +1,155 @@
-{"post_id":87180,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-10 14:42:57","message":"Board hangs at 20V 0.4A after a few seconds indefinitely, or 0.5A when installed in the chassis with only the battery disconnected. All major power rails are present, trackpad clicks, no light on caps lock, no response on display. No signs of liquid damage.\n\nI'm often unsure where to start troubleshooting when a device hangs like this, what would you recommend?"}
-{"post_id":87188,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-10 16:41:07","message":"What is the final CPU core voltage (after 10-15s)?"}
-{"post_id":87193,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-10 18:01:33","message":"All three phases are stable at 0.709V"}
-{"post_id":87202,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-11 03:45:38","message":"Check USB activity and external video."}
-{"post_id":87231,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-11 11:31:34","message":"No blinking light activity on a thumb drive or external SSD.\nNo external video output.\n\nExternal video test procedure: Place board in housing for hall effect sensors, with no flexes connected, connect USB-C power and USB-C to HDMI adapter while the lid is open, wait 30 seconds, close lid, image fails to appear on TV."}
-{"post_id":87239,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-11 12:50:54","message":"Try known good BIOS..."}
-{"post_id":87263,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-11 20:24:15","message":"This whole BIOS programming thing is going to make me loose my mind.\n\nI bought the TL866II PLUS\n[URL unfurl=\"true\"]https:\/\/www.amazon.com\/gp\/product\/B07CQQBGVK\/[\/URL]\n\nAnd a WSON8 adapter board\n[URL unfurl=\"true\"]https:\/\/www.amazon.com\/gp\/product\/B08VGVBWNP\/[\/URL]\n\nAnd got the official software from Xgpro, plugged in the device, successfully \"reflashed\" the TL866II firmware when prompted by the software...\n\nTrying to auto detect the chip fails. When I go to self test, it fails on \"ERROR #25\", with or without the WSON8 adapter installed.\n\nAm I doing something stupid or is my programmer defective? As far as I can tell it is genuine."}
-{"post_id":87273,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-12 05:25:08","message":"I don't have TL866 programmer, no idea about it.\nI use Medusa for Apple jobs and CH341 programmer, when need it.\n\nDid you try to manually select a compatible chip?\nThen read and see if the dump looks like expected."}
-{"post_id":87468,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-15 19:24:18","message":"Got a replacement TL866II PLUS programmer, much easier to use when it's not defective.\n\nFirst I followed the instructions below to clean my ME region, no changes observed afterwards\n[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/Clean_EFI_ME_Region[\/URL]\n\nThen I flashed this BIOS image with a clean ME region that I found linked elsewhere on the forum,  if I understand correctly I can directly flash this file without making any changes for testing purposes, again there were no changes in the device behavior afterwards\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1fD6UV-S60cZ76eUdq5dArrSXMHfvzxGq\/view[\/URL]\n\nWhere should I go from here? I was encouraged by the good vcore and lack of shorts, but the cpu is starting to worry me, it appears to be the main power consumer after the boot sequence hangs."}
-{"post_id":87469,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-15 19:26:52","message":"Test the board alone on the desk.\nDon't connect anything, but charger and USB-C hub with test device."}
-{"post_id":87470,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-15 19:29:23","message":"I've already done so, the board hangs at 20V 0.4A after a few seconds, no activity on anything connected. Do I need to leave it for a significant period of time (more than a few minutes) for this test?"}
-{"post_id":87471,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-15 20:17:38","message":"You should get USB activity, or external video, after 30s; in some boards I got it after 5s.\nIf not, probably bad CPU.\n\nIs strange that VCORE has correct voltage.\nI found it to be 0.72V on working board; practically same in your case.\n\nPLT_RST_L goes high?"}
-{"post_id":87472,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-15 20:29:01","message":"Just left it in the exact configuration you requested for 5 minutes, nothing.\n\nI agree, I haven't seen this behavior before on this model AND had correct vcore, not sure what to think.\n\nPLT_RST_L goes high as soon as the USB-C ammeter jumps up to 20V, and remains high indefinitely."}
-{"post_id":87478,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-16 04:00:59","message":"Very likely CPU problem.\n\nDid you test removing SSD?"}
-{"post_id":87504,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-16 09:21:17","message":"Yes, did that from the beginning, no change with SSD removed.\n\nI think so as well, but any way to diagnostically confirm that the cpu is dead?"}
-{"post_id":87518,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":682,"username":"2informaticos","post_date":"2022-03-16 11:21:11","message":"This is not an exact science.\nWe don't have the test hardware from manufacture line.\nIn general, A1708 = garbage..."}
-{"post_id":87545,"thread_id":62447,"title":"820-00875-A Partial Power","user_id":34273,"username":"Alex Thayer","post_date":"2022-03-16 15:30:33","message":"Fair enough, thanks for your help"}
+[
+    {
+        "post_id":87180,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-10 12:42:57",
+        "message":"Board hangs at 20V 0.4A after a few seconds indefinitely, or 0.5A when installed in the chassis with only the battery disconnected. All major power rails are present, trackpad clicks, no light on caps lock, no response on display. No signs of liquid damage.\n\nI'm often unsure where to start troubleshooting when a device hangs like this, what would you recommend?"
+    },
+    {
+        "post_id":87188,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-10 14:41:07",
+        "message":"What is the final CPU core voltage (after 10-15s)?"
+    },
+    {
+        "post_id":87193,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-10 16:01:33",
+        "message":"All three phases are stable at 0.709V"
+    },
+    {
+        "post_id":87202,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-11 01:45:38",
+        "message":"Check USB activity and external video."
+    },
+    {
+        "post_id":87231,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-11 09:31:34",
+        "message":"No blinking light activity on a thumb drive or external SSD.\nNo external video output.\n\nExternal video test procedure: Place board in housing for hall effect sensors, with no flexes connected, connect USB-C power and USB-C to HDMI adapter while the lid is open, wait 30 seconds, close lid, image fails to appear on TV."
+    },
+    {
+        "post_id":87239,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-11 10:50:54",
+        "message":"Try known good BIOS..."
+    },
+    {
+        "post_id":87263,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-11 18:24:15",
+        "message":"This whole BIOS programming thing is going to make me loose my mind.\n\nI bought the TL866II PLUS\n[URL unfurl=\"true\"]https:\/\/www.amazon.com\/gp\/product\/B07CQQBGVK\/[\/URL]\n\nAnd a WSON8 adapter board\n[URL unfurl=\"true\"]https:\/\/www.amazon.com\/gp\/product\/B08VGVBWNP\/[\/URL]\n\nAnd got the official software from Xgpro, plugged in the device, successfully \"reflashed\" the TL866II firmware when prompted by the software...\n\nTrying to auto detect the chip fails. When I go to self test, it fails on \"ERROR #25\", with or without the WSON8 adapter installed.\n\nAm I doing something stupid or is my programmer defective? As far as I can tell it is genuine."
+    },
+    {
+        "post_id":87273,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-12 03:25:08",
+        "message":"I don't have TL866 programmer, no idea about it.\nI use Medusa for Apple jobs and CH341 programmer, when need it.\n\nDid you try to manually select a compatible chip?\nThen read and see if the dump looks like expected."
+    },
+    {
+        "post_id":87468,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-15 17:24:18",
+        "message":"Got a replacement TL866II PLUS programmer, much easier to use when it's not defective.\n\nFirst I followed the instructions below to clean my ME region, no changes observed afterwards\n[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/Clean_EFI_ME_Region[\/URL]\n\nThen I flashed this BIOS image with a clean ME region that I found linked elsewhere on the forum,  if I understand correctly I can directly flash this file without making any changes for testing purposes, again there were no changes in the device behavior afterwards\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1fD6UV-S60cZ76eUdq5dArrSXMHfvzxGq\/view[\/URL]\n\nWhere should I go from here? I was encouraged by the good vcore and lack of shorts, but the cpu is starting to worry me, it appears to be the main power consumer after the boot sequence hangs."
+    },
+    {
+        "post_id":87469,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-15 17:26:52",
+        "message":"Test the board alone on the desk.\nDon't connect anything, but charger and USB-C hub with test device."
+    },
+    {
+        "post_id":87470,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-15 17:29:23",
+        "message":"I've already done so, the board hangs at 20V 0.4A after a few seconds, no activity on anything connected. Do I need to leave it for a significant period of time (more than a few minutes) for this test?"
+    },
+    {
+        "post_id":87471,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-15 18:17:38",
+        "message":"You should get USB activity, or external video, after 30s; in some boards I got it after 5s.\nIf not, probably bad CPU.\n\nIs strange that VCORE has correct voltage.\nI found it to be 0.72V on working board; practically same in your case.\n\nPLT_RST_L goes high?"
+    },
+    {
+        "post_id":87472,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-15 18:29:01",
+        "message":"Just left it in the exact configuration you requested for 5 minutes, nothing.\n\nI agree, I haven't seen this behavior before on this model AND had correct vcore, not sure what to think.\n\nPLT_RST_L goes high as soon as the USB-C ammeter jumps up to 20V, and remains high indefinitely."
+    },
+    {
+        "post_id":87478,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-16 02:00:59",
+        "message":"Very likely CPU problem.\n\nDid you test removing SSD?"
+    },
+    {
+        "post_id":87504,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-16 07:21:17",
+        "message":"Yes, did that from the beginning, no change with SSD removed.\n\nI think so as well, but any way to diagnostically confirm that the cpu is dead?"
+    },
+    {
+        "post_id":87518,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-16 09:21:11",
+        "message":"This is not an exact science.\nWe don't have the test hardware from manufacture line.\nIn general, A1708 = garbage..."
+    },
+    {
+        "post_id":87545,
+        "thread_id":62447,
+        "title":"820-00875-A Partial Power",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-16 13:30:33",
+        "message":"Fair enough, thanks for your help"
+    }
+]

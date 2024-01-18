@@ -1,17 +1,155 @@
-{"post_id":15948,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-05 15:10:18","message":"Hey guys, I have this rabbit hole of a liquid damaged 820-3435-B board I'm working on. Initially, I started out replacing R5100 -- it was so burnt, it basically fell off the board. Also, the board had a couple broken paths by traces I was able to repair easily by C5001\/L5001 (TP[1]PP3V3_S5_SMC_VDDA), and C7503 to TP[1]P5VP3V3_VREG3 by U7501. Both of these areas were visibly corroded, and besides some semi-burnt looking trace points, which I checked for continuity (they passed), these seem to be the only issues I can visibly detect after many sweeps of the board.\n\nWhen I started with this board there was no light of any kind. I went through the rails, and decided to replace U7100, which restored charger light. Moving on, I decided to replace U7501, because of its proximity to C7503\/TP[1]P5VP3V3_VREG3 and because of heavy corrosion in that area. However, I'm reading 0.0 voltage on PM_SLP_S5_L, and for some reason PM_SLP_S4_L is reading 0.2V. Consequently, Pin 4 of U7501 is only reading 0.2V (I think it's supposed to be ~3.4), which I believe is causing PP5V_S4RS3 to not generate .\n\nAdditionally, after measuring all my power rails for shorts, I discovered a fluctuating short on P3V3_S5 (the short is usually 38Ohms, but sometimes it goes to 80Ohms or 100Ohms, and occasionally it reads a solid 90Ohms on the meter, while beeping at me like morse code). Weirdly enough, the voltage I read on P3V3_S5 is 3.34V. I've actually gone through every component on the board which is connected to the rail, and nothing visibly jumped out as a shorted component. However, PP3V3_S5_SMC_VDDA and PP3V3_S5_AVREF_SMC are NOT showing a short -- this is an area where I repaired a broken path and replaced R5100. Thinking the short could possibly be in the SMC, and because I couldn't figure out how those two relate to PP3V3_S5, I decided to reflow the SMC, however no voltages changed.\n\nThe relevant voltages on U7501 read as following:\nPin 4 - 0.2V\nPin 21 - 3.419V\nPin 12 - 3.419V\n\nPin 3 - 1.254V\nPin 13 - 2.006V (Is this right? Isn't it supposed to be ~3.3V, or is that only after PP5V_S4RS3?)\nPin 23 - 8.63V\nPin 29 - 5.05V\nPin 22 - 3.314V\nPin 14 - 5.05V\nPin 12 - 3.419V\nPin 24 - 3.459V\nPin 2 - 0.0V\n\nAnyway, I've hit the wall on this one, and it's to the point where I HAVE to fix it, just for the principle of it. Any advice is appreciated. Let me know if you need any other voltages.\n\nEdit: Also, I did an SMC reset, and the charger turned green and then back to orange."}
-{"post_id":15949,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":682,"username":"2informaticos","post_date":"2017-03-05 15:41:50","message":"\"Pin 13 - 2.006V (Is this right? Isn't it supposed to be ~3.3V, or is that only after PP5V_S4RS3?)\"\nIs named VREF2, guess why?\n\n\"fluctuating short on P3V3_S5 (the short is usually 38Ohms, but sometimes it goes to 80Ohms or 100Ohms, and occasionally it reads a solid 90Ohms on the meter\"\nHope you didn't measure with the board powered on.\nAllow 20s after removing power, before measure resistance to ground; to discharge any residual tension.\n\nAre you using original charger?\nPost PM_BATLOW_L and PM_SLP_SUS_L signals.\nS5_PWRGD is correct?"}
-{"post_id":15951,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-05 16:06:08","message":"[QUOTE=\"2informaticos, post: 15949\"]\"Pin 13 - 2.006V (Is this right? Isn't it supposed to be ~3.3V, or is that only after PP5V_S4RS3?)\"\nIs named VREF2, guess why?[\/QUOTE] \nYa, I just figured since the line is called P3V3, it should be ~3.3V -- so 2.005 is correct?\n\n[QUOTE=\"2informaticos, post: 15949\"]\"fluctuating short on P3V3_S5 (the short is usually 38Ohms, but sometimes it goes to 80Ohms or 100Ohms, and occasionally it reads a solid 90Ohms on the meter\"\nHope you didn't measure with the board powered on.\nAllow 20s after removing power, before measure resistance to ground; to discharge any residual tension.[\/QUOTE] \nUnless I'm derping out, I always unplug when I measure resistances\/shorts.  I won't say I wait 20s, but I do wait, and yes the short is present without power.  \n\n[QUOTE=\"2informaticos, post: 15949\"]Are you using original charger?[\/QUOTE] I am using an original 14.85V charger.\n\n[QUOTE=\"2informaticos, post: 15949\"]Post PM_BATLOW_L and PM_SLP_SUS_L signals.\nS5_PWRGD is correct?[\/QUOTE]\nPM_BATLOW_L = 0.0V\nPM_SLP_SUS_L = 0.0V\nS5_PWRGD = 3.392V"}
-{"post_id":15952,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":682,"username":"2informaticos","post_date":"2017-03-05 16:37:11","message":"VREF2 means 2V refference voltage; so is correct.\n\nPCH will not start the board untill PM_BATLOW_L goes high.\nSMC_ADAPTER_EN should be high too.\nCheck PCH_DSWRMEN and PM_DSW_PWRGD.\nAlso check PCH's RTC signals.\nBoth SMC and PCH receive correct 32KHz clock?"}
-{"post_id":15953,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-05 16:52:29","message":"[QUOTE=\"2informaticos, post: 15952\"]VREF2 means 2V refference voltage; so is correct.[\/quote] Gotcha, thanks for that!\n\n[QUOTE=\"2informaticos, post: 15952\"]PCH will not start the board untill PM_BATLOW_L goes high.\nSMC_ADAPTER_EN should be high too.[\/QUOTE] SMC_ADAPTER_EN is reading 1.042V.\n\n[QUOTE=\"2informaticos, post: 15952\"]Check PCH_DSWRMEN and PM_DSW_PWRGD.\nAlso check PCH's RTC signals.[\/QUOTE]\nPCH_DSWVRMEN = 3.248V\nPM_DSW_PWRGD = 3.418V\n\n[QUOTE=\"2informaticos, post: 15952\"]Both SMC and PCH receive correct 32KHz clock?\n[\/QUOTE] I don't currently have an oscilloscope, so I can't check the frequency.  :("}
-{"post_id":15958,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":682,"username":"2informaticos","post_date":"2017-03-05 17:45:45","message":"SMC_ADAPTER_EN is too low.\nYou can check clock signal presence \"aproximatelly\" in DC voltage scale; this cannot confirm 100% correct signal.\nNormally should read 0.45V for PCH and 1.7V for SMC side."}
-{"post_id":15964,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":2,"username":"dukefawks","post_date":"2017-03-05 18:06:56","message":"So far the basics have not even been measured. Voltage on PPBUS and L7560? Corrosion under SMC is also likely."}
-{"post_id":15967,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-05 18:16:06","message":"[QUOTE=\"2informaticos, post: 15958\"]SMC_ADAPTER_EN is too low.[\/QUOTE]\nOk, I just measured SMC_ADAPTER_EN again and now it's reading 3.39V -- not sure what happened there. I doubled checked the resistor, and it's showing about 10k and there's no short there.\n\n\n[QUOTE=\"2informaticos, post: 15958\"]You can check clock signal presence \"aproximatelly\" in DC voltage scale; this cannot confirm 100% correct signal.\nNormally should read 0.45V for PCH and 1.7V for SMC side.[\/QUOTE]\nPin 12 on U1900 = .426V\nPin 2 on R5112 (for SMC_CLK32K) = .395V -- so I'm guessing CPU isn't generating it correctly for some reason?"}
-{"post_id":15970,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-05 18:25:18","message":"[QUOTE=\"dukefawks, post: 15964\"]So far the basics have not even been measured. Voltage on PPBUS and L7560? Corrosion under SMC is also likely.[\/QUOTE]\n\nL7560 = 3.345V\nPPBUS_G3H = 8.62V on both sides of the board.  \n\nI did reflow the SMC, but that doesn't rule out a bad pad or bad SMC -- which would be unfortunate.  There was corrosion around some SMC components and on that side of the board, though.  Been waiting on my Crest for quite a while, or I would have already given this sucker a bath."}
-{"post_id":15973,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":2,"username":"dukefawks","post_date":"2017-03-05 18:32:12","message":"Probably crap under the SMC or more corroded resistors\/traces around it."}
-{"post_id":15976,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-05 18:52:26","message":"[QUOTE=\"dukefawks, post: 15973\"]Probably crap under the SMC or more corroded resistors\/traces around it.[\/QUOTE]\n\nHoping I finally get my Crest this week -- derps sent me a basket, but no cleaner :D . I'll run it through that, and see what it does. After that I might take the SMC off and see what's going on underneath -- hopefully the pads are still there.\n\nThat said, shouldn't SMC_CLK32K be showing the right amount of voltage on R5112, or could an SMC short be pulling that down? Also, is it possible any of this is caused by that weird short on P3V3_S5 that doesn't effect the voltage, or could the SMC cause that as well?"}
-{"post_id":15978,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":2,"username":"dukefawks","post_date":"2017-03-05 19:48:49","message":"That weird short is no short. You are measuring with power applied or don't wait long enough for power to discharge."}
-{"post_id":15979,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-05 20:05:28","message":"[QUOTE=\"dukefawks, post: 15978\"]That weird short is no short. You are measuring with power applied or don't wait long enough for power to discharge.[\/QUOTE]\n\nI know -- it's super weird, but I never do short or resistance measurements with power applied.  I actually went through every single connection on the P3V3_S5 line, which was over 50 measurements on both sides of the board -- no power attached -- and the drop to ground was steady on every component in the line.  I can't believe the residual charge in the line would have stayed the entire time it took for me to measure 50 connections.  \n\nI know it sounds crazy, haha."}
-{"post_id":15982,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":1,"username":"larossmann","post_date":"2017-03-05 21:41:01","message":"[QUOTE=\"Userforce, post: 15976\"]\n\nHoping I finally get my Crest this week -- derps sent me a basket, but no cleaner :D . I'll run it through that, and see what it does. After that I might take the SMC off and see what's going on underneath -- hopefully the pads are still there.\n\nThat said, shouldn't SMC_CLK32K be showing the right amount of voltage on R5112, or could an SMC short be pulling that down? Also, is it possible any of this is caused by that weird short on P3V3_S5 that doesn't effect the voltage, or could the SMC cause that as well?[\/QUOTE]\n\nyou must be either tommy or colin. expect something to arrive by tuesday-wednesday latest!"}
-{"post_id":15996,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-06 07:31:21","message":"[QUOTE=\"dukefawks, post: 15978\"]That weird short is no short. You are measuring with power applied or don't wait long enough for power to discharge.[\/QUOTE]\n\nI just left the board unplugged overnight, and I'm still measuring a 55Ohm short to ground on P3V3_S5.  With resistance that low, shouldn't the rail be a fraction of what it should be?\n\n\n\n[QUOTE=\"larossmann, post: 15982\"]\n\nyou must be either tommy or colin. expect something to arrive by tuesday-wednesday latest![\/QUOTE]\n\nGood guess!  If their cleaners weren't so favorably reviewed, I probably would have tried to get something else, but I'm willing to wait for the best.  Thanks for all your help on it, Louis."}
-{"post_id":15999,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":682,"username":"2informaticos","post_date":"2017-03-06 09:05:54","message":"055 is not a short!\nMultimeter buzzer sounds till 070, that doesn't mean short...\nMeasure inverting probe leads too; normally get different readings.\nAt this moment, does your board try to start at least; with charger, battery, or both?\n\nP.S. Ivy Bridge core has 001 as normal value; do you consider that a short???"}
-{"post_id":16002,"thread_id":15948,"title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light","user_id":723,"username":"Userforce","post_date":"2017-03-06 09:14:55","message":"[QUOTE=\"2informaticos, post: 15999\"]055 is not a short!\nMultimeter buzzer sounds till 070, that doesn't mean short...\nMeasure inverting probe leads too; normally get different readings.[\/QUOTE]\nAh, ok that's some good info to have.  That measurement has had me scratching my head for a bit.  I'm just getting started out, so I thought anything that didn't read 0L was passing current to ground.  When is it considered a short, then?  Does that just come with more experience with certain rails, or is there some baseline you would look for?  Also, does that mean a connection to ground is built into the rail somewhere?  I measure with red on ground and black on the lead.  \n\n[QUOTE=\"2informaticos, post: 15999\"]\nAt this moment, does your board try to start at least; with charger, battery, or both?[\/QUOTE]\nNo fan spin. Just orange light on charger.\n\nU7501 isn't getting the proper voltage on pin 4, because the sleep signals aren't present.  So PP5V_S4RS3 isn't generating.\n\nThanks for the help so far!"}
+[
+    {
+        "post_id":15948,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-05 13:10:18",
+        "message":"Hey guys, I have this rabbit hole of a liquid damaged 820-3435-B board I'm working on. Initially, I started out replacing R5100 -- it was so burnt, it basically fell off the board. Also, the board had a couple broken paths by traces I was able to repair easily by C5001\/L5001 (TP[1]PP3V3_S5_SMC_VDDA), and C7503 to TP[1]P5VP3V3_VREG3 by U7501. Both of these areas were visibly corroded, and besides some semi-burnt looking trace points, which I checked for continuity (they passed), these seem to be the only issues I can visibly detect after many sweeps of the board.\n\nWhen I started with this board there was no light of any kind. I went through the rails, and decided to replace U7100, which restored charger light. Moving on, I decided to replace U7501, because of its proximity to C7503\/TP[1]P5VP3V3_VREG3 and because of heavy corrosion in that area. However, I'm reading 0.0 voltage on PM_SLP_S5_L, and for some reason PM_SLP_S4_L is reading 0.2V. Consequently, Pin 4 of U7501 is only reading 0.2V (I think it's supposed to be ~3.4), which I believe is causing PP5V_S4RS3 to not generate .\n\nAdditionally, after measuring all my power rails for shorts, I discovered a fluctuating short on P3V3_S5 (the short is usually 38Ohms, but sometimes it goes to 80Ohms or 100Ohms, and occasionally it reads a solid 90Ohms on the meter, while beeping at me like morse code). Weirdly enough, the voltage I read on P3V3_S5 is 3.34V. I've actually gone through every component on the board which is connected to the rail, and nothing visibly jumped out as a shorted component. However, PP3V3_S5_SMC_VDDA and PP3V3_S5_AVREF_SMC are NOT showing a short -- this is an area where I repaired a broken path and replaced R5100. Thinking the short could possibly be in the SMC, and because I couldn't figure out how those two relate to PP3V3_S5, I decided to reflow the SMC, however no voltages changed.\n\nThe relevant voltages on U7501 read as following:\nPin 4 - 0.2V\nPin 21 - 3.419V\nPin 12 - 3.419V\n\nPin 3 - 1.254V\nPin 13 - 2.006V (Is this right? Isn't it supposed to be ~3.3V, or is that only after PP5V_S4RS3?)\nPin 23 - 8.63V\nPin 29 - 5.05V\nPin 22 - 3.314V\nPin 14 - 5.05V\nPin 12 - 3.419V\nPin 24 - 3.459V\nPin 2 - 0.0V\n\nAnyway, I've hit the wall on this one, and it's to the point where I HAVE to fix it, just for the principle of it. Any advice is appreciated. Let me know if you need any other voltages.\n\nEdit: Also, I did an SMC reset, and the charger turned green and then back to orange."
+    },
+    {
+        "post_id":15949,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2017-03-05 13:41:50",
+        "message":"\"Pin 13 - 2.006V (Is this right? Isn't it supposed to be ~3.3V, or is that only after PP5V_S4RS3?)\"\nIs named VREF2, guess why?\n\n\"fluctuating short on P3V3_S5 (the short is usually 38Ohms, but sometimes it goes to 80Ohms or 100Ohms, and occasionally it reads a solid 90Ohms on the meter\"\nHope you didn't measure with the board powered on.\nAllow 20s after removing power, before measure resistance to ground; to discharge any residual tension.\n\nAre you using original charger?\nPost PM_BATLOW_L and PM_SLP_SUS_L signals.\nS5_PWRGD is correct?"
+    },
+    {
+        "post_id":15951,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-05 14:06:08",
+        "message":"[QUOTE=\"2informaticos, post: 15949\"]\"Pin 13 - 2.006V (Is this right? Isn't it supposed to be ~3.3V, or is that only after PP5V_S4RS3?)\"\nIs named VREF2, guess why?[\/QUOTE] \nYa, I just figured since the line is called P3V3, it should be ~3.3V -- so 2.005 is correct?\n\n[QUOTE=\"2informaticos, post: 15949\"]\"fluctuating short on P3V3_S5 (the short is usually 38Ohms, but sometimes it goes to 80Ohms or 100Ohms, and occasionally it reads a solid 90Ohms on the meter\"\nHope you didn't measure with the board powered on.\nAllow 20s after removing power, before measure resistance to ground; to discharge any residual tension.[\/QUOTE] \nUnless I'm derping out, I always unplug when I measure resistances\/shorts.  I won't say I wait 20s, but I do wait, and yes the short is present without power.  \n\n[QUOTE=\"2informaticos, post: 15949\"]Are you using original charger?[\/QUOTE] I am using an original 14.85V charger.\n\n[QUOTE=\"2informaticos, post: 15949\"]Post PM_BATLOW_L and PM_SLP_SUS_L signals.\nS5_PWRGD is correct?[\/QUOTE]\nPM_BATLOW_L = 0.0V\nPM_SLP_SUS_L = 0.0V\nS5_PWRGD = 3.392V"
+    },
+    {
+        "post_id":15952,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2017-03-05 14:37:11",
+        "message":"VREF2 means 2V refference voltage; so is correct.\n\nPCH will not start the board untill PM_BATLOW_L goes high.\nSMC_ADAPTER_EN should be high too.\nCheck PCH_DSWRMEN and PM_DSW_PWRGD.\nAlso check PCH's RTC signals.\nBoth SMC and PCH receive correct 32KHz clock?"
+    },
+    {
+        "post_id":15953,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-05 14:52:29",
+        "message":"[QUOTE=\"2informaticos, post: 15952\"]VREF2 means 2V refference voltage; so is correct.[\/quote] Gotcha, thanks for that!\n\n[QUOTE=\"2informaticos, post: 15952\"]PCH will not start the board untill PM_BATLOW_L goes high.\nSMC_ADAPTER_EN should be high too.[\/QUOTE] SMC_ADAPTER_EN is reading 1.042V.\n\n[QUOTE=\"2informaticos, post: 15952\"]Check PCH_DSWRMEN and PM_DSW_PWRGD.\nAlso check PCH's RTC signals.[\/QUOTE]\nPCH_DSWVRMEN = 3.248V\nPM_DSW_PWRGD = 3.418V\n\n[QUOTE=\"2informaticos, post: 15952\"]Both SMC and PCH receive correct 32KHz clock?\n[\/QUOTE] I don't currently have an oscilloscope, so I can't check the frequency.  :("
+    },
+    {
+        "post_id":15958,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2017-03-05 15:45:45",
+        "message":"SMC_ADAPTER_EN is too low.\nYou can check clock signal presence \"aproximatelly\" in DC voltage scale; this cannot confirm 100% correct signal.\nNormally should read 0.45V for PCH and 1.7V for SMC side."
+    },
+    {
+        "post_id":15964,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-05 16:06:56",
+        "message":"So far the basics have not even been measured. Voltage on PPBUS and L7560? Corrosion under SMC is also likely."
+    },
+    {
+        "post_id":15967,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-05 16:16:06",
+        "message":"[QUOTE=\"2informaticos, post: 15958\"]SMC_ADAPTER_EN is too low.[\/QUOTE]\nOk, I just measured SMC_ADAPTER_EN again and now it's reading 3.39V -- not sure what happened there. I doubled checked the resistor, and it's showing about 10k and there's no short there.\n\n\n[QUOTE=\"2informaticos, post: 15958\"]You can check clock signal presence \"aproximatelly\" in DC voltage scale; this cannot confirm 100% correct signal.\nNormally should read 0.45V for PCH and 1.7V for SMC side.[\/QUOTE]\nPin 12 on U1900 = .426V\nPin 2 on R5112 (for SMC_CLK32K) = .395V -- so I'm guessing CPU isn't generating it correctly for some reason?"
+    },
+    {
+        "post_id":15970,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-05 16:25:18",
+        "message":"[QUOTE=\"dukefawks, post: 15964\"]So far the basics have not even been measured. Voltage on PPBUS and L7560? Corrosion under SMC is also likely.[\/QUOTE]\n\nL7560 = 3.345V\nPPBUS_G3H = 8.62V on both sides of the board.  \n\nI did reflow the SMC, but that doesn't rule out a bad pad or bad SMC -- which would be unfortunate.  There was corrosion around some SMC components and on that side of the board, though.  Been waiting on my Crest for quite a while, or I would have already given this sucker a bath."
+    },
+    {
+        "post_id":15973,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-05 16:32:12",
+        "message":"Probably crap under the SMC or more corroded resistors\/traces around it."
+    },
+    {
+        "post_id":15976,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-05 16:52:26",
+        "message":"[QUOTE=\"dukefawks, post: 15973\"]Probably crap under the SMC or more corroded resistors\/traces around it.[\/QUOTE]\n\nHoping I finally get my Crest this week -- derps sent me a basket, but no cleaner :D . I'll run it through that, and see what it does. After that I might take the SMC off and see what's going on underneath -- hopefully the pads are still there.\n\nThat said, shouldn't SMC_CLK32K be showing the right amount of voltage on R5112, or could an SMC short be pulling that down? Also, is it possible any of this is caused by that weird short on P3V3_S5 that doesn't effect the voltage, or could the SMC cause that as well?"
+    },
+    {
+        "post_id":15978,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-05 17:48:49",
+        "message":"That weird short is no short. You are measuring with power applied or don't wait long enough for power to discharge."
+    },
+    {
+        "post_id":15979,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-05 18:05:28",
+        "message":"[QUOTE=\"dukefawks, post: 15978\"]That weird short is no short. You are measuring with power applied or don't wait long enough for power to discharge.[\/QUOTE]\n\nI know -- it's super weird, but I never do short or resistance measurements with power applied.  I actually went through every single connection on the P3V3_S5 line, which was over 50 measurements on both sides of the board -- no power attached -- and the drop to ground was steady on every component in the line.  I can't believe the residual charge in the line would have stayed the entire time it took for me to measure 50 connections.  \n\nI know it sounds crazy, haha."
+    },
+    {
+        "post_id":15982,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2017-03-05 19:41:01",
+        "message":"[QUOTE=\"Userforce, post: 15976\"]\n\nHoping I finally get my Crest this week -- derps sent me a basket, but no cleaner :D . I'll run it through that, and see what it does. After that I might take the SMC off and see what's going on underneath -- hopefully the pads are still there.\n\nThat said, shouldn't SMC_CLK32K be showing the right amount of voltage on R5112, or could an SMC short be pulling that down? Also, is it possible any of this is caused by that weird short on P3V3_S5 that doesn't effect the voltage, or could the SMC cause that as well?[\/QUOTE]\n\nyou must be either tommy or colin. expect something to arrive by tuesday-wednesday latest!"
+    },
+    {
+        "post_id":15996,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-06 05:31:21",
+        "message":"[QUOTE=\"dukefawks, post: 15978\"]That weird short is no short. You are measuring with power applied or don't wait long enough for power to discharge.[\/QUOTE]\n\nI just left the board unplugged overnight, and I'm still measuring a 55Ohm short to ground on P3V3_S5.  With resistance that low, shouldn't the rail be a fraction of what it should be?\n\n\n\n[QUOTE=\"larossmann, post: 15982\"]\n\nyou must be either tommy or colin. expect something to arrive by tuesday-wednesday latest![\/QUOTE]\n\nGood guess!  If their cleaners weren't so favorably reviewed, I probably would have tried to get something else, but I'm willing to wait for the best.  Thanks for all your help on it, Louis."
+    },
+    {
+        "post_id":15999,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2017-03-06 07:05:54",
+        "message":"055 is not a short!\nMultimeter buzzer sounds till 070, that doesn't mean short...\nMeasure inverting probe leads too; normally get different readings.\nAt this moment, does your board try to start at least; with charger, battery, or both?\n\nP.S. Ivy Bridge core has 001 as normal value; do you consider that a short???"
+    },
+    {
+        "post_id":16002,
+        "thread_id":15948,
+        "title":"820-3435-B -- No PM_SLP_S5_L, 0.2V on PM_SLP_S4_L -- Green to solid orange light",
+        "user_id":723,
+        "username":"Userforce",
+        "post_date":"2017-03-06 07:14:55",
+        "message":"[QUOTE=\"2informaticos, post: 15999\"]055 is not a short!\nMultimeter buzzer sounds till 070, that doesn't mean short...\nMeasure inverting probe leads too; normally get different readings.[\/QUOTE]\nAh, ok that's some good info to have.  That measurement has had me scratching my head for a bit.  I'm just getting started out, so I thought anything that didn't read 0L was passing current to ground.  When is it considered a short, then?  Does that just come with more experience with certain rails, or is there some baseline you would look for?  Also, does that mean a connection to ground is built into the rail somewhere?  I measure with red on ground and black on the lead.  \n\n[QUOTE=\"2informaticos, post: 15999\"]\nAt this moment, does your board try to start at least; with charger, battery, or both?[\/QUOTE]\nNo fan spin. Just orange light on charger.\n\nU7501 isn't getting the proper voltage on pin 4, because the sleep signals aren't present.  So PP5V_S4RS3 isn't generating.\n\nThanks for the help so far!"
+    }
+]

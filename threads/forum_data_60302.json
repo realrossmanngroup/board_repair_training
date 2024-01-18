@@ -1,18 +1,164 @@
-{"post_id":67652,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2020-11-08 12:01:25","message":"Hi!\nI'm an electronics student from Austria trying to fix a Macbook Pro A1707 from a friend of mine. He took it to an Apple store and they said it is a liquid damage and wanted to charge him 1300\u20ac for a new logic board. Thus, he asked me if I could fix it. I have watched numerous videos from Louis on the \"stuck at 5V\" topic and started investiagting the issue\nHere is a short summary of what I've done so far. \n\nA visual inspection did not gave any obivous hints to a damaged part.\nFirst I've checked the USB port and noticed that it got stuck at 5V and draws approx. 20mA. As suggested in multiple videos, I've measured the voltage rails around the ISL9239.\nPPDCIN_G3H = 5V and is present at U7000,\nPPBUS_G3H = ~0V \n\nThen I've checked the supply rail of the USB-C port controllers, which was 0V.\n--> PP3V3_G3H = ~0V\nbut the enable signal from U7000, PM_EN_P3V3_G3H was present. Thus, I've checked if PP3V3_G3H is shorted, which it was. As suggested in a video by Louis, it is very likely, that a CD3215 is responsible for this short, UB300. Thus, I've supplied 3.3V into the PP3V3_G3H rail and identified the faulty CD3215 with the \"alcohol on chip\" method. Then I desoldered this chip and the short on PP3V3_G3H was gone. I ordered a replacement and soldered it in. \nHowever, the issue remained. The two ports, including the one I've fixed, stayed at constant 5V\/20mA, but the other two ports did power cycle like in this video.\n[MEDIA=youtube]vXAK2l1oMZM[\/MEDIA]\nLouis replaced the TB SPI Flash chip in this video and resolved the issue. I was not sure if a fresh chip from Mouser will do the job or if it needs some pre flashed data. Anyway, I ordered fresh SPI Flash chips and gave it a shot. After I've desoldered U2890, these two USB-C ports did not power cycle any longer and this behavior persited after I soldered the fresh chip from mouser.\n\nHowever, I've got stuck at this point and would need some further advice. First I've thought that the ISL9239 could be the problem, as PPBUS_G3H is not present, I've replaced it but it did not change anything. Could there be another faulty CD3215 or could it be a faulty SMC chip?\n\nBoard Rev.: 820-00928-A\n\nThanks in advance!\nKind regards\nMichael"}
-{"post_id":67655,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":682,"username":"2informaticos","post_date":"2020-11-08 13:19:45","message":"First of all, welcome to the forum!\n\nPut back U2890, it has firmware.\n\nYou said liquid damaged board, but ehere???\nDo you get 3V3_G3H after replacing one CD3215 chip?\nDid you solder CD3215 with the same code termination (C00, B03)?\nCompare diode mode readings on all LDO rails for all CD3215 chips.\n\nIf battery still holds some charge, check if board starts on battery alone.\nBe aware, need to press power button in this case; use SW5200 pads instead."}
-{"post_id":67659,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":1057,"username":"piernov","post_date":"2020-11-08 16:09:15","message":"Don't touch the side that's power cycling, it's fine. It's the other side that's stuck at 5V without cycling that's causing trouble."}
-{"post_id":67684,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2020-11-09 03:57:41","message":"Thanks for the quick reply!\n\nI put the original U2890 back and this side power cycles again.\n\nRegarding the liquid damage, Apple claimed this and my friend told me that he spilled some beer over it, one year ago. After that, the machine worked but stopped working a few weeks ago. Since then, it won't boot.\n\n3V3_G3H is present, ~3.4V\nI ordered the exact same replacement, C00. \n\nSupply\/LDO Rails - Diode Tests:\nUB300\n    CB300: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.40V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_TA_LDO: on CB308: 1.405V\n    PP1V8_UPC_TA_LDOA: on CB306: 1.313V\n    PP1V8_UPC_TA_LDOD: on CB305: 1.305V\nUB400\n    CB400: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.40V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_TB_LDO: on CB408: 2.249V\n    PP1V8_UPC_TB_LDOA: on CB406: 1.219V    \n    PP1V8_UPC_TB_LDOD: on CB405: 1.128V\nU3100\n    C3100: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.41V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_XA_LDO: on C3108: 2.269V\n    PP1V8_UPC_XA_LDOA: on C3106: 1.226V\n    PP1V8_UPC_XA_LDOD: on C3105: 1.23V\nU3200\n    C3200: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.41V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_XB_LDO: on C3208: 1.404V\n    PP1V8_UPC_XB_LDOA: on C3206: 1.265V\n    PP1V8_UPC_XB_LDOD: on C3205: 1.264V\n\nUnfortunately, the battery is empty, I got 0V when I measured the two pads which connect to J6950.\n\nThanks!\nMichael"}
-{"post_id":67687,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":682,"username":"2informaticos","post_date":"2020-11-09 04:13:04","message":"Looks to have a problem with U3200.\nIts  PP3V3_UPC_XB_LDO  has much lower value than rest of the chips.\n\nYou forgot to check 1V1 LDO, which is the most important.\n\nBTW, any reason to check 3V3_G3H in so many points?\nDo you really expect to get different values in the same rail???"}
-{"post_id":67695,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2020-11-09 06:21:33","message":"Sry, here are the values for the 1V1 LDO rail:\n\nPP1V1_UPC_TA_LDO_BMC: on CB304: 1.816V\nPP1V1_UPC_TB_LDO_BMC: on CB404: 2.685V\nPP1V1_UPC_XA_LDO_BMC: on C3104: 2.705V\nPP1V1_UPC_XB_LDO_BMC: on C3204: 1.817V\n\nSo that means U3200 and the one I've already replaced UB300 are faulty. Could it be that I've messed up some connections of the UB300 while soldering, or do you think it is dead?\n\nJust wanted to document that the rail is available for all the four chips, would not expect any different values.."}
-{"post_id":67696,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":682,"username":"2informaticos","post_date":"2020-11-09 07:12:46","message":"\"I've messed up some connections of the UB300 while soldering\"\nDo you have now some bad solders\/traces there???\n\nPlease, do not write the end \"V\", when you post diode mode reading.\nWe don't need more confusion.\n\nAnd re-check all the values.\nKeep in mind, ALWAYS connect red probe at ground for diode mode!!!"}
-{"post_id":67701,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2020-11-09 07:51:22","message":"\" \"I've messed up some connections of the UB300 while soldering\"\nDo you have now some bad solders\/traces there??? \"\nNo, I meant that there might be some shorted pads under the BGA.\n\nThanks for the advice on the diode mode reading, did wrong before. Here are the new values:\nDiode Test on Rails, \"red\" --> gnd, \"black\" --> rail\nUB300:\n    PP3V3_G3H: 0.350\n    PP3V3_UPC_TA_LDO: 0.505\n    PP1V8_UPC_TA_LDOA: 0.517\n    PP1V8_UPC_TA_LDOD: 0.481\n    PP1V1_UPC_TA_LDO_BMC: 0.504\nUB400:\n    PP3V3_G3H: 0.350\n    PP3V3_UPC_TB_LDO: 0.501\n    PP1V8_UPC_TB_LDOA: 0.514\n    PP1V8_UPC_TB_LDOD: 0.477\n    PP1V1_UPC_TB_LDO_BMC: 0.500\nUB3100:\n    PP3V3_G3H: 0.350\n    PP3V3_UPC_XA_LDO: 0.500\n    PP1V8_UPC_XA_LDOA: 0.512\n    PP1V8_UPC_XA_LDOD: 0.467\n    PP1V1_UPC_XA_LDO_BMC: 0.498\nUB3200:\n    PP3V3_G3H: 0.352\n    PP3V3_UPC_XB_LDO: 0.503\n    PP1V8_UPC_XB_LDOA: 0.513\n    PP1V8_UPC_XB_LDOD: 0.478\n    PP1V1_UPC_XB_LDO_BMC: 0.497\n\nThanks!"}
-{"post_id":67709,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":682,"username":"2informaticos","post_date":"2020-11-09 10:09:29","message":"Values look very similar.\nPlease, STOP to check the same rail in different points (3V3_G3H).\n\nYou must be sure UB300 is correctly soldered.\nAlso be aware of fake chips from chinese sellers..."}
-{"post_id":67714,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":1057,"username":"piernov","post_date":"2020-11-09 12:03:35","message":"Check the voltage on the LDOs as well."}
-{"post_id":67721,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":461,"username":"Gurmon","post_date":"2020-11-09 14:28:52","message":"[QUOTE=\"2informaticos, post: 67709, member: 682\"]\nAlso be aware of fake chips from chinese sellers...\n[\/QUOTE]\n\nYep, learned that lesson. Also a lot of these reballed ones i have found to be faulty. missing 1V1 LDO indicates bad controller chip"}
-{"post_id":67747,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2020-11-10 09:28:57","message":"[QUOTE=\"piernov, post: 67714, member: 1057\"]\nCheck the voltage on the LDOs as well.\n[\/QUOTE]\nThe 3V3 and both 1V8 LDO rails are ok on all four chips, but the 1V1 rail is missing on all of them. Do you think that all four chips are faulty, or could it be the capacitors that are connected to these rails?\n\n[QUOTE=\"2informaticos, post: 67709, member: 682\"]\nAlso be aware of fake chips from chinese sellers...\n[\/QUOTE]\nI bought my replacement from a german macbook\/iphone repair shop and it came in a sealed cut reel strip, so I guess they are ok, but you never know.."}
-{"post_id":67749,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":682,"username":"2informaticos","post_date":"2020-11-10 11:31:28","message":"1V1 LDO voltage must appear only on the chip where the charger is connected."}
-{"post_id":67770,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2020-11-11 01:40:52","message":"I've checked all the 1V1 LDO rails again, with the charger on each port. The U3100 and U3200 are fine, they power cycle and I've measured 1.1V on each 1V1 LDO rail. However, the 1V1 LDO rail is missing on the other two CD3215 (UB300, UB400). So I guess they are both faulty. Even the one I've replaced. Do you have any suggestions on where to buy good CD3215C00 chips? Shipping costs from the US (store.rossmanngroup.com) are fairly high, but if there aren't any alternatives, I would go for it."}
-{"post_id":67771,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":682,"username":"2informaticos","post_date":"2020-11-11 03:23:40","message":"I prefer to buy \"board wings\" from China.\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/item\/32957303042.html?spm=a2g0o.productlist.0.0.ca4d68e5TP4eDN&algo_pvid=0ea01f65-621b-4d43-995d-cc874dae4657&algo_expid=0ea01f65-621b-4d43-995d-cc874dae4657-10&btsid=0b0a050116050864653645152edee5&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_[\/URL]\nBuy more, as some of them may have these chips burnt; 10-15% failure rate is expected.\nBut you can be sure the chips are original."}
-{"post_id":67777,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2020-11-11 05:27:14","message":"Thanks a lot for all your help! Now I can only wait till the chips and a stencil arrive.."}
-{"post_id":67778,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":1057,"username":"piernov","post_date":"2020-11-11 06:26:16","message":"UB300\/UB400 work in master\/slave mode. The master CD3215 (UB300) must be able to read the firmware from the TBT ROM (UB090) for its 1.1V BMC LDO to come up and then USB-PD negotiation to start. The slave CD3215 (UB400) gets the firmware from the master CD3215 (UB300). So if UB300 doesn't work, UB400 won't work either. (I'm not sure if UB400 could cause UB300 not to work but it's a possibility.)\n\nIn any case it's most likely just bad CD3215."}
-{"post_id":69965,"thread_id":60302,"title":"A1707 Liquid Damage - Stuck at 5V on USB","user_id":28058,"username":"mikeeok","post_date":"2021-01-06 08:59:55","message":"Wing boards have finally arrived, any tips on how to proceed? They seem to have some \"underfill\". My plan would be to fix UB300 first, replace it with a reballed replacement chip and check for the 1.1V BMC LDO."}
+[
+    {
+        "post_id":67652,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2020-11-08 10:01:25",
+        "message":"Hi!\nI'm an electronics student from Austria trying to fix a Macbook Pro A1707 from a friend of mine. He took it to an Apple store and they said it is a liquid damage and wanted to charge him 1300\u20ac for a new logic board. Thus, he asked me if I could fix it. I have watched numerous videos from Louis on the \"stuck at 5V\" topic and started investiagting the issue\nHere is a short summary of what I've done so far. \n\nA visual inspection did not gave any obivous hints to a damaged part.\nFirst I've checked the USB port and noticed that it got stuck at 5V and draws approx. 20mA. As suggested in multiple videos, I've measured the voltage rails around the ISL9239.\nPPDCIN_G3H = 5V and is present at U7000,\nPPBUS_G3H = ~0V \n\nThen I've checked the supply rail of the USB-C port controllers, which was 0V.\n--> PP3V3_G3H = ~0V\nbut the enable signal from U7000, PM_EN_P3V3_G3H was present. Thus, I've checked if PP3V3_G3H is shorted, which it was. As suggested in a video by Louis, it is very likely, that a CD3215 is responsible for this short, UB300. Thus, I've supplied 3.3V into the PP3V3_G3H rail and identified the faulty CD3215 with the \"alcohol on chip\" method. Then I desoldered this chip and the short on PP3V3_G3H was gone. I ordered a replacement and soldered it in. \nHowever, the issue remained. The two ports, including the one I've fixed, stayed at constant 5V\/20mA, but the other two ports did power cycle like in this video.\n[MEDIA=youtube]vXAK2l1oMZM[\/MEDIA]\nLouis replaced the TB SPI Flash chip in this video and resolved the issue. I was not sure if a fresh chip from Mouser will do the job or if it needs some pre flashed data. Anyway, I ordered fresh SPI Flash chips and gave it a shot. After I've desoldered U2890, these two USB-C ports did not power cycle any longer and this behavior persited after I soldered the fresh chip from mouser.\n\nHowever, I've got stuck at this point and would need some further advice. First I've thought that the ISL9239 could be the problem, as PPBUS_G3H is not present, I've replaced it but it did not change anything. Could there be another faulty CD3215 or could it be a faulty SMC chip?\n\nBoard Rev.: 820-00928-A\n\nThanks in advance!\nKind regards\nMichael"
+    },
+    {
+        "post_id":67655,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-08 11:19:45",
+        "message":"First of all, welcome to the forum!\n\nPut back U2890, it has firmware.\n\nYou said liquid damaged board, but ehere???\nDo you get 3V3_G3H after replacing one CD3215 chip?\nDid you solder CD3215 with the same code termination (C00, B03)?\nCompare diode mode readings on all LDO rails for all CD3215 chips.\n\nIf battery still holds some charge, check if board starts on battery alone.\nBe aware, need to press power button in this case; use SW5200 pads instead."
+    },
+    {
+        "post_id":67659,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2020-11-08 14:09:15",
+        "message":"Don't touch the side that's power cycling, it's fine. It's the other side that's stuck at 5V without cycling that's causing trouble."
+    },
+    {
+        "post_id":67684,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2020-11-09 01:57:41",
+        "message":"Thanks for the quick reply!\n\nI put the original U2890 back and this side power cycles again.\n\nRegarding the liquid damage, Apple claimed this and my friend told me that he spilled some beer over it, one year ago. After that, the machine worked but stopped working a few weeks ago. Since then, it won't boot.\n\n3V3_G3H is present, ~3.4V\nI ordered the exact same replacement, C00. \n\nSupply\/LDO Rails - Diode Tests:\nUB300\n    CB300: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.40V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_TA_LDO: on CB308: 1.405V\n    PP1V8_UPC_TA_LDOA: on CB306: 1.313V\n    PP1V8_UPC_TA_LDOD: on CB305: 1.305V\nUB400\n    CB400: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.40V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_TB_LDO: on CB408: 2.249V\n    PP1V8_UPC_TB_LDOA: on CB406: 1.219V    \n    PP1V8_UPC_TB_LDOD: on CB405: 1.128V\nU3100\n    C3100: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.41V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_XA_LDO: on C3108: 2.269V\n    PP1V8_UPC_XA_LDOA: on C3106: 1.226V\n    PP1V8_UPC_XA_LDOD: on C3105: 1.23V\nU3200\n    C3200: 3V3_G3H: Diode-Mode: 1.196V\n    3V3_G3H: 3.41V\n    Diode Test on LDO Rails:\n    PP3V3_UPC_XB_LDO: on C3208: 1.404V\n    PP1V8_UPC_XB_LDOA: on C3206: 1.265V\n    PP1V8_UPC_XB_LDOD: on C3205: 1.264V\n\nUnfortunately, the battery is empty, I got 0V when I measured the two pads which connect to J6950.\n\nThanks!\nMichael"
+    },
+    {
+        "post_id":67687,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-09 02:13:04",
+        "message":"Looks to have a problem with U3200.\nIts  PP3V3_UPC_XB_LDO  has much lower value than rest of the chips.\n\nYou forgot to check 1V1 LDO, which is the most important.\n\nBTW, any reason to check 3V3_G3H in so many points?\nDo you really expect to get different values in the same rail???"
+    },
+    {
+        "post_id":67695,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2020-11-09 04:21:33",
+        "message":"Sry, here are the values for the 1V1 LDO rail:\n\nPP1V1_UPC_TA_LDO_BMC: on CB304: 1.816V\nPP1V1_UPC_TB_LDO_BMC: on CB404: 2.685V\nPP1V1_UPC_XA_LDO_BMC: on C3104: 2.705V\nPP1V1_UPC_XB_LDO_BMC: on C3204: 1.817V\n\nSo that means U3200 and the one I've already replaced UB300 are faulty. Could it be that I've messed up some connections of the UB300 while soldering, or do you think it is dead?\n\nJust wanted to document that the rail is available for all the four chips, would not expect any different values.."
+    },
+    {
+        "post_id":67696,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-09 05:12:46",
+        "message":"\"I've messed up some connections of the UB300 while soldering\"\nDo you have now some bad solders\/traces there???\n\nPlease, do not write the end \"V\", when you post diode mode reading.\nWe don't need more confusion.\n\nAnd re-check all the values.\nKeep in mind, ALWAYS connect red probe at ground for diode mode!!!"
+    },
+    {
+        "post_id":67701,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2020-11-09 05:51:22",
+        "message":"\" \"I've messed up some connections of the UB300 while soldering\"\nDo you have now some bad solders\/traces there??? \"\nNo, I meant that there might be some shorted pads under the BGA.\n\nThanks for the advice on the diode mode reading, did wrong before. Here are the new values:\nDiode Test on Rails, \"red\" --> gnd, \"black\" --> rail\nUB300:\n    PP3V3_G3H: 0.350\n    PP3V3_UPC_TA_LDO: 0.505\n    PP1V8_UPC_TA_LDOA: 0.517\n    PP1V8_UPC_TA_LDOD: 0.481\n    PP1V1_UPC_TA_LDO_BMC: 0.504\nUB400:\n    PP3V3_G3H: 0.350\n    PP3V3_UPC_TB_LDO: 0.501\n    PP1V8_UPC_TB_LDOA: 0.514\n    PP1V8_UPC_TB_LDOD: 0.477\n    PP1V1_UPC_TB_LDO_BMC: 0.500\nUB3100:\n    PP3V3_G3H: 0.350\n    PP3V3_UPC_XA_LDO: 0.500\n    PP1V8_UPC_XA_LDOA: 0.512\n    PP1V8_UPC_XA_LDOD: 0.467\n    PP1V1_UPC_XA_LDO_BMC: 0.498\nUB3200:\n    PP3V3_G3H: 0.352\n    PP3V3_UPC_XB_LDO: 0.503\n    PP1V8_UPC_XB_LDOA: 0.513\n    PP1V8_UPC_XB_LDOD: 0.478\n    PP1V1_UPC_XB_LDO_BMC: 0.497\n\nThanks!"
+    },
+    {
+        "post_id":67709,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-09 08:09:29",
+        "message":"Values look very similar.\nPlease, STOP to check the same rail in different points (3V3_G3H).\n\nYou must be sure UB300 is correctly soldered.\nAlso be aware of fake chips from chinese sellers..."
+    },
+    {
+        "post_id":67714,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2020-11-09 10:03:35",
+        "message":"Check the voltage on the LDOs as well."
+    },
+    {
+        "post_id":67721,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":461,
+        "username":"Gurmon",
+        "post_date":"2020-11-09 12:28:52",
+        "message":"[QUOTE=\"2informaticos, post: 67709, member: 682\"]\nAlso be aware of fake chips from chinese sellers...\n[\/QUOTE]\n\nYep, learned that lesson. Also a lot of these reballed ones i have found to be faulty. missing 1V1 LDO indicates bad controller chip"
+    },
+    {
+        "post_id":67747,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2020-11-10 07:28:57",
+        "message":"[QUOTE=\"piernov, post: 67714, member: 1057\"]\nCheck the voltage on the LDOs as well.\n[\/QUOTE]\nThe 3V3 and both 1V8 LDO rails are ok on all four chips, but the 1V1 rail is missing on all of them. Do you think that all four chips are faulty, or could it be the capacitors that are connected to these rails?\n\n[QUOTE=\"2informaticos, post: 67709, member: 682\"]\nAlso be aware of fake chips from chinese sellers...\n[\/QUOTE]\nI bought my replacement from a german macbook\/iphone repair shop and it came in a sealed cut reel strip, so I guess they are ok, but you never know.."
+    },
+    {
+        "post_id":67749,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-10 09:31:28",
+        "message":"1V1 LDO voltage must appear only on the chip where the charger is connected."
+    },
+    {
+        "post_id":67770,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2020-11-10 23:40:52",
+        "message":"I've checked all the 1V1 LDO rails again, with the charger on each port. The U3100 and U3200 are fine, they power cycle and I've measured 1.1V on each 1V1 LDO rail. However, the 1V1 LDO rail is missing on the other two CD3215 (UB300, UB400). So I guess they are both faulty. Even the one I've replaced. Do you have any suggestions on where to buy good CD3215C00 chips? Shipping costs from the US (store.rossmanngroup.com) are fairly high, but if there aren't any alternatives, I would go for it."
+    },
+    {
+        "post_id":67771,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-11 01:23:40",
+        "message":"I prefer to buy \"board wings\" from China.\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/item\/32957303042.html?spm=a2g0o.productlist.0.0.ca4d68e5TP4eDN&algo_pvid=0ea01f65-621b-4d43-995d-cc874dae4657&algo_expid=0ea01f65-621b-4d43-995d-cc874dae4657-10&btsid=0b0a050116050864653645152edee5&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_[\/URL]\nBuy more, as some of them may have these chips burnt; 10-15% failure rate is expected.\nBut you can be sure the chips are original."
+    },
+    {
+        "post_id":67777,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2020-11-11 03:27:14",
+        "message":"Thanks a lot for all your help! Now I can only wait till the chips and a stencil arrive.."
+    },
+    {
+        "post_id":67778,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2020-11-11 04:26:16",
+        "message":"UB300\/UB400 work in master\/slave mode. The master CD3215 (UB300) must be able to read the firmware from the TBT ROM (UB090) for its 1.1V BMC LDO to come up and then USB-PD negotiation to start. The slave CD3215 (UB400) gets the firmware from the master CD3215 (UB300). So if UB300 doesn't work, UB400 won't work either. (I'm not sure if UB400 could cause UB300 not to work but it's a possibility.)\n\nIn any case it's most likely just bad CD3215."
+    },
+    {
+        "post_id":69965,
+        "thread_id":60302,
+        "title":"A1707 Liquid Damage - Stuck at 5V on USB",
+        "user_id":28058,
+        "username":"mikeeok",
+        "post_date":"2021-01-06 06:59:55",
+        "message":"Wing boards have finally arrived, any tips on how to proceed? They seem to have some \"underfill\". My plan would be to fix UB300 first, replace it with a reballed replacement chip and check for the 1.1V BMC LDO."
+    }
+]

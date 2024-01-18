@@ -1,5 +1,47 @@
-{"post_id":4715,"thread_id":4715,"title":"820-3787-a Won't Power","user_id":288,"username":"DannyRinc","post_date":"2016-07-22 16:08:11","message":"I've got a smoothie damaged board that won't boot. I'm not getting PM_PCH_APWROK nor PM_PCH_PWROK. On U1950 I need ALL_SYS_PWRGD and CPUVR_PGOOD.\nI'm not getting ALL_SYS. It comes out of Q8151, but that's where I'm stuck.\n\nFor Q8151 I have PP3V3_S5_1v5PGOOD coming in just fine, C8134 is fine. R8136 works fine. I'm not sure if I'm supposed to have 1.5v or 3.3v going into Q8151. When I have power running through the board there's no resistance from pin 2 to 6, and when there's no power there's no resistance from 1 to 6. But I still get no voltage coming out of 6, i.e. no DELAY_1v5S0_PGD and no ALL_SYS_PWRGD.\n\nThe other half of the MOSFET is an s0 rail, so I assume we don't need it to power it on initially. Would it be safe to assume the mosfet is bad? Does that happen often?"}
-{"post_id":4721,"thread_id":4715,"title":"820-3787-a Won't Power","user_id":288,"username":"DannyRinc","post_date":"2016-07-22 17:57:38","message":"Alright so I bridged C8134 to R8137 and it basically drops the voltage to almost nothing. Input is still 3.3v, but from C8134 pin 2 to R8137 pin 1 is almost zilch. What am I missing here?\n\nIn case this info needs to be up here, what's working:\n\nPPBUSG3H\nPP3V42\nPP3v3_S5\nPP5v_S5\n\nI'm not getting PP5V_s4 or PP3v3_s4. Getting no SLP_s5 to switch on the S4 rails, put getting power for it. SLP_S5 is Power Management, Getting all the inputs except APWROK, PWROK, and SYS_PWROK. I might try what Louis did and jump PP3v42 to pin 3 on u1950. I'd rather not, but if I gotta.\n\nAlso I've checked for bad joins\/pads, everything looks perfect."}
-{"post_id":4777,"thread_id":4715,"title":"820-3787-a Won't Power","user_id":1,"username":"larossmann","post_date":"2016-07-24 19:44:48","message":"U1950 assumes S0 rails are already present. If you are not even at S4 then that is the wrong place to look. \n\nYou need s5 rails to get s4, s4 to get s3, s3 to get s0, and so on and so forth. if you don't have s5 rails then troubleshooting s0 is a waste of time.\n\nwhere was the spill exactly?"}
-{"post_id":4837,"thread_id":4715,"title":"820-3787-a Won't Power","user_id":288,"username":"DannyRinc","post_date":"2016-07-26 13:02:34","message":"So the damage was mostly confined to the lower left area of the board (around the PCH and WIFI card connector) although the battery has a lot of corrosion on the board. I haven't used the battery at all. A bit of background, the board was originally worked on and \"cleaned\" but when I got it, it was still super dirty. I was told that at some point they got it to boot (after cleaning) but it got a kernel panic and shut off. Hasn't come back on.\n\nI've looked all over the board and anything that looks abnormal I've tested and they work. No red pads, no missing traces, no burnt components.\n\nGot a green then orange light on the charger, and after measuring I know I've got G3H and 3v42G3 coming in fine, both 3v and 5v S5 rails present everywhere. So since my s4 rails don't work, the schematic traces back to U8170 for S4 Power Enable. Got power there too, but I have no PM_SLP_S5_L.\n\nAt the PCH I don't have PCH_APWROK, PCH_PWROK, or SYS_PWROK going in, and they all come out of U1950. So do I need SLP_S5 from the SMC before I can get U1950 to put out all the PWROK signals?\n\n\n\n\nEDIT: Did a bit of digging, someone had pretty much the same problem as me. Even after running a wire from C8170 to D8174, I got my 5v S4 rail going, but still no ability to power. If I do an smc bypass the computer DOES boot, so I guess the board isn't shot completely. It'll boot halfway and then reboot. Could it be a current sensing issue?\n\n\nEDIT2: It's actually both s4 rails that work when i hotwire s4_PWR_EN, also PP3V3_SUS_FET, but I can't get any s3 rails because PM_SLP_S4_L isn't coming through. Read that it could be a clock issue, SYSCLK_CLK32K_RTC reads at 32khz. I'm going nuts here.\n\nI'm waiting for some donor boards, but I'm hoping I can find what the problem is before I gotta replace tons of components.\n\nEDIT3: So looks like the power sequencing goes s5_pwrgd -> dsw_pwrgd -> SLP_SUS_L -> PP3v3_SUS -> RSMRST_L -> SLP_S5. I know I'm good up to DSW_PWRGD, so I'll be checking slp_sus tomorrow. What's weird is that even with S4 rails there's no power, and an SMC bypass yields only a partial boot. Could that mean PCH damage? Or SMC?"}
-{"post_id":4853,"thread_id":4715,"title":"820-3787-a Won't Power","user_id":288,"username":"DannyRinc","post_date":"2016-07-27 15:12:53","message":"I'm gonna take a break from this for a bit, was poking around the SMC and noticed a few components missing like R5403 and C5577. Whoever worked on this before me did a bang up job. I'll be waiting for donor boards and will update once I can resume diagnosing. Thanks for everything!"}
+[
+    {
+        "post_id":4715,
+        "thread_id":4715,
+        "title":"820-3787-a Won't Power",
+        "user_id":288,
+        "username":"DannyRinc",
+        "post_date":"2016-07-22 14:08:11",
+        "message":"I've got a smoothie damaged board that won't boot. I'm not getting PM_PCH_APWROK nor PM_PCH_PWROK. On U1950 I need ALL_SYS_PWRGD and CPUVR_PGOOD.\nI'm not getting ALL_SYS. It comes out of Q8151, but that's where I'm stuck.\n\nFor Q8151 I have PP3V3_S5_1v5PGOOD coming in just fine, C8134 is fine. R8136 works fine. I'm not sure if I'm supposed to have 1.5v or 3.3v going into Q8151. When I have power running through the board there's no resistance from pin 2 to 6, and when there's no power there's no resistance from 1 to 6. But I still get no voltage coming out of 6, i.e. no DELAY_1v5S0_PGD and no ALL_SYS_PWRGD.\n\nThe other half of the MOSFET is an s0 rail, so I assume we don't need it to power it on initially. Would it be safe to assume the mosfet is bad? Does that happen often?"
+    },
+    {
+        "post_id":4721,
+        "thread_id":4715,
+        "title":"820-3787-a Won't Power",
+        "user_id":288,
+        "username":"DannyRinc",
+        "post_date":"2016-07-22 15:57:38",
+        "message":"Alright so I bridged C8134 to R8137 and it basically drops the voltage to almost nothing. Input is still 3.3v, but from C8134 pin 2 to R8137 pin 1 is almost zilch. What am I missing here?\n\nIn case this info needs to be up here, what's working:\n\nPPBUSG3H\nPP3V42\nPP3v3_S5\nPP5v_S5\n\nI'm not getting PP5V_s4 or PP3v3_s4. Getting no SLP_s5 to switch on the S4 rails, put getting power for it. SLP_S5 is Power Management, Getting all the inputs except APWROK, PWROK, and SYS_PWROK. I might try what Louis did and jump PP3v42 to pin 3 on u1950. I'd rather not, but if I gotta.\n\nAlso I've checked for bad joins\/pads, everything looks perfect."
+    },
+    {
+        "post_id":4777,
+        "thread_id":4715,
+        "title":"820-3787-a Won't Power",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2016-07-24 17:44:48",
+        "message":"U1950 assumes S0 rails are already present. If you are not even at S4 then that is the wrong place to look. \n\nYou need s5 rails to get s4, s4 to get s3, s3 to get s0, and so on and so forth. if you don't have s5 rails then troubleshooting s0 is a waste of time.\n\nwhere was the spill exactly?"
+    },
+    {
+        "post_id":4837,
+        "thread_id":4715,
+        "title":"820-3787-a Won't Power",
+        "user_id":288,
+        "username":"DannyRinc",
+        "post_date":"2016-07-26 11:02:34",
+        "message":"So the damage was mostly confined to the lower left area of the board (around the PCH and WIFI card connector) although the battery has a lot of corrosion on the board. I haven't used the battery at all. A bit of background, the board was originally worked on and \"cleaned\" but when I got it, it was still super dirty. I was told that at some point they got it to boot (after cleaning) but it got a kernel panic and shut off. Hasn't come back on.\n\nI've looked all over the board and anything that looks abnormal I've tested and they work. No red pads, no missing traces, no burnt components.\n\nGot a green then orange light on the charger, and after measuring I know I've got G3H and 3v42G3 coming in fine, both 3v and 5v S5 rails present everywhere. So since my s4 rails don't work, the schematic traces back to U8170 for S4 Power Enable. Got power there too, but I have no PM_SLP_S5_L.\n\nAt the PCH I don't have PCH_APWROK, PCH_PWROK, or SYS_PWROK going in, and they all come out of U1950. So do I need SLP_S5 from the SMC before I can get U1950 to put out all the PWROK signals?\n\n\n\n\nEDIT: Did a bit of digging, someone had pretty much the same problem as me. Even after running a wire from C8170 to D8174, I got my 5v S4 rail going, but still no ability to power. If I do an smc bypass the computer DOES boot, so I guess the board isn't shot completely. It'll boot halfway and then reboot. Could it be a current sensing issue?\n\n\nEDIT2: It's actually both s4 rails that work when i hotwire s4_PWR_EN, also PP3V3_SUS_FET, but I can't get any s3 rails because PM_SLP_S4_L isn't coming through. Read that it could be a clock issue, SYSCLK_CLK32K_RTC reads at 32khz. I'm going nuts here.\n\nI'm waiting for some donor boards, but I'm hoping I can find what the problem is before I gotta replace tons of components.\n\nEDIT3: So looks like the power sequencing goes s5_pwrgd -> dsw_pwrgd -> SLP_SUS_L -> PP3v3_SUS -> RSMRST_L -> SLP_S5. I know I'm good up to DSW_PWRGD, so I'll be checking slp_sus tomorrow. What's weird is that even with S4 rails there's no power, and an SMC bypass yields only a partial boot. Could that mean PCH damage? Or SMC?"
+    },
+    {
+        "post_id":4853,
+        "thread_id":4715,
+        "title":"820-3787-a Won't Power",
+        "user_id":288,
+        "username":"DannyRinc",
+        "post_date":"2016-07-27 13:12:53",
+        "message":"I'm gonna take a break from this for a bit, was poking around the SMC and noticed a few components missing like R5403 and C5577. Whoever worked on this before me did a bang up job. I'll be waiting for donor boards and will update once I can resume diagnosing. Thanks for everything!"
+    }
+]

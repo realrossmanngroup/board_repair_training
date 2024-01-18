@@ -1,12 +1,110 @@
-{"post_id":60526,"thread_id":59457,"title":"820-00840-A not turning on","user_id":21359,"username":"Fanfwe","post_date":"2020-06-05 12:58:52","message":"Hi,\nI am practising with another 820-00840-A board that does not turn on.\nThere is no sign of liquid damage.\n\nMy charger gives 20V so I have PPBUS_G3H.\nPP3V3_G3H gives me 3.41V\n\nThen my S5 rails are all missing.\nI figured that PP3V3_S5 reads 7 Ohms to ground. I suppose this means a short to ground. I know 7 Ohms could be fine for some rails such as CPU VCore, but I think this is no good for that PP3V3_S5 rail, right ?\n\nIs there anything else I should check before I try to inject some voltage into that rail in order to find the short ?"}
-{"post_id":60541,"thread_id":59457,"title":"820-00840-A not turning on","user_id":682,"username":"2informaticos","post_date":"2020-06-05 16:45:25","message":"That is very low value for 3V3_S5.\nFirst lift one side of the coil and see where the short remains.\nIf is on the filtaer cap, then you can try voltage injection.\n7 ohm may doesn't heat anything, as you cannot inject more than 4v there.\nBut may have luck and some chip enters into thermal avalanche.\nRemove CPU heatsink before..."}
-{"post_id":60573,"thread_id":59457,"title":"820-00840-A not turning on","user_id":21359,"username":"Fanfwe","post_date":"2020-06-06 09:55:17","message":"Hi,\nSo, with the coil lifted, the short was remaining on the filter cap side.\nSo I tried to inject voltage.\nAt first I sent 1V, but not much happenned.\nThen I went for 3.3V. I could see it was drawing between 200mA and 300mA for some time, but while I was trying to feel heat on the board, I saw the power supply current went down to just a few milliamps.\nSo, looks like the short fused by itself. Now it is gone, and I have about 0.6KOhms to ground on PP3V3_S5 which looks quite better.\n\nHowever, I still do not have any S5 rails coming up. At the moment, I can only see PPBUS_G3H and PP3V3_G3H coming up."}
-{"post_id":60576,"thread_id":59457,"title":"820-00840-A not turning on","user_id":682,"username":"2informaticos","post_date":"2020-06-06 10:24:42","message":"Resolder the coil and post basic voltages for U7650; pins 23, 12, 13, 22, 29, 21."}
-{"post_id":60580,"thread_id":59457,"title":"820-00840-A not turning on","user_id":21359,"username":"Fanfwe","post_date":"2020-06-06 13:12:19","message":"I already had the coil resoldered from before.\nPin 23 has 13 volts\nPin 12 has 0 volts\nPin 13 has 0 volts\nPin 22 has 3.3 volts\nPin 29 has 0 volts\nPin 21 has 0 volts\n\nLooks like I'm missing the enable signals for the rails. I went on and checked the U7890 gate that controls PM_EN_PVXS5, it has power from PPBUS_G3H however its two inputs are low. One of them comes from the SSD connector, so it's probably normal as I do not have an SSD connected. The other one comes from the PMIC U7800.\nLooks like that chip has two power inputs, one that comes from PP3V3_S5, but it can't be that one, since that chip must turn on the S5 rails, so...\nThe other power input that I see is PP3V3_LDO3V, and on that one I only get 1.8V, so something is probably wrong there I guess ? It reads 27 Ohms to ground."}
-{"post_id":60583,"thread_id":59457,"title":"820-00840-A not turning on","user_id":682,"username":"2informaticos","post_date":"2020-06-06 14:34:50","message":"That voltage is only used by PMIC itself.\nRemove C7805\/24 and check again diode mode.\nIf still low, change U7800..."}
-{"post_id":61509,"thread_id":59457,"title":"820-00840-A not turning on","user_id":21359,"username":"Fanfwe","post_date":"2020-06-27 07:02:21","message":"Allright, the caps were not causing that issue.\nIt took me a while to get a new PMIC in order to replace U7800, but I finally got it yesterday and replaced the chip.\nThe board still doesn't boot, however I am now getting a lot more power rails.\nIn fact, all rails are present, except for PPVCCCPU_S0G and PPVCCGT_S0G. So all I am missing now, is essentially CPU Vcore.\n\nThe boards draws 240mA at 20 Volts for a little while, then down to 20mA for a few seconds, and then back to 240mA and stays there.\nThe CPU get just a little warm, not hot.\n\nPPVCCCPU_S0G measures 7 Ohms to ground\nPPVCCGT_S0G measures 4 Ohms to ground\n\nI do not have a reference board to compare this to, so I'm not sure if this is right or wrong."}
-{"post_id":61510,"thread_id":59457,"title":"820-00840-A not turning on","user_id":682,"username":"2informaticos","post_date":"2020-06-27 09:27:34","message":"Check PM_EN_CPUVCC.\nIf high, then try new BIOS..."}
-{"post_id":61565,"thread_id":59457,"title":"820-00840-A not turning on","user_id":21359,"username":"Fanfwe","post_date":"2020-06-28 13:15:27","message":"Yeah, PM_EN_CPUVCC is high, I forgot to mention that.\nOK, so I will try to play with the BIOS.\nI'll start dumping the existing one, just to be safe.\n\nBut then, what should I be doing ? Can I just pick a dump from another board just as is ? I guess this will have ME issues, but maybe it's still good enough to start with, in order to see if board will boot ? Then if that works I could look at preparing a clean image for this board. Right ?"}
-{"post_id":61568,"thread_id":59457,"title":"820-00840-A not turning on","user_id":682,"username":"2informaticos","post_date":"2020-06-28 15:37:41","message":"Yes, it should start at least.\nBut I'm sure somewhere on the forum should be a link for clean ME BIOS..."}
-{"post_id":61848,"thread_id":59457,"title":"820-00840-A not turning on","user_id":21359,"username":"Fanfwe","post_date":"2020-07-04 03:40:32","message":"Didn't manage to find a clean ME BIOS. I took a dump from a dead CPU donor board and flashed it on this board.\nSame problem. No PPVCCCPU_S0G and no PPVCCGT_S0G. When plugging in the charger, PM_EN_CPUVCC goes high, then low, then high and remains high."}
-{"post_id":61849,"thread_id":59457,"title":"820-00840-A not turning on","user_id":682,"username":"2informaticos","post_date":"2020-07-04 04:58:00","message":"Something had to cause that problem on 3V3_S5 rail.\nThe low value disappeard, but possibly there is a chip with internal damage; that could be CPU.\n\nVCCGT doesn't come on untill graphics load goes high."}
+[
+    {
+        "post_id":60526,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-06-05 10:58:52",
+        "message":"Hi,\nI am practising with another 820-00840-A board that does not turn on.\nThere is no sign of liquid damage.\n\nMy charger gives 20V so I have PPBUS_G3H.\nPP3V3_G3H gives me 3.41V\n\nThen my S5 rails are all missing.\nI figured that PP3V3_S5 reads 7 Ohms to ground. I suppose this means a short to ground. I know 7 Ohms could be fine for some rails such as CPU VCore, but I think this is no good for that PP3V3_S5 rail, right ?\n\nIs there anything else I should check before I try to inject some voltage into that rail in order to find the short ?"
+    },
+    {
+        "post_id":60541,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-05 14:45:25",
+        "message":"That is very low value for 3V3_S5.\nFirst lift one side of the coil and see where the short remains.\nIf is on the filtaer cap, then you can try voltage injection.\n7 ohm may doesn't heat anything, as you cannot inject more than 4v there.\nBut may have luck and some chip enters into thermal avalanche.\nRemove CPU heatsink before..."
+    },
+    {
+        "post_id":60573,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-06-06 07:55:17",
+        "message":"Hi,\nSo, with the coil lifted, the short was remaining on the filter cap side.\nSo I tried to inject voltage.\nAt first I sent 1V, but not much happenned.\nThen I went for 3.3V. I could see it was drawing between 200mA and 300mA for some time, but while I was trying to feel heat on the board, I saw the power supply current went down to just a few milliamps.\nSo, looks like the short fused by itself. Now it is gone, and I have about 0.6KOhms to ground on PP3V3_S5 which looks quite better.\n\nHowever, I still do not have any S5 rails coming up. At the moment, I can only see PPBUS_G3H and PP3V3_G3H coming up."
+    },
+    {
+        "post_id":60576,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-06 08:24:42",
+        "message":"Resolder the coil and post basic voltages for U7650; pins 23, 12, 13, 22, 29, 21."
+    },
+    {
+        "post_id":60580,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-06-06 11:12:19",
+        "message":"I already had the coil resoldered from before.\nPin 23 has 13 volts\nPin 12 has 0 volts\nPin 13 has 0 volts\nPin 22 has 3.3 volts\nPin 29 has 0 volts\nPin 21 has 0 volts\n\nLooks like I'm missing the enable signals for the rails. I went on and checked the U7890 gate that controls PM_EN_PVXS5, it has power from PPBUS_G3H however its two inputs are low. One of them comes from the SSD connector, so it's probably normal as I do not have an SSD connected. The other one comes from the PMIC U7800.\nLooks like that chip has two power inputs, one that comes from PP3V3_S5, but it can't be that one, since that chip must turn on the S5 rails, so...\nThe other power input that I see is PP3V3_LDO3V, and on that one I only get 1.8V, so something is probably wrong there I guess ? It reads 27 Ohms to ground."
+    },
+    {
+        "post_id":60583,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-06 12:34:50",
+        "message":"That voltage is only used by PMIC itself.\nRemove C7805\/24 and check again diode mode.\nIf still low, change U7800..."
+    },
+    {
+        "post_id":61509,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-06-27 05:02:21",
+        "message":"Allright, the caps were not causing that issue.\nIt took me a while to get a new PMIC in order to replace U7800, but I finally got it yesterday and replaced the chip.\nThe board still doesn't boot, however I am now getting a lot more power rails.\nIn fact, all rails are present, except for PPVCCCPU_S0G and PPVCCGT_S0G. So all I am missing now, is essentially CPU Vcore.\n\nThe boards draws 240mA at 20 Volts for a little while, then down to 20mA for a few seconds, and then back to 240mA and stays there.\nThe CPU get just a little warm, not hot.\n\nPPVCCCPU_S0G measures 7 Ohms to ground\nPPVCCGT_S0G measures 4 Ohms to ground\n\nI do not have a reference board to compare this to, so I'm not sure if this is right or wrong."
+    },
+    {
+        "post_id":61510,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-27 07:27:34",
+        "message":"Check PM_EN_CPUVCC.\nIf high, then try new BIOS..."
+    },
+    {
+        "post_id":61565,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-06-28 11:15:27",
+        "message":"Yeah, PM_EN_CPUVCC is high, I forgot to mention that.\nOK, so I will try to play with the BIOS.\nI'll start dumping the existing one, just to be safe.\n\nBut then, what should I be doing ? Can I just pick a dump from another board just as is ? I guess this will have ME issues, but maybe it's still good enough to start with, in order to see if board will boot ? Then if that works I could look at preparing a clean image for this board. Right ?"
+    },
+    {
+        "post_id":61568,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-28 13:37:41",
+        "message":"Yes, it should start at least.\nBut I'm sure somewhere on the forum should be a link for clean ME BIOS..."
+    },
+    {
+        "post_id":61848,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-07-04 01:40:32",
+        "message":"Didn't manage to find a clean ME BIOS. I took a dump from a dead CPU donor board and flashed it on this board.\nSame problem. No PPVCCCPU_S0G and no PPVCCGT_S0G. When plugging in the charger, PM_EN_CPUVCC goes high, then low, then high and remains high."
+    },
+    {
+        "post_id":61849,
+        "thread_id":59457,
+        "title":"820-00840-A not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-04 02:58:00",
+        "message":"Something had to cause that problem on 3V3_S5 rail.\nThe low value disappeard, but possibly there is a chip with internal damage; that could be CPU.\n\nVCCGT doesn't come on untill graphics load goes high."
+    }
+]

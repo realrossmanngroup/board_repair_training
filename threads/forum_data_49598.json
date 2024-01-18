@@ -1,14 +1,128 @@
-{"post_id":49598,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-05-31 04:45:44","message":"Hi all. Not posted for a while as I seem to be getting on OK with the logic board repairs. However, I think I am not seeing the wood for the tree's. I am searching around and losing track of what, where, why and when.\nMBA A1466 820-00165\nMagsafe- Green to Orange- no power on- no fan spin\nPPBUS_G3H = 8.597v\nPP3V42_G3H = 3.428v\nPP5V_S5 = 0V\nPP5V_S4RS3 = 0V\nPP5V_S0 = 0V\nPP3V3_S5 = 0.307V\nPP3V3_S4 = 0V\n\nBasically, all the 3v3 rails are 0v\n\nI have seen this issue addressed a few times on the forum and by our \"leader\" but for the life of me I can't seem to locate any of the videos or posts. I am probably not putting in the right search terms but being thick.. who knows.\n\nMy deduction, I believe there is an IC that produces both the 5v and the 3.3v.\n\nSearched over the board and so far, there was corrosion around pins 18 to 21 on U7501 so I removed and replaced it with another.\nCorrosion around pin 1 of R4411 and all 6 pins on Q4410. Q4410 was replaced. Pad on pin 1 of R4411 was gone so jumped to pin 1 on R4410.\nchecked rest of the board.... no corrosion. I don't think the board has been looked at before as even though it is cleaner that I would have thought as there was a little corrosion, there are loads of fibres on the board giving me reason to believe it has not been ultrasonic cleaned.\n\nPrior to disassembly, I did do a SMC reset and a PRAM reset. I have also tested SMC_RESET_L which gives 3.384v and SMC_MANUAL_RST_L gives 2.754v\n\nWhen the magsafe i connected the CPU does get warm. And even though I do not believe for one second it is a contributing factor, I have \"carefully\" removed J6100. I don't know why but Louis seems to have good results removing this.\n\nIs there anything else I should be checking, please?\nThank you in advance."}
-{"post_id":49602,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1153,"username":"JohnB8812","post_date":"2019-05-31 10:34:18","message":"Post voltage for PPVRTC_G3H and SMC_PM_G2_EN"}
-{"post_id":49603,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-05-31 10:37:24","message":"Hiya, as an update, if it helps, I have followed page 62 of the schematic down and below are all the voltages of the first line of all the power rails.\n\nPPBUS_G3H= 8.641v\nPPBUS_S5_HS_COMPUTING_ISNS= 8.639v\nPPBUS_S5_HS_OTHER_ISNS= 8.639v\nPPDCIN_G3H_ISOL= 16.909v\nPPDCIN_G3H= 16.913v\nPP3V42_G3H= 3.437v\nPPVRTC_G3H= 3.356v\nPP5V_S5= 5.036v\nPP5V_S4RS3= 0v\nPP5V_S0= 0v\nPP3V3_S5= 3.357v\nPP3V3_S4= 0v\nPP3V3_SUS= 3.355v\nPP3V3_S3= 0v\nPP3V3_S0= 0v\nPP3V3_S4SW_SNS= 0v\nPP3V3_S0SW_SSD= 0v\nPP3V3_S4_TBTAPWR= 0.003v\nPP1V8_S3= 0v\nPP1V2_S3= 0v\nPP1V05_SUS= 1.066v\nPP1V5_S0= 0v\nPP0V6_S0_DDRVTT= 0v\nPP1V05_S0= 0v\nPP1V05_S0SW_PCH_HSIO= 0v\nPPHV_S0SW_LCDBKLT= 0v\nPP15V_TBT= 0v\nPP3V3_TBTLC= 0v\nPP1V05_TBTCIO= 0v\n\nUnfortunately, I do not have another 820-00165 here to make a comparison with. \nJust in case I was being trolled, I have also changed the DC-in board and the charge ribbon.\n\nPlease help oh guru's of the mac world."}
-{"post_id":49604,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-05-31 10:40:30","message":"[USER=\"1153\"]JohnB8812[\/USER] \nPPVRTC_G3H= 3.356v\nSMC_PM_G2_EN= 3.436v"}
-{"post_id":49605,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1153,"username":"JohnB8812","post_date":"2019-05-31 12:10:43","message":"Voltage on PM_BATLOW_L? Any history liquid drop etc?"}
-{"post_id":49611,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":682,"username":"2informaticos","post_date":"2019-05-31 16:35:59","message":"No reason to check S0 voltages, when missing S3 voltages.\nKeep in mind, power sequence is S5 --> S3 --> S0.\n\nPost SMC_ADAPTER_EN, PM_BATLOW_L, PM_RSMRST_L.\nCheck if PM_PWRBTNL_L reacts when trigger SMC_ONOFF_L.\nIf you get a pulse on PM_SLP_S4_L, all S3 voltages should pulse too."}
-{"post_id":49624,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-06-01 06:05:26","message":"[USER=\"1153\"]JohnB8812[\/USER] [USER=\"682\"]2informaticos[\/USER] \nPM_BATLOW_L= 0.036v\nSMC_ADAPTER_EN= 3.411v\nPM_RSMRST_L= 3.303v\nSMC_ONOFF_L= 3.412v\nPM_SLP_S4_L= 0.001v steady\n\nPM_PWRBTNL_L..... did you mean PM_PWRBTN_L? If so I get 3.383v"}
-{"post_id":49626,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-06-01 06:37:00","message":"[USER=\"1153\"]JohnB8812[\/USER] \nJust managed to get in touch with the customer, he \"claims\" he has dropped it twice from a low level onto carpet. Last time was about 18 months ago. Dont know if that has any bearing on the diagnostics."}
-{"post_id":49630,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":682,"username":"2informaticos","post_date":"2019-06-01 09:58:17","message":"Dropped machines are always nightmare to repair.\n\n\"PM_BATLOW_L= 0.036v\"\nPCH will not start power sequence in this way.\nAre you surely using original 60\/85W Magsafe 2 charger?\n\n\"PM_PWRBTNL_L..... did you mean PM_PWRBTN_L? If so I get 3.383v\"\nSorry for misspelling.\nI was asking for any reaction; it is steady high?"}
-{"post_id":49657,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1153,"username":"JohnB8812","post_date":"2019-06-02 08:46:06","message":"You ARE NOT Using a genuine charger BATLOW should be 3.3! Go get an OEM 85 watt MagSafe 2 from Apple or Best Buy before continuing"}
-{"post_id":49683,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-06-03 02:15:41","message":"[USER=\"682\"]2informaticos[\/USER] I tested the voltage at probe point 639 ( just below R2223) ( as shown using Landrex ( i like Landrex)) and it showed 0.036v. I felt this was easier to locate than R1410. However, when I tested at Pin 2 of R1410 I was getting the same 0.036v but pin 1 is showing 3.334v. I removed this resistor and replaced it with another 10 kOhm resistor and now getting 3.330v on pin 2 and fan spin using both my 60w and 85w Magsafe 2 adapters.... no Magsafe 1 to 2 convertor as this sometimes gives problems. I am going to reassemble to see what happens from here and will report back\n\n[USER=\"1153\"]JohnB8812[\/USER] All of my adapters are genuine adapters. With exception of my 60w and 85w Magsafe 1's, which came from units that I brought in, my 45\/60\/85w Magsafe 2 and 30w USB C all came from my local Apple store at Lakeside Thurrock in Essex, UK. I have been caught out with this before when [USER=\"682\"]2informaticos[\/USER] was troubleshooting another A1466 820-00165 board I had in for repair.\n\nI am putting it back together and wil let you know the result."}
-{"post_id":49685,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-06-03 02:41:38","message":"And there we have it... got a fan spin, a boot and folder displayed. I am going to re-attach the J6100 connector as I feel that it really was of no consequence to the issue. For the record parts swapped were U7501, Q4410, R4411. Pin 1 of R4411 was also jumped to pin 1 on R4410. Finally R1410 was replaced. I am going to soak test it for a couple of hours to make sure all is good. Thank you both for your assistance in helping me see the problems and resolving then. Kudos to you both."}
-{"post_id":49687,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":682,"username":"2informaticos","post_date":"2019-06-03 03:40:29","message":"Good job!\n\nDon't waste time with J6100, not really needed.\nIt only helps to flash the BIOS onboard..."}
-{"post_id":49692,"thread_id":49598,"title":"820-00165 No 5v or 3v3.","user_id":1879,"username":"RESQ-MYTECH","post_date":"2019-06-03 04:55:01","message":"Thank you [USER=\"682\"]2informaticos[\/USER] . I have fitted it back before i saw your message. As usual, I couldn't have done this without the aid of you guys on the forum."}
+[
+    {
+        "post_id":49598,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-05-31 02:45:44",
+        "message":"Hi all. Not posted for a while as I seem to be getting on OK with the logic board repairs. However, I think I am not seeing the wood for the tree's. I am searching around and losing track of what, where, why and when.\nMBA A1466 820-00165\nMagsafe- Green to Orange- no power on- no fan spin\nPPBUS_G3H = 8.597v\nPP3V42_G3H = 3.428v\nPP5V_S5 = 0V\nPP5V_S4RS3 = 0V\nPP5V_S0 = 0V\nPP3V3_S5 = 0.307V\nPP3V3_S4 = 0V\n\nBasically, all the 3v3 rails are 0v\n\nI have seen this issue addressed a few times on the forum and by our \"leader\" but for the life of me I can't seem to locate any of the videos or posts. I am probably not putting in the right search terms but being thick.. who knows.\n\nMy deduction, I believe there is an IC that produces both the 5v and the 3.3v.\n\nSearched over the board and so far, there was corrosion around pins 18 to 21 on U7501 so I removed and replaced it with another.\nCorrosion around pin 1 of R4411 and all 6 pins on Q4410. Q4410 was replaced. Pad on pin 1 of R4411 was gone so jumped to pin 1 on R4410.\nchecked rest of the board.... no corrosion. I don't think the board has been looked at before as even though it is cleaner that I would have thought as there was a little corrosion, there are loads of fibres on the board giving me reason to believe it has not been ultrasonic cleaned.\n\nPrior to disassembly, I did do a SMC reset and a PRAM reset. I have also tested SMC_RESET_L which gives 3.384v and SMC_MANUAL_RST_L gives 2.754v\n\nWhen the magsafe i connected the CPU does get warm. And even though I do not believe for one second it is a contributing factor, I have \"carefully\" removed J6100. I don't know why but Louis seems to have good results removing this.\n\nIs there anything else I should be checking, please?\nThank you in advance."
+    },
+    {
+        "post_id":49602,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-05-31 08:34:18",
+        "message":"Post voltage for PPVRTC_G3H and SMC_PM_G2_EN"
+    },
+    {
+        "post_id":49603,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-05-31 08:37:24",
+        "message":"Hiya, as an update, if it helps, I have followed page 62 of the schematic down and below are all the voltages of the first line of all the power rails.\n\nPPBUS_G3H= 8.641v\nPPBUS_S5_HS_COMPUTING_ISNS= 8.639v\nPPBUS_S5_HS_OTHER_ISNS= 8.639v\nPPDCIN_G3H_ISOL= 16.909v\nPPDCIN_G3H= 16.913v\nPP3V42_G3H= 3.437v\nPPVRTC_G3H= 3.356v\nPP5V_S5= 5.036v\nPP5V_S4RS3= 0v\nPP5V_S0= 0v\nPP3V3_S5= 3.357v\nPP3V3_S4= 0v\nPP3V3_SUS= 3.355v\nPP3V3_S3= 0v\nPP3V3_S0= 0v\nPP3V3_S4SW_SNS= 0v\nPP3V3_S0SW_SSD= 0v\nPP3V3_S4_TBTAPWR= 0.003v\nPP1V8_S3= 0v\nPP1V2_S3= 0v\nPP1V05_SUS= 1.066v\nPP1V5_S0= 0v\nPP0V6_S0_DDRVTT= 0v\nPP1V05_S0= 0v\nPP1V05_S0SW_PCH_HSIO= 0v\nPPHV_S0SW_LCDBKLT= 0v\nPP15V_TBT= 0v\nPP3V3_TBTLC= 0v\nPP1V05_TBTCIO= 0v\n\nUnfortunately, I do not have another 820-00165 here to make a comparison with. \nJust in case I was being trolled, I have also changed the DC-in board and the charge ribbon.\n\nPlease help oh guru's of the mac world."
+    },
+    {
+        "post_id":49604,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-05-31 08:40:30",
+        "message":"[USER=\"1153\"]JohnB8812[\/USER] \nPPVRTC_G3H= 3.356v\nSMC_PM_G2_EN= 3.436v"
+    },
+    {
+        "post_id":49605,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-05-31 10:10:43",
+        "message":"Voltage on PM_BATLOW_L? Any history liquid drop etc?"
+    },
+    {
+        "post_id":49611,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-05-31 14:35:59",
+        "message":"No reason to check S0 voltages, when missing S3 voltages.\nKeep in mind, power sequence is S5 --> S3 --> S0.\n\nPost SMC_ADAPTER_EN, PM_BATLOW_L, PM_RSMRST_L.\nCheck if PM_PWRBTNL_L reacts when trigger SMC_ONOFF_L.\nIf you get a pulse on PM_SLP_S4_L, all S3 voltages should pulse too."
+    },
+    {
+        "post_id":49624,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-06-01 04:05:26",
+        "message":"[USER=\"1153\"]JohnB8812[\/USER] [USER=\"682\"]2informaticos[\/USER] \nPM_BATLOW_L= 0.036v\nSMC_ADAPTER_EN= 3.411v\nPM_RSMRST_L= 3.303v\nSMC_ONOFF_L= 3.412v\nPM_SLP_S4_L= 0.001v steady\n\nPM_PWRBTNL_L..... did you mean PM_PWRBTN_L? If so I get 3.383v"
+    },
+    {
+        "post_id":49626,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-06-01 04:37:00",
+        "message":"[USER=\"1153\"]JohnB8812[\/USER] \nJust managed to get in touch with the customer, he \"claims\" he has dropped it twice from a low level onto carpet. Last time was about 18 months ago. Dont know if that has any bearing on the diagnostics."
+    },
+    {
+        "post_id":49630,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-01 07:58:17",
+        "message":"Dropped machines are always nightmare to repair.\n\n\"PM_BATLOW_L= 0.036v\"\nPCH will not start power sequence in this way.\nAre you surely using original 60\/85W Magsafe 2 charger?\n\n\"PM_PWRBTNL_L..... did you mean PM_PWRBTN_L? If so I get 3.383v\"\nSorry for misspelling.\nI was asking for any reaction; it is steady high?"
+    },
+    {
+        "post_id":49657,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-06-02 06:46:06",
+        "message":"You ARE NOT Using a genuine charger BATLOW should be 3.3! Go get an OEM 85 watt MagSafe 2 from Apple or Best Buy before continuing"
+    },
+    {
+        "post_id":49683,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-06-03 00:15:41",
+        "message":"[USER=\"682\"]2informaticos[\/USER] I tested the voltage at probe point 639 ( just below R2223) ( as shown using Landrex ( i like Landrex)) and it showed 0.036v. I felt this was easier to locate than R1410. However, when I tested at Pin 2 of R1410 I was getting the same 0.036v but pin 1 is showing 3.334v. I removed this resistor and replaced it with another 10 kOhm resistor and now getting 3.330v on pin 2 and fan spin using both my 60w and 85w Magsafe 2 adapters.... no Magsafe 1 to 2 convertor as this sometimes gives problems. I am going to reassemble to see what happens from here and will report back\n\n[USER=\"1153\"]JohnB8812[\/USER] All of my adapters are genuine adapters. With exception of my 60w and 85w Magsafe 1's, which came from units that I brought in, my 45\/60\/85w Magsafe 2 and 30w USB C all came from my local Apple store at Lakeside Thurrock in Essex, UK. I have been caught out with this before when [USER=\"682\"]2informaticos[\/USER] was troubleshooting another A1466 820-00165 board I had in for repair.\n\nI am putting it back together and wil let you know the result."
+    },
+    {
+        "post_id":49685,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-06-03 00:41:38",
+        "message":"And there we have it... got a fan spin, a boot and folder displayed. I am going to re-attach the J6100 connector as I feel that it really was of no consequence to the issue. For the record parts swapped were U7501, Q4410, R4411. Pin 1 of R4411 was also jumped to pin 1 on R4410. Finally R1410 was replaced. I am going to soak test it for a couple of hours to make sure all is good. Thank you both for your assistance in helping me see the problems and resolving then. Kudos to you both."
+    },
+    {
+        "post_id":49687,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-03 01:40:29",
+        "message":"Good job!\n\nDon't waste time with J6100, not really needed.\nIt only helps to flash the BIOS onboard..."
+    },
+    {
+        "post_id":49692,
+        "thread_id":49598,
+        "title":"820-00165 No 5v or 3v3.",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-06-03 02:55:01",
+        "message":"Thank you [USER=\"682\"]2informaticos[\/USER] . I have fitted it back before i saw your message. As usual, I couldn't have done this without the aid of you guys on the forum."
+    }
+]

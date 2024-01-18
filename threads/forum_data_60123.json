@@ -1,24 +1,218 @@
-{"post_id":66078,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-05 14:07:49","message":"As it's my first post on this forum I want to say hello to all members! \n\nI'm fighting with a kind of odd case of A1708, board number 820-00840. Board looks perfectly clean, untouched, no water signs, no damages, even no dust on it. Customer claims, that computer just turned off by itself and stopped charging. \n\nFirst measurements:\n\n- no 20v on charger, stuck at 5v\n- PP3V3_G3H 2,5v (no short,  0,337v in diode mode) \n- PPBUS_G3H 0,115v (no short, 0,386v in diode mode)\n \nI've noticed U6990 and SMC were getting hot (SMC was warmer), so replaced U6990 first. No results, PP3V3_G3H still at 2,5v. Later I've replaced SMC from the same board which has brought PP3V3_G3H back to 3,3v, U6990 not getting hot anymore too. Board switched to 20v 0,039A on charger, but still not powering on. Weirdly, when I was heating up the area around SMC, the PPBUS_G3H raised to 13v and board booted taking around 1A. After connecting screen I had logo with progress bar, but before it loaded fully, board cooled down and turned off. I thought it's just bad soldering, so I pulled SMC, reballed and put it back. No changes, but this time it takes much longer for board to swicth to 20v or sometimes it stays at 5v 0,05A. Now heating SMC area doesn't make it to \"boot\" like before. When it takes 20v anyway there is no PPBUS.\n\n- Here are basic voltages I'm getting (diod modes in brackets)\n\n- PP3V3_G3H - 3,3v (0,334)\n- PP20V_USBC_XA\/XB - 20v or sometimes stuck at 5v (0,158)\n- PP3V3_UPC_XA\/XB - 3,3v\n- PPBUS G3H - 0,037v (0,385)\n- PP3V3_S5\/PP5V_S5 - 0v obviously, there is no PPBUS (0,345\/0,398)\n\n- readings around D6905 (I've replaced it just in case):\n\npin 1 - 20v  (0,381)\npin 2 - 0,037v (0,515)\npin 3 - 20v (0,510)\n\n R6905: both sides reads 0,037v, resistance OK.\n\n- U7000 replaced twice, here are readings around:\n\nPPVIN_G3H_P3V3H3H - 20v\nTBA_CSIR_N - 20v\nTBA_CSIR_P - 20v\nTBA_COMP - 1,15v\nTBA_LX1 - 0v\nTBA_BOOT1 - 4,86v\nTBA_VDDP - 5,15v\nTBA_VDDP - 5,15v\nTBA_BOOT2 - 4,92v\n\ncurrent sense: \n\nTBA_CSIR_P\/TBA_CSIR_N - 2,5ohm\nTBA_CSOR_P\/TBA_CSOR_N - 2,7ohm\n\nother readings: \n\nTBA_HPWR_EN_L - 3,38v (resistance OK)\nBUF_SMC_RESET_L - 3,40v\nPP3V3_S5_SMC_VDDA - 3,4v\nSMC_WAKE_L - 3,1v (shold be low, right?)\nPP1V2_S5_SMC_VDDC - 1,20v\nPP3V0_S5_AVREF_SMC - 3,0v\n\n\nAll resistors around SMC checked, nothing is missing, values are correct. Voltages at U6100 not present, but I think it's because PPBUS is missing. Do you have any suggestions? Can it be bad SMC again?"}
-{"post_id":66082,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-05 15:52:37","message":"First of all, welcome to the forum!\n\nSeems that something else reacted to the heat applied when changing SMC.\nCould be CPU, as is close too.\nCheck first for moved components.\n\nYou can try other SMC\/U7000..."}
-{"post_id":66108,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-06 02:30:39","message":"Ok, I will replace U7000 again, as for SMC I have to order new one as I\u2019m actually out of them. The interesting thing is, when the board is stuck at 5v it\u2019s enough to delicately press the SMC and voltage gets up to 20v and stays like that. I\u2019ve reflowed SMC, but with no changes. Maybe there is structural damage in SMC? Or broken trace in pcb?"}
-{"post_id":66113,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-06 07:27:15","message":"Could be broken trace, or bad solder.\nOnly get such reaction pressing on SMC, not in other board area?"}
-{"post_id":66120,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-06 07:43:30","message":"Yes, only pressing directly on SMC. I\u2019ve checked other side of the board under SMC, all resistors there are well soldered and measure correct values. I\u2019ve replaced U7000 as you have advised, PPBUS still at ~ 0,04v."}
-{"post_id":66128,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-06 08:16:32","message":"Report back after SMC is changed.\nDon't forget to check pads\/traces, onces SMC is removed."}
-{"post_id":66144,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-06 13:48:48","message":"Sure, I will keep you updated. Thank you for support!\n\nI have one more question. I was curious if EFI hasn\u2019t got corrupted and after putting dump in ME Analyser I got such message (picture in attachment). I\u2019ve never got such message. Is it normal for newer EFI, or should I clean ME region\/take \u201cnew\u201d clean dump and reflash the chip?"}
-{"post_id":66145,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-06 15:11:24","message":"ME Analyser doesn't recognize that ME properly, maybe.\nDon't touch BIOS yet.\nGet Medusa programmer, if you want to stay in business with Apple repair."}
-{"post_id":66154,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-06 15:49:12","message":"I'm considering buying it for some time already, but honestly even my actual programmer isn't in use most of the time, maybe 1-2 times in a month. But of course medusa saves time, possible mistake risk and unnecessary board heating cycle. Anyway your suggestion made it jump higher in my tools-to-buy list ?"}
-{"post_id":66160,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-06 16:01:40","message":"Medusa has the big advantage to properly clean ME region, not like other f***g Internet softwares which only replace ME without configure it.\nAnd has more features needed for Apple repairs..."}
-{"post_id":66231,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1057,"username":"piernov","post_date":"2020-10-07 11:41:26","message":"That \"Error\" from ME Analyzer should be normal on this board."}
-{"post_id":67114,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-26 07:04:04","message":"[USER=682]@2informaticos[\/USER] today my donor boards got delivered, I've changed SMC along with U1900 and the results are: it turns on 20v right after I connect charger (previously I had to wait a while), but it's stuck at 0,45A. Also, what's good news I already have steady 13v on PPBUS. After connecting trackpad it clicks, but have no image on display, no USB activity."}
-{"post_id":67115,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-26 07:45:13","message":"What is actual CPU VCORE voltage?\nDo you note any fluctuation on it, in the first 10-15s?"}
-{"post_id":67118,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-26 07:59:00","message":"PPVCCCPU_S0G is stable 0,959v and CPU gets warm."}
-{"post_id":67124,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-26 08:36:33","message":"You should note some changes there, between 0.6-1.0V, when board boots..."}
-{"post_id":67125,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-26 08:51:52","message":"Checked again, it's stable. I plug the charger in, it switches to 20v and from this moment CPU VCORE goes up to 0,959v and stays like this. I kept measuring it for 1 minute, it's not changing at all."}
-{"post_id":67150,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-26 18:32:32","message":"Did you try known good BIOS?"}
-{"post_id":67163,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-27 02:51:13","message":"Not yet, I don\u2019t actually have known good one (only original and one with came with donor board). I will need to search for it, or if you have it and will be so kind, I will be grateful for sharing it with me."}
-{"post_id":67164,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-27 04:12:41","message":"Try this as is...\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1roFjzlTYrB0oRB5opnRaapdj7Rx2Zg7g\/view?usp=sharing[\/URL]"}
-{"post_id":67170,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-27 08:41:59","message":"Reflashing EFI did the trick, computer starts now, loads system. Now I have 2 other problems:\n\n- I've changed the fsys region in bios you sent me with the original bios fsys (I've copied everything from this region) but S\/N doesn't show up in \"this mac\" info, also when I want to run diagnostics it shows me, that mac doesn't have S\/N, and I can't perform diagnostics.\n\n- keyboard doesn't work at all. With external keyboard it works fine, but internal doesn't react even for power button. Can it be related to bad SMC or bad soldering? I don't have another keyboard or topcase to replace it.\n\nEDIT: I've edited bios you sent me and replaced S\/N only. Now diagnostics works, S\/N is visible in \"this mac\", also keyboard works perfectly. I think without S\/N board wasn't able to identify itself and that's why keyboard was off.\n\nComputer is repaired, [USER=682]@2informaticos[\/USER], as always thank you for support! If not damaged SMC which I have used for the first time it would be repaired earlier. What to do, in such market situation sometimes we have to cope with damaged components from donor boards..."}
-{"post_id":67171,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":682,"username":"2informaticos","post_date":"2020-10-27 09:18:13","message":"Keep in mind, when change SSN in BIOS, you MUST fix checksum of Fsys area, to avoid such kind of problem you've got.\n\nI said you \"as is\" just to be sure is BIOS issue.\nModdifying BIOS file incorrectly can even prevent machine to boot.\nIs always better to try test file AS IS, to be sure is BIOS issue, or not."}
-{"post_id":67172,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-27 09:39:26","message":"Funny thing is, that first I have flashed bios as it was, without any modification. I've connected only display and as it booted fine I decided to change S\/N before going on with assembling and further testing. I haven't tested keyboard then. Anyway, I managed to figure it out.\n\n[QUOTE=\"2informaticos, post: 67171, member: 682\"]\nKeep in mind, when change SSN in BIOS, you MUST fix checksum of Fsys area, to avoid such kind of problem you've got.\n[\/QUOTE]\n\nIt can be a noob question, but can you please explain me how to correct checksum? I guess there is an editor, which recalculates new values to be the same with original one?"}
-{"post_id":67174,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":21359,"username":"Fanfwe","post_date":"2020-10-27 10:37:10","message":"Check piernov's youtube video for serial number change:\n[MEDIA=youtube]poA8HByYqTM[\/MEDIA]"}
-{"post_id":67175,"thread_id":60123,"title":"A1708 820-00840 no PPBUS, no short","user_id":1427,"username":"Narek","post_date":"2020-10-27 11:20:02","message":"Thanks, it's clear now ;)"}
+[
+    {
+        "post_id":66078,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-05 12:07:49",
+        "message":"As it's my first post on this forum I want to say hello to all members! \n\nI'm fighting with a kind of odd case of A1708, board number 820-00840. Board looks perfectly clean, untouched, no water signs, no damages, even no dust on it. Customer claims, that computer just turned off by itself and stopped charging. \n\nFirst measurements:\n\n- no 20v on charger, stuck at 5v\n- PP3V3_G3H 2,5v (no short,  0,337v in diode mode) \n- PPBUS_G3H 0,115v (no short, 0,386v in diode mode)\n \nI've noticed U6990 and SMC were getting hot (SMC was warmer), so replaced U6990 first. No results, PP3V3_G3H still at 2,5v. Later I've replaced SMC from the same board which has brought PP3V3_G3H back to 3,3v, U6990 not getting hot anymore too. Board switched to 20v 0,039A on charger, but still not powering on. Weirdly, when I was heating up the area around SMC, the PPBUS_G3H raised to 13v and board booted taking around 1A. After connecting screen I had logo with progress bar, but before it loaded fully, board cooled down and turned off. I thought it's just bad soldering, so I pulled SMC, reballed and put it back. No changes, but this time it takes much longer for board to swicth to 20v or sometimes it stays at 5v 0,05A. Now heating SMC area doesn't make it to \"boot\" like before. When it takes 20v anyway there is no PPBUS.\n\n- Here are basic voltages I'm getting (diod modes in brackets)\n\n- PP3V3_G3H - 3,3v (0,334)\n- PP20V_USBC_XA\/XB - 20v or sometimes stuck at 5v (0,158)\n- PP3V3_UPC_XA\/XB - 3,3v\n- PPBUS G3H - 0,037v (0,385)\n- PP3V3_S5\/PP5V_S5 - 0v obviously, there is no PPBUS (0,345\/0,398)\n\n- readings around D6905 (I've replaced it just in case):\n\npin 1 - 20v  (0,381)\npin 2 - 0,037v (0,515)\npin 3 - 20v (0,510)\n\n R6905: both sides reads 0,037v, resistance OK.\n\n- U7000 replaced twice, here are readings around:\n\nPPVIN_G3H_P3V3H3H - 20v\nTBA_CSIR_N - 20v\nTBA_CSIR_P - 20v\nTBA_COMP - 1,15v\nTBA_LX1 - 0v\nTBA_BOOT1 - 4,86v\nTBA_VDDP - 5,15v\nTBA_VDDP - 5,15v\nTBA_BOOT2 - 4,92v\n\ncurrent sense: \n\nTBA_CSIR_P\/TBA_CSIR_N - 2,5ohm\nTBA_CSOR_P\/TBA_CSOR_N - 2,7ohm\n\nother readings: \n\nTBA_HPWR_EN_L - 3,38v (resistance OK)\nBUF_SMC_RESET_L - 3,40v\nPP3V3_S5_SMC_VDDA - 3,4v\nSMC_WAKE_L - 3,1v (shold be low, right?)\nPP1V2_S5_SMC_VDDC - 1,20v\nPP3V0_S5_AVREF_SMC - 3,0v\n\n\nAll resistors around SMC checked, nothing is missing, values are correct. Voltages at U6100 not present, but I think it's because PPBUS is missing. Do you have any suggestions? Can it be bad SMC again?"
+    },
+    {
+        "post_id":66082,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-05 13:52:37",
+        "message":"First of all, welcome to the forum!\n\nSeems that something else reacted to the heat applied when changing SMC.\nCould be CPU, as is close too.\nCheck first for moved components.\n\nYou can try other SMC\/U7000..."
+    },
+    {
+        "post_id":66108,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-06 00:30:39",
+        "message":"Ok, I will replace U7000 again, as for SMC I have to order new one as I\u2019m actually out of them. The interesting thing is, when the board is stuck at 5v it\u2019s enough to delicately press the SMC and voltage gets up to 20v and stays like that. I\u2019ve reflowed SMC, but with no changes. Maybe there is structural damage in SMC? Or broken trace in pcb?"
+    },
+    {
+        "post_id":66113,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-06 05:27:15",
+        "message":"Could be broken trace, or bad solder.\nOnly get such reaction pressing on SMC, not in other board area?"
+    },
+    {
+        "post_id":66120,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-06 05:43:30",
+        "message":"Yes, only pressing directly on SMC. I\u2019ve checked other side of the board under SMC, all resistors there are well soldered and measure correct values. I\u2019ve replaced U7000 as you have advised, PPBUS still at ~ 0,04v."
+    },
+    {
+        "post_id":66128,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-06 06:16:32",
+        "message":"Report back after SMC is changed.\nDon't forget to check pads\/traces, onces SMC is removed."
+    },
+    {
+        "post_id":66144,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-06 11:48:48",
+        "message":"Sure, I will keep you updated. Thank you for support!\n\nI have one more question. I was curious if EFI hasn\u2019t got corrupted and after putting dump in ME Analyser I got such message (picture in attachment). I\u2019ve never got such message. Is it normal for newer EFI, or should I clean ME region\/take \u201cnew\u201d clean dump and reflash the chip?"
+    },
+    {
+        "post_id":66145,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-06 13:11:24",
+        "message":"ME Analyser doesn't recognize that ME properly, maybe.\nDon't touch BIOS yet.\nGet Medusa programmer, if you want to stay in business with Apple repair."
+    },
+    {
+        "post_id":66154,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-06 13:49:12",
+        "message":"I'm considering buying it for some time already, but honestly even my actual programmer isn't in use most of the time, maybe 1-2 times in a month. But of course medusa saves time, possible mistake risk and unnecessary board heating cycle. Anyway your suggestion made it jump higher in my tools-to-buy list ?"
+    },
+    {
+        "post_id":66160,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-06 14:01:40",
+        "message":"Medusa has the big advantage to properly clean ME region, not like other f***g Internet softwares which only replace ME without configure it.\nAnd has more features needed for Apple repairs..."
+    },
+    {
+        "post_id":66231,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2020-10-07 09:41:26",
+        "message":"That \"Error\" from ME Analyzer should be normal on this board."
+    },
+    {
+        "post_id":67114,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-26 05:04:04",
+        "message":"[USER=682]@2informaticos[\/USER] today my donor boards got delivered, I've changed SMC along with U1900 and the results are: it turns on 20v right after I connect charger (previously I had to wait a while), but it's stuck at 0,45A. Also, what's good news I already have steady 13v on PPBUS. After connecting trackpad it clicks, but have no image on display, no USB activity."
+    },
+    {
+        "post_id":67115,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-26 05:45:13",
+        "message":"What is actual CPU VCORE voltage?\nDo you note any fluctuation on it, in the first 10-15s?"
+    },
+    {
+        "post_id":67118,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-26 05:59:00",
+        "message":"PPVCCCPU_S0G is stable 0,959v and CPU gets warm."
+    },
+    {
+        "post_id":67124,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-26 06:36:33",
+        "message":"You should note some changes there, between 0.6-1.0V, when board boots..."
+    },
+    {
+        "post_id":67125,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-26 06:51:52",
+        "message":"Checked again, it's stable. I plug the charger in, it switches to 20v and from this moment CPU VCORE goes up to 0,959v and stays like this. I kept measuring it for 1 minute, it's not changing at all."
+    },
+    {
+        "post_id":67150,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-26 16:32:32",
+        "message":"Did you try known good BIOS?"
+    },
+    {
+        "post_id":67163,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-27 00:51:13",
+        "message":"Not yet, I don\u2019t actually have known good one (only original and one with came with donor board). I will need to search for it, or if you have it and will be so kind, I will be grateful for sharing it with me."
+    },
+    {
+        "post_id":67164,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-27 02:12:41",
+        "message":"Try this as is...\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1roFjzlTYrB0oRB5opnRaapdj7Rx2Zg7g\/view?usp=sharing[\/URL]"
+    },
+    {
+        "post_id":67170,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-27 06:41:59",
+        "message":"Reflashing EFI did the trick, computer starts now, loads system. Now I have 2 other problems:\n\n- I've changed the fsys region in bios you sent me with the original bios fsys (I've copied everything from this region) but S\/N doesn't show up in \"this mac\" info, also when I want to run diagnostics it shows me, that mac doesn't have S\/N, and I can't perform diagnostics.\n\n- keyboard doesn't work at all. With external keyboard it works fine, but internal doesn't react even for power button. Can it be related to bad SMC or bad soldering? I don't have another keyboard or topcase to replace it.\n\nEDIT: I've edited bios you sent me and replaced S\/N only. Now diagnostics works, S\/N is visible in \"this mac\", also keyboard works perfectly. I think without S\/N board wasn't able to identify itself and that's why keyboard was off.\n\nComputer is repaired, [USER=682]@2informaticos[\/USER], as always thank you for support! If not damaged SMC which I have used for the first time it would be repaired earlier. What to do, in such market situation sometimes we have to cope with damaged components from donor boards..."
+    },
+    {
+        "post_id":67171,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-27 07:18:13",
+        "message":"Keep in mind, when change SSN in BIOS, you MUST fix checksum of Fsys area, to avoid such kind of problem you've got.\n\nI said you \"as is\" just to be sure is BIOS issue.\nModdifying BIOS file incorrectly can even prevent machine to boot.\nIs always better to try test file AS IS, to be sure is BIOS issue, or not."
+    },
+    {
+        "post_id":67172,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-27 07:39:26",
+        "message":"Funny thing is, that first I have flashed bios as it was, without any modification. I've connected only display and as it booted fine I decided to change S\/N before going on with assembling and further testing. I haven't tested keyboard then. Anyway, I managed to figure it out.\n\n[QUOTE=\"2informaticos, post: 67171, member: 682\"]\nKeep in mind, when change SSN in BIOS, you MUST fix checksum of Fsys area, to avoid such kind of problem you've got.\n[\/QUOTE]\n\nIt can be a noob question, but can you please explain me how to correct checksum? I guess there is an editor, which recalculates new values to be the same with original one?"
+    },
+    {
+        "post_id":67174,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-10-27 08:37:10",
+        "message":"Check piernov's youtube video for serial number change:\n[MEDIA=youtube]poA8HByYqTM[\/MEDIA]"
+    },
+    {
+        "post_id":67175,
+        "thread_id":60123,
+        "title":"A1708 820-00840 no PPBUS, no short",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-27 09:20:02",
+        "message":"Thanks, it's clear now ;)"
+    }
+]

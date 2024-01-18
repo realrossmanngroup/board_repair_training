@@ -1,12 +1,110 @@
-{"post_id":42330,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1404,"username":"jamiehorn1","post_date":"2018-11-19 06:48:05","message":"Hi all,\n\nI have a 2014 MBP with no backlight, image is present with torch under screen.\n\nBacklight Output = 12v\nKG Display has been tested.\n\nI'll be honest with no backlight, I generally replace most common component failures instead of testing as it's just quicker.\n\nBut this one doesn't want to play ball.\n\nComponents changed:\n\n- FB Resistors (R7708\/9)\n- LED Driver (U7701)\n- LCD Connector\n- Both mosfets (Q7706 incl. resistors for v. divider) + (Q7701)\n\nThe odd thing is that on the SW lines I get 0v so Q7701 mosfet is not opening. R7703 is not blown, checking the voltage at pins 1 and 2 of LED driver I get 0.01v.\n\nAny ideas on why that might be?\n\nThere is also no short on backlight output.\n\nThanks\nJamie"}
-{"post_id":42331,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":682,"username":"2informaticos","post_date":"2018-11-19 08:41:06","message":"\"The odd thing is that on the SW lines I get 0v so Q7701 mosfet is not opening.\"\nWhen Q7701 is opened, it will pull down PPBUS_S0_LCDBKLT_PWR_SW.\nSo it will have 0V on both D and S in that moment...\nHowever, Q7701 is not triggered if you have 12V DC on L7710\/D7701.\n\nDo a PRAM reset first.\nCan you see any activity on BKLT_SCL\/SDA lines (with o-scope) when pressing backlight adjust keys?\n\nIf you have 0V at BKLT_SD means U7701 receive information to control backlight somehow.\nCheck all resistor\/traces from its area.\nYou can also try changing U7750."}
-{"post_id":42335,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1153,"username":"JohnB8812","post_date":"2018-11-19 09:04:50","message":"What do you get in diode mode when you measure Backlight output? Sounds like possibly an issue with the feedback or switch trace."}
-{"post_id":42336,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1404,"username":"jamiehorn1","post_date":"2018-11-19 09:12:01","message":"Hi both,\n\nI have tried a PRAM reset but not since replacing the components so will try that later on and report back.\nI also replaced U7750 with no luck.\nSCL\/SDA lines were pulsing when I checked but will double check later on.\n\nDiode mode on backlight output is 0.750 which I believe is normal. I checked continuity on both FB and SW lines, both okay.\n\nI'll have another look at the U7750 area and see if anything is reading incorrectly.\n\nThanks!"}
-{"post_id":42337,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1153,"username":"JohnB8812","post_date":"2018-11-19 09:16:24","message":"Oh wait, yeah this is a Pro not an Air my bad. I think the only possibility here is bad driver U7701."}
-{"post_id":42339,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1404,"username":"jamiehorn1","post_date":"2018-11-19 09:33:22","message":"I changed U7701 twice because I thought the same but no luck there either.\n\nI did however forget to mention when I first replaced Q7706 and plugged in, pin 1 on the LCD connector completely fried along with Q7706. After this I obviously replaced the LCD connector and Q7706. It hasn't done that since but I'm not sure if that gives any hints?"}
-{"post_id":42340,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1153,"username":"JohnB8812","post_date":"2018-11-19 10:06:50","message":"Voltage on backlight still 12 after that?"}
-{"post_id":42341,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1404,"username":"jamiehorn1","post_date":"2018-11-19 10:23:44","message":"Yes it remained at 12v. I feel like there is multiple issues going on here..."}
-{"post_id":42343,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":682,"username":"2informaticos","post_date":"2018-11-19 10:26:02","message":"Did you rebuild the traces too?\nIf connector got burned, usually destroys traces too."}
-{"post_id":42345,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1404,"username":"jamiehorn1","post_date":"2018-11-19 10:47:02","message":"Yes trace looked okay because I saw it and unplugged immediately, then reworked all pads and soldered the new connector."}
-{"post_id":42353,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":682,"username":"2informaticos","post_date":"2018-11-19 12:22:20","message":"Did you try the new (compatible) LCD after that?\nDid you solder correct Q7701 (N-channel)?\n\nPost voltage at pins 15, 16, 17 of U7701.\nR7740 is OK?"}
-{"post_id":42381,"thread_id":42330,"title":"820-3662 (mbp 15)","user_id":1404,"username":"jamiehorn1","post_date":"2018-11-20 03:28:57","message":"Gave up on this one in the end, I plugged the original LCD back in and it fried pin 1 (again!). I would have needed to change the LCD connector again too as that melted inside. Time to move on as I've run out of donor boards for this.\n\nThanks everyone!"}
+[
+    {
+        "post_id":42330,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1404,
+        "username":"jamiehorn1",
+        "post_date":"2018-11-19 04:48:05",
+        "message":"Hi all,\n\nI have a 2014 MBP with no backlight, image is present with torch under screen.\n\nBacklight Output = 12v\nKG Display has been tested.\n\nI'll be honest with no backlight, I generally replace most common component failures instead of testing as it's just quicker.\n\nBut this one doesn't want to play ball.\n\nComponents changed:\n\n- FB Resistors (R7708\/9)\n- LED Driver (U7701)\n- LCD Connector\n- Both mosfets (Q7706 incl. resistors for v. divider) + (Q7701)\n\nThe odd thing is that on the SW lines I get 0v so Q7701 mosfet is not opening. R7703 is not blown, checking the voltage at pins 1 and 2 of LED driver I get 0.01v.\n\nAny ideas on why that might be?\n\nThere is also no short on backlight output.\n\nThanks\nJamie"
+    },
+    {
+        "post_id":42331,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-19 06:41:06",
+        "message":"\"The odd thing is that on the SW lines I get 0v so Q7701 mosfet is not opening.\"\nWhen Q7701 is opened, it will pull down PPBUS_S0_LCDBKLT_PWR_SW.\nSo it will have 0V on both D and S in that moment...\nHowever, Q7701 is not triggered if you have 12V DC on L7710\/D7701.\n\nDo a PRAM reset first.\nCan you see any activity on BKLT_SCL\/SDA lines (with o-scope) when pressing backlight adjust keys?\n\nIf you have 0V at BKLT_SD means U7701 receive information to control backlight somehow.\nCheck all resistor\/traces from its area.\nYou can also try changing U7750."
+    },
+    {
+        "post_id":42335,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-11-19 07:04:50",
+        "message":"What do you get in diode mode when you measure Backlight output? Sounds like possibly an issue with the feedback or switch trace."
+    },
+    {
+        "post_id":42336,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1404,
+        "username":"jamiehorn1",
+        "post_date":"2018-11-19 07:12:01",
+        "message":"Hi both,\n\nI have tried a PRAM reset but not since replacing the components so will try that later on and report back.\nI also replaced U7750 with no luck.\nSCL\/SDA lines were pulsing when I checked but will double check later on.\n\nDiode mode on backlight output is 0.750 which I believe is normal. I checked continuity on both FB and SW lines, both okay.\n\nI'll have another look at the U7750 area and see if anything is reading incorrectly.\n\nThanks!"
+    },
+    {
+        "post_id":42337,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-11-19 07:16:24",
+        "message":"Oh wait, yeah this is a Pro not an Air my bad. I think the only possibility here is bad driver U7701."
+    },
+    {
+        "post_id":42339,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1404,
+        "username":"jamiehorn1",
+        "post_date":"2018-11-19 07:33:22",
+        "message":"I changed U7701 twice because I thought the same but no luck there either.\n\nI did however forget to mention when I first replaced Q7706 and plugged in, pin 1 on the LCD connector completely fried along with Q7706. After this I obviously replaced the LCD connector and Q7706. It hasn't done that since but I'm not sure if that gives any hints?"
+    },
+    {
+        "post_id":42340,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-11-19 08:06:50",
+        "message":"Voltage on backlight still 12 after that?"
+    },
+    {
+        "post_id":42341,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1404,
+        "username":"jamiehorn1",
+        "post_date":"2018-11-19 08:23:44",
+        "message":"Yes it remained at 12v. I feel like there is multiple issues going on here..."
+    },
+    {
+        "post_id":42343,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-19 08:26:02",
+        "message":"Did you rebuild the traces too?\nIf connector got burned, usually destroys traces too."
+    },
+    {
+        "post_id":42345,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1404,
+        "username":"jamiehorn1",
+        "post_date":"2018-11-19 08:47:02",
+        "message":"Yes trace looked okay because I saw it and unplugged immediately, then reworked all pads and soldered the new connector."
+    },
+    {
+        "post_id":42353,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-19 10:22:20",
+        "message":"Did you try the new (compatible) LCD after that?\nDid you solder correct Q7701 (N-channel)?\n\nPost voltage at pins 15, 16, 17 of U7701.\nR7740 is OK?"
+    },
+    {
+        "post_id":42381,
+        "thread_id":42330,
+        "title":"820-3662 (mbp 15)",
+        "user_id":1404,
+        "username":"jamiehorn1",
+        "post_date":"2018-11-20 01:28:57",
+        "message":"Gave up on this one in the end, I plugged the original LCD back in and it fried pin 1 (again!). I would have needed to change the LCD connector again too as that melted inside. Time to move on as I've run out of donor boards for this.\n\nThanks everyone!"
+    }
+]

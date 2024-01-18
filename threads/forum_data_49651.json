@@ -1,6 +1,56 @@
-{"post_id":49651,"thread_id":49651,"title":"Intermittent power A1502 820-3476","user_id":4779,"username":"MexicoTV","post_date":"2019-06-02 00:44:29","message":"Hello all,\n\nYet another macbook I could use your help with. This initially didn't power on. I found U5580 to be corroded, this was replaced along with C5580.SSD current sense circuit. I noticed after some work that R5585 is missing, not sure if because omitting or if I knocked it off during soldering. For the moment I have replaced this resistor but it has not made a change in my symptoms. After resoldering and replacing U5580 and C5580 the computer powered on but after a while it stopped working again. When it DOES power it does pass the hardware test. Applying a bit of heat to the mother board or handling it seems to make it work again. When it does NOT work the always on power rails are on and it seems to be S4 and onward that try to turn on but go back off. When I attempt to turn on I get a bit of a squeak coming from near L7310 and L7320. This noise is present when the computer runs too, its not super loud and I think it's somewhat normal. The intriguing part is when I remove the SSD the squeak goes away but the symptom doesnt. At the same time I have had some occasions where one of the chips on the SSD gets quite hot even though the rest of the computer seems to be off. I'm thinking something is weird with the current sense circuit still even after rework. Tried applying heat but hard to tell which part is the one that makes the difference. Next I plan on dissabling the current sense circuit for the SSD and maybe removing the switch for SSD voltage and see if that changes anything with the symptoms. This computer never fails to show charge\/orange light. Your insight would be greatly appreciated!"}
-{"post_id":49652,"thread_id":49651,"title":"Intermittent power A1502 820-3476","user_id":682,"username":"2informaticos","post_date":"2019-06-02 03:07:53","message":"Do not solder R5585, marked as NOSTUFF on the schematic.\n\nMeasure SMC_SSD_ISENSE level, especially when board fails to start.\nTry to start in SMC bypass mode; any sensor issue is bypassed then.\nTest continuity from U5580 to R5580; you may need to change R\/C5589."}
-{"post_id":49665,"thread_id":49651,"title":"Intermittent power A1502 820-3476","user_id":4779,"username":"MexicoTV","post_date":"2019-06-02 10:42:41","message":"Alright, I checked, when the fault happens I get a peak of about 0.5V on the line SMC_SSD_ISENSE. When the computer powers on I get variations between .020v and 0.5V. When I hold the button during fault this 0.5v is sustained. When the power supply plugs in this is sustained a couple seconds after letting go of the power button. This measurement is unchanged even if I remove SSD. Since the current sensor multiplies it's incomming signal by a hundred does that mean it reads .005 volts from current sense resistor R5580? Would that mean it's reading 1 amp? Forgot to test continuity but should be ok. Will test again. Board looks overall clean except for the previously mentioned corrosion.  Also i removed R5585 before testing.\n\nI am unsure how to do SMD bypass. Is this holding power button down while plugging charger? If so I got no boot up."}
-{"post_id":49678,"thread_id":49651,"title":"Intermittent power A1502 820-3476","user_id":682,"username":"2informaticos","post_date":"2019-06-02 17:31:05","message":"\"I am unsure how to do SMD bypass.\"\nPress power button, connect charger and maintain button pressed 5-10s.\nYou can use R5115\/16 pads instead of power button.\n\nDisconnect SSD and test the board with USB OSX.\nYou can even remove U8070 for this test.\nSee if same issue persists.\n\n\"This computer never fails to show charge\/orange light.\"\nI don't exactly understand what you mean..."}
-{"post_id":49725,"thread_id":49651,"title":"Intermittent power A1502 820-3476","user_id":4779,"username":"MexicoTV","post_date":"2019-06-04 12:14:51","message":"I think (I hope) I've found the issue.\n\nIt turns out no current sensor was on this whole time. Computer is not making it to that state. PP3V3_S4SW_SNS was off. So not even making it to S4. I found though that sometimes the SSD gets hot when I am connected to my charger. I checked PP3V3_S0SW_SSD (an S0) then found it to be on even though the rest of the computer seemingly can't even make it to S4 state. PP3V3_S0SW_SSD originates from u8070. It's enable pin had 1.89 which is a weird voltage. It originates from R1620. Pulled low by PCH when it needs to be off. At the top end of R1620 is PP3V3_S0. Needed to see if this leak 1.89v comes from U8070s enable pin or if it's U8030 the PP3V3_S0 switch. I removed R1620 and found it to be U8030 that leaks this voltage even though there is no signal coming to its enable pin. Removing it makes the motherboard fan spin as soon as charger is plugged in. Have ordered this part TPS22924 and will update if this is the fix. Fingers crossed!"}
-{"post_id":49726,"thread_id":49651,"title":"Intermittent power A1502 820-3476","user_id":682,"username":"2informaticos","post_date":"2019-06-04 12:48:58","message":"Good job, I bet you found it."}
+[
+    {
+        "post_id":49651,
+        "thread_id":49651,
+        "title":"Intermittent power A1502 820-3476",
+        "user_id":4779,
+        "username":"MexicoTV",
+        "post_date":"2019-06-01 22:44:29",
+        "message":"Hello all,\n\nYet another macbook I could use your help with. This initially didn't power on. I found U5580 to be corroded, this was replaced along with C5580.SSD current sense circuit. I noticed after some work that R5585 is missing, not sure if because omitting or if I knocked it off during soldering. For the moment I have replaced this resistor but it has not made a change in my symptoms. After resoldering and replacing U5580 and C5580 the computer powered on but after a while it stopped working again. When it DOES power it does pass the hardware test. Applying a bit of heat to the mother board or handling it seems to make it work again. When it does NOT work the always on power rails are on and it seems to be S4 and onward that try to turn on but go back off. When I attempt to turn on I get a bit of a squeak coming from near L7310 and L7320. This noise is present when the computer runs too, its not super loud and I think it's somewhat normal. The intriguing part is when I remove the SSD the squeak goes away but the symptom doesnt. At the same time I have had some occasions where one of the chips on the SSD gets quite hot even though the rest of the computer seems to be off. I'm thinking something is weird with the current sense circuit still even after rework. Tried applying heat but hard to tell which part is the one that makes the difference. Next I plan on dissabling the current sense circuit for the SSD and maybe removing the switch for SSD voltage and see if that changes anything with the symptoms. This computer never fails to show charge\/orange light. Your insight would be greatly appreciated!"
+    },
+    {
+        "post_id":49652,
+        "thread_id":49651,
+        "title":"Intermittent power A1502 820-3476",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-02 01:07:53",
+        "message":"Do not solder R5585, marked as NOSTUFF on the schematic.\n\nMeasure SMC_SSD_ISENSE level, especially when board fails to start.\nTry to start in SMC bypass mode; any sensor issue is bypassed then.\nTest continuity from U5580 to R5580; you may need to change R\/C5589."
+    },
+    {
+        "post_id":49665,
+        "thread_id":49651,
+        "title":"Intermittent power A1502 820-3476",
+        "user_id":4779,
+        "username":"MexicoTV",
+        "post_date":"2019-06-02 08:42:41",
+        "message":"Alright, I checked, when the fault happens I get a peak of about 0.5V on the line SMC_SSD_ISENSE. When the computer powers on I get variations between .020v and 0.5V. When I hold the button during fault this 0.5v is sustained. When the power supply plugs in this is sustained a couple seconds after letting go of the power button. This measurement is unchanged even if I remove SSD. Since the current sensor multiplies it's incomming signal by a hundred does that mean it reads .005 volts from current sense resistor R5580? Would that mean it's reading 1 amp? Forgot to test continuity but should be ok. Will test again. Board looks overall clean except for the previously mentioned corrosion.  Also i removed R5585 before testing.\n\nI am unsure how to do SMD bypass. Is this holding power button down while plugging charger? If so I got no boot up."
+    },
+    {
+        "post_id":49678,
+        "thread_id":49651,
+        "title":"Intermittent power A1502 820-3476",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-02 15:31:05",
+        "message":"\"I am unsure how to do SMD bypass.\"\nPress power button, connect charger and maintain button pressed 5-10s.\nYou can use R5115\/16 pads instead of power button.\n\nDisconnect SSD and test the board with USB OSX.\nYou can even remove U8070 for this test.\nSee if same issue persists.\n\n\"This computer never fails to show charge\/orange light.\"\nI don't exactly understand what you mean..."
+    },
+    {
+        "post_id":49725,
+        "thread_id":49651,
+        "title":"Intermittent power A1502 820-3476",
+        "user_id":4779,
+        "username":"MexicoTV",
+        "post_date":"2019-06-04 10:14:51",
+        "message":"I think (I hope) I've found the issue.\n\nIt turns out no current sensor was on this whole time. Computer is not making it to that state. PP3V3_S4SW_SNS was off. So not even making it to S4. I found though that sometimes the SSD gets hot when I am connected to my charger. I checked PP3V3_S0SW_SSD (an S0) then found it to be on even though the rest of the computer seemingly can't even make it to S4 state. PP3V3_S0SW_SSD originates from u8070. It's enable pin had 1.89 which is a weird voltage. It originates from R1620. Pulled low by PCH when it needs to be off. At the top end of R1620 is PP3V3_S0. Needed to see if this leak 1.89v comes from U8070s enable pin or if it's U8030 the PP3V3_S0 switch. I removed R1620 and found it to be U8030 that leaks this voltage even though there is no signal coming to its enable pin. Removing it makes the motherboard fan spin as soon as charger is plugged in. Have ordered this part TPS22924 and will update if this is the fix. Fingers crossed!"
+    },
+    {
+        "post_id":49726,
+        "thread_id":49651,
+        "title":"Intermittent power A1502 820-3476",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-04 10:48:58",
+        "message":"Good job, I bet you found it."
+    }
+]

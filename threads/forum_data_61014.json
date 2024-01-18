@@ -1,17 +1,155 @@
-{"post_id":73920,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-03 21:15:50","message":"Hi, I'm currently working on an 820-00840, I bought the device myself with water damage, so please don't be too hard on me if I have done something wrong up to this point, I mainlywanne study this repair matter to get into this\nI would also like to apologize in advance for my bad English.\n\nThe seller said an apple repair shop said the device was water damaged but after I opened the device I don't noticed any corrosion or red indicators\n\nAt the beginning I only got 5V from the charger after swapping U3200 and U3100, the device ran again and I was able to boot everything wonderfully in IOS after I took both chips off the board to use it for another board for testing I must have created a short circuit when soldering it again I definitely only got 5V from the charger after I got 2 new chips and then soldered them to the board U3200 burnt out with a hole And this is where the fun begins. After swapping both chips again, I finally got 20V from the charger  But no S5 Rails I traced this problem back to the U7800 chip which did not output a PMIC_PGD signal after swapping U7800 the voltages match and I get PP3V_S0 and PP5V_S0 but no boot, the fan turns when I connect it after some back and forth I noticed that PPVCCGT_S0G_PH1 \/ 2\/3 was missing What I was able to trace back to a missing GTVR_FCCM from U7100.\n\nU7100 gets 0V on pin2 (CPUVR_VCC) I was able to fix this after I replaced R7192 and then the board drew about 500mA and U7100 got very hot I think I had a short circuit on Pin2 but I'm not quite sure after swapping the U7100 but this was fixed GTVR_FCCM is now 1.6V\nNow I notice that U3200 and U3100 are getting very hot and Q3200 and Q3100 are mine even after I have noticed Resistance to ground of PP20V_USBC_XB_VBUS only at 40Ohm (Black probe on ground) I exchanged D3400 now the resistance is 1. 1K Ohm, however, U3200 U3200 are still very hot but get 20V and round about 300mA from the charger now I'm standing on the hose and could use some help Thanks in advance I'm looking forward to learning something new"}
-{"post_id":73924,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-04 03:15:54","message":"Pufff, not sure if this board can still be recovered.\n\nWhen a CD3215 chip dies with hole in, sometime CPU, or SMC,  can get killed too.\nThis happens because when CD3215 silicium die melts, overvoltage can arrive to CPU, or SMC, through data lines.\nMany times the USB redriver chip (PI3USB32224) get killed also.\n\niGPU voltage (VCCGT) will not appear at boot; only comes on under high graphics load.\n\nBoth CD3215 chips cannot heat at the same time, as only one is connected to VBUS.\nWhat voltages do you get on the board now?\n\nCheck for short at R7020 and F7000.\nAbout how to use diode mode, read here.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]"}
-{"post_id":73925,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-04 05:48:29","message":"Thank u for u response\n\nI get a bad chipjust aboveY3000 its not shown on my BRD view so i thinks this could be the PI3USB32224 chip it was verry hot too i swaped this chip too\n\nYou are right its only one CD3215 at the time getting hot\n\nthe tipp with VCCGT is good for me thank you\n\nPPDCIN_G3H: 20,29V\nPPBUS_G3H: 13,03V\nPP5V_S5: 5,1V\nPP3V3_S5: 3,3V\nPP5V_S4: 5,1V\nPP3V3_S4: 3,3V\nPP5V_S0: 5,1V\nPP3V3_S0: 3,3V\nPP1V8_S0: 1,8V\n\n\nBoard Takes roundabout 250mA\n\n\n\nDiod Readings with red on GRD:\n\nF7000: 0,420V\nPPDCIN_G3H(Pin2): 0,545V\nPPDCIN_G3H_CHGR(Pin1) : 0,545V\nTBA_CSI_N (Pin3) :0,545V\nTBA_SCI_P(Pin4): 0,545V\n\nIn Louis Videos i heard somethink om CPU VCore so some kind of feed raild for the cpu somethink around 1V i sthink so o looked up the board and i get 1V on L8060 (PP1V_S5G_REG) and L7900 (PPVCCPCH_S5G)\nThis Voltages are for the PHC i think so\n\nI Diod and Resistance tested on L8060 and L7900 too this values are quit low but i think luis says in his videos a low resistance to GRD on CPU rails can be normal i hop i dont fry my PHC here right now this will be the 3. board in a row with bad PHC\n\nL8060:\nDIod (Red on GRD) (Pin2): 0,076V\nResistance(black on GRD): 92,7 Ohm\n\nL7900:\nDIod (Red on GRD) (Pin2): 0,090V\nResistance(black on GRD): 76,3 Ohm\n\nOn L7210(PPVCCCPU_S0H_PH1) and L7220(PPVCCCPU_S0H_PH2) i get 0V i think this is the CPU main Power rail right here ?\n\nL7210:\nDIod (Red on GRD) (Pin2): 0,004V\nResistance(black on GRD): 4,5Ohm\n\nL7220:\nDIod (Red on GRD) (Pin2): 0,004V\nResistance(black on GRD): 4,4 Ohm\n\n\nI cant messure the Right Values from another baord all of my 820-00840 Board just have no CPU On it\n\n[UPDATE]\n\nI figured out a short on PP3v3_UPC_XB_LDO(29,1Ohm to GRD \/\/ 0,026V Diod) and PP1V8_UPC_XB_LDO(62,3Ohm\n to GRD \/\/ 0,054V Diod)\nI will invest some time in this problem later this day maybis this will fix my hot CD3215 chip problem.\n\n\n\nThanks in advance for ur time for helping me out"}
-{"post_id":73926,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-04 07:56:26","message":"Do you get any voltage at L7210\/20?\nIf yes, measure final level, 10-15s after applied power on the board."}
-{"post_id":73927,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-04 08:32:02","message":"No on L7210\/20 i get 0,0001V so its just tolerance from my Fluke i think so so its basicly 0V there also after 15s\n\nSo are the low resistance values of this lanes are normal ? did anyone can confirm this ? or can messure it out on a working board ?"}
-{"post_id":73928,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-04 10:00:41","message":"4 ohm could be good value for VCORE.\nHowever should be better to compare with good board."}
-{"post_id":73930,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-04 11:50:28","message":"Okay i Changed U3200 again and my short on  PP3v3_UPC_XB_LDO and PP1V8_UPC_XB_LDO is now gone the CD3215 area is not feeling hot anymore ...\nmeanwhile i have a hole boneyard with CD3215 chips only from this board ... but its okay its still fun for me to figure out this kind of failure \n\nNow i invest some time and messure around the missing PPVCCCPU_S0G coming from L7210\/20 i catch some values from U7220 but I don't quite know what to do with it  so here we go:\n\nPin 3 (VCINP_P5V_U7320) :   5,1V \nPin 29 (PP5V_S0) :                  5,1V\nPin 8 (PPBUS_G3H_CPU) :     13V\nPin 2 (CPUVR_FCCM) :            2,2V\nPin 1 (CPUVR_PWM2) :           0V and no kind of puls or oscilating \nPin 5 (CPUVR_BOOT2) :          4,814V\n\nI searched for somethink like a datasheed for the FDMF5808A (U7220) and I found something similar a datasheed for an FDMF5821 \u2013 Smart Power Stage (SPS) Module with Integrated Temperature Monitor in the picture i can see a simular inputs like on the FDMF5808A (U7220) so i think i can go with it\nafter i figure out all supply voltages are there (PVCC,VCC,VIN) and i get an EN sinal from CPUVR_FCCM i think so the onlysignal the chip is missing to work is a PWM Signal CPUVR_PWM2 i think so\n\nCPUVR_PWM2 is coming direct from U7100 which I have changed before \nVoltage at Pin 42 (CPUVR_VCC) is present with 5,1V also Pin 41 (CPUVR_VIN) with 13V some kind of ENABLE signal on Pin 48 (PM_EN_CPUVCC_R) is also present with 3,2V Pin 47 (PM_PGOOD_CPUVCC) is also present wits 3,3V\nThe qestion for me is now were doesthe PWM\/CLOCK signal comes from ? is U7100 Producing its own sinal ? the only CLK sigal on U7100 is SCLK maybe somethink with system clock ? but this siganl \/ lane is coming from U0500 (Page 8 SYM 12 of 20 ) witch is powerd by PPVCC_S0_CPU if i see it right witch is EN from U7100 if i see this right this is very confusing for me and I am currently turning in circles\n\nvalues for an overview:\n\nPin 42 (CPUVR_VCC) : 5,1V \nPin 41 (CPUVR_VIN) : 13V\nPin 48 (PM_EN_CPUVCC_R) : 3,2 \nPin 47 (PM_PGOOD_CPUVCC) : 3,3"}
-{"post_id":73931,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-04 12:20:27","message":"Previous communication between PCH and some part of CPU is required.\nBIOS is also involved and VCORE is controlled through CPU_VID bus.\nMost likely bad CPU.\n\nDo you get L7370 and L7730 voltage?"}
-{"post_id":73933,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-04 12:28:53","message":"L7730: 1,055V\nL7370: 0V\n\nWhats about SYSCLK_CLK32K_PCH from U1900 its Missing ATM\n24MHz and 12MHz are Present"}
-{"post_id":73937,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-04 13:42:41","message":"\" Most likely bad CPU \"\n\nTry known good BIOS, just in case..."}
-{"post_id":73938,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-04 14:15:31","message":"can i swap bios chip from another board from the same model from the same yer ? or do i need some firmware configuration here ?"}
-{"post_id":73939,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-04 14:50:36","message":"It should work for test.\nFinally clean ME is needed, but only if board starts..."}
-{"post_id":73940,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-04 15:25:32","message":"After replacing the chip still same result 20V 200mA No boot\nI figured out that CPU_ZVM_L on U7790 is missing so no PPVCCOPC_s0G for the CPU too \nso maybe last option dead CPU ?\n\n\nfeels bad that i fried a working system just by soldering a CD3215 not properly but so far i learnt a bunch off stuff with this bord \nI see this as an investment for future projeckts\n\n\nso maybe i overlooked something maybe someone else has a hint or a tip for me?\n\n\nUntil now thank you very mutch for helping me out with this probelm :)"}
-{"post_id":74077,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-08 11:49:32","message":"[UPDATE]\n\nDon't give up too soon\n after reading some stuff here at  the Forum I noticed  PM_PGOOD_CPUVCC shot NOT be present in my case with no  PPVCCOPC_s0G present \nand the only issue can be a bad solder join at U7100 I don't remember exactly but i think on Pin 48 or on Pin47 so after cleaning and resoldering U7100 again i finaly get my PPVCCPU_S0G and my PPVCCSA_S0G back with 1V \nBoard is taking 20V and round abou 470mA now after holding the powerbutton down board turn off 20V 60mA after pressing again i seems to start\/boot ? nah dont know its doing somethink it will take 20V 470mA again but no Backlight or somethink else at this moment CPU is getting slightli warm at this moment \n\nhow many amts a 820-00840 takes in boot phase or after boot ? \nwhat rails i can check next for geth further with this problem ?"}
-{"post_id":74078,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-08 12:22:18","message":"PPVCCPU_S0G  should start with 1V and drops to 0.6V when board boots (aprox 10-15s later)."}
-{"post_id":74080,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":29632,"username":"p99p","post_date":"2021-04-08 12:53:44","message":"i get stable 0,952v the hole time CPUVR_PWM1\/2 are pulsing around 760kHz"}
-{"post_id":74090,"thread_id":61014,"title":"820-00840 Oh Boy A lot of Work","user_id":682,"username":"2informaticos","post_date":"2021-04-08 15:35:51","message":"Then board is stuck, not booting really.\n\nCPU damaged by liquid, most likely."}
+[
+    {
+        "post_id":73920,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-03 19:15:50",
+        "message":"Hi, I'm currently working on an 820-00840, I bought the device myself with water damage, so please don't be too hard on me if I have done something wrong up to this point, I mainlywanne study this repair matter to get into this\nI would also like to apologize in advance for my bad English.\n\nThe seller said an apple repair shop said the device was water damaged but after I opened the device I don't noticed any corrosion or red indicators\n\nAt the beginning I only got 5V from the charger after swapping U3200 and U3100, the device ran again and I was able to boot everything wonderfully in IOS after I took both chips off the board to use it for another board for testing I must have created a short circuit when soldering it again I definitely only got 5V from the charger after I got 2 new chips and then soldered them to the board U3200 burnt out with a hole And this is where the fun begins. After swapping both chips again, I finally got 20V from the charger  But no S5 Rails I traced this problem back to the U7800 chip which did not output a PMIC_PGD signal after swapping U7800 the voltages match and I get PP3V_S0 and PP5V_S0 but no boot, the fan turns when I connect it after some back and forth I noticed that PPVCCGT_S0G_PH1 \/ 2\/3 was missing What I was able to trace back to a missing GTVR_FCCM from U7100.\n\nU7100 gets 0V on pin2 (CPUVR_VCC) I was able to fix this after I replaced R7192 and then the board drew about 500mA and U7100 got very hot I think I had a short circuit on Pin2 but I'm not quite sure after swapping the U7100 but this was fixed GTVR_FCCM is now 1.6V\nNow I notice that U3200 and U3100 are getting very hot and Q3200 and Q3100 are mine even after I have noticed Resistance to ground of PP20V_USBC_XB_VBUS only at 40Ohm (Black probe on ground) I exchanged D3400 now the resistance is 1. 1K Ohm, however, U3200 U3200 are still very hot but get 20V and round about 300mA from the charger now I'm standing on the hose and could use some help Thanks in advance I'm looking forward to learning something new"
+    },
+    {
+        "post_id":73924,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-04 01:15:54",
+        "message":"Pufff, not sure if this board can still be recovered.\n\nWhen a CD3215 chip dies with hole in, sometime CPU, or SMC,  can get killed too.\nThis happens because when CD3215 silicium die melts, overvoltage can arrive to CPU, or SMC, through data lines.\nMany times the USB redriver chip (PI3USB32224) get killed also.\n\niGPU voltage (VCCGT) will not appear at boot; only comes on under high graphics load.\n\nBoth CD3215 chips cannot heat at the same time, as only one is connected to VBUS.\nWhat voltages do you get on the board now?\n\nCheck for short at R7020 and F7000.\nAbout how to use diode mode, read here.\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]"
+    },
+    {
+        "post_id":73925,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-04 03:48:29",
+        "message":"Thank u for u response\n\nI get a bad chipjust aboveY3000 its not shown on my BRD view so i thinks this could be the PI3USB32224 chip it was verry hot too i swaped this chip too\n\nYou are right its only one CD3215 at the time getting hot\n\nthe tipp with VCCGT is good for me thank you\n\nPPDCIN_G3H: 20,29V\nPPBUS_G3H: 13,03V\nPP5V_S5: 5,1V\nPP3V3_S5: 3,3V\nPP5V_S4: 5,1V\nPP3V3_S4: 3,3V\nPP5V_S0: 5,1V\nPP3V3_S0: 3,3V\nPP1V8_S0: 1,8V\n\n\nBoard Takes roundabout 250mA\n\n\n\nDiod Readings with red on GRD:\n\nF7000: 0,420V\nPPDCIN_G3H(Pin2): 0,545V\nPPDCIN_G3H_CHGR(Pin1) : 0,545V\nTBA_CSI_N (Pin3) :0,545V\nTBA_SCI_P(Pin4): 0,545V\n\nIn Louis Videos i heard somethink om CPU VCore so some kind of feed raild for the cpu somethink around 1V i sthink so o looked up the board and i get 1V on L8060 (PP1V_S5G_REG) and L7900 (PPVCCPCH_S5G)\nThis Voltages are for the PHC i think so\n\nI Diod and Resistance tested on L8060 and L7900 too this values are quit low but i think luis says in his videos a low resistance to GRD on CPU rails can be normal i hop i dont fry my PHC here right now this will be the 3. board in a row with bad PHC\n\nL8060:\nDIod (Red on GRD) (Pin2): 0,076V\nResistance(black on GRD): 92,7 Ohm\n\nL7900:\nDIod (Red on GRD) (Pin2): 0,090V\nResistance(black on GRD): 76,3 Ohm\n\nOn L7210(PPVCCCPU_S0H_PH1) and L7220(PPVCCCPU_S0H_PH2) i get 0V i think this is the CPU main Power rail right here ?\n\nL7210:\nDIod (Red on GRD) (Pin2): 0,004V\nResistance(black on GRD): 4,5Ohm\n\nL7220:\nDIod (Red on GRD) (Pin2): 0,004V\nResistance(black on GRD): 4,4 Ohm\n\n\nI cant messure the Right Values from another baord all of my 820-00840 Board just have no CPU On it\n\n[UPDATE]\n\nI figured out a short on PP3v3_UPC_XB_LDO(29,1Ohm to GRD \/\/ 0,026V Diod) and PP1V8_UPC_XB_LDO(62,3Ohm\n to GRD \/\/ 0,054V Diod)\nI will invest some time in this problem later this day maybis this will fix my hot CD3215 chip problem.\n\n\n\nThanks in advance for ur time for helping me out"
+    },
+    {
+        "post_id":73926,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-04 05:56:26",
+        "message":"Do you get any voltage at L7210\/20?\nIf yes, measure final level, 10-15s after applied power on the board."
+    },
+    {
+        "post_id":73927,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-04 06:32:02",
+        "message":"No on L7210\/20 i get 0,0001V so its just tolerance from my Fluke i think so so its basicly 0V there also after 15s\n\nSo are the low resistance values of this lanes are normal ? did anyone can confirm this ? or can messure it out on a working board ?"
+    },
+    {
+        "post_id":73928,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-04 08:00:41",
+        "message":"4 ohm could be good value for VCORE.\nHowever should be better to compare with good board."
+    },
+    {
+        "post_id":73930,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-04 09:50:28",
+        "message":"Okay i Changed U3200 again and my short on  PP3v3_UPC_XB_LDO and PP1V8_UPC_XB_LDO is now gone the CD3215 area is not feeling hot anymore ...\nmeanwhile i have a hole boneyard with CD3215 chips only from this board ... but its okay its still fun for me to figure out this kind of failure \n\nNow i invest some time and messure around the missing PPVCCCPU_S0G coming from L7210\/20 i catch some values from U7220 but I don't quite know what to do with it  so here we go:\n\nPin 3 (VCINP_P5V_U7320) :   5,1V \nPin 29 (PP5V_S0) :                  5,1V\nPin 8 (PPBUS_G3H_CPU) :     13V\nPin 2 (CPUVR_FCCM) :            2,2V\nPin 1 (CPUVR_PWM2) :           0V and no kind of puls or oscilating \nPin 5 (CPUVR_BOOT2) :          4,814V\n\nI searched for somethink like a datasheed for the FDMF5808A (U7220) and I found something similar a datasheed for an FDMF5821 \u2013 Smart Power Stage (SPS) Module with Integrated Temperature Monitor in the picture i can see a simular inputs like on the FDMF5808A (U7220) so i think i can go with it\nafter i figure out all supply voltages are there (PVCC,VCC,VIN) and i get an EN sinal from CPUVR_FCCM i think so the onlysignal the chip is missing to work is a PWM Signal CPUVR_PWM2 i think so\n\nCPUVR_PWM2 is coming direct from U7100 which I have changed before \nVoltage at Pin 42 (CPUVR_VCC) is present with 5,1V also Pin 41 (CPUVR_VIN) with 13V some kind of ENABLE signal on Pin 48 (PM_EN_CPUVCC_R) is also present with 3,2V Pin 47 (PM_PGOOD_CPUVCC) is also present wits 3,3V\nThe qestion for me is now were doesthe PWM\/CLOCK signal comes from ? is U7100 Producing its own sinal ? the only CLK sigal on U7100 is SCLK maybe somethink with system clock ? but this siganl \/ lane is coming from U0500 (Page 8 SYM 12 of 20 ) witch is powerd by PPVCC_S0_CPU if i see it right witch is EN from U7100 if i see this right this is very confusing for me and I am currently turning in circles\n\nvalues for an overview:\n\nPin 42 (CPUVR_VCC) : 5,1V \nPin 41 (CPUVR_VIN) : 13V\nPin 48 (PM_EN_CPUVCC_R) : 3,2 \nPin 47 (PM_PGOOD_CPUVCC) : 3,3"
+    },
+    {
+        "post_id":73931,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-04 10:20:27",
+        "message":"Previous communication between PCH and some part of CPU is required.\nBIOS is also involved and VCORE is controlled through CPU_VID bus.\nMost likely bad CPU.\n\nDo you get L7370 and L7730 voltage?"
+    },
+    {
+        "post_id":73933,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-04 10:28:53",
+        "message":"L7730: 1,055V\nL7370: 0V\n\nWhats about SYSCLK_CLK32K_PCH from U1900 its Missing ATM\n24MHz and 12MHz are Present"
+    },
+    {
+        "post_id":73937,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-04 11:42:41",
+        "message":"\" Most likely bad CPU \"\n\nTry known good BIOS, just in case..."
+    },
+    {
+        "post_id":73938,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-04 12:15:31",
+        "message":"can i swap bios chip from another board from the same model from the same yer ? or do i need some firmware configuration here ?"
+    },
+    {
+        "post_id":73939,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-04 12:50:36",
+        "message":"It should work for test.\nFinally clean ME is needed, but only if board starts..."
+    },
+    {
+        "post_id":73940,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-04 13:25:32",
+        "message":"After replacing the chip still same result 20V 200mA No boot\nI figured out that CPU_ZVM_L on U7790 is missing so no PPVCCOPC_s0G for the CPU too \nso maybe last option dead CPU ?\n\n\nfeels bad that i fried a working system just by soldering a CD3215 not properly but so far i learnt a bunch off stuff with this bord \nI see this as an investment for future projeckts\n\n\nso maybe i overlooked something maybe someone else has a hint or a tip for me?\n\n\nUntil now thank you very mutch for helping me out with this probelm :)"
+    },
+    {
+        "post_id":74077,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-08 09:49:32",
+        "message":"[UPDATE]\n\nDon't give up too soon\n after reading some stuff here at  the Forum I noticed  PM_PGOOD_CPUVCC shot NOT be present in my case with no  PPVCCOPC_s0G present \nand the only issue can be a bad solder join at U7100 I don't remember exactly but i think on Pin 48 or on Pin47 so after cleaning and resoldering U7100 again i finaly get my PPVCCPU_S0G and my PPVCCSA_S0G back with 1V \nBoard is taking 20V and round abou 470mA now after holding the powerbutton down board turn off 20V 60mA after pressing again i seems to start\/boot ? nah dont know its doing somethink it will take 20V 470mA again but no Backlight or somethink else at this moment CPU is getting slightli warm at this moment \n\nhow many amts a 820-00840 takes in boot phase or after boot ? \nwhat rails i can check next for geth further with this problem ?"
+    },
+    {
+        "post_id":74078,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-08 10:22:18",
+        "message":"PPVCCPU_S0G  should start with 1V and drops to 0.6V when board boots (aprox 10-15s later)."
+    },
+    {
+        "post_id":74080,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":29632,
+        "username":"p99p",
+        "post_date":"2021-04-08 10:53:44",
+        "message":"i get stable 0,952v the hole time CPUVR_PWM1\/2 are pulsing around 760kHz"
+    },
+    {
+        "post_id":74090,
+        "thread_id":61014,
+        "title":"820-00840 Oh Boy A lot of Work",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-08 13:35:51",
+        "message":"Then board is stuck, not booting really.\n\nCPU damaged by liquid, most likely."
+    }
+]

@@ -1,11 +1,101 @@
-{"post_id":66225,"thread_id":60141,"title":"01598 liquid damage","user_id":1423,"username":"captainmac","post_date":"2020-10-07 10:08:03","message":"hi there\nthese are quite new to me still, dont get them often.\nSo i fixed a short on ppbus, was caused by C9074 which spontaneously died i think (liquid was not near this at all)\nIt's hard to find liquid on this guy, but i found some traces broken around U5111 (which i think arent critical)\n\nAnyway, i get ppbus 12.6V now\nall the G3H stuff is there, i am getting p3v3main_pgood, and P5VG3S_PGOOD\nI cant really find the page with all the rails, but im trying my best.\n\nI'm missing PP3V3_S5, which i think is being created by U7800 if im not mistaken?\nTheres a giant shield over U7800 (and U3900) so am waiting to check in here first before i remove that shield and possibly ruin stuff under it."}
-{"post_id":66229,"thread_id":60141,"title":"01598 liquid damage","user_id":1057,"username":"piernov","post_date":"2020-10-07 11:19:00","message":"Voltage and current on USB-C? Did you try to follow power sequence?"}
-{"post_id":66240,"thread_id":60141,"title":"01598 liquid damage","user_id":682,"username":"2informaticos","post_date":"2020-10-07 12:49:50","message":"Do you get other voltages from U7800 (SYM 1 OF 4)?"}
-{"post_id":66281,"thread_id":60141,"title":"01598 liquid damage","user_id":1423,"username":"captainmac","post_date":"2020-10-08 02:24:12","message":"yeah sorry forgot to add the obvious: board is asking 20v and draws 0.00amps\n\nLDOs from U7800:\n\nLDO_CORE = 1.50V\nPP0V8_SLPS2R = 0.8V\nPP3V_G3H_RTC = 3.0V\nPP1V2_AWAKE = 1.20V\nPMU_LDO3_OUT_R = 1.8V\n\nPP3V3_G3H_PMU_VDDMAIN = 3.29V"}
-{"post_id":66304,"thread_id":60141,"title":"01598 liquid damage","user_id":682,"username":"2informaticos","post_date":"2020-10-08 13:48:56","message":"Power on sequence mentions that 3V3_S5 appears after PMU_ONOFF_L is triggered."}
-{"post_id":66348,"thread_id":60141,"title":"01598 liquid damage","user_id":1423,"username":"captainmac","post_date":"2020-10-09 01:56:18","message":"ok, i was under the assumption these would start automatically when charger is connected.\nI realised there was a power diagram yesterday and indeed saw that same sequence, so tried triggering PMU-ONOFF_L to ground with tweezers while measuring PP3v3_S5: but no response, no pulsing either."}
-{"post_id":66349,"thread_id":60141,"title":"01598 liquid damage","user_id":1423,"username":"captainmac","post_date":"2020-10-09 02:06:46","message":"so following the power on sequence:\nI am having everything up until  SSD0_OCARINA_WP_L\nHave no idea where that's from (i'm assuming PMIC here) \n\nSSD0_OCARINA_PFN is there at 1.8v\nSSD0_OCARINA_RESET_L is 0.0v"}
-{"post_id":66364,"thread_id":60141,"title":"01598 liquid damage","user_id":682,"username":"2informaticos","post_date":"2020-10-09 04:47:15","message":"Do you get correct level for 0V9_SSD0 and 2V5_NAND_SSD0?"}
-{"post_id":66367,"thread_id":60141,"title":"01598 liquid damage","user_id":1423,"username":"captainmac","post_date":"2020-10-09 05:24:56","message":"yes, both are present at 0.9 and 2.5v"}
-{"post_id":66385,"thread_id":60141,"title":"01598 liquid damage","user_id":682,"username":"2informaticos","post_date":"2020-10-09 12:43:34","message":"The board should start by itself when charger is connected; if no battery connected.\nPMU_ONOFF_L is needed to turn on the board only if battery alone is connected (no charger).\n\nLooks like T2 is not able to access dedicated partition on SSD.\nTry DFU restore, just in case."}
-{"post_id":66471,"thread_id":60141,"title":"01598 liquid damage","user_id":1423,"username":"captainmac","post_date":"2020-10-12 07:12:11","message":"well i cant get this thing to do anything, cannot get it into DFU mode."}
+[
+    {
+        "post_id":66225,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-10-07 08:08:03",
+        "message":"hi there\nthese are quite new to me still, dont get them often.\nSo i fixed a short on ppbus, was caused by C9074 which spontaneously died i think (liquid was not near this at all)\nIt's hard to find liquid on this guy, but i found some traces broken around U5111 (which i think arent critical)\n\nAnyway, i get ppbus 12.6V now\nall the G3H stuff is there, i am getting p3v3main_pgood, and P5VG3S_PGOOD\nI cant really find the page with all the rails, but im trying my best.\n\nI'm missing PP3V3_S5, which i think is being created by U7800 if im not mistaken?\nTheres a giant shield over U7800 (and U3900) so am waiting to check in here first before i remove that shield and possibly ruin stuff under it."
+    },
+    {
+        "post_id":66229,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2020-10-07 09:19:00",
+        "message":"Voltage and current on USB-C? Did you try to follow power sequence?"
+    },
+    {
+        "post_id":66240,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-07 10:49:50",
+        "message":"Do you get other voltages from U7800 (SYM 1 OF 4)?"
+    },
+    {
+        "post_id":66281,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-10-08 00:24:12",
+        "message":"yeah sorry forgot to add the obvious: board is asking 20v and draws 0.00amps\n\nLDOs from U7800:\n\nLDO_CORE = 1.50V\nPP0V8_SLPS2R = 0.8V\nPP3V_G3H_RTC = 3.0V\nPP1V2_AWAKE = 1.20V\nPMU_LDO3_OUT_R = 1.8V\n\nPP3V3_G3H_PMU_VDDMAIN = 3.29V"
+    },
+    {
+        "post_id":66304,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-08 11:48:56",
+        "message":"Power on sequence mentions that 3V3_S5 appears after PMU_ONOFF_L is triggered."
+    },
+    {
+        "post_id":66348,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-10-08 23:56:18",
+        "message":"ok, i was under the assumption these would start automatically when charger is connected.\nI realised there was a power diagram yesterday and indeed saw that same sequence, so tried triggering PMU-ONOFF_L to ground with tweezers while measuring PP3v3_S5: but no response, no pulsing either."
+    },
+    {
+        "post_id":66349,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-10-09 00:06:46",
+        "message":"so following the power on sequence:\nI am having everything up until  SSD0_OCARINA_WP_L\nHave no idea where that's from (i'm assuming PMIC here) \n\nSSD0_OCARINA_PFN is there at 1.8v\nSSD0_OCARINA_RESET_L is 0.0v"
+    },
+    {
+        "post_id":66364,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-09 02:47:15",
+        "message":"Do you get correct level for 0V9_SSD0 and 2V5_NAND_SSD0?"
+    },
+    {
+        "post_id":66367,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-10-09 03:24:56",
+        "message":"yes, both are present at 0.9 and 2.5v"
+    },
+    {
+        "post_id":66385,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-09 10:43:34",
+        "message":"The board should start by itself when charger is connected; if no battery connected.\nPMU_ONOFF_L is needed to turn on the board only if battery alone is connected (no charger).\n\nLooks like T2 is not able to access dedicated partition on SSD.\nTry DFU restore, just in case."
+    },
+    {
+        "post_id":66471,
+        "thread_id":60141,
+        "title":"01598 liquid damage",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-10-12 05:12:11",
+        "message":"well i cant get this thing to do anything, cannot get it into DFU mode."
+    }
+]

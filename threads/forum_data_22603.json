@@ -1,5 +1,47 @@
-{"post_id":22603,"thread_id":22603,"title":"[SOLVED]820-3476, Missing PPBUS_G3H","user_id":515,"username":"SMMRepair","post_date":"2017-07-05 10:55:37","message":"Received this board with the note, \"Wife plugged aftermarket charger into unit, heard a pop and smelled smoke\". \n\nI got the board out and saw a burn at Q7130. I pretty much assumed there would be no green light, and didn't want to plug the board in until replacing Q7130 and U7100. I replaced Q7130 and U7100 together, and had no green light. I replaced Q7180, and got a green light, but no power. I checked PPBUS_G3H and it was 0v (at F7140). I made sure the fuse wasn't blown, but there's nothing at either pin of L7130 either, so PPBUS is definitely missing. I poked around U7100 and found R7121\/7122 blown, so I replaced both of them. Still no PPBUS_G3H. I found that R7185 was reading as 0ohm when it should be 470k, so I replaced it but the replacement reads 0ohm in-circuit as well (and 470k out of circuit, so it's fine). So is something pulling down the resistance of this resistor? It measures properly on another working board. I have PP3v42_G3H, and have a steady green --> orange light. No shorts detected (on ppbus_g3h), and nothing getting warm otherwise.\n\nSort of lost at this point; I checked all other main resistors around U7100, and they all look\/measure fine. I have proper voltages at pin 3 of U7100. Do I need to replace Q7155? Does this type of damage (from a cheap\/chinese charger) typically take out more than just U7100\/Q7180\/Q7130 and current-sense resistors? I'm not sure what else to check. I've replaced U7100 twice to be safe, but same results each time.\n\nAll help appreciated."}
-{"post_id":22605,"thread_id":22603,"title":"[SOLVED]820-3476, Missing PPBUS_G3H","user_id":296,"username":"jadao","post_date":"2017-07-05 13:51:47","message":"C7185 is in parallel with R7185.\nThis cap must have blown with Q7180 and is now shorting R7185.\n\nOtherwise Q7180 or worst case short in the board."}
-{"post_id":22607,"thread_id":22603,"title":"[SOLVED]820-3476, Missing PPBUS_G3H","user_id":515,"username":"SMMRepair","post_date":"2017-07-05 14:28:40","message":"Thanks, Jadao. I have some more information:\n\n- I removed C7185 to see if it was pulling down R7185, but it wasn't. I replaced C7185 and removed Q7180, and the resistor is measuring properly now.\n- I have a short on C7120, pins 1 and 2. I know pin 2 is ground, but it looks like pin 1 might be shorted by U7100.\n\nQuestion; if Q7180 were bad, would it have killed U7100? I will replace both to be sure, but is there a chance that I would also need to re-replace Q7130 in all of this? I obviously want to make sure I don't get stuck in a circle of U7100 killing my fets then them killing my U7100; should I just replace all three at once? I'm not sure if U7100 would kill Q7130 due to damage from Q7180. I'm not sure how all of those work together and affect each other."}
-{"post_id":22609,"thread_id":22603,"title":"[SOLVED]820-3476, Missing PPBUS_G3H","user_id":515,"username":"SMMRepair","post_date":"2017-07-05 14:49:13","message":"OK, I think I got this one.\n\nShort on C7120 led me to a short on PPDCIN_G3H_CHGR, which turned out to be C7130. Looks like it was C7130 that originally shorted out (maybe due to the bad charger), and zapped Q7130 and everything got killed from there to U7100.\n\nReplaced C7130, got fan spin, and will test board now. Will update thread if anything else comes up."}
-{"post_id":22610,"thread_id":22603,"title":"[SOLVED]820-3476, Missing PPBUS_G3H","user_id":515,"username":"SMMRepair","post_date":"2017-07-05 17:07:11","message":"Got this one taken care of; C7130 was shorted and causing issues. Mark this one \"solved\"--thanks, guys!"}
+[
+    {
+        "post_id":22603,
+        "thread_id":22603,
+        "title":"[SOLVED]820-3476, Missing PPBUS_G3H",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-07-05 08:55:37",
+        "message":"Received this board with the note, \"Wife plugged aftermarket charger into unit, heard a pop and smelled smoke\". \n\nI got the board out and saw a burn at Q7130. I pretty much assumed there would be no green light, and didn't want to plug the board in until replacing Q7130 and U7100. I replaced Q7130 and U7100 together, and had no green light. I replaced Q7180, and got a green light, but no power. I checked PPBUS_G3H and it was 0v (at F7140). I made sure the fuse wasn't blown, but there's nothing at either pin of L7130 either, so PPBUS is definitely missing. I poked around U7100 and found R7121\/7122 blown, so I replaced both of them. Still no PPBUS_G3H. I found that R7185 was reading as 0ohm when it should be 470k, so I replaced it but the replacement reads 0ohm in-circuit as well (and 470k out of circuit, so it's fine). So is something pulling down the resistance of this resistor? It measures properly on another working board. I have PP3v42_G3H, and have a steady green --> orange light. No shorts detected (on ppbus_g3h), and nothing getting warm otherwise.\n\nSort of lost at this point; I checked all other main resistors around U7100, and they all look\/measure fine. I have proper voltages at pin 3 of U7100. Do I need to replace Q7155? Does this type of damage (from a cheap\/chinese charger) typically take out more than just U7100\/Q7180\/Q7130 and current-sense resistors? I'm not sure what else to check. I've replaced U7100 twice to be safe, but same results each time.\n\nAll help appreciated."
+    },
+    {
+        "post_id":22605,
+        "thread_id":22603,
+        "title":"[SOLVED]820-3476, Missing PPBUS_G3H",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2017-07-05 11:51:47",
+        "message":"C7185 is in parallel with R7185.\nThis cap must have blown with Q7180 and is now shorting R7185.\n\nOtherwise Q7180 or worst case short in the board."
+    },
+    {
+        "post_id":22607,
+        "thread_id":22603,
+        "title":"[SOLVED]820-3476, Missing PPBUS_G3H",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-07-05 12:28:40",
+        "message":"Thanks, Jadao. I have some more information:\n\n- I removed C7185 to see if it was pulling down R7185, but it wasn't. I replaced C7185 and removed Q7180, and the resistor is measuring properly now.\n- I have a short on C7120, pins 1 and 2. I know pin 2 is ground, but it looks like pin 1 might be shorted by U7100.\n\nQuestion; if Q7180 were bad, would it have killed U7100? I will replace both to be sure, but is there a chance that I would also need to re-replace Q7130 in all of this? I obviously want to make sure I don't get stuck in a circle of U7100 killing my fets then them killing my U7100; should I just replace all three at once? I'm not sure if U7100 would kill Q7130 due to damage from Q7180. I'm not sure how all of those work together and affect each other."
+    },
+    {
+        "post_id":22609,
+        "thread_id":22603,
+        "title":"[SOLVED]820-3476, Missing PPBUS_G3H",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-07-05 12:49:13",
+        "message":"OK, I think I got this one.\n\nShort on C7120 led me to a short on PPDCIN_G3H_CHGR, which turned out to be C7130. Looks like it was C7130 that originally shorted out (maybe due to the bad charger), and zapped Q7130 and everything got killed from there to U7100.\n\nReplaced C7130, got fan spin, and will test board now. Will update thread if anything else comes up."
+    },
+    {
+        "post_id":22610,
+        "thread_id":22603,
+        "title":"[SOLVED]820-3476, Missing PPBUS_G3H",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-07-05 15:07:11",
+        "message":"Got this one taken care of; C7130 was shorted and causing issues. Mark this one \"solved\"--thanks, guys!"
+    }
+]

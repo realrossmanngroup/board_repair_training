@@ -1,17 +1,155 @@
-{"post_id":88796,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-22 07:56:03","message":"Hello,\nI'm trying to fix a motherboard who doesn't turn on from an 2015 macbook pro 13\"\" 820-4924-A.\nNo trace of corrosion at all.\nWhen I plug the charger, the magsafe light start from orange for half a sec then turn green then turn to Orange.\nI did SMC Bypass: the light on the magsafe start orange and turn green when I release the power button. It turn back orange when I press again power.\nNothing on the screen, no fan spinning.\nI'm using an 60w apple official charger.\n\nI took some measurement :\n\n[B]PPBUS_G3H [\/B]: [B]12.55V\nPP5V_S5 [\/B]: [B]4.99V\npp3v42_G3H [\/B]: [B]3.42V\nPP3V3_S4 [\/B]: [B]0v\nPP5V_S4 [\/B]: [B]0V\nPP3V3_s0 [\/B]- [B]0.08V[\/B]\n\nI've been looking for [B]PM_SLP_XXX [\/B]:\n\n[B]PM_SLP_S0_L [\/B]: [B]3.33V\nPM_SLP_S3_L [\/B]: [B]Pulse few ms once when the charger is plugged in then go to 0v\nPM_SLP_S4_L [\/B]: [B]Pulse few ms once when the charger is plugged in then go to 0v\nPM_SLP_S5_L [\/B]: [B]Pulse few ms once when the charger is plugged in then go to 0v\nPM_SLP_SUS_L [\/B]: [B]3.33V[\/B]\n\n[URL='https:\/\/www.it-tech.com.au\/mac-q-a\/pm-slp-s4-l-timing\/']I look on internet[\/URL] and see that I need 11+1 prerequisites to turn on PM_SLP_S5_L, PM_SLP_S4_L and PM_SLP_S3_L to enable S4, S3 and S0 state power rails.\n\n1. [B]PPVRTC_G3H [\/B]: [B]3.33v[\/B]\n2. [B]RTC_RESET_L [\/B]: [B]3.26v[\/B]\n3. [B]PCH_SRTCRST_L [\/B]: [B]3.26v[\/B]\n4. [B]PCH_INTVRMEN[\/B](?_L?) : [B]2.51v[\/B]\n5. [B]PCH_DSWVRMEN[\/B](?_L?) : [B]2.51v[\/B]\n6. [B]SYSCLK_CLK32K_RTCX1  [\/B]- Can't measure it because I don't have oscilloscope\n7. [B]PP3V3_S5 [\/B]: [B]3.33v[\/B]\n8. [B]PM_DSW_PWRGD [\/B]: [B]3.42v[\/B]\n9. [B]PP3V3_SUS [\/B]: [B]3.33V[\/B]\n10. [B]PM_BATLOW_L [\/B]: [B]3.30v[\/B]\n11. [B]PM_RSMRST_L [\/B]: [B]3.03v[\/B]\n+1. [B]PM_PWRBTN_L [\/B]: [B]3.41V and stable[\/B]\n\nFrom what I understand from [URL='https:\/\/boards.rossmanngroup.com\/threads\/820-3437-no-pm_slp_s4_l.61141\/']this post[\/URL], PCH_INTVRMEN is coming directly from the PCH so it's :\n- the PCH who is bad\n- connection from the PCH to the PCB who is bad\n- \"series resistances\"\nIs that correct and if yes, which \"series resistances\" is it ?\n\nAdditional measurement :\n[B]pch_intruder_l [\/B]: [B]1.67v [\/B](seem bad too)\n\nBest regards"}
-{"post_id":88801,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-22 10:00:49","message":"First of all, welcome to the forum!\n\n\"From what I understand from [URL='https:\/\/boards.rossmanngroup.com\/threads\/820-3437-no-pm_slp_s4_l.61141\/']this post[\/URL], PCH_INTVRMEN is coming directly from the PCH so it's\"\nWrong understood; that is a PCH input.\n\n\"pch_intruder_l : 1.67v\"\nIs the only bad reading; it is also PCH input.\nAnd PCH will not start power on sequence untill get the correct level.\nForce it with 100K instead of 1M in place of R1301."}
-{"post_id":88835,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-25 08:56:07","message":"Hello 2informaticos and thanks for the answer :).\nThanks for the correction.\nI put a 100k resistor instead of the 1M in place as R1301 and have now PCH_INTRUDER_L at 3.29V.\nUnfortunately, still no sign of life.\n\nAssuming this : [URL]https:\/\/logi.wiki\/index.php\/G3_to_S3_State_for_Ivy_Bridge_Haswell_and_Broadwell[\/URL]\nPM_RSMRST_L : 3.03v being a good value, I understand that I can have a clock issue"}
-{"post_id":88840,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-25 11:18:41","message":"Trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time)."}
-{"post_id":88843,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-25 11:40:29","message":"When I trigger SMC_ONOFF_L, PM_PWRBTN_L drop at 0.32V and come back to 3.42 after release.\nSometime, PM_PWRBTN_L Stay at 0.32V until I cut the power."}
-{"post_id":88846,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-25 12:08:46","message":"Other information :\nWhen plug in the charger in\n[B]PP3V3_S4 [\/B]pulse at [B]0.6V [\/B]then go to 0V\n[B]PP3V3_S0 [\/B]pulse at [B]0.7V[\/B](sometime 2.41V) then go to 0.07V\n[B]PP3V3_S3 [\/B]pulse at [B]0.7V [\/B]then go to 0.07V"}
-{"post_id":88847,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-25 13:06:33","message":"You should note the pulse at PM_SLP_Sx_L signals at same time with drop pulse on PM_PWRBTN_L.\nBe sure PM_RSMRST_L is always\/steady high."}
-{"post_id":88865,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-26 12:07:45","message":"Values when charger is plugged :\n[B]PM_RSMRST_L [\/B]is at [B]3.03V [\/B]and is stable\n[B]PM_PWRBTN_L [\/B]:  [B]3.42v\nPM_SLP_S5_L [\/B]is at [B]0v\nPM_SLP_S4_L [\/B]is at [B]0v\nPM_SLP_S3_L [\/B]is at [B]0v\nPM_SLP_S0_L [\/B]is at [B]3.34v[\/B]\n\nWhen I trigger [B]SMC_ONOFF_L [\/B]:\n[B]PM_RSMRST_L [\/B]is at [B]3.03V and is stable\nPM_SLP_S5_L [\/B]pulse to [B]1.5v [\/B]then go back to 0v\n[B]PM_SLP_S4_L [\/B]pulse to [B]1.41v [\/B]then go back to 0v\n[B]PM_SLP_S3_L [\/B]pulse to [B]1.31v [\/B]then go back to 0v\n[B]PM_SLP_S0_L [\/B]is at [B]3.34v and is stable\nPM_PWRBTN_L [\/B]drop at [B]0.32V [\/B]and go back to [B]3.42v[\/B]\n\nI Just realized that using my multimeter to check pulse could be not enough fast to catch accurate pulse value in this scenario. Unfortunately I don't have other measurement tools at my disposition ..."}
-{"post_id":88871,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-26 13:31:57","message":"If you trigger SMC_ONOFF_L repedeatlly, may catch higher value.\nHowever, 1.5V pulse can't be catched if respective signal doesn't pulse; good enough as confirmation.\nYou should check for pulse now on each power rail according with PM_SLP_Sx_L used as enable.\n\nTry first to start in SMC bypass mode."}
-{"post_id":88875,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-26 15:02:56","message":"I tried to start in SMC_bypass mode, but my fan will not speed at all (should turn at full speed from what I understood) and 0V on PM_SLP_SX_L.\n\nThese are the highest values I caught by trigger [B]SMC_ONOFF_L [\/B]repedeatlly :\n[B]ALL_SYS_PWRGD[\/B] pulse at [B]2v\nDDRREG_EN[\/B] : pulse at [B]2.37v\nPM_SLP_S4_BTMUX_[\/B]L : pulse at [B]2.43v\nPM_SLP_S3_BUF_L[\/B] : pulse at [B]1.41v\nP1V05S0_EN[\/B] : pulse at [B]1.53v\nP1V8S3_EN[\/B] : pulse at [B]2.34v \nP3V3S0_EN[\/B] : pulse at [B]1.52v \nP3V3S3_EN[\/B] : pulse at [B]2.34v \nP5VS0_EN[\/B] : pulse at [B]2.31v \nP5VS3_EN_RC[\/B] : pulse at [B]1.08v\nPP1V05_S0[\/B] : pulse at [B]0.7v \nPP1V5_S0[\/B] : pulse at [B]1.04v \nPP1V2_S3[\/B] : pulse at [B]0.6v\nPP1V8_S3[\/B] : pulse at [B]1.35v\nPP3V3_S0 [\/B]: pulse at [B]2.3v [\/B]then go to [B]0.07v  stable[\/B].\n[B]PP3V3_S3 [\/B]: pulse at [B]2.01v [\/B]then go to [B]0.07v stable[\/B].\n[B]PP5V_S0 [\/B]:  pulse at [B]3.72v\nPP5V_S3 [\/B]: pulse at [B]5v\nS4_PWR_EN [\/B]: pulse at [B]2.35v\nS5_PWR_EN [\/B]: [B]3.42V stable\nUSB_PWR_EN [\/B]: pulse at [B]1.23v[\/B]"}
-{"post_id":88876,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-26 16:47:29","message":"Check for pulse at pins 7 & 3 of U1950.\nBe sure no corrosion present on its area.\n\nAny pulse at L7630 and L7310\/20?\n\nYou can also test the board removing Q8150."}
-{"post_id":88877,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-26 17:18:54","message":"[B]U1950[\/B] [B]:[\/B]\nno visible corrosion\n[B]Pin 7[\/B] : pulse at[B] 2.40v\nPin 3[\/B] : pulse at [B]1.10v\n\nL7630 :\nPin 1[\/B] (P1V05S0_LL) : pulse at [B]1.2v\nPin 2[\/B]  (PP1V05S0_REG_R) : no pulse\n\n[B]L7310 :\nPin 1[\/B] : no pulse\n[B]Pin 2[\/B] no pulse\n\n[B]L7320 :\nPin 1[\/B] : no pulse\n[B]Pin 2[\/B] no pulse\n\nI removed Q8150 but I can't notice any change on the measurement"}
-{"post_id":88880,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-26 18:46:17","message":"As per schematic, L7310\/20 are tied together (on output pin); no need to measure both of them.\nAlso keep in mind, DC voltage must be checked on output pin; no reason to check both pins of a coil.\n\nReally strange to get pulse on pin 3\/U1950 but not on L7310\/20 (VCORE).\nUse quality flux and heat PCH die area.\nNo more than 200 degrees, for 15-20s; no need to melt the balls, just burn eventually accumulated crap.\nPCH_INTRUDER_L issue denotes a problem on that area."}
-{"post_id":88883,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-26 19:53:09","message":"Thanks for the tips.\nUnfortunately, I didn't change anything :(."}
-{"post_id":88886,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-27 02:03:19","message":"Tie together pins 5\/6 of U1950 and test again the board.\nAlso check for pulse at PLT_RESET_L.\n\nCan you note pulse on all output voltages from page 63?\nCheck them for short to ground."}
-{"post_id":88891,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":37149,"username":"gluton","post_date":"2022-04-27 08:53:56","message":"I made mistake and my ground probe touched some part of the motherboard and burnt something.\nI don't know what exactly burnt, but the short came from that location just like the smell. \nCouldn't find anything burnt with my eyes.\n[ATTACH alt=\"mb.jpg\"]60598[\/ATTACH]\n\nThe logic board is doing pulse by itself every 4 sec.\nI can hear a little tick coming from [B]Q7180[\/B], [B]Y1915[\/B], [B]Y1905[\/B], [B]Y5110[\/B]\nI have no more drop pulse on [B]PM_PWRBTN_L [\/B]when I trigger [B]SMC_ONOFF_L \nSMC_ONOFF_L [\/B]doesn't make any measurements I took before pulse anymore but still affect the led of the magsafe when maintain close when the charger is plugged, the led doesn't change of color.\n\n[B]PM_SLP_S0_L [\/B]: 0.07V and pulse at[B] [\/B]2.3v ([U]was at 3.33v stable before[\/U]) \n[B]PCH_PM_SLP_S0_L[\/B] : 3.33v stable\n[B]PP3V3_S0 :[\/B] 0.07v pulse at[B] [\/B]2.3v \n[B]PM_SLP_SUS_L [\/B]: 3.33V\n[B]SMC_PM_G2_EN [\/B]: 3.33v\n\n[B]ppvrtc [\/B]:[B] [\/B]3.33 stable\n[B]rtc_reset_l [\/B]:[B] [\/B]3.26 stable\n[B]PCH_srtcrst_l [\/B]:[B] [\/B]3.26v stable\n[B]PCH_intvrmen [\/B]:[B] [\/B]2.51v stable\n[B]PCH_DSWVRMEN [\/B]:[B] [\/B]2.51v\n[B]PP3V3_S5 [\/B]:[B] [\/B]3.33v\n[B]PM_DSW_PWRGD [\/B]:[B] [\/B]3.42v\n[B]PP3V3_SUS [\/B]:[B] [\/B]3.33v\n[B]PM_BATLOW_L [\/B]: 3.30v\n[B]PM_RSMRST_L [\/B]: 3.03v\n[B]PM_PWRBTN_L [\/B]: 3.41v and stable\n[B]pch_intruder_l [\/B]: 3.0v\n\n[B]PM_PCH_SYS_PWROK [\/B]: 0v pulse at 1.50v\n\n[B]PM_SLP_S0_L[\/B], from what I understand, it's coming from [B]U1420[\/B].\n[B]PCH_PM_SLP_S0_L [\/B]go to pin 1-2 of [B]U1420[\/B].\n[B]U1420 [\/B]is powered by [B]PP3V3_S0_PCH_GPIO[\/B]\nand should output [B]PM_SLP_S0_L[\/B]\n\no_O"}
-{"post_id":88892,"thread_id":62624,"title":"820-4924-A - Doesn't turn on - Magsafe Orange","user_id":682,"username":"2informaticos","post_date":"2022-04-27 10:28:41","message":"I don't understand anything from that picture.\nI can't see any location marked there.\n\nDon't bother with PM_SLP_S0_L.\nIn fact, I don't understand how did you get 3V there (first post), if this signal is pulled up to 3V3_S0.\nAs per schematic, U1420 avoid high level on this signal, if machine isn't in S0 state."}
+[
+    {
+        "post_id":88796,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-22 05:56:03",
+        "message":"Hello,\nI'm trying to fix a motherboard who doesn't turn on from an 2015 macbook pro 13\"\" 820-4924-A.\nNo trace of corrosion at all.\nWhen I plug the charger, the magsafe light start from orange for half a sec then turn green then turn to Orange.\nI did SMC Bypass: the light on the magsafe start orange and turn green when I release the power button. It turn back orange when I press again power.\nNothing on the screen, no fan spinning.\nI'm using an 60w apple official charger.\n\nI took some measurement :\n\n[B]PPBUS_G3H [\/B]: [B]12.55V\nPP5V_S5 [\/B]: [B]4.99V\npp3v42_G3H [\/B]: [B]3.42V\nPP3V3_S4 [\/B]: [B]0v\nPP5V_S4 [\/B]: [B]0V\nPP3V3_s0 [\/B]- [B]0.08V[\/B]\n\nI've been looking for [B]PM_SLP_XXX [\/B]:\n\n[B]PM_SLP_S0_L [\/B]: [B]3.33V\nPM_SLP_S3_L [\/B]: [B]Pulse few ms once when the charger is plugged in then go to 0v\nPM_SLP_S4_L [\/B]: [B]Pulse few ms once when the charger is plugged in then go to 0v\nPM_SLP_S5_L [\/B]: [B]Pulse few ms once when the charger is plugged in then go to 0v\nPM_SLP_SUS_L [\/B]: [B]3.33V[\/B]\n\n[URL='https:\/\/www.it-tech.com.au\/mac-q-a\/pm-slp-s4-l-timing\/']I look on internet[\/URL] and see that I need 11+1 prerequisites to turn on PM_SLP_S5_L, PM_SLP_S4_L and PM_SLP_S3_L to enable S4, S3 and S0 state power rails.\n\n1. [B]PPVRTC_G3H [\/B]: [B]3.33v[\/B]\n2. [B]RTC_RESET_L [\/B]: [B]3.26v[\/B]\n3. [B]PCH_SRTCRST_L [\/B]: [B]3.26v[\/B]\n4. [B]PCH_INTVRMEN[\/B](?_L?) : [B]2.51v[\/B]\n5. [B]PCH_DSWVRMEN[\/B](?_L?) : [B]2.51v[\/B]\n6. [B]SYSCLK_CLK32K_RTCX1  [\/B]- Can't measure it because I don't have oscilloscope\n7. [B]PP3V3_S5 [\/B]: [B]3.33v[\/B]\n8. [B]PM_DSW_PWRGD [\/B]: [B]3.42v[\/B]\n9. [B]PP3V3_SUS [\/B]: [B]3.33V[\/B]\n10. [B]PM_BATLOW_L [\/B]: [B]3.30v[\/B]\n11. [B]PM_RSMRST_L [\/B]: [B]3.03v[\/B]\n+1. [B]PM_PWRBTN_L [\/B]: [B]3.41V and stable[\/B]\n\nFrom what I understand from [URL='https:\/\/boards.rossmanngroup.com\/threads\/820-3437-no-pm_slp_s4_l.61141\/']this post[\/URL], PCH_INTVRMEN is coming directly from the PCH so it's :\n- the PCH who is bad\n- connection from the PCH to the PCB who is bad\n- \"series resistances\"\nIs that correct and if yes, which \"series resistances\" is it ?\n\nAdditional measurement :\n[B]pch_intruder_l [\/B]: [B]1.67v [\/B](seem bad too)\n\nBest regards"
+    },
+    {
+        "post_id":88801,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-22 08:00:49",
+        "message":"First of all, welcome to the forum!\n\n\"From what I understand from [URL='https:\/\/boards.rossmanngroup.com\/threads\/820-3437-no-pm_slp_s4_l.61141\/']this post[\/URL], PCH_INTVRMEN is coming directly from the PCH so it's\"\nWrong understood; that is a PCH input.\n\n\"pch_intruder_l : 1.67v\"\nIs the only bad reading; it is also PCH input.\nAnd PCH will not start power on sequence untill get the correct level.\nForce it with 100K instead of 1M in place of R1301."
+    },
+    {
+        "post_id":88835,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-25 06:56:07",
+        "message":"Hello 2informaticos and thanks for the answer :).\nThanks for the correction.\nI put a 100k resistor instead of the 1M in place as R1301 and have now PCH_INTRUDER_L at 3.29V.\nUnfortunately, still no sign of life.\n\nAssuming this : [URL]https:\/\/logi.wiki\/index.php\/G3_to_S3_State_for_Ivy_Bridge_Haswell_and_Broadwell[\/URL]\nPM_RSMRST_L : 3.03v being a good value, I understand that I can have a clock issue"
+    },
+    {
+        "post_id":88840,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-25 09:18:41",
+        "message":"Trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time)."
+    },
+    {
+        "post_id":88843,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-25 09:40:29",
+        "message":"When I trigger SMC_ONOFF_L, PM_PWRBTN_L drop at 0.32V and come back to 3.42 after release.\nSometime, PM_PWRBTN_L Stay at 0.32V until I cut the power."
+    },
+    {
+        "post_id":88846,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-25 10:08:46",
+        "message":"Other information :\nWhen plug in the charger in\n[B]PP3V3_S4 [\/B]pulse at [B]0.6V [\/B]then go to 0V\n[B]PP3V3_S0 [\/B]pulse at [B]0.7V[\/B](sometime 2.41V) then go to 0.07V\n[B]PP3V3_S3 [\/B]pulse at [B]0.7V [\/B]then go to 0.07V"
+    },
+    {
+        "post_id":88847,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-25 11:06:33",
+        "message":"You should note the pulse at PM_SLP_Sx_L signals at same time with drop pulse on PM_PWRBTN_L.\nBe sure PM_RSMRST_L is always\/steady high."
+    },
+    {
+        "post_id":88865,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-26 10:07:45",
+        "message":"Values when charger is plugged :\n[B]PM_RSMRST_L [\/B]is at [B]3.03V [\/B]and is stable\n[B]PM_PWRBTN_L [\/B]:  [B]3.42v\nPM_SLP_S5_L [\/B]is at [B]0v\nPM_SLP_S4_L [\/B]is at [B]0v\nPM_SLP_S3_L [\/B]is at [B]0v\nPM_SLP_S0_L [\/B]is at [B]3.34v[\/B]\n\nWhen I trigger [B]SMC_ONOFF_L [\/B]:\n[B]PM_RSMRST_L [\/B]is at [B]3.03V and is stable\nPM_SLP_S5_L [\/B]pulse to [B]1.5v [\/B]then go back to 0v\n[B]PM_SLP_S4_L [\/B]pulse to [B]1.41v [\/B]then go back to 0v\n[B]PM_SLP_S3_L [\/B]pulse to [B]1.31v [\/B]then go back to 0v\n[B]PM_SLP_S0_L [\/B]is at [B]3.34v and is stable\nPM_PWRBTN_L [\/B]drop at [B]0.32V [\/B]and go back to [B]3.42v[\/B]\n\nI Just realized that using my multimeter to check pulse could be not enough fast to catch accurate pulse value in this scenario. Unfortunately I don't have other measurement tools at my disposition ..."
+    },
+    {
+        "post_id":88871,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-26 11:31:57",
+        "message":"If you trigger SMC_ONOFF_L repedeatlly, may catch higher value.\nHowever, 1.5V pulse can't be catched if respective signal doesn't pulse; good enough as confirmation.\nYou should check for pulse now on each power rail according with PM_SLP_Sx_L used as enable.\n\nTry first to start in SMC bypass mode."
+    },
+    {
+        "post_id":88875,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-26 13:02:56",
+        "message":"I tried to start in SMC_bypass mode, but my fan will not speed at all (should turn at full speed from what I understood) and 0V on PM_SLP_SX_L.\n\nThese are the highest values I caught by trigger [B]SMC_ONOFF_L [\/B]repedeatlly :\n[B]ALL_SYS_PWRGD[\/B] pulse at [B]2v\nDDRREG_EN[\/B] : pulse at [B]2.37v\nPM_SLP_S4_BTMUX_[\/B]L : pulse at [B]2.43v\nPM_SLP_S3_BUF_L[\/B] : pulse at [B]1.41v\nP1V05S0_EN[\/B] : pulse at [B]1.53v\nP1V8S3_EN[\/B] : pulse at [B]2.34v \nP3V3S0_EN[\/B] : pulse at [B]1.52v \nP3V3S3_EN[\/B] : pulse at [B]2.34v \nP5VS0_EN[\/B] : pulse at [B]2.31v \nP5VS3_EN_RC[\/B] : pulse at [B]1.08v\nPP1V05_S0[\/B] : pulse at [B]0.7v \nPP1V5_S0[\/B] : pulse at [B]1.04v \nPP1V2_S3[\/B] : pulse at [B]0.6v\nPP1V8_S3[\/B] : pulse at [B]1.35v\nPP3V3_S0 [\/B]: pulse at [B]2.3v [\/B]then go to [B]0.07v  stable[\/B].\n[B]PP3V3_S3 [\/B]: pulse at [B]2.01v [\/B]then go to [B]0.07v stable[\/B].\n[B]PP5V_S0 [\/B]:  pulse at [B]3.72v\nPP5V_S3 [\/B]: pulse at [B]5v\nS4_PWR_EN [\/B]: pulse at [B]2.35v\nS5_PWR_EN [\/B]: [B]3.42V stable\nUSB_PWR_EN [\/B]: pulse at [B]1.23v[\/B]"
+    },
+    {
+        "post_id":88876,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-26 14:47:29",
+        "message":"Check for pulse at pins 7 & 3 of U1950.\nBe sure no corrosion present on its area.\n\nAny pulse at L7630 and L7310\/20?\n\nYou can also test the board removing Q8150."
+    },
+    {
+        "post_id":88877,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-26 15:18:54",
+        "message":"[B]U1950[\/B] [B]:[\/B]\nno visible corrosion\n[B]Pin 7[\/B] : pulse at[B] 2.40v\nPin 3[\/B] : pulse at [B]1.10v\n\nL7630 :\nPin 1[\/B] (P1V05S0_LL) : pulse at [B]1.2v\nPin 2[\/B]  (PP1V05S0_REG_R) : no pulse\n\n[B]L7310 :\nPin 1[\/B] : no pulse\n[B]Pin 2[\/B] no pulse\n\n[B]L7320 :\nPin 1[\/B] : no pulse\n[B]Pin 2[\/B] no pulse\n\nI removed Q8150 but I can't notice any change on the measurement"
+    },
+    {
+        "post_id":88880,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-26 16:46:17",
+        "message":"As per schematic, L7310\/20 are tied together (on output pin); no need to measure both of them.\nAlso keep in mind, DC voltage must be checked on output pin; no reason to check both pins of a coil.\n\nReally strange to get pulse on pin 3\/U1950 but not on L7310\/20 (VCORE).\nUse quality flux and heat PCH die area.\nNo more than 200 degrees, for 15-20s; no need to melt the balls, just burn eventually accumulated crap.\nPCH_INTRUDER_L issue denotes a problem on that area."
+    },
+    {
+        "post_id":88883,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-26 17:53:09",
+        "message":"Thanks for the tips.\nUnfortunately, I didn't change anything :(."
+    },
+    {
+        "post_id":88886,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-27 00:03:19",
+        "message":"Tie together pins 5\/6 of U1950 and test again the board.\nAlso check for pulse at PLT_RESET_L.\n\nCan you note pulse on all output voltages from page 63?\nCheck them for short to ground."
+    },
+    {
+        "post_id":88891,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":37149,
+        "username":"gluton",
+        "post_date":"2022-04-27 06:53:56",
+        "message":"I made mistake and my ground probe touched some part of the motherboard and burnt something.\nI don't know what exactly burnt, but the short came from that location just like the smell. \nCouldn't find anything burnt with my eyes.\n[ATTACH alt=\"mb.jpg\"]60598[\/ATTACH]\n\nThe logic board is doing pulse by itself every 4 sec.\nI can hear a little tick coming from [B]Q7180[\/B], [B]Y1915[\/B], [B]Y1905[\/B], [B]Y5110[\/B]\nI have no more drop pulse on [B]PM_PWRBTN_L [\/B]when I trigger [B]SMC_ONOFF_L \nSMC_ONOFF_L [\/B]doesn't make any measurements I took before pulse anymore but still affect the led of the magsafe when maintain close when the charger is plugged, the led doesn't change of color.\n\n[B]PM_SLP_S0_L [\/B]: 0.07V and pulse at[B] [\/B]2.3v ([U]was at 3.33v stable before[\/U]) \n[B]PCH_PM_SLP_S0_L[\/B] : 3.33v stable\n[B]PP3V3_S0 :[\/B] 0.07v pulse at[B] [\/B]2.3v \n[B]PM_SLP_SUS_L [\/B]: 3.33V\n[B]SMC_PM_G2_EN [\/B]: 3.33v\n\n[B]ppvrtc [\/B]:[B] [\/B]3.33 stable\n[B]rtc_reset_l [\/B]:[B] [\/B]3.26 stable\n[B]PCH_srtcrst_l [\/B]:[B] [\/B]3.26v stable\n[B]PCH_intvrmen [\/B]:[B] [\/B]2.51v stable\n[B]PCH_DSWVRMEN [\/B]:[B] [\/B]2.51v\n[B]PP3V3_S5 [\/B]:[B] [\/B]3.33v\n[B]PM_DSW_PWRGD [\/B]:[B] [\/B]3.42v\n[B]PP3V3_SUS [\/B]:[B] [\/B]3.33v\n[B]PM_BATLOW_L [\/B]: 3.30v\n[B]PM_RSMRST_L [\/B]: 3.03v\n[B]PM_PWRBTN_L [\/B]: 3.41v and stable\n[B]pch_intruder_l [\/B]: 3.0v\n\n[B]PM_PCH_SYS_PWROK [\/B]: 0v pulse at 1.50v\n\n[B]PM_SLP_S0_L[\/B], from what I understand, it's coming from [B]U1420[\/B].\n[B]PCH_PM_SLP_S0_L [\/B]go to pin 1-2 of [B]U1420[\/B].\n[B]U1420 [\/B]is powered by [B]PP3V3_S0_PCH_GPIO[\/B]\nand should output [B]PM_SLP_S0_L[\/B]\n\no_O"
+    },
+    {
+        "post_id":88892,
+        "thread_id":62624,
+        "title":"820-4924-A - Doesn't turn on - Magsafe Orange",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-27 08:28:41",
+        "message":"I don't understand anything from that picture.\nI can't see any location marked there.\n\nDon't bother with PM_SLP_S0_L.\nIn fact, I don't understand how did you get 3V there (first post), if this signal is pulled up to 3V3_S0.\nAs per schematic, U1420 avoid high level on this signal, if machine isn't in S0 state."
+    }
+]

@@ -1,11 +1,101 @@
-{"post_id":19821,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":629,"username":"iguystechshop","post_date":"2017-05-06 13:07:00","message":"I have an 820-00165 board that has been liquid damaged and does not boot. MagSafe does responds (green, then amber). Looking at the board under the scope showed significant damage to pins 3 and 4 on LVDS. Found corrosion on U3210 and burn marks on C2385 and C3211. No continuity from U3210 pin 18 to C3285.\n\nStarted going through power rails and found everything was there until I got 0V on PP3V3_S4. So I replaced U3210, C3285, C3286, and C3211 from a donor board. Jumpered U3210 pin 18 to C2385. Still 0V on PP3V3_S4.\n\nSuggestions on how to proceed?"}
-{"post_id":19824,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":629,"username":"iguystechshop","post_date":"2017-05-06 14:07:20","message":"Update: Found that U3220 also looked pretty shitty. Replaced that from donor board along with C3220. Still 0V on PP3v3_S4."}
-{"post_id":19835,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":451,"username":"jgraffis","post_date":"2017-05-06 18:12:51","message":"check voltage on pin 2,4, and 6 of u8000? Do you have pm_slp_s5_L?"}
-{"post_id":19838,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":2,"username":"dukefawks","post_date":"2017-05-06 18:22:59","message":"You are fixing thunderbolt which has nothing to do with power on. \n\nIs 3v3 present on L7560? If yes check carefully if there are pulses on L7520.\n\nInspect the usual U6100 area and the termination resistors in the data lines. Check PPVRTC and U1900 for corrosion. Check U1950 pin 8 for corrosion."}
-{"post_id":19840,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":629,"username":"iguystechshop","post_date":"2017-05-06 18:57:17","message":"[QUOTE=\"jgraffis, post: 19835\"]check voltage on pin 2,4, and 6 of u8000? Do you have pm_slp_s5_L?\n[\/QUOTE]\n\nI unfortunately don't have time to pull u8000 to check u8000 right now. I know that I have 3.3V on PP3V3_S5...I checked that earlier.\n\n0V on PM_SLP_S5_L"}
-{"post_id":19841,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":629,"username":"iguystechshop","post_date":"2017-05-06 19:11:25","message":"[QUOTE=\"dukefawks, post: 19838\"]You are fixing thunderbolt which has nothing to do with power on.[\/QUOTE]\n\nSo even though those IC's are on the 3V3_S4 rail that has now power, it was a waste of time working them with regards to solving the no boot situation?\n\n\n[QUOTE=\"dukefawks, post: 19838\"]Is 3v3 present on L7560? If yes check carefully if there are pulses on L7520..[\/QUOTE]\n\n3.3V on L7560. Constant 0V on L7520, sampled for about 1 minute.\n\n\n[QUOTE=\"dukefawks, post: 19838\"]Inspect the usual U6100 area and the termination resistors in the data lines. Check PPVRTC and U1900 for corrosion. Check U1950 pin 8 for corrosion.[\/QUOTE]\n\nU6100 and surrounding components look good. Had looked at those earlier based on some other threads, but checked them over again. Same with U1900 and U1950.\n\nPPVRTC measures 3.3V"}
-{"post_id":19857,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":2,"username":"dukefawks","post_date":"2017-05-07 16:20:26","message":"SMC_ADAPTER_EN, DSW_PWRGD? Got scope to check 32khz from U1900?"}
-{"post_id":19883,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":629,"username":"iguystechshop","post_date":"2017-05-08 08:31:53","message":"[QUOTE=\"dukefawks, post: 19857\"]SMC_ADAPTER_EN, DSW_PWRGD? Got scope to check 32khz from U1900?[\/QUOTE]\n\nSMC_ADAPTER_EN = 3.4V\n\nDSW_PWRGD = 3.4V\n\nI do not have an oscilloscope on hand, but may be able to borrow one. Unfortunately buying one is not in the cards at the moment."}
-{"post_id":19885,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":2,"username":"dukefawks","post_date":"2017-05-08 09:28:23","message":"Checked all rails for shorts to GND?"}
-{"post_id":19891,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":629,"username":"iguystechshop","post_date":"2017-05-08 10:45:40","message":"I could have sworn I already checked PP3V3_S4 for short to ground and it wasn't, but right now, it is short to ground. Perhaps it wasn't before I replaced U3210 and U3220.\n\nRegardless, do I now inject power into that rail and find the hot spot?\n\nUPDATE: Only shorts to ground with MagSafe attached. I feel like an idiot for having to ask...but if that rail was really shorted to ground, wouldn't it show up short regardless of whether it's to attached to MagSafe?"}
-{"post_id":19895,"thread_id":19821,"title":"820-00165 Liquid Damage No Boot","user_id":2,"username":"dukefawks","post_date":"2017-05-08 12:30:38","message":"You cannot measure resistance or diode with power applied :("}
+[
+    {
+        "post_id":19821,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":629,
+        "username":"iguystechshop",
+        "post_date":"2017-05-06 11:07:00",
+        "message":"I have an 820-00165 board that has been liquid damaged and does not boot. MagSafe does responds (green, then amber). Looking at the board under the scope showed significant damage to pins 3 and 4 on LVDS. Found corrosion on U3210 and burn marks on C2385 and C3211. No continuity from U3210 pin 18 to C3285.\n\nStarted going through power rails and found everything was there until I got 0V on PP3V3_S4. So I replaced U3210, C3285, C3286, and C3211 from a donor board. Jumpered U3210 pin 18 to C2385. Still 0V on PP3V3_S4.\n\nSuggestions on how to proceed?"
+    },
+    {
+        "post_id":19824,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":629,
+        "username":"iguystechshop",
+        "post_date":"2017-05-06 12:07:20",
+        "message":"Update: Found that U3220 also looked pretty shitty. Replaced that from donor board along with C3220. Still 0V on PP3v3_S4."
+    },
+    {
+        "post_id":19835,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-05-06 16:12:51",
+        "message":"check voltage on pin 2,4, and 6 of u8000? Do you have pm_slp_s5_L?"
+    },
+    {
+        "post_id":19838,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-06 16:22:59",
+        "message":"You are fixing thunderbolt which has nothing to do with power on. \n\nIs 3v3 present on L7560? If yes check carefully if there are pulses on L7520.\n\nInspect the usual U6100 area and the termination resistors in the data lines. Check PPVRTC and U1900 for corrosion. Check U1950 pin 8 for corrosion."
+    },
+    {
+        "post_id":19840,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":629,
+        "username":"iguystechshop",
+        "post_date":"2017-05-06 16:57:17",
+        "message":"[QUOTE=\"jgraffis, post: 19835\"]check voltage on pin 2,4, and 6 of u8000? Do you have pm_slp_s5_L?\n[\/QUOTE]\n\nI unfortunately don't have time to pull u8000 to check u8000 right now. I know that I have 3.3V on PP3V3_S5...I checked that earlier.\n\n0V on PM_SLP_S5_L"
+    },
+    {
+        "post_id":19841,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":629,
+        "username":"iguystechshop",
+        "post_date":"2017-05-06 17:11:25",
+        "message":"[QUOTE=\"dukefawks, post: 19838\"]You are fixing thunderbolt which has nothing to do with power on.[\/QUOTE]\n\nSo even though those IC's are on the 3V3_S4 rail that has now power, it was a waste of time working them with regards to solving the no boot situation?\n\n\n[QUOTE=\"dukefawks, post: 19838\"]Is 3v3 present on L7560? If yes check carefully if there are pulses on L7520..[\/QUOTE]\n\n3.3V on L7560. Constant 0V on L7520, sampled for about 1 minute.\n\n\n[QUOTE=\"dukefawks, post: 19838\"]Inspect the usual U6100 area and the termination resistors in the data lines. Check PPVRTC and U1900 for corrosion. Check U1950 pin 8 for corrosion.[\/QUOTE]\n\nU6100 and surrounding components look good. Had looked at those earlier based on some other threads, but checked them over again. Same with U1900 and U1950.\n\nPPVRTC measures 3.3V"
+    },
+    {
+        "post_id":19857,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-07 14:20:26",
+        "message":"SMC_ADAPTER_EN, DSW_PWRGD? Got scope to check 32khz from U1900?"
+    },
+    {
+        "post_id":19883,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":629,
+        "username":"iguystechshop",
+        "post_date":"2017-05-08 06:31:53",
+        "message":"[QUOTE=\"dukefawks, post: 19857\"]SMC_ADAPTER_EN, DSW_PWRGD? Got scope to check 32khz from U1900?[\/QUOTE]\n\nSMC_ADAPTER_EN = 3.4V\n\nDSW_PWRGD = 3.4V\n\nI do not have an oscilloscope on hand, but may be able to borrow one. Unfortunately buying one is not in the cards at the moment."
+    },
+    {
+        "post_id":19885,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-08 07:28:23",
+        "message":"Checked all rails for shorts to GND?"
+    },
+    {
+        "post_id":19891,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":629,
+        "username":"iguystechshop",
+        "post_date":"2017-05-08 08:45:40",
+        "message":"I could have sworn I already checked PP3V3_S4 for short to ground and it wasn't, but right now, it is short to ground. Perhaps it wasn't before I replaced U3210 and U3220.\n\nRegardless, do I now inject power into that rail and find the hot spot?\n\nUPDATE: Only shorts to ground with MagSafe attached. I feel like an idiot for having to ask...but if that rail was really shorted to ground, wouldn't it show up short regardless of whether it's to attached to MagSafe?"
+    },
+    {
+        "post_id":19895,
+        "thread_id":19821,
+        "title":"820-00165 Liquid Damage No Boot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-08 10:30:38",
+        "message":"You cannot measure resistance or diode with power applied :("
+    }
+]

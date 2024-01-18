@@ -1,21 +1,191 @@
-{"post_id":56666,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-11 13:24:11","message":"So my second 820-00281 in as many weeks. Customer advises they were watching youtube when it just shut down no power. Have taken it in and board looks very clean but is exhibiting the following behaviour:\n\nWith battery plugged in i'm not getting PPBUS generated and my charger isn't able to power the machine - my usb c ammeter just keeps cycling on and off. With the battery unplugged I am getting PPBUS voltage at 12.6V and correct negotiation of the charging voltage from the charger. The board however still won't power up i've checked some common voltages:\nPP3V3_SUS - present\nPPBUS - present 12.6v\nSMC_ON_OFF_L sits at 3.3v but does drop to 0v when power button pressed. \nSMC_LID sits at 3.3v when lid open and drops to 0v when lid closed\n\nWhen I initally connect my charger \/ usb c ammeter to the board when it's bare after negotiating the correct charger voltage I get a brief current surge to 1.5a then it drops down to 0.0a and stays there. \n\nI haven't delved to much further into this one yet however would appreciate any advice in where to look first or if there is any common issue with the behavior I have described!"}
-{"post_id":56667,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-11 13:30:21","message":"If you get that high current pulse, means the board tries to start and many secondary voltages should appear in that moment.\nSo check for pulse at all big coils.\nIf no pulse, check for short then.\nAlso check ALL_SYS_PWRGD."}
-{"post_id":56683,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-12 04:44:44","message":"Seeing a quick pulse on the PP5V5_S4 and PP3V3_S4 power rails to 5v and 3.3v. ALL_SYS_PWRGD - missing, the S0 rails don't pulse - only seem to have S5 rails after the pulse. Should also add I checked PM_SLP_S4_L which is low 0v."}
-{"post_id":56686,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-12 06:24:24","message":"So you get a pulse at PM_SLP_S5_L, but no reaction at all at PM_SLP_S4_L?\nTrigger SMC_ONOFF_L and check again.\nAlso check P5VS4_PGOOD."}
-{"post_id":56696,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-12 11:05:16","message":"Yes pulsing PM_SLP_S5_L - cannot seem to see any pulsing of PM_SLP_S4_L\nP5VS4_PGOOD is not present although R7801 seems good.\nShould add - no pulsing at all with SMC_ON_OFF_L only when i replug charger then i get the quick pulse then off to S5 state again.\n\nShould add as well that after more testing I am seeing a pulse on the S0 Rails for less than a second."}
-{"post_id":56698,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-12 11:41:20","message":"\"Seeing a quick pulse on the PP5V5_S4 and PP3V3_S4 power rails to 5v and 3.3v.\"\nIn this case, P5VS4_PGOOD should pulse too.\n\nPost diode mode to ground at L7600.\nYou may need to change U7650."}
-{"post_id":56699,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-12 11:43:26","message":"Is better to use an o-scope to catch fast pulse on the coils.\nIt will also show if the pulse reach the nominal value expected.\nALWAYS check on coil output pin connected to filter capacitor."}
-{"post_id":56720,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-13 06:21:36","message":"Diode reading at L7600:\nPin 1 - 0.418\nPin 2 - 0.417\n\nA scope is something I am thinking of investing in but currently do not own!"}
-{"post_id":56721,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-13 07:05:11","message":"Then repeatedly trigger SMC_ONOFF_L and check for pulse at L7600 and P5VS4_PGOOD."}
-{"post_id":56726,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-13 08:16:45","message":"after repeat checking yes P5VS4_PGOOD is pulsing up to 3.3v and at L7600 it's pulsing up to 5v."}
-{"post_id":56728,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-13 09:57:21","message":"So PM_SLP_S4_L pulses.\nIn the same way, check PM_SLP_S3_L and all big coils.\nAlso check all power rails from page 74, Power FETs."}
-{"post_id":56730,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-13 10:46:01","message":"PM_SLP_S3_L is also pulsing - all other rails (at big coils) appear to be pulsing.\nOne strange behaviour appears that PM_SLP_S0_L pulses to 3.3v then drops down to 2.75v and stays there after everything else has pulsed"}
-{"post_id":56735,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-13 14:33:16","message":"Any pulse at L7211\/21\/31?\nTurn it on on SMC bypass mode; let see what happens..."}
-{"post_id":56751,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-14 04:03:32","message":"Yes seeing pulses on L7211, L7221 and L7231 - i'll try smc bypass mode and see if it powers up"}
-{"post_id":56752,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-14 04:51:06","message":"Update - in SMC bypass mode it starts and runs. So we looking at bad SMC? Presume i'll need to get a donor SMC off another 820-00281 or are the ones from the 12\" Macbook compatible?"}
-{"post_id":56753,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-14 07:53:46","message":"I don't think to be SMC.\nIn fact it detects a problem and stops the board; some sensor triggers it.\nInstal HWMonitor and look for strange I\/V, or temp values."}
-{"post_id":56761,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-14 10:06:13","message":"Well I thought i'd have a go and reflow SMC anyhow - board now powers up in normal mode but not with battery connected. Looks like i've got a dead battery as well."}
-{"post_id":56769,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-14 12:36:56","message":"Is the battery recognized at least?\nWhich is exact PPBUS_G3H voltage?\nPost diode mode and voltage at SCL\/SDA lines of battery bus.\n\nI also recommend to reball SMC, if reacted to reflow.\nYou had a bad contact for some SMC sensor line..."}
-{"post_id":56825,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-17 04:12:09","message":"PPBUS_G3H Without Battery - 12.61V\n\nSystem will not start with battery connected but if I connect it after turning system on it recognizes it and says 2% not charging. Also PPBUS_G3H Voltage slowly raises from 12.61v up to 13.02V with the battery attached."}
-{"post_id":56827,"thread_id":56666,"title":"820-00281 No Power","user_id":682,"username":"2informaticos","post_date":"2020-02-17 05:39:43","message":"Try known good working battery for test.\nLooks like bad battery now..."}
-{"post_id":56941,"thread_id":56666,"title":"820-00281 No Power","user_id":1547,"username":"CRC2018","post_date":"2020-02-20 12:26:56","message":"With new battery all working perfectly so mark this one as resolved."}
+[
+    {
+        "post_id":56666,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-11 11:24:11",
+        "message":"So my second 820-00281 in as many weeks. Customer advises they were watching youtube when it just shut down no power. Have taken it in and board looks very clean but is exhibiting the following behaviour:\n\nWith battery plugged in i'm not getting PPBUS generated and my charger isn't able to power the machine - my usb c ammeter just keeps cycling on and off. With the battery unplugged I am getting PPBUS voltage at 12.6V and correct negotiation of the charging voltage from the charger. The board however still won't power up i've checked some common voltages:\nPP3V3_SUS - present\nPPBUS - present 12.6v\nSMC_ON_OFF_L sits at 3.3v but does drop to 0v when power button pressed. \nSMC_LID sits at 3.3v when lid open and drops to 0v when lid closed\n\nWhen I initally connect my charger \/ usb c ammeter to the board when it's bare after negotiating the correct charger voltage I get a brief current surge to 1.5a then it drops down to 0.0a and stays there. \n\nI haven't delved to much further into this one yet however would appreciate any advice in where to look first or if there is any common issue with the behavior I have described!"
+    },
+    {
+        "post_id":56667,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-11 11:30:21",
+        "message":"If you get that high current pulse, means the board tries to start and many secondary voltages should appear in that moment.\nSo check for pulse at all big coils.\nIf no pulse, check for short then.\nAlso check ALL_SYS_PWRGD."
+    },
+    {
+        "post_id":56683,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-12 02:44:44",
+        "message":"Seeing a quick pulse on the PP5V5_S4 and PP3V3_S4 power rails to 5v and 3.3v. ALL_SYS_PWRGD - missing, the S0 rails don't pulse - only seem to have S5 rails after the pulse. Should also add I checked PM_SLP_S4_L which is low 0v."
+    },
+    {
+        "post_id":56686,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-12 04:24:24",
+        "message":"So you get a pulse at PM_SLP_S5_L, but no reaction at all at PM_SLP_S4_L?\nTrigger SMC_ONOFF_L and check again.\nAlso check P5VS4_PGOOD."
+    },
+    {
+        "post_id":56696,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-12 09:05:16",
+        "message":"Yes pulsing PM_SLP_S5_L - cannot seem to see any pulsing of PM_SLP_S4_L\nP5VS4_PGOOD is not present although R7801 seems good.\nShould add - no pulsing at all with SMC_ON_OFF_L only when i replug charger then i get the quick pulse then off to S5 state again.\n\nShould add as well that after more testing I am seeing a pulse on the S0 Rails for less than a second."
+    },
+    {
+        "post_id":56698,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-12 09:41:20",
+        "message":"\"Seeing a quick pulse on the PP5V5_S4 and PP3V3_S4 power rails to 5v and 3.3v.\"\nIn this case, P5VS4_PGOOD should pulse too.\n\nPost diode mode to ground at L7600.\nYou may need to change U7650."
+    },
+    {
+        "post_id":56699,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-12 09:43:26",
+        "message":"Is better to use an o-scope to catch fast pulse on the coils.\nIt will also show if the pulse reach the nominal value expected.\nALWAYS check on coil output pin connected to filter capacitor."
+    },
+    {
+        "post_id":56720,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-13 04:21:36",
+        "message":"Diode reading at L7600:\nPin 1 - 0.418\nPin 2 - 0.417\n\nA scope is something I am thinking of investing in but currently do not own!"
+    },
+    {
+        "post_id":56721,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-13 05:05:11",
+        "message":"Then repeatedly trigger SMC_ONOFF_L and check for pulse at L7600 and P5VS4_PGOOD."
+    },
+    {
+        "post_id":56726,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-13 06:16:45",
+        "message":"after repeat checking yes P5VS4_PGOOD is pulsing up to 3.3v and at L7600 it's pulsing up to 5v."
+    },
+    {
+        "post_id":56728,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-13 07:57:21",
+        "message":"So PM_SLP_S4_L pulses.\nIn the same way, check PM_SLP_S3_L and all big coils.\nAlso check all power rails from page 74, Power FETs."
+    },
+    {
+        "post_id":56730,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-13 08:46:01",
+        "message":"PM_SLP_S3_L is also pulsing - all other rails (at big coils) appear to be pulsing.\nOne strange behaviour appears that PM_SLP_S0_L pulses to 3.3v then drops down to 2.75v and stays there after everything else has pulsed"
+    },
+    {
+        "post_id":56735,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-13 12:33:16",
+        "message":"Any pulse at L7211\/21\/31?\nTurn it on on SMC bypass mode; let see what happens..."
+    },
+    {
+        "post_id":56751,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-14 02:03:32",
+        "message":"Yes seeing pulses on L7211, L7221 and L7231 - i'll try smc bypass mode and see if it powers up"
+    },
+    {
+        "post_id":56752,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-14 02:51:06",
+        "message":"Update - in SMC bypass mode it starts and runs. So we looking at bad SMC? Presume i'll need to get a donor SMC off another 820-00281 or are the ones from the 12\" Macbook compatible?"
+    },
+    {
+        "post_id":56753,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-14 05:53:46",
+        "message":"I don't think to be SMC.\nIn fact it detects a problem and stops the board; some sensor triggers it.\nInstal HWMonitor and look for strange I\/V, or temp values."
+    },
+    {
+        "post_id":56761,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-14 08:06:13",
+        "message":"Well I thought i'd have a go and reflow SMC anyhow - board now powers up in normal mode but not with battery connected. Looks like i've got a dead battery as well."
+    },
+    {
+        "post_id":56769,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-14 10:36:56",
+        "message":"Is the battery recognized at least?\nWhich is exact PPBUS_G3H voltage?\nPost diode mode and voltage at SCL\/SDA lines of battery bus.\n\nI also recommend to reball SMC, if reacted to reflow.\nYou had a bad contact for some SMC sensor line..."
+    },
+    {
+        "post_id":56825,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-17 02:12:09",
+        "message":"PPBUS_G3H Without Battery - 12.61V\n\nSystem will not start with battery connected but if I connect it after turning system on it recognizes it and says 2% not charging. Also PPBUS_G3H Voltage slowly raises from 12.61v up to 13.02V with the battery attached."
+    },
+    {
+        "post_id":56827,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-02-17 03:39:43",
+        "message":"Try known good working battery for test.\nLooks like bad battery now..."
+    },
+    {
+        "post_id":56941,
+        "thread_id":56666,
+        "title":"820-00281 No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-02-20 10:26:56",
+        "message":"With new battery all working perfectly so mark this one as resolved."
+    }
+]

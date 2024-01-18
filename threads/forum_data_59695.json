@@ -1,19 +1,173 @@
-{"post_id":62627,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-20 20:25:18","message":"Hello. I have a 820-00281 that took a heavy blow to the keyboard by some kind of heavy object. There is significant indent in the keyboard around the U, I, J, and K keys and the whole keyboard itself is not functional anymore. I put the board in a new topcase and it turns on, keyboard works, and the board seems to boot but I have no image on internal or external display. Caps lock key works when pressed, USB drive with OSX lights up and flashes when connected, and after about a minute or so, the touchbar turns on. I checked the voltages for the LCD, with the LCD connected ,and have listed them below. EDP_PANEL_PWR_EN and PANEL_FET_EN_DLY are fluctuating between 0-0.5v so thinking maybe there is an issue with U9800? The board is spotless and has no signs of corrosion or other damage that I can see.  \n\nPP5V_S0SW_LCD - 0v\nPP3V3_S0SW_LCD - 0v\nEDP_PANEL_PWR_EN - Fluctuates between 0 and .5v\nPANEL_FET_EN_DLY - Fluctuates between 0 and .5v\nDFR_DISP_PWR_EN - 3.4v\nBUF_EDP_PANEL_PWR_EN - 0v\nBUF_SMC_REST_L - 3.4v\nDFR_DISP_SMC_RST_L - 3.4v\nSMC_RESET_L - 3.4v\nDP_INT_HPD - 0v"}
-{"post_id":62631,"thread_id":59695,"title":"820-00281 No image","user_id":682,"username":"2informaticos","post_date":"2020-07-21 01:13:52","message":"Probably broken traces, or solders.\nDo you get GPU voltages?"}
-{"post_id":62634,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-21 07:59:19","message":"Yes I do have voltage on all the GPU coils. The indent in the keyboard is very close to where U9800 is on the board so its definitely possible there is a broken trace or solder under it."}
-{"post_id":62667,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-21 22:44:51","message":"I pulled U9800 and checked continuity between some of the pads and the resistors around it and did not find any broken trace. I replaced U9800 from a donor, but still have the same issue. EDP_PANEL_PWR_EN still pulses from 0-0.5v. Do you know what would cause that to pulse?"}
-{"post_id":62676,"thread_id":59695,"title":"820-00281 No image","user_id":682,"username":"2informaticos","post_date":"2020-07-22 04:23:52","message":"You can have problems on GPU, or CPU video output areas.\nStill no external video?"}
-{"post_id":62686,"thread_id":59695,"title":"820-00281 No image","user_id":1423,"username":"captainmac","post_date":"2020-07-22 06:48:33","message":"i have one that has the same symptoms. could you check to see if and when the GPU coils start having voltage on them? is it immediately on power-on or not?\n\nsorry to use this thread for this question, but mine doesnt have GPU voltages, so am just asking to see where in the boot-phase it does that."}
-{"post_id":62694,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-22 09:06:36","message":"Yea I still do not have external video. I tried to checked the GPU coils again and now I do not have any voltage on them for some reason. Before replacing U9800, I did have 0.9v on all the GPU coils."}
-{"post_id":62728,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-22 17:36:32","message":"Ok so I replaced U9800 again and put the original one back on since I did not have another donor, and the GPU rails have voltage again now. I still have the same issue though with no image internal or external. EDP_PANEL_PWR_EN seems to only pulse for a few seconds after I connect the charger and then it just stays at 0v. Not sure what to check next.\n\nCaptianmac, the GPU coils on this board do get voltage immediately on boot. Hope this helps you."}
-{"post_id":62730,"thread_id":59695,"title":"820-00281 No image","user_id":682,"username":"2informaticos","post_date":"2020-07-22 17:40:22","message":"\"EDP_PANEL_PWR_EN seems to only pulse for a few seconds\"\nCheck voltage at pins 44\/45 of J8500 at same time.\n\nAlso check if DP_INT_HPD pulses.\nIf not, LCD voltages cannot be maintained.\nIn such case, try another full LCD assembly."}
-{"post_id":62740,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-22 20:30:58","message":"I do not get anything on pin 44\/45 of J8500 and also get nothing on DP_INT_HPD. I have tried 2 different full display assemblies and still have the same issue with both."}
-{"post_id":62742,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-22 21:00:40","message":"When I first connect the charger, LCD_MUX_EN is 3.3v but LCD_MUX_SEL is only 2.5v. After a few seconds, LCD_MUX_SEL goes to 0v but the enable is still 3.3v. I'm pretty sure LCD_MUX_SEL is also supposed to be 3.3v but I am not completely sure on that."}
-{"post_id":62753,"thread_id":59695,"title":"820-00281 No image","user_id":682,"username":"2informaticos","post_date":"2020-07-23 06:06:01","message":"LCD_MUX_SEL selects between CPU, or GPU video outputs.\nYou should check its level on working board, when boots.\n\nPANEL_FET_EN_DLY pulses at same time with EDP_PANEL_PWR_EN?"}
-{"post_id":62761,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-07-23 08:10:55","message":"Yea LCD_MUX_SEL goes to 3.3v on boot and then goes to 0v after a few seconds and stays at 0v on a good board. \n\nThis board only seems to go to 2.5v for some reason. I tried to connect an external monitor to this board, and still have no external image, and LCD_MUX_SEL stays at 0v. PANEL_FET_EN_DLY is 0v and does not pulse at all."}
-{"post_id":62766,"thread_id":59695,"title":"820-00281 No image","user_id":682,"username":"2informaticos","post_date":"2020-07-23 12:39:03","message":"2.5V is stil valid high level.\nBut such lower value can point to a problem with U9800\/50.\nBe sure R9856 is good.\n\nMissing external video also points to U9800..."}
-{"post_id":64295,"thread_id":59695,"title":"820-00281 No image","user_id":20730,"username":"Ken","post_date":"2020-08-27 17:21:56","message":"Anyone get to the bottom of this? I have one non display external or internal and no power on coils for gpu"}
-{"post_id":64296,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-08-27 18:02:04","message":"I have not gotten to the bottom of this yet. I have GPU voltage but no image on mine. I know it\u2019s not U9800 since I replaced it with a know good U9800 and still no image. I think it\u2019s a PCH issue on mine"}
-{"post_id":64349,"thread_id":59695,"title":"820-00281 No image","user_id":20730,"username":"Ken","post_date":"2020-08-28 13:34:06","message":"Oh no!!! Thank you"}
-{"post_id":64395,"thread_id":59695,"title":"820-00281 No image","user_id":7922,"username":"tcampbell34","post_date":"2020-08-29 17:57:41","message":"So as a last resort on this one I put some flux around the PCH and heated it for only about a minute, and now its not booting fully anymore. I get 20v 250ma and seem to have all voltages except for CPU and GPU voltages. ALL_SYS_PWRGD is 3.3v and PPVCCSA_S0_CPU is 1.1v but PPVCC_S0_CPU is 0v. I noticed that U8605 seems to be getting warm now also but I could not find any shorts. I removed the plate\/cover on J9600 and the amps drop to 190ma and U8605 does not get warm anymore. Could I have done some damage to J9600 during the PCH reflow or could a dead PCH cause this?"}
-{"post_id":64398,"thread_id":59695,"title":"820-00281 No image","user_id":682,"username":"2informaticos","post_date":"2020-08-29 19:21:15","message":"Looks like bad PCH now..."}
+[
+    {
+        "post_id":62627,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-20 18:25:18",
+        "message":"Hello. I have a 820-00281 that took a heavy blow to the keyboard by some kind of heavy object. There is significant indent in the keyboard around the U, I, J, and K keys and the whole keyboard itself is not functional anymore. I put the board in a new topcase and it turns on, keyboard works, and the board seems to boot but I have no image on internal or external display. Caps lock key works when pressed, USB drive with OSX lights up and flashes when connected, and after about a minute or so, the touchbar turns on. I checked the voltages for the LCD, with the LCD connected ,and have listed them below. EDP_PANEL_PWR_EN and PANEL_FET_EN_DLY are fluctuating between 0-0.5v so thinking maybe there is an issue with U9800? The board is spotless and has no signs of corrosion or other damage that I can see.  \n\nPP5V_S0SW_LCD - 0v\nPP3V3_S0SW_LCD - 0v\nEDP_PANEL_PWR_EN - Fluctuates between 0 and .5v\nPANEL_FET_EN_DLY - Fluctuates between 0 and .5v\nDFR_DISP_PWR_EN - 3.4v\nBUF_EDP_PANEL_PWR_EN - 0v\nBUF_SMC_REST_L - 3.4v\nDFR_DISP_SMC_RST_L - 3.4v\nSMC_RESET_L - 3.4v\nDP_INT_HPD - 0v"
+    },
+    {
+        "post_id":62631,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-20 23:13:52",
+        "message":"Probably broken traces, or solders.\nDo you get GPU voltages?"
+    },
+    {
+        "post_id":62634,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-21 05:59:19",
+        "message":"Yes I do have voltage on all the GPU coils. The indent in the keyboard is very close to where U9800 is on the board so its definitely possible there is a broken trace or solder under it."
+    },
+    {
+        "post_id":62667,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-21 20:44:51",
+        "message":"I pulled U9800 and checked continuity between some of the pads and the resistors around it and did not find any broken trace. I replaced U9800 from a donor, but still have the same issue. EDP_PANEL_PWR_EN still pulses from 0-0.5v. Do you know what would cause that to pulse?"
+    },
+    {
+        "post_id":62676,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-22 02:23:52",
+        "message":"You can have problems on GPU, or CPU video output areas.\nStill no external video?"
+    },
+    {
+        "post_id":62686,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-07-22 04:48:33",
+        "message":"i have one that has the same symptoms. could you check to see if and when the GPU coils start having voltage on them? is it immediately on power-on or not?\n\nsorry to use this thread for this question, but mine doesnt have GPU voltages, so am just asking to see where in the boot-phase it does that."
+    },
+    {
+        "post_id":62694,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-22 07:06:36",
+        "message":"Yea I still do not have external video. I tried to checked the GPU coils again and now I do not have any voltage on them for some reason. Before replacing U9800, I did have 0.9v on all the GPU coils."
+    },
+    {
+        "post_id":62728,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-22 15:36:32",
+        "message":"Ok so I replaced U9800 again and put the original one back on since I did not have another donor, and the GPU rails have voltage again now. I still have the same issue though with no image internal or external. EDP_PANEL_PWR_EN seems to only pulse for a few seconds after I connect the charger and then it just stays at 0v. Not sure what to check next.\n\nCaptianmac, the GPU coils on this board do get voltage immediately on boot. Hope this helps you."
+    },
+    {
+        "post_id":62730,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-22 15:40:22",
+        "message":"\"EDP_PANEL_PWR_EN seems to only pulse for a few seconds\"\nCheck voltage at pins 44\/45 of J8500 at same time.\n\nAlso check if DP_INT_HPD pulses.\nIf not, LCD voltages cannot be maintained.\nIn such case, try another full LCD assembly."
+    },
+    {
+        "post_id":62740,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-22 18:30:58",
+        "message":"I do not get anything on pin 44\/45 of J8500 and also get nothing on DP_INT_HPD. I have tried 2 different full display assemblies and still have the same issue with both."
+    },
+    {
+        "post_id":62742,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-22 19:00:40",
+        "message":"When I first connect the charger, LCD_MUX_EN is 3.3v but LCD_MUX_SEL is only 2.5v. After a few seconds, LCD_MUX_SEL goes to 0v but the enable is still 3.3v. I'm pretty sure LCD_MUX_SEL is also supposed to be 3.3v but I am not completely sure on that."
+    },
+    {
+        "post_id":62753,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-23 04:06:01",
+        "message":"LCD_MUX_SEL selects between CPU, or GPU video outputs.\nYou should check its level on working board, when boots.\n\nPANEL_FET_EN_DLY pulses at same time with EDP_PANEL_PWR_EN?"
+    },
+    {
+        "post_id":62761,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-23 06:10:55",
+        "message":"Yea LCD_MUX_SEL goes to 3.3v on boot and then goes to 0v after a few seconds and stays at 0v on a good board. \n\nThis board only seems to go to 2.5v for some reason. I tried to connect an external monitor to this board, and still have no external image, and LCD_MUX_SEL stays at 0v. PANEL_FET_EN_DLY is 0v and does not pulse at all."
+    },
+    {
+        "post_id":62766,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-23 10:39:03",
+        "message":"2.5V is stil valid high level.\nBut such lower value can point to a problem with U9800\/50.\nBe sure R9856 is good.\n\nMissing external video also points to U9800..."
+    },
+    {
+        "post_id":64295,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":20730,
+        "username":"Ken",
+        "post_date":"2020-08-27 15:21:56",
+        "message":"Anyone get to the bottom of this? I have one non display external or internal and no power on coils for gpu"
+    },
+    {
+        "post_id":64296,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-08-27 16:02:04",
+        "message":"I have not gotten to the bottom of this yet. I have GPU voltage but no image on mine. I know it\u2019s not U9800 since I replaced it with a know good U9800 and still no image. I think it\u2019s a PCH issue on mine"
+    },
+    {
+        "post_id":64349,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":20730,
+        "username":"Ken",
+        "post_date":"2020-08-28 11:34:06",
+        "message":"Oh no!!! Thank you"
+    },
+    {
+        "post_id":64395,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-08-29 15:57:41",
+        "message":"So as a last resort on this one I put some flux around the PCH and heated it for only about a minute, and now its not booting fully anymore. I get 20v 250ma and seem to have all voltages except for CPU and GPU voltages. ALL_SYS_PWRGD is 3.3v and PPVCCSA_S0_CPU is 1.1v but PPVCC_S0_CPU is 0v. I noticed that U8605 seems to be getting warm now also but I could not find any shorts. I removed the plate\/cover on J9600 and the amps drop to 190ma and U8605 does not get warm anymore. Could I have done some damage to J9600 during the PCH reflow or could a dead PCH cause this?"
+    },
+    {
+        "post_id":64398,
+        "thread_id":59695,
+        "title":"820-00281 No image",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-08-29 17:21:15",
+        "message":"Looks like bad PCH now..."
+    }
+]

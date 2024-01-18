@@ -1,19 +1,173 @@
-{"post_id":42695,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-01 04:19:13","message":"Hello, \n\nPP20V_DCIN_FUSE is 3.1V, F7005 is removed. Looking at schematics, I should get 20V here. Tried got known DCIN board, no change. \n\nAm I missing something obvious?"}
-{"post_id":42696,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-01 04:37:14","message":"If Apple original MagSafe2 charger doesn't detect any load, will not deliver more than 3V!!!\nSo, resolder F7005; charger needs to \"see\" R7012..."}
-{"post_id":42697,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-01 05:09:45","message":"Okay, F7005 is back. Voltage jumps back and forth from 1.72V to 1.76V. Resistance on F7005 is 21.5kOhms."}
-{"post_id":42713,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-01 06:08:20","message":"Now post resistance to ground at PPBUS_G3H and 3V42 rails.\n\nYour charger detects leakage and get protected.\nMeasure onboard R7180\/81 and R7185\/86.\nThis can discard a Q7180 issue..."}
-{"post_id":42732,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-01 15:28:43","message":"3V42 - 90kOhms\nPPBUS_G3H - 450kOhms\n\nR7180\/81 and R7185\/86 all have correct values."}
-{"post_id":42735,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-01 16:16:48","message":"We normally check power rails on diode mode, red probe to ground.\nOnly switch to ohm scale for low values...\n\nPost voltages on Q7010 area.\nBe sure D7010 is not shorted."}
-{"post_id":42739,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-01 16:46:23","message":"Diode mode: \n3V42 - 0.281V\nPPBUS_G3H - 0.415V\n\nD7010 is not shorted. Measures one way 0.745V, other way is OL.\n\nQ7010 has 1.65V across all of it when charger connected. I feel like it could be shorted since C7012 beeps on continuity mode with D7105 on PPDCIN_G3H_ISOL."}
-{"post_id":42740,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-01 16:56:14","message":"If short\/low value on D-S, charger will detect that as leakage.\nChange Q7010 in this case.\nI hope you checked that without charger connected...\n\nYou can use fake charger, or lab power supply to test; check if board starts."}
-{"post_id":42742,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-01 17:06:03","message":"I checked continuity without the charger connected. \nI tried injecting 20V 2A on F7005 pin 2. It pulls 0.065mA. I don't have a fake charger at the moment. Does the original charger need to be connected while voltage is injected? I saw Louis do it once if I remember it correctly."}
-{"post_id":42747,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-01 17:19:41","message":"Why 20V?\n16-18V is good enough.\nThen check PPBUS_G3H and 3V42 rails.\nDon't connect original charger, when lab power supply is used."}
-{"post_id":42757,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-02 05:40:29","message":"I didn't fiddle more with DCPS, rather, I replaced Q7010. \n\nI get orange light now, PPBUS_G3H is 12.56V. Computer doesn't start yet. Doesn't it start automatically? I guess I'm missing some more rails."}
-{"post_id":42758,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-02 06:13:19","message":"I went through the list of rails and noticed PPVRTC_G3H is 2.7V instead of 3.42V.\n\nResistance to ground on PPVRTC_G3H is 36.5kOhms or 0.391V diode mode.\n\nSo to inspect that rail first?"}
-{"post_id":42760,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-02 07:48:22","message":"So I have reflowed U1900 nice and easy since I thought it was not making a good contact. U1100 looked clean. \n\nAfter reflow, I get 0 Ohms on PPVRTC_G3H... I've removed then U1900, still 0 Ohms..."}
-{"post_id":42761,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-02 08:40:22","message":"There are some caps on that rail.\nIf still short after removed all, then bad PCH..."}
-{"post_id":42762,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-02 08:45:11","message":"I\u2019ve removed the caps too. Still 0 Ohms. \n\nPrior to reflow, PPVRTC_G3H measured around 36kOhms. I didn\u2019t connect any power after. Could PCH reflow help?"}
-{"post_id":42764,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-02 08:49:41","message":"You cannot remove a \"pure\" (0 ohm) short with reflow.\nCrap under PCH can pull down a signal, but it will have few kohm value to ground...\nBe sure you didn't make any short between some pads, with the solder iron."}
-{"post_id":42775,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-02 14:46:49","message":"No short between pads. Simply PCH failed for some unknown reason. Can it be replaced?"}
-{"post_id":42780,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":682,"username":"2informaticos","post_date":"2018-12-02 15:25:26","message":"I do not recommend to waste more time on this board.\nIs the worst MLB Apple made ever.\nCPU power supply is known for really strange issues..."}
-{"post_id":42802,"thread_id":42695,"title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop","user_id":1898,"username":"djdblaster","post_date":"2018-12-03 04:57:29","message":"Okay. Mark as solved then please."}
+[
+    {
+        "post_id":42695,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-01 02:19:13",
+        "message":"Hello, \n\nPP20V_DCIN_FUSE is 3.1V, F7005 is removed. Looking at schematics, I should get 20V here. Tried got known DCIN board, no change. \n\nAm I missing something obvious?"
+    },
+    {
+        "post_id":42696,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-01 02:37:14",
+        "message":"If Apple original MagSafe2 charger doesn't detect any load, will not deliver more than 3V!!!\nSo, resolder F7005; charger needs to \"see\" R7012..."
+    },
+    {
+        "post_id":42697,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-01 03:09:45",
+        "message":"Okay, F7005 is back. Voltage jumps back and forth from 1.72V to 1.76V. Resistance on F7005 is 21.5kOhms."
+    },
+    {
+        "post_id":42713,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-01 04:08:20",
+        "message":"Now post resistance to ground at PPBUS_G3H and 3V42 rails.\n\nYour charger detects leakage and get protected.\nMeasure onboard R7180\/81 and R7185\/86.\nThis can discard a Q7180 issue..."
+    },
+    {
+        "post_id":42732,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-01 13:28:43",
+        "message":"3V42 - 90kOhms\nPPBUS_G3H - 450kOhms\n\nR7180\/81 and R7185\/86 all have correct values."
+    },
+    {
+        "post_id":42735,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-01 14:16:48",
+        "message":"We normally check power rails on diode mode, red probe to ground.\nOnly switch to ohm scale for low values...\n\nPost voltages on Q7010 area.\nBe sure D7010 is not shorted."
+    },
+    {
+        "post_id":42739,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-01 14:46:23",
+        "message":"Diode mode: \n3V42 - 0.281V\nPPBUS_G3H - 0.415V\n\nD7010 is not shorted. Measures one way 0.745V, other way is OL.\n\nQ7010 has 1.65V across all of it when charger connected. I feel like it could be shorted since C7012 beeps on continuity mode with D7105 on PPDCIN_G3H_ISOL."
+    },
+    {
+        "post_id":42740,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-01 14:56:14",
+        "message":"If short\/low value on D-S, charger will detect that as leakage.\nChange Q7010 in this case.\nI hope you checked that without charger connected...\n\nYou can use fake charger, or lab power supply to test; check if board starts."
+    },
+    {
+        "post_id":42742,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-01 15:06:03",
+        "message":"I checked continuity without the charger connected. \nI tried injecting 20V 2A on F7005 pin 2. It pulls 0.065mA. I don't have a fake charger at the moment. Does the original charger need to be connected while voltage is injected? I saw Louis do it once if I remember it correctly."
+    },
+    {
+        "post_id":42747,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-01 15:19:41",
+        "message":"Why 20V?\n16-18V is good enough.\nThen check PPBUS_G3H and 3V42 rails.\nDon't connect original charger, when lab power supply is used."
+    },
+    {
+        "post_id":42757,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-02 03:40:29",
+        "message":"I didn't fiddle more with DCPS, rather, I replaced Q7010. \n\nI get orange light now, PPBUS_G3H is 12.56V. Computer doesn't start yet. Doesn't it start automatically? I guess I'm missing some more rails."
+    },
+    {
+        "post_id":42758,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-02 04:13:19",
+        "message":"I went through the list of rails and noticed PPVRTC_G3H is 2.7V instead of 3.42V.\n\nResistance to ground on PPVRTC_G3H is 36.5kOhms or 0.391V diode mode.\n\nSo to inspect that rail first?"
+    },
+    {
+        "post_id":42760,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-02 05:48:22",
+        "message":"So I have reflowed U1900 nice and easy since I thought it was not making a good contact. U1100 looked clean. \n\nAfter reflow, I get 0 Ohms on PPVRTC_G3H... I've removed then U1900, still 0 Ohms..."
+    },
+    {
+        "post_id":42761,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-02 06:40:22",
+        "message":"There are some caps on that rail.\nIf still short after removed all, then bad PCH..."
+    },
+    {
+        "post_id":42762,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-02 06:45:11",
+        "message":"I\u2019ve removed the caps too. Still 0 Ohms. \n\nPrior to reflow, PPVRTC_G3H measured around 36kOhms. I didn\u2019t connect any power after. Could PCH reflow help?"
+    },
+    {
+        "post_id":42764,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-02 06:49:41",
+        "message":"You cannot remove a \"pure\" (0 ohm) short with reflow.\nCrap under PCH can pull down a signal, but it will have few kohm value to ground...\nBe sure you didn't make any short between some pads, with the solder iron."
+    },
+    {
+        "post_id":42775,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-02 12:46:49",
+        "message":"No short between pads. Simply PCH failed for some unknown reason. Can it be replaced?"
+    },
+    {
+        "post_id":42780,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-12-02 13:25:26",
+        "message":"I do not recommend to waste more time on this board.\nIs the worst MLB Apple made ever.\nCPU power supply is known for really strange issues..."
+    },
+    {
+        "post_id":42802,
+        "thread_id":42695,
+        "title":"820-3662-A PP20V_DCIN_FUSE low, dead laptop",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2018-12-03 02:57:29",
+        "message":"Okay. Mark as solved then please."
+    }
+]

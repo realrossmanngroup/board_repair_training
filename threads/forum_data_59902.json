@@ -1,19 +1,173 @@
-{"post_id":64164,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-08-25 14:41:51","message":"no visible water dmg \/ corrosion\nppbus 12.4v\npp5v_s0 5v\npp3v3_s0 2.9v ??\npp1v8_s0 : 1.2v ??\npp1v05 : 1.05v\npp5v_s3 : 5v\nall_sys_pwrgd : 0v\nthere's a bit of high pitched noise around u1800 or its back near smc, i couldnt pin point the exact noise\nI have tried replacing u2700, u7770 and u7780..\nI tried replacing component where the various pulled down rail gather, but still dead\nany advice ?"}
-{"post_id":64168,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-08-25 14:50:08","message":"\"all_sys_pwrgd : 0v\"\nRemove first Q7950.\nIf still low, start removing R7963\/4\/5\/6 and R7901, one by one.\nKeep in place R7967."}
-{"post_id":64184,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-08-26 00:23:30","message":"r7966 pulled and fan spin, all_sys_pwrgd 2.6v, VCORE 1.1v, but still no usb activity, fan start to spin fast after a while, pch doesnt feel warm enough to indicate that its working\nshould i placed back resistor r7963-5 ?"}
-{"post_id":64185,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-08-26 03:26:21","message":"Solder back the other resistor and keep out R7966 (for the moment).\nDo you get 1.8V at L7720?"}
-{"post_id":64373,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-08-29 02:10:49","message":"okay, i can't put back rr7964, 63 and 66, or i will lose fan spin..\n1v at l7720.. should be 1.8v.."}
-{"post_id":64374,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-08-29 02:34:59","message":"I remeasure  my power rail\npp5v_s0 : 5v\npp3v3_s0 : 2.5v\npp1v05_s0 : 1.05v\npp1v5_s0 : 0.9v\npp1v8_s0 : 0.9v"}
-{"post_id":64375,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-08-29 02:49:44","message":"ALL_SYS_PWRGD is pulled down because you have problems on some power rails.\nYou must fix these problems to continue.\n\nBoth 1V5_S0 and 1V8_S0 come from 3V3_S0, which has incorrect level.\nFirst check diode mode to ground on this line.\nAnd post voltages for Q7812\/30."}
-{"post_id":64379,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-08-29 03:53:46","message":"diode mode :\n1v5_s0 : 0.335\n1v8_s0 : 0.366\n3v3_s0 : 0.278\nq7812 : pin 1 : 0\n2 : 3.3v\n3 : 0\n4 : 0\n5 : 0\n6 : 3.3v\nq7830 :\n1 : 2.5v is this bad ?\n3 : 3.2v\n4 : 3.3v"}
-{"post_id":64382,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-08-29 07:03:20","message":"You should change Q7823.\nI cannot understand how can you get the same voltage at pins 2\/6 and 5\/3 of Q7812..."}
-{"post_id":64483,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-09-01 14:39:22","message":"q7823 ? i changed q7812 and q7822 both, but now macbook doesnt have fan spin at all, even tho i changed both again.\ni checked, I have pp5v_s5 5v\npp3v3_s5 : 3.3v\nno pm_slp_s4_l , so i checked\nppvrtc : 3.3v\n\n\n\n[TABLE]\n[TR]\n[TD]1. PPVRTC_G3H[\/TD]\n\n[TD][\/TD]\n\n[TD] 3.3v\n[\/TD]\n[\/TR]\n[TR]\n[TD]2. RTC_RESET_L[\/TD]\n[TD][\/TD]\n\n[TD]3.3v[\/TD]\n[\/TR]\n[TR]\n[TD]3. PCH_SRTCRST_L[\/TD]\n[TD][\/TD]\n\n[TD] 3.3v[\/TD]\n[\/TR]\n[TR]\n[TD]4. PCH_INTVRMEN_L[\/TD]\n[TD][\/TD]\n\n[TD]2.2v[\/TD]\n[\/TR]\n[TR]\n[TD]5. PCH_DSWVRMEN_L[\/TD]\n[TD][\/TD]\n\n[TD] 2.49v[\/TD]\n[\/TR]\n[TR]\n[TD]6. SYSCLK_CLK32K_RTCX1[\/TD]\n[TD][\/TD]\n\n[TD] i don have scope..[\/TD]\n[\/TR]\n[TR]\n[TD]7. PP3V3_S5[\/TD]\n[TD][\/TD]\n\n[TD]3.3v[\/TD]\n[\/TR]\n[TR]\n[TD]8. PM_DSW_PWRGD[\/TD]\n[TD][\/TD]\n\n[TD]0v[\/TD]\n[\/TR]\n[TR]\n[TD]9. PP3V3_SUS[\/TD]\n[TD][\/TD]\n\n[TD]0v, I have tried reball smc[\/TD]\n[\/TR]\n[TR]\n[TD]10. PM_BATLOW_L[\/TD]\n[TD][\/TD]\n\n[TD]0v, no short[\/TD]\n[\/TR]\n[\/TABLE]"}
-{"post_id":64484,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-09-01 15:16:45","message":"I meant Q7830, sorry.\nFix PM_BATLOW_L and PM_DSW_PWRGD; check S5_PWRGD.\n\nCheck your work and be sure to use original 45\/60W Magsafe 2 charger."}
-{"post_id":64500,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-09-02 02:28:15","message":"i have changed q7830 too\ni have changed smc, but still doesnt have pm_batlow_l , because i don have pp3v3_sus.. smc_batlow_l is 2.9v\ns5_pwrgd 3v\npm_dsw_pwrgd : 3.4v"}
-{"post_id":64503,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-09-02 02:37:26","message":"Post again Q7812\/30 voltages."}
-{"post_id":64532,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-09-02 13:46:32","message":"q7812 : no voltage at any pin, but no short.\nq7830 : pin 1 : 0v\npin 3 : 3.3v\npin 4 :3.3v"}
-{"post_id":64541,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-09-02 17:46:53","message":"Something went wrong with SMC reballing, or other thing.\nYou've lost the voltages mentioned on first post.\nSo check and re-check your work..."}
-{"post_id":64577,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-09-03 06:03:49","message":"owh sorry, there's a mistake probing\nq7812 pin 3 and 6 is 3.3v, else is 0v\nim absolutely sure in my smc reballing tho.."}
-{"post_id":64592,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-09-03 07:36:33","message":"If S5_PWRGD is high and still no PM_DSW_PWRGD, you have SMC problem; note on page 62.\nBe sure R5092 is good.\nYou may need to replace SMC..."}
-{"post_id":64597,"thread_id":59902,"title":"820-3209-A dead","user_id":5109,"username":"Yoel Ren","post_date":"2020-09-03 07:50:30","message":"i say i have pm_dsw_pwrgd at above msg..\nr5092 guud 100k"}
-{"post_id":64608,"thread_id":59902,"title":"820-3209-A dead","user_id":682,"username":"2informaticos","post_date":"2020-09-03 10:23:18","message":"Ooops, I missed that sorry.\n\nYou had S3, even S0 voltages.\nSomething happened in the process repair, if you lost all them.\nIf only you worked on the board since then, re-check your job.\n\nPM_BATLOW_L is pulled up inside PCH.\nSMC can only pull it down, via SMC_BATLOW_L; and is not the case now.\nProbably PCH has been affected by heat.\nReheat using quality flux, trying to burn eventually accumulated crap.\n\nCheck again RTC signals.\nPCH_INTVRMEN_L  looks very close to lower limit..."}
+[
+    {
+        "post_id":64164,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-08-25 12:41:51",
+        "message":"no visible water dmg \/ corrosion\nppbus 12.4v\npp5v_s0 5v\npp3v3_s0 2.9v ??\npp1v8_s0 : 1.2v ??\npp1v05 : 1.05v\npp5v_s3 : 5v\nall_sys_pwrgd : 0v\nthere's a bit of high pitched noise around u1800 or its back near smc, i couldnt pin point the exact noise\nI have tried replacing u2700, u7770 and u7780..\nI tried replacing component where the various pulled down rail gather, but still dead\nany advice ?"
+    },
+    {
+        "post_id":64168,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-08-25 12:50:08",
+        "message":"\"all_sys_pwrgd : 0v\"\nRemove first Q7950.\nIf still low, start removing R7963\/4\/5\/6 and R7901, one by one.\nKeep in place R7967."
+    },
+    {
+        "post_id":64184,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-08-25 22:23:30",
+        "message":"r7966 pulled and fan spin, all_sys_pwrgd 2.6v, VCORE 1.1v, but still no usb activity, fan start to spin fast after a while, pch doesnt feel warm enough to indicate that its working\nshould i placed back resistor r7963-5 ?"
+    },
+    {
+        "post_id":64185,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-08-26 01:26:21",
+        "message":"Solder back the other resistor and keep out R7966 (for the moment).\nDo you get 1.8V at L7720?"
+    },
+    {
+        "post_id":64373,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-08-29 00:10:49",
+        "message":"okay, i can't put back rr7964, 63 and 66, or i will lose fan spin..\n1v at l7720.. should be 1.8v.."
+    },
+    {
+        "post_id":64374,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-08-29 00:34:59",
+        "message":"I remeasure  my power rail\npp5v_s0 : 5v\npp3v3_s0 : 2.5v\npp1v05_s0 : 1.05v\npp1v5_s0 : 0.9v\npp1v8_s0 : 0.9v"
+    },
+    {
+        "post_id":64375,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-08-29 00:49:44",
+        "message":"ALL_SYS_PWRGD is pulled down because you have problems on some power rails.\nYou must fix these problems to continue.\n\nBoth 1V5_S0 and 1V8_S0 come from 3V3_S0, which has incorrect level.\nFirst check diode mode to ground on this line.\nAnd post voltages for Q7812\/30."
+    },
+    {
+        "post_id":64379,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-08-29 01:53:46",
+        "message":"diode mode :\n1v5_s0 : 0.335\n1v8_s0 : 0.366\n3v3_s0 : 0.278\nq7812 : pin 1 : 0\n2 : 3.3v\n3 : 0\n4 : 0\n5 : 0\n6 : 3.3v\nq7830 :\n1 : 2.5v is this bad ?\n3 : 3.2v\n4 : 3.3v"
+    },
+    {
+        "post_id":64382,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-08-29 05:03:20",
+        "message":"You should change Q7823.\nI cannot understand how can you get the same voltage at pins 2\/6 and 5\/3 of Q7812..."
+    },
+    {
+        "post_id":64483,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-09-01 12:39:22",
+        "message":"q7823 ? i changed q7812 and q7822 both, but now macbook doesnt have fan spin at all, even tho i changed both again.\ni checked, I have pp5v_s5 5v\npp3v3_s5 : 3.3v\nno pm_slp_s4_l , so i checked\nppvrtc : 3.3v\n\n\n\n[TABLE]\n[TR]\n[TD]1. PPVRTC_G3H[\/TD]\n\n[TD][\/TD]\n\n[TD] 3.3v\n[\/TD]\n[\/TR]\n[TR]\n[TD]2. RTC_RESET_L[\/TD]\n[TD][\/TD]\n\n[TD]3.3v[\/TD]\n[\/TR]\n[TR]\n[TD]3. PCH_SRTCRST_L[\/TD]\n[TD][\/TD]\n\n[TD] 3.3v[\/TD]\n[\/TR]\n[TR]\n[TD]4. PCH_INTVRMEN_L[\/TD]\n[TD][\/TD]\n\n[TD]2.2v[\/TD]\n[\/TR]\n[TR]\n[TD]5. PCH_DSWVRMEN_L[\/TD]\n[TD][\/TD]\n\n[TD] 2.49v[\/TD]\n[\/TR]\n[TR]\n[TD]6. SYSCLK_CLK32K_RTCX1[\/TD]\n[TD][\/TD]\n\n[TD] i don have scope..[\/TD]\n[\/TR]\n[TR]\n[TD]7. PP3V3_S5[\/TD]\n[TD][\/TD]\n\n[TD]3.3v[\/TD]\n[\/TR]\n[TR]\n[TD]8. PM_DSW_PWRGD[\/TD]\n[TD][\/TD]\n\n[TD]0v[\/TD]\n[\/TR]\n[TR]\n[TD]9. PP3V3_SUS[\/TD]\n[TD][\/TD]\n\n[TD]0v, I have tried reball smc[\/TD]\n[\/TR]\n[TR]\n[TD]10. PM_BATLOW_L[\/TD]\n[TD][\/TD]\n\n[TD]0v, no short[\/TD]\n[\/TR]\n[\/TABLE]"
+    },
+    {
+        "post_id":64484,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-01 13:16:45",
+        "message":"I meant Q7830, sorry.\nFix PM_BATLOW_L and PM_DSW_PWRGD; check S5_PWRGD.\n\nCheck your work and be sure to use original 45\/60W Magsafe 2 charger."
+    },
+    {
+        "post_id":64500,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-09-02 00:28:15",
+        "message":"i have changed q7830 too\ni have changed smc, but still doesnt have pm_batlow_l , because i don have pp3v3_sus.. smc_batlow_l is 2.9v\ns5_pwrgd 3v\npm_dsw_pwrgd : 3.4v"
+    },
+    {
+        "post_id":64503,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-02 00:37:26",
+        "message":"Post again Q7812\/30 voltages."
+    },
+    {
+        "post_id":64532,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-09-02 11:46:32",
+        "message":"q7812 : no voltage at any pin, but no short.\nq7830 : pin 1 : 0v\npin 3 : 3.3v\npin 4 :3.3v"
+    },
+    {
+        "post_id":64541,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-02 15:46:53",
+        "message":"Something went wrong with SMC reballing, or other thing.\nYou've lost the voltages mentioned on first post.\nSo check and re-check your work..."
+    },
+    {
+        "post_id":64577,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-09-03 04:03:49",
+        "message":"owh sorry, there's a mistake probing\nq7812 pin 3 and 6 is 3.3v, else is 0v\nim absolutely sure in my smc reballing tho.."
+    },
+    {
+        "post_id":64592,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-03 05:36:33",
+        "message":"If S5_PWRGD is high and still no PM_DSW_PWRGD, you have SMC problem; note on page 62.\nBe sure R5092 is good.\nYou may need to replace SMC..."
+    },
+    {
+        "post_id":64597,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-09-03 05:50:30",
+        "message":"i say i have pm_dsw_pwrgd at above msg..\nr5092 guud 100k"
+    },
+    {
+        "post_id":64608,
+        "thread_id":59902,
+        "title":"820-3209-A dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-03 08:23:18",
+        "message":"Ooops, I missed that sorry.\n\nYou had S3, even S0 voltages.\nSomething happened in the process repair, if you lost all them.\nIf only you worked on the board since then, re-check your job.\n\nPM_BATLOW_L is pulled up inside PCH.\nSMC can only pull it down, via SMC_BATLOW_L; and is not the case now.\nProbably PCH has been affected by heat.\nReheat using quality flux, trying to burn eventually accumulated crap.\n\nCheck again RTC signals.\nPCH_INTVRMEN_L  looks very close to lower limit..."
+    }
+]

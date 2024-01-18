@@ -1,10 +1,92 @@
-{"post_id":58336,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-17 12:16:36","message":"Hello all,\n\nThis board works but it has no audio, not even the chime at start up. Prohibitory sign is displayed when trying to change the audio level.\nNo beep sound also if no memory installed.\n\nIn system preferences > sound: there is nothing for output or input.\n\nIf I plug a audio USB adapter, it appears in the above menu, and volume control works normally.\n\nSome measures:\n\nPP1V8_SO_AUDIO=1.8V\nPP4V5_AUDIO_ANALOG=4.5V\nPP5V_S3_AUDIO=5V\nPP3V3_S0_AUDIO=3.3V\nHDA_RST_L=3.3V\n\nbut\nAUD_GPIO_3=0V, so is SPKRAMP_SHDN, and I understand that this is disabling all 3 amps 6610, 6620 and 6630\n\nI was thinking about replacing U6201. Is this the good way? Other options?"}
-{"post_id":58339,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-17 13:51:44","message":"\"AUD_GPIO_3=0V, so is SPKRAMP_SHDN\"\nWhat do you expect there?\nIf 0V, means NO amp shutdown; do you want to mute it???\n\nIf no audio codec is recognized in system report, then change the codec; if has all power rails good.\nInspect for corroded traces and resistors first."}
-{"post_id":58343,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-17 16:17:53","message":"I don't agree. For example the datasheet of U6610, LM48556TL, says for SPKRAMP_SHDN (pin SD*, number C3):\n\"Active Low Reset Input. Connect to VDD for normal operation. Drive SD low to disable.\"\nSo I expect 3.3V to avoid shutdown, no?\nI don't find any corrosion. So, I change the CODEC, U6201?"}
-{"post_id":58347,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-17 16:40:45","message":"I just saw that's truth.\nApple fucked off again a schematic.\nSignal name should end with \"_L\", as active low signal.\nIs only visible inside of chip marking (SD*).\n\nI didn't even look at schematic, only thought on signal name; mea culpa.\nCheck HDA_RST_L first."}
-{"post_id":58351,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-17 17:18:43","message":"In fact it is strange, because Apple put the \"_L\" for HDA_RST_L (tagged RESET* inside the chip), not on SPKRAMP_SHDN\nAnyway, this HDA_RST_L is 3.3V. So chip is enabled, power rails ok, no corrosion: tomorrow I will try to replace my first 48 pin chip..."}
-{"post_id":58366,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-18 08:48:42","message":"We cannot expect Apple, nor other manufacturer to simplify board repairs.\nWatch Louis videos about \"right to repair\" hearings..."}
-{"post_id":58375,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-18 12:10:28","message":"No luck for this one, still no sound. Either the chip was also bad, or I fucked it, or there is another issue that I don't see at all.\nI also checked that there is no short on SPKRAMP_SHDN on the amps, I measure 75kohm, seems ok.\nSo, for this one I give up :("}
-{"post_id":58385,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-18 15:40:56","message":"Could be MCP issue.\nTry heating it, nothing to lose..."}
-{"post_id":58492,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":24772,"username":"VinceLx","post_date":"2020-04-20 07:02:33","message":"I heated the MCP, now I get no video and no backlight (and still no sound, even without RAM).\nI checked all the rails, they are still ok\nFan spins, no red light on mouse, just the peak when starting\nPPVCORE_S0_CPU=0.99V\nLVDS_IG_PANEL_PWR=0V\nState should be S0:\nSMC_PM_G2_EN=3.4V\nPM_SLP_S4_L=3.32V\nPM_SLP_S3_L=3.32V\n\nProbably heated too much? I put 90 seconds at 450`C, only the MCP, I protected the remaining PCB with aluminium. What would be correct time and temperature? (I know, I should have asked that before)\nAny idea to get back the video? Or is it fried now?"}
-{"post_id":58495,"thread_id":58336,"title":"Board A1342 2009, 820-2567, no audio, no chime","user_id":682,"username":"2informaticos","post_date":"2020-04-20 08:16:14","message":"MCP damaged now, I suppose.\nHeat test is about 10-15s at 180-200 degrees on the die.\nI do this normaly with 400 on the hotair station, at few cm away.\nHowever, depends of the tool used."}
+[
+    {
+        "post_id":58336,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-17 10:16:36",
+        "message":"Hello all,\n\nThis board works but it has no audio, not even the chime at start up. Prohibitory sign is displayed when trying to change the audio level.\nNo beep sound also if no memory installed.\n\nIn system preferences > sound: there is nothing for output or input.\n\nIf I plug a audio USB adapter, it appears in the above menu, and volume control works normally.\n\nSome measures:\n\nPP1V8_SO_AUDIO=1.8V\nPP4V5_AUDIO_ANALOG=4.5V\nPP5V_S3_AUDIO=5V\nPP3V3_S0_AUDIO=3.3V\nHDA_RST_L=3.3V\n\nbut\nAUD_GPIO_3=0V, so is SPKRAMP_SHDN, and I understand that this is disabling all 3 amps 6610, 6620 and 6630\n\nI was thinking about replacing U6201. Is this the good way? Other options?"
+    },
+    {
+        "post_id":58339,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-17 11:51:44",
+        "message":"\"AUD_GPIO_3=0V, so is SPKRAMP_SHDN\"\nWhat do you expect there?\nIf 0V, means NO amp shutdown; do you want to mute it???\n\nIf no audio codec is recognized in system report, then change the codec; if has all power rails good.\nInspect for corroded traces and resistors first."
+    },
+    {
+        "post_id":58343,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-17 14:17:53",
+        "message":"I don't agree. For example the datasheet of U6610, LM48556TL, says for SPKRAMP_SHDN (pin SD*, number C3):\n\"Active Low Reset Input. Connect to VDD for normal operation. Drive SD low to disable.\"\nSo I expect 3.3V to avoid shutdown, no?\nI don't find any corrosion. So, I change the CODEC, U6201?"
+    },
+    {
+        "post_id":58347,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-17 14:40:45",
+        "message":"I just saw that's truth.\nApple fucked off again a schematic.\nSignal name should end with \"_L\", as active low signal.\nIs only visible inside of chip marking (SD*).\n\nI didn't even look at schematic, only thought on signal name; mea culpa.\nCheck HDA_RST_L first."
+    },
+    {
+        "post_id":58351,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-17 15:18:43",
+        "message":"In fact it is strange, because Apple put the \"_L\" for HDA_RST_L (tagged RESET* inside the chip), not on SPKRAMP_SHDN\nAnyway, this HDA_RST_L is 3.3V. So chip is enabled, power rails ok, no corrosion: tomorrow I will try to replace my first 48 pin chip..."
+    },
+    {
+        "post_id":58366,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-18 06:48:42",
+        "message":"We cannot expect Apple, nor other manufacturer to simplify board repairs.\nWatch Louis videos about \"right to repair\" hearings..."
+    },
+    {
+        "post_id":58375,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-18 10:10:28",
+        "message":"No luck for this one, still no sound. Either the chip was also bad, or I fucked it, or there is another issue that I don't see at all.\nI also checked that there is no short on SPKRAMP_SHDN on the amps, I measure 75kohm, seems ok.\nSo, for this one I give up :("
+    },
+    {
+        "post_id":58385,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-18 13:40:56",
+        "message":"Could be MCP issue.\nTry heating it, nothing to lose..."
+    },
+    {
+        "post_id":58492,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":24772,
+        "username":"VinceLx",
+        "post_date":"2020-04-20 05:02:33",
+        "message":"I heated the MCP, now I get no video and no backlight (and still no sound, even without RAM).\nI checked all the rails, they are still ok\nFan spins, no red light on mouse, just the peak when starting\nPPVCORE_S0_CPU=0.99V\nLVDS_IG_PANEL_PWR=0V\nState should be S0:\nSMC_PM_G2_EN=3.4V\nPM_SLP_S4_L=3.32V\nPM_SLP_S3_L=3.32V\n\nProbably heated too much? I put 90 seconds at 450`C, only the MCP, I protected the remaining PCB with aluminium. What would be correct time and temperature? (I know, I should have asked that before)\nAny idea to get back the video? Or is it fried now?"
+    },
+    {
+        "post_id":58495,
+        "thread_id":58336,
+        "title":"Board A1342 2009, 820-2567, no audio, no chime",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-20 06:16:14",
+        "message":"MCP damaged now, I suppose.\nHeat test is about 10-15s at 180-200 degrees on the die.\nI do this normaly with 400 on the hotair station, at few cm away.\nHowever, depends of the tool used."
+    }
+]

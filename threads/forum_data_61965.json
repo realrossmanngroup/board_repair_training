@@ -1,10 +1,92 @@
-{"post_id":82615,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":7922,"username":"tcampbell34","post_date":"2021-11-12 20:05:17","message":"Hello. I got this 820-01987 board in that was pretty badly liquid damaged. Most of the damage was around the backlight circuit and CD3217's. The board was originally stuck on 5v and PPBUS_G3H was only 0.7v and 0.068 in diode mode. I removed C6456 and the diode mode value on PPBUS went up to 0.410 and now I get 12.3v, but still 5v on amp meter. PP3V3_G3H_RTC was 0v, so I replaced U6903 and had to replace U3100 also and that got me 20v back, but no amps. Now PP3V3_G3H_RTC is 3.3v, but PP3V3_G3H is only 0.9v, but seems to have the correct diode mode value of 0.398. I found small amount of corrosion around Q7680, so I replaced that chip and U7650 at the same time, but still have only 0.9v on PP3V3_G3H. Any idea what else could be causing this or what else to check?"}
-{"post_id":82623,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":682,"username":"2informaticos","post_date":"2021-11-13 06:48:40","message":"Post basic volatges for U7650; pins 23, 12, 13, 22, 29, 21."}
-{"post_id":82632,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":7922,"username":"tcampbell34","post_date":"2021-11-13 11:06:36","message":"23: 12.3v\n12: 0v\n13: 0v\n22: 3.3v\n29: 0v\n21: 0v"}
-{"post_id":82634,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":682,"username":"2informaticos","post_date":"2021-11-13 15:10:28","message":"You can't expect 3V3_G3H voltage, if is not enabled.\nCheck LDO voltages of U7800.\n\nDid you try DFU?"}
-{"post_id":82645,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":7922,"username":"tcampbell34","post_date":"2021-11-13 15:58:03","message":"I have 0.9v on 3V3_G3H so it does seem to be enabled somehow. The 3V3 enable signal for U7650 is just a test point that does not go to any other chip. U7800 is powered by PP3V3_G3H_PMU_VDDMAIN, which is also 0.9v because its comes from PP3V3_G3H. So I do not have any voltages that come from U7800 since it is not turning on. DFU also is not going to work if I am missing all voltages from U7800"}
-{"post_id":82646,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":33224,"username":"Vogelek23","post_date":"2021-11-13 16:16:21","message":"If you found some corrosion around Q7680, post the resistances between:\n- pin 3 (high side MOSFET gate) of Q7680 and pin 24 of U7650,\n- pin 5 (low side MOSFET gate) of Q7680 and pin 27 of U7650,\n- any pin of L7690 inductor and pin 17 of U7650,\n- any pin of L7690 inductor and pin 18 of U7650.\n\nPlease also post the resistance to ground on pin 29 of U7650 as it seems you have a non-working LDO5 output as well."}
-{"post_id":82647,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":682,"username":"2informaticos","post_date":"2021-11-13 16:19:25","message":"Don't be so sure; why didn't check before?\nU7800 LDO block is powered from 3V3_G3H_RTC (via R7900), which you've said is present.\nT2 requires only AWAKE and SLPS2R voltages to go into DFU.\nAlso need SSD voltages, to complete DFU..."}
-{"post_id":82653,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":7922,"username":"tcampbell34","post_date":"2021-11-13 17:12:48","message":"I checked the resistances on Q7680 and they all match vs a good board. I was not aware that the LDO block of U7800 was powered by PP3V3_G3H_RTC. So based on the voltages below, it looks like U7800 is the issue?\n\nPP3V3_G3H_PMU_VDDMAIN - .924v\nPP1V1_SLPS2R - 0v\nPP3V3_G3H_RTC - 3.3v\nPP1V8_SLPS2R - 0v\nPP3V3_G3H_PMU_VINRTC_R - 3.3v\nLDO_CORE - 1.476v\nPP0V8_SLPS2R - 0v\nPP3V_G3H_RTC - 0v\nPP1V2_AWAKE - 0v\nPMU_LDO3_OUT_R - 1.814v\nPP3V3_AWAKE - 0v"}
-{"post_id":82654,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":33224,"username":"Vogelek23","post_date":"2021-11-13 17:21:18","message":"[QUOTE=\"tcampbell34, post: 82653, member: 7922\"]\nI checked the resistances on Q7680 and they all match vs a good board.\n[\/QUOTE]\n[QUOTE=\"larossmann, post: 5371, member: 1\"]\nThere are reasons for what we are asking you to do. There are constants. Throwing in other variables will lower the consistency of quality in the advice we offer (...) If you do not provide answers to all questions, we will let the thread die.\n[\/QUOTE]\nYou have been asked for more than just resistances on Q7680."}
-{"post_id":82655,"thread_id":61965,"title":"820-01987 low voltage on PP3V3_G3H","user_id":682,"username":"2informaticos","post_date":"2021-11-13 19:04:11","message":"So U7800 is powered up (from 3V3_G3H_RTC), but fails to generate several LDO rails.\nIf none of them is shorted, or has low ohm resistance to ground, then change U7800."}
+[
+    {
+        "post_id":82615,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-11-12 18:05:17",
+        "message":"Hello. I got this 820-01987 board in that was pretty badly liquid damaged. Most of the damage was around the backlight circuit and CD3217's. The board was originally stuck on 5v and PPBUS_G3H was only 0.7v and 0.068 in diode mode. I removed C6456 and the diode mode value on PPBUS went up to 0.410 and now I get 12.3v, but still 5v on amp meter. PP3V3_G3H_RTC was 0v, so I replaced U6903 and had to replace U3100 also and that got me 20v back, but no amps. Now PP3V3_G3H_RTC is 3.3v, but PP3V3_G3H is only 0.9v, but seems to have the correct diode mode value of 0.398. I found small amount of corrosion around Q7680, so I replaced that chip and U7650 at the same time, but still have only 0.9v on PP3V3_G3H. Any idea what else could be causing this or what else to check?"
+    },
+    {
+        "post_id":82623,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-13 04:48:40",
+        "message":"Post basic volatges for U7650; pins 23, 12, 13, 22, 29, 21."
+    },
+    {
+        "post_id":82632,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-11-13 09:06:36",
+        "message":"23: 12.3v\n12: 0v\n13: 0v\n22: 3.3v\n29: 0v\n21: 0v"
+    },
+    {
+        "post_id":82634,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-13 13:10:28",
+        "message":"You can't expect 3V3_G3H voltage, if is not enabled.\nCheck LDO voltages of U7800.\n\nDid you try DFU?"
+    },
+    {
+        "post_id":82645,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-11-13 13:58:03",
+        "message":"I have 0.9v on 3V3_G3H so it does seem to be enabled somehow. The 3V3 enable signal for U7650 is just a test point that does not go to any other chip. U7800 is powered by PP3V3_G3H_PMU_VDDMAIN, which is also 0.9v because its comes from PP3V3_G3H. So I do not have any voltages that come from U7800 since it is not turning on. DFU also is not going to work if I am missing all voltages from U7800"
+    },
+    {
+        "post_id":82646,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":33224,
+        "username":"Vogelek23",
+        "post_date":"2021-11-13 14:16:21",
+        "message":"If you found some corrosion around Q7680, post the resistances between:\n- pin 3 (high side MOSFET gate) of Q7680 and pin 24 of U7650,\n- pin 5 (low side MOSFET gate) of Q7680 and pin 27 of U7650,\n- any pin of L7690 inductor and pin 17 of U7650,\n- any pin of L7690 inductor and pin 18 of U7650.\n\nPlease also post the resistance to ground on pin 29 of U7650 as it seems you have a non-working LDO5 output as well."
+    },
+    {
+        "post_id":82647,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-13 14:19:25",
+        "message":"Don't be so sure; why didn't check before?\nU7800 LDO block is powered from 3V3_G3H_RTC (via R7900), which you've said is present.\nT2 requires only AWAKE and SLPS2R voltages to go into DFU.\nAlso need SSD voltages, to complete DFU..."
+    },
+    {
+        "post_id":82653,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-11-13 15:12:48",
+        "message":"I checked the resistances on Q7680 and they all match vs a good board. I was not aware that the LDO block of U7800 was powered by PP3V3_G3H_RTC. So based on the voltages below, it looks like U7800 is the issue?\n\nPP3V3_G3H_PMU_VDDMAIN - .924v\nPP1V1_SLPS2R - 0v\nPP3V3_G3H_RTC - 3.3v\nPP1V8_SLPS2R - 0v\nPP3V3_G3H_PMU_VINRTC_R - 3.3v\nLDO_CORE - 1.476v\nPP0V8_SLPS2R - 0v\nPP3V_G3H_RTC - 0v\nPP1V2_AWAKE - 0v\nPMU_LDO3_OUT_R - 1.814v\nPP3V3_AWAKE - 0v"
+    },
+    {
+        "post_id":82654,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":33224,
+        "username":"Vogelek23",
+        "post_date":"2021-11-13 15:21:18",
+        "message":"[QUOTE=\"tcampbell34, post: 82653, member: 7922\"]\nI checked the resistances on Q7680 and they all match vs a good board.\n[\/QUOTE]\n[QUOTE=\"larossmann, post: 5371, member: 1\"]\nThere are reasons for what we are asking you to do. There are constants. Throwing in other variables will lower the consistency of quality in the advice we offer (...) If you do not provide answers to all questions, we will let the thread die.\n[\/QUOTE]\nYou have been asked for more than just resistances on Q7680."
+    },
+    {
+        "post_id":82655,
+        "thread_id":61965,
+        "title":"820-01987 low voltage on PP3V3_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-13 17:04:11",
+        "message":"So U7800 is powered up (from 3V3_G3H_RTC), but fails to generate several LDO rails.\nIf none of them is shorted, or has low ohm resistance to ground, then change U7800."
+    }
+]

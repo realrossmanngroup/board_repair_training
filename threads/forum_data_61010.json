@@ -1,6 +1,56 @@
-{"post_id":73872,"thread_id":61010,"title":"820-00840-A A1708 20V 0A no PPBUS_G3H","user_id":296,"username":"jadao","post_date":"2021-04-02 22:29:08","message":"This board was liquid damage with 5V 0A. Corrosion at cd3215 and nearby, also the PI3USB32 chip (the one we don't see on schematic &brdvw) was corroded.\nReflowed both of them and replaced all resistors around both CD32s.\n\nNow I get 20v 0A and ppbus_g3h 0V with no short (diode mode 0,410)\nReplaced u7000 and Q7030\/40 and it's the same (20V 0A).\n\nAt U7000\nAux_det 5v\nR7020\/21\/61\/62 are ok\nTBA_HPWR_EN_L 3.4V\nPM_EN_P3V3_G3H 5V\nSMC_RESET_R_L \/ SMC_RESET_R 3.4V\nSMC_CHGR_INT_L 3.4V\nCHGR_ACOK 3,3V\nSMC_RST_IN 0V\nPD_SMC_CBC_ON 0V\n\nI don't know if even I get 20V I still need to check again near CD32 or even replace them, or something related with SMC?\nDon't know what to check anymore at this point."}
-{"post_id":73875,"thread_id":61010,"title":"820-00840-A A1708 20V 0A no PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2021-04-03 02:40:51","message":"CD3215 chips should be good now, if switch to 20V.\nCheck other U7000 voltages; VDDA\/P, VR1_3P3, A\/BMON.\nCompare diode mode readings on secondary power supplies with good board."}
-{"post_id":73897,"thread_id":61010,"title":"820-00840-A A1708 20V 0A no PPBUS_G3H","user_id":296,"username":"jadao","post_date":"2021-04-03 11:49:39","message":"Oh forgot to post other u7000 voltages:\nR7075 is 5ohms and VDDA\/VDDP is 5V\nVR1_3P3 is 3.3V \nA\/BMON are both 0V \/ 0V (char only) with working board I get 0,050V \/ 0V (charger only)\nTBA_COMP is 1.1V noticed it was 1,6 and 1,5V on working board\n\nI compared diode mode reading with a working board and I found that\nL7900 and L8060 are respectively 0.041 and 0.048 on the patient board as opposed to  0.245 and 0.206 on the working board...\n\nCan I remove the coils, check from where the short is comming and eventually disconnect the feedbacks and see what happen when I plug power?"}
-{"post_id":73899,"thread_id":61010,"title":"820-00840-A A1708 20V 0A no PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2021-04-03 11:54:06","message":"Not really short, but very low values comparing with good board.\nIs sufficient to lift the coils one side; no need to use hot air.\nThen check where the low values come from."}
-{"post_id":73921,"thread_id":61010,"title":"820-00840-A A1708 20V 0A no PPBUS_G3H","user_id":296,"username":"jadao","post_date":"2021-04-03 22:14:01","message":"I lifted the coils on one side and found the low values coming from PP1V_S5G and PPVCCPCH_S5G...:(\nRemoved also the feedback resistor going back to the  u7800, but the low diode mode values are still present.\nI started to isolate components on the PPVCCPCH_S5G path (only few caps on this rail) and I can confirm the low diode mode value is coming from U0500. Maybe some crap under the cpu but I think it's a hopeless extremely sensistive fragile board..."}
-{"post_id":73923,"thread_id":61010,"title":"820-00840-A A1708 20V 0A no PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2021-04-04 03:00:13","message":"Nothing to lose trying to burn eventually crap.\nHeat CPU until 180-200 degrees for 15-20s.\nUse quality flux, not chinese honey..."}
+[
+    {
+        "post_id":73872,
+        "thread_id":61010,
+        "title":"820-00840-A A1708 20V 0A no PPBUS_G3H",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-04-02 20:29:08",
+        "message":"This board was liquid damage with 5V 0A. Corrosion at cd3215 and nearby, also the PI3USB32 chip (the one we don't see on schematic &brdvw) was corroded.\nReflowed both of them and replaced all resistors around both CD32s.\n\nNow I get 20v 0A and ppbus_g3h 0V with no short (diode mode 0,410)\nReplaced u7000 and Q7030\/40 and it's the same (20V 0A).\n\nAt U7000\nAux_det 5v\nR7020\/21\/61\/62 are ok\nTBA_HPWR_EN_L 3.4V\nPM_EN_P3V3_G3H 5V\nSMC_RESET_R_L \/ SMC_RESET_R 3.4V\nSMC_CHGR_INT_L 3.4V\nCHGR_ACOK 3,3V\nSMC_RST_IN 0V\nPD_SMC_CBC_ON 0V\n\nI don't know if even I get 20V I still need to check again near CD32 or even replace them, or something related with SMC?\nDon't know what to check anymore at this point."
+    },
+    {
+        "post_id":73875,
+        "thread_id":61010,
+        "title":"820-00840-A A1708 20V 0A no PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-03 00:40:51",
+        "message":"CD3215 chips should be good now, if switch to 20V.\nCheck other U7000 voltages; VDDA\/P, VR1_3P3, A\/BMON.\nCompare diode mode readings on secondary power supplies with good board."
+    },
+    {
+        "post_id":73897,
+        "thread_id":61010,
+        "title":"820-00840-A A1708 20V 0A no PPBUS_G3H",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-04-03 09:49:39",
+        "message":"Oh forgot to post other u7000 voltages:\nR7075 is 5ohms and VDDA\/VDDP is 5V\nVR1_3P3 is 3.3V \nA\/BMON are both 0V \/ 0V (char only) with working board I get 0,050V \/ 0V (charger only)\nTBA_COMP is 1.1V noticed it was 1,6 and 1,5V on working board\n\nI compared diode mode reading with a working board and I found that\nL7900 and L8060 are respectively 0.041 and 0.048 on the patient board as opposed to  0.245 and 0.206 on the working board...\n\nCan I remove the coils, check from where the short is comming and eventually disconnect the feedbacks and see what happen when I plug power?"
+    },
+    {
+        "post_id":73899,
+        "thread_id":61010,
+        "title":"820-00840-A A1708 20V 0A no PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-03 09:54:06",
+        "message":"Not really short, but very low values comparing with good board.\nIs sufficient to lift the coils one side; no need to use hot air.\nThen check where the low values come from."
+    },
+    {
+        "post_id":73921,
+        "thread_id":61010,
+        "title":"820-00840-A A1708 20V 0A no PPBUS_G3H",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-04-03 20:14:01",
+        "message":"I lifted the coils on one side and found the low values coming from PP1V_S5G and PPVCCPCH_S5G...:(\nRemoved also the feedback resistor going back to the  u7800, but the low diode mode values are still present.\nI started to isolate components on the PPVCCPCH_S5G path (only few caps on this rail) and I can confirm the low diode mode value is coming from U0500. Maybe some crap under the cpu but I think it's a hopeless extremely sensistive fragile board..."
+    },
+    {
+        "post_id":73923,
+        "thread_id":61010,
+        "title":"820-00840-A A1708 20V 0A no PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-04 01:00:13",
+        "message":"Nothing to lose trying to burn eventually crap.\nHeat CPU until 180-200 degrees for 15-20s.\nUse quality flux, not chinese honey..."
+    }
+]

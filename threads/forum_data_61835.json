@@ -1,11 +1,101 @@
-{"post_id":81303,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":32821,"username":"formerunicornbroker","post_date":"2021-10-11 21:31:56","message":"Hey guys,\nI have an issue that I'm hoping someone can please help me with.\nIt is an 820-00165 which has a flickering display after logging in. During startup, the apple logo is displayed and the machine loads to the login screen. After logging in, just before the loading bar completes, the screen starts flickering. It appears to be the screen itself, not the backlight but I could be wrong.\nExternal display works with the screen plugged in or not.\nI have tested with another known good screen, IO board and cable and have removed the board from chassis.\nNo physical damage can be seen. LVDS looks clean and continuity between pins and caps\/resistors is fine but I have touched up the joints to make sure. I have also reflowed U7701 but have not yet replaced it. I have replaced C8324 because it looked a little funny but no change.\nDiode readings on LVDS connector all seem roughly .050 or .060 below values shown on logi.wiki.\n[URL='https:\/\/streamable.com\/a9nxvc']Here is a video[\/URL] of the issue.\n\nThank you very much for reading.\nM"}
-{"post_id":81312,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":682,"username":"2informaticos","post_date":"2021-10-12 03:29:28","message":"First of all, welcome to the forum!\n\nDo PRAM reset 2-3 times.\nJust in case, test with USB macOS; it helps to discard a software issue.\nSee what happens starting in safe mode.\n\nCheck for fluctuations at 3V3_S0SW_LCD and DP_INT_HPD.\nALso check at both pins of D7701.\n\nBTW, stop using LVDS as we have an eDP bus instead here..."}
-{"post_id":81317,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":32821,"username":"formerunicornbroker","post_date":"2021-10-12 06:10:01","message":"Thank you! Long time listener, first time caller. I appreciate you taking the time.\n\nI have reset pram repeatedly and have tested with a test internal OSX drive as well as external USB Linux platform. The problem presented itself in both cases. Is this sufficient or should I try USB osx too?\n\nI will try safe mode and get those measurements asap and let you know.\n\nSorry! eDP it is."}
-{"post_id":81336,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":32821,"username":"formerunicornbroker","post_date":"2021-10-12 19:08:57","message":"Safe mode does the same thing but hangs on login loading page much longer\n\n3V3_S0SW_LCD = 3.298V steady\nDP_INT_HPD = 2.692V steady\nD7701 - pin1 = 8.57V pin2 = 24.63V and both steady"}
-{"post_id":81345,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":682,"username":"2informaticos","post_date":"2021-10-13 04:41:21","message":"Did you take these voltages when the screen starts to flicker?\nNeed to know their values then.\n\nIf external monitor works good, then should be a problem with CPU eDP output.\nAn iGPU core problem should affect external video too.\nAlso looks like the problem appears when the video driver is loaded.\nTry Windows 10 Live USB, which will use a generic video driver only.\nThis kind of Live distro should have memory tools embedded; do a RAM test, if possible."}
-{"post_id":81350,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":32821,"username":"formerunicornbroker","post_date":"2021-10-13 06:26:53","message":"Yes, I waited until the flicker was happening to take those measurements.\n\nI did a ram test a few days ago using memtest for 4 full passes and got no errors. I tested it to be thorough but i also figured it would affect the memory reading in the system specs or the system functionality as a whole. \n\nI kind of landed on it being a CPU issue after everything seemed normal around the display\/backlight circuit but I couldn't shrug the feeling that a cpu issue would again, affect the functionality of the machine. Everything else is running perfectly and that's why I felt like I needed an expert opinion. I know this is a weird one so again, I appreciate your help so far.\n\nI will let you know what happens with  Windows2go."}
-{"post_id":81382,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":32821,"username":"formerunicornbroker","post_date":"2021-10-13 20:31:25","message":"The theory about the video driver seems correct. Windows2go boots and the machine passes in-platform memory\/cpu\/2d graphics tests.\nThings fall apart when the graphics driver is loaded and the screen starts flickering again."}
-{"post_id":81390,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":682,"username":"2informaticos","post_date":"2021-10-14 04:27:56","message":"Then is internal CPU (iGPU) problem.\nIs really strange to be related with eDP output bus only."}
-{"post_id":81432,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":32821,"username":"formerunicornbroker","post_date":"2021-10-14 18:39:30","message":"It did seem odd to me. When I had nothing else to point to, I was thinking, if it were an integrated graphics issue, it should affect external display too.\nCould it just be a cold joint somewhere on the cpu? Worth a reflow or an extra ultrasonic just in case or is it more likely to be a cpu ic fault?"}
-{"post_id":81435,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":682,"username":"2informaticos","post_date":"2021-10-14 19:26:41","message":"As I said, strange issue affecting only internal eDP bus.\nBut no doubt is iGPU issue, once problem appears only when driver is loaded.\n\nYou don't lose anything heating CPU for test; but do not expect a miracle."}
-{"post_id":81553,"thread_id":61835,"title":"Display flickering after login 820-00165","user_id":32821,"username":"formerunicornbroker","post_date":"2021-10-18 22:38:56","message":"No luck with rehotting unfortunately. I have let my customer know the board must be laid to rest.\nThank you very much for your help!"}
+[
+    {
+        "post_id":81303,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":32821,
+        "username":"formerunicornbroker",
+        "post_date":"2021-10-11 19:31:56",
+        "message":"Hey guys,\nI have an issue that I'm hoping someone can please help me with.\nIt is an 820-00165 which has a flickering display after logging in. During startup, the apple logo is displayed and the machine loads to the login screen. After logging in, just before the loading bar completes, the screen starts flickering. It appears to be the screen itself, not the backlight but I could be wrong.\nExternal display works with the screen plugged in or not.\nI have tested with another known good screen, IO board and cable and have removed the board from chassis.\nNo physical damage can be seen. LVDS looks clean and continuity between pins and caps\/resistors is fine but I have touched up the joints to make sure. I have also reflowed U7701 but have not yet replaced it. I have replaced C8324 because it looked a little funny but no change.\nDiode readings on LVDS connector all seem roughly .050 or .060 below values shown on logi.wiki.\n[URL='https:\/\/streamable.com\/a9nxvc']Here is a video[\/URL] of the issue.\n\nThank you very much for reading.\nM"
+    },
+    {
+        "post_id":81312,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-12 01:29:28",
+        "message":"First of all, welcome to the forum!\n\nDo PRAM reset 2-3 times.\nJust in case, test with USB macOS; it helps to discard a software issue.\nSee what happens starting in safe mode.\n\nCheck for fluctuations at 3V3_S0SW_LCD and DP_INT_HPD.\nALso check at both pins of D7701.\n\nBTW, stop using LVDS as we have an eDP bus instead here..."
+    },
+    {
+        "post_id":81317,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":32821,
+        "username":"formerunicornbroker",
+        "post_date":"2021-10-12 04:10:01",
+        "message":"Thank you! Long time listener, first time caller. I appreciate you taking the time.\n\nI have reset pram repeatedly and have tested with a test internal OSX drive as well as external USB Linux platform. The problem presented itself in both cases. Is this sufficient or should I try USB osx too?\n\nI will try safe mode and get those measurements asap and let you know.\n\nSorry! eDP it is."
+    },
+    {
+        "post_id":81336,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":32821,
+        "username":"formerunicornbroker",
+        "post_date":"2021-10-12 17:08:57",
+        "message":"Safe mode does the same thing but hangs on login loading page much longer\n\n3V3_S0SW_LCD = 3.298V steady\nDP_INT_HPD = 2.692V steady\nD7701 - pin1 = 8.57V pin2 = 24.63V and both steady"
+    },
+    {
+        "post_id":81345,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-13 02:41:21",
+        "message":"Did you take these voltages when the screen starts to flicker?\nNeed to know their values then.\n\nIf external monitor works good, then should be a problem with CPU eDP output.\nAn iGPU core problem should affect external video too.\nAlso looks like the problem appears when the video driver is loaded.\nTry Windows 10 Live USB, which will use a generic video driver only.\nThis kind of Live distro should have memory tools embedded; do a RAM test, if possible."
+    },
+    {
+        "post_id":81350,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":32821,
+        "username":"formerunicornbroker",
+        "post_date":"2021-10-13 04:26:53",
+        "message":"Yes, I waited until the flicker was happening to take those measurements.\n\nI did a ram test a few days ago using memtest for 4 full passes and got no errors. I tested it to be thorough but i also figured it would affect the memory reading in the system specs or the system functionality as a whole. \n\nI kind of landed on it being a CPU issue after everything seemed normal around the display\/backlight circuit but I couldn't shrug the feeling that a cpu issue would again, affect the functionality of the machine. Everything else is running perfectly and that's why I felt like I needed an expert opinion. I know this is a weird one so again, I appreciate your help so far.\n\nI will let you know what happens with  Windows2go."
+    },
+    {
+        "post_id":81382,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":32821,
+        "username":"formerunicornbroker",
+        "post_date":"2021-10-13 18:31:25",
+        "message":"The theory about the video driver seems correct. Windows2go boots and the machine passes in-platform memory\/cpu\/2d graphics tests.\nThings fall apart when the graphics driver is loaded and the screen starts flickering again."
+    },
+    {
+        "post_id":81390,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-14 02:27:56",
+        "message":"Then is internal CPU (iGPU) problem.\nIs really strange to be related with eDP output bus only."
+    },
+    {
+        "post_id":81432,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":32821,
+        "username":"formerunicornbroker",
+        "post_date":"2021-10-14 16:39:30",
+        "message":"It did seem odd to me. When I had nothing else to point to, I was thinking, if it were an integrated graphics issue, it should affect external display too.\nCould it just be a cold joint somewhere on the cpu? Worth a reflow or an extra ultrasonic just in case or is it more likely to be a cpu ic fault?"
+    },
+    {
+        "post_id":81435,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-14 17:26:41",
+        "message":"As I said, strange issue affecting only internal eDP bus.\nBut no doubt is iGPU issue, once problem appears only when driver is loaded.\n\nYou don't lose anything heating CPU for test; but do not expect a miracle."
+    },
+    {
+        "post_id":81553,
+        "thread_id":61835,
+        "title":"Display flickering after login 820-00165",
+        "user_id":32821,
+        "username":"formerunicornbroker",
+        "post_date":"2021-10-18 20:38:56",
+        "message":"No luck with rehotting unfortunately. I have let my customer know the board must be laid to rest.\nThank you very much for your help!"
+    }
+]

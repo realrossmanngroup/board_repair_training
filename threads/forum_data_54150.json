@@ -1,12 +1,110 @@
-{"post_id":54150,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":612,"username":"Atomrepair","post_date":"2019-11-04 08:55:51","message":"This board has past liquid damage, has been repaired by someone else and now got liquid damaged again, again been to someone else and now ended up with me after they gave up.\nAbout half the IC's on the board have flux there, so either replaced or just reflowed\/retouched. To make things worse, a bunch of parts were missing completely from the board. After way too much work fixing this I'm now at the point where most of the rails are present.\n\nGetting into S0, but missing PP1V05_S0. Actually, it was sitting at 0.5V. I got fan spin in this state, but unsurpisingly nothing more.\nI replaced U7600 after which PP1V05_S0 is now completely gone. I replaced U7600, thinking I picked a bad one off a donor board, but its still at 0V.\n\nResist to ground at L7630 is ~180Ohm.\nU7600 inputs: [TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"]P1V05S0_EN[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]P1V05_S0_VREF[\/TD]\n \t\t\t[TD=\"align: left\"]1,8V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]P1V05S0_FB[\/TD]\n \t\t\t[TD=\"align: left\"]1,05V[\/TD]\n \t\t[\/TR]\n[\/TABLE]\n\nI'm not sure what other inputs to check here. Any clues would be helpful!\n\nP1V05S0_DRVH is dead, 0V."}
-{"post_id":54151,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":682,"username":"2informaticos","post_date":"2019-11-04 10:45:56","message":"Check all resistors and traces around U7600 and Q7630.\nPay atention at R7631 and R\/C7630."}
-{"post_id":54175,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":612,"username":"Atomrepair","post_date":"2019-11-05 03:55:16","message":"All resistors measured (had to lift some to make sure), all match the schematic in value. I've lifted Q7630 to make sure theres nothing wrong underneath  - no corrosion or anything these.\nPowered machine on without Q7630 on there, but still got 0V on P1V05S0_DRVH. Caps all looking fine. See attachments for both areas."}
-{"post_id":54182,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":682,"username":"2informaticos","post_date":"2019-11-05 04:29:28","message":"Why the people check the Gate pins for DC voltage, can someone explain me???\nThere should be PWM signal, but if no output voltage from buck converter, I can 100% assure, no PWM signal present.\nAnd waiting that signal without MOSFET is complete nonsense.\n\nCheck continuity between both sides of board in that area.\nBoard stays on, with missing L7630 voltage?\nCheck for pulse on it when trigger SMC_ONOFF_L."}
-{"post_id":54204,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":612,"username":"Atomrepair","post_date":"2019-11-05 11:32:59","message":"[QUOTE=\"2informaticos, post: 54182\"]Why the people check the Gate pins for DC voltage, can someone explain me???\nThere should be PWM signal, but if no otput voltage from buck converter, I can 100% assure, no PWM signal present.\nAnd waiting that signal without MOSFET is complete nonsense.[\/QUOTE]\n\nI can't speak for others, but; because I often enough don't fully understand the circuitry, but try to find out which inputs or outputs are missing and lead that back to their sources. If I cant figure out what exactly is going on, I have to experiment or post here for advice. I check for voltage on the gate pin because I'm used to voltage showing up there on my MM. Why not?\nIn this case, the schematic looked to me like U7600 has PP1V05_S0 as both an input and also generates it through Q7630. Confusing.\nNow that I looked at it again, I see PP5V_S4RS3 is the main power source for U7600 and pin 2 is at the top (where main VIN normally is shown on a schematic) for some reason.\nI don't understand why the chip that generates this rail also has it as an input, considering it looks to be getting feedback from pin 13 and 9 already. So.. chalk that up to not having enough experience\/ not knowing enough, whatever.\n\nAnyway, continuity was ok, but now PM_SLP_S5_L and 4 disappeared. I reflowed the SMC and UC'd the board, but no help.\n\nPM_SLP_S5_L missing. no pulse\nPM_SLP_S4_L missing. no pulse\nPM_SLP_SUS_L missing\nSMC_ADAPTER_EN 3.3V\nPM_BATLOW_L 3.3V\nS5_PWRGD 3.3V\n\nPM_PWRBTN_L 3.4V\nPM_PCH_PWROK 0V\nPM_SYSRST_L 0V\n\nWhat is required for PM_SLP_SUS_L  to be generated?"}
-{"post_id":54212,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":682,"username":"2informaticos","post_date":"2019-11-05 14:56:15","message":"Any reaction at PM_PWRBTN_L when trigger SMC_ONOFF_L?\nPCH requires presence of all 4 RTC signals.\nDo you get 3V3_S5 at least?\nIf yes, check also S5_PWRGD, PM_DSW_PWRGD and PCH_DSWVRMEN."}
-{"post_id":54224,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":612,"username":"Atomrepair","post_date":"2019-11-06 03:43:40","message":"When triggering SMC_ONOFF_L, PM_PWRBTN_L is pulled down to ~350mV\n3V3_S5 is ok\nS5_PWRGD ok\nPCH_DSWVRMEN 3.2V\nPM_DSW_PWRGD missing [TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"]PPVRTC_G3H[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]RTC_RESET_L[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PCH_SRTCRST_L[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PCH_CLK32K_RTCX1[\/TD]\n \t\t\t[TD=\"align: left\"]0,4V[\/TD]\n \t\t[\/TR]\n[\/TABLE]\n\nLast one I assume should be 3.3V. I checked U1900 and the crystal on scope - its not working properly (mostly a flat line, only getting a short wave every so often)\n\nU1900 inputs: [TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"]PP3V42_G3H[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,4V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PP3V3_S5[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,3V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PP3V3_S5RS3RS0_SYSCLKGEN[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,3V[\/TD]\n \t\t\t[TD=\"align: left\"]straight line on scope[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PP3V3_TBTLC[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]0V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]SYSCLK_CLK25M_X2_R[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]SYSCLK_CLK25M_X1[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PPVRTC_G3H[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,3V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[\/TABLE]"}
-{"post_id":54225,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":682,"username":"2informaticos","post_date":"2019-11-06 03:51:39","message":"\" [TABLE=\"class: text_table\"]\n[TR]\n[TD=\"align: left\"]PCH_CLK32K_RTCX1[\/TD]\n \t\t\t[TD=\"align: left\"]0,4V[\/TD]\n \t\t[\/TR]\n[\/TABLE]\n\nLast one I assume should be 3.3V\"\nWrong assumption, that is 32KHz square wave; and DC value looks correct.\n\n\"S5_PWRGD ok\n-------------------------\nPM_DSW_PWRGD missing\"\nRead the note from page 59.\nYou may need to change SMC; reball it first."}
-{"post_id":54234,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":612,"username":"Atomrepair","post_date":"2019-11-06 06:10:25","message":"Ah, so PM_DSW_PWRGD needs to come out of the SMC if it gets S5_PWRGD as an input. Will report back when SMC is done.."}
-{"post_id":54879,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":612,"username":"Atomrepair","post_date":"2019-11-28 09:14:58","message":"Took a while, had to wait for new donor boards. SMC replaced, got quarter fan spin. Turns out I ended up missing PP5V_S0. After fixing that, I found out that CPUVCORE was short to ground inside the CPU. Way too much wasted time, shouldve checked for shorts much earlier :( Oh well."}
-{"post_id":54883,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":682,"username":"2informaticos","post_date":"2019-11-28 12:24:14","message":"Not wasted time, if this thread will help you solve similar problems in the future..."}
-{"post_id":54884,"thread_id":54150,"title":"820-00165 - missing PP1V05_S0","user_id":612,"username":"Atomrepair","post_date":"2019-11-29 01:42:56","message":"You're right, me and others.. I tend to forget how often I end up fixing things through this forum without having to open a new thread."}
+[
+    {
+        "post_id":54150,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":612,
+        "username":"Atomrepair",
+        "post_date":"2019-11-04 06:55:51",
+        "message":"This board has past liquid damage, has been repaired by someone else and now got liquid damaged again, again been to someone else and now ended up with me after they gave up.\nAbout half the IC's on the board have flux there, so either replaced or just reflowed\/retouched. To make things worse, a bunch of parts were missing completely from the board. After way too much work fixing this I'm now at the point where most of the rails are present.\n\nGetting into S0, but missing PP1V05_S0. Actually, it was sitting at 0.5V. I got fan spin in this state, but unsurpisingly nothing more.\nI replaced U7600 after which PP1V05_S0 is now completely gone. I replaced U7600, thinking I picked a bad one off a donor board, but its still at 0V.\n\nResist to ground at L7630 is ~180Ohm.\nU7600 inputs: [TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"]P1V05S0_EN[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]P1V05_S0_VREF[\/TD]\n \t\t\t[TD=\"align: left\"]1,8V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]P1V05S0_FB[\/TD]\n \t\t\t[TD=\"align: left\"]1,05V[\/TD]\n \t\t[\/TR]\n[\/TABLE]\n\nI'm not sure what other inputs to check here. Any clues would be helpful!\n\nP1V05S0_DRVH is dead, 0V."
+    },
+    {
+        "post_id":54151,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-04 08:45:56",
+        "message":"Check all resistors and traces around U7600 and Q7630.\nPay atention at R7631 and R\/C7630."
+    },
+    {
+        "post_id":54175,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":612,
+        "username":"Atomrepair",
+        "post_date":"2019-11-05 01:55:16",
+        "message":"All resistors measured (had to lift some to make sure), all match the schematic in value. I've lifted Q7630 to make sure theres nothing wrong underneath  - no corrosion or anything these.\nPowered machine on without Q7630 on there, but still got 0V on P1V05S0_DRVH. Caps all looking fine. See attachments for both areas."
+    },
+    {
+        "post_id":54182,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-05 02:29:28",
+        "message":"Why the people check the Gate pins for DC voltage, can someone explain me???\nThere should be PWM signal, but if no output voltage from buck converter, I can 100% assure, no PWM signal present.\nAnd waiting that signal without MOSFET is complete nonsense.\n\nCheck continuity between both sides of board in that area.\nBoard stays on, with missing L7630 voltage?\nCheck for pulse on it when trigger SMC_ONOFF_L."
+    },
+    {
+        "post_id":54204,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":612,
+        "username":"Atomrepair",
+        "post_date":"2019-11-05 09:32:59",
+        "message":"[QUOTE=\"2informaticos, post: 54182\"]Why the people check the Gate pins for DC voltage, can someone explain me???\nThere should be PWM signal, but if no otput voltage from buck converter, I can 100% assure, no PWM signal present.\nAnd waiting that signal without MOSFET is complete nonsense.[\/QUOTE]\n\nI can't speak for others, but; because I often enough don't fully understand the circuitry, but try to find out which inputs or outputs are missing and lead that back to their sources. If I cant figure out what exactly is going on, I have to experiment or post here for advice. I check for voltage on the gate pin because I'm used to voltage showing up there on my MM. Why not?\nIn this case, the schematic looked to me like U7600 has PP1V05_S0 as both an input and also generates it through Q7630. Confusing.\nNow that I looked at it again, I see PP5V_S4RS3 is the main power source for U7600 and pin 2 is at the top (where main VIN normally is shown on a schematic) for some reason.\nI don't understand why the chip that generates this rail also has it as an input, considering it looks to be getting feedback from pin 13 and 9 already. So.. chalk that up to not having enough experience\/ not knowing enough, whatever.\n\nAnyway, continuity was ok, but now PM_SLP_S5_L and 4 disappeared. I reflowed the SMC and UC'd the board, but no help.\n\nPM_SLP_S5_L missing. no pulse\nPM_SLP_S4_L missing. no pulse\nPM_SLP_SUS_L missing\nSMC_ADAPTER_EN 3.3V\nPM_BATLOW_L 3.3V\nS5_PWRGD 3.3V\n\nPM_PWRBTN_L 3.4V\nPM_PCH_PWROK 0V\nPM_SYSRST_L 0V\n\nWhat is required for PM_SLP_SUS_L  to be generated?"
+    },
+    {
+        "post_id":54212,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-05 12:56:15",
+        "message":"Any reaction at PM_PWRBTN_L when trigger SMC_ONOFF_L?\nPCH requires presence of all 4 RTC signals.\nDo you get 3V3_S5 at least?\nIf yes, check also S5_PWRGD, PM_DSW_PWRGD and PCH_DSWVRMEN."
+    },
+    {
+        "post_id":54224,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":612,
+        "username":"Atomrepair",
+        "post_date":"2019-11-06 01:43:40",
+        "message":"When triggering SMC_ONOFF_L, PM_PWRBTN_L is pulled down to ~350mV\n3V3_S5 is ok\nS5_PWRGD ok\nPCH_DSWVRMEN 3.2V\nPM_DSW_PWRGD missing [TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"]PPVRTC_G3H[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]RTC_RESET_L[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PCH_SRTCRST_L[\/TD]\n \t\t\t[TD=\"align: left\"]3,3V[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PCH_CLK32K_RTCX1[\/TD]\n \t\t\t[TD=\"align: left\"]0,4V[\/TD]\n \t\t[\/TR]\n[\/TABLE]\n\nLast one I assume should be 3.3V. I checked U1900 and the crystal on scope - its not working properly (mostly a flat line, only getting a short wave every so often)\n\nU1900 inputs: [TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"]PP3V42_G3H[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,4V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PP3V3_S5[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,3V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PP3V3_S5RS3RS0_SYSCLKGEN[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,3V[\/TD]\n \t\t\t[TD=\"align: left\"]straight line on scope[\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PP3V3_TBTLC[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]0V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]SYSCLK_CLK25M_X2_R[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]SYSCLK_CLK25M_X1[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[TR]\n[TD=\"align: left\"]PPVRTC_G3H[\/TD]\n \t\t\t[TD=\"bgcolor: #00FF00, align: left\"]3,3V[\/TD]\n \t\t\t[TD=\"align: left\"] [\/TD]\n \t\t[\/TR]\n[\/TABLE]"
+    },
+    {
+        "post_id":54225,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-06 01:51:39",
+        "message":"\" [TABLE=\"class: text_table\"]\n[TR]\n[TD=\"align: left\"]PCH_CLK32K_RTCX1[\/TD]\n \t\t\t[TD=\"align: left\"]0,4V[\/TD]\n \t\t[\/TR]\n[\/TABLE]\n\nLast one I assume should be 3.3V\"\nWrong assumption, that is 32KHz square wave; and DC value looks correct.\n\n\"S5_PWRGD ok\n-------------------------\nPM_DSW_PWRGD missing\"\nRead the note from page 59.\nYou may need to change SMC; reball it first."
+    },
+    {
+        "post_id":54234,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":612,
+        "username":"Atomrepair",
+        "post_date":"2019-11-06 04:10:25",
+        "message":"Ah, so PM_DSW_PWRGD needs to come out of the SMC if it gets S5_PWRGD as an input. Will report back when SMC is done.."
+    },
+    {
+        "post_id":54879,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":612,
+        "username":"Atomrepair",
+        "post_date":"2019-11-28 07:14:58",
+        "message":"Took a while, had to wait for new donor boards. SMC replaced, got quarter fan spin. Turns out I ended up missing PP5V_S0. After fixing that, I found out that CPUVCORE was short to ground inside the CPU. Way too much wasted time, shouldve checked for shorts much earlier :( Oh well."
+    },
+    {
+        "post_id":54883,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-28 10:24:14",
+        "message":"Not wasted time, if this thread will help you solve similar problems in the future..."
+    },
+    {
+        "post_id":54884,
+        "thread_id":54150,
+        "title":"820-00165 - missing PP1V05_S0",
+        "user_id":612,
+        "username":"Atomrepair",
+        "post_date":"2019-11-28 23:42:56",
+        "message":"You're right, me and others.. I tend to forget how often I end up fixing things through this forum without having to open a new thread."
+    }
+]

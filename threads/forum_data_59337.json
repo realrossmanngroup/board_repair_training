@@ -1,9 +1,83 @@
-{"post_id":59598,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":25629,"username":"DataQueue","post_date":"2020-05-15 03:17:27","message":"Hi all,\n\nThis is my first board repair, I am not a professional and just a hobbyist.  Possibly some typos as I am going off my written notes from a week ago.\n\nHistory:\nCorona free macbook.\nI was gifted the machine.  It had a bullet hole through the screen and was crusty with dirt and pubes on the inside.  Cleaned up nicely, no obvious corrosion.  I spend an hour examining under the magnifying glass before I cleaned it up, after testing.\n\nI have the screen if anyone wants to see a pic of the hole (bullet hole to be clear).\n\nBoard symptom:\nQuater fan spin, no vcore.  some voltages pulsing with the fan (see further down)\n\nWhat I have done:\nI replaced C1724 +1723 and R7005.  I measured the resistor incorrectly, but I did a passable replacement job, not completely new to soldering and heat gun work.  Essentially replaced as I am a moron.\n\nMeasurements:\nPPBUS_S5_HS_Computing - 12.6v (good?)\nCPU Vcore - dead, no pulsing with the fan.\nAll_sys_PWRGD - Pulses with fan spin.\nPPVCORE_S0_CPU - Dead\nPPVCORE_SO_AXG - Dead\nPP1V2-S3_ENET_INTR - Pulses with fan.\nPP1V05_S0 - Pulses with Fan\nPP3V42_G3H - 3.48V\nPPBUSG3H - 12.6V\nPP3V3_S5 - 3.32V\nPPVCCSA_S0_CPU - Dead\nPP1V8_S0 - Pulses on fan spin\nPP5VS3 - Pulses on fan spin\n\nI Probably over measured, but I wanted the practice on the book of mac.\n\nAssumption (probably wrong - noob):\nThinking I need to concentrate on U2800 or U7400 any ideas how I test these better?\nU7000 I see 3.1 ohms between 17 & 18 i did see elsewhere that it probably should be 2.2ish.\n\n\n\nNeed tips on where I go next, please.  I really am a noob at this.\n\nThanks\nDQ from Australia."}
-{"post_id":59599,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":682,"username":"2informaticos","post_date":"2020-05-15 04:12:31","message":"First of all, welcome to the forum!\n\nDo not bother more with U7000, as you have correct PPBUS_G3H voltage.\n\n\"PPVCCSA_S0_CPU - Dead \"\nThis is a problem, if you don't get pulse at least, like in other points.\nIt is required before VCORE appears.\nCheck diode mode to ground at L7100 and some voltages at U7100; pins 7, 15, 19, 20.\nTry to catch any pulse, if possible..."}
-{"post_id":59747,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":25629,"username":"DataQueue","post_date":"2020-05-18 06:14:41","message":"Hi, you were right [USER=682]@2informaticos[\/USER] .  My initial measure of PPVCCSA_S0_CPU was a regular spike with the fan, with my crappy multimeter was reading a 1.5vish spike with the fan.\n\nDiode mode to ground on L7100 gives me 0.016 \n\nCaveat; I need better optics, I have a magnifying glass with a light, but I have something better on the way.  Nothing like what the pros use though, but it should give me better vision.\nU7100 \nPin 7 - VCCSAS0_SREF - pulses to about 1.5 . again a slow multi.\nPin 15 - PVCCSA_EN - Looks like it pulses to about 3.8\nPin 19 - PP5V_S0_VCCSAS0_VCC - Pulses 80-100mv and over and then slowly (ish) drops back to 0 before the next pulse, again.\nPin 20 - PP5VS0 - Pulses with the fan and drains.  Again seeing about 90mv on average.\n\nAnd thanks.."}
-{"post_id":59757,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":682,"username":"2informaticos","post_date":"2020-05-18 08:14:00","message":"Surelly no pulse at all at VCORE?\nCheck R7402 ohm value."}
-{"post_id":59760,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":25629,"username":"DataQueue","post_date":"2020-05-18 08:52:25","message":"r7402 is 90.8k ohm, checked it 3 times to be sure.  Vcore is not pulsing, at least at the few multiple points I have tested at.\n\nVcore at c1682, c1680 and c1683 no pulse at all.  I also checked r7510 pin 1 for good measure (not necessarily in that order). \nNote: I'll have to learn how to read (and understand) the board docco PDF better."}
-{"post_id":59761,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":25629,"username":"DataQueue","post_date":"2020-05-18 09:05:16","message":"This is the screen, a trophy in my work space.[ATTACH type=\"full\"]59248[\/ATTACH]"}
-{"post_id":59767,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":682,"username":"2informaticos","post_date":"2020-05-18 12:51:40","message":"Test the board aione on the desk; nothing connected, apart of Magsafe and fan.\nCheck fot pulse at coils; pages  67, 70\/71.\nAlso check for pulse all the power rails at pages 71\/72.\nCheck for short, where no pulse detected.\n\nDid you try to start in SMC bypass mode?\n\nInspect all SPI Bus Series Termination resistors and their traces.\nTry known good BIOS too..."}
-{"post_id":59789,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":25629,"username":"DataQueue","post_date":"2020-05-18 22:55:18","message":"Hi,\n\nYeah it was already out.  I'll do all of this tonight.  \n\nI'll have to google the SMC bypass mode etc whilst I am at it.  I am new to Macbooks.\n\nThanks again. for all your help."}
-{"post_id":59809,"thread_id":59337,"title":"First Board Repair 820-2936 - quater fan spin.","user_id":25629,"username":"DataQueue","post_date":"2020-05-19 08:04:14","message":"Hi , not finished yet, just keeping a log.\n\nIf I am reading right the output voltages from page 71\nPP1v8_S0 - pulses\nPP1V2_S3_ENET_INTREG - pulses\nPP1V05_SUS - a nice and good 1.06v steady\nPP1V05_S0_PCH_VCCSADPLL - pulses\nPP1V5_S0 - Pulses\n\nFrom Page 72\nPP3V3_S4 - solid 3.33v\nPP3V3_S3 - pulses\nPP1V5_S3RS0 - pulses\nPP3V3_S0 - a bit sus, it wiggles and pulses a bit but not high.  I either can't get a reading on it at multiple points... OR..... something is wrong.  not pulsing very high at all (90mv), and showing Open Line briefly.\nI went to q7830\/c7830 same result.  I am getting 10k at c7830 for PP3V3_S0\nPP3V3_SUS - 3.3v\nPP5V_SUS - 5.00v\n\nAt this point going to call it a night as it's late.  Will pick it up tomorrow and continue.  Am I onto something with PP3V3_S0?  Feel like such a noob with this stuff."}
+[
+    {
+        "post_id":59598,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":25629,
+        "username":"DataQueue",
+        "post_date":"2020-05-15 01:17:27",
+        "message":"Hi all,\n\nThis is my first board repair, I am not a professional and just a hobbyist.  Possibly some typos as I am going off my written notes from a week ago.\n\nHistory:\nCorona free macbook.\nI was gifted the machine.  It had a bullet hole through the screen and was crusty with dirt and pubes on the inside.  Cleaned up nicely, no obvious corrosion.  I spend an hour examining under the magnifying glass before I cleaned it up, after testing.\n\nI have the screen if anyone wants to see a pic of the hole (bullet hole to be clear).\n\nBoard symptom:\nQuater fan spin, no vcore.  some voltages pulsing with the fan (see further down)\n\nWhat I have done:\nI replaced C1724 +1723 and R7005.  I measured the resistor incorrectly, but I did a passable replacement job, not completely new to soldering and heat gun work.  Essentially replaced as I am a moron.\n\nMeasurements:\nPPBUS_S5_HS_Computing - 12.6v (good?)\nCPU Vcore - dead, no pulsing with the fan.\nAll_sys_PWRGD - Pulses with fan spin.\nPPVCORE_S0_CPU - Dead\nPPVCORE_SO_AXG - Dead\nPP1V2-S3_ENET_INTR - Pulses with fan.\nPP1V05_S0 - Pulses with Fan\nPP3V42_G3H - 3.48V\nPPBUSG3H - 12.6V\nPP3V3_S5 - 3.32V\nPPVCCSA_S0_CPU - Dead\nPP1V8_S0 - Pulses on fan spin\nPP5VS3 - Pulses on fan spin\n\nI Probably over measured, but I wanted the practice on the book of mac.\n\nAssumption (probably wrong - noob):\nThinking I need to concentrate on U2800 or U7400 any ideas how I test these better?\nU7000 I see 3.1 ohms between 17 & 18 i did see elsewhere that it probably should be 2.2ish.\n\n\n\nNeed tips on where I go next, please.  I really am a noob at this.\n\nThanks\nDQ from Australia."
+    },
+    {
+        "post_id":59599,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-15 02:12:31",
+        "message":"First of all, welcome to the forum!\n\nDo not bother more with U7000, as you have correct PPBUS_G3H voltage.\n\n\"PPVCCSA_S0_CPU - Dead \"\nThis is a problem, if you don't get pulse at least, like in other points.\nIt is required before VCORE appears.\nCheck diode mode to ground at L7100 and some voltages at U7100; pins 7, 15, 19, 20.\nTry to catch any pulse, if possible..."
+    },
+    {
+        "post_id":59747,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":25629,
+        "username":"DataQueue",
+        "post_date":"2020-05-18 04:14:41",
+        "message":"Hi, you were right [USER=682]@2informaticos[\/USER] .  My initial measure of PPVCCSA_S0_CPU was a regular spike with the fan, with my crappy multimeter was reading a 1.5vish spike with the fan.\n\nDiode mode to ground on L7100 gives me 0.016 \n\nCaveat; I need better optics, I have a magnifying glass with a light, but I have something better on the way.  Nothing like what the pros use though, but it should give me better vision.\nU7100 \nPin 7 - VCCSAS0_SREF - pulses to about 1.5 . again a slow multi.\nPin 15 - PVCCSA_EN - Looks like it pulses to about 3.8\nPin 19 - PP5V_S0_VCCSAS0_VCC - Pulses 80-100mv and over and then slowly (ish) drops back to 0 before the next pulse, again.\nPin 20 - PP5VS0 - Pulses with the fan and drains.  Again seeing about 90mv on average.\n\nAnd thanks.."
+    },
+    {
+        "post_id":59757,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-18 06:14:00",
+        "message":"Surelly no pulse at all at VCORE?\nCheck R7402 ohm value."
+    },
+    {
+        "post_id":59760,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":25629,
+        "username":"DataQueue",
+        "post_date":"2020-05-18 06:52:25",
+        "message":"r7402 is 90.8k ohm, checked it 3 times to be sure.  Vcore is not pulsing, at least at the few multiple points I have tested at.\n\nVcore at c1682, c1680 and c1683 no pulse at all.  I also checked r7510 pin 1 for good measure (not necessarily in that order). \nNote: I'll have to learn how to read (and understand) the board docco PDF better."
+    },
+    {
+        "post_id":59761,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":25629,
+        "username":"DataQueue",
+        "post_date":"2020-05-18 07:05:16",
+        "message":"This is the screen, a trophy in my work space.[ATTACH type=\"full\"]59248[\/ATTACH]"
+    },
+    {
+        "post_id":59767,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-18 10:51:40",
+        "message":"Test the board aione on the desk; nothing connected, apart of Magsafe and fan.\nCheck fot pulse at coils; pages  67, 70\/71.\nAlso check for pulse all the power rails at pages 71\/72.\nCheck for short, where no pulse detected.\n\nDid you try to start in SMC bypass mode?\n\nInspect all SPI Bus Series Termination resistors and their traces.\nTry known good BIOS too..."
+    },
+    {
+        "post_id":59789,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":25629,
+        "username":"DataQueue",
+        "post_date":"2020-05-18 20:55:18",
+        "message":"Hi,\n\nYeah it was already out.  I'll do all of this tonight.  \n\nI'll have to google the SMC bypass mode etc whilst I am at it.  I am new to Macbooks.\n\nThanks again. for all your help."
+    },
+    {
+        "post_id":59809,
+        "thread_id":59337,
+        "title":"First Board Repair 820-2936 - quater fan spin.",
+        "user_id":25629,
+        "username":"DataQueue",
+        "post_date":"2020-05-19 06:04:14",
+        "message":"Hi , not finished yet, just keeping a log.\n\nIf I am reading right the output voltages from page 71\nPP1v8_S0 - pulses\nPP1V2_S3_ENET_INTREG - pulses\nPP1V05_SUS - a nice and good 1.06v steady\nPP1V05_S0_PCH_VCCSADPLL - pulses\nPP1V5_S0 - Pulses\n\nFrom Page 72\nPP3V3_S4 - solid 3.33v\nPP3V3_S3 - pulses\nPP1V5_S3RS0 - pulses\nPP3V3_S0 - a bit sus, it wiggles and pulses a bit but not high.  I either can't get a reading on it at multiple points... OR..... something is wrong.  not pulsing very high at all (90mv), and showing Open Line briefly.\nI went to q7830\/c7830 same result.  I am getting 10k at c7830 for PP3V3_S0\nPP3V3_SUS - 3.3v\nPP5V_SUS - 5.00v\n\nAt this point going to call it a night as it's late.  Will pick it up tomorrow and continue.  Am I onto something with PP3V3_S0?  Feel like such a noob with this stuff."
+    }
+]

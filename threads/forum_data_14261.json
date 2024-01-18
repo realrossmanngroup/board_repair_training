@@ -1,5 +1,47 @@
-{"post_id":14261,"thread_id":14261,"title":"820-2936 no bklt","user_id":371,"username":"nate8organic","post_date":"2017-02-03 21:20:02","message":"have an 820-2936 showing data but no bklt.  im getting 12.4v on ppvout_sw_lcdbklt if i understand correctly i need 30v here?  either way im getting 3.2v on bklt_en,  i wired q9707 to r9704 and no backlight so im assuming my troubles are after the u9701?. \n\nThanks \nnate"}
-{"post_id":14264,"thread_id":14261,"title":"820-2936 no bklt","user_id":1,"username":"larossmann","post_date":"2017-02-03 23:05:59","message":"Let's start from scratch.\n\nBacklight is created when\n\n1) The LED driver is getting power(99% of the time this is fine, if not 100%).\n2) BKL_EN is 2.7v or more telling backlight to turn on.\n3) BKL_PWM has a PWM on it(check voltage here to make sure something is here) telling it what brightness to be\n4) Feedback is attached between backlight output at D9701 and ball A5 of LP8550(U9701).\n5) The LED driver is not bad.\n6) SMC_LID is not below 3.3v.\n\nAs with other threads, provide history. Is this liquid damaged, dropped, or just a screen repair gone bad?\n\nSMC_LID is often drawn down due to a bad battery indicator\/sleep sensor - that cable that plugs into the board next to the battery. This will cause BKL_PWM to be low and give you a flickering light. BKL_EN missing will also provide no boost. Feedback missing due to water corroding away ball A5 on LP8550 will also do this.\n\nNow, with your wiring of Q9707 to R9704 - why?? Remove ALL of that!! These two have nothing to do with one another. Let's go over what Q9707 and Q9706 are for.\n\nQ9706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not opening, then you will get no voltage on the backlight circuit. Q9706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R9788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q9706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical.\n\nHow would we lover the voltage on Q9706's gate at pin 3 so that it will turn on? Look at R9789. If we take R9789 and put it to ground right after R9788 now we have a voltage divider. Voltage dividers lower voltage! A hah. So why isn't it lowering? R9789 needs a path to ground in order for R9788\/R9789 to [I]be [\/I]a voltage divider. What gives R9789 a path to ground? Q9707.\n\nQ9707 is the opposite of Q9706. It's an N channel MOSFET. It will turn \"on\" when the power on the gate is equal to or higher than the source. BKLT_PLT_RST_L, once it is 3.3v, ,will be higher than the 0v(ground) on pin 1, which will open the first transistor. LCD_BKLT_EN, when 3.3v, will be higher than the 0v on the source(ground pin 4) and open the second transistor. This will give R9789 a path to ground, making R9788\/R9789 a voltage divider, which will lower the voltage on pin 3 of Q9706 to around 5v, which will allow it to open.\n\nQ9707\/Q9706's purpose is to send power through to the circuit. If you have PPBUS_G3H voltage [I]un-attenuated [\/I]at backlight output, then Q9706\/Q9707 are doing their job anad [B]not [\/B]to be touched!"}
-{"post_id":14369,"thread_id":14261,"title":"820-2936 no bklt","user_id":371,"username":"nate8organic","post_date":"2017-02-06 14:37:59","message":"okay i clearly understand now. miss understanding there hahaha! sorry.  :o  \n\n tested blk_pwm @  3.2v\nsmc_lid @3.4v\n\nPin 1 on the \n\ni also just pulled the lvdc cable wile still power in :eek:) not paying attention!   replaced the L9008. seems like no data still. what would i have fried doing this?  \nah just love fucking things up worse hahah:("}
-{"post_id":14374,"thread_id":14261,"title":"820-2936 no bklt","user_id":1,"username":"larossmann","post_date":"2017-02-06 16:02:15","message":"You didn't tell me what BKL_EN is. If BKL_EN is 2.7v or greater, then bad LED driver or the feedback trace is gone on ball A5 of U9701. If BKL_EN is 0v or 0.02v or something low, then figure out why that is(bad R9715\/R9731\/trace to those resistors is blown)."}
-{"post_id":14386,"thread_id":14261,"title":"820-2936 no bklt","user_id":371,"username":"nate8organic","post_date":"2017-02-06 17:17:10","message":"okay so i mixed up 2 boards.  the last board i thought i messed up data but it was wrong board.  So i tested the board.  bklt_pwm @3v\nsmc_lid @3.4v\nBklt_en @3.2v after i changed out the r9715 & r9713  before i replaced them it was jumping around 300.  \n\nstill no backlight though.  where is the led driver? i search in the schematics but only found info on  it under battery.  sorry for my lack of knowledge\/ understanding here. \nAnd thanks for taking the time to help me!"}
+[
+    {
+        "post_id":14261,
+        "thread_id":14261,
+        "title":"820-2936 no bklt",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-02-03 19:20:02",
+        "message":"have an 820-2936 showing data but no bklt.  im getting 12.4v on ppvout_sw_lcdbklt if i understand correctly i need 30v here?  either way im getting 3.2v on bklt_en,  i wired q9707 to r9704 and no backlight so im assuming my troubles are after the u9701?. \n\nThanks \nnate"
+    },
+    {
+        "post_id":14264,
+        "thread_id":14261,
+        "title":"820-2936 no bklt",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2017-02-03 21:05:59",
+        "message":"Let's start from scratch.\n\nBacklight is created when\n\n1) The LED driver is getting power(99% of the time this is fine, if not 100%).\n2) BKL_EN is 2.7v or more telling backlight to turn on.\n3) BKL_PWM has a PWM on it(check voltage here to make sure something is here) telling it what brightness to be\n4) Feedback is attached between backlight output at D9701 and ball A5 of LP8550(U9701).\n5) The LED driver is not bad.\n6) SMC_LID is not below 3.3v.\n\nAs with other threads, provide history. Is this liquid damaged, dropped, or just a screen repair gone bad?\n\nSMC_LID is often drawn down due to a bad battery indicator\/sleep sensor - that cable that plugs into the board next to the battery. This will cause BKL_PWM to be low and give you a flickering light. BKL_EN missing will also provide no boost. Feedback missing due to water corroding away ball A5 on LP8550 will also do this.\n\nNow, with your wiring of Q9707 to R9704 - why?? Remove ALL of that!! These two have nothing to do with one another. Let's go over what Q9707 and Q9706 are for.\n\nQ9706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not opening, then you will get no voltage on the backlight circuit. Q9706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R9788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q9706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical.\n\nHow would we lover the voltage on Q9706's gate at pin 3 so that it will turn on? Look at R9789. If we take R9789 and put it to ground right after R9788 now we have a voltage divider. Voltage dividers lower voltage! A hah. So why isn't it lowering? R9789 needs a path to ground in order for R9788\/R9789 to [I]be [\/I]a voltage divider. What gives R9789 a path to ground? Q9707.\n\nQ9707 is the opposite of Q9706. It's an N channel MOSFET. It will turn \"on\" when the power on the gate is equal to or higher than the source. BKLT_PLT_RST_L, once it is 3.3v, ,will be higher than the 0v(ground) on pin 1, which will open the first transistor. LCD_BKLT_EN, when 3.3v, will be higher than the 0v on the source(ground pin 4) and open the second transistor. This will give R9789 a path to ground, making R9788\/R9789 a voltage divider, which will lower the voltage on pin 3 of Q9706 to around 5v, which will allow it to open.\n\nQ9707\/Q9706's purpose is to send power through to the circuit. If you have PPBUS_G3H voltage [I]un-attenuated [\/I]at backlight output, then Q9706\/Q9707 are doing their job anad [B]not [\/B]to be touched!"
+    },
+    {
+        "post_id":14369,
+        "thread_id":14261,
+        "title":"820-2936 no bklt",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-02-06 12:37:59",
+        "message":"okay i clearly understand now. miss understanding there hahaha! sorry.  :o  \n\n tested blk_pwm @  3.2v\nsmc_lid @3.4v\n\nPin 1 on the \n\ni also just pulled the lvdc cable wile still power in :eek:) not paying attention!   replaced the L9008. seems like no data still. what would i have fried doing this?  \nah just love fucking things up worse hahah:("
+    },
+    {
+        "post_id":14374,
+        "thread_id":14261,
+        "title":"820-2936 no bklt",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2017-02-06 14:02:15",
+        "message":"You didn't tell me what BKL_EN is. If BKL_EN is 2.7v or greater, then bad LED driver or the feedback trace is gone on ball A5 of U9701. If BKL_EN is 0v or 0.02v or something low, then figure out why that is(bad R9715\/R9731\/trace to those resistors is blown)."
+    },
+    {
+        "post_id":14386,
+        "thread_id":14261,
+        "title":"820-2936 no bklt",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-02-06 15:17:10",
+        "message":"okay so i mixed up 2 boards.  the last board i thought i messed up data but it was wrong board.  So i tested the board.  bklt_pwm @3v\nsmc_lid @3.4v\nBklt_en @3.2v after i changed out the r9715 & r9713  before i replaced them it was jumping around 300.  \n\nstill no backlight though.  where is the led driver? i search in the schematics but only found info on  it under battery.  sorry for my lack of knowledge\/ understanding here. \nAnd thanks for taking the time to help me!"
+    }
+]

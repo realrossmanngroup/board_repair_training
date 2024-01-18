@@ -1,33 +1,299 @@
-{"post_id":53103,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-07 20:14:33","message":"Hey guys, I have here a 820-4924 with no power.\n\nGreen then Orange light, when pressing power CPU heats up, then trackpad is clickable for a few seconds.\n\nthen the trackpad is not clickable and CPU cools back down.\n\nI have tried original 60w magsafe 2, I have tried multiple charged batteries, that are fully OEM, pulled from other machines, I have tried a working\/tested trackpad, and trackpad cable.\n\nppbus_g3h - 12.27V \/\/ 250 ohms\nPP3V42_G3H - 3.4V \/\/ 10k ohms\nPPVRTC_G3H - 3.4V \/\/ 18k ohms\nPP5V_S5 - 5v \/\/ 18k ohms\n[B]PP5V_S3 - 5V <--- WHEN POWERING ON, BUT THEN IT GOES DOWN TO .2V\nPP5V_S0 - 5V \/\/ [\/B]13k ohms [B]<--- WHEN POWERING ON, BUT THEN IT GOES DOWN TO .2V [\/B]\nSMC_LID - 3.4V \/\/ 87k ohms\nPP3V3_S5 - 3.4V \n\nBoard is completely clean, never been messed with, all screws were untouched.\n\nAny other voltages I can test?"}
-{"post_id":53116,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-08 05:26:40","message":"Try if board stays on starting in SMC bypass mode.\nTest the board disconnecting anything.\nJust keep DCIN board and use USB mouse for test.\n\n\"ppbus_g3h - 12.27V\"\nIncorrect voltage\"\nPost exact resistance between pins 17\/18 and 27\/28 of U7100.\nAlso post voltage and diode mode on SCL\/SDA lines of battery bus."}
-{"post_id":53118,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-08 06:44:42","message":"[QUOTE=\"2informaticos, post: 53116\"]Try if board stays on starting in SMC bypass mode.\nTest the board disconnecting anything.\nJust keep DCIN board and use USB mouse for test.\n\n\"ppbus_g3h - 12.27V\"\nIncorrect voltage\"\nPost exact resistance between pins 17\/18 and 27\/28 of U7100.\nAlso post voltage and diode mode on SCL\/SDA lines of battery bus.\n[\/QUOTE]\n\nHi and thank you for responding, I have tried SMC bypass mode and that does not work, is the correct way of doing SMC bypass by unplugging the laptop, holding the power button for 10 secs, plugging the computer back in while holding the power button for an additional 10 secs and then releasing and pressing it again to get it to boot.\n\nAlso, doesnt the 2015 macbook pro need a good battery, trackpad, and keyboard attached to start up, I heard they act kind of funny.\n\n[QUOTE]\nAlso post voltage and diode mode on SCL\/SDA lines of battery bus.[\/QUOTE] \nI am not 100% sure what those mean, are you talking about the [B]SMBUS_SMC_1_S0_SDA [\/B]and the [B]SMBUS_SMC_1_S0_SCL [\/B]line?\n\nWill report back with resistance between pins 17\/18 and 27\/28 of U7100."}
-{"post_id":53119,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-08 07:07:32","message":"Do NOT quote an entire post, visible few centimeters above.\nMaintain forum aesthetic, please.\n\nThis board should start by itself when charger is connected.\nYou can trigger SMC_ONOFF_L signal for test to check other reactions on the board.\n\nI was reffering to SCL\/SDA lines common to battery, ISL6259 and SMC..."}
-{"post_id":53131,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-08 09:33:03","message":"Sorry about quoting,\n\nI will Use R5115\/16 pads for that.\nSolder a tiny wire on SMC_ONOFF_L and simulate power button touching some metal plate from chassis, is that correct?\n\nWhen it comes to SCL\/SDA Lines do you mean\n\nISL(U7100)\nPIN 10 which is [B]SMBUS_CHGR_SCL[\/B]\nPIN 11 which is [B]SMBUS_CHGR_SDA[\/B]\n\nSMC(U5000)\nR5351 which is [B]SMBUS_SMC_0_S0_SCL[\/B]\nR5350 which is SMBUS_SMC_0_S0_SDA\n\nBattery\nNot sure about the scl\/sda lines, if you can let me know.\n\nPlease let me know if I am heading in the right direction."}
-{"post_id":53135,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-08 10:44:34","message":"Is correct, but still waiting to post the values..."}
-{"post_id":53137,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-08 11:26:53","message":"Thank you, I will post the values once i get back into the office, thank you for your help, I will reply with it later today."}
-{"post_id":53161,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-08 22:04:30","message":"ISL(U7100)\nPIN 10 which is [B]SMBUS_CHGR_SCL = [\/B]3.4V \/\/ 12.5k OHMS\nPIN 11 which is [B]SMBUS_CHGR_SDA = [\/B]3.4V \/\/ 12.5k OHMS\n\nSMC(U5000)\nR5351 which is [B]SMBUS_SMC_0_S0_SCL [\/B]= 0.08v \/\/ 33.5K OHMS\nR5350 which is [B]SMBUS_SMC_0_S0_SDA [\/B] = 0.08v \/\/ 33.5K OHMS\n\nShorting SMC_ONOFF_L to ground does nothing at all."}
-{"post_id":53168,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-09 03:22:33","message":"To be more specific, -SMC SMBus \"5\" G3H- is the battery bus.\nAnd I was expected diode mode readings, not ohm scale.\nShould be good, ohm values are equals too.\n\n\"Will report back with resistance between pins 17\/18 and 27\/28 of U7100\"\n???\n\nDo you get 3V3_SUS?"}
-{"post_id":53171,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-09 08:27:07","message":"\"Will report back with resistance between pins 17\/18 and 27\/28 of U7100\"\n\nu7100\npin 17 = 70k ohms\npin 18 = 7.2k ohms\npin 27 = (OL) Open Line\npin 28 = (OL) Open Line\n\n\"Do you get 3V3_SUS?\"\nyes I do 3v3_SUS = 3.42V\n\nthank you for your support."}
-{"post_id":53186,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-09 14:57:07","message":"I meant resistance between specified pins, not to ground.\nHowever, your readings show problem with R7150-52 network resistors, at least."}
-{"post_id":53196,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-09 20:31:51","message":"U7100\nResistance between pin 17 & 18 = 4.0 Ohms\nResistance between pins 27 & 28 = 20.7 Ohms\n\nYou do not think it is problem with SMC? As it might be dead?"}
-{"post_id":53203,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-10 02:56:41","message":"Something wrong with SMC-U7100 communication.\nPlease podt diode mode readings (red probe at ground) on SCL\/SDA lines."}
-{"post_id":53214,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-10 08:23:47","message":"Hi diode mode readings \n\nu7100\nPIN 10 (SCL) - .52v\nPIN 11 (SDA) - .52v\n\nSMC\nR5350 (SDA) - .73v\nR5351 (SCL) - .73v\nare these the right resistors to test from? I cannot find any others."}
-{"post_id":53231,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-10 14:36:17","message":"You still mix the things here.\nIf we talk about the SAME (common) bus between different chips, why do you check R5350\/51???\nBattery bus is SMBus 5.\nAnd which is the reason to try measuring the same line in different points?\n\nThe readings look good.\nIn this case I recommend to change first U7100.\nIf no result, reball\/change SMC..."}
-{"post_id":53237,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-10 16:09:53","message":"\"If we talk about the SAME (common) bus between different chips, why do you check R5350\/51???\"\n\nI was just measuring all the SDA, SLC lines that I see with that substring included in openboardview and the schematic pdf, I do apologize.\n\nQuestion, what are the smbus_smc_0, smbus_smc_1,smbus_smc_2, smbus_smc_3, smbus_smc_5?\n\nDo you want measurements for all of them?"}
-{"post_id":53248,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-11 05:10:36","message":"Why all, if are totally different buses??\nI specified you to FIX on battery bus (SMBus 5)."}
-{"post_id":53260,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-11 07:33:25","message":"\"I specified you to FIX on battery bus (SMBus 5).\" I will replace u7100 and reball the SMC, will post with results. Thank you!!!!!"}
-{"post_id":53358,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-13 18:21:27","message":"Replaced u7100, and reballed SMC, trackpad clicks for a few seconds then stops. CPU gets warm and then cools back down,\n\nAfter that I replaced SMC from another board 820-4924 and same thing, trackpad clicks for a few seconds, (taptic feedback) and then stops.\n\nSame issue, any more suggestions?"}
-{"post_id":53360,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-13 18:43:00","message":"Didn't get 12.5V on PPBUS_G3H yet?"}
-{"post_id":53361,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-13 18:52:22","message":"\"Didn't get 12.5V on PPBUS_G3H yet?\"\n\nFINALLY 12.58V on both sides of the F7140 fuse\n\nAny more measurements you are looking for me to take?\n\nPP5V_S4 still 0V\nS4_PWR_EN - 0V"}
-{"post_id":53373,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-14 08:12:37","message":"3V3_S5\/SUS, PM_RSMRST_L, PM_PWRBTN_L, PM_BATLOW_L?\nTrigger SMC_ONOFF_L and check for reaction (drop pulse) at PM_PWRBTN_L; use R5115\/16 pads, instead of power button."}
-{"post_id":53401,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-14 20:05:47","message":"Thank you so much for the continuous support you are giving me! I very much appreciate it.\n\n[B]VOLTAGE \/\/ OHMS MODE \/\/ DIODE MODE[\/B]\n\nPP3V3_S5 = 3.34v \/\/ 300Ohms and climbing \/\/ 0.1V (diode mode)\n\nPP3V3_SUS = 3.34v \/\/ 10K Ohms and climbing \/\/ 0.425V (diode mode)\n\nPM_RSMRST_L = 3.34v \/\/ 130k Ohms and climbing \/\/ 0.625V (diode mode)\n\nPM_PWRBTN_L = 3.4v \/\/ 2k Ohms climbing slow \/\/ 0.5V (diode mode)\n\nwhen triggering SMC_ONOFF_L the PM_PWRBTN_L = drops from 3.4 to .35V\n\nPM_BATLOW_L = 0.1V \/\/ 10k Ohms and climbing \/\/ 0.5V (diode mode) (NO BATTERY CONNECTED???)"}
-{"post_id":53411,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-15 04:09:44","message":"PM_BATLOW_L must be high if proper charger connected.\nIf not, PCH doesn't start power on sequence.\nBe sure to use original Magsafe 2 60\/85W charger."}
-{"post_id":53424,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-15 08:19:36","message":"\"Be sure to use original Magsafe 2 60\/85W charger.\"\n\nIt won't even start with a fully charged original battery from a working housing\/chassis. It starts for a few seconds, pressing trackpad, cpu heats up and then goes back to nothing.\n\nWill test with a brand new charger from apple store, will go out and buy one today."}
-{"post_id":53430,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-15 10:38:32","message":"So starts at least, with charged battery?\nAnd doesn't even start with charger alone?"}
-{"post_id":53432,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-15 11:46:02","message":"[B]\"So starts at least, with charged battery?\"[\/B]\n\nWith OEM battery connected, it starts kind of, trackpad is clickable (Taptic feedback), cpu heats up, then trackpad stops clicking and cpu cools down.\n\n[B]And doesn't even start with charger alone?\"[\/B]\n\nWhen no battery connected but 85w MagSafe is connected, it does not start at all.\n\nDoes not start In general, it tries to start up to post but shuts off during start up phase."}
-{"post_id":53444,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-15 16:02:52","message":"So it tries to start on charger only.\nWhich voltages appear in that short time?\nYou should be able to catch some signal reaction, triggering SMC_ONOFF_L.\nNo change in SMC bypass mode?"}
-{"post_id":53450,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-15 17:18:40","message":"[B]\"So it tries to start on charger only.\"[\/B]\n\nWhen in the housing with an lcd connected and a trackpad and keyboard, NO BATTERY connected, it does not try to start up, trackpad is not clickable. CPU does not heat up.\n\nWhen its on battery in the housing, it trys to start up, Taptic feedback trackpad clicks and cpu heats up then everything turns off.\n\nNo change in SMC bypass mode, not sure how to exactly trigger that, can you explain how to on a 2015 MacBook Pro retina 13\"???"}
-{"post_id":53455,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-15 17:59:37","message":"\"it tries to start up to post but shuts off during start up phase\"\nYou've posted this under charger alone option..."}
-{"post_id":53463,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-15 21:01:46","message":"Bought an OEM 85W magsafe 2, CPU heats up for a few seconds then cools back down and does not heat up again only until I unplug charger and replug it in.\n\nIf I do it enough times plugging it in and unplugging it, cpu heats up and fan spins for a second and then stops.\n\nAny other voltages looking to test?"}
-{"post_id":53475,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":682,"username":"2informaticos","post_date":"2019-10-16 05:00:10","message":"Did you try BIOS?"}
-{"post_id":53501,"thread_id":53103,"title":"820-4924 - No Power, No Liquid Damage","user_id":1832,"username":"bcherdak","post_date":"2019-10-16 07:26:39","message":"Will try new Bios chip,\n\nWill bad bios cause no startup or partial startup?\n\nany voltages you are wanting me to measure with this new Magsafe charger?"}
+[
+    {
+        "post_id":53103,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-07 18:14:33",
+        "message":"Hey guys, I have here a 820-4924 with no power.\n\nGreen then Orange light, when pressing power CPU heats up, then trackpad is clickable for a few seconds.\n\nthen the trackpad is not clickable and CPU cools back down.\n\nI have tried original 60w magsafe 2, I have tried multiple charged batteries, that are fully OEM, pulled from other machines, I have tried a working\/tested trackpad, and trackpad cable.\n\nppbus_g3h - 12.27V \/\/ 250 ohms\nPP3V42_G3H - 3.4V \/\/ 10k ohms\nPPVRTC_G3H - 3.4V \/\/ 18k ohms\nPP5V_S5 - 5v \/\/ 18k ohms\n[B]PP5V_S3 - 5V <--- WHEN POWERING ON, BUT THEN IT GOES DOWN TO .2V\nPP5V_S0 - 5V \/\/ [\/B]13k ohms [B]<--- WHEN POWERING ON, BUT THEN IT GOES DOWN TO .2V [\/B]\nSMC_LID - 3.4V \/\/ 87k ohms\nPP3V3_S5 - 3.4V \n\nBoard is completely clean, never been messed with, all screws were untouched.\n\nAny other voltages I can test?"
+    },
+    {
+        "post_id":53116,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 03:26:40",
+        "message":"Try if board stays on starting in SMC bypass mode.\nTest the board disconnecting anything.\nJust keep DCIN board and use USB mouse for test.\n\n\"ppbus_g3h - 12.27V\"\nIncorrect voltage\"\nPost exact resistance between pins 17\/18 and 27\/28 of U7100.\nAlso post voltage and diode mode on SCL\/SDA lines of battery bus."
+    },
+    {
+        "post_id":53118,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-08 04:44:42",
+        "message":"[QUOTE=\"2informaticos, post: 53116\"]Try if board stays on starting in SMC bypass mode.\nTest the board disconnecting anything.\nJust keep DCIN board and use USB mouse for test.\n\n\"ppbus_g3h - 12.27V\"\nIncorrect voltage\"\nPost exact resistance between pins 17\/18 and 27\/28 of U7100.\nAlso post voltage and diode mode on SCL\/SDA lines of battery bus.\n[\/QUOTE]\n\nHi and thank you for responding, I have tried SMC bypass mode and that does not work, is the correct way of doing SMC bypass by unplugging the laptop, holding the power button for 10 secs, plugging the computer back in while holding the power button for an additional 10 secs and then releasing and pressing it again to get it to boot.\n\nAlso, doesnt the 2015 macbook pro need a good battery, trackpad, and keyboard attached to start up, I heard they act kind of funny.\n\n[QUOTE]\nAlso post voltage and diode mode on SCL\/SDA lines of battery bus.[\/QUOTE] \nI am not 100% sure what those mean, are you talking about the [B]SMBUS_SMC_1_S0_SDA [\/B]and the [B]SMBUS_SMC_1_S0_SCL [\/B]line?\n\nWill report back with resistance between pins 17\/18 and 27\/28 of U7100."
+    },
+    {
+        "post_id":53119,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 05:07:32",
+        "message":"Do NOT quote an entire post, visible few centimeters above.\nMaintain forum aesthetic, please.\n\nThis board should start by itself when charger is connected.\nYou can trigger SMC_ONOFF_L signal for test to check other reactions on the board.\n\nI was reffering to SCL\/SDA lines common to battery, ISL6259 and SMC..."
+    },
+    {
+        "post_id":53131,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-08 07:33:03",
+        "message":"Sorry about quoting,\n\nI will Use R5115\/16 pads for that.\nSolder a tiny wire on SMC_ONOFF_L and simulate power button touching some metal plate from chassis, is that correct?\n\nWhen it comes to SCL\/SDA Lines do you mean\n\nISL(U7100)\nPIN 10 which is [B]SMBUS_CHGR_SCL[\/B]\nPIN 11 which is [B]SMBUS_CHGR_SDA[\/B]\n\nSMC(U5000)\nR5351 which is [B]SMBUS_SMC_0_S0_SCL[\/B]\nR5350 which is SMBUS_SMC_0_S0_SDA\n\nBattery\nNot sure about the scl\/sda lines, if you can let me know.\n\nPlease let me know if I am heading in the right direction."
+    },
+    {
+        "post_id":53135,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 08:44:34",
+        "message":"Is correct, but still waiting to post the values..."
+    },
+    {
+        "post_id":53137,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-08 09:26:53",
+        "message":"Thank you, I will post the values once i get back into the office, thank you for your help, I will reply with it later today."
+    },
+    {
+        "post_id":53161,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-08 20:04:30",
+        "message":"ISL(U7100)\nPIN 10 which is [B]SMBUS_CHGR_SCL = [\/B]3.4V \/\/ 12.5k OHMS\nPIN 11 which is [B]SMBUS_CHGR_SDA = [\/B]3.4V \/\/ 12.5k OHMS\n\nSMC(U5000)\nR5351 which is [B]SMBUS_SMC_0_S0_SCL [\/B]= 0.08v \/\/ 33.5K OHMS\nR5350 which is [B]SMBUS_SMC_0_S0_SDA [\/B] = 0.08v \/\/ 33.5K OHMS\n\nShorting SMC_ONOFF_L to ground does nothing at all."
+    },
+    {
+        "post_id":53168,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-09 01:22:33",
+        "message":"To be more specific, -SMC SMBus \"5\" G3H- is the battery bus.\nAnd I was expected diode mode readings, not ohm scale.\nShould be good, ohm values are equals too.\n\n\"Will report back with resistance between pins 17\/18 and 27\/28 of U7100\"\n???\n\nDo you get 3V3_SUS?"
+    },
+    {
+        "post_id":53171,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-09 06:27:07",
+        "message":"\"Will report back with resistance between pins 17\/18 and 27\/28 of U7100\"\n\nu7100\npin 17 = 70k ohms\npin 18 = 7.2k ohms\npin 27 = (OL) Open Line\npin 28 = (OL) Open Line\n\n\"Do you get 3V3_SUS?\"\nyes I do 3v3_SUS = 3.42V\n\nthank you for your support."
+    },
+    {
+        "post_id":53186,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-09 12:57:07",
+        "message":"I meant resistance between specified pins, not to ground.\nHowever, your readings show problem with R7150-52 network resistors, at least."
+    },
+    {
+        "post_id":53196,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-09 18:31:51",
+        "message":"U7100\nResistance between pin 17 & 18 = 4.0 Ohms\nResistance between pins 27 & 28 = 20.7 Ohms\n\nYou do not think it is problem with SMC? As it might be dead?"
+    },
+    {
+        "post_id":53203,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-10 00:56:41",
+        "message":"Something wrong with SMC-U7100 communication.\nPlease podt diode mode readings (red probe at ground) on SCL\/SDA lines."
+    },
+    {
+        "post_id":53214,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-10 06:23:47",
+        "message":"Hi diode mode readings \n\nu7100\nPIN 10 (SCL) - .52v\nPIN 11 (SDA) - .52v\n\nSMC\nR5350 (SDA) - .73v\nR5351 (SCL) - .73v\nare these the right resistors to test from? I cannot find any others."
+    },
+    {
+        "post_id":53231,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-10 12:36:17",
+        "message":"You still mix the things here.\nIf we talk about the SAME (common) bus between different chips, why do you check R5350\/51???\nBattery bus is SMBus 5.\nAnd which is the reason to try measuring the same line in different points?\n\nThe readings look good.\nIn this case I recommend to change first U7100.\nIf no result, reball\/change SMC..."
+    },
+    {
+        "post_id":53237,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-10 14:09:53",
+        "message":"\"If we talk about the SAME (common) bus between different chips, why do you check R5350\/51???\"\n\nI was just measuring all the SDA, SLC lines that I see with that substring included in openboardview and the schematic pdf, I do apologize.\n\nQuestion, what are the smbus_smc_0, smbus_smc_1,smbus_smc_2, smbus_smc_3, smbus_smc_5?\n\nDo you want measurements for all of them?"
+    },
+    {
+        "post_id":53248,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-11 03:10:36",
+        "message":"Why all, if are totally different buses??\nI specified you to FIX on battery bus (SMBus 5)."
+    },
+    {
+        "post_id":53260,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-11 05:33:25",
+        "message":"\"I specified you to FIX on battery bus (SMBus 5).\" I will replace u7100 and reball the SMC, will post with results. Thank you!!!!!"
+    },
+    {
+        "post_id":53358,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-13 16:21:27",
+        "message":"Replaced u7100, and reballed SMC, trackpad clicks for a few seconds then stops. CPU gets warm and then cools back down,\n\nAfter that I replaced SMC from another board 820-4924 and same thing, trackpad clicks for a few seconds, (taptic feedback) and then stops.\n\nSame issue, any more suggestions?"
+    },
+    {
+        "post_id":53360,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-13 16:43:00",
+        "message":"Didn't get 12.5V on PPBUS_G3H yet?"
+    },
+    {
+        "post_id":53361,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-13 16:52:22",
+        "message":"\"Didn't get 12.5V on PPBUS_G3H yet?\"\n\nFINALLY 12.58V on both sides of the F7140 fuse\n\nAny more measurements you are looking for me to take?\n\nPP5V_S4 still 0V\nS4_PWR_EN - 0V"
+    },
+    {
+        "post_id":53373,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-14 06:12:37",
+        "message":"3V3_S5\/SUS, PM_RSMRST_L, PM_PWRBTN_L, PM_BATLOW_L?\nTrigger SMC_ONOFF_L and check for reaction (drop pulse) at PM_PWRBTN_L; use R5115\/16 pads, instead of power button."
+    },
+    {
+        "post_id":53401,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-14 18:05:47",
+        "message":"Thank you so much for the continuous support you are giving me! I very much appreciate it.\n\n[B]VOLTAGE \/\/ OHMS MODE \/\/ DIODE MODE[\/B]\n\nPP3V3_S5 = 3.34v \/\/ 300Ohms and climbing \/\/ 0.1V (diode mode)\n\nPP3V3_SUS = 3.34v \/\/ 10K Ohms and climbing \/\/ 0.425V (diode mode)\n\nPM_RSMRST_L = 3.34v \/\/ 130k Ohms and climbing \/\/ 0.625V (diode mode)\n\nPM_PWRBTN_L = 3.4v \/\/ 2k Ohms climbing slow \/\/ 0.5V (diode mode)\n\nwhen triggering SMC_ONOFF_L the PM_PWRBTN_L = drops from 3.4 to .35V\n\nPM_BATLOW_L = 0.1V \/\/ 10k Ohms and climbing \/\/ 0.5V (diode mode) (NO BATTERY CONNECTED???)"
+    },
+    {
+        "post_id":53411,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-15 02:09:44",
+        "message":"PM_BATLOW_L must be high if proper charger connected.\nIf not, PCH doesn't start power on sequence.\nBe sure to use original Magsafe 2 60\/85W charger."
+    },
+    {
+        "post_id":53424,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-15 06:19:36",
+        "message":"\"Be sure to use original Magsafe 2 60\/85W charger.\"\n\nIt won't even start with a fully charged original battery from a working housing\/chassis. It starts for a few seconds, pressing trackpad, cpu heats up and then goes back to nothing.\n\nWill test with a brand new charger from apple store, will go out and buy one today."
+    },
+    {
+        "post_id":53430,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-15 08:38:32",
+        "message":"So starts at least, with charged battery?\nAnd doesn't even start with charger alone?"
+    },
+    {
+        "post_id":53432,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-15 09:46:02",
+        "message":"[B]\"So starts at least, with charged battery?\"[\/B]\n\nWith OEM battery connected, it starts kind of, trackpad is clickable (Taptic feedback), cpu heats up, then trackpad stops clicking and cpu cools down.\n\n[B]And doesn't even start with charger alone?\"[\/B]\n\nWhen no battery connected but 85w MagSafe is connected, it does not start at all.\n\nDoes not start In general, it tries to start up to post but shuts off during start up phase."
+    },
+    {
+        "post_id":53444,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-15 14:02:52",
+        "message":"So it tries to start on charger only.\nWhich voltages appear in that short time?\nYou should be able to catch some signal reaction, triggering SMC_ONOFF_L.\nNo change in SMC bypass mode?"
+    },
+    {
+        "post_id":53450,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-15 15:18:40",
+        "message":"[B]\"So it tries to start on charger only.\"[\/B]\n\nWhen in the housing with an lcd connected and a trackpad and keyboard, NO BATTERY connected, it does not try to start up, trackpad is not clickable. CPU does not heat up.\n\nWhen its on battery in the housing, it trys to start up, Taptic feedback trackpad clicks and cpu heats up then everything turns off.\n\nNo change in SMC bypass mode, not sure how to exactly trigger that, can you explain how to on a 2015 MacBook Pro retina 13\"???"
+    },
+    {
+        "post_id":53455,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-15 15:59:37",
+        "message":"\"it tries to start up to post but shuts off during start up phase\"\nYou've posted this under charger alone option..."
+    },
+    {
+        "post_id":53463,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-15 19:01:46",
+        "message":"Bought an OEM 85W magsafe 2, CPU heats up for a few seconds then cools back down and does not heat up again only until I unplug charger and replug it in.\n\nIf I do it enough times plugging it in and unplugging it, cpu heats up and fan spins for a second and then stops.\n\nAny other voltages looking to test?"
+    },
+    {
+        "post_id":53475,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-16 03:00:10",
+        "message":"Did you try BIOS?"
+    },
+    {
+        "post_id":53501,
+        "thread_id":53103,
+        "title":"820-4924 - No Power, No Liquid Damage",
+        "user_id":1832,
+        "username":"bcherdak",
+        "post_date":"2019-10-16 05:26:39",
+        "message":"Will try new Bios chip,\n\nWill bad bios cause no startup or partial startup?\n\nany voltages you are wanting me to measure with this new Magsafe charger?"
+    }
+]

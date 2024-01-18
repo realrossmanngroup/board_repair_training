@@ -1,13 +1,119 @@
-{"post_id":52501,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-09-22 18:39:06","message":"Got another 820-01041 board that's not powering up. Initially, PP20V was 5v. Replaced UB300, which had a blowout on the surface. Once replaced, 20V was back. With the board back in the system, every few minutes or when I press the power Botton, the fan would spin up for about a second before it shuts off. I can also see a quick spike in current draw before it drops out. Here are the readings I have so far\n\nPPBUS_HS_CPU - 12.6\nPPBUS_HS_GPU - 12.6\nPPBUS_HS_OTH5V - 12.6\nPPBUS_HS_3V3G3H_T - 12.6\nPPBUS_HS_3V3G3HRTC_X - 12.6\n\nPP5V_G3S - 5.1\nPP3V3_G3H_T - 3.3\nPP3V3_G3H_RTC_X - 3.3\nPP3V3_G3S_T - 3.3\n\nPP5V_S4_T_USBC - 0 (does not spike up when there board does draw current for a second)\nUPC_T_5V_EN_R - 0 (does not spike up when there board does draw current for a second)\n\n\nPM_RSMRST_L goes to 3.4v for 10 seconds after 20v power kicks on then turns off after 5 seconds. \nUPC_T_5V_EN stays low the whole time\n\nSMC_PCH_PWROK - also spikes to 1.79 but drops out within less than a second.\nSame with SMC_PCH_SYS_PWROK, SMC_SYSRST_L.\nSMC_RSMRST_L stays at 1.79 for about 4 to 5 second before it drops out.\n\nPPVCCIO_S0_CPU - 0.9 during the current draw and drops to zero within a 2 seconds\nPPVCC_S0_CPU - 1 during current draw and drops to zero within a 2 seconds\n\nWhat else should I check or any suggestions"}
-{"post_id":52514,"thread_id":52501,"title":"820-01041: No powering up","user_id":682,"username":"2informaticos","post_date":"2019-09-23 05:12:26","message":"Test the board alone, no power button connected.\nThe board should start automatically, when charger is connected (battery removed).\nFor debugging, use SWK000\/002 instead power button, to check signals reaction triggering PMU_ONOFF_L.\n\n\"SMC_RSMRST_L stays at 1.79 for about 4 to 5\"\nDo you get PP1V8_SLPS2R?\nIf yes, check if PM_RSMRST_L goes high at same time.\n\nCheck if PM_PWRBTN_L reacts (drop pulse) triggering PMU_ONOFF_L.\nIf yes, check for reaction at all PM_SLP_Sx_L lines.\nIf not, check PCH_BATLOW_L level."}
-{"post_id":52547,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-09-23 16:07:19","message":"PMU_ONOFF_L - 3.38. Drops to zero when SWK000 bridged.\n\nPP1V8_SLPS2R - 1.8 the whole time. Stays on from when the power is plugged to the board with PP20V @ 5v to when 20v is switch on. Never drops.\n\nPM_RSMRST_L - 3.3 for about 5seconds before it drops. Also, it only goes high once the board starts to pull current, which is about 10sec after 20v becomes active to board is active.When I trigger PMU_ONOFF_L, it goes to 3.3 again for 5 seconds.\n\nWhen PMU_ONOFF_L is triggered, PM_PWRBTN_L goes to 3.3 for about 10sec before it drops\n\nPM_SLP_S0_L - 1.8 for about 5 sec\nPM_SLP_S3_L, PM_SLP_S4_L, PM_SLP_S5_L - 3.3 for about 2 sec\n\nAlso checked, PCH_BATLOW_L which reacts the same 3.3 for about 5 sec."}
-{"post_id":52548,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-09-23 16:18:15","message":"Not sure if this is anything, should PP1V5R1V35_S0_GPU_MEM line on LA300 be at 217ohms?"}
-{"post_id":52551,"thread_id":52501,"title":"820-01041: No powering up","user_id":682,"username":"2informaticos","post_date":"2019-09-23 18:05:56","message":"Try to start in SMC bypass mode..."}
-{"post_id":52563,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-09-23 23:09:49","message":"I'm assuming I'll be using the PMU_ONOFF_L.\n\nStill does the same current draw for a few seconds then back to 0A draw.\n\nI did notice that CHGR_LX2 - voltage is all over the place, between 3.3v and 12v\n\nSince I didn't have a similar board to compare to, I used 820-00840 circuit, which was similar to an extent. TBA_LX2 was constant at 13v."}
-{"post_id":52568,"thread_id":52501,"title":"820-01041: No powering up","user_id":682,"username":"2informaticos","post_date":"2019-09-24 04:43:56","message":"\"When PMU_ONOFF_L is triggered, PM_PWRBTN_L goes to 3.3 for about 10sec before it drops\"\nPM_PWRBTN_L reacts (drop pulse) if you trigger PMU_ONOFF_L in these 10s?"}
-{"post_id":52698,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-09-28 21:04:10","message":"when PMU_ONOFF_L is triggered again within the 10s, PM_PWRBTN_L drops to 0 during the trigger, but then back to 3.3 for another 10sec"}
-{"post_id":52706,"thread_id":52501,"title":"820-01041: No powering up","user_id":682,"username":"2informaticos","post_date":"2019-09-29 06:36:10","message":"\"PM_SLP_S3_L, PM_SLP_S4_L, PM_SLP_S5_L - 3.3 for about 2 sec\"\nEach of them enables a sleep state; something like Sx --> (Sx-1).\nCheck S4\/3\/0 voltages in these 2 seconds."}
-{"post_id":52867,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-10-02 21:17:33","message":"PP5V_S4_T_USBC - never triggers. So check UPC_T_5V_EN_R, this too never triggers. On UB740, only PM_RSMRST_L triggers 3.3v for about 5sec. UPC_T_5V_EN never turns on. Wondering if i should change out the USBC chip that i had replaced.\n\nSame readings on X line."}
-{"post_id":53386,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-10-14 11:00:06","message":"Replaced the chip again with the same result. S4 still isn't coming on. Regarding your last post, unlike previous version boards, A1502 for example, the power Power Alias pages doesn't calls out S3 and S0 lines.\nHere are the readings i collected:\n\n[COLOR=#FF0000]PPVCC_S0_CPU - 0.995[\/COLOR]  for about 2 sec (schematic calls for 1.52v)\nPPVCCSA_S0_CPU - 1.044 for 2 sec (schematic calls for 1.52v)\n[COLOR=#FF0000]PPVCCGT_S0_CPU - 0.0[\/COLOR]\nPPVCCIO_S0_CPU - 0.94 for 2 sec \nPP1V2_S3 - 1.2 2 sec\nPP1V2_S3_CPUDDR - 1.2 2 sec\nPP1V2_S0SW - 1.2 2 sec\nPP1V05_PRIM - 1.05 for 5 sec\n[COLOR=#FF0000]PP1V05_S3 - 0[\/COLOR]\nPP1V05_S0SW 1.04 2 sec\n[COLOR=#FF0000]PPVCORE_S0_GPU - 0[\/COLOR]\nPP3V3_S0_GPU - 3.3 2 sec\nPP1V8_G3S 1.8 the whole time\nPP5V_G3S - 5.1 the whole time\nPP3V3_G3H_T - 3.4 the whole time\nPP3V3_G3H_RTC_X - 3.4 the whole time\nPP3V3_G3S_T - 3.3 the whole time\nPP3V3_G3S_X - 3.4 the whole time\nPP3V3_G3H_SOCPMU - 3.3 the whole time\nPP3V3_G3SSW_SNS - 3.3 2 sec \nPPVCCPRIMCORE_PRIM_REG - 1.05 5 sec\nPP3V3_G3H_DFR - 3.3 the whole time\nPP3V3_G3H_SSD0_SNS - 3.3 the whole time\nPPBUS_G3H_SSD0_SNS - 12.5"}
-{"post_id":53389,"thread_id":52501,"title":"820-01041: No powering up","user_id":682,"username":"2informaticos","post_date":"2019-10-14 11:26:07","message":"\"[COLOR=#FF0000]PP1V05_S3 - 0\"\nCheck diode mode there.\nThis voltage must appear before 1V05_S0SW...[\/COLOR]\n\n\"[COLOR=#FF0000]PPVCCGT_S0_CPU - 0.0\"\niGPU power stays at 0V untill open graphics application on iGPU, like YouTube playing...\nBoard starts with dGPU normally.[\/COLOR]\n\nBTW, CPU voltages are dinamycally adjusted, as seen on the power supplies pages, not in power aliases one."}
-{"post_id":53395,"thread_id":52501,"title":"820-01041: No powering up","user_id":1984,"username":"macRepairAmb","post_date":"2019-10-14 13:57:23","message":"PP1V05_S3 - 0.197\n\nI must have missed the reading the first time cause PP1V05_S3 now shows 1.05 for 2 sec. Sorry bout that"}
+[
+    {
+        "post_id":52501,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-09-22 16:39:06",
+        "message":"Got another 820-01041 board that's not powering up. Initially, PP20V was 5v. Replaced UB300, which had a blowout on the surface. Once replaced, 20V was back. With the board back in the system, every few minutes or when I press the power Botton, the fan would spin up for about a second before it shuts off. I can also see a quick spike in current draw before it drops out. Here are the readings I have so far\n\nPPBUS_HS_CPU - 12.6\nPPBUS_HS_GPU - 12.6\nPPBUS_HS_OTH5V - 12.6\nPPBUS_HS_3V3G3H_T - 12.6\nPPBUS_HS_3V3G3HRTC_X - 12.6\n\nPP5V_G3S - 5.1\nPP3V3_G3H_T - 3.3\nPP3V3_G3H_RTC_X - 3.3\nPP3V3_G3S_T - 3.3\n\nPP5V_S4_T_USBC - 0 (does not spike up when there board does draw current for a second)\nUPC_T_5V_EN_R - 0 (does not spike up when there board does draw current for a second)\n\n\nPM_RSMRST_L goes to 3.4v for 10 seconds after 20v power kicks on then turns off after 5 seconds. \nUPC_T_5V_EN stays low the whole time\n\nSMC_PCH_PWROK - also spikes to 1.79 but drops out within less than a second.\nSame with SMC_PCH_SYS_PWROK, SMC_SYSRST_L.\nSMC_RSMRST_L stays at 1.79 for about 4 to 5 second before it drops out.\n\nPPVCCIO_S0_CPU - 0.9 during the current draw and drops to zero within a 2 seconds\nPPVCC_S0_CPU - 1 during current draw and drops to zero within a 2 seconds\n\nWhat else should I check or any suggestions"
+    },
+    {
+        "post_id":52514,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-23 03:12:26",
+        "message":"Test the board alone, no power button connected.\nThe board should start automatically, when charger is connected (battery removed).\nFor debugging, use SWK000\/002 instead power button, to check signals reaction triggering PMU_ONOFF_L.\n\n\"SMC_RSMRST_L stays at 1.79 for about 4 to 5\"\nDo you get PP1V8_SLPS2R?\nIf yes, check if PM_RSMRST_L goes high at same time.\n\nCheck if PM_PWRBTN_L reacts (drop pulse) triggering PMU_ONOFF_L.\nIf yes, check for reaction at all PM_SLP_Sx_L lines.\nIf not, check PCH_BATLOW_L level."
+    },
+    {
+        "post_id":52547,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-09-23 14:07:19",
+        "message":"PMU_ONOFF_L - 3.38. Drops to zero when SWK000 bridged.\n\nPP1V8_SLPS2R - 1.8 the whole time. Stays on from when the power is plugged to the board with PP20V @ 5v to when 20v is switch on. Never drops.\n\nPM_RSMRST_L - 3.3 for about 5seconds before it drops. Also, it only goes high once the board starts to pull current, which is about 10sec after 20v becomes active to board is active.When I trigger PMU_ONOFF_L, it goes to 3.3 again for 5 seconds.\n\nWhen PMU_ONOFF_L is triggered, PM_PWRBTN_L goes to 3.3 for about 10sec before it drops\n\nPM_SLP_S0_L - 1.8 for about 5 sec\nPM_SLP_S3_L, PM_SLP_S4_L, PM_SLP_S5_L - 3.3 for about 2 sec\n\nAlso checked, PCH_BATLOW_L which reacts the same 3.3 for about 5 sec."
+    },
+    {
+        "post_id":52548,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-09-23 14:18:15",
+        "message":"Not sure if this is anything, should PP1V5R1V35_S0_GPU_MEM line on LA300 be at 217ohms?"
+    },
+    {
+        "post_id":52551,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-23 16:05:56",
+        "message":"Try to start in SMC bypass mode..."
+    },
+    {
+        "post_id":52563,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-09-23 21:09:49",
+        "message":"I'm assuming I'll be using the PMU_ONOFF_L.\n\nStill does the same current draw for a few seconds then back to 0A draw.\n\nI did notice that CHGR_LX2 - voltage is all over the place, between 3.3v and 12v\n\nSince I didn't have a similar board to compare to, I used 820-00840 circuit, which was similar to an extent. TBA_LX2 was constant at 13v."
+    },
+    {
+        "post_id":52568,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-24 02:43:56",
+        "message":"\"When PMU_ONOFF_L is triggered, PM_PWRBTN_L goes to 3.3 for about 10sec before it drops\"\nPM_PWRBTN_L reacts (drop pulse) if you trigger PMU_ONOFF_L in these 10s?"
+    },
+    {
+        "post_id":52698,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-09-28 19:04:10",
+        "message":"when PMU_ONOFF_L is triggered again within the 10s, PM_PWRBTN_L drops to 0 during the trigger, but then back to 3.3 for another 10sec"
+    },
+    {
+        "post_id":52706,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-29 04:36:10",
+        "message":"\"PM_SLP_S3_L, PM_SLP_S4_L, PM_SLP_S5_L - 3.3 for about 2 sec\"\nEach of them enables a sleep state; something like Sx --> (Sx-1).\nCheck S4\/3\/0 voltages in these 2 seconds."
+    },
+    {
+        "post_id":52867,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-10-02 19:17:33",
+        "message":"PP5V_S4_T_USBC - never triggers. So check UPC_T_5V_EN_R, this too never triggers. On UB740, only PM_RSMRST_L triggers 3.3v for about 5sec. UPC_T_5V_EN never turns on. Wondering if i should change out the USBC chip that i had replaced.\n\nSame readings on X line."
+    },
+    {
+        "post_id":53386,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-10-14 09:00:06",
+        "message":"Replaced the chip again with the same result. S4 still isn't coming on. Regarding your last post, unlike previous version boards, A1502 for example, the power Power Alias pages doesn't calls out S3 and S0 lines.\nHere are the readings i collected:\n\n[COLOR=#FF0000]PPVCC_S0_CPU - 0.995[\/COLOR]  for about 2 sec (schematic calls for 1.52v)\nPPVCCSA_S0_CPU - 1.044 for 2 sec (schematic calls for 1.52v)\n[COLOR=#FF0000]PPVCCGT_S0_CPU - 0.0[\/COLOR]\nPPVCCIO_S0_CPU - 0.94 for 2 sec \nPP1V2_S3 - 1.2 2 sec\nPP1V2_S3_CPUDDR - 1.2 2 sec\nPP1V2_S0SW - 1.2 2 sec\nPP1V05_PRIM - 1.05 for 5 sec\n[COLOR=#FF0000]PP1V05_S3 - 0[\/COLOR]\nPP1V05_S0SW 1.04 2 sec\n[COLOR=#FF0000]PPVCORE_S0_GPU - 0[\/COLOR]\nPP3V3_S0_GPU - 3.3 2 sec\nPP1V8_G3S 1.8 the whole time\nPP5V_G3S - 5.1 the whole time\nPP3V3_G3H_T - 3.4 the whole time\nPP3V3_G3H_RTC_X - 3.4 the whole time\nPP3V3_G3S_T - 3.3 the whole time\nPP3V3_G3S_X - 3.4 the whole time\nPP3V3_G3H_SOCPMU - 3.3 the whole time\nPP3V3_G3SSW_SNS - 3.3 2 sec \nPPVCCPRIMCORE_PRIM_REG - 1.05 5 sec\nPP3V3_G3H_DFR - 3.3 the whole time\nPP3V3_G3H_SSD0_SNS - 3.3 the whole time\nPPBUS_G3H_SSD0_SNS - 12.5"
+    },
+    {
+        "post_id":53389,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-14 09:26:07",
+        "message":"\"[COLOR=#FF0000]PP1V05_S3 - 0\"\nCheck diode mode there.\nThis voltage must appear before 1V05_S0SW...[\/COLOR]\n\n\"[COLOR=#FF0000]PPVCCGT_S0_CPU - 0.0\"\niGPU power stays at 0V untill open graphics application on iGPU, like YouTube playing...\nBoard starts with dGPU normally.[\/COLOR]\n\nBTW, CPU voltages are dinamycally adjusted, as seen on the power supplies pages, not in power aliases one."
+    },
+    {
+        "post_id":53395,
+        "thread_id":52501,
+        "title":"820-01041: No powering up",
+        "user_id":1984,
+        "username":"macRepairAmb",
+        "post_date":"2019-10-14 11:57:23",
+        "message":"PP1V05_S3 - 0.197\n\nI must have missed the reading the first time cause PP1V05_S3 now shows 1.05 for 2 sec. Sorry bout that"
+    }
+]

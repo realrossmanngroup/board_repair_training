@@ -1,37 +1,335 @@
-{"post_id":74914,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-01 04:20:54","message":"Got this machine that doesn't boot up but charges the battery. Non liquid spills at all, the board look very good.\nI get 20v on both usb C adapter voltmeter and most of the power rails seems to be solid except for the cpu s0 related power rails...\nCPU heatsink gets little bit warm but pressing power button does't seems to do anything.\nAny suggestions? What to look at next?"}
-{"post_id":74915,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-01 04:24:04","message":"Sorry for the worts explanatory title ... forgot to edit before post it..."}
-{"post_id":74916,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-01 05:29:51","message":"No liquid, but there should be an history.\nHowever, inspect audio board for liquid sign on both sides.\n\nTry DFU revive."}
-{"post_id":74917,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-01 06:39:11","message":"Sorry, didn't get a clear picture from the customer. \"Suddenly It just stopped to boot...\".\nI entered DFU, tried revive, no change, than tried a restore (they have a data backup...) finished with a big padlock symbol on the configurator 2 window which I definately ignore the meaning of (is it locked? in wich way?). Nothing changed. Still no booting up. I inspected the audio board wich appears to be fine with no traces of liquid spill and also no shorts on the main caps. The bottom side still well coated and didn't feel to screew it up with furthure investigations at this time. When battery disconnected I get 20V\/ 0,04 amps reading. When battery is connected I get (on both USB-C ports) 20V 1,74A reading from the voltage meter."}
-{"post_id":74919,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-01 07:27:06","message":"If stays at 40mA, the board doesn't turn on.\nDo you get any voltage at L7670?\nIf not, check pin 4\/U7650 level.\nCheck for short any big coils and all secondary supplies."}
-{"post_id":74920,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-01 07:38:47","message":"yes solid 5v on L7670\nand 3.3 V on L7690. Get also 12V on L7030 with no battery and  when battery connected decreasing 4,5V during charge (charging normally I assume...)\nThe customer said she previously nstalled Big Sur, may be the issue came after a furture update of the os? She also brig it to an apple authorized service provider as soon as it happened and they offered her motherboard replcement for 400\u20ac..."}
-{"post_id":74921,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-01 07:44:25","message":"by the way is it normal that in configurator 2 the macbook air is recognized as an Apple Controller? Just performed a new restore ended up with another padlock symbol ...???"}
-{"post_id":74971,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-03 04:00:14","message":"No other hints? Should I reallly let the customer bring this machine to Apple for a mobo swap?"}
-{"post_id":74974,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-03 05:44:49","message":"Trigger PMU_ONOFF_L and check for drop pulse at PCH_PWRBTN_L."}
-{"post_id":75014,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-04 05:10:51","message":"Once I press PWRBTN pch_pwrbtn_L  goes low. That means PHC knows at least that have been triggered to power on. What next?"}
-{"post_id":75015,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-04 06:32:25","message":"Check for pulse at PM_SLP_S4_L at same time.\nBe sure PM_RSMRST_L is high."}
-{"post_id":75018,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-04 09:06:27","message":"PM_SLP_S4_L solid 3.3\nPM_RSMRST_L two seconds after enabling power goes to 3.3 stable no pulse"}
-{"post_id":75026,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-04 09:41:43","message":"\"PM_SLP_S4_L solid 3.3\"\nThen you should have S3 voltages present.\nCheck PM_SLP_S3_L too; it controls S0 voltages."}
-{"post_id":75033,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-04 09:51:34","message":"PM_SLP_S3_L allready measured... 3.3v stable"}
-{"post_id":75034,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-04 09:52:29","message":"Something is preventing the board to go to s0. Ram voltage also ok"}
-{"post_id":75042,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-04 11:32:24","message":"Check voltage on all coils; which one not present?\n\nRAM voltage is in S3 state.\nIf PM_SLP_S3_L is high, you must have some S0 voltages.\nDon't forget to check page 67."}
-{"post_id":75053,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-04 15:02:51","message":"Sure, I'll let you know when I'll get back to work tomorrow."}
-{"post_id":75071,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-05 04:18:24","message":"Found 0,9v on L8102\nNo voltages on L7410, L7430, L7210, L7230\ncpu get warm"}
-{"post_id":75076,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-05 09:47:56","message":"I wonder if I get ALL_SYS_PWRGD_R I should also have PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, PP1V5_S0, etc... Am I right?"}
-{"post_id":75078,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-05 09:53:43","message":"Any power supply which sends power good signal to ALL_SYS_PWRGD, should be then present.\nNow U7800 is used to generate that signal, but it considers all mentioned voltages.\nWe don't have direct connection between power good signals, like in old platforms."}
-{"post_id":75081,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-05 10:30:15","message":"SMC_PCH_PWROK also 1,8V"}
-{"post_id":75082,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-05 10:37:13","message":"How do I find out what is the missing signal or bad components that prevents the machin to power up ? I guess if U3900 could be the cause.\n\nWhat other signals should I check for in order to narrow down the search to the required ones for booting at least?"}
-{"post_id":75083,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-05 10:41:25","message":"Looks like missing CPU core power.\nCould be CPU itself the culprit; or PCH, which is embedded in the same package.\n\nDid you test with charger and battery, both connected?"}
-{"post_id":75106,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-06 04:35:19","message":"No, I didn't connect the battery during tests. I'll do it but I need to know if the problem could arise in CPU area or somewhere else in the motherboard."}
-{"post_id":75110,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-06 05:53:51","message":"Then do all tests possible, like the above mentioned."}
-{"post_id":75116,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-06 06:22:37","message":"Sure I'll do it but need your suggeasions about what to test next. I arrived at the point that s0 state should already be reached and I wonder why still not powering up. What should I measure to get a clear picture of what is working and what is not? Cpu\/pch? How do I know for sure?"}
-{"post_id":75127,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-06 10:23:02","message":"ALL_SYS_PWRGD_R is enable signal for CPU core power.\nNow PCH\/CPU and BIOS\/T2 control the specific power supply; enable signal is not sufficient."}
-{"post_id":75130,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-06 10:27:27","message":"Ok how do I know if the problem is with the BIOS\/T2 or elsewhere? I tried restoring the T2 as I told you before resulting in just a padlock symbol and nothing else at the end of the process. I tought there could be something more straightforward to narrow down the issue."}
-{"post_id":75131,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-06 10:29:51","message":"This is not an exact science.\nWe don't have the tools used by manufacturer.\nBad CPU can be a reason for DFU not completed."}
-{"post_id":75133,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-06 10:56:47","message":"I agree but I tought you could have helped me at least in order to get to a diagnose without these tools, I'm not talking about solving the issue right now but at least know what sould be the fault responsable of the issue. If I should blame cpu\/pch or BIOS\/T2 chip. I do not know if the DFU was completed or not. I haven't found anywere an explanation of the symbol I get after the DFU... I can't say it didn't succeded because I have no experience on this new Apple tool that's why I'm asking the forum for help. I can't belive the only known problem with these machine could be just with the CD3215... It seems like when the infamous T2 chip gets involved engineers rise their hends up and stop thinking to other possible solutions ;-)"}
-{"post_id":75215,"thread_id":61126,"title":"820-01521-A","user_id":1057,"username":"piernov","post_date":"2021-05-08 06:20:37","message":"Exact resistance to ground on CPU VCore?"}
-{"post_id":75236,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-08 15:47:54","message":"Resistance to ground measured on L7410, L7430, L7210, L7230 is respectively 14, 14, 20,5, 20,5"}
-{"post_id":75511,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-17 10:14:04","message":"[QUOTE=\"piernov, post: 75215, member: 1057\"]\nExact resistance to ground on CPU VCore?\n[\/QUOTE]\n\nNo other hints? Should I give up on this?"}
-{"post_id":75563,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-19 05:51:12","message":"[QUOTE=\"piernov, post: 75215, member: 1057\"]\nExact resistance to ground on CPU VCore?\n[\/QUOTE]\n\nDid you get any usefull hint from the resistance measures I provided you with?"}
-{"post_id":75564,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-19 06:22:36","message":"I don't have other board to compare.\nBut I don't see strange values.\n\nCould be CPU, or T2 problem.\nEach has lot of internal blocks and is sufficient one not working good."}
-{"post_id":75570,"thread_id":61126,"title":"820-01521-A","user_id":12,"username":"Ictc","post_date":"2021-05-19 11:03:45","message":"Anybody capable to revive a machine like this in rossmangroup? :eek: Can't belive nobody went so deep in T2 problems solving yet. Hope someone can give me other suggestions in order to salvage this unhappy macbook."}
-{"post_id":75598,"thread_id":61126,"title":"820-01521-A","user_id":682,"username":"2informaticos","post_date":"2021-05-20 11:14:34","message":"If you like to waste more time on it, get a logic analyzer and monitor SPI bus and CPU SVID bus (R7102\/04).\nCPU works very hot on these machines, without heat pipe; so is the first suspect."}
+[
+    {
+        "post_id":74914,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-01 02:20:54",
+        "message":"Got this machine that doesn't boot up but charges the battery. Non liquid spills at all, the board look very good.\nI get 20v on both usb C adapter voltmeter and most of the power rails seems to be solid except for the cpu s0 related power rails...\nCPU heatsink gets little bit warm but pressing power button does't seems to do anything.\nAny suggestions? What to look at next?"
+    },
+    {
+        "post_id":74915,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-01 02:24:04",
+        "message":"Sorry for the worts explanatory title ... forgot to edit before post it..."
+    },
+    {
+        "post_id":74916,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-01 03:29:51",
+        "message":"No liquid, but there should be an history.\nHowever, inspect audio board for liquid sign on both sides.\n\nTry DFU revive."
+    },
+    {
+        "post_id":74917,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-01 04:39:11",
+        "message":"Sorry, didn't get a clear picture from the customer. \"Suddenly It just stopped to boot...\".\nI entered DFU, tried revive, no change, than tried a restore (they have a data backup...) finished with a big padlock symbol on the configurator 2 window which I definately ignore the meaning of (is it locked? in wich way?). Nothing changed. Still no booting up. I inspected the audio board wich appears to be fine with no traces of liquid spill and also no shorts on the main caps. The bottom side still well coated and didn't feel to screew it up with furthure investigations at this time. When battery disconnected I get 20V\/ 0,04 amps reading. When battery is connected I get (on both USB-C ports) 20V 1,74A reading from the voltage meter."
+    },
+    {
+        "post_id":74919,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-01 05:27:06",
+        "message":"If stays at 40mA, the board doesn't turn on.\nDo you get any voltage at L7670?\nIf not, check pin 4\/U7650 level.\nCheck for short any big coils and all secondary supplies."
+    },
+    {
+        "post_id":74920,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-01 05:38:47",
+        "message":"yes solid 5v on L7670\nand 3.3 V on L7690. Get also 12V on L7030 with no battery and  when battery connected decreasing 4,5V during charge (charging normally I assume...)\nThe customer said she previously nstalled Big Sur, may be the issue came after a furture update of the os? She also brig it to an apple authorized service provider as soon as it happened and they offered her motherboard replcement for 400\u20ac..."
+    },
+    {
+        "post_id":74921,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-01 05:44:25",
+        "message":"by the way is it normal that in configurator 2 the macbook air is recognized as an Apple Controller? Just performed a new restore ended up with another padlock symbol ...???"
+    },
+    {
+        "post_id":74971,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-03 02:00:14",
+        "message":"No other hints? Should I reallly let the customer bring this machine to Apple for a mobo swap?"
+    },
+    {
+        "post_id":74974,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-03 03:44:49",
+        "message":"Trigger PMU_ONOFF_L and check for drop pulse at PCH_PWRBTN_L."
+    },
+    {
+        "post_id":75014,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-04 03:10:51",
+        "message":"Once I press PWRBTN pch_pwrbtn_L  goes low. That means PHC knows at least that have been triggered to power on. What next?"
+    },
+    {
+        "post_id":75015,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-04 04:32:25",
+        "message":"Check for pulse at PM_SLP_S4_L at same time.\nBe sure PM_RSMRST_L is high."
+    },
+    {
+        "post_id":75018,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-04 07:06:27",
+        "message":"PM_SLP_S4_L solid 3.3\nPM_RSMRST_L two seconds after enabling power goes to 3.3 stable no pulse"
+    },
+    {
+        "post_id":75026,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-04 07:41:43",
+        "message":"\"PM_SLP_S4_L solid 3.3\"\nThen you should have S3 voltages present.\nCheck PM_SLP_S3_L too; it controls S0 voltages."
+    },
+    {
+        "post_id":75033,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-04 07:51:34",
+        "message":"PM_SLP_S3_L allready measured... 3.3v stable"
+    },
+    {
+        "post_id":75034,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-04 07:52:29",
+        "message":"Something is preventing the board to go to s0. Ram voltage also ok"
+    },
+    {
+        "post_id":75042,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-04 09:32:24",
+        "message":"Check voltage on all coils; which one not present?\n\nRAM voltage is in S3 state.\nIf PM_SLP_S3_L is high, you must have some S0 voltages.\nDon't forget to check page 67."
+    },
+    {
+        "post_id":75053,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-04 13:02:51",
+        "message":"Sure, I'll let you know when I'll get back to work tomorrow."
+    },
+    {
+        "post_id":75071,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-05 02:18:24",
+        "message":"Found 0,9v on L8102\nNo voltages on L7410, L7430, L7210, L7230\ncpu get warm"
+    },
+    {
+        "post_id":75076,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-05 07:47:56",
+        "message":"I wonder if I get ALL_SYS_PWRGD_R I should also have PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, PP1V5_S0, etc... Am I right?"
+    },
+    {
+        "post_id":75078,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-05 07:53:43",
+        "message":"Any power supply which sends power good signal to ALL_SYS_PWRGD, should be then present.\nNow U7800 is used to generate that signal, but it considers all mentioned voltages.\nWe don't have direct connection between power good signals, like in old platforms."
+    },
+    {
+        "post_id":75081,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-05 08:30:15",
+        "message":"SMC_PCH_PWROK also 1,8V"
+    },
+    {
+        "post_id":75082,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-05 08:37:13",
+        "message":"How do I find out what is the missing signal or bad components that prevents the machin to power up ? I guess if U3900 could be the cause.\n\nWhat other signals should I check for in order to narrow down the search to the required ones for booting at least?"
+    },
+    {
+        "post_id":75083,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-05 08:41:25",
+        "message":"Looks like missing CPU core power.\nCould be CPU itself the culprit; or PCH, which is embedded in the same package.\n\nDid you test with charger and battery, both connected?"
+    },
+    {
+        "post_id":75106,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-06 02:35:19",
+        "message":"No, I didn't connect the battery during tests. I'll do it but I need to know if the problem could arise in CPU area or somewhere else in the motherboard."
+    },
+    {
+        "post_id":75110,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-06 03:53:51",
+        "message":"Then do all tests possible, like the above mentioned."
+    },
+    {
+        "post_id":75116,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-06 04:22:37",
+        "message":"Sure I'll do it but need your suggeasions about what to test next. I arrived at the point that s0 state should already be reached and I wonder why still not powering up. What should I measure to get a clear picture of what is working and what is not? Cpu\/pch? How do I know for sure?"
+    },
+    {
+        "post_id":75127,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-06 08:23:02",
+        "message":"ALL_SYS_PWRGD_R is enable signal for CPU core power.\nNow PCH\/CPU and BIOS\/T2 control the specific power supply; enable signal is not sufficient."
+    },
+    {
+        "post_id":75130,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-06 08:27:27",
+        "message":"Ok how do I know if the problem is with the BIOS\/T2 or elsewhere? I tried restoring the T2 as I told you before resulting in just a padlock symbol and nothing else at the end of the process. I tought there could be something more straightforward to narrow down the issue."
+    },
+    {
+        "post_id":75131,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-06 08:29:51",
+        "message":"This is not an exact science.\nWe don't have the tools used by manufacturer.\nBad CPU can be a reason for DFU not completed."
+    },
+    {
+        "post_id":75133,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-06 08:56:47",
+        "message":"I agree but I tought you could have helped me at least in order to get to a diagnose without these tools, I'm not talking about solving the issue right now but at least know what sould be the fault responsable of the issue. If I should blame cpu\/pch or BIOS\/T2 chip. I do not know if the DFU was completed or not. I haven't found anywere an explanation of the symbol I get after the DFU... I can't say it didn't succeded because I have no experience on this new Apple tool that's why I'm asking the forum for help. I can't belive the only known problem with these machine could be just with the CD3215... It seems like when the infamous T2 chip gets involved engineers rise their hends up and stop thinking to other possible solutions ;-)"
+    },
+    {
+        "post_id":75215,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-05-08 04:20:37",
+        "message":"Exact resistance to ground on CPU VCore?"
+    },
+    {
+        "post_id":75236,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-08 13:47:54",
+        "message":"Resistance to ground measured on L7410, L7430, L7210, L7230 is respectively 14, 14, 20,5, 20,5"
+    },
+    {
+        "post_id":75511,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-17 08:14:04",
+        "message":"[QUOTE=\"piernov, post: 75215, member: 1057\"]\nExact resistance to ground on CPU VCore?\n[\/QUOTE]\n\nNo other hints? Should I give up on this?"
+    },
+    {
+        "post_id":75563,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-19 03:51:12",
+        "message":"[QUOTE=\"piernov, post: 75215, member: 1057\"]\nExact resistance to ground on CPU VCore?\n[\/QUOTE]\n\nDid you get any usefull hint from the resistance measures I provided you with?"
+    },
+    {
+        "post_id":75564,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-19 04:22:36",
+        "message":"I don't have other board to compare.\nBut I don't see strange values.\n\nCould be CPU, or T2 problem.\nEach has lot of internal blocks and is sufficient one not working good."
+    },
+    {
+        "post_id":75570,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":12,
+        "username":"Ictc",
+        "post_date":"2021-05-19 09:03:45",
+        "message":"Anybody capable to revive a machine like this in rossmangroup? :eek: Can't belive nobody went so deep in T2 problems solving yet. Hope someone can give me other suggestions in order to salvage this unhappy macbook."
+    },
+    {
+        "post_id":75598,
+        "thread_id":61126,
+        "title":"820-01521-A",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-20 09:14:34",
+        "message":"If you like to waste more time on it, get a logic analyzer and monitor SPI bus and CPU SVID bus (R7102\/04).\nCPU works very hot on these machines, without heat pipe; so is the first suspect."
+    }
+]

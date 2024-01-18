@@ -1,22 +1,200 @@
-{"post_id":82596,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-12 10:04:18","message":"I have a 820-3476-A with fanspin but the CPU remains cool. When I try to measure ALL_SYS_PWRGD the fan instantly stopps spinning and the multimeter shows 0V.\nWhen I disconnect the power cable and reconnect it, the fan spins again. But when I measure the resistors R8169, R8165 or  R8168 at their pin 1 the fan always stops spinning. But not when I measure R8164, that one shows 3.3V at pin 1.\n\nWhat could be the reason for the fan stopping when voltages are measured?"}
-{"post_id":82606,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-12 16:04:00","message":"PM_SLP_S3_BUF_L is steady high?\nIf not, check U8180 voltages.\nIf yes, check R8167 value (ohm scale)."}
-{"post_id":82608,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-12 16:24:16","message":"PM_SLP_S3_BUF_L is constantly 3.35V, all U8180 voltages are 3.35V (except GND of course) and R8167 is exactly 10 K Ohm."}
-{"post_id":82612,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-12 17:17:05","message":"Post voltage on big coils of the board.\n\nCheck U1950 for corrosion."}
-{"post_id":82614,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-12 17:27:11","message":"While waiting for your answer I have removed Q8150, to see if that's what's causing the problem. Then I measured ALL_SYS_PWRGD without Q8150 and the fan still stopped spinning. So I soldered Q8150 back. When I reconnected the board to do further measurements I noticed that the CPU got hot! I connected a display and I have a picture!!"}
-{"post_id":82616,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-12 20:08:22","message":"Unfortunately it is only partially fixed. Sometimes it recognizes the internal SSD, sometimes not. I noticed that when the SSD is not recognized, the SSD gets burning hot."}
-{"post_id":82622,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-13 06:26:13","message":"Try known good SSD..."}
-{"post_id":82628,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-13 09:41:49","message":"Same problem with a known good SSD. The big Samsung Chip close to the connector of the SSD gets very hot. On the screen there is a questionmark folder. In like 1 of 10 tries the SSD gets recognized and the OS boots, but it operates very slow."}
-{"post_id":82629,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":32502,"username":"HeyWatchOutDude","post_date":"2021-11-13 09:53:12","message":"Turn on \"verbose\" mode so you can exactly see what is causing the slow OS boot.\n\n1. Turn off mac.\n2. Turn on mac and hold \"CMD + V\"\n3. Boot Command Line should appear"}
-{"post_id":82637,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-13 15:22:01","message":"\"The big Samsung Chip close to the connector of the SSD gets very hot\"\nDo you mean the thunderbolt chip U2800?"}
-{"post_id":82656,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-13 21:12:07","message":"[QUOTE=\"HeyWatchOutDude, post: 82629, member: 32502\"]\nTurn on \"verbose\" mode so you can exactly see what is causing the slow OS boot.\n\n1. Turn off mac.\n2. Turn on mac and hold \"CMD + V\"\n3. Boot Command Line should appear\n[\/QUOTE]\nThank you, I will try this. It also runs slow after the OS booted up.\n\n\n[QUOTE=\"2informaticos, post: 82637, member: 682\"]\n\"The big Samsung Chip close to the connector of the SSD gets very hot\"\nDo you mean the thunderbolt chip U2800?\n[\/QUOTE]\n\nNo, sorry that was misunderstandable. I mean the Big Samsung chip that is soldered on the original Samsung SSD. The same chip gets hot on a 100% known good SSD. While the same SSD does not get hot in a working macbook.\n\nI have measured voltages on the pins of the SSD connector. I have only a working 2015 13\" MBP for comparison. Most voltages are not identical but similar. The only big difference that I have measured is:\non the working board I have 0V on pin 50 and 3.35V on pin 52,\nwhile on the faulty board I have 3,27V on pin 50 and 0V on pin 52.\n\nOn some pins that have only mV values there are more differences."}
-{"post_id":82659,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-14 02:51:34","message":"Is important to get correct signals on U3740 and its related pins on SSD connector.\n\nWhat is the fault history for this board, any liquid sign?"}
-{"post_id":82686,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-14 22:27:54","message":"The board had traces of water damage at C8357. I have replaced it and have rebuilt contact to both sides of the board. Pad 2 of C8357 (which goes to the display connector on the other side) was gone. But now I have continuity where it is supposed to be.\nBesides that, there were no other traces of water damage.\n\nThe values at U3740 without SSD are these:\n\n1 - 3.41V\n2 - 1.004V\n3 - 3.29V\n4 - 3.41V\n5 - 0V\n6 - 3.25V\n7 - 3.30V\n8 - 3.29V\n\nWith the SSD plugged in, these two values are different:\n\n7 - 2.9mV\n8 - 0.2 mV\n\n\nPP3V3_S0SW_SSD is 3.35V\n\nP3V3SSD_VMON is 1.004V"}
-{"post_id":82693,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-15 03:43:15","message":"Voltages look good; with SSD inserted, of course.\nDid you get these readings when the SSD is not recognized?"}
-{"post_id":82699,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-15 07:11:55","message":"I had these readings when the SSD was hot. I could connect a display to check if it gets recognized or not and repeat the readings. But I think the temperature already indicates that something is very wrong. It gets not only warm, it gets really burning hot."}
-{"post_id":82700,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-15 07:48:37","message":"Does this SSD work good in other machine?"}
-{"post_id":82709,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-15 11:08:44","message":"Yes. I am using it right now. And I have tested with another known good SSD which also gets burning hot on that particular board."}
-{"post_id":82716,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-15 11:41:49","message":"Check SSD connector, may have corrosion; replace if needed.\n\nChange U3710\/11, just in case."}
-{"post_id":82718,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-15 11:54:29","message":"Okay, I will try. I've just made these two pictures with a thermal cam. It is the same SSD in both pictures. One in a working 13\" 2015 MBP, the other one on that faulty 13\" 2013 board."}
-{"post_id":82726,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-15 13:38:23","message":"I have replaced U3710 and U3711. Unfotunately no improvement. The SSD connector looks good to me:"}
-{"post_id":82733,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":682,"username":"2informaticos","post_date":"2021-11-15 17:43:48","message":"There could be crap under SSD connector; not directly visible.\nFirst, change L3700 and test..."}
-{"post_id":82750,"thread_id":61964,"title":"Fan stopps spinning when I'm trying to measure voltage.","user_id":28356,"username":"RioRio","post_date":"2021-11-16 13:35:59","message":"I have replaced L3700 and the SSD connector. Still no improvement. \ud83d\ude2d\ud83d\ude2d\ud83d\ude2d"}
+[
+    {
+        "post_id":82596,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-12 08:04:18",
+        "message":"I have a 820-3476-A with fanspin but the CPU remains cool. When I try to measure ALL_SYS_PWRGD the fan instantly stopps spinning and the multimeter shows 0V.\nWhen I disconnect the power cable and reconnect it, the fan spins again. But when I measure the resistors R8169, R8165 or  R8168 at their pin 1 the fan always stops spinning. But not when I measure R8164, that one shows 3.3V at pin 1.\n\nWhat could be the reason for the fan stopping when voltages are measured?"
+    },
+    {
+        "post_id":82606,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-12 14:04:00",
+        "message":"PM_SLP_S3_BUF_L is steady high?\nIf not, check U8180 voltages.\nIf yes, check R8167 value (ohm scale)."
+    },
+    {
+        "post_id":82608,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-12 14:24:16",
+        "message":"PM_SLP_S3_BUF_L is constantly 3.35V, all U8180 voltages are 3.35V (except GND of course) and R8167 is exactly 10 K Ohm."
+    },
+    {
+        "post_id":82612,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-12 15:17:05",
+        "message":"Post voltage on big coils of the board.\n\nCheck U1950 for corrosion."
+    },
+    {
+        "post_id":82614,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-12 15:27:11",
+        "message":"While waiting for your answer I have removed Q8150, to see if that's what's causing the problem. Then I measured ALL_SYS_PWRGD without Q8150 and the fan still stopped spinning. So I soldered Q8150 back. When I reconnected the board to do further measurements I noticed that the CPU got hot! I connected a display and I have a picture!!"
+    },
+    {
+        "post_id":82616,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-12 18:08:22",
+        "message":"Unfortunately it is only partially fixed. Sometimes it recognizes the internal SSD, sometimes not. I noticed that when the SSD is not recognized, the SSD gets burning hot."
+    },
+    {
+        "post_id":82622,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-13 04:26:13",
+        "message":"Try known good SSD..."
+    },
+    {
+        "post_id":82628,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-13 07:41:49",
+        "message":"Same problem with a known good SSD. The big Samsung Chip close to the connector of the SSD gets very hot. On the screen there is a questionmark folder. In like 1 of 10 tries the SSD gets recognized and the OS boots, but it operates very slow."
+    },
+    {
+        "post_id":82629,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":32502,
+        "username":"HeyWatchOutDude",
+        "post_date":"2021-11-13 07:53:12",
+        "message":"Turn on \"verbose\" mode so you can exactly see what is causing the slow OS boot.\n\n1. Turn off mac.\n2. Turn on mac and hold \"CMD + V\"\n3. Boot Command Line should appear"
+    },
+    {
+        "post_id":82637,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-13 13:22:01",
+        "message":"\"The big Samsung Chip close to the connector of the SSD gets very hot\"\nDo you mean the thunderbolt chip U2800?"
+    },
+    {
+        "post_id":82656,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-13 19:12:07",
+        "message":"[QUOTE=\"HeyWatchOutDude, post: 82629, member: 32502\"]\nTurn on \"verbose\" mode so you can exactly see what is causing the slow OS boot.\n\n1. Turn off mac.\n2. Turn on mac and hold \"CMD + V\"\n3. Boot Command Line should appear\n[\/QUOTE]\nThank you, I will try this. It also runs slow after the OS booted up.\n\n\n[QUOTE=\"2informaticos, post: 82637, member: 682\"]\n\"The big Samsung Chip close to the connector of the SSD gets very hot\"\nDo you mean the thunderbolt chip U2800?\n[\/QUOTE]\n\nNo, sorry that was misunderstandable. I mean the Big Samsung chip that is soldered on the original Samsung SSD. The same chip gets hot on a 100% known good SSD. While the same SSD does not get hot in a working macbook.\n\nI have measured voltages on the pins of the SSD connector. I have only a working 2015 13\" MBP for comparison. Most voltages are not identical but similar. The only big difference that I have measured is:\non the working board I have 0V on pin 50 and 3.35V on pin 52,\nwhile on the faulty board I have 3,27V on pin 50 and 0V on pin 52.\n\nOn some pins that have only mV values there are more differences."
+    },
+    {
+        "post_id":82659,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-14 00:51:34",
+        "message":"Is important to get correct signals on U3740 and its related pins on SSD connector.\n\nWhat is the fault history for this board, any liquid sign?"
+    },
+    {
+        "post_id":82686,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-14 20:27:54",
+        "message":"The board had traces of water damage at C8357. I have replaced it and have rebuilt contact to both sides of the board. Pad 2 of C8357 (which goes to the display connector on the other side) was gone. But now I have continuity where it is supposed to be.\nBesides that, there were no other traces of water damage.\n\nThe values at U3740 without SSD are these:\n\n1 - 3.41V\n2 - 1.004V\n3 - 3.29V\n4 - 3.41V\n5 - 0V\n6 - 3.25V\n7 - 3.30V\n8 - 3.29V\n\nWith the SSD plugged in, these two values are different:\n\n7 - 2.9mV\n8 - 0.2 mV\n\n\nPP3V3_S0SW_SSD is 3.35V\n\nP3V3SSD_VMON is 1.004V"
+    },
+    {
+        "post_id":82693,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-15 01:43:15",
+        "message":"Voltages look good; with SSD inserted, of course.\nDid you get these readings when the SSD is not recognized?"
+    },
+    {
+        "post_id":82699,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-15 05:11:55",
+        "message":"I had these readings when the SSD was hot. I could connect a display to check if it gets recognized or not and repeat the readings. But I think the temperature already indicates that something is very wrong. It gets not only warm, it gets really burning hot."
+    },
+    {
+        "post_id":82700,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-15 05:48:37",
+        "message":"Does this SSD work good in other machine?"
+    },
+    {
+        "post_id":82709,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-15 09:08:44",
+        "message":"Yes. I am using it right now. And I have tested with another known good SSD which also gets burning hot on that particular board."
+    },
+    {
+        "post_id":82716,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-15 09:41:49",
+        "message":"Check SSD connector, may have corrosion; replace if needed.\n\nChange U3710\/11, just in case."
+    },
+    {
+        "post_id":82718,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-15 09:54:29",
+        "message":"Okay, I will try. I've just made these two pictures with a thermal cam. It is the same SSD in both pictures. One in a working 13\" 2015 MBP, the other one on that faulty 13\" 2013 board."
+    },
+    {
+        "post_id":82726,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-15 11:38:23",
+        "message":"I have replaced U3710 and U3711. Unfotunately no improvement. The SSD connector looks good to me:"
+    },
+    {
+        "post_id":82733,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-15 15:43:48",
+        "message":"There could be crap under SSD connector; not directly visible.\nFirst, change L3700 and test..."
+    },
+    {
+        "post_id":82750,
+        "thread_id":61964,
+        "title":"Fan stopps spinning when I'm trying to measure voltage.",
+        "user_id":28356,
+        "username":"RioRio",
+        "post_date":"2021-11-16 11:35:59",
+        "message":"I have replaced L3700 and the SSD connector. Still no improvement. \ud83d\ude2d\ud83d\ude2d\ud83d\ude2d"
+    }
+]

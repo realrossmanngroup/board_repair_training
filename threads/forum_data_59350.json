@@ -1,8 +1,74 @@
-{"post_id":59691,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":21359,"username":"Fanfwe","post_date":"2020-05-16 14:49:09","message":"Hi,\nI have acquired a liquid damaged A1708, for practicing purpose. I am certain this laptop has never been touched, there has been no prior attempt to repair it as I know the previous owner who is responsible for the spill.\nThe CD3215s look fine as my charger goes to 20V, however the board only takes 20mA.\nI am reading 0.2V on PPBUS_G3H and I am measuring 4 Ohms to ground, which I believe is a short although I don't have another board to get a reference from.\n\nI am planning to inject 0.8V into this power rail in order to find out where the short comes from, but are there other things I should check first ? Like shorted MOSFETs or things like that. I don't want to end up sending 12V into other power rails and turn this potentially repairable board into something that would be impossible to fix."}
-{"post_id":59694,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-05-16 14:59:20","message":"NEVER ever inject voltage into PPBUS_G3H, before discarding any shorted high-side MOSFET from a secondary power supply.\nYou don't need voltage for that; just measure exact value to ground in ohm scale.\nThen compare with the values from all big coils.\n\nYou should understand what I mean.\nIf not, come back with the mentioned ohm values..."}
-{"post_id":59700,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":21359,"username":"Fanfwe","post_date":"2020-05-16 16:19:54","message":"So, if I understand well, I should compare my ohms to ground for PPBUS_G3H and my power rails coils.\nThe idea is to check if I'm getting similar readings, which would indicate that this rail would be shorted to PPBUS_G3H right ?\n\nIn fact, I'm seeing 3.97 Ohms between PPBUS_G3H and ground, and I'm getting that same value between CPU VCCGT coils and ground.\nMeasuring between those coils and PPBUS_G3H gives me about 1.5 Ohms.\n\nAll other coils show significantly higher resistance to ground, so no problem there."}
-{"post_id":59703,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-05-16 18:41:41","message":"Correct, you've got the iddea.\nThe lowest value between PPBUS_G3H and a big coil can denote a shorted MOSFET.\nJust remove that MOSFET and check if PPBUS_G3H goes high in diode mode."}
-{"post_id":59725,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":21359,"username":"Fanfwe","post_date":"2020-05-17 14:15:12","message":"Yeah well, then this is not one mosfet to remove. CPU VCCGT has 3 phases and there is no external mosfet, they must be directly in the regulator chips (U7410 U7420 and U7430).\nI guess I don't really have a way to know which one has the short, so I have to remove them one by one until the short is gone. If I'm lucky it will be gone after removing the first one, but murphy will likely make it be the last one I remove I suppose.\nThat being said, I assume there is a good chance that this board has a dead CPU, right ? If that rail is shorted to PPBUS_G3H, and to ground at the same time, there's still a good chance that 12V went into my CPU at some point.\nOK, well I'll report back once I have removed that short.\nThanks"}
-{"post_id":59727,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-05-17 16:21:40","message":"In fact you have a way to check.\nLift one side of each coil; so you disconnect each chip from CPU, where the normal low value to ground is."}
-{"post_id":59791,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":21359,"username":"Fanfwe","post_date":"2020-05-19 01:36:45","message":"OK, I have lifted all three coils. They all have a high resistance to ground on their regulator side, but still about 3 Ohms to ground on their CPU side.\nPPBUS_G3H is no longer shorted to ground. I haven't tried to power the board without the coils in order to see if I get proper voltage there now, although I don't think it would harm, right ?\nBut with that short to ground on the CPU side of those coils, I'm afraid the CPU is dead. Of course there are still a bunch of caps on that power rail which could be shorted to ground, so there is still some hope. None of them visually look bad though. Should I proceed with injecting voltage into that rail now ?"}
-{"post_id":59799,"thread_id":59350,"title":"A1708 820-0084-A missing PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-05-19 04:54:46","message":"3 ohm can be good value on CPU VCORE powe rail; you should compare with similar board.\n\nIf you have all the coils lifted, resolder now one by one.\nWhen the short appears again on PPBUS_G3H, you've just found the bad chip.\n\nHowever, do not expect too much from this board, as CPU got overvoltage..."}
+[
+    {
+        "post_id":59691,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-05-16 12:49:09",
+        "message":"Hi,\nI have acquired a liquid damaged A1708, for practicing purpose. I am certain this laptop has never been touched, there has been no prior attempt to repair it as I know the previous owner who is responsible for the spill.\nThe CD3215s look fine as my charger goes to 20V, however the board only takes 20mA.\nI am reading 0.2V on PPBUS_G3H and I am measuring 4 Ohms to ground, which I believe is a short although I don't have another board to get a reference from.\n\nI am planning to inject 0.8V into this power rail in order to find out where the short comes from, but are there other things I should check first ? Like shorted MOSFETs or things like that. I don't want to end up sending 12V into other power rails and turn this potentially repairable board into something that would be impossible to fix."
+    },
+    {
+        "post_id":59694,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-16 12:59:20",
+        "message":"NEVER ever inject voltage into PPBUS_G3H, before discarding any shorted high-side MOSFET from a secondary power supply.\nYou don't need voltage for that; just measure exact value to ground in ohm scale.\nThen compare with the values from all big coils.\n\nYou should understand what I mean.\nIf not, come back with the mentioned ohm values..."
+    },
+    {
+        "post_id":59700,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-05-16 14:19:54",
+        "message":"So, if I understand well, I should compare my ohms to ground for PPBUS_G3H and my power rails coils.\nThe idea is to check if I'm getting similar readings, which would indicate that this rail would be shorted to PPBUS_G3H right ?\n\nIn fact, I'm seeing 3.97 Ohms between PPBUS_G3H and ground, and I'm getting that same value between CPU VCCGT coils and ground.\nMeasuring between those coils and PPBUS_G3H gives me about 1.5 Ohms.\n\nAll other coils show significantly higher resistance to ground, so no problem there."
+    },
+    {
+        "post_id":59703,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-16 16:41:41",
+        "message":"Correct, you've got the iddea.\nThe lowest value between PPBUS_G3H and a big coil can denote a shorted MOSFET.\nJust remove that MOSFET and check if PPBUS_G3H goes high in diode mode."
+    },
+    {
+        "post_id":59725,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-05-17 12:15:12",
+        "message":"Yeah well, then this is not one mosfet to remove. CPU VCCGT has 3 phases and there is no external mosfet, they must be directly in the regulator chips (U7410 U7420 and U7430).\nI guess I don't really have a way to know which one has the short, so I have to remove them one by one until the short is gone. If I'm lucky it will be gone after removing the first one, but murphy will likely make it be the last one I remove I suppose.\nThat being said, I assume there is a good chance that this board has a dead CPU, right ? If that rail is shorted to PPBUS_G3H, and to ground at the same time, there's still a good chance that 12V went into my CPU at some point.\nOK, well I'll report back once I have removed that short.\nThanks"
+    },
+    {
+        "post_id":59727,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-17 14:21:40",
+        "message":"In fact you have a way to check.\nLift one side of each coil; so you disconnect each chip from CPU, where the normal low value to ground is."
+    },
+    {
+        "post_id":59791,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-05-18 23:36:45",
+        "message":"OK, I have lifted all three coils. They all have a high resistance to ground on their regulator side, but still about 3 Ohms to ground on their CPU side.\nPPBUS_G3H is no longer shorted to ground. I haven't tried to power the board without the coils in order to see if I get proper voltage there now, although I don't think it would harm, right ?\nBut with that short to ground on the CPU side of those coils, I'm afraid the CPU is dead. Of course there are still a bunch of caps on that power rail which could be shorted to ground, so there is still some hope. None of them visually look bad though. Should I proceed with injecting voltage into that rail now ?"
+    },
+    {
+        "post_id":59799,
+        "thread_id":59350,
+        "title":"A1708 820-0084-A missing PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-19 02:54:46",
+        "message":"3 ohm can be good value on CPU VCORE powe rail; you should compare with similar board.\n\nIf you have all the coils lifted, resolder now one by one.\nWhen the short appears again on PPBUS_G3H, you've just found the bad chip.\n\nHowever, do not expect too much from this board, as CPU got overvoltage..."
+    }
+]

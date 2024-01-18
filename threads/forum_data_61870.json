@@ -1,34 +1,308 @@
-{"post_id":81658,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-21 06:36:00","message":"I have a macbook in that has water damage, when the power cable is plugged in it goes green and then orange, no fan spin is seen.\n\nDamage was sustained on R7523 (P5V_S4RS3_VFB1_R) which had gone high resistance and had corrosion attaching it to the nearby ground plane. This was replaced with another resister and corroded pad re tinned.\n\nThere was also corrosion between C1272 (PP1V05_S0_PCH_VCCACLKPLL) and C1297 (PP1V05_S0SW_PCH_VCCUSB3PLL).\n\nThere was also a small amount of surface corrosion, but no component damage around R5360\n\nThe following voltage readings were made :\nPPBUS_G3H\n8.6v\nR5430\nok\n\nPPBUS_S5_HS_COMPUTING_ISNS\n8.6v\nR5430\nok\n\nPP3V3_S5\n3.3v\nR2094\nok\n\nPPBUS_S5_HS_COMPUTING_ISNS\n8.6v\nC7434\nok\n\nPPDCIN_G3H_ISOL\n18.5v\nR7005\nnot - 15.04v\n\nPP3V3_S4\n3.3v\nJ3501\nnot ok - 0.340v\n\nPPDCIN_G3H\n18.5v\nR7012\nnot ok - 15.04v\n\nPP3V3_SUS\n3.3v\nR8133\nok\n\nPP3V42_G3H\n3.42v\nL7095\nok\n\nPP3V3_S3\n3.3v\nQ4800\nnot ok - 0.063v\n\nPP3V3_S0\n3.3\nC5450\nnot ok - 0.058v\n\nPPVRTC_G3H\n3v\nC1910\nok\n\nPP3V3_S0\n3.3v\nC5450\nnot ok - 0.58v\n\nPP5V_S5\n5v\nC7400\nok - 4.97v\n\nPP5V_S4RS3\n5v\nC7600\nnot ok - 0v\n\nPP5V_S0\n5v\nR8063\nnot ok - 0v\n\nPP3V3_S4SW_SNS\n3.3v\nC5460\nno ok - 0.038v"}
-{"post_id":81659,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-21 07:12:50","message":"You've posted lot of information, but many confussions.\nAlso noted wrong assumption; suposing 18.5V means the voltage expected by you from charger.\nCharger voltage depends by its type; is marked on it.\n\nPlease, stop to post SUPPOSED voltages; we need accurate information.\nSeems that you get 3v3_S5\/SUS but no other voltages; confirm if correct.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L."}
-{"post_id":81663,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-21 07:50:57","message":"Th\n[QUOTE=\"2informaticos, post: 81659, member: 682\"]\nYou've posted lot of information, but many confussions.\nAlso noted wrong assumption; suposing 18.5V means the voltage expected by you from charger.\nCharger voltage depends by its type; is marked on it.\n\nPlease, stop to post SUPPOSED voltages; we need accurate information.\nSeems that you get 3v3_S5\/SUS but no other voltages; confirm if correct.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\n[\/QUOTE]\n The voltages where I put 'ok' match the voltages listed for that power rail in the schematic. Where I have written 'not ok' I have listed the voltage that was taken as it doesn't match the voltage on the schematic. \n\nI have shorted R5115 with tweezers and saw the voltage temporally drop at PM_PWRBTN_L . I did see fan spin for a moment too, which then stopped. If I repeat this process again I don't appear to be getting fan spin again. The voltage still drops and returns to normal though as before."}
-{"post_id":81665,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-21 09:05:31","message":"Check for pulse at both PM_SLP_S4\/3_L at same time.\n\nAs you get fan spin, means 5V_S0 comes on (on that moment).\nCheck for pulse at all big coils; also at ALL_SYS_PWRGD.\n\nBTW, write directly on the Reply box, instead of clicking Reply button.\nNo need to quote an entire post, visible few centimeters above..."}
-{"post_id":81708,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-22 11:20:27","message":"Ok so both  PM_SLP_S4\/3_L  pulse when triggered.\nL7320 - CPUVR_PHASE2 - triggered\n L7310 - CPUVR_PHASE1 - triggered\nL7630 - P1V05S0_LL - triggered\nL7430 - P1V05S0_LL - triggered\nL7560 - P3V3_S5_REG_L - has voltage (no change)\nL7130 - CHGR_PHASE - has voltage (no change)\nL3095 - PPVIN_S4SW_TBTBST_FET - did not trigger\nL7701 - PPVIN_S0SW_LCDBKLT - did not trigger\nALL_SYS_PWRGD - triggered\nALL_SYS_PWRGD_R - did not trigger"}
-{"post_id":81715,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-22 12:38:57","message":"Do you mean pulse detected by \"triggered\"?\nIf yes, check now for pulse at pins 7 & 3 of U1950.\n\nTry to start in SMC bypass mode also."}
-{"post_id":81716,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-22 12:39:51","message":"Yes I mean pulse detected (triggered)"}
-{"post_id":81717,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-22 13:16:29","message":"pulse detected  at pins 7 & 3 of U1950. If I start in SMC bypass mode, when I press the power button the fan spin for 1 second then stop. Then if I press the power button again they spin and then stop."}
-{"post_id":81722,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-22 15:02:00","message":"Do you know how to start in SMC bypass for sure?\nLooks like tried incorrect way.\nBoard should start (or try at least), when release power button, not pressing."}
-{"post_id":81725,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-22 15:24:16","message":"Yes hold the power button and plug in the charger. Nothing happens when I do this. If I then let go of the power button after this and start pressing it, the fan then spins for one second each time I press it."}
-{"post_id":81728,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-22 16:30:00","message":"Did you maintain power button pressed 5-10s after plug in the charger?\n\nCheck for pulse at PLT_RESET_L too."}
-{"post_id":81729,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-22 17:44:04","message":"Iv just tried a second time, I put my finger on the power button and then plugged in the charger. I kept holding the power button for ten seconds. Nothing at all happened. I then took my finger off the power button and the fan started spinning for a second, stopped for a second, then started for another second and then did nothing else.\n\nI'll check the PLT line in a second."}
-{"post_id":81802,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-25 16:30:11","message":"PLT_RESET_L - pulse detected."}
-{"post_id":81803,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-25 18:48:08","message":"Which areas have been affected by liquid?\n\nCheck all SPI Bus Series Termination resistors and their traces.\nClean J6100; you may need to remove it, if corroded."}
-{"post_id":81808,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-26 02:55:18","message":"Ok thanks I\u2019ll check\n\n\nDamage was sustained on R7523 (P5V_S4RS3_VFB1_R) which had gone high resistance and had corrosion attaching it to the nearby ground plane. This was replaced with another resister and corroded pad re tinned.\n\nThere was also corrosion between C1272 (PP1V05_S0_PCH_VCCACLKPLL) and C1297 (PP1V05_S0SW_PCH_VCCUSB3PLL)."}
-{"post_id":81851,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-26 12:54:57","message":"Iv had a look and j6100 is clean and has no corrosion at all. Iv had a look on the schemetic and see lots of references to spi, but not sure what you mean by the SPI Bus Series Termination resistors ?."}
-{"post_id":81853,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-26 13:05:32","message":"Ignore that Iv found the page on the schematic"}
-{"post_id":81938,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-28 06:55:30","message":"Ok I have tested all resistors and traces and all testing good.\n\nthis is a video of what is happening with the board.\n\n[URL unfurl=\"true\"]https:\/\/youtube.com\/shorts\/11JFKIq36qA?feature=share[\/URL]"}
-{"post_id":81939,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-28 07:05:59","message":"As you've mentioned corrosion under PCH\/CPU area, check all voltages from page 11.\nBe sure all resistors and small coils are good.\nUse the capacitors as test points."}
-{"post_id":81945,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-10-28 08:15:16","message":"PP3V3_S5 - 3.3v\nP3V3_SUS - 3.3v\nPP3V3_SUS - 3.3v\n\n\nPCH VCCSDIO BYPASS \/ PP3V3_S0 \/ C1208 - 0.101v\nPCH VCCSUSHDA BYPASS \/ PP1V5_S0SW_AUDIO_HDA \/ C1210 - 0v\n(PCH 3.3V GPIO\/LPC PWR) \/ PP3V3_S0 \/ C1212 - 0.100v\n(PCH 3.3V THERMAL PWR) \/ P3V3_S0 \/ C1214 - 0.100v\n(PCH 1.05V ME CORE PWR) \/ PP1V05_S0 \/ C1250 - 0.010v\n(PCH 1.05V CORE PWR) \/ PP1V05_S0 \/ C1256 - 0v\n(PCH 1.05V PCIe\/SATA\/USB3 PWR) \/ PP1V05_S0SW_PCH_HSIO \/ C1261 - 0v\n(PCH 1.05V USB2 PWR)\/ PP1V05_S0\/ C1264  - 0v\nPP1V05_S0\/\/(PCH 1.05V CLK PWR)\/C1266 - 0.010v\nPP1V05_S0_PCH_VCCACLKPLL_R - 0.014\nPP1V05_S0_PCH_VCC_ICC_R - 0.015\nPP1V05_S0_PCH_VCCAPLL_OPI - 0.015"}
-{"post_id":81948,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-10-28 08:58:01","message":"You must check voltage when the fan spins..."}
-{"post_id":82075,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-01 07:54:51","message":"PCH VCCSDIO BYPASS \/ PP3V3_S0 \/ C1208 - 3.2v pulse detected\nPCH VCCSUSHDA BYPASS \/ PP1V5_S0SW_AUDIO_HDA \/ C1210 - 1.4v pulse detected \n(PCH 3.3V GPIO\/LPC PWR) \/ PP3V3_S0 \/ C1212 - 3.2v pulse detected\n(PCH 3.3V THERMAL PWR) \/ P3V3_S0 \/ C1214 - 3.2v pulse detected\n(PCH 1.05V ME CORE PWR) \/ PP1V05_S0 \/ C1250 - 1.04v pulse detected\n(PCH 1.05V CORE PWR) \/ PP1V05_S0 \/ C1256 - 1.04v pulse detected\n(PCH 1.05V PCIe\/SATA\/USB3 PWR) \/ PP1V05_S0SW_PCH_HSIO \/ C1261 - 1.04v pulse detected\n(PCH 1.05V USB2 PWR)\/ PP1V05_S0\/ C1264  - 1.04v pulse detected\nPP1V05_S0\/\/(PCH 1.05V CLK PWR)\/C1266 - 1.04v pulse detected\nPP1V05_S0_PCH_VCCACLKPLL_R - 1.04v pulse detected\nPP1V05_S0_PCH_VCC_ICC_R - 1.04v pulse detected\nPP1V05_S0_PCH_VCCAPLL_OPI - 1.04v pulse detected"}
-{"post_id":82080,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-11-01 10:40:59","message":"Be sure R7520\/21\/23 have correct values.\nAn overvoltage on 5V_S3 can trigger SMC protection."}
-{"post_id":82083,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-01 11:10:33","message":"R7523 was the one I replaced as water damaged, it\u2019s within spec.  R7520 has a very weird reading, so going to change it. R7521 also a bit off so will change that."}
-{"post_id":82084,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-01 12:11:11","message":"Ok I took them out of circuit and they test fine, so all three of those are good."}
-{"post_id":82087,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-11-01 14:11:36","message":"Possibly accumulated crap under CPU or\/and SMC.\nYou can try to heat CPU, using quality flux.\n\nShould be good to reball SMC also."}
-{"post_id":82090,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-01 14:15:53","message":"Thanks, is the CPU not underfilled on these, or is that just phones and ipads ?. Ill give the SMC a reball. What temp is safe for the CPU ?."}
-{"post_id":82094,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-01 15:42:51","message":"No sign of corrosion under the SMC, just pulled it and looks fine. Is it possible U7501 is damaged ?, as R7523 was damaged. Not sure if the voltages it produces are there?."}
-{"post_id":82096,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-01 16:11:14","message":"Reballed SMC, will has the same problem"}
-{"post_id":82097,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-11-01 16:31:58","message":"No need to melt CPU balls.\nNo more than 180-200 degress, for 15-20s; sufficient to burn eventually accumulated crap.\n\nYou can try known good BIOS first, just in case.\nBe sure U6101 has good solders and traces."}
-{"post_id":82114,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-02 11:37:46","message":"[ATTACH type=\"full\"]60262[\/ATTACH]\nI have just noticed this next to the bios chip, I\u2019m not sure if it is relevant as it doesn\u2019t actually connect to any surface traces. The line is SPI_MOSI and shows OL at that test point."}
-{"post_id":82115,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-02 11:38:36","message":"In diode mode it shows 0.440 on that test point"}
-{"post_id":82121,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":682,"username":"2informaticos","post_date":"2021-11-02 12:43:27","message":"You can't get OL there; in diode mode with red probe at ground.\nThat means internal trace for SPI_MOSI is broken.\nCheck continuity from R6112 to R6122\/27; and the test pad, of course.\nRun a wire where is needed..."}
-{"post_id":82122,"thread_id":61870,"title":"820-00165 no power after water damage","user_id":4929,"username":"crea2k3","post_date":"2021-11-02 12:59:29","message":"Ignore that I had it in resistance mode, tests fine in diode mode. Have ordered a bios programmer to see if re flashing it helps,"}
+[
+    {
+        "post_id":81658,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-21 04:36:00",
+        "message":"I have a macbook in that has water damage, when the power cable is plugged in it goes green and then orange, no fan spin is seen.\n\nDamage was sustained on R7523 (P5V_S4RS3_VFB1_R) which had gone high resistance and had corrosion attaching it to the nearby ground plane. This was replaced with another resister and corroded pad re tinned.\n\nThere was also corrosion between C1272 (PP1V05_S0_PCH_VCCACLKPLL) and C1297 (PP1V05_S0SW_PCH_VCCUSB3PLL).\n\nThere was also a small amount of surface corrosion, but no component damage around R5360\n\nThe following voltage readings were made :\nPPBUS_G3H\n8.6v\nR5430\nok\n\nPPBUS_S5_HS_COMPUTING_ISNS\n8.6v\nR5430\nok\n\nPP3V3_S5\n3.3v\nR2094\nok\n\nPPBUS_S5_HS_COMPUTING_ISNS\n8.6v\nC7434\nok\n\nPPDCIN_G3H_ISOL\n18.5v\nR7005\nnot - 15.04v\n\nPP3V3_S4\n3.3v\nJ3501\nnot ok - 0.340v\n\nPPDCIN_G3H\n18.5v\nR7012\nnot ok - 15.04v\n\nPP3V3_SUS\n3.3v\nR8133\nok\n\nPP3V42_G3H\n3.42v\nL7095\nok\n\nPP3V3_S3\n3.3v\nQ4800\nnot ok - 0.063v\n\nPP3V3_S0\n3.3\nC5450\nnot ok - 0.058v\n\nPPVRTC_G3H\n3v\nC1910\nok\n\nPP3V3_S0\n3.3v\nC5450\nnot ok - 0.58v\n\nPP5V_S5\n5v\nC7400\nok - 4.97v\n\nPP5V_S4RS3\n5v\nC7600\nnot ok - 0v\n\nPP5V_S0\n5v\nR8063\nnot ok - 0v\n\nPP3V3_S4SW_SNS\n3.3v\nC5460\nno ok - 0.038v"
+    },
+    {
+        "post_id":81659,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-21 05:12:50",
+        "message":"You've posted lot of information, but many confussions.\nAlso noted wrong assumption; suposing 18.5V means the voltage expected by you from charger.\nCharger voltage depends by its type; is marked on it.\n\nPlease, stop to post SUPPOSED voltages; we need accurate information.\nSeems that you get 3v3_S5\/SUS but no other voltages; confirm if correct.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L."
+    },
+    {
+        "post_id":81663,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-21 05:50:57",
+        "message":"Th\n[QUOTE=\"2informaticos, post: 81659, member: 682\"]\nYou've posted lot of information, but many confussions.\nAlso noted wrong assumption; suposing 18.5V means the voltage expected by you from charger.\nCharger voltage depends by its type; is marked on it.\n\nPlease, stop to post SUPPOSED voltages; we need accurate information.\nSeems that you get 3v3_S5\/SUS but no other voltages; confirm if correct.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\n[\/QUOTE]\n The voltages where I put 'ok' match the voltages listed for that power rail in the schematic. Where I have written 'not ok' I have listed the voltage that was taken as it doesn't match the voltage on the schematic. \n\nI have shorted R5115 with tweezers and saw the voltage temporally drop at PM_PWRBTN_L . I did see fan spin for a moment too, which then stopped. If I repeat this process again I don't appear to be getting fan spin again. The voltage still drops and returns to normal though as before."
+    },
+    {
+        "post_id":81665,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-21 07:05:31",
+        "message":"Check for pulse at both PM_SLP_S4\/3_L at same time.\n\nAs you get fan spin, means 5V_S0 comes on (on that moment).\nCheck for pulse at all big coils; also at ALL_SYS_PWRGD.\n\nBTW, write directly on the Reply box, instead of clicking Reply button.\nNo need to quote an entire post, visible few centimeters above..."
+    },
+    {
+        "post_id":81708,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-22 09:20:27",
+        "message":"Ok so both  PM_SLP_S4\/3_L  pulse when triggered.\nL7320 - CPUVR_PHASE2 - triggered\n L7310 - CPUVR_PHASE1 - triggered\nL7630 - P1V05S0_LL - triggered\nL7430 - P1V05S0_LL - triggered\nL7560 - P3V3_S5_REG_L - has voltage (no change)\nL7130 - CHGR_PHASE - has voltage (no change)\nL3095 - PPVIN_S4SW_TBTBST_FET - did not trigger\nL7701 - PPVIN_S0SW_LCDBKLT - did not trigger\nALL_SYS_PWRGD - triggered\nALL_SYS_PWRGD_R - did not trigger"
+    },
+    {
+        "post_id":81715,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-22 10:38:57",
+        "message":"Do you mean pulse detected by \"triggered\"?\nIf yes, check now for pulse at pins 7 & 3 of U1950.\n\nTry to start in SMC bypass mode also."
+    },
+    {
+        "post_id":81716,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-22 10:39:51",
+        "message":"Yes I mean pulse detected (triggered)"
+    },
+    {
+        "post_id":81717,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-22 11:16:29",
+        "message":"pulse detected  at pins 7 & 3 of U1950. If I start in SMC bypass mode, when I press the power button the fan spin for 1 second then stop. Then if I press the power button again they spin and then stop."
+    },
+    {
+        "post_id":81722,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-22 13:02:00",
+        "message":"Do you know how to start in SMC bypass for sure?\nLooks like tried incorrect way.\nBoard should start (or try at least), when release power button, not pressing."
+    },
+    {
+        "post_id":81725,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-22 13:24:16",
+        "message":"Yes hold the power button and plug in the charger. Nothing happens when I do this. If I then let go of the power button after this and start pressing it, the fan then spins for one second each time I press it."
+    },
+    {
+        "post_id":81728,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-22 14:30:00",
+        "message":"Did you maintain power button pressed 5-10s after plug in the charger?\n\nCheck for pulse at PLT_RESET_L too."
+    },
+    {
+        "post_id":81729,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-22 15:44:04",
+        "message":"Iv just tried a second time, I put my finger on the power button and then plugged in the charger. I kept holding the power button for ten seconds. Nothing at all happened. I then took my finger off the power button and the fan started spinning for a second, stopped for a second, then started for another second and then did nothing else.\n\nI'll check the PLT line in a second."
+    },
+    {
+        "post_id":81802,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-25 14:30:11",
+        "message":"PLT_RESET_L - pulse detected."
+    },
+    {
+        "post_id":81803,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-25 16:48:08",
+        "message":"Which areas have been affected by liquid?\n\nCheck all SPI Bus Series Termination resistors and their traces.\nClean J6100; you may need to remove it, if corroded."
+    },
+    {
+        "post_id":81808,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-26 00:55:18",
+        "message":"Ok thanks I\u2019ll check\n\n\nDamage was sustained on R7523 (P5V_S4RS3_VFB1_R) which had gone high resistance and had corrosion attaching it to the nearby ground plane. This was replaced with another resister and corroded pad re tinned.\n\nThere was also corrosion between C1272 (PP1V05_S0_PCH_VCCACLKPLL) and C1297 (PP1V05_S0SW_PCH_VCCUSB3PLL)."
+    },
+    {
+        "post_id":81851,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-26 10:54:57",
+        "message":"Iv had a look and j6100 is clean and has no corrosion at all. Iv had a look on the schemetic and see lots of references to spi, but not sure what you mean by the SPI Bus Series Termination resistors ?."
+    },
+    {
+        "post_id":81853,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-26 11:05:32",
+        "message":"Ignore that Iv found the page on the schematic"
+    },
+    {
+        "post_id":81938,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-28 04:55:30",
+        "message":"Ok I have tested all resistors and traces and all testing good.\n\nthis is a video of what is happening with the board.\n\n[URL unfurl=\"true\"]https:\/\/youtube.com\/shorts\/11JFKIq36qA?feature=share[\/URL]"
+    },
+    {
+        "post_id":81939,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-28 05:05:59",
+        "message":"As you've mentioned corrosion under PCH\/CPU area, check all voltages from page 11.\nBe sure all resistors and small coils are good.\nUse the capacitors as test points."
+    },
+    {
+        "post_id":81945,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-10-28 06:15:16",
+        "message":"PP3V3_S5 - 3.3v\nP3V3_SUS - 3.3v\nPP3V3_SUS - 3.3v\n\n\nPCH VCCSDIO BYPASS \/ PP3V3_S0 \/ C1208 - 0.101v\nPCH VCCSUSHDA BYPASS \/ PP1V5_S0SW_AUDIO_HDA \/ C1210 - 0v\n(PCH 3.3V GPIO\/LPC PWR) \/ PP3V3_S0 \/ C1212 - 0.100v\n(PCH 3.3V THERMAL PWR) \/ P3V3_S0 \/ C1214 - 0.100v\n(PCH 1.05V ME CORE PWR) \/ PP1V05_S0 \/ C1250 - 0.010v\n(PCH 1.05V CORE PWR) \/ PP1V05_S0 \/ C1256 - 0v\n(PCH 1.05V PCIe\/SATA\/USB3 PWR) \/ PP1V05_S0SW_PCH_HSIO \/ C1261 - 0v\n(PCH 1.05V USB2 PWR)\/ PP1V05_S0\/ C1264  - 0v\nPP1V05_S0\/\/(PCH 1.05V CLK PWR)\/C1266 - 0.010v\nPP1V05_S0_PCH_VCCACLKPLL_R - 0.014\nPP1V05_S0_PCH_VCC_ICC_R - 0.015\nPP1V05_S0_PCH_VCCAPLL_OPI - 0.015"
+    },
+    {
+        "post_id":81948,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-10-28 06:58:01",
+        "message":"You must check voltage when the fan spins..."
+    },
+    {
+        "post_id":82075,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-01 05:54:51",
+        "message":"PCH VCCSDIO BYPASS \/ PP3V3_S0 \/ C1208 - 3.2v pulse detected\nPCH VCCSUSHDA BYPASS \/ PP1V5_S0SW_AUDIO_HDA \/ C1210 - 1.4v pulse detected \n(PCH 3.3V GPIO\/LPC PWR) \/ PP3V3_S0 \/ C1212 - 3.2v pulse detected\n(PCH 3.3V THERMAL PWR) \/ P3V3_S0 \/ C1214 - 3.2v pulse detected\n(PCH 1.05V ME CORE PWR) \/ PP1V05_S0 \/ C1250 - 1.04v pulse detected\n(PCH 1.05V CORE PWR) \/ PP1V05_S0 \/ C1256 - 1.04v pulse detected\n(PCH 1.05V PCIe\/SATA\/USB3 PWR) \/ PP1V05_S0SW_PCH_HSIO \/ C1261 - 1.04v pulse detected\n(PCH 1.05V USB2 PWR)\/ PP1V05_S0\/ C1264  - 1.04v pulse detected\nPP1V05_S0\/\/(PCH 1.05V CLK PWR)\/C1266 - 1.04v pulse detected\nPP1V05_S0_PCH_VCCACLKPLL_R - 1.04v pulse detected\nPP1V05_S0_PCH_VCC_ICC_R - 1.04v pulse detected\nPP1V05_S0_PCH_VCCAPLL_OPI - 1.04v pulse detected"
+    },
+    {
+        "post_id":82080,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-01 08:40:59",
+        "message":"Be sure R7520\/21\/23 have correct values.\nAn overvoltage on 5V_S3 can trigger SMC protection."
+    },
+    {
+        "post_id":82083,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-01 09:10:33",
+        "message":"R7523 was the one I replaced as water damaged, it\u2019s within spec.  R7520 has a very weird reading, so going to change it. R7521 also a bit off so will change that."
+    },
+    {
+        "post_id":82084,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-01 10:11:11",
+        "message":"Ok I took them out of circuit and they test fine, so all three of those are good."
+    },
+    {
+        "post_id":82087,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-01 12:11:36",
+        "message":"Possibly accumulated crap under CPU or\/and SMC.\nYou can try to heat CPU, using quality flux.\n\nShould be good to reball SMC also."
+    },
+    {
+        "post_id":82090,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-01 12:15:53",
+        "message":"Thanks, is the CPU not underfilled on these, or is that just phones and ipads ?. Ill give the SMC a reball. What temp is safe for the CPU ?."
+    },
+    {
+        "post_id":82094,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-01 13:42:51",
+        "message":"No sign of corrosion under the SMC, just pulled it and looks fine. Is it possible U7501 is damaged ?, as R7523 was damaged. Not sure if the voltages it produces are there?."
+    },
+    {
+        "post_id":82096,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-01 14:11:14",
+        "message":"Reballed SMC, will has the same problem"
+    },
+    {
+        "post_id":82097,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-01 14:31:58",
+        "message":"No need to melt CPU balls.\nNo more than 180-200 degress, for 15-20s; sufficient to burn eventually accumulated crap.\n\nYou can try known good BIOS first, just in case.\nBe sure U6101 has good solders and traces."
+    },
+    {
+        "post_id":82114,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-02 09:37:46",
+        "message":"[ATTACH type=\"full\"]60262[\/ATTACH]\nI have just noticed this next to the bios chip, I\u2019m not sure if it is relevant as it doesn\u2019t actually connect to any surface traces. The line is SPI_MOSI and shows OL at that test point."
+    },
+    {
+        "post_id":82115,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-02 09:38:36",
+        "message":"In diode mode it shows 0.440 on that test point"
+    },
+    {
+        "post_id":82121,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-02 10:43:27",
+        "message":"You can't get OL there; in diode mode with red probe at ground.\nThat means internal trace for SPI_MOSI is broken.\nCheck continuity from R6112 to R6122\/27; and the test pad, of course.\nRun a wire where is needed..."
+    },
+    {
+        "post_id":82122,
+        "thread_id":61870,
+        "title":"820-00165 no power after water damage",
+        "user_id":4929,
+        "username":"crea2k3",
+        "post_date":"2021-11-02 10:59:29",
+        "message":"Ignore that I had it in resistance mode, tests fine in diode mode. Have ordered a bios programmer to see if re flashing it helps,"
+    }
+]

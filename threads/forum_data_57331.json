@@ -1,24 +1,218 @@
-{"post_id":57331,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-06 14:45:02","message":"hey there, I am not the greatest with USBC boards, and this issue in particular drives me nuts everytime.\nCurrently i have 2 boards showing this exact symptom:\nwhen charger is connected i get 5.17V (steady) on both ports, and 0Amps draw.\nPPBUS is missing (0V) and not shorted to ground, no shorted highside cpu mosfets.\nPP3V3_G3H is fine (3.34v) and reaches the pads under the CD3215s\nI get all LDO voltages on the CD3215s, except I don't get the PP1V1_UPC_XA_LDO_BMC rail.\n\nSo far on both boards i have tried reworking and replacing the U2890 and the USB redriver chip next to the ports as well as the ISL9239 (the latter more out of desperation)\nAlso replaced the CD3215s multiple times (always in pairs, and these boards need the C00 chips, so that's what i've used)\n\nIs a missing PP1V1 LDO caused by a bad CD3215, and am i just being extremely unlucky and keep putting bad CD3215s on the board?\nThere is only one cap on this LDO rail and that cap is fine (i.e. not shorted or no fucked pads)\n\nAm i missing something? I haven't posted a lot of measurements, i know, but i'm off work now till after the weekend, so can get back with more measurements.\n\nThanks in advance!"}
-{"post_id":57332,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-03-06 18:02:10","message":"\"replacing the U2890\"\nI hope you've soldered one from exact same board model.\nThat is USB ROM chip; it has firmware!\n\nCheck diode mode to ground at 1V1 LDO output and compare with similar board."}
-{"post_id":57370,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-09 04:44:37","message":"I used a U2890 from an 820-00840-01 (whereas my board is 820-00840-A), will that make a difference?\n\nDiode mode to ground on 1v1 LDO is 0.453 on both CD3215s on the bad board.\non a known-good one (also a 00840-A) it is 0.448, so this seems fine, right?"}
-{"post_id":57371,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-03-09 05:55:25","message":"Doesn't look low.\nBut is LDO output and should appear with 5V at USB-C input I think.\nDo a search on the forum and check if is possible to confirm that on other posts."}
-{"post_id":57373,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-09 08:26:14","message":"yeah I think that's true. I have checked a working board and the 1v1 LDO (along with all other Vouts of the CD3215) comes on immediately after connecting charger, while it is still in the 5v mode.\nGeezzz does that mean I should try another set of CD3215s? or is there something else left to check first?"}
-{"post_id":57374,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-03-09 10:17:39","message":"1V1 LDO output was missing on both chips in first stage?\nDid you try the 4 way connections possible for USB-C charger?"}
-{"post_id":57376,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-09 10:26:39","message":"yes, it's missing on both CD3215s. \nIn the meantime, i have replaced both of them again on one of the boards, but still getting no 1v1 out.. \nAnd, yes i have tried all 4 orientations of the connector.\n\nAll other LDOs are working at the proper voltages on each CD3215."}
-{"post_id":57382,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-03-09 14:24:32","message":"Try removing redriver chip..."}
-{"post_id":57389,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-10 06:59:18","message":"Just tried it without the redriver. \nno change. still taking 5.17v at 0amps on all four connector orientations.\nI'm waiting on a new batch of CD3215s and some donorboards that are coming in next week, but this is the third set of CD3215s I've put on, can't imagine I have so much bad luck on two boards simultaneously"}
-{"post_id":57390,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-03-10 07:29:17","message":"You MUST get all LDO voltages from CD3215 chips; with just 5V on corresponding USB-C port.\nI've just got the confirmation from 00239 board."}
-{"post_id":57412,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-11 05:14:40","message":"Yes, that's what I confirmed on the working 00840-board yesterday as well.\nSo for now, the conclusion is that the CD3215 is bad? or is there any condition required before this LDO is created? I can't figure it out from the schematics really.."}
-{"post_id":57413,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-03-11 06:53:26","message":"Check each fuse close to CD3215 chip.\nPost voltage for (free) pads of C3120\/21 and C3220\/21.\nDon't make short there, or you can fry CD3215..."}
-{"post_id":57490,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-13 10:15:16","message":"OK, finally had time to get back to this one, loads of other junk to get out of the way first..\n\nF3000\/3010 Fuses are checked and ok.\n\nWhen charger connected to port A:\nC3120 pad 1: 5.20V \/  pad 2: 7.49V\nC3121 pad 1: 5.19V \/  pad 2: 10.97V\n\nCharger connected to port B:\nC3220 pad 1: 5.20V \/ pad 2: 7.26V\nC3221 pad 1: 5.19V \/ pad 2: 10.94V"}
-{"post_id":57491,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-03-13 12:51:23","message":"So Q3100\/200 are correctly controlled.\n\nYou must get all LDO voltages.\nIf no short on any, shpuld be CD3215 issue..."}
-{"post_id":57891,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-03-31 09:39:48","message":"Jesus I have another couple of these with only missing LDO being the 1v1 BMC one.\nI have a hunch that this is a sign of bad CD3215s. \nNeed to find better sellers. Anyone have any good sources for the C00 version (apart from Louis obviously)"}
-{"post_id":57900,"thread_id":57331,"title":"00840 5volts on both ports","user_id":5109,"username":"Yoel Ren","post_date":"2020-04-01 01:27:02","message":"Hello captainmac, I also have this symptomps, any progress\/ update? I have replaced a total of 6 chip, doesnt looks like a cd3215 failure to me"}
-{"post_id":57902,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-04-01 02:59:52","message":"no update yet. the only constant is that I'm using preballed CD3215s from Ali. I have run out of donors  and my orders are taking too long.\nWhat kind of chips are you using?"}
-{"post_id":57906,"thread_id":57331,"title":"00840 5volts on both ports","user_id":5109,"username":"Yoel Ren","post_date":"2020-04-01 05:01:02","message":"Im using donor cd3215coo in the form of chicken wings like rossmann, bought it from ali too...\nIn my case, i don't have 20v on dc in, but if i put battery, it can turn on and boot normally, only cannot charge.., maybe you can check if it does turn on with charged battery?"}
-{"post_id":57941,"thread_id":57331,"title":"00840 5volts on both ports","user_id":1423,"username":"captainmac","post_date":"2020-04-02 04:53:42","message":"yeah, mine arent turning on on battery only."}
-{"post_id":65734,"thread_id":57331,"title":"00840 5volts on both ports","user_id":21359,"username":"Fanfwe","post_date":"2020-09-27 09:22:25","message":"Hi guys,\nI was just checking if you made any progress with this issue ?\nI happen to have a board with the exact same issue. One of the CD3215s gives me no 1V1. I have replaced it 3 times now, with chips I purchased reballed from different vendors on Ali. I also replaced the other CD3215 on that side of the board, just in case.\nThe LDO output is not shorted to ground on the PCB (measured while CD3215 was removed).\nI had a look at the datasheet for TPS65986 (closest chip to the CD3215), but nothing in there really telling the criteria for that LDO to turn on during the chip power-up sequence :("}
-{"post_id":65811,"thread_id":57331,"title":"00840 5volts on both ports","user_id":27140,"username":"corredorjuanc","post_date":"2020-09-29 14:14:07","message":"If this helps to anyone, I had one with all LDO present in both CD3215C. I first replace U2800 and U2890, same result. I try everything and i test everything and I couldn't find anything wrong, so I replace U7000 because I have nothing else to do and I got the 20V back and 0.49 amps.\n\nOriginally was 5V 0.2 amps."}
-{"post_id":65814,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2020-09-29 15:09:34","message":"Thanks for feedback.\nWe still need to gather more information about USB-C boards..."}
-{"post_id":89678,"thread_id":57331,"title":"00840 5volts on both ports","user_id":27549,"username":"Bravo2001","post_date":"2022-05-30 10:20:01","message":"Hi guys, I found this old post with the exact same symptoms I\u2019m having\u2026 is there any solution for this?"}
-{"post_id":89681,"thread_id":57331,"title":"00840 5volts on both ports","user_id":682,"username":"2informaticos","post_date":"2022-05-30 10:24:13","message":"Please open new thread and post there all the readings from your board.\nSame symptom doesn't always have the same cause..."}
+[
+    {
+        "post_id":57331,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-06 12:45:02",
+        "message":"hey there, I am not the greatest with USBC boards, and this issue in particular drives me nuts everytime.\nCurrently i have 2 boards showing this exact symptom:\nwhen charger is connected i get 5.17V (steady) on both ports, and 0Amps draw.\nPPBUS is missing (0V) and not shorted to ground, no shorted highside cpu mosfets.\nPP3V3_G3H is fine (3.34v) and reaches the pads under the CD3215s\nI get all LDO voltages on the CD3215s, except I don't get the PP1V1_UPC_XA_LDO_BMC rail.\n\nSo far on both boards i have tried reworking and replacing the U2890 and the USB redriver chip next to the ports as well as the ISL9239 (the latter more out of desperation)\nAlso replaced the CD3215s multiple times (always in pairs, and these boards need the C00 chips, so that's what i've used)\n\nIs a missing PP1V1 LDO caused by a bad CD3215, and am i just being extremely unlucky and keep putting bad CD3215s on the board?\nThere is only one cap on this LDO rail and that cap is fine (i.e. not shorted or no fucked pads)\n\nAm i missing something? I haven't posted a lot of measurements, i know, but i'm off work now till after the weekend, so can get back with more measurements.\n\nThanks in advance!"
+    },
+    {
+        "post_id":57332,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-06 16:02:10",
+        "message":"\"replacing the U2890\"\nI hope you've soldered one from exact same board model.\nThat is USB ROM chip; it has firmware!\n\nCheck diode mode to ground at 1V1 LDO output and compare with similar board."
+    },
+    {
+        "post_id":57370,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-09 02:44:37",
+        "message":"I used a U2890 from an 820-00840-01 (whereas my board is 820-00840-A), will that make a difference?\n\nDiode mode to ground on 1v1 LDO is 0.453 on both CD3215s on the bad board.\non a known-good one (also a 00840-A) it is 0.448, so this seems fine, right?"
+    },
+    {
+        "post_id":57371,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-09 03:55:25",
+        "message":"Doesn't look low.\nBut is LDO output and should appear with 5V at USB-C input I think.\nDo a search on the forum and check if is possible to confirm that on other posts."
+    },
+    {
+        "post_id":57373,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-09 06:26:14",
+        "message":"yeah I think that's true. I have checked a working board and the 1v1 LDO (along with all other Vouts of the CD3215) comes on immediately after connecting charger, while it is still in the 5v mode.\nGeezzz does that mean I should try another set of CD3215s? or is there something else left to check first?"
+    },
+    {
+        "post_id":57374,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-09 08:17:39",
+        "message":"1V1 LDO output was missing on both chips in first stage?\nDid you try the 4 way connections possible for USB-C charger?"
+    },
+    {
+        "post_id":57376,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-09 08:26:39",
+        "message":"yes, it's missing on both CD3215s. \nIn the meantime, i have replaced both of them again on one of the boards, but still getting no 1v1 out.. \nAnd, yes i have tried all 4 orientations of the connector.\n\nAll other LDOs are working at the proper voltages on each CD3215."
+    },
+    {
+        "post_id":57382,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-09 12:24:32",
+        "message":"Try removing redriver chip..."
+    },
+    {
+        "post_id":57389,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-10 04:59:18",
+        "message":"Just tried it without the redriver. \nno change. still taking 5.17v at 0amps on all four connector orientations.\nI'm waiting on a new batch of CD3215s and some donorboards that are coming in next week, but this is the third set of CD3215s I've put on, can't imagine I have so much bad luck on two boards simultaneously"
+    },
+    {
+        "post_id":57390,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-10 05:29:17",
+        "message":"You MUST get all LDO voltages from CD3215 chips; with just 5V on corresponding USB-C port.\nI've just got the confirmation from 00239 board."
+    },
+    {
+        "post_id":57412,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-11 03:14:40",
+        "message":"Yes, that's what I confirmed on the working 00840-board yesterday as well.\nSo for now, the conclusion is that the CD3215 is bad? or is there any condition required before this LDO is created? I can't figure it out from the schematics really.."
+    },
+    {
+        "post_id":57413,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-11 04:53:26",
+        "message":"Check each fuse close to CD3215 chip.\nPost voltage for (free) pads of C3120\/21 and C3220\/21.\nDon't make short there, or you can fry CD3215..."
+    },
+    {
+        "post_id":57490,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-13 08:15:16",
+        "message":"OK, finally had time to get back to this one, loads of other junk to get out of the way first..\n\nF3000\/3010 Fuses are checked and ok.\n\nWhen charger connected to port A:\nC3120 pad 1: 5.20V \/  pad 2: 7.49V\nC3121 pad 1: 5.19V \/  pad 2: 10.97V\n\nCharger connected to port B:\nC3220 pad 1: 5.20V \/ pad 2: 7.26V\nC3221 pad 1: 5.19V \/ pad 2: 10.94V"
+    },
+    {
+        "post_id":57491,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-13 10:51:23",
+        "message":"So Q3100\/200 are correctly controlled.\n\nYou must get all LDO voltages.\nIf no short on any, shpuld be CD3215 issue..."
+    },
+    {
+        "post_id":57891,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-03-31 07:39:48",
+        "message":"Jesus I have another couple of these with only missing LDO being the 1v1 BMC one.\nI have a hunch that this is a sign of bad CD3215s. \nNeed to find better sellers. Anyone have any good sources for the C00 version (apart from Louis obviously)"
+    },
+    {
+        "post_id":57900,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-03-31 23:27:02",
+        "message":"Hello captainmac, I also have this symptomps, any progress\/ update? I have replaced a total of 6 chip, doesnt looks like a cd3215 failure to me"
+    },
+    {
+        "post_id":57902,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-04-01 00:59:52",
+        "message":"no update yet. the only constant is that I'm using preballed CD3215s from Ali. I have run out of donors  and my orders are taking too long.\nWhat kind of chips are you using?"
+    },
+    {
+        "post_id":57906,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":5109,
+        "username":"Yoel Ren",
+        "post_date":"2020-04-01 03:01:02",
+        "message":"Im using donor cd3215coo in the form of chicken wings like rossmann, bought it from ali too...\nIn my case, i don't have 20v on dc in, but if i put battery, it can turn on and boot normally, only cannot charge.., maybe you can check if it does turn on with charged battery?"
+    },
+    {
+        "post_id":57941,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":1423,
+        "username":"captainmac",
+        "post_date":"2020-04-02 02:53:42",
+        "message":"yeah, mine arent turning on on battery only."
+    },
+    {
+        "post_id":65734,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-09-27 07:22:25",
+        "message":"Hi guys,\nI was just checking if you made any progress with this issue ?\nI happen to have a board with the exact same issue. One of the CD3215s gives me no 1V1. I have replaced it 3 times now, with chips I purchased reballed from different vendors on Ali. I also replaced the other CD3215 on that side of the board, just in case.\nThe LDO output is not shorted to ground on the PCB (measured while CD3215 was removed).\nI had a look at the datasheet for TPS65986 (closest chip to the CD3215), but nothing in there really telling the criteria for that LDO to turn on during the chip power-up sequence :("
+    },
+    {
+        "post_id":65811,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":27140,
+        "username":"corredorjuanc",
+        "post_date":"2020-09-29 12:14:07",
+        "message":"If this helps to anyone, I had one with all LDO present in both CD3215C. I first replace U2800 and U2890, same result. I try everything and i test everything and I couldn't find anything wrong, so I replace U7000 because I have nothing else to do and I got the 20V back and 0.49 amps.\n\nOriginally was 5V 0.2 amps."
+    },
+    {
+        "post_id":65814,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-29 13:09:34",
+        "message":"Thanks for feedback.\nWe still need to gather more information about USB-C boards..."
+    },
+    {
+        "post_id":89678,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":27549,
+        "username":"Bravo2001",
+        "post_date":"2022-05-30 08:20:01",
+        "message":"Hi guys, I found this old post with the exact same symptoms I\u2019m having\u2026 is there any solution for this?"
+    },
+    {
+        "post_id":89681,
+        "thread_id":57331,
+        "title":"00840 5volts on both ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-30 08:24:13",
+        "message":"Please open new thread and post there all the readings from your board.\nSame symptom doesn't always have the same cause..."
+    }
+]

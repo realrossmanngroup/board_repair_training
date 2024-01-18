@@ -1,42 +1,380 @@
-{"post_id":77151,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-06-29 14:16:59","message":"Hey y'all,\n\nI work in the film industry, I have a good understanding of electronics and I design my own PCBs but I've never fixed an iMac logic board.\nI am experimenting with battery powering my iMac. \n\nI found that without the 7-pin flat data cable connecting the PSU and the logic board the iMac will work as expected but the CPU fan and the CPU will be pinned to max.\nThen after some testing I figured out that pins 4 and 5 of this flat data cable are  SNS_ACDC_N and SNS_ACDC_P, which if I'm not mistaken are two temperature sensors.\n\nWhile measuring and testing things I have accidentally shorted these two pin (4 and 5), which resulted in the iMac shutting down and restarting and now even if this 7-pin data cable is connected the CPU fan and the CPU are pinned to max, like when it was missing those two temperature sensors.\n\nSo I suspect either one of those PSU temp sensors got damaged or something on the path to them. \nI got my hands on an old iMac schematic which suggests these two temp sensors go to U5600, so maybe that could have gotten some damage?\n\nPlease help me troubleshoot and fix this problem.\n[ATTACH type=\"full\"]59979[\/ATTACH]"}
-{"post_id":77157,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-06-29 18:32:24","message":"First of all, welcome to the forum!\n\nTell us the 820-xxxx code of your board.\n\niMac power supply should have a dedicated circuit which monitor the temperature and communicates with MLB through I2C bus; connected on the same bus as U5600 in your case.\nSomething got damaged in that bus; could be the chip from power supply, or other chip on the MLB."}
-{"post_id":77171,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-06-29 23:39:47","message":"Thank you for your prompt reply 2informaticos.\n\nPlease help me find the 820 code of my board.\nPrinted on the logic board I see two QR codes and some numbers below and another couple of numbers but unfortunately neither of those start with 820."}
-{"post_id":77178,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-06-30 05:44:44","message":"Inspect both sides, close to the edge board.\nOr use Google\n[URL unfurl=\"true\"]https:\/\/www.google.com\/search?q=imac+2017+logic+board&tbm=isch&ved=2ahUKEwjcnbnG_r3xAhVB0RoKHfG9DVAQ2-cCegQIABAA&oq=imac+2017+logic+board&gs_lcp=CgNpbWcQAzoFCAAQsQM6AggAOggIABCxAxCDAToECAAQHjoGCAAQCBAeOgQIABAYUKTArRNY8aawE2CXqbATaABwAHgAgAGFAYgB_gySAQQxOC4zmAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=tavbYJzvDsGia_H7toAF&bih=559&biw=1280&client=firefox-b-d&hl=es[\/URL]\nMaybe 820-00597\/629..."}
-{"post_id":77186,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":1057,"username":"piernov","post_date":"2021-06-30 07:26:40","message":"[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/Board_Number_by_A_Number#A1419_iMac_27.22_Slim[\/URL]"}
-{"post_id":77209,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-06-30 13:18:10","message":"Thank you both, I've found it it was just hard to see as it's black on black: 820-00609-A"}
-{"post_id":77212,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-06-30 15:37:31","message":"No schematic available.\n820-00134 board is somehow similar.\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1H0yMPCZYgK1FId9KLsxsyAT34JeRIwy6\/view?usp=sharing[\/URL]\nUse it as guide.\n\nThis board has an dedicated ID for power supply.\nMissing that connection can be the reason of your mod issue.\nNow you have to solve the induced fault."}
-{"post_id":77216,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-06-30 16:15:26","message":"Thank you for the schematic 2informaticos.\nWhen I was testing connecting those 7 pins one-by-one, I've found that only pins 4 and 5 (SNS_ACDC_N and SNS_ACDC_P) are needed for the machine to work perfectly, which makes me assume that one or both of these two might be missing now after I accidentally shorted these two to each other.\n\nI have measured everything on the PSU side that is connected to these two pins and they seem to be OK.\nI'll have to remove the CPU heatsink to get to measuring the components on the logic board side.\n\nDo you have any suggestions about where and what  I should check?"}
-{"post_id":77223,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-06-30 17:14:25","message":"Machine has the same problem if you connect original power supply now?"}
-{"post_id":77235,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-06-30 23:39:04","message":"Exactly.\nI haven't tried battery powering the machine yet, I always used the original power supply, this is what I've done:\n\n- Because I knew when I will use big batteries I won't have the 7pin data cable my first test was to just unplug the 7-pin data cable and start the machine (with the original power supply), this resulted in: CPU fan is loud, cpu on 100% by kernel_task.\n- To find out what it is missing I started connecting the individual pins of the 7-pin data cables one-by-one and I found that only pins 4 and 5 (SNS_ACDC_N and SNS_ACDC_P) are needed for the machine to work perfectly. Of course I've shut down the machine and unplugged power every time I connected a new pin.\n- When I figured out that pins 4 and 5 are needed, I started the machine and I tried to measure what voltage is going through pins 4 and 5 so I can replicate it but while I was doing that I accidentally shorted these two pins and the machine resterated.\n- Now even when the entire 7-pin data cable is connected (still using the original power supply) the CPU fan is loud and the CPU is on 100% by kernel_task, exactly like when pins 4 and 5 where missing."}
-{"post_id":77240,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-01 04:37:26","message":"After accidentally short, one of L5610\/11 could be burnt; if you are lucky.\nIf not, change U5600.\nOnce you get it working correctly with all the normal connections, then disconnect J6901 and solder a diode, or NPN transistor between pins 4 & 5.\nCheck Q5605 in schematic, to make an idea."}
-{"post_id":77241,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-01 04:54:10","message":"Thank you so much 2informaticos, that is brilliant!! \nI'll measure those as soon as I get home from work today.\nIf one of those have burnt, where can I buy a L5610\/11 or U5600?"}
-{"post_id":77243,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-01 05:02:11","message":"Try replacing with tiny wire..."}
-{"post_id":77291,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-02 05:22:27","message":"I've measured L5610\/11 they are both 0.9 ohm. That means they are OK?\n\nThe actual logic board is a bit different than the boardview. The main difference is the IC that is where U5600 should be only has 8 pins instead of 10 as on the boardview.\nI have attached a photo of it.\nAm I looking at the wrong thing?\n[ATTACH type=\"full\" alt=\"IMAG1724 copy.jpg\"]59986[\/ATTACH]"}
-{"post_id":77292,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-02 07:20:39","message":"I cannot read the marking code in condition.\nIt is DAF?"}
-{"post_id":77293,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-02 07:42:07","message":"Yes, it is DAFi"}
-{"post_id":77296,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-02 08:00:02","message":"May be something else, not thermal sensor.\nAll Apple schematics I looked have only EMC1414\/28 chips; none of them MSOP-8."}
-{"post_id":77297,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-02 09:16:10","message":"So it is somewhere else then, right? \nI will have to probe through and find where the J6901pin 4 & 5 lead me... hopefully I'll find it quickly.\nDo you have any advice how to trace them quicker?"}
-{"post_id":77317,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-02 17:34:19","message":"Do you get connection between J6901 and that 8 pins chip?"}
-{"post_id":77372,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-04 07:45:21","message":"Strange but everything seems to roughly in the right place but there are some interesting differences.\n\nI have probed through and I've create a large photo that I have colour coded to show what is connected to what, you can download it here (the forum didn't let me upload it here because it was too large): [URL]https:\/\/wetransfer.com\/downloads\/3f958033144191cc7cd0c5a7723e093220210704123904\/1e21b362372b2951751c8c9d793a2c3c20210704123923\/f63406[\/URL]"}
-{"post_id":77383,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-04 14:16:48","message":"My question was very simple, no need of any photo.\nPins 4 & 5 of J6901 go to that chip???"}
-{"post_id":77385,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-04 14:17:33","message":"Yes"}
-{"post_id":77388,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-04 19:13:02","message":"Then is a thermal interface too; just didn't identify that SMD code yet."}
-{"post_id":77391,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-04 23:37:35","message":"What should I test next?"}
-{"post_id":77392,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-05 03:51:17","message":"Diode mode to ground readings for these two lines."}
-{"post_id":77427,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-05 18:05:10","message":"Both lines to ground are 0.696V, then reversing the multimeter leads produces open line."}
-{"post_id":77428,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-06 02:34:40","message":"Need to find that chip nodel and change it.\n\nIt is TMP423B.\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1-4YdRBP-oc6C7Fj436BEYBFuYsza93nt\/view?usp=sharing[\/URL]"}
-{"post_id":77432,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-06 02:40:39","message":"OK, thanks.\nI see two available: [B][URL='https:\/\/www.ti.com\/store\/ti\/en\/p\/product\/?p=TMP423BIDCNR']TMP423BIDCNR[\/URL] or [B][URL='https:\/\/www.ti.com\/store\/ti\/en\/p\/product\/?p=TMP423BIDCNT']TMP423BIDCNT[\/URL] . [\/B][\/B]\nWhich should I buy?"}
-{"post_id":77433,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-06 02:47:48","message":"OK, thank you, I'll buy one and let you know when I've changed it."}
-{"post_id":77860,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-18 03:45:26","message":"[USER=682]@2informaticos[\/USER] as you suggested I have replaced that chip with a new TMP423B from DigiKey.\nProblem still exists, CPU fan is spinning up to maximum speed, like when pins 4 & 5 were missing, even though the 7pin ACDC data cable is connected.\n\nThis is what has changed now that I have replaced the DAFI TMP423B on the logic board: when measuring diode mode between pin 4 to ground and pin 5 to ground I measure around 0.7V even when reversing the multimeter leads (before one way was open line). I assume this is good?\n\nBUT what I haven't measured before is when I do the same test of pin4 to ground and pin5 to ground ON THE PSU, then I get open line (both ways when reversing the multimeter leads).\nWhat does that mean? Is something still broken but on the PSU side?\n\nAlso I have opened \"iStats menu\" sensor page and this is what I get so it is still missing some sensors but I don't know which ones are missing by default and which one is missing because of the fault that is causing the CPU being pinned to max."}
-{"post_id":77861,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-18 05:10:11","message":"Unfortunatelly, we don't have exact schematic for this board.\nConsidering 00134 as guide, U5600\/50 are both connected in the same bus.\nIf U5600 got damaged, it can block the communication on entire bus.\nCPU proximity, as PSU temp are controlled directly by U5600.\n\nTMP423 can control 3 remote sensors, plus its internal sensor.\nYou should check all its adiacent resistors.\nThe remote sensors are simple NPN transistors, connected as diode; more temp sensitive than a simple diode.\nYou should check\/replace the sensor form PSU; all sensors connected to U5600 in fact.\nCompare the readings with other sensors, connected to other temp interface (U5650).\n\nRemove U5600 and check again the temps reported by macOS."}
-{"post_id":78122,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-26 14:00:04","message":"Thank you very much for your detailed reply [USER=682]@2informaticos[\/USER] I really appreciate it.\n\nOut of curiosity I've checked the \"iStats menu\" sensors readings after disconnecting the 7-pin PSU \"data\" cable and I got the same readings as in my previous comment (comment #29) when the 7-pin cable was properly connected.\n\nBecause I urgently have to figure out how to get my iMac working without the 7-pin data cable (to make it battery powered so I can work with it in the middle of nowhere), I have bought another iMac exactly like this one I have messed up so I can test how to bypass the 7-pin cable. \n(I'll fix this other one later when I have time)\n\nIn comment #11 you said:\n\"Once you get it working correctly with all the normal connections, then disconnect J6901 and solder a diode, or NPN transistor between pins 4 & 5.\nCheck Q5605 in schematic, to make an idea.\"\nCould you please explain to me in detail what I should do? I'm lost..\nWhat kind of diode do I need? Which way should it go --> from pin 4 to 5, or from pin 5 to 4?"}
-{"post_id":78123,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-26 14:51:53","message":"You don't need a diode.\nThe corresponding NPN transistor is connected in diode mode; B & C tied together.\nJust get one from any MacBook, or iMac board.\nSolder it in the same configuration, between L5610\/11 lines; be aware, B+C go to P line and E goes to N line."}
-{"post_id":78124,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-07-26 15:08:14","message":"If I understand you correctly I solder B+C to PIN-5 and E to PIN-4 of J6901 and that should make the logic board think that the PSU temp sensors are connected as they should be even if the 7-pin data cable is disconnected?\n\nIf I don't have access to any donor MacBook or iMac boards can I buy an NPN from Digikey? If yes, could you help me find which one to buy?"}
-{"post_id":78125,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-07-27 03:54:28","message":"Any NPN transistor should work.\nYou can use a plastic TO-92 case, with normal pins; more easy to accomodate on the board.\nOf course, you can also try with a simple diode.\n\nIf the temp read by SMC from that sensor generates an issue, then may need to get one from other board; used as temp sensor too."}
-{"post_id":78673,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-08-10 11:19:44","message":"[USER=682]@2informaticos[\/USER] can I just double check if I understood you correctly that I should solder the NPN transistor onto J6901 in a way that B+C are on PIN-5 and E is on PIN-4?"}
-{"post_id":78674,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-08-10 11:51:49","message":"Yes, B+C at P line and E to N line."}
-{"post_id":78690,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-08-10 13:31:26","message":"Thank you. I will test this on Friday and I hope everything will go well."}
-{"post_id":78854,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-08-15 11:34:29","message":"[USER=682]@2informaticos[\/USER] YOU ARE A GENIUS!!! \nThe NPN transistor is giving the logic board the temp readings so it is not missing the 7-pin data cable, which means I can replace the original ACDC power supply with a DCDC supply so it can be battery powered!! :)"}
-{"post_id":78856,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-08-15 11:42:40","message":"Glad to hear you've solved it.\nAnd thanks for feedback; someone else can find this useful..."}
-{"post_id":78857,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":31447,"username":"Georg3","post_date":"2021-08-15 11:48:34","message":"Thank you very much again! Battery powering it was the most important thing for me.\nWhen I have free time I have to fix the other iMac, the one I started experimenting with and shorted out. As you suggested I'll go through the resistors on that data line to find out what is causing the \"AC\/DC T2 Sec Heatsink\", \"CPU Proximity\", \"CPU Backside\" and \"Skin\" sensors to be missing.\nIf it is the SMC then do you think I might be able to find a replacement anywhere online?"}
-{"post_id":78861,"thread_id":61374,"title":"iMac 2017 (18,3) fan on max loud, cpu on max","user_id":682,"username":"2informaticos","post_date":"2021-08-15 12:15:34","message":"You can only replace SMC with one from donor board, same model."}
+[
+    {
+        "post_id":77151,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-06-29 12:16:59",
+        "message":"Hey y'all,\n\nI work in the film industry, I have a good understanding of electronics and I design my own PCBs but I've never fixed an iMac logic board.\nI am experimenting with battery powering my iMac. \n\nI found that without the 7-pin flat data cable connecting the PSU and the logic board the iMac will work as expected but the CPU fan and the CPU will be pinned to max.\nThen after some testing I figured out that pins 4 and 5 of this flat data cable are  SNS_ACDC_N and SNS_ACDC_P, which if I'm not mistaken are two temperature sensors.\n\nWhile measuring and testing things I have accidentally shorted these two pin (4 and 5), which resulted in the iMac shutting down and restarting and now even if this 7-pin data cable is connected the CPU fan and the CPU are pinned to max, like when it was missing those two temperature sensors.\n\nSo I suspect either one of those PSU temp sensors got damaged or something on the path to them. \nI got my hands on an old iMac schematic which suggests these two temp sensors go to U5600, so maybe that could have gotten some damage?\n\nPlease help me troubleshoot and fix this problem.\n[ATTACH type=\"full\"]59979[\/ATTACH]"
+    },
+    {
+        "post_id":77157,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-29 16:32:24",
+        "message":"First of all, welcome to the forum!\n\nTell us the 820-xxxx code of your board.\n\niMac power supply should have a dedicated circuit which monitor the temperature and communicates with MLB through I2C bus; connected on the same bus as U5600 in your case.\nSomething got damaged in that bus; could be the chip from power supply, or other chip on the MLB."
+    },
+    {
+        "post_id":77171,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-06-29 21:39:47",
+        "message":"Thank you for your prompt reply 2informaticos.\n\nPlease help me find the 820 code of my board.\nPrinted on the logic board I see two QR codes and some numbers below and another couple of numbers but unfortunately neither of those start with 820."
+    },
+    {
+        "post_id":77178,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-30 03:44:44",
+        "message":"Inspect both sides, close to the edge board.\nOr use Google\n[URL unfurl=\"true\"]https:\/\/www.google.com\/search?q=imac+2017+logic+board&tbm=isch&ved=2ahUKEwjcnbnG_r3xAhVB0RoKHfG9DVAQ2-cCegQIABAA&oq=imac+2017+logic+board&gs_lcp=CgNpbWcQAzoFCAAQsQM6AggAOggIABCxAxCDAToECAAQHjoGCAAQCBAeOgQIABAYUKTArRNY8aawE2CXqbATaABwAHgAgAGFAYgB_gySAQQxOC4zmAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=tavbYJzvDsGia_H7toAF&bih=559&biw=1280&client=firefox-b-d&hl=es[\/URL]\nMaybe 820-00597\/629..."
+    },
+    {
+        "post_id":77186,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-06-30 05:26:40",
+        "message":"[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/Board_Number_by_A_Number#A1419_iMac_27.22_Slim[\/URL]"
+    },
+    {
+        "post_id":77209,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-06-30 11:18:10",
+        "message":"Thank you both, I've found it it was just hard to see as it's black on black: 820-00609-A"
+    },
+    {
+        "post_id":77212,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-30 13:37:31",
+        "message":"No schematic available.\n820-00134 board is somehow similar.\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1H0yMPCZYgK1FId9KLsxsyAT34JeRIwy6\/view?usp=sharing[\/URL]\nUse it as guide.\n\nThis board has an dedicated ID for power supply.\nMissing that connection can be the reason of your mod issue.\nNow you have to solve the induced fault."
+    },
+    {
+        "post_id":77216,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-06-30 14:15:26",
+        "message":"Thank you for the schematic 2informaticos.\nWhen I was testing connecting those 7 pins one-by-one, I've found that only pins 4 and 5 (SNS_ACDC_N and SNS_ACDC_P) are needed for the machine to work perfectly, which makes me assume that one or both of these two might be missing now after I accidentally shorted these two to each other.\n\nI have measured everything on the PSU side that is connected to these two pins and they seem to be OK.\nI'll have to remove the CPU heatsink to get to measuring the components on the logic board side.\n\nDo you have any suggestions about where and what  I should check?"
+    },
+    {
+        "post_id":77223,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-30 15:14:25",
+        "message":"Machine has the same problem if you connect original power supply now?"
+    },
+    {
+        "post_id":77235,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-06-30 21:39:04",
+        "message":"Exactly.\nI haven't tried battery powering the machine yet, I always used the original power supply, this is what I've done:\n\n- Because I knew when I will use big batteries I won't have the 7pin data cable my first test was to just unplug the 7-pin data cable and start the machine (with the original power supply), this resulted in: CPU fan is loud, cpu on 100% by kernel_task.\n- To find out what it is missing I started connecting the individual pins of the 7-pin data cables one-by-one and I found that only pins 4 and 5 (SNS_ACDC_N and SNS_ACDC_P) are needed for the machine to work perfectly. Of course I've shut down the machine and unplugged power every time I connected a new pin.\n- When I figured out that pins 4 and 5 are needed, I started the machine and I tried to measure what voltage is going through pins 4 and 5 so I can replicate it but while I was doing that I accidentally shorted these two pins and the machine resterated.\n- Now even when the entire 7-pin data cable is connected (still using the original power supply) the CPU fan is loud and the CPU is on 100% by kernel_task, exactly like when pins 4 and 5 where missing."
+    },
+    {
+        "post_id":77240,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-01 02:37:26",
+        "message":"After accidentally short, one of L5610\/11 could be burnt; if you are lucky.\nIf not, change U5600.\nOnce you get it working correctly with all the normal connections, then disconnect J6901 and solder a diode, or NPN transistor between pins 4 & 5.\nCheck Q5605 in schematic, to make an idea."
+    },
+    {
+        "post_id":77241,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-01 02:54:10",
+        "message":"Thank you so much 2informaticos, that is brilliant!! \nI'll measure those as soon as I get home from work today.\nIf one of those have burnt, where can I buy a L5610\/11 or U5600?"
+    },
+    {
+        "post_id":77243,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-01 03:02:11",
+        "message":"Try replacing with tiny wire..."
+    },
+    {
+        "post_id":77291,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-02 03:22:27",
+        "message":"I've measured L5610\/11 they are both 0.9 ohm. That means they are OK?\n\nThe actual logic board is a bit different than the boardview. The main difference is the IC that is where U5600 should be only has 8 pins instead of 10 as on the boardview.\nI have attached a photo of it.\nAm I looking at the wrong thing?\n[ATTACH type=\"full\" alt=\"IMAG1724 copy.jpg\"]59986[\/ATTACH]"
+    },
+    {
+        "post_id":77292,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-02 05:20:39",
+        "message":"I cannot read the marking code in condition.\nIt is DAF?"
+    },
+    {
+        "post_id":77293,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-02 05:42:07",
+        "message":"Yes, it is DAFi"
+    },
+    {
+        "post_id":77296,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-02 06:00:02",
+        "message":"May be something else, not thermal sensor.\nAll Apple schematics I looked have only EMC1414\/28 chips; none of them MSOP-8."
+    },
+    {
+        "post_id":77297,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-02 07:16:10",
+        "message":"So it is somewhere else then, right? \nI will have to probe through and find where the J6901pin 4 & 5 lead me... hopefully I'll find it quickly.\nDo you have any advice how to trace them quicker?"
+    },
+    {
+        "post_id":77317,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-02 15:34:19",
+        "message":"Do you get connection between J6901 and that 8 pins chip?"
+    },
+    {
+        "post_id":77372,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-04 05:45:21",
+        "message":"Strange but everything seems to roughly in the right place but there are some interesting differences.\n\nI have probed through and I've create a large photo that I have colour coded to show what is connected to what, you can download it here (the forum didn't let me upload it here because it was too large): [URL]https:\/\/wetransfer.com\/downloads\/3f958033144191cc7cd0c5a7723e093220210704123904\/1e21b362372b2951751c8c9d793a2c3c20210704123923\/f63406[\/URL]"
+    },
+    {
+        "post_id":77383,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-04 12:16:48",
+        "message":"My question was very simple, no need of any photo.\nPins 4 & 5 of J6901 go to that chip???"
+    },
+    {
+        "post_id":77385,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-04 12:17:33",
+        "message":"Yes"
+    },
+    {
+        "post_id":77388,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-04 17:13:02",
+        "message":"Then is a thermal interface too; just didn't identify that SMD code yet."
+    },
+    {
+        "post_id":77391,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-04 21:37:35",
+        "message":"What should I test next?"
+    },
+    {
+        "post_id":77392,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-05 01:51:17",
+        "message":"Diode mode to ground readings for these two lines."
+    },
+    {
+        "post_id":77427,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-05 16:05:10",
+        "message":"Both lines to ground are 0.696V, then reversing the multimeter leads produces open line."
+    },
+    {
+        "post_id":77428,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-06 00:34:40",
+        "message":"Need to find that chip nodel and change it.\n\nIt is TMP423B.\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1-4YdRBP-oc6C7Fj436BEYBFuYsza93nt\/view?usp=sharing[\/URL]"
+    },
+    {
+        "post_id":77432,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-06 00:40:39",
+        "message":"OK, thanks.\nI see two available: [B][URL='https:\/\/www.ti.com\/store\/ti\/en\/p\/product\/?p=TMP423BIDCNR']TMP423BIDCNR[\/URL] or [B][URL='https:\/\/www.ti.com\/store\/ti\/en\/p\/product\/?p=TMP423BIDCNT']TMP423BIDCNT[\/URL] . [\/B][\/B]\nWhich should I buy?"
+    },
+    {
+        "post_id":77433,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-06 00:47:48",
+        "message":"OK, thank you, I'll buy one and let you know when I've changed it."
+    },
+    {
+        "post_id":77860,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-18 01:45:26",
+        "message":"[USER=682]@2informaticos[\/USER] as you suggested I have replaced that chip with a new TMP423B from DigiKey.\nProblem still exists, CPU fan is spinning up to maximum speed, like when pins 4 & 5 were missing, even though the 7pin ACDC data cable is connected.\n\nThis is what has changed now that I have replaced the DAFI TMP423B on the logic board: when measuring diode mode between pin 4 to ground and pin 5 to ground I measure around 0.7V even when reversing the multimeter leads (before one way was open line). I assume this is good?\n\nBUT what I haven't measured before is when I do the same test of pin4 to ground and pin5 to ground ON THE PSU, then I get open line (both ways when reversing the multimeter leads).\nWhat does that mean? Is something still broken but on the PSU side?\n\nAlso I have opened \"iStats menu\" sensor page and this is what I get so it is still missing some sensors but I don't know which ones are missing by default and which one is missing because of the fault that is causing the CPU being pinned to max."
+    },
+    {
+        "post_id":77861,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-18 03:10:11",
+        "message":"Unfortunatelly, we don't have exact schematic for this board.\nConsidering 00134 as guide, U5600\/50 are both connected in the same bus.\nIf U5600 got damaged, it can block the communication on entire bus.\nCPU proximity, as PSU temp are controlled directly by U5600.\n\nTMP423 can control 3 remote sensors, plus its internal sensor.\nYou should check all its adiacent resistors.\nThe remote sensors are simple NPN transistors, connected as diode; more temp sensitive than a simple diode.\nYou should check\/replace the sensor form PSU; all sensors connected to U5600 in fact.\nCompare the readings with other sensors, connected to other temp interface (U5650).\n\nRemove U5600 and check again the temps reported by macOS."
+    },
+    {
+        "post_id":78122,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-26 12:00:04",
+        "message":"Thank you very much for your detailed reply [USER=682]@2informaticos[\/USER] I really appreciate it.\n\nOut of curiosity I've checked the \"iStats menu\" sensors readings after disconnecting the 7-pin PSU \"data\" cable and I got the same readings as in my previous comment (comment #29) when the 7-pin cable was properly connected.\n\nBecause I urgently have to figure out how to get my iMac working without the 7-pin data cable (to make it battery powered so I can work with it in the middle of nowhere), I have bought another iMac exactly like this one I have messed up so I can test how to bypass the 7-pin cable. \n(I'll fix this other one later when I have time)\n\nIn comment #11 you said:\n\"Once you get it working correctly with all the normal connections, then disconnect J6901 and solder a diode, or NPN transistor between pins 4 & 5.\nCheck Q5605 in schematic, to make an idea.\"\nCould you please explain to me in detail what I should do? I'm lost..\nWhat kind of diode do I need? Which way should it go --> from pin 4 to 5, or from pin 5 to 4?"
+    },
+    {
+        "post_id":78123,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-26 12:51:53",
+        "message":"You don't need a diode.\nThe corresponding NPN transistor is connected in diode mode; B & C tied together.\nJust get one from any MacBook, or iMac board.\nSolder it in the same configuration, between L5610\/11 lines; be aware, B+C go to P line and E goes to N line."
+    },
+    {
+        "post_id":78124,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-07-26 13:08:14",
+        "message":"If I understand you correctly I solder B+C to PIN-5 and E to PIN-4 of J6901 and that should make the logic board think that the PSU temp sensors are connected as they should be even if the 7-pin data cable is disconnected?\n\nIf I don't have access to any donor MacBook or iMac boards can I buy an NPN from Digikey? If yes, could you help me find which one to buy?"
+    },
+    {
+        "post_id":78125,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-27 01:54:28",
+        "message":"Any NPN transistor should work.\nYou can use a plastic TO-92 case, with normal pins; more easy to accomodate on the board.\nOf course, you can also try with a simple diode.\n\nIf the temp read by SMC from that sensor generates an issue, then may need to get one from other board; used as temp sensor too."
+    },
+    {
+        "post_id":78673,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-08-10 09:19:44",
+        "message":"[USER=682]@2informaticos[\/USER] can I just double check if I understood you correctly that I should solder the NPN transistor onto J6901 in a way that B+C are on PIN-5 and E is on PIN-4?"
+    },
+    {
+        "post_id":78674,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-10 09:51:49",
+        "message":"Yes, B+C at P line and E to N line."
+    },
+    {
+        "post_id":78690,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-08-10 11:31:26",
+        "message":"Thank you. I will test this on Friday and I hope everything will go well."
+    },
+    {
+        "post_id":78854,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-08-15 09:34:29",
+        "message":"[USER=682]@2informaticos[\/USER] YOU ARE A GENIUS!!! \nThe NPN transistor is giving the logic board the temp readings so it is not missing the 7-pin data cable, which means I can replace the original ACDC power supply with a DCDC supply so it can be battery powered!! :)"
+    },
+    {
+        "post_id":78856,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-15 09:42:40",
+        "message":"Glad to hear you've solved it.\nAnd thanks for feedback; someone else can find this useful..."
+    },
+    {
+        "post_id":78857,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":31447,
+        "username":"Georg3",
+        "post_date":"2021-08-15 09:48:34",
+        "message":"Thank you very much again! Battery powering it was the most important thing for me.\nWhen I have free time I have to fix the other iMac, the one I started experimenting with and shorted out. As you suggested I'll go through the resistors on that data line to find out what is causing the \"AC\/DC T2 Sec Heatsink\", \"CPU Proximity\", \"CPU Backside\" and \"Skin\" sensors to be missing.\nIf it is the SMC then do you think I might be able to find a replacement anywhere online?"
+    },
+    {
+        "post_id":78861,
+        "thread_id":61374,
+        "title":"iMac 2017 (18,3) fan on max loud, cpu on max",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-15 10:15:34",
+        "message":"You can only replace SMC with one from donor board, same model."
+    }
+]

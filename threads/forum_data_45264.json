@@ -1,6 +1,56 @@
-{"post_id":45264,"thread_id":45264,"title":"820-3115 not turning on, doesn't enter S4 state","user_id":1898,"username":"djdblaster","post_date":"2019-01-26 18:45:20","message":"Okay, this board was nasty around U3890 so I put it in through UC (first bath UC, finally). PPBUS was shorted so I removed Q3880 and short was gone. Other stuff should also be replaced, but that can wait I think.\n\nAlways present rails are good. PP3V42 and PPBUS are 3.42V and 12.59V.\n\nThen I proceeded to check other rails, PP5V_S5 and PP3V3_S5 are also good. That's about it for the rails. PP5V_SUS and PP3V3_SUS are not present. They share Q7822, which fails because P5V_3V3_SUS_EN is not present. It is created by U7940. U7940 VCC Pin and SMC_BATLOW_L are present. PM_SLP_SUS_L is not present. It comes from PCH. Checked input signals and found only SMC_ADAPTER_EN present. PM_RSMRST_L is not present.\n\nTraced that back and got to U7930.\n\nPin 1 RESET ----- 0V\nPin 2 GND ------- 0V\nPin 3 NC --------- 3.3V?\nPin 4 CT --------- 0.08V\nPin 5 SENSE --- 0V\nPin 6 VDD ------- 3.3V\n\nProbably should have just written rail names. Okay, so, I've replaced it with another one, same results.\n\nQ5040:\nSMC_BATLOW_L is 3.3V\nPM_BATLOW_L is 0V\nPP3V3_SUS is 0V\n\nReading datasheet about it says that Pin 1 Reset RESET remains low (asserted) for the reset period after both SENSE is above VIT and MR is set to a logic high. A pull-up resistor from 10 k? to 1 M? should be used on this pin, and allows the reset pin to attain voltages higher than VDD.\n\nTell me please I am in a wrong rabbit hole.\n\nI?m using 2 original 60W and 85W chargers."}
-{"post_id":45277,"thread_id":45264,"title":"820-3115 not turning on, doesn't enter S4 state","user_id":682,"username":"2informaticos","post_date":"2019-01-27 05:41:09","message":"You're missing 3V3_SUS, don't watse time around U7930.\nPM_RSMRST_L requires 3V3_SUS to goes high...\n\nCheck S5_PWRGD, PM_DSW_PWRGD, PCH_DSWVRMEN and the 4 RTC signals (page 16).\n32KHz should come out from U2600 too."}
-{"post_id":45285,"thread_id":45264,"title":"820-3115 not turning on, doesn't enter S4 state","user_id":1898,"username":"djdblaster","post_date":"2019-01-27 07:22:13","message":"\"Check S5_PWRGD, PM_DSW_PWRGD, PCH_DSWVRMEN and the 4 RTC signals (page 16).\" -- They are all present around 3-3.3V.\n\n\"32KHz should come out from U2600 too\" -- I don't have an oscilloscope to catch that, but DMM has apparently options to check frequency, which I haven't figured out how to use, even after googling and trying to use it on another good board. Model is BM829s. \n\nU2600 pin 12 SYSCLK_CLK32K_RTC voltage present is 0.920V. That's 32 kHz pin?"}
-{"post_id":45286,"thread_id":45264,"title":"820-3115 not turning on, doesn't enter S4 state","user_id":682,"username":"2informaticos","post_date":"2019-01-27 07:39:22","message":"\"the 4 RTC signals\"\nPlease confirm each one you tested by separate.\nI want to be sure don't miss any, nor confused with other thing...\n\n32KHz output has usually 0.45V DC; that cannot confirm correct oscillation 100%.\n\n\"PM_BATLOW_L is 0V\"\nI forgot that; it should be high too.\nPut good flux and heat PCH, to burn crap under."}
-{"post_id":46170,"thread_id":45264,"title":"820-3115 not turning on, doesn't enter S4 state","user_id":1898,"username":"djdblaster","post_date":"2019-02-13 16:30:25","message":"Shall I proceed with flux and heat on PCH?"}
-{"post_id":46172,"thread_id":45264,"title":"820-3115 not turning on, doesn't enter S4 state","user_id":682,"username":"2informaticos","post_date":"2019-02-13 16:35:44","message":"Yes, but carefully; don't kill it.\nNo more than 180-200 degrees, you don't need to melt the balls..."}
+[
+    {
+        "post_id":45264,
+        "thread_id":45264,
+        "title":"820-3115 not turning on, doesn't enter S4 state",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-01-26 16:45:20",
+        "message":"Okay, this board was nasty around U3890 so I put it in through UC (first bath UC, finally). PPBUS was shorted so I removed Q3880 and short was gone. Other stuff should also be replaced, but that can wait I think.\n\nAlways present rails are good. PP3V42 and PPBUS are 3.42V and 12.59V.\n\nThen I proceeded to check other rails, PP5V_S5 and PP3V3_S5 are also good. That's about it for the rails. PP5V_SUS and PP3V3_SUS are not present. They share Q7822, which fails because P5V_3V3_SUS_EN is not present. It is created by U7940. U7940 VCC Pin and SMC_BATLOW_L are present. PM_SLP_SUS_L is not present. It comes from PCH. Checked input signals and found only SMC_ADAPTER_EN present. PM_RSMRST_L is not present.\n\nTraced that back and got to U7930.\n\nPin 1 RESET ----- 0V\nPin 2 GND ------- 0V\nPin 3 NC --------- 3.3V?\nPin 4 CT --------- 0.08V\nPin 5 SENSE --- 0V\nPin 6 VDD ------- 3.3V\n\nProbably should have just written rail names. Okay, so, I've replaced it with another one, same results.\n\nQ5040:\nSMC_BATLOW_L is 3.3V\nPM_BATLOW_L is 0V\nPP3V3_SUS is 0V\n\nReading datasheet about it says that Pin 1 Reset RESET remains low (asserted) for the reset period after both SENSE is above VIT and MR is set to a logic high. A pull-up resistor from 10 k? to 1 M? should be used on this pin, and allows the reset pin to attain voltages higher than VDD.\n\nTell me please I am in a wrong rabbit hole.\n\nI?m using 2 original 60W and 85W chargers."
+    },
+    {
+        "post_id":45277,
+        "thread_id":45264,
+        "title":"820-3115 not turning on, doesn't enter S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-01-27 03:41:09",
+        "message":"You're missing 3V3_SUS, don't watse time around U7930.\nPM_RSMRST_L requires 3V3_SUS to goes high...\n\nCheck S5_PWRGD, PM_DSW_PWRGD, PCH_DSWVRMEN and the 4 RTC signals (page 16).\n32KHz should come out from U2600 too."
+    },
+    {
+        "post_id":45285,
+        "thread_id":45264,
+        "title":"820-3115 not turning on, doesn't enter S4 state",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-01-27 05:22:13",
+        "message":"\"Check S5_PWRGD, PM_DSW_PWRGD, PCH_DSWVRMEN and the 4 RTC signals (page 16).\" -- They are all present around 3-3.3V.\n\n\"32KHz should come out from U2600 too\" -- I don't have an oscilloscope to catch that, but DMM has apparently options to check frequency, which I haven't figured out how to use, even after googling and trying to use it on another good board. Model is BM829s. \n\nU2600 pin 12 SYSCLK_CLK32K_RTC voltage present is 0.920V. That's 32 kHz pin?"
+    },
+    {
+        "post_id":45286,
+        "thread_id":45264,
+        "title":"820-3115 not turning on, doesn't enter S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-01-27 05:39:22",
+        "message":"\"the 4 RTC signals\"\nPlease confirm each one you tested by separate.\nI want to be sure don't miss any, nor confused with other thing...\n\n32KHz output has usually 0.45V DC; that cannot confirm correct oscillation 100%.\n\n\"PM_BATLOW_L is 0V\"\nI forgot that; it should be high too.\nPut good flux and heat PCH, to burn crap under."
+    },
+    {
+        "post_id":46170,
+        "thread_id":45264,
+        "title":"820-3115 not turning on, doesn't enter S4 state",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-02-13 14:30:25",
+        "message":"Shall I proceed with flux and heat on PCH?"
+    },
+    {
+        "post_id":46172,
+        "thread_id":45264,
+        "title":"820-3115 not turning on, doesn't enter S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-13 14:35:44",
+        "message":"Yes, but carefully; don't kill it.\nNo more than 180-200 degrees, you don't need to melt the balls..."
+    }
+]

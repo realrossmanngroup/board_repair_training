@@ -1,29 +1,263 @@
-{"post_id":71940,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-20 10:36:40","message":"hello dudes! got an interesting board here. 820-00850 board. had short to GND on L7660. injected 1V there and found a shorted cap C7895. removed and short gone. board still does not power on. some ports take 20V, some 5V, no other shorts. no liquid damage. when 20V on charger, I get around 2V on F7000 and 0.01A power draw, when 5V on charger I get 12.24V on F7000(?!?!?!) and 0A draw. I found that PPVRTC is not being generated. Any hints on what to look? The board is absolutely clean, no corrosion anywhere nor any signs of liquid, it was almost even dust free. I'm lost now! Thanks in advance"}
-{"post_id":71941,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-02-20 13:53:17","message":"You should get same behavior on all USB-C ports first.\nSpecify how each port reacts.\nDo not connect battery, nor other device, apart of charger.\nRemove USB-C ports from the shell and clean their pins."}
-{"post_id":71943,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-20 14:17:35","message":"Here we go:\n\nRight Side Closer to LCD: 5V, 0A\nRight Side Closer to Keyboard: 19.5V 0.01A\n\nLeft Side Closer to LCD: 5V, 0A\nLeft Side Closer to Keyboard: 19.5V 0.01A"}
-{"post_id":71944,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-02-20 14:47:20","message":"Please, use schematic\/boardview notations.\nLocate U3100\/200 and UB300\/400 chips."}
-{"post_id":71945,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-20 14:55:51","message":"Ok, here we go again:\n\nU3100: 5V, 0A\nU3200: 19.5V, 0.01A\nUB300: 19.5V, 0.02A\nUB400: 5V, 0A"}
-{"post_id":71946,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-02-20 15:12:53","message":"Check diode mode to ground on LDO rails of all CD3215 chips."}
-{"post_id":71947,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-20 15:29:27","message":"U3200:\n\nPP1V1_UPC_XB_LDO_BMC - 0.466\nPP1V8_UPC_XB_LDOD - 0.450\nPP1V8_UPC_XB_LDOA - 0.484\nPP3V3_UPC_XB_LDO - 0.474\n\nU3100:\nPP1V1_UPC_XA_LDO_BMC - 0.463\nPP1V8_UPC_XA_LDOD - 0.445\nPP1V8_UPC_XA_LDOA - 0.480\nPP3V3_UPC_XA_LDO - 0.472\n\nUB300:\nPP1V1_UPC_TA_LDO_BMC - 0.470\nPP1V8_UPC_TA_LDOD - 0.454\nPP1V8_UPC_TA_LDOA - 0.488\nPP3V3_UPC_TA_LDO - 0.474\n\nUB400:\nPP1V1_UPC_TB_LDO_BMC - 0.470\nPP1V8_UPC_TB_LDOD - 0.452\nPP1V8_UPC_TB_LDOA - 0.487\nPP3V3_UPC_TB_LDO - 0.476"}
-{"post_id":71948,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-02-20 17:03:15","message":"Check if any CD3215 chip has 1V1 LDO present: when connect the charger to corresponding port."}
-{"post_id":71951,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-21 07:33:33","message":"Here we go:\n\nU3100:\n\nPP1V1_UPC_XA_LDO_BMC - 1.115V\n\nU3200:\n\nPP1V1_UPC_XB_LDO_BMC - 0V\n\nUB300:\n\nPP1V1_UPC_TA_LDO_BMC - 0V\n\nUB400:\n\nPP1V1_UPC_TB_LDO_BMC - 1.116V\n\n\nThis board is acting very strange! I left it sitting in my bench yesterday when I went home and today the ports start behaving differently, now sometimes ports that would not negotiate 19.5V negotiate and sometimes not and the ports that would negotiate 19.5V started to intermittently not negotiate... Strange!"}
-{"post_id":71952,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-21 07:42:32","message":"CB304 was shorted to GND, removed it, short cleared, still no power!"}
-{"post_id":71959,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-02-21 13:27:58","message":"Very strange values.\nLooks like the board switches to 20V only on the ports where you do NOT get 1V1 LDO; are you sure about the measurments?\nPlease check again and post accurate information.\nTo switch at 20V, SMC must work and communicate with corresponding CD3215 chip.\nThat is impossible without PPBUS_G3H, needed to generate 3V3_G3H."}
-{"post_id":72101,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-23 12:58:22","message":"This board is REALLY strange.... Sometimes the same port that was negotiating 20V suddenly starts negotiating 5V and vice-versa... I cannot get it to stabilize."}
-{"post_id":72102,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-02-23 13:03:26","message":"Post actual voltage at F7000 and R7020."}
-{"post_id":72390,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-27 09:54:11","message":"It's very weird here! Got back working on this board and now it's even more bizarre than before. When any port gives me 20V, F7000 gives me around 2.1V dropping and R7020 gives me 0V, when it negotiates 5V with charger I have 12.26V on F7000 and R7020 gives 5.18V..."}
-{"post_id":72393,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-02-27 10:17:38","message":"Be sure to make good contacts when you measure on the board.\nTo switch to 20V, corresponding CD3215 chip MUST talk with T2.\nThis imply PPBUS_G3H, 3V3_G3H and more T2 voltages (SLPS2R, AWAKE).\nBe sure to use original Apple charger."}
-{"post_id":72399,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-02-27 14:43:16","message":"Yes, I know those things, that's why I'm telling it's really weird! Original Apple charger and cable. I don't know what to think anymore..."}
-{"post_id":73318,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-19 14:15:47","message":"Well. Got back to this one now as the pile went down. I decided to replace both USB-C ports and screw them to the board. Now I get 5V on all ports. At least it stopped giving strange readings. Where should I start now?"}
-{"post_id":73319,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-03-19 14:19:16","message":"Do you get now PPBUS_G3H and 3V3_G3H?"}
-{"post_id":73324,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-19 14:55:53","message":"PPBUS_G3H - 12.24V\nPP3V3_G3H - 0.983V (measured on L7660, STRANGE) There's no short on L7660"}
-{"post_id":73329,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-03-19 16:36:49","message":"My error, I should mention 3V3_G3H[U][B]_RTC[\/B][\/U]...\n\nLooks like T2 doesn't work properly; PPBUS_G3H voltage is not adjusted.\nIf you get all AWAKE and SLPS2R voltages, see if machine is recognized in DFU mode."}
-{"post_id":73331,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-19 16:59:05","message":"3V3_G3H[U]_RTC - This is 3.3V[\/U]"}
-{"post_id":73435,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-24 14:01:17","message":"It's not being recognized in DFU. Still no power"}
-{"post_id":73436,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-24 14:10:17","message":"PP1V8_SLPS2R - 1.15V\nPP1V1_SLPS2R - 0V\nPP1V25_SLPS2R_SMC_REF - 1.15V\nPP1V2_AWAKE - 0V\nPP1V8_AWAKE - 0V\nPP3V3_AWAKE - 0V"}
-{"post_id":73437,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-03-24 14:13:57","message":"Check diode mode to ground on the 0V rails from above."}
-{"post_id":73441,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-24 15:00:23","message":"PP1V1_SLPS2R - 0.296\nPP1V2_AWAKE - 0.481\nPP1V8_AWAKE - 0.358\nPP3V3_AWAKE - 0.600"}
-{"post_id":73442,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-03-24 15:23:36","message":"I bet for bad U7800.\nEven the both present voltages are wrong."}
-{"post_id":73443,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-24 15:37:32","message":"RIP board then. No donor boards to get this one and won't take the risk of buying it from ali express and not being the defect. Thanks for all the help anyway."}
-{"post_id":73487,"thread_id":60815,"title":"820-00850 No Power","user_id":4543,"username":"brunomotter","post_date":"2021-03-25 09:10:48","message":"The client is willing to take the risk of buying the chip and it not being the problem. So my question is if this chip is programmable or not. If not, I can buy a new one from China and solder it to the board. If it's programmable it means I will have to search for a donor board with identical PN. Do you know if it's programmable?"}
-{"post_id":73490,"thread_id":60815,"title":"820-00850 No Power","user_id":682,"username":"2informaticos","post_date":"2021-03-25 09:53:06","message":"Get it from donor board..."}
+[
+    {
+        "post_id":71940,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-20 08:36:40",
+        "message":"hello dudes! got an interesting board here. 820-00850 board. had short to GND on L7660. injected 1V there and found a shorted cap C7895. removed and short gone. board still does not power on. some ports take 20V, some 5V, no other shorts. no liquid damage. when 20V on charger, I get around 2V on F7000 and 0.01A power draw, when 5V on charger I get 12.24V on F7000(?!?!?!) and 0A draw. I found that PPVRTC is not being generated. Any hints on what to look? The board is absolutely clean, no corrosion anywhere nor any signs of liquid, it was almost even dust free. I'm lost now! Thanks in advance"
+    },
+    {
+        "post_id":71941,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-20 11:53:17",
+        "message":"You should get same behavior on all USB-C ports first.\nSpecify how each port reacts.\nDo not connect battery, nor other device, apart of charger.\nRemove USB-C ports from the shell and clean their pins."
+    },
+    {
+        "post_id":71943,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-20 12:17:35",
+        "message":"Here we go:\n\nRight Side Closer to LCD: 5V, 0A\nRight Side Closer to Keyboard: 19.5V 0.01A\n\nLeft Side Closer to LCD: 5V, 0A\nLeft Side Closer to Keyboard: 19.5V 0.01A"
+    },
+    {
+        "post_id":71944,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-20 12:47:20",
+        "message":"Please, use schematic\/boardview notations.\nLocate U3100\/200 and UB300\/400 chips."
+    },
+    {
+        "post_id":71945,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-20 12:55:51",
+        "message":"Ok, here we go again:\n\nU3100: 5V, 0A\nU3200: 19.5V, 0.01A\nUB300: 19.5V, 0.02A\nUB400: 5V, 0A"
+    },
+    {
+        "post_id":71946,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-20 13:12:53",
+        "message":"Check diode mode to ground on LDO rails of all CD3215 chips."
+    },
+    {
+        "post_id":71947,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-20 13:29:27",
+        "message":"U3200:\n\nPP1V1_UPC_XB_LDO_BMC - 0.466\nPP1V8_UPC_XB_LDOD - 0.450\nPP1V8_UPC_XB_LDOA - 0.484\nPP3V3_UPC_XB_LDO - 0.474\n\nU3100:\nPP1V1_UPC_XA_LDO_BMC - 0.463\nPP1V8_UPC_XA_LDOD - 0.445\nPP1V8_UPC_XA_LDOA - 0.480\nPP3V3_UPC_XA_LDO - 0.472\n\nUB300:\nPP1V1_UPC_TA_LDO_BMC - 0.470\nPP1V8_UPC_TA_LDOD - 0.454\nPP1V8_UPC_TA_LDOA - 0.488\nPP3V3_UPC_TA_LDO - 0.474\n\nUB400:\nPP1V1_UPC_TB_LDO_BMC - 0.470\nPP1V8_UPC_TB_LDOD - 0.452\nPP1V8_UPC_TB_LDOA - 0.487\nPP3V3_UPC_TB_LDO - 0.476"
+    },
+    {
+        "post_id":71948,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-20 15:03:15",
+        "message":"Check if any CD3215 chip has 1V1 LDO present: when connect the charger to corresponding port."
+    },
+    {
+        "post_id":71951,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-21 05:33:33",
+        "message":"Here we go:\n\nU3100:\n\nPP1V1_UPC_XA_LDO_BMC - 1.115V\n\nU3200:\n\nPP1V1_UPC_XB_LDO_BMC - 0V\n\nUB300:\n\nPP1V1_UPC_TA_LDO_BMC - 0V\n\nUB400:\n\nPP1V1_UPC_TB_LDO_BMC - 1.116V\n\n\nThis board is acting very strange! I left it sitting in my bench yesterday when I went home and today the ports start behaving differently, now sometimes ports that would not negotiate 19.5V negotiate and sometimes not and the ports that would negotiate 19.5V started to intermittently not negotiate... Strange!"
+    },
+    {
+        "post_id":71952,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-21 05:42:32",
+        "message":"CB304 was shorted to GND, removed it, short cleared, still no power!"
+    },
+    {
+        "post_id":71959,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-21 11:27:58",
+        "message":"Very strange values.\nLooks like the board switches to 20V only on the ports where you do NOT get 1V1 LDO; are you sure about the measurments?\nPlease check again and post accurate information.\nTo switch at 20V, SMC must work and communicate with corresponding CD3215 chip.\nThat is impossible without PPBUS_G3H, needed to generate 3V3_G3H."
+    },
+    {
+        "post_id":72101,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-23 10:58:22",
+        "message":"This board is REALLY strange.... Sometimes the same port that was negotiating 20V suddenly starts negotiating 5V and vice-versa... I cannot get it to stabilize."
+    },
+    {
+        "post_id":72102,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-23 11:03:26",
+        "message":"Post actual voltage at F7000 and R7020."
+    },
+    {
+        "post_id":72390,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-27 07:54:11",
+        "message":"It's very weird here! Got back working on this board and now it's even more bizarre than before. When any port gives me 20V, F7000 gives me around 2.1V dropping and R7020 gives me 0V, when it negotiates 5V with charger I have 12.26V on F7000 and R7020 gives 5.18V..."
+    },
+    {
+        "post_id":72393,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-02-27 08:17:38",
+        "message":"Be sure to make good contacts when you measure on the board.\nTo switch to 20V, corresponding CD3215 chip MUST talk with T2.\nThis imply PPBUS_G3H, 3V3_G3H and more T2 voltages (SLPS2R, AWAKE).\nBe sure to use original Apple charger."
+    },
+    {
+        "post_id":72399,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-02-27 12:43:16",
+        "message":"Yes, I know those things, that's why I'm telling it's really weird! Original Apple charger and cable. I don't know what to think anymore..."
+    },
+    {
+        "post_id":73318,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-19 12:15:47",
+        "message":"Well. Got back to this one now as the pile went down. I decided to replace both USB-C ports and screw them to the board. Now I get 5V on all ports. At least it stopped giving strange readings. Where should I start now?"
+    },
+    {
+        "post_id":73319,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-19 12:19:16",
+        "message":"Do you get now PPBUS_G3H and 3V3_G3H?"
+    },
+    {
+        "post_id":73324,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-19 12:55:53",
+        "message":"PPBUS_G3H - 12.24V\nPP3V3_G3H - 0.983V (measured on L7660, STRANGE) There's no short on L7660"
+    },
+    {
+        "post_id":73329,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-19 14:36:49",
+        "message":"My error, I should mention 3V3_G3H[U][B]_RTC[\/B][\/U]...\n\nLooks like T2 doesn't work properly; PPBUS_G3H voltage is not adjusted.\nIf you get all AWAKE and SLPS2R voltages, see if machine is recognized in DFU mode."
+    },
+    {
+        "post_id":73331,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-19 14:59:05",
+        "message":"3V3_G3H[U]_RTC - This is 3.3V[\/U]"
+    },
+    {
+        "post_id":73435,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-24 12:01:17",
+        "message":"It's not being recognized in DFU. Still no power"
+    },
+    {
+        "post_id":73436,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-24 12:10:17",
+        "message":"PP1V8_SLPS2R - 1.15V\nPP1V1_SLPS2R - 0V\nPP1V25_SLPS2R_SMC_REF - 1.15V\nPP1V2_AWAKE - 0V\nPP1V8_AWAKE - 0V\nPP3V3_AWAKE - 0V"
+    },
+    {
+        "post_id":73437,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-24 12:13:57",
+        "message":"Check diode mode to ground on the 0V rails from above."
+    },
+    {
+        "post_id":73441,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-24 13:00:23",
+        "message":"PP1V1_SLPS2R - 0.296\nPP1V2_AWAKE - 0.481\nPP1V8_AWAKE - 0.358\nPP3V3_AWAKE - 0.600"
+    },
+    {
+        "post_id":73442,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-24 13:23:36",
+        "message":"I bet for bad U7800.\nEven the both present voltages are wrong."
+    },
+    {
+        "post_id":73443,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-24 13:37:32",
+        "message":"RIP board then. No donor boards to get this one and won't take the risk of buying it from ali express and not being the defect. Thanks for all the help anyway."
+    },
+    {
+        "post_id":73487,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-03-25 07:10:48",
+        "message":"The client is willing to take the risk of buying the chip and it not being the problem. So my question is if this chip is programmable or not. If not, I can buy a new one from China and solder it to the board. If it's programmable it means I will have to search for a donor board with identical PN. Do you know if it's programmable?"
+    },
+    {
+        "post_id":73490,
+        "thread_id":60815,
+        "title":"820-00850 No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-25 07:53:06",
+        "message":"Get it from donor board..."
+    }
+]

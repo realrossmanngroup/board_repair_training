@@ -1,16 +1,146 @@
-{"post_id":67461,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-03 23:12:18","message":"Hi all.\nI've got a dead 820-00840, won't power on, no fan.\nThe board has no signs of liquid ingress or other damage.\n\nPPDCIN_G3H has 20.1v, tested with two different chargers.\nPPDCIN_G3H_CHGR also measures 20.1v\n\nHowever, there appears to be a short on PPBUS_G3H, as diode mode reads, with red on ground, and black on F7000, i measure 0.002.\n\nI removed F7000, and retested in diode mode.\nPin 1 measures -0.638 (PPVBAT_G3H_CHGR_REG)\nPin 2 measures  0.002 (PPBUS_G3H)\n\nI measure 13.08v on pin 1 with F7000 still removed, and obviously 0 volts on Pin 2.\n\nAny help appreciated.\nThank you."}
-{"post_id":67464,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-04 02:44:59","message":"Check which big coil has the same value to ground.\nStart checking the ones near CPU.\nSwitch to ohm scale, for better resolution.\n\nDo NOT inject voltage on PPBUS_G3H!!!"}
-{"post_id":67495,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-04 16:27:17","message":"Hi, again, 2informaticos, and thanks for your help.\nWith the multimeter on the ohm scale, ground to pin 2 on F7000 is 2.1 \u03a9\nTesting all the coils near the CPU, 3 show the same value.\nThese are L7410, L7420 and L7430 all show 2.1 \u03a9 \n\nNo worries re not injecting voltage on PPBUS_G3H. \nI don't want to release any magic smoke. :)"}
-{"post_id":67497,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-04 16:53:10","message":"Remove U7410\/20\/30 (one by one) and see when short disappears from PPBUS_G3H."}
-{"post_id":67502,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-04 19:15:38","message":"Hi again.\nOK.\nSo, I removed them one by one, and of course it was the last one where the short disappeared.\n\nSo, checking resistance to ground on Pin 2 of F7000\nWith L7430 removed, resistance dropped to 1.7 \u03a9.\nWith L7410 removed, as well, resistance dropped to 0.8 \u03a9\nWith L7420 removed, as well, resistance shot up to 64 \u03a9, and is gradually climbing.\nEDIT: With all three now removed,the resistance too ground on Pin 2 of F7000 has now gone weird... sometimes measuring O\/L, even on the 20M\u03a9, setting, then other times fluctuating values, increasing or decreasing depending on whether red is on ground or black is.\nA bit later, in 200\u03a9 setting, with red on ground, pin 2 measures around 70.3\u03a9\nDiode mode with red on ground measures .112.\nA tad confusing... I suspect some component in the circuit is confusing me. :)\n\nWith all three removed now, I measured the resistance to ground on Pad 2 of those coils, and all measure 1.6 \u03a9 .\nAll three pads seem to be directly connected to each other, as their resistance to each other is 0.2 \u03a9 - actually, looking at the schematic, they are all connected by the very low value (0.00075 \u03a9) resistors R7410, R7420 and R7430, so that would make sense.\n\nPad 2 of F7000 (PPBUS_G3H) shows a short to Pad 1 of L7420 (GTVR_SW2)\nThe only thing the board view says should be connected to Pad 2 F7000 is Pins 21 & 24 of U7420 and to Pin 1 of R7424 (which isn't populated on this board).\n\nSo I assume U7420 is the issue here???"}
-{"post_id":67519,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-05 09:07:56","message":"U7420 is shorted, change it.\nAfter that, solder F7000 and check diode mode on it; ALWAYS red probe at ground.\nIf no short, crossfingers and apply power."}
-{"post_id":67550,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-05 16:56:49","message":"Thanks 2informaticos.\nI changed U7420, and the short from PPBUS_G3H to GTVR_SW2 is gone!\n\nHowever, should Pad2 on L7420, L7410 and L7430 still be 1.6 \u03a9 to ground?\nIts PPVCCGT_S0G_PH3.\nIs it normal for it to show such a low resistance to ground?\n\nJust thought I'd check before proceeding further.\n\nI haven't soldered the 3 coils, nor F7000, yet."}
-{"post_id":67565,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-06 04:57:00","message":"CPU core and iGPU power lines have very low readings as normal."}
-{"post_id":67664,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-08 17:56:25","message":"Ah, OK, that makes sense.\n\nI resoldered the 3x coils and F7000, checked in diode mode - approx 0.400.\n\nSo fingers crossed, I applied power.\nI now get the CPU getting hot, and the fan coming on, but no display.\nThe system appears on, as the touchpad clicks until I hold the power button, and then starts working when I press the power button again.\n\nI tested on an external USBC monitor, with the internal display disconnected. and there is no display.\nHowever, it does seem to detect a signal, as, if I turn off the Macbook, then press the power button on, the external monitor status light switches from orange to white, for a few seconds, then the display comes up reporting No signal, then turns back to orange.\nWhen I turn the macbook completely off, the status light turns off completely on the monitor.\n\nSo, it does seem to be working.\nThe system seems to run on battery alone, and on AC adapter alone.\nPower button works.\nTouchpad click thingymajiggy works. \n\nI tested PPBUS_G3H at F7000.\nIt now reads 13 Volts, with a 65 Watt AC adapter connected, the battery plugged in\nIt reads 12.5v with just the battery connected.\n\n(The customers AC adapter must have died, as I get nothing from that, with the battery disconnected)."}
-{"post_id":67674,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-09 02:53:05","message":"Did you try known good USB-C hub?\nTest on both ports, both directions.\n\nAny voltage at J8500?\n3V3\/5V_S0SW_LCD must appear at leats in the first seconds.\n\nPRAM reset tried?\nCaps Lock reacts?"}
-{"post_id":67727,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-09 17:49:10","message":"Hi again 2informaticos.\n\n[B][I]Did you try known good USB-C hub? [\/I][\/B]\nNo... but I shouldn't need one, should I?\nI'm going directly from USB-C, to the USB-C on a Asus USB-C panel.\nI've tested it from both USB-C ports, and it has the same symptoms... light on monitor changes from orange to white when I turn on the Macbook.\nThen after a few seconds it displays \"No Signal\", then the white light goes back to orange.\nWith the panel unplugged, no light is displayed.\n\nI tried the USB-C panel with a known good same model Macbook.\nIts a bit silly how I have to actually log into OSX before it will display on the ext. panel... however, I put the good hard disk into this faulty Mac, booted up the amount of time it would take to get to the login screen, typed in the correct password, and the screen should then have come on... but didn't.\nI assume with the internal screen disconnected, it should automatically go to the external panel though, without having to login.\n\nI tested it multiple times and compared it to the behaviour of the known good Macbook.\n\nI then disconnected both the hard disk, and the internal screen, from both systems, and tested with a linux boot disk, which went straight to the external monitor on the good Macbook, but doesn't display with this faulty Macbook.\n\n[B][I]Any voltage at J8500?\n3V3\/5V_S0SW_LCD must appear at leats in the first seconds.[\/I][\/B]\n\nIs this with the screen disconnected?\nI tried, with the screen disconnected, then, while measuring it, plugged in the USB-C charger.\nNo change from zero volts on PP3V3_S0SW_LCD.\nAlso no change from zero volts on PP5V_S0SW_LCD either.\n\n[B][I]PRAM reset tried?[\/I][\/B]\nTried PRAM reset & SMC reset.\n\n[B][I]Caps Lock reacts?[\/I][\/B]\nNo. it doesn't do anything.\n\n[B]Could it be a bad solder job I may have done replacing U7420?[\/B]\nIts no longer shorted of course, and it looks visually flat, and well aligned, but wonder if I should try re-soldering it again?\n\nThanks so much for your help so far 2informaticos.\nI was really hoping that it would just work after replacing U7420 and seeing the fan come on."}
-{"post_id":67742,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-10 05:38:43","message":"Overvoltage occured on CPU, caused by bad U7420.\nCPU can be dead now, even no short there.\n\n\"Is this with the screen disconnected?\"\nDoesn't matter, you should catch voltages in the FIRST FEW seconds anyway.\nIf screen is correctly recognized (HPD signal appeared), PCH must maintain the voltages.\n\nThe board doesn't boot, if you cannot confirm USB activity.\nNo reason to continue searching for image\/backlight in such case..."}
-{"post_id":67756,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-10 16:25:42","message":"Hi again.\nThat doesn't sound great. :(\n\nI plugged in a USB mouse, via a cheap Keweisi branded USB volt\/amp meter, and I get a light on the mouse.\nThe voltage is 5.10, The amp draw is 0.29A.\n\nThe external screen, connected to either usb port, does light up the white LED to indicate it detects a signal, then turns amber after a few seconds.\n\nNot sure if that means much, or anything?\n\n[B][I]The board doesn't boot, if you cannot confirm USB activity. [\/I][\/B]\nDoes that mean any usb activity, or specifically video activity?\n\nWould you suggest I call this a loss?"}
-{"post_id":67761,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-10 17:38:49","message":"Best USB tester,\n[URL unfurl=\"true\"]http:\/\/www.cmizapper.com\/products\/usb-tester.html[\/URL]\nor use USB macOS pendrive with Link LED.\nIf LED flashes, then USB activity is 100% confirmed."}
-{"post_id":67768,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":22870,"username":"joshAU","post_date":"2020-11-10 21:22:04","message":"Tried with an external SSD adapter, that flashes when plugged in.\nThe light comes on for a second, then turns off and stays off.\nRechecked [I][I]3V3\/5V_S0SW_LCD[\/I] - both zero volts.[\/I]"}
-{"post_id":67773,"thread_id":60275,"title":"820-00840 short on PPBUS_G3H","user_id":682,"username":"2informaticos","post_date":"2020-11-11 04:40:17","message":"You should get flashing Link LED, like OSX is loading.\nIf not, no USB activity present."}
+[
+    {
+        "post_id":67461,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-03 21:12:18",
+        "message":"Hi all.\nI've got a dead 820-00840, won't power on, no fan.\nThe board has no signs of liquid ingress or other damage.\n\nPPDCIN_G3H has 20.1v, tested with two different chargers.\nPPDCIN_G3H_CHGR also measures 20.1v\n\nHowever, there appears to be a short on PPBUS_G3H, as diode mode reads, with red on ground, and black on F7000, i measure 0.002.\n\nI removed F7000, and retested in diode mode.\nPin 1 measures -0.638 (PPVBAT_G3H_CHGR_REG)\nPin 2 measures  0.002 (PPBUS_G3H)\n\nI measure 13.08v on pin 1 with F7000 still removed, and obviously 0 volts on Pin 2.\n\nAny help appreciated.\nThank you."
+    },
+    {
+        "post_id":67464,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-04 00:44:59",
+        "message":"Check which big coil has the same value to ground.\nStart checking the ones near CPU.\nSwitch to ohm scale, for better resolution.\n\nDo NOT inject voltage on PPBUS_G3H!!!"
+    },
+    {
+        "post_id":67495,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-04 14:27:17",
+        "message":"Hi, again, 2informaticos, and thanks for your help.\nWith the multimeter on the ohm scale, ground to pin 2 on F7000 is 2.1 \u03a9\nTesting all the coils near the CPU, 3 show the same value.\nThese are L7410, L7420 and L7430 all show 2.1 \u03a9 \n\nNo worries re not injecting voltage on PPBUS_G3H. \nI don't want to release any magic smoke. :)"
+    },
+    {
+        "post_id":67497,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-04 14:53:10",
+        "message":"Remove U7410\/20\/30 (one by one) and see when short disappears from PPBUS_G3H."
+    },
+    {
+        "post_id":67502,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-04 17:15:38",
+        "message":"Hi again.\nOK.\nSo, I removed them one by one, and of course it was the last one where the short disappeared.\n\nSo, checking resistance to ground on Pin 2 of F7000\nWith L7430 removed, resistance dropped to 1.7 \u03a9.\nWith L7410 removed, as well, resistance dropped to 0.8 \u03a9\nWith L7420 removed, as well, resistance shot up to 64 \u03a9, and is gradually climbing.\nEDIT: With all three now removed,the resistance too ground on Pin 2 of F7000 has now gone weird... sometimes measuring O\/L, even on the 20M\u03a9, setting, then other times fluctuating values, increasing or decreasing depending on whether red is on ground or black is.\nA bit later, in 200\u03a9 setting, with red on ground, pin 2 measures around 70.3\u03a9\nDiode mode with red on ground measures .112.\nA tad confusing... I suspect some component in the circuit is confusing me. :)\n\nWith all three removed now, I measured the resistance to ground on Pad 2 of those coils, and all measure 1.6 \u03a9 .\nAll three pads seem to be directly connected to each other, as their resistance to each other is 0.2 \u03a9 - actually, looking at the schematic, they are all connected by the very low value (0.00075 \u03a9) resistors R7410, R7420 and R7430, so that would make sense.\n\nPad 2 of F7000 (PPBUS_G3H) shows a short to Pad 1 of L7420 (GTVR_SW2)\nThe only thing the board view says should be connected to Pad 2 F7000 is Pins 21 & 24 of U7420 and to Pin 1 of R7424 (which isn't populated on this board).\n\nSo I assume U7420 is the issue here???"
+    },
+    {
+        "post_id":67519,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-05 07:07:56",
+        "message":"U7420 is shorted, change it.\nAfter that, solder F7000 and check diode mode on it; ALWAYS red probe at ground.\nIf no short, crossfingers and apply power."
+    },
+    {
+        "post_id":67550,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-05 14:56:49",
+        "message":"Thanks 2informaticos.\nI changed U7420, and the short from PPBUS_G3H to GTVR_SW2 is gone!\n\nHowever, should Pad2 on L7420, L7410 and L7430 still be 1.6 \u03a9 to ground?\nIts PPVCCGT_S0G_PH3.\nIs it normal for it to show such a low resistance to ground?\n\nJust thought I'd check before proceeding further.\n\nI haven't soldered the 3 coils, nor F7000, yet."
+    },
+    {
+        "post_id":67565,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-06 02:57:00",
+        "message":"CPU core and iGPU power lines have very low readings as normal."
+    },
+    {
+        "post_id":67664,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-08 15:56:25",
+        "message":"Ah, OK, that makes sense.\n\nI resoldered the 3x coils and F7000, checked in diode mode - approx 0.400.\n\nSo fingers crossed, I applied power.\nI now get the CPU getting hot, and the fan coming on, but no display.\nThe system appears on, as the touchpad clicks until I hold the power button, and then starts working when I press the power button again.\n\nI tested on an external USBC monitor, with the internal display disconnected. and there is no display.\nHowever, it does seem to detect a signal, as, if I turn off the Macbook, then press the power button on, the external monitor status light switches from orange to white, for a few seconds, then the display comes up reporting No signal, then turns back to orange.\nWhen I turn the macbook completely off, the status light turns off completely on the monitor.\n\nSo, it does seem to be working.\nThe system seems to run on battery alone, and on AC adapter alone.\nPower button works.\nTouchpad click thingymajiggy works. \n\nI tested PPBUS_G3H at F7000.\nIt now reads 13 Volts, with a 65 Watt AC adapter connected, the battery plugged in\nIt reads 12.5v with just the battery connected.\n\n(The customers AC adapter must have died, as I get nothing from that, with the battery disconnected)."
+    },
+    {
+        "post_id":67674,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-09 00:53:05",
+        "message":"Did you try known good USB-C hub?\nTest on both ports, both directions.\n\nAny voltage at J8500?\n3V3\/5V_S0SW_LCD must appear at leats in the first seconds.\n\nPRAM reset tried?\nCaps Lock reacts?"
+    },
+    {
+        "post_id":67727,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-09 15:49:10",
+        "message":"Hi again 2informaticos.\n\n[B][I]Did you try known good USB-C hub? [\/I][\/B]\nNo... but I shouldn't need one, should I?\nI'm going directly from USB-C, to the USB-C on a Asus USB-C panel.\nI've tested it from both USB-C ports, and it has the same symptoms... light on monitor changes from orange to white when I turn on the Macbook.\nThen after a few seconds it displays \"No Signal\", then the white light goes back to orange.\nWith the panel unplugged, no light is displayed.\n\nI tried the USB-C panel with a known good same model Macbook.\nIts a bit silly how I have to actually log into OSX before it will display on the ext. panel... however, I put the good hard disk into this faulty Mac, booted up the amount of time it would take to get to the login screen, typed in the correct password, and the screen should then have come on... but didn't.\nI assume with the internal screen disconnected, it should automatically go to the external panel though, without having to login.\n\nI tested it multiple times and compared it to the behaviour of the known good Macbook.\n\nI then disconnected both the hard disk, and the internal screen, from both systems, and tested with a linux boot disk, which went straight to the external monitor on the good Macbook, but doesn't display with this faulty Macbook.\n\n[B][I]Any voltage at J8500?\n3V3\/5V_S0SW_LCD must appear at leats in the first seconds.[\/I][\/B]\n\nIs this with the screen disconnected?\nI tried, with the screen disconnected, then, while measuring it, plugged in the USB-C charger.\nNo change from zero volts on PP3V3_S0SW_LCD.\nAlso no change from zero volts on PP5V_S0SW_LCD either.\n\n[B][I]PRAM reset tried?[\/I][\/B]\nTried PRAM reset & SMC reset.\n\n[B][I]Caps Lock reacts?[\/I][\/B]\nNo. it doesn't do anything.\n\n[B]Could it be a bad solder job I may have done replacing U7420?[\/B]\nIts no longer shorted of course, and it looks visually flat, and well aligned, but wonder if I should try re-soldering it again?\n\nThanks so much for your help so far 2informaticos.\nI was really hoping that it would just work after replacing U7420 and seeing the fan come on."
+    },
+    {
+        "post_id":67742,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-10 03:38:43",
+        "message":"Overvoltage occured on CPU, caused by bad U7420.\nCPU can be dead now, even no short there.\n\n\"Is this with the screen disconnected?\"\nDoesn't matter, you should catch voltages in the FIRST FEW seconds anyway.\nIf screen is correctly recognized (HPD signal appeared), PCH must maintain the voltages.\n\nThe board doesn't boot, if you cannot confirm USB activity.\nNo reason to continue searching for image\/backlight in such case..."
+    },
+    {
+        "post_id":67756,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-10 14:25:42",
+        "message":"Hi again.\nThat doesn't sound great. :(\n\nI plugged in a USB mouse, via a cheap Keweisi branded USB volt\/amp meter, and I get a light on the mouse.\nThe voltage is 5.10, The amp draw is 0.29A.\n\nThe external screen, connected to either usb port, does light up the white LED to indicate it detects a signal, then turns amber after a few seconds.\n\nNot sure if that means much, or anything?\n\n[B][I]The board doesn't boot, if you cannot confirm USB activity. [\/I][\/B]\nDoes that mean any usb activity, or specifically video activity?\n\nWould you suggest I call this a loss?"
+    },
+    {
+        "post_id":67761,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-10 15:38:49",
+        "message":"Best USB tester,\n[URL unfurl=\"true\"]http:\/\/www.cmizapper.com\/products\/usb-tester.html[\/URL]\nor use USB macOS pendrive with Link LED.\nIf LED flashes, then USB activity is 100% confirmed."
+    },
+    {
+        "post_id":67768,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2020-11-10 19:22:04",
+        "message":"Tried with an external SSD adapter, that flashes when plugged in.\nThe light comes on for a second, then turns off and stays off.\nRechecked [I][I]3V3\/5V_S0SW_LCD[\/I] - both zero volts.[\/I]"
+    },
+    {
+        "post_id":67773,
+        "thread_id":60275,
+        "title":"820-00840 short on PPBUS_G3H",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-11-11 02:40:17",
+        "message":"You should get flashing Link LED, like OSX is loading.\nIf not, no USB activity present."
+    }
+]

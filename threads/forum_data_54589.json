@@ -1,15 +1,137 @@
-{"post_id":54589,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1547,"username":"CRC2018","post_date":"2019-11-19 12:49:36","message":"Got a strange 820-00165 in today - clean board no spillage - was quite a thick layer of dust on the top of it which i've cleaned off but have been unable to find any signs of corrosion anywhere.\nBoard powers up but gives no display at all - caps lock doesn't react, usb mouse doesn't light up, pram reset does nothing. CPU is getting warm however. Any suggestions on where to start checking this one as i'm at a loss i've not seen this kind of problem before which was not caused by a spill!\n\nUpdate - Considered this one has a dead CPU thread is now referring to the board with problems described in post #6"}
-{"post_id":54591,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":682,"username":"2informaticos","post_date":"2019-11-19 12:52:41","message":"You can try known good working BIOS.\nDo you get VCORE?"}
-{"post_id":54615,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":5210,"username":"KC Micro Tronix","post_date":"2019-11-19 18:57:40","message":"Sounds like it is brain dead.  Lots of things can cause this.  2informatics is right about the bios.  There could be corrosion under the CPU or there could be a memory failure.  If it does not properly load bios and move on it will do this.\n\ncheck your 3V3 SUS, make sure your bios chip is getting power.  If you have thermal look at out booting.   When the CPU loads bios and starts it's cycle you can see the RAM chips flash with activity.  Make sure your 25Mhz clock is alive."}
-{"post_id":54622,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1547,"username":"CRC2018","post_date":"2019-11-20 04:15:54","message":"Thanks for you replies:\nYes VCORE is present 1.05V, checked 3V3 SUS which is also present - have checked and have 3.3v at BIOS chip. \n\nDoes anyone have a known good bios for this board? I've never had to flash this one before!"}
-{"post_id":54627,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":682,"username":"2informaticos","post_date":"2019-11-20 05:09:50","message":"VCORE is aprox 1.8V on this board, at L7310\/20.\nLot of links for BIOS already posted, just use search function."}
-{"post_id":54638,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1547,"username":"CRC2018","post_date":"2019-11-20 07:50:05","message":"i usually check cpu power at the caps above the cpu but can confirm at L7310 the voltage is 1.8v. I've tried a clean bios posted on the forum for this board but still nothing no display. Are we looking at a dead CPU?\nI should add I checked for voltage on the 25mhz and 32khz pins out of u1900 and they appear to be there (I don't have a scope but voltage there)\n\nAssuming that this board has a dead CPU we can consider it scrap.\n\nI have another 820-00165 which again appears clean but is stuck in S5 power state - orange light on charger. PM_SLP_S4_L missing reads 0v - I was toying with the idea of swapping u1900 on this one although it does seem to be producing an output on pin 12 but nothing on pins 4 and 3. All other prerequisites for PM_SLP_S4_L appear to be present (PPVRTC_G3H, RTC_RESET_L, PCH_SRTCRST_L, PCH_INTVRMEN_L, PCH_DSWVRMEN_L, PP3V3_S5, PM_DSW_PWRGD, PP3V3_SUS, PM_BATLOW_L, PM_RSMRST_L)\nAny thoughts on this one?"}
-{"post_id":54642,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":682,"username":"2informaticos","post_date":"2019-11-20 09:31:00","message":"Do you get 3V3_SUS and PM_SLP_SUS_L?\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L."}
-{"post_id":54645,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1547,"username":"CRC2018","post_date":"2019-11-20 10:18:41","message":"Yes 3v3_SUS is 3.3v and PM_SLP_SUS_L is 1.08V. When triggering SMC_ONOFF_L I get slightly strange behaviour on PM_PWRBTN_L - PM_PWRBTN_L starts at a low voltagev 1v or so when I first apply power once I trigger SMC_ONOFF_L the voltage drops to 0v and then back up to 3.43v afterwards - it drops normally when triggering smc_onoff_L. \n\nShould probably add that i'm testing this board with just the 6 pin power connection connected from the I\/O board to force it to turn on when connecting power."}
-{"post_id":54654,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":682,"username":"2informaticos","post_date":"2019-11-20 14:00:16","message":"\"PM_SLP_SUS_L is 1.08V\"\nThat's no good; should be 3V\nCheck again, as board should not even try to turn on.\nUnless you mean just catched a pulse of about 1V; repeat and you should get higher values.\nO-scope can show 3.3V peak pulse...\n\n\"All other prerequisites for PM_SLP_S4_L appear to be present (PPVRTC_G3H, RTC_RESET_L, PCH_SRTCRST_L, PCH_INTVRMEN_L, PCH_DSWVRMEN_L, PP3V3_S5, PM_DSW_PWRGD, PP3V3_SUS, PM_BATLOW_L, PM_RSMRST_L)\"\nPost exact voltages.\nIn case you made a wrong assumption like for PM_SLP_SUS_L value..."}
-{"post_id":54675,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1547,"username":"CRC2018","post_date":"2019-11-21 04:03:48","message":"Thanks yeah I must've caught the pulse at 1.08v when I measured it earlier it's a steady 3.2v\nOther voltages:\nPPVRTC_G3H - 3.3V\nRTC_RESET_L - 3.3v\nPCH_SRTCRST_L - 3.3v\nPCH_INTVRMEN_L - 3.3v\nPCH_DSWVRMEN_L - 3.3v\nPP3V3_S5 - 3.3v\nPM_DSW_PWRGD - 3.3v\nPP3V3_SUS - 3.3v\nPM_BAT_LOW_L - 3.3V\nPM_RSMRST_L - 3.3V"}
-{"post_id":54681,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":682,"username":"2informaticos","post_date":"2019-11-21 05:59:14","message":"If PM_PWRBTN_L reacts triggering SMC_ONOFF_L, all PM_SLP_Sx_L signals should pulse at same time.\nIf note, PCH is suspect now."}
-{"post_id":54833,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1547,"username":"CRC2018","post_date":"2019-11-26 08:42:12","message":"Checked it - couldnt see any reaction of any PM_SLP signal when SMC_ONOFF_L was triggered. Luckily I've found another 820-000165A board in my pile of boards i've previously replaced and have got that one working with a new clock chip. Customer now happy so thats the main thing.\n\nIs the CPU \/ PCH dieing on the 820-000165 a common fault? I seem to seeing far more weird faults with this board vs to the 820-3437 series that came before!"}
-{"post_id":54841,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1153,"username":"JohnB8812","post_date":"2019-11-26 12:47:59","message":"Sadly yes. I notice it a lot as well"}
-{"post_id":54856,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":5277,"username":"Thinklab","post_date":"2019-11-26 19:13:19","message":"Check L8304 for high resistance or damage; I have had quite a few with an issue here in one wholesale batch or repairs i did."}
-{"post_id":54865,"thread_id":54589,"title":"820-00165-A Powers Up, No Chime no Display","user_id":1153,"username":"JohnB8812","post_date":"2019-11-27 09:00:49","message":"L8304 has nothing to do with no POST."}
+[
+    {
+        "post_id":54589,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2019-11-19 10:49:36",
+        "message":"Got a strange 820-00165 in today - clean board no spillage - was quite a thick layer of dust on the top of it which i've cleaned off but have been unable to find any signs of corrosion anywhere.\nBoard powers up but gives no display at all - caps lock doesn't react, usb mouse doesn't light up, pram reset does nothing. CPU is getting warm however. Any suggestions on where to start checking this one as i'm at a loss i've not seen this kind of problem before which was not caused by a spill!\n\nUpdate - Considered this one has a dead CPU thread is now referring to the board with problems described in post #6"
+    },
+    {
+        "post_id":54591,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-19 10:52:41",
+        "message":"You can try known good working BIOS.\nDo you get VCORE?"
+    },
+    {
+        "post_id":54615,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":5210,
+        "username":"KC Micro Tronix",
+        "post_date":"2019-11-19 16:57:40",
+        "message":"Sounds like it is brain dead.  Lots of things can cause this.  2informatics is right about the bios.  There could be corrosion under the CPU or there could be a memory failure.  If it does not properly load bios and move on it will do this.\n\ncheck your 3V3 SUS, make sure your bios chip is getting power.  If you have thermal look at out booting.   When the CPU loads bios and starts it's cycle you can see the RAM chips flash with activity.  Make sure your 25Mhz clock is alive."
+    },
+    {
+        "post_id":54622,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2019-11-20 02:15:54",
+        "message":"Thanks for you replies:\nYes VCORE is present 1.05V, checked 3V3 SUS which is also present - have checked and have 3.3v at BIOS chip. \n\nDoes anyone have a known good bios for this board? I've never had to flash this one before!"
+    },
+    {
+        "post_id":54627,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-20 03:09:50",
+        "message":"VCORE is aprox 1.8V on this board, at L7310\/20.\nLot of links for BIOS already posted, just use search function."
+    },
+    {
+        "post_id":54638,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2019-11-20 05:50:05",
+        "message":"i usually check cpu power at the caps above the cpu but can confirm at L7310 the voltage is 1.8v. I've tried a clean bios posted on the forum for this board but still nothing no display. Are we looking at a dead CPU?\nI should add I checked for voltage on the 25mhz and 32khz pins out of u1900 and they appear to be there (I don't have a scope but voltage there)\n\nAssuming that this board has a dead CPU we can consider it scrap.\n\nI have another 820-00165 which again appears clean but is stuck in S5 power state - orange light on charger. PM_SLP_S4_L missing reads 0v - I was toying with the idea of swapping u1900 on this one although it does seem to be producing an output on pin 12 but nothing on pins 4 and 3. All other prerequisites for PM_SLP_S4_L appear to be present (PPVRTC_G3H, RTC_RESET_L, PCH_SRTCRST_L, PCH_INTVRMEN_L, PCH_DSWVRMEN_L, PP3V3_S5, PM_DSW_PWRGD, PP3V3_SUS, PM_BATLOW_L, PM_RSMRST_L)\nAny thoughts on this one?"
+    },
+    {
+        "post_id":54642,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-20 07:31:00",
+        "message":"Do you get 3V3_SUS and PM_SLP_SUS_L?\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L."
+    },
+    {
+        "post_id":54645,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2019-11-20 08:18:41",
+        "message":"Yes 3v3_SUS is 3.3v and PM_SLP_SUS_L is 1.08V. When triggering SMC_ONOFF_L I get slightly strange behaviour on PM_PWRBTN_L - PM_PWRBTN_L starts at a low voltagev 1v or so when I first apply power once I trigger SMC_ONOFF_L the voltage drops to 0v and then back up to 3.43v afterwards - it drops normally when triggering smc_onoff_L. \n\nShould probably add that i'm testing this board with just the 6 pin power connection connected from the I\/O board to force it to turn on when connecting power."
+    },
+    {
+        "post_id":54654,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-20 12:00:16",
+        "message":"\"PM_SLP_SUS_L is 1.08V\"\nThat's no good; should be 3V\nCheck again, as board should not even try to turn on.\nUnless you mean just catched a pulse of about 1V; repeat and you should get higher values.\nO-scope can show 3.3V peak pulse...\n\n\"All other prerequisites for PM_SLP_S4_L appear to be present (PPVRTC_G3H, RTC_RESET_L, PCH_SRTCRST_L, PCH_INTVRMEN_L, PCH_DSWVRMEN_L, PP3V3_S5, PM_DSW_PWRGD, PP3V3_SUS, PM_BATLOW_L, PM_RSMRST_L)\"\nPost exact voltages.\nIn case you made a wrong assumption like for PM_SLP_SUS_L value..."
+    },
+    {
+        "post_id":54675,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2019-11-21 02:03:48",
+        "message":"Thanks yeah I must've caught the pulse at 1.08v when I measured it earlier it's a steady 3.2v\nOther voltages:\nPPVRTC_G3H - 3.3V\nRTC_RESET_L - 3.3v\nPCH_SRTCRST_L - 3.3v\nPCH_INTVRMEN_L - 3.3v\nPCH_DSWVRMEN_L - 3.3v\nPP3V3_S5 - 3.3v\nPM_DSW_PWRGD - 3.3v\nPP3V3_SUS - 3.3v\nPM_BAT_LOW_L - 3.3V\nPM_RSMRST_L - 3.3V"
+    },
+    {
+        "post_id":54681,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-11-21 03:59:14",
+        "message":"If PM_PWRBTN_L reacts triggering SMC_ONOFF_L, all PM_SLP_Sx_L signals should pulse at same time.\nIf note, PCH is suspect now."
+    },
+    {
+        "post_id":54833,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2019-11-26 06:42:12",
+        "message":"Checked it - couldnt see any reaction of any PM_SLP signal when SMC_ONOFF_L was triggered. Luckily I've found another 820-000165A board in my pile of boards i've previously replaced and have got that one working with a new clock chip. Customer now happy so thats the main thing.\n\nIs the CPU \/ PCH dieing on the 820-000165 a common fault? I seem to seeing far more weird faults with this board vs to the 820-3437 series that came before!"
+    },
+    {
+        "post_id":54841,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-11-26 10:47:59",
+        "message":"Sadly yes. I notice it a lot as well"
+    },
+    {
+        "post_id":54856,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":5277,
+        "username":"Thinklab",
+        "post_date":"2019-11-26 17:13:19",
+        "message":"Check L8304 for high resistance or damage; I have had quite a few with an issue here in one wholesale batch or repairs i did."
+    },
+    {
+        "post_id":54865,
+        "thread_id":54589,
+        "title":"820-00165-A Powers Up, No Chime no Display",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-11-27 07:00:49",
+        "message":"L8304 has nothing to do with no POST."
+    }
+]

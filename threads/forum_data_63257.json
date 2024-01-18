@@ -1,13 +1,119 @@
-{"post_id":93788,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":28264,"username":"sekidata","post_date":"2022-11-08 13:14:34","message":"This board has me stumped. It came from an A1707 15\u201d machine with a battery issue (I believe it had the wrong battery connected to it, or its battery connector was shorted).\n\nThe board was stuck at 5V USB-C. I found a short on PP3V3_G3H which I traced to a shorted SMC. I replaced the SMC, which restored PP3V3_G3H to 3.3V and SMC_PM_G2_EN to 3.4V.\n\nNow when I plug in a charger cable, the USB-C port initially stays as 5V and after 10-15 seconds jumps to 20V. I\u2019ve never seen a delay this long; I\u2019m sure it means something.\n\nPPBUS_G3H is not being generated, even with 20V on PPDCIN_G3H. I replaced U7000 (ISL9239) with no change.\n\nCurrent sensing resistors R7021\/22 are fine. CD3215 LDOs are all fine."}
-{"post_id":93801,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":682,"username":"2informaticos","post_date":"2022-11-08 16:48:09","message":"Did you test now with good battery?\nBe sure to use original 87\/96W charger.\n\nCheck SMC_USBC_INT_L level."}
-{"post_id":93835,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":28264,"username":"sekidata","post_date":"2022-11-09 11:43:12","message":"Yes, I use an original Apple 87W charger.\n\nWhen I connect a battery instead of charger, I get PPBUS = 11.7V. The SMC is off.\n\nSMC_USBC_INT_L is 3.4V with charger connected."}
-{"post_id":93836,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":682,"username":"2informaticos","post_date":"2022-11-09 12:51:38","message":"\"The SMC is off.\"\nNot sure what this means.\n\nWith battery connected, check U7800 LDOs.\nWith charger only, check CHGR_AMON\/BMON and SMC_BC_ACOK."}
-{"post_id":93842,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":28264,"username":"sekidata","post_date":"2022-11-09 13:23:47","message":"With battery connected:\nPP3V3_PMICLDO: 3.3\nPP5V_PMICLDO: 5.0\n\nWith charger connected, here are the output voltages for U7000:\nSMC_BC_ACOK: 3.4\nCHGR_AMON:  0\nCHGR_BMON: 0\nSMC_CHGR_INT_L:  0\nSMC_RST_L: 3.4\nPM_EN_P3V3_G3H: 5.2\nTBA_VDDA: 5.2"}
-{"post_id":93847,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":682,"username":"2informaticos","post_date":"2022-11-09 14:29:10","message":"With battery connected, trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\nAlso check for pulse at 3V3_S5, at same time."}
-{"post_id":93862,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":28264,"username":"sekidata","post_date":"2022-11-09 17:13:59","message":"With just the battery connected, PP3V3_S5 and PM_PWRBTN_L are 0V. Triggering SMC_ONOFF_L doesn't change that. When I additionally plug in the charger, I get 3.4V on PP3V3_S5 and PM_PWRBTN_L but no pulse or drop when I trigger SMC_ONOFF_L."}
-{"post_id":93877,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":682,"username":"2informaticos","post_date":"2022-11-10 03:49:11","message":"You may try changing SMC and\/or U7800."}
-{"post_id":94095,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":28264,"username":"sekidata","post_date":"2022-11-16 13:22:06","message":"Ok, I poked around on this board a bit more to find out why PPBUS was not created. I found the data lines SMBUS_SMC_5_G3_SCL and SMBUS_SMC_5_G3_SDA shorted to ground (3\u03a9 and 22\u03a9). Obviously, the SMC could not communicate with U7000.\n\nI found diode D6950 shorted to ground and replaced it. This restored the SMC data lines, PPBUS, and PP3V3_S5. Now I\u2019m stuck in S5, still troubleshooting."}
-{"post_id":94096,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":682,"username":"2informaticos","post_date":"2022-11-16 14:34:50","message":"Did you try original 87\/96W charger?"}
-{"post_id":94107,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":28264,"username":"sekidata","post_date":"2022-11-16 17:30:32","message":"Yes, Apple 87W."}
-{"post_id":94108,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":682,"username":"2informaticos","post_date":"2022-11-16 18:21:24","message":"Is the battery charging now?\n\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L, at same time."}
-{"post_id":94124,"thread_id":63257,"title":"MacBook Pro 2017 board 820-00928 with missing PPBUS","user_id":28264,"username":"sekidata","post_date":"2022-11-17 11:18:06","message":"I checked all power rails that U7800 (PMIC) produces and I was missing several (PP1V2_S3, PP1V8_SUS, PP1V0_SUS). So I replaced U7800, as you had suggested before. Now all power rails are back, the machine starts up and is fully functional. Thanks!"}
+[
+    {
+        "post_id":93788,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2022-11-08 11:14:34",
+        "message":"This board has me stumped. It came from an A1707 15\u201d machine with a battery issue (I believe it had the wrong battery connected to it, or its battery connector was shorted).\n\nThe board was stuck at 5V USB-C. I found a short on PP3V3_G3H which I traced to a shorted SMC. I replaced the SMC, which restored PP3V3_G3H to 3.3V and SMC_PM_G2_EN to 3.4V.\n\nNow when I plug in a charger cable, the USB-C port initially stays as 5V and after 10-15 seconds jumps to 20V. I\u2019ve never seen a delay this long; I\u2019m sure it means something.\n\nPPBUS_G3H is not being generated, even with 20V on PPDCIN_G3H. I replaced U7000 (ISL9239) with no change.\n\nCurrent sensing resistors R7021\/22 are fine. CD3215 LDOs are all fine."
+    },
+    {
+        "post_id":93801,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-08 14:48:09",
+        "message":"Did you test now with good battery?\nBe sure to use original 87\/96W charger.\n\nCheck SMC_USBC_INT_L level."
+    },
+    {
+        "post_id":93835,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2022-11-09 09:43:12",
+        "message":"Yes, I use an original Apple 87W charger.\n\nWhen I connect a battery instead of charger, I get PPBUS = 11.7V. The SMC is off.\n\nSMC_USBC_INT_L is 3.4V with charger connected."
+    },
+    {
+        "post_id":93836,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-09 10:51:38",
+        "message":"\"The SMC is off.\"\nNot sure what this means.\n\nWith battery connected, check U7800 LDOs.\nWith charger only, check CHGR_AMON\/BMON and SMC_BC_ACOK."
+    },
+    {
+        "post_id":93842,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2022-11-09 11:23:47",
+        "message":"With battery connected:\nPP3V3_PMICLDO: 3.3\nPP5V_PMICLDO: 5.0\n\nWith charger connected, here are the output voltages for U7000:\nSMC_BC_ACOK: 3.4\nCHGR_AMON:  0\nCHGR_BMON: 0\nSMC_CHGR_INT_L:  0\nSMC_RST_L: 3.4\nPM_EN_P3V3_G3H: 5.2\nTBA_VDDA: 5.2"
+    },
+    {
+        "post_id":93847,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-09 12:29:10",
+        "message":"With battery connected, trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\nAlso check for pulse at 3V3_S5, at same time."
+    },
+    {
+        "post_id":93862,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2022-11-09 15:13:59",
+        "message":"With just the battery connected, PP3V3_S5 and PM_PWRBTN_L are 0V. Triggering SMC_ONOFF_L doesn't change that. When I additionally plug in the charger, I get 3.4V on PP3V3_S5 and PM_PWRBTN_L but no pulse or drop when I trigger SMC_ONOFF_L."
+    },
+    {
+        "post_id":93877,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-10 01:49:11",
+        "message":"You may try changing SMC and\/or U7800."
+    },
+    {
+        "post_id":94095,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2022-11-16 11:22:06",
+        "message":"Ok, I poked around on this board a bit more to find out why PPBUS was not created. I found the data lines SMBUS_SMC_5_G3_SCL and SMBUS_SMC_5_G3_SDA shorted to ground (3\u03a9 and 22\u03a9). Obviously, the SMC could not communicate with U7000.\n\nI found diode D6950 shorted to ground and replaced it. This restored the SMC data lines, PPBUS, and PP3V3_S5. Now I\u2019m stuck in S5, still troubleshooting."
+    },
+    {
+        "post_id":94096,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-16 12:34:50",
+        "message":"Did you try original 87\/96W charger?"
+    },
+    {
+        "post_id":94107,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2022-11-16 15:30:32",
+        "message":"Yes, Apple 87W."
+    },
+    {
+        "post_id":94108,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-16 16:21:24",
+        "message":"Is the battery charging now?\n\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L, at same time."
+    },
+    {
+        "post_id":94124,
+        "thread_id":63257,
+        "title":"MacBook Pro 2017 board 820-00928 with missing PPBUS",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2022-11-17 09:18:06",
+        "message":"I checked all power rails that U7800 (PMIC) produces and I was missing several (PP1V2_S3, PP1V8_SUS, PP1V0_SUS). So I replaced U7800, as you had suggested before. Now all power rails are back, the machine starts up and is fully functional. Thanks!"
+    }
+]

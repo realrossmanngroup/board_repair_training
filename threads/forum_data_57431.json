@@ -1,7 +1,65 @@
-{"post_id":57431,"thread_id":57431,"title":"820-00840 - 5v USB Type C - No 20v","user_id":1358,"username":"mccafe","post_date":"2020-03-11 22:08:05","message":"Hello,\n\nI have a complicated 820-00840 that came from another shop. Many parts have been screwed with including CD3215C00 area, F7000 (only one side connected), C3000 was missing.\n\nReplaced secondary CD3215C00 because it was very hot. Still 5v on type C charger.\nSMC was shorting PP3V3_G3H unfortunately. Removed SMC, short gone. Replaced SMC with new one, also replaced ISL U7000 because it was missing.\nConnected charger on primary connector. 5v 0 amps for a few seconds then 20 volts very low amps. Thought I got it working..\nDisconnected charger and tried secondary connector. Now it just stays at 5v 0.61 \/ 0.41 watts (I forgot the amps)\nDisconnected charger and tried primary again. Same 5v 0.61 \/ 0.41 watts, no longer switching to 20 volts\nReplaced the CD3215C00's again and was able to get 20 volts for a short time until I disconnect and reconnect to other port then it will just stay at 5v. 20v would be present as long as I keep the charger connected, but once reconnected it will be forever gone until I replace CD3215.\nI did this several times because either it would bring down PP3V3_G3H down to 2v (C3100 \/ C3200) or it would not have PP3V3_G3H at all because Q3100\/Q3200 is not being told to switch.\n\nI also notice that F3000 \/ F3010 would measure 5v, but Q3100 Q3200 doesn't allow the 5v to go through to PPDCIN_G3H to power U6990, which means no PP3V3_G3H to power the CD3215's. It would only work if I use fresh new CD3215C00's.\n\nWhat could be the issue? Any advice that anyone can give me?\n\nI may have to try a new SMC or give up since I went through a lot of chips already unless there is something I am missing.\n\nThanks!"}
-{"post_id":57432,"thread_id":57431,"title":"820-00840 - 5v USB Type C - No 20v","user_id":682,"username":"2informaticos","post_date":"2020-03-12 03:25:43","message":"\"Replaced SMC with new one\"\nReally new???\nIt must be picked up from same model board.\n\nDid you look at USB-C redriver chip?\nMany times dies, with a small hole on top.\nBe aware, this chip doesn't appear on schematic, nor boardview; search the forum.\n\nInstead of changing CD3215, try heating it.\nIf then get 20V, reflow and very gently tap it, to assure good solders."}
-{"post_id":57446,"thread_id":57431,"title":"820-00840 - 5v USB Type C - No 20v","user_id":1358,"username":"mccafe","post_date":"2020-03-12 06:49:55","message":"Yes, I meant to say SMC from same model donor board. Not technically new.\n\nTried reflowing CD3215?s many times as well as replacing. I?m 99% certain good solder.\n\nThe USB-C redriver chip that isn?t on board view \/ schematic near the connectors is clean with no burn marks.\n\nI don?t have any working board to compare to."}
-{"post_id":57456,"thread_id":57431,"title":"820-00840 - 5v USB Type C - No 20v","user_id":682,"username":"2informaticos","post_date":"2020-03-12 11:16:01","message":"Remove redriver chip, just in case.\nYou should still have a problem on USB-C controllers area."}
-{"post_id":57463,"thread_id":57431,"title":"820-00840 - 5v USB Type C - No 20v","user_id":1358,"username":"mccafe","post_date":"2020-03-12 12:19:05","message":"Removed re-driver, same behaviour. I found out last shop put a resistor in place of NO STUFF C3120 (for primary) which I removed. Also seen that R5322 (SMC_USBC_INT_L) not properly soldered on. Soldered new CD3215's, diode mode shows no obvious shorts. Plugged into secondary port, 5V.. 20V 0.08 amps steady. Plugged back into other port and back to same behaviour. Checked C3208 (secondary) and 0.08 diode mode short. I don't know what is causing this to blow."}
-{"post_id":57466,"thread_id":57431,"title":"820-00840 - 5v USB Type C - No 20v","user_id":682,"username":"2informaticos","post_date":"2020-03-12 15:23:44","message":"You must get the same diode mode reading on both C3108\/208.\nYou could waste time after such a messed up board.\nIf they did such mistakes, god knows what else screewed up :(..."}
-{"post_id":57497,"thread_id":57431,"title":"820-00840 - 5v USB Type C - No 20v","user_id":1358,"username":"mccafe","post_date":"2020-03-13 15:32:04","message":"Good news.. I came back to this and the CD3215's seem to be working better. Since I removed that resistor in place of NO STUFF C3120, I replaced the CD3215 chips and I now get 5V.. 20V steady on both ports. I am able to disconnect and reconnect and they do not blow. However, each port is drawing 0 amps.\nSMC_RESET_L = 3.4v\nPPBUS_G3H = 0v.. checking ISL."}
+[
+    {
+        "post_id":57431,
+        "thread_id":57431,
+        "title":"820-00840 - 5v USB Type C - No 20v",
+        "user_id":1358,
+        "username":"mccafe",
+        "post_date":"2020-03-11 20:08:05",
+        "message":"Hello,\n\nI have a complicated 820-00840 that came from another shop. Many parts have been screwed with including CD3215C00 area, F7000 (only one side connected), C3000 was missing.\n\nReplaced secondary CD3215C00 because it was very hot. Still 5v on type C charger.\nSMC was shorting PP3V3_G3H unfortunately. Removed SMC, short gone. Replaced SMC with new one, also replaced ISL U7000 because it was missing.\nConnected charger on primary connector. 5v 0 amps for a few seconds then 20 volts very low amps. Thought I got it working..\nDisconnected charger and tried secondary connector. Now it just stays at 5v 0.61 \/ 0.41 watts (I forgot the amps)\nDisconnected charger and tried primary again. Same 5v 0.61 \/ 0.41 watts, no longer switching to 20 volts\nReplaced the CD3215C00's again and was able to get 20 volts for a short time until I disconnect and reconnect to other port then it will just stay at 5v. 20v would be present as long as I keep the charger connected, but once reconnected it will be forever gone until I replace CD3215.\nI did this several times because either it would bring down PP3V3_G3H down to 2v (C3100 \/ C3200) or it would not have PP3V3_G3H at all because Q3100\/Q3200 is not being told to switch.\n\nI also notice that F3000 \/ F3010 would measure 5v, but Q3100 Q3200 doesn't allow the 5v to go through to PPDCIN_G3H to power U6990, which means no PP3V3_G3H to power the CD3215's. It would only work if I use fresh new CD3215C00's.\n\nWhat could be the issue? Any advice that anyone can give me?\n\nI may have to try a new SMC or give up since I went through a lot of chips already unless there is something I am missing.\n\nThanks!"
+    },
+    {
+        "post_id":57432,
+        "thread_id":57431,
+        "title":"820-00840 - 5v USB Type C - No 20v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-12 01:25:43",
+        "message":"\"Replaced SMC with new one\"\nReally new???\nIt must be picked up from same model board.\n\nDid you look at USB-C redriver chip?\nMany times dies, with a small hole on top.\nBe aware, this chip doesn't appear on schematic, nor boardview; search the forum.\n\nInstead of changing CD3215, try heating it.\nIf then get 20V, reflow and very gently tap it, to assure good solders."
+    },
+    {
+        "post_id":57446,
+        "thread_id":57431,
+        "title":"820-00840 - 5v USB Type C - No 20v",
+        "user_id":1358,
+        "username":"mccafe",
+        "post_date":"2020-03-12 04:49:55",
+        "message":"Yes, I meant to say SMC from same model donor board. Not technically new.\n\nTried reflowing CD3215?s many times as well as replacing. I?m 99% certain good solder.\n\nThe USB-C redriver chip that isn?t on board view \/ schematic near the connectors is clean with no burn marks.\n\nI don?t have any working board to compare to."
+    },
+    {
+        "post_id":57456,
+        "thread_id":57431,
+        "title":"820-00840 - 5v USB Type C - No 20v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-12 09:16:01",
+        "message":"Remove redriver chip, just in case.\nYou should still have a problem on USB-C controllers area."
+    },
+    {
+        "post_id":57463,
+        "thread_id":57431,
+        "title":"820-00840 - 5v USB Type C - No 20v",
+        "user_id":1358,
+        "username":"mccafe",
+        "post_date":"2020-03-12 10:19:05",
+        "message":"Removed re-driver, same behaviour. I found out last shop put a resistor in place of NO STUFF C3120 (for primary) which I removed. Also seen that R5322 (SMC_USBC_INT_L) not properly soldered on. Soldered new CD3215's, diode mode shows no obvious shorts. Plugged into secondary port, 5V.. 20V 0.08 amps steady. Plugged back into other port and back to same behaviour. Checked C3208 (secondary) and 0.08 diode mode short. I don't know what is causing this to blow."
+    },
+    {
+        "post_id":57466,
+        "thread_id":57431,
+        "title":"820-00840 - 5v USB Type C - No 20v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-12 13:23:44",
+        "message":"You must get the same diode mode reading on both C3108\/208.\nYou could waste time after such a messed up board.\nIf they did such mistakes, god knows what else screewed up :(..."
+    },
+    {
+        "post_id":57497,
+        "thread_id":57431,
+        "title":"820-00840 - 5v USB Type C - No 20v",
+        "user_id":1358,
+        "username":"mccafe",
+        "post_date":"2020-03-13 13:32:04",
+        "message":"Good news.. I came back to this and the CD3215's seem to be working better. Since I removed that resistor in place of NO STUFF C3120, I replaced the CD3215 chips and I now get 5V.. 20V steady on both ports. I am able to disconnect and reconnect and they do not blow. However, each port is drawing 0 amps.\nSMC_RESET_L = 3.4v\nPPBUS_G3H = 0v.. checking ISL."
+    }
+]

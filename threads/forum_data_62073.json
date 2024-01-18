@@ -1,21 +1,191 @@
-{"post_id":83629,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-11 06:16:23","message":"This plate came dead. After replacing some oxidized components, traditional resistor R5481 and I did Rebaling in SMC because of the oxidation. It returned to normal, in the tests the BKL stopped!\n\nTest with another screen - ok\nChecked Trails - Ok\nF9700 - Ok\nD9701 - Post-diode p2 .607 - P1 .405 - With and without screen\nD9701 - P2 12.5V - P1 12.56V\n\nQ9706 - 1, 2, 4, 5 and 6 - 12.56V \/ 3 - 4V\nL9008 \/ L9004 - 3.27V - Both pins"}
-{"post_id":83631,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-11 06:46:10","message":"\"Test with another screen - ok\"\nWhat this means, do you get vacklight with other screen???\nI suppose not, but is not the correct way to say that!\n\nPost BKL_EN\/PWM levels; be sure R9704 is good.\nDo PRAM reset 2-3 times."}
-{"post_id":83634,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-11 07:08:23","message":"Excuse me. The idea was that he had already tested with another screen.\n\nR9704 is good!\nBKL_EN - 2.9V\nBKL_PWM - 0V (bad sign?)\n\nI had already checked reset PRAM!"}
-{"post_id":83640,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-11 10:06:04","message":"Remove R9704 and run wire from C9704 to R9715.\nIf backlight comes on, test the machine few hours; then rebuild original circuit and check again BKL_PWM."}
-{"post_id":83701,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-13 06:25:16","message":"It worked, I have BKL! I will test and come back for feedback."}
-{"post_id":83703,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-13 06:59:13","message":"Just in case, do PRAM reset again; before rebuild original circuit."}
-{"post_id":83704,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-13 07:26:27","message":"Rebuild the circuit, stopped the BKL. I used components from another board.\n\nI noticed that the power button stopped working to turn on. If you try to turn off by pressing, it works."}
-{"post_id":83708,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-13 09:09:55","message":"PCH problems probably.\n\nTrigger SMC_ONOFF_L and check for pulse at PM_SLP_S4_L, at same time.\nCheck all PCH's RTC signals."}
-{"post_id":83759,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-14 12:08:40","message":"I don't have a pulse on PM_SLP_S4_L when I try SMC_ONOFF_L!\n\nRTC_RESET_L - 3.26V\nPCH_INTRUDER_L - 1.65v (problem, no?)\nPCH_INTVRMEN - 2.5v\nPCH_SRTCRST_L - 3.26V\n\nPPVRTC_G3H - 3.3V"}
-{"post_id":83767,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-14 16:30:52","message":"Force 100K in place of R1801, instead of 1M."}
-{"post_id":83787,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-15 05:53:54","message":"Does not work with 100k! =\/"}
-{"post_id":83795,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-15 06:13:03","message":"PCH_INTRUDER_L still low?\nIf yes, heat PCH area with quality flux.\nMay have luck to be caused by accumulated crap underneath PCH."}
-{"post_id":83797,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-15 06:24:41","message":"PCH_INTRUDER_L is at 3v now. but still without pulse in PM_SLP_S4_L, triggering SMC_ONOFF_L. Also without BKL."}
-{"post_id":83807,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-15 09:33:21","message":"Heat reaction may be caused by accumulated crap, or PCH internal issue:\nMissing PM_SLP_S4_L points to PCH problem; seems to be generated only when charger is plugged in.\nBut you need to confirm signals from SMC toPCH first.\n\nDid you check PM_SLP_S4_L for pulse at same time when trigger SMC_ONOFF_L?\nBe sure to have drop pulse at PM_PWRBTN_L also."}
-{"post_id":83850,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-16 06:29:12","message":"I tried to heat the PCH, I also put it in the tub to clean! Unsuccessfully!\n\nExactly, only have the signal PM_SLP_S4_L with charger. Triggering the SMC_ONOFF_L, I don't have a pulse. I'm testing with the battery, the power button and SMC_ONOFF_L don't turn off the board. So I put the battery in and try to trigger SMC_ONOFF_L.\n\nI will check SMC signals to PCH, can it be SMC bad?\n\nPM_PWRBTN_L always 3.4v, no drop."}
-{"post_id":83855,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-16 08:53:58","message":"\"Exactly, only have the signal PM_SLP_S4_L with charger\"\nDo you mean PM_SLP_S4_L is high when you connect the charger?"}
-{"post_id":83857,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-16 08:58:06","message":"Yes, I have 3.3v with charger and board connected."}
-{"post_id":83861,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-16 09:03:09","message":"PM_PWRBTN_L should drop when SMC detects SMC_ONOFF_L is triggered.\nIf not, try changing SMC."}
-{"post_id":83885,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-16 13:28:43","message":"BINGO! With different SMC, everything works! I'll try!\n\nCan I leave the R1801 with 100k?"}
-{"post_id":83894,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":682,"username":"2informaticos","post_date":"2021-12-17 03:08:20","message":"You can leave 100K without peoblems."}
-{"post_id":83900,"thread_id":62073,"title":"820-3115 - No Backlight","user_id":30363,"username":"Palhano","post_date":"2021-12-17 06:10:56","message":"thank you my friend!\n\nSaved once more!"}
+[
+    {
+        "post_id":83629,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-11 04:16:23",
+        "message":"This plate came dead. After replacing some oxidized components, traditional resistor R5481 and I did Rebaling in SMC because of the oxidation. It returned to normal, in the tests the BKL stopped!\n\nTest with another screen - ok\nChecked Trails - Ok\nF9700 - Ok\nD9701 - Post-diode p2 .607 - P1 .405 - With and without screen\nD9701 - P2 12.5V - P1 12.56V\n\nQ9706 - 1, 2, 4, 5 and 6 - 12.56V \/ 3 - 4V\nL9008 \/ L9004 - 3.27V - Both pins"
+    },
+    {
+        "post_id":83631,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-11 04:46:10",
+        "message":"\"Test with another screen - ok\"\nWhat this means, do you get vacklight with other screen???\nI suppose not, but is not the correct way to say that!\n\nPost BKL_EN\/PWM levels; be sure R9704 is good.\nDo PRAM reset 2-3 times."
+    },
+    {
+        "post_id":83634,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-11 05:08:23",
+        "message":"Excuse me. The idea was that he had already tested with another screen.\n\nR9704 is good!\nBKL_EN - 2.9V\nBKL_PWM - 0V (bad sign?)\n\nI had already checked reset PRAM!"
+    },
+    {
+        "post_id":83640,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-11 08:06:04",
+        "message":"Remove R9704 and run wire from C9704 to R9715.\nIf backlight comes on, test the machine few hours; then rebuild original circuit and check again BKL_PWM."
+    },
+    {
+        "post_id":83701,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-13 04:25:16",
+        "message":"It worked, I have BKL! I will test and come back for feedback."
+    },
+    {
+        "post_id":83703,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-13 04:59:13",
+        "message":"Just in case, do PRAM reset again; before rebuild original circuit."
+    },
+    {
+        "post_id":83704,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-13 05:26:27",
+        "message":"Rebuild the circuit, stopped the BKL. I used components from another board.\n\nI noticed that the power button stopped working to turn on. If you try to turn off by pressing, it works."
+    },
+    {
+        "post_id":83708,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-13 07:09:55",
+        "message":"PCH problems probably.\n\nTrigger SMC_ONOFF_L and check for pulse at PM_SLP_S4_L, at same time.\nCheck all PCH's RTC signals."
+    },
+    {
+        "post_id":83759,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-14 10:08:40",
+        "message":"I don't have a pulse on PM_SLP_S4_L when I try SMC_ONOFF_L!\n\nRTC_RESET_L - 3.26V\nPCH_INTRUDER_L - 1.65v (problem, no?)\nPCH_INTVRMEN - 2.5v\nPCH_SRTCRST_L - 3.26V\n\nPPVRTC_G3H - 3.3V"
+    },
+    {
+        "post_id":83767,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-14 14:30:52",
+        "message":"Force 100K in place of R1801, instead of 1M."
+    },
+    {
+        "post_id":83787,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-15 03:53:54",
+        "message":"Does not work with 100k! =\/"
+    },
+    {
+        "post_id":83795,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-15 04:13:03",
+        "message":"PCH_INTRUDER_L still low?\nIf yes, heat PCH area with quality flux.\nMay have luck to be caused by accumulated crap underneath PCH."
+    },
+    {
+        "post_id":83797,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-15 04:24:41",
+        "message":"PCH_INTRUDER_L is at 3v now. but still without pulse in PM_SLP_S4_L, triggering SMC_ONOFF_L. Also without BKL."
+    },
+    {
+        "post_id":83807,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-15 07:33:21",
+        "message":"Heat reaction may be caused by accumulated crap, or PCH internal issue:\nMissing PM_SLP_S4_L points to PCH problem; seems to be generated only when charger is plugged in.\nBut you need to confirm signals from SMC toPCH first.\n\nDid you check PM_SLP_S4_L for pulse at same time when trigger SMC_ONOFF_L?\nBe sure to have drop pulse at PM_PWRBTN_L also."
+    },
+    {
+        "post_id":83850,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-16 04:29:12",
+        "message":"I tried to heat the PCH, I also put it in the tub to clean! Unsuccessfully!\n\nExactly, only have the signal PM_SLP_S4_L with charger. Triggering the SMC_ONOFF_L, I don't have a pulse. I'm testing with the battery, the power button and SMC_ONOFF_L don't turn off the board. So I put the battery in and try to trigger SMC_ONOFF_L.\n\nI will check SMC signals to PCH, can it be SMC bad?\n\nPM_PWRBTN_L always 3.4v, no drop."
+    },
+    {
+        "post_id":83855,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-16 06:53:58",
+        "message":"\"Exactly, only have the signal PM_SLP_S4_L with charger\"\nDo you mean PM_SLP_S4_L is high when you connect the charger?"
+    },
+    {
+        "post_id":83857,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-16 06:58:06",
+        "message":"Yes, I have 3.3v with charger and board connected."
+    },
+    {
+        "post_id":83861,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-16 07:03:09",
+        "message":"PM_PWRBTN_L should drop when SMC detects SMC_ONOFF_L is triggered.\nIf not, try changing SMC."
+    },
+    {
+        "post_id":83885,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-16 11:28:43",
+        "message":"BINGO! With different SMC, everything works! I'll try!\n\nCan I leave the R1801 with 100k?"
+    },
+    {
+        "post_id":83894,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-17 01:08:20",
+        "message":"You can leave 100K without peoblems."
+    },
+    {
+        "post_id":83900,
+        "thread_id":62073,
+        "title":"820-3115 - No Backlight",
+        "user_id":30363,
+        "username":"Palhano",
+        "post_date":"2021-12-17 04:10:56",
+        "message":"thank you my friend!\n\nSaved once more!"
+    }
+]

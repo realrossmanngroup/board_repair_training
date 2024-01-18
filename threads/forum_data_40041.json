@@ -1,10 +1,92 @@
-{"post_id":40041,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":1464,"username":"Bouba148","post_date":"2018-09-29 09:05:19","message":"Hi Team,\n\n820-3536A with Dimm Green Light\n\nCorrosion over the J8300 Display Connector +  J6100 spi connector: cleanned: NOK\n\nPPBUS_G3H: 12.29V\nPP3V42_G3H: 3.438V\nPPVRTC_G3H: 3.436V\nPP5V_S5: 0V\nPP3V3_S5: 0.44V\nSMC_BC_ACOK: 3.405V\nSMC_ONOFF_L: firstt time i read it it was 1.805V or 3.435V with full fan speed if I put the probe on it.  If I put the probe first and then plug the charger then it's 1.777V\nPM_BATLOW_L: 0.374V\nSMC_ADAPTER_EN: 0V\nPM_PWRBTN_L:0.032V\n\nSMC re heat at 100 degrees still the same\n\nAt U1900 pin 12: 32Khz OK always there\nAt Y1905: 25Mhz OK but only when the Fan spin\nAt Y5110: 12Mhz OK alway there."}
-{"post_id":40042,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":1153,"username":"JohnB8812","post_date":"2018-09-29 09:31:08","message":"Voltage on SMC_RESET_L??"}
-{"post_id":40046,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":682,"username":"2informaticos","post_date":"2018-09-29 16:12:24","message":"\"PP5V_S5: 0V\nPP3V3_S5: 0.44V\"\nThe board cannot even try to start in such conditions.\nIf fan spins, these values are incorrect...\n\nDisconnect LIO flex, let only 5pins DC cable connected.\nThe board should start by itself when charger is plugged in.\n\n\"PPBUS_G3H: 12.29V\"\nSMC and charger IC don't \"talk\".\n\nStart checking SMC_RESET_L and also need to get stable 3V at SMC_ONOFF_L signal.\nDisconnect keyboard and any other peripherals..."}
-{"post_id":40049,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":1464,"username":"Bouba148","post_date":"2018-09-29 17:36:38","message":"Hi John, Ola 2Informaticos\n\nSMC_RESET_L: 3.403V\nPP3V3_S5_AVREF_SMC :3.299V\nPP3V3_S5: 0.341V SORRY\n\nU7100: resistance 17\/18: 3.6 Ohms 27\/28: 20.3 Ohms\n\n@2Informaticos: The board Only Starts (10 sec fan spins 2-3 sec stop in loop) only when I put the probe or the twizer on the SMC_ONOFF_L test point or at R5170.\n\nNow after few hours of rest :\n\nI have a solid Orange light ( No green ) it goes directly to Orange.\nAlso when at one moment I had PPBUS at 12.56V instead of 12.29V.......now it's back to 12.29V but still have the solid orange ithout passing by green light.\n\nAll my tests from the begining are done without LIO board only with the magesafe board and Fan connected."}
-{"post_id":40050,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":1464,"username":"Bouba148","post_date":"2018-09-29 19:04:09","message":"SMC_MANUAL_RST_L: 2.788V  faulty U5110?\nSMC_ONOFF_L: around 1.5V when I short to gnd or put the probe on it I can see it jumping to 3.435V\n\nWhen I have the Orange light + normal fan speed (in 10sec loop) then PPBUS is 12.59V"}
-{"post_id":40051,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":682,"username":"2informaticos","post_date":"2018-09-30 02:27:34","message":"Reball SMC...\nCheck first if R5170 is OK."}
-{"post_id":40054,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":1464,"username":"Bouba148","post_date":"2018-09-30 06:00:53","message":"Hi\nI took out R5170, mesured it and this one is OK.\nBecause when it's in place it's mesureing almost 3kOhms.\nI'm warming up the UC to pass the board in it before reballing the SMC....."}
-{"post_id":40055,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":1464,"username":"Bouba148","post_date":"2018-09-30 07:47:04","message":"Back from the Utra Sonic Bath:\n\nNow I Have a solid 12.59V for PPBUS and charger light going normally from green to orange light.\n\nThe boar is not entering into S4 State now:\nAfter UltraSonic Bath\n\nPPBUS_G3H: 12.59V\nPP3V42_G3H: 3.436V\nPPVRTC_G3H: 3.339V\n[B]PP5V_S5: 5.031V  OK\nPP3V3_S5: 3.339V  OK[\/B]\n[B]SMC_BC_ACOK: 3.400V\nSMC_ONOFF_L: 3.433V\nPM_BATLOW_L: 3.328V[\/B]\n[B]SMC_ADAPTER_EN: 3.403V[\/B]\n[B]PP5V_S4: 0V\nPP3V3_S4: 0V[\/B]\n\nat U7501:\n\nPin 12 SMC_PM_G2_EN: 3.428V which enables PP5V_S5\nPin 4 P5VS4RS3_EN:0V\nPin 21 S5_PWR_EN: 3.433V\n\nPM_SLP_S4_L: 0V\nALL_SYS_PWRGD: 0V\n\nWhen shorting SMC_ONOFF_L to gnd no sign of life.\n\nAt U1900 pin 12: 32Khz OK always there\nAt Y1905: nothing\nAt Y5110: nothing."}
-{"post_id":40056,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":682,"username":"2informaticos","post_date":"2018-09-30 09:23:36","message":"You had oscillation at Y1905\/5110 before...\nCheck traces and REBALL SMC.\n\nDon't forget to check RTC signals.\nDo you get PM_SLP_SUS_L and 3V3_SUS voltage?"}
-{"post_id":40057,"thread_id":40041,"title":"820-3536 Dimm green Light  SMC?","user_id":1464,"username":"Bouba148","post_date":"2018-09-30 09:37:44","message":"Hi, Ola 2Informaticos,\n\nI think we can close this topic and mark it as closed.\nI can't really explain what happened but now everything works fine and the machine turns on correctly.\nI'm suspecting my old 85W official charger: this one now turns green - orange - off in loop. :mad:\n\nI used another one and everything worked fine now.\n\nMuchas gracias mi amigo.\nThanks to all the team ;)"}
+[
+    {
+        "post_id":40041,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-09-29 07:05:19",
+        "message":"Hi Team,\n\n820-3536A with Dimm Green Light\n\nCorrosion over the J8300 Display Connector +  J6100 spi connector: cleanned: NOK\n\nPPBUS_G3H: 12.29V\nPP3V42_G3H: 3.438V\nPPVRTC_G3H: 3.436V\nPP5V_S5: 0V\nPP3V3_S5: 0.44V\nSMC_BC_ACOK: 3.405V\nSMC_ONOFF_L: firstt time i read it it was 1.805V or 3.435V with full fan speed if I put the probe on it.  If I put the probe first and then plug the charger then it's 1.777V\nPM_BATLOW_L: 0.374V\nSMC_ADAPTER_EN: 0V\nPM_PWRBTN_L:0.032V\n\nSMC re heat at 100 degrees still the same\n\nAt U1900 pin 12: 32Khz OK always there\nAt Y1905: 25Mhz OK but only when the Fan spin\nAt Y5110: 12Mhz OK alway there."
+    },
+    {
+        "post_id":40042,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-09-29 07:31:08",
+        "message":"Voltage on SMC_RESET_L??"
+    },
+    {
+        "post_id":40046,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-09-29 14:12:24",
+        "message":"\"PP5V_S5: 0V\nPP3V3_S5: 0.44V\"\nThe board cannot even try to start in such conditions.\nIf fan spins, these values are incorrect...\n\nDisconnect LIO flex, let only 5pins DC cable connected.\nThe board should start by itself when charger is plugged in.\n\n\"PPBUS_G3H: 12.29V\"\nSMC and charger IC don't \"talk\".\n\nStart checking SMC_RESET_L and also need to get stable 3V at SMC_ONOFF_L signal.\nDisconnect keyboard and any other peripherals..."
+    },
+    {
+        "post_id":40049,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-09-29 15:36:38",
+        "message":"Hi John, Ola 2Informaticos\n\nSMC_RESET_L: 3.403V\nPP3V3_S5_AVREF_SMC :3.299V\nPP3V3_S5: 0.341V SORRY\n\nU7100: resistance 17\/18: 3.6 Ohms 27\/28: 20.3 Ohms\n\n@2Informaticos: The board Only Starts (10 sec fan spins 2-3 sec stop in loop) only when I put the probe or the twizer on the SMC_ONOFF_L test point or at R5170.\n\nNow after few hours of rest :\n\nI have a solid Orange light ( No green ) it goes directly to Orange.\nAlso when at one moment I had PPBUS at 12.56V instead of 12.29V.......now it's back to 12.29V but still have the solid orange ithout passing by green light.\n\nAll my tests from the begining are done without LIO board only with the magesafe board and Fan connected."
+    },
+    {
+        "post_id":40050,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-09-29 17:04:09",
+        "message":"SMC_MANUAL_RST_L: 2.788V  faulty U5110?\nSMC_ONOFF_L: around 1.5V when I short to gnd or put the probe on it I can see it jumping to 3.435V\n\nWhen I have the Orange light + normal fan speed (in 10sec loop) then PPBUS is 12.59V"
+    },
+    {
+        "post_id":40051,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-09-30 00:27:34",
+        "message":"Reball SMC...\nCheck first if R5170 is OK."
+    },
+    {
+        "post_id":40054,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-09-30 04:00:53",
+        "message":"Hi\nI took out R5170, mesured it and this one is OK.\nBecause when it's in place it's mesureing almost 3kOhms.\nI'm warming up the UC to pass the board in it before reballing the SMC....."
+    },
+    {
+        "post_id":40055,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-09-30 05:47:04",
+        "message":"Back from the Utra Sonic Bath:\n\nNow I Have a solid 12.59V for PPBUS and charger light going normally from green to orange light.\n\nThe boar is not entering into S4 State now:\nAfter UltraSonic Bath\n\nPPBUS_G3H: 12.59V\nPP3V42_G3H: 3.436V\nPPVRTC_G3H: 3.339V\n[B]PP5V_S5: 5.031V  OK\nPP3V3_S5: 3.339V  OK[\/B]\n[B]SMC_BC_ACOK: 3.400V\nSMC_ONOFF_L: 3.433V\nPM_BATLOW_L: 3.328V[\/B]\n[B]SMC_ADAPTER_EN: 3.403V[\/B]\n[B]PP5V_S4: 0V\nPP3V3_S4: 0V[\/B]\n\nat U7501:\n\nPin 12 SMC_PM_G2_EN: 3.428V which enables PP5V_S5\nPin 4 P5VS4RS3_EN:0V\nPin 21 S5_PWR_EN: 3.433V\n\nPM_SLP_S4_L: 0V\nALL_SYS_PWRGD: 0V\n\nWhen shorting SMC_ONOFF_L to gnd no sign of life.\n\nAt U1900 pin 12: 32Khz OK always there\nAt Y1905: nothing\nAt Y5110: nothing."
+    },
+    {
+        "post_id":40056,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-09-30 07:23:36",
+        "message":"You had oscillation at Y1905\/5110 before...\nCheck traces and REBALL SMC.\n\nDon't forget to check RTC signals.\nDo you get PM_SLP_SUS_L and 3V3_SUS voltage?"
+    },
+    {
+        "post_id":40057,
+        "thread_id":40041,
+        "title":"820-3536 Dimm green Light  SMC?",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-09-30 07:37:44",
+        "message":"Hi, Ola 2Informaticos,\n\nI think we can close this topic and mark it as closed.\nI can't really explain what happened but now everything works fine and the machine turns on correctly.\nI'm suspecting my old 85W official charger: this one now turns green - orange - off in loop. :mad:\n\nI used another one and everything worked fine now.\n\nMuchas gracias mi amigo.\nThanks to all the team ;)"
+    }
+]

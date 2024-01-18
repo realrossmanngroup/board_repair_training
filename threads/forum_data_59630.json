@@ -1,7 +1,65 @@
-{"post_id":62085,"thread_id":59630,"title":"820-3115-B Macbook Pro no charger light","user_id":26818,"username":"LCDR2","post_date":"2020-07-08 20:31:26","message":"Macbook Pro \n\nFirst look at the computer... Able to Power on the computer. No \"bong\", Red Charge Light (after about a minute) and full fan spin. \n\nNow .. well something else has gone wrong. Now no light on the charger and 11.2v at PPBUS_G3H (battery connected)  0v W\/O battery.\n\nI don't think I \"did\" anything... but must have shorted something I guess ?\n\nSigh..\n\nWhere to  start oh wise ones?"}
-{"post_id":62097,"thread_id":59630,"title":"820-3115-B Macbook Pro no charger light","user_id":682,"username":"2informaticos","post_date":"2020-07-09 06:07:52","message":"Start disconnecting battery.\nDo not reconnect it until get correct PPBUS_G3H voltage.\n\nDo you get 3V42_G3H at least?\nPost ohm values for R7080\/81 and R7085\/86, measured onboard."}
-{"post_id":62311,"thread_id":59630,"title":"820-3115-B Macbook Pro no charger light","user_id":26818,"username":"LCDR2","post_date":"2020-07-14 01:08:11","message":"HI, \nI got very little anywhere.\nI have replaced the DC in jack (820 - 2565) with a known good which seems to have helped a bit. \n\nI was working my way through power rails and related circuits (as I guess \/ assume they're related) so apologies if some of these are out of order or unnecessary. \n\n\nPPVIN _G3h_P3v42G3H (mesured at D6990) 18.09v\n3V42_G3H - 149.2 mv\nPPBUS_G3H 30.5mv\nPPCHGR_DCIN_D 18.5v\nCHGR_PHASE 10.5mv\n\nSo based on this I would conclude that there is something wrong with the circuit that is creating PPBUS_G3H\n\nAt this stage I believe I have power going INTO U7000 via PPCHGR_DCIN_D (@R7005). but not OUT of u7000.\n\nI see on pin 24 of U7000 there is CHGR UGATE but I am not sure if that functions as a enable or similar circuit. \n\nMy backtracking lead me to the schematic page which has R7080! So hopefully that means I am on the right track!\n\nR7080 - 99.9k (good I think)\nR7081 - 60.7 (good too)\n\nR7085 - winner winner ? 0.577m Ohms\nR7086 - 307K \n\n.......\n\n\nSo replace R7085 which would fix CHGR_AGATE which makes CHGR_Phase work?\n\nI shall await your response. \n\nCheers\n\nJames"}
-{"post_id":62313,"thread_id":59630,"title":"820-3115-B Macbook Pro no charger light","user_id":682,"username":"2informaticos","post_date":"2020-07-14 03:12:46","message":"\"R7085 - winner winner ? 0.577m Ohms\"\nm stands from mili, but I bet you meant Mega; confirm please.\nReading should be closer to 470K (0.47M).\nHowever, doesn't look like Mosfet leakage.\n\nPost diode mode to ground at L6995 and F7040.\n\nWe need some voltages for U7000 too; pins 1, 2, 3, 9, 15, 17, 19, 20, 27.\nAlso post exact resistance (ohm mode) between its pins 17\/18 and 27\/28."}
-{"post_id":62391,"thread_id":59630,"title":"820-3115-B Macbook Pro no charger light","user_id":26818,"username":"LCDR2","post_date":"2020-07-16 00:25:52","message":"Hi 2informatios \n\nDiode mode I get\nL6995 0.108 _G3H on one side and 0.0 on the other (_SW)\nF7040 0.413\n\n\nU7000 \n\n17 \/ 18- 3.2 Ohms (measured at R7051 and R7052 because my micro multi meter probes are not here and they appear to be connected)\n27 \/ 28 - 20 Ohms (similar measurement style)\n\nU7000 Voltages\n\n\n 1- 17.8v\n2 -  18 v\n3 - 8 mv\n9 - 32.3mv\n15 -  (negative 160mv) \n17 - 4.5mv\n19 - 5.08v\n20 - 5.08v\n27 - 2.7mv"}
-{"post_id":62402,"thread_id":59630,"title":"820-3115-B Macbook Pro no charger light","user_id":682,"username":"2informaticos","post_date":"2020-07-16 03:36:25","message":"\"3 - 8 mv\"\nBad enough.\n\nFirst post diode mode to ground there.\nIf low, remove C7011 and check again.\nIf still low, change U7000.\nIf no short, replace R7010.\n\n\"L6995 0.108 _G3H on one side and 0.0 on the other (_SW)\"\nI'm not really sure about this; do you mean L6995 is broken\/open and short to ground before it??"}
-{"post_id":62744,"thread_id":59630,"title":"820-3115-B Macbook Pro no charger light","user_id":26818,"username":"LCDR2","post_date":"2020-07-23 00:37:46","message":"7 - 7.68 M ohms\nreplaced suggested. Will repost after I US all the flux away"}
+[
+    {
+        "post_id":62085,
+        "thread_id":59630,
+        "title":"820-3115-B Macbook Pro no charger light",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-07-08 18:31:26",
+        "message":"Macbook Pro \n\nFirst look at the computer... Able to Power on the computer. No \"bong\", Red Charge Light (after about a minute) and full fan spin. \n\nNow .. well something else has gone wrong. Now no light on the charger and 11.2v at PPBUS_G3H (battery connected)  0v W\/O battery.\n\nI don't think I \"did\" anything... but must have shorted something I guess ?\n\nSigh..\n\nWhere to  start oh wise ones?"
+    },
+    {
+        "post_id":62097,
+        "thread_id":59630,
+        "title":"820-3115-B Macbook Pro no charger light",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-09 04:07:52",
+        "message":"Start disconnecting battery.\nDo not reconnect it until get correct PPBUS_G3H voltage.\n\nDo you get 3V42_G3H at least?\nPost ohm values for R7080\/81 and R7085\/86, measured onboard."
+    },
+    {
+        "post_id":62311,
+        "thread_id":59630,
+        "title":"820-3115-B Macbook Pro no charger light",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-07-13 23:08:11",
+        "message":"HI, \nI got very little anywhere.\nI have replaced the DC in jack (820 - 2565) with a known good which seems to have helped a bit. \n\nI was working my way through power rails and related circuits (as I guess \/ assume they're related) so apologies if some of these are out of order or unnecessary. \n\n\nPPVIN _G3h_P3v42G3H (mesured at D6990) 18.09v\n3V42_G3H - 149.2 mv\nPPBUS_G3H 30.5mv\nPPCHGR_DCIN_D 18.5v\nCHGR_PHASE 10.5mv\n\nSo based on this I would conclude that there is something wrong with the circuit that is creating PPBUS_G3H\n\nAt this stage I believe I have power going INTO U7000 via PPCHGR_DCIN_D (@R7005). but not OUT of u7000.\n\nI see on pin 24 of U7000 there is CHGR UGATE but I am not sure if that functions as a enable or similar circuit. \n\nMy backtracking lead me to the schematic page which has R7080! So hopefully that means I am on the right track!\n\nR7080 - 99.9k (good I think)\nR7081 - 60.7 (good too)\n\nR7085 - winner winner ? 0.577m Ohms\nR7086 - 307K \n\n.......\n\n\nSo replace R7085 which would fix CHGR_AGATE which makes CHGR_Phase work?\n\nI shall await your response. \n\nCheers\n\nJames"
+    },
+    {
+        "post_id":62313,
+        "thread_id":59630,
+        "title":"820-3115-B Macbook Pro no charger light",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-14 01:12:46",
+        "message":"\"R7085 - winner winner ? 0.577m Ohms\"\nm stands from mili, but I bet you meant Mega; confirm please.\nReading should be closer to 470K (0.47M).\nHowever, doesn't look like Mosfet leakage.\n\nPost diode mode to ground at L6995 and F7040.\n\nWe need some voltages for U7000 too; pins 1, 2, 3, 9, 15, 17, 19, 20, 27.\nAlso post exact resistance (ohm mode) between its pins 17\/18 and 27\/28."
+    },
+    {
+        "post_id":62391,
+        "thread_id":59630,
+        "title":"820-3115-B Macbook Pro no charger light",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-07-15 22:25:52",
+        "message":"Hi 2informatios \n\nDiode mode I get\nL6995 0.108 _G3H on one side and 0.0 on the other (_SW)\nF7040 0.413\n\n\nU7000 \n\n17 \/ 18- 3.2 Ohms (measured at R7051 and R7052 because my micro multi meter probes are not here and they appear to be connected)\n27 \/ 28 - 20 Ohms (similar measurement style)\n\nU7000 Voltages\n\n\n 1- 17.8v\n2 -  18 v\n3 - 8 mv\n9 - 32.3mv\n15 -  (negative 160mv) \n17 - 4.5mv\n19 - 5.08v\n20 - 5.08v\n27 - 2.7mv"
+    },
+    {
+        "post_id":62402,
+        "thread_id":59630,
+        "title":"820-3115-B Macbook Pro no charger light",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-16 01:36:25",
+        "message":"\"3 - 8 mv\"\nBad enough.\n\nFirst post diode mode to ground there.\nIf low, remove C7011 and check again.\nIf still low, change U7000.\nIf no short, replace R7010.\n\n\"L6995 0.108 _G3H on one side and 0.0 on the other (_SW)\"\nI'm not really sure about this; do you mean L6995 is broken\/open and short to ground before it??"
+    },
+    {
+        "post_id":62744,
+        "thread_id":59630,
+        "title":"820-3115-B Macbook Pro no charger light",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-07-22 22:37:46",
+        "message":"7 - 7.68 M ohms\nreplaced suggested. Will repost after I US all the flux away"
+    }
+]

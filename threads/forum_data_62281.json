@@ -1,18 +1,164 @@
-{"post_id":85796,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-01 05:10:41","message":"Tried DFU mode but did not get picked up.\n\nUnder IR U7800 seems to warm up to 34*C\n[ATTACH alt=\"2022-02-01 21-16-38.JPG\"]60397[\/ATTACH][ATTACH alt=\"2022-02-01 21-17-36.JPG\"]60396[\/ATTACH]\n\nNo visible shorts on coils, low impedance on\nP0V9SLPDDR_SW0 - 53Ohm\nP0V9SLPDDR_SW1 - 53Ohm\n\nWhile\nP1V1SLPS2R_SW0 - 8.9kOhm\nP1V1SLPS2R_SW1 - 11kOhm\n\nLifted up L7186\/Lt187 low impedance seems to be on the PP0V9_SLPDDR side. Is that normal?\n\nWhere else shall I look?"}
-{"post_id":85802,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-01 07:19:05","message":"Do you get correct voltage at L8100?"}
-{"post_id":85839,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-01 15:28:22","message":"P0V9SLPDDR_SW0 - 1.56V\nP0V9SLPDDR_SW1 - 1.55V\nPWDDCPUAWAKE_SW1\/3 - 0.75V\nothers fine\n\n\nOnly these I am not getting on U8100 coils\nCPUCore - 0V\nP1VPRIM - 0V\nP0V9SSD_SW0 - 0V\nP1V8SSD_SW0 - 0V\n\nAll on the right side of u8100\n[ATTACH alt=\"IT-Solve_Repair_22-02-02_07-59-40.jpg\"]60399[\/ATTACH]"}
-{"post_id":85841,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-01 17:18:11","message":"I don't know which schematic are you looking.\nIn the picture appears U7800..."}
-{"post_id":85842,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-01 17:35:44","message":"Apologies. Yes, it is U7800, working on 2 macs at the same time does your brain.\n\nCorrected"}
-{"post_id":85843,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-01 18:26:01","message":"Don't check for DC voltage at \"SW\" side of a coil.\nAlways test the output pin (DC side), where the filter cap is placed.\nIf you use an o-scope, will probably understand the difference.\n\nCheck if all AWAKE and SLPS2R voltages are present."}
-{"post_id":85846,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-01 18:55:44","message":"So we should measure after the coil on outputs, rather than on the output pin side instead?\n\n[ATTACH type=\"full\" alt=\"1643763006701.png\"]60402[\/ATTACH]\n\n\nPP1V8_SLPS2R - 1.8V\nPP1V1_SLPS2R - 1.1V\nPP0V8_SLPS2R - 0V\nLet me know if I missed any\n\n\nP0V9SSD_SW0  and PP0V9_SLPDDR seem to get 1.6V now. After I unsoldered and soldered back L7816\/7 not sure if related. Isn't 1.6V a bit too high for a 0.9V line?"}
-{"post_id":85847,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-01 19:34:58","message":"I said do NOT check DC voltage on \"SW\" side of coil.\nWhat is L7823 pin 1 voltage and pin2 of L7816\/17?\nThese are the output pins for mentioned coils.\n\n\"PP0V8_SLPS2R - 0V\"\nThis is a \"good\" reason for non working board.\nCheck diode mode to ground there.\n\nAlso check AWAKE voltages from the same page."}
-{"post_id":85850,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-01 20:06:16","message":"Roger that. Strange that all test points are placed there. Must be for o-scope.\n\nL7823  -  0V - 0.373\nL7816\/17 - 1.57V\n\nPP0V8_SLPS2R - 0.79V - 0.2389 -  I must have mismeasured it.\n\nPPVDDCPU_AWAKE - 0.75V\nPPVDDCPUSRAM_AWAKE - 0.80V\nPP1V8_AWAKE - 1.8V\n\n\nAll the remaining reported voltages are the same."}
-{"post_id":85851,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-01 20:38:02","message":"Just got functioning A1932 and referenced core diode mode readings on these 0V lines\n\nPVCC_PRIM_CORE - 0.074 - 0.308 on a functioning board\nPP1V_PRIM - 0.092 - 0.26\nPP0V9_SSD - 0.064 - 0.276\n\nBlown CPU \/ SSD? Not much dusty, used for high school classes mainly."}
-{"post_id":85854,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-02 03:11:14","message":"You can try changing U7800.\n\nOnce you've got working board on hands, write down diode mode readings on all coils, including the big ones.\nThis way build a boards library, which will save you time in the future."}
-{"post_id":85855,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-02 03:43:17","message":"Haven't replaced one of these 338S00267 -A0's before. Seems like Stencils and chips are available. Has anyone had success in replacing these?\n\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/item\/4001239161238.html[\/URL]\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/item\/1005002002452026.html[\/URL]"}
-{"post_id":85856,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-02 04:09:42","message":"Just for confirmation, I have lifted up all coils on these lines and seems like short is [U]no[\/U]t on the side of the PMIC\n\n[ATTACH type=\"full\" width=\"631px\"]60405[\/ATTACH]\n\nPPVCC_PRIM_CORE - 0.0169\nPP1V_PRIM - 0.0254\nPP0V9_SSD - 0.35\n\nCould that PMIC is fine unless PVCC_PRIM_CORE, inputs of it are blown (AE\/F 18\/19)?\n[ATTACH type=\"full\" width=\"607px\"]60404[\/ATTACH]"}
-{"post_id":85857,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-02 04:20:05","message":"Bad news, T2 gets in the suspect position then..."}
-{"post_id":85858,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-02 04:47:46","message":"bugger.\n\nI saw some of them on sale with a touch id. Is touch ID serialized with the board? Can't it be reused?"}
-{"post_id":85863,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-02 05:26:30","message":"Touch ID is married with the board."}
-{"post_id":85865,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":25485,"username":"it-solve","post_date":"2022-02-02 05:31:24","message":"Any known ways of reprogramming it?"}
-{"post_id":85878,"thread_id":62281,"title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up","user_id":682,"username":"2informaticos","post_date":"2022-02-02 09:01:33","message":"Apple can do it..."}
+[
+    {
+        "post_id":85796,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-01 03:10:41",
+        "message":"Tried DFU mode but did not get picked up.\n\nUnder IR U7800 seems to warm up to 34*C\n[ATTACH alt=\"2022-02-01 21-16-38.JPG\"]60397[\/ATTACH][ATTACH alt=\"2022-02-01 21-17-36.JPG\"]60396[\/ATTACH]\n\nNo visible shorts on coils, low impedance on\nP0V9SLPDDR_SW0 - 53Ohm\nP0V9SLPDDR_SW1 - 53Ohm\n\nWhile\nP1V1SLPS2R_SW0 - 8.9kOhm\nP1V1SLPS2R_SW1 - 11kOhm\n\nLifted up L7186\/Lt187 low impedance seems to be on the PP0V9_SLPDDR side. Is that normal?\n\nWhere else shall I look?"
+    },
+    {
+        "post_id":85802,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-01 05:19:05",
+        "message":"Do you get correct voltage at L8100?"
+    },
+    {
+        "post_id":85839,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-01 13:28:22",
+        "message":"P0V9SLPDDR_SW0 - 1.56V\nP0V9SLPDDR_SW1 - 1.55V\nPWDDCPUAWAKE_SW1\/3 - 0.75V\nothers fine\n\n\nOnly these I am not getting on U8100 coils\nCPUCore - 0V\nP1VPRIM - 0V\nP0V9SSD_SW0 - 0V\nP1V8SSD_SW0 - 0V\n\nAll on the right side of u8100\n[ATTACH alt=\"IT-Solve_Repair_22-02-02_07-59-40.jpg\"]60399[\/ATTACH]"
+    },
+    {
+        "post_id":85841,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-01 15:18:11",
+        "message":"I don't know which schematic are you looking.\nIn the picture appears U7800..."
+    },
+    {
+        "post_id":85842,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-01 15:35:44",
+        "message":"Apologies. Yes, it is U7800, working on 2 macs at the same time does your brain.\n\nCorrected"
+    },
+    {
+        "post_id":85843,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-01 16:26:01",
+        "message":"Don't check for DC voltage at \"SW\" side of a coil.\nAlways test the output pin (DC side), where the filter cap is placed.\nIf you use an o-scope, will probably understand the difference.\n\nCheck if all AWAKE and SLPS2R voltages are present."
+    },
+    {
+        "post_id":85846,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-01 16:55:44",
+        "message":"So we should measure after the coil on outputs, rather than on the output pin side instead?\n\n[ATTACH type=\"full\" alt=\"1643763006701.png\"]60402[\/ATTACH]\n\n\nPP1V8_SLPS2R - 1.8V\nPP1V1_SLPS2R - 1.1V\nPP0V8_SLPS2R - 0V\nLet me know if I missed any\n\n\nP0V9SSD_SW0  and PP0V9_SLPDDR seem to get 1.6V now. After I unsoldered and soldered back L7816\/7 not sure if related. Isn't 1.6V a bit too high for a 0.9V line?"
+    },
+    {
+        "post_id":85847,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-01 17:34:58",
+        "message":"I said do NOT check DC voltage on \"SW\" side of coil.\nWhat is L7823 pin 1 voltage and pin2 of L7816\/17?\nThese are the output pins for mentioned coils.\n\n\"PP0V8_SLPS2R - 0V\"\nThis is a \"good\" reason for non working board.\nCheck diode mode to ground there.\n\nAlso check AWAKE voltages from the same page."
+    },
+    {
+        "post_id":85850,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-01 18:06:16",
+        "message":"Roger that. Strange that all test points are placed there. Must be for o-scope.\n\nL7823  -  0V - 0.373\nL7816\/17 - 1.57V\n\nPP0V8_SLPS2R - 0.79V - 0.2389 -  I must have mismeasured it.\n\nPPVDDCPU_AWAKE - 0.75V\nPPVDDCPUSRAM_AWAKE - 0.80V\nPP1V8_AWAKE - 1.8V\n\n\nAll the remaining reported voltages are the same."
+    },
+    {
+        "post_id":85851,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-01 18:38:02",
+        "message":"Just got functioning A1932 and referenced core diode mode readings on these 0V lines\n\nPVCC_PRIM_CORE - 0.074 - 0.308 on a functioning board\nPP1V_PRIM - 0.092 - 0.26\nPP0V9_SSD - 0.064 - 0.276\n\nBlown CPU \/ SSD? Not much dusty, used for high school classes mainly."
+    },
+    {
+        "post_id":85854,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-02 01:11:14",
+        "message":"You can try changing U7800.\n\nOnce you've got working board on hands, write down diode mode readings on all coils, including the big ones.\nThis way build a boards library, which will save you time in the future."
+    },
+    {
+        "post_id":85855,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-02 01:43:17",
+        "message":"Haven't replaced one of these 338S00267 -A0's before. Seems like Stencils and chips are available. Has anyone had success in replacing these?\n\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/item\/4001239161238.html[\/URL]\n[URL unfurl=\"true\"]https:\/\/www.aliexpress.com\/item\/1005002002452026.html[\/URL]"
+    },
+    {
+        "post_id":85856,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-02 02:09:42",
+        "message":"Just for confirmation, I have lifted up all coils on these lines and seems like short is [U]no[\/U]t on the side of the PMIC\n\n[ATTACH type=\"full\" width=\"631px\"]60405[\/ATTACH]\n\nPPVCC_PRIM_CORE - 0.0169\nPP1V_PRIM - 0.0254\nPP0V9_SSD - 0.35\n\nCould that PMIC is fine unless PVCC_PRIM_CORE, inputs of it are blown (AE\/F 18\/19)?\n[ATTACH type=\"full\" width=\"607px\"]60404[\/ATTACH]"
+    },
+    {
+        "post_id":85857,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-02 02:20:05",
+        "message":"Bad news, T2 gets in the suspect position then..."
+    },
+    {
+        "post_id":85858,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-02 02:47:46",
+        "message":"bugger.\n\nI saw some of them on sale with a touch id. Is touch ID serialized with the board? Can't it be reused?"
+    },
+    {
+        "post_id":85863,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-02 03:26:30",
+        "message":"Touch ID is married with the board."
+    },
+    {
+        "post_id":85865,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2022-02-02 03:31:24",
+        "message":"Any known ways of reprogramming it?"
+    },
+    {
+        "post_id":85878,
+        "thread_id":62281,
+        "title":"820-01521-02 - 5V 0.43A - No liquid damage - U7800 warms up",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-02 07:01:33",
+        "message":"Apple can do it..."
+    }
+]

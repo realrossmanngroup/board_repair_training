@@ -1,12 +1,110 @@
-{"post_id":16512,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":139,"username":"jb23","post_date":"2017-03-14 12:37:15","message":"Welcome to my nightmare...\n\nGot an 820-3476-A that was liquid damaged. After cleaning ultrasonically I replaced the following by looking for any burnt pins\/what looked bad to get a fan spin:\n\nReplaced U1950 (PM_PCH_PWROK was all over the place) and replaced C1950 which was burnt\nReplaced R7202 which was burnt then U7200 as a precaution.\nRemoved J6100 and cleaned up the pins, main one that was burnt was pin 30 (SMC_TMS)\nThere were also some red burn marks on the traces for LPC_CLK24M_SMC and SMC_S4_WAKESRC_EN but the traces are OK. Replaced SMC as a precaution.\n\nNow fan spins, I get all main power rails, I get a light on a USB mouse when plugged in but no video\/POST. CPU gets warm after a while but not mega hot. Fan spins from normal then up to maximum.\n\nI get 0V on SPI_MLB_MOSI and SPL_MLB_CLK\nI get 3.3V on SPIROM_HOLD_L which comes from SPIROM_USE_MLB which I think means the BIOS is stuck in programming mode from reading about this issue?\n\nHave swapped over U6100 - no change.\n\nAny ideas what to check next? So annoying to be close to figuring this hellish board out.\n\nBoard readings as follows:\n\nPPBUS_G3H 12.61 V\nPP3V42_G3H 3.418 V\nPPVRTC_G3H 3.347 V\nPP5V_S5 5.15 V\nPP5V_S4 5.15 V\nPP5V_S0 5.14 V\nPP3V3_S5 3.349 V\nPP3V3_S4 3.347 V\nPP3V3_SUS 3.345 V\nPP3V3_S3 3.347 V\nPP3V3_S0 3.342 V\nPP5V_S0_FET 5.14 V\nPP3V3_S0_FET 3.343 V\nPP1V35_S3_CPUDDR 1.356 V\nPP1V35_S3 1.357 V\nPP0V675_S0_DDRVTT 0.674 V\nPPVTTDDR_S3 0.68 V\nPP1V05_SUS 1.045 V\nPP1V5_S0 1.515 V\nPP1V05_S0 1.041 V\nPP1V05_S0SW_PCH_HSIO 1.043 V\nPPVCC_S0_CPU 1.745 V\n\nSMC_ADAPTER_EN 3.384 V\nSMC_PM_G2_EN 3.414 V\nSMC_S4_WAKESRC_EN 0 V\nPM_SLP_S5_L 3.346 V\nPM_SLP_S4_L 3.344 V\nPM_SLP_S3_L 3.345 V\n\nSPI_MLB_CS_L 3.349 V\nSPI_MLB_MISO 3.341 V\nSPIROM_WP_L 3.347 V\nSPI_MLB_MOSI 0 V\nSPI_MLB_CLK 0 V\nSPIROM_HOLD_L 3.31 V\nSPIROM_USE_MLB 3.31 V\n\nLPC_CLK24M_SMC 1.704 V\n\n\nThanks,\n\nJon"}
-{"post_id":16523,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":1,"username":"larossmann","post_date":"2017-03-14 15:45:49","message":"out of curiosity, what do you get on HDMI out or using displayport-vga to boot directly into 3S162 EFI ASD? try booting from a drive that only has 3s162 efi on it. \n\nSPIRPOM_HOLD_L means when the signal is [I]low[\/I], as in 0v, reset. 3.3v means the signal is not asserted. Are SMC_TMS and the other 3 signals along that(TDO, TDK) all high?"}
-{"post_id":16531,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":2,"username":"dukefawks","post_date":"2017-03-14 16:43:18","message":"If USB mouse lights up even after pulling it out and plugging it in again the board must be alive. Connect external keyboard and do a PRAM reset and see if there is a chime."}
-{"post_id":16597,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":139,"username":"jb23","post_date":"2017-03-15 01:25:44","message":"[QUOTE=\"larossmann, post: 16523\"]out of curiosity, what do you get on HDMI out or using displayport-vga to boot directly into 3S162 EFI ASD? try booting from a drive that only has 3s162 efi on it.\n\nSPIRPOM_HOLD_L means when the signal is [I]low[\/I], as in 0v, reset. 3.3v means the signal is not asserted. Are SMC_TMS and the other 3 signals along that(TDO, TDK) all high?[\/QUOTE]\n\nAh finally an explanation for all those _L signals that makes sense to my idiot brain to understand. Thanks :)\n\nNo HDMI output on IO board but USB mouse lights up from there as well. Don't own a displayport-vga unfortunately tried a displayport-dvi but still nothing. When trying to boot from a drive that has only 3S162 EFI I get nothing and no power\/activity lights on USB stick I'm trying to boot off. USB mouse lights up fine even after pulling out and plugging in again.\n\nSMC_TMS, TDO, TDI and TCK all high at 3.4V, although I don't really know what that means.\n\nI read somewhere on the advancedreworks forum that SPIROM_USE_MLB should be 0V or SPI reset is done - is that true or BS as I get 3.3V for that?\n\nShould I be more concerned about missing the following BIOS voltages?\n\nSPI_MLB_MOSI 0 V\nSPI_MLB_CLK 0 V\n\nThey're all present when BIOS removed and all resistors look good which would indicate to me bad U6100? Have a third replacement on its way just in case\n\nCurrent skill level = repair monkey. A far better and more accurate description than 'junior member'\n\nAny further ideas before I heatgun my own face out of frustration (gotta heatgun something right?)"}
-{"post_id":16633,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":2,"username":"dukefawks","post_date":"2017-03-15 18:23:38","message":"If mouse lights the board is booting to some degree. Connect a known good LCD and see if there is voltage on L8300."}
-{"post_id":16714,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":139,"username":"jb23","post_date":"2017-03-16 14:35:31","message":"[QUOTE=\"dukefawks, post: 16633\"] Connect a known good LCD and see if there is voltage on L8300.[\/QUOTE]\n\n0V on L8300 with known good LCD.\n\nI plugged a SanDisk Ultra USB3.0 in that has my ASDs on and I get a slow blue pulsing light, the same sort of light as when you used to get the sleep light on A1278 models before the screen would come on. Don't know if that's relevant but thought I should mention it"}
-{"post_id":16724,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":139,"username":"jb23","post_date":"2017-03-16 16:28:07","message":"Following on from that In my very unscientific test I get the same slow blue pulsing SanDisk USB light on a known good MacBook Pro before the chime\/screen comes on (after that the light changes to a different 'on' pulse) measuring 0V on L8300 and have no output on HDMI or displayport so I'm guessing it's stuck in that state before video output\/chime where it could be 100 different things causing it? :(\n\nI noticed that PP1V05_S0 measures 1.05V, 1.04V or 1.03V depending where I measure on the board. I'm guessing this isn't normal!"}
-{"post_id":16732,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":2,"username":"dukefawks","post_date":"2017-03-16 18:35:01","message":"Where did you take the U6100 from? Put back the original one."}
-{"post_id":16762,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":139,"username":"jb23","post_date":"2017-03-17 10:19:40","message":"[QUOTE=\"dukefawks, post: 16732\"]Where did you take the U6100 from? Put back the original one.[\/QUOTE]\n\nTried 3 different U6100s: 1 x original, 1 x from dead board from aliexpress, 1 x from dodgy eBay unlock people. Same symptoms on all of them.\n\nI replaced the SMC again with another one off a donor board: CHIME! Backlight and video output fine :D I figured something weird must be going on between the communication of the SMC\/BIOS and I've gone through 3 BIOS chips already so...\n\nThanks for the help really appreciated! Something else to add to my monkey check list if I get this problem again. Monkey is getting smarter thanks to Duke and Louis!"}
-{"post_id":16765,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":139,"username":"jb23","post_date":"2017-03-17 10:39:04","message":"Will post voltage readings later now it's working and what behavior has changed in comparison for reference if anyone else is having this problem in future. But you can mark this as solved for now."}
-{"post_id":16785,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":2,"username":"dukefawks","post_date":"2017-03-17 14:20:43","message":"Put back original U6100!"}
-{"post_id":16826,"thread_id":16512,"title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST","user_id":139,"username":"jb23","post_date":"2017-03-18 05:30:03","message":"[QUOTE=\"dukefawks, post: 16785\"]Put back original U6100![\/QUOTE]\n\nPut back original U6100 after I got it to boot with the 2nd SMC replacement. Thanks for the help - everything seems fine now and ASD doesn't flag up anything to be concerned about. Job done :)"}
+[
+    {
+        "post_id":16512,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":139,
+        "username":"jb23",
+        "post_date":"2017-03-14 10:37:15",
+        "message":"Welcome to my nightmare...\n\nGot an 820-3476-A that was liquid damaged. After cleaning ultrasonically I replaced the following by looking for any burnt pins\/what looked bad to get a fan spin:\n\nReplaced U1950 (PM_PCH_PWROK was all over the place) and replaced C1950 which was burnt\nReplaced R7202 which was burnt then U7200 as a precaution.\nRemoved J6100 and cleaned up the pins, main one that was burnt was pin 30 (SMC_TMS)\nThere were also some red burn marks on the traces for LPC_CLK24M_SMC and SMC_S4_WAKESRC_EN but the traces are OK. Replaced SMC as a precaution.\n\nNow fan spins, I get all main power rails, I get a light on a USB mouse when plugged in but no video\/POST. CPU gets warm after a while but not mega hot. Fan spins from normal then up to maximum.\n\nI get 0V on SPI_MLB_MOSI and SPL_MLB_CLK\nI get 3.3V on SPIROM_HOLD_L which comes from SPIROM_USE_MLB which I think means the BIOS is stuck in programming mode from reading about this issue?\n\nHave swapped over U6100 - no change.\n\nAny ideas what to check next? So annoying to be close to figuring this hellish board out.\n\nBoard readings as follows:\n\nPPBUS_G3H 12.61 V\nPP3V42_G3H 3.418 V\nPPVRTC_G3H 3.347 V\nPP5V_S5 5.15 V\nPP5V_S4 5.15 V\nPP5V_S0 5.14 V\nPP3V3_S5 3.349 V\nPP3V3_S4 3.347 V\nPP3V3_SUS 3.345 V\nPP3V3_S3 3.347 V\nPP3V3_S0 3.342 V\nPP5V_S0_FET 5.14 V\nPP3V3_S0_FET 3.343 V\nPP1V35_S3_CPUDDR 1.356 V\nPP1V35_S3 1.357 V\nPP0V675_S0_DDRVTT 0.674 V\nPPVTTDDR_S3 0.68 V\nPP1V05_SUS 1.045 V\nPP1V5_S0 1.515 V\nPP1V05_S0 1.041 V\nPP1V05_S0SW_PCH_HSIO 1.043 V\nPPVCC_S0_CPU 1.745 V\n\nSMC_ADAPTER_EN 3.384 V\nSMC_PM_G2_EN 3.414 V\nSMC_S4_WAKESRC_EN 0 V\nPM_SLP_S5_L 3.346 V\nPM_SLP_S4_L 3.344 V\nPM_SLP_S3_L 3.345 V\n\nSPI_MLB_CS_L 3.349 V\nSPI_MLB_MISO 3.341 V\nSPIROM_WP_L 3.347 V\nSPI_MLB_MOSI 0 V\nSPI_MLB_CLK 0 V\nSPIROM_HOLD_L 3.31 V\nSPIROM_USE_MLB 3.31 V\n\nLPC_CLK24M_SMC 1.704 V\n\n\nThanks,\n\nJon"
+    },
+    {
+        "post_id":16523,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2017-03-14 13:45:49",
+        "message":"out of curiosity, what do you get on HDMI out or using displayport-vga to boot directly into 3S162 EFI ASD? try booting from a drive that only has 3s162 efi on it. \n\nSPIRPOM_HOLD_L means when the signal is [I]low[\/I], as in 0v, reset. 3.3v means the signal is not asserted. Are SMC_TMS and the other 3 signals along that(TDO, TDK) all high?"
+    },
+    {
+        "post_id":16531,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-14 14:43:18",
+        "message":"If USB mouse lights up even after pulling it out and plugging it in again the board must be alive. Connect external keyboard and do a PRAM reset and see if there is a chime."
+    },
+    {
+        "post_id":16597,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":139,
+        "username":"jb23",
+        "post_date":"2017-03-14 23:25:44",
+        "message":"[QUOTE=\"larossmann, post: 16523\"]out of curiosity, what do you get on HDMI out or using displayport-vga to boot directly into 3S162 EFI ASD? try booting from a drive that only has 3s162 efi on it.\n\nSPIRPOM_HOLD_L means when the signal is [I]low[\/I], as in 0v, reset. 3.3v means the signal is not asserted. Are SMC_TMS and the other 3 signals along that(TDO, TDK) all high?[\/QUOTE]\n\nAh finally an explanation for all those _L signals that makes sense to my idiot brain to understand. Thanks :)\n\nNo HDMI output on IO board but USB mouse lights up from there as well. Don't own a displayport-vga unfortunately tried a displayport-dvi but still nothing. When trying to boot from a drive that has only 3S162 EFI I get nothing and no power\/activity lights on USB stick I'm trying to boot off. USB mouse lights up fine even after pulling out and plugging in again.\n\nSMC_TMS, TDO, TDI and TCK all high at 3.4V, although I don't really know what that means.\n\nI read somewhere on the advancedreworks forum that SPIROM_USE_MLB should be 0V or SPI reset is done - is that true or BS as I get 3.3V for that?\n\nShould I be more concerned about missing the following BIOS voltages?\n\nSPI_MLB_MOSI 0 V\nSPI_MLB_CLK 0 V\n\nThey're all present when BIOS removed and all resistors look good which would indicate to me bad U6100? Have a third replacement on its way just in case\n\nCurrent skill level = repair monkey. A far better and more accurate description than 'junior member'\n\nAny further ideas before I heatgun my own face out of frustration (gotta heatgun something right?)"
+    },
+    {
+        "post_id":16633,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-15 16:23:38",
+        "message":"If mouse lights the board is booting to some degree. Connect a known good LCD and see if there is voltage on L8300."
+    },
+    {
+        "post_id":16714,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":139,
+        "username":"jb23",
+        "post_date":"2017-03-16 12:35:31",
+        "message":"[QUOTE=\"dukefawks, post: 16633\"] Connect a known good LCD and see if there is voltage on L8300.[\/QUOTE]\n\n0V on L8300 with known good LCD.\n\nI plugged a SanDisk Ultra USB3.0 in that has my ASDs on and I get a slow blue pulsing light, the same sort of light as when you used to get the sleep light on A1278 models before the screen would come on. Don't know if that's relevant but thought I should mention it"
+    },
+    {
+        "post_id":16724,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":139,
+        "username":"jb23",
+        "post_date":"2017-03-16 14:28:07",
+        "message":"Following on from that In my very unscientific test I get the same slow blue pulsing SanDisk USB light on a known good MacBook Pro before the chime\/screen comes on (after that the light changes to a different 'on' pulse) measuring 0V on L8300 and have no output on HDMI or displayport so I'm guessing it's stuck in that state before video output\/chime where it could be 100 different things causing it? :(\n\nI noticed that PP1V05_S0 measures 1.05V, 1.04V or 1.03V depending where I measure on the board. I'm guessing this isn't normal!"
+    },
+    {
+        "post_id":16732,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-16 16:35:01",
+        "message":"Where did you take the U6100 from? Put back the original one."
+    },
+    {
+        "post_id":16762,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":139,
+        "username":"jb23",
+        "post_date":"2017-03-17 08:19:40",
+        "message":"[QUOTE=\"dukefawks, post: 16732\"]Where did you take the U6100 from? Put back the original one.[\/QUOTE]\n\nTried 3 different U6100s: 1 x original, 1 x from dead board from aliexpress, 1 x from dodgy eBay unlock people. Same symptoms on all of them.\n\nI replaced the SMC again with another one off a donor board: CHIME! Backlight and video output fine :D I figured something weird must be going on between the communication of the SMC\/BIOS and I've gone through 3 BIOS chips already so...\n\nThanks for the help really appreciated! Something else to add to my monkey check list if I get this problem again. Monkey is getting smarter thanks to Duke and Louis!"
+    },
+    {
+        "post_id":16765,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":139,
+        "username":"jb23",
+        "post_date":"2017-03-17 08:39:04",
+        "message":"Will post voltage readings later now it's working and what behavior has changed in comparison for reference if anyone else is having this problem in future. But you can mark this as solved for now."
+    },
+    {
+        "post_id":16785,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-17 12:20:43",
+        "message":"Put back original U6100!"
+    },
+    {
+        "post_id":16826,
+        "thread_id":16512,
+        "title":"[SOLVED]820-3476-A SPIROM_USE_MLB high. NO POST",
+        "user_id":139,
+        "username":"jb23",
+        "post_date":"2017-03-18 03:30:03",
+        "message":"[QUOTE=\"dukefawks, post: 16785\"]Put back original U6100![\/QUOTE]\n\nPut back original U6100 after I got it to boot with the 2nd SMC replacement. Thanks for the help - everything seems fine now and ASD doesn't flag up anything to be concerned about. Job done :)"
+    }
+]

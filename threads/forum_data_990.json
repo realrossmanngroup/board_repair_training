@@ -1,10 +1,92 @@
-{"post_id":990,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":21,"username":"appleonarim","post_date":"2016-04-04 11:22:35","message":"Hello everyone\n\nI have a 820-3330-B board.have greenlight at magsafe ,charging battery, when plug charge machine not turning on ( fans not working ,not chime etc) but GPU is hot up. When i checked voltage cant get ALL_SYS_PWRGD so cant get CPUVCORE.\n\nCan you help me?"}
-{"post_id":994,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":1,"username":"larossmann","post_date":"2016-04-04 12:11:35","message":"What is PPBUS_G3H? a bad mosfet on GPU buck converter could be pulling down PPBUS_G3H and also making the GPU hot. Orange light doesn't mean it is charging the battery if PPBUS_G3H is too low! My guess is your PPBUS_G3H is 1.7v due to bad high side MOSFET on GPU buck converter."}
-{"post_id":1009,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":21,"username":"appleonarim","post_date":"2016-04-04 14:34:53","message":"PPBUS_G3H is seems ok 12.5V. Yes orange light mean is charging battery ( when i connected battery its turning orange)  GPU is not too fast hot when i plug magsafe in one minute its warming up. PP1V5_S0 ,PP3V3_S5 and PP1V05_S0 is ok. I cant understand:("}
-{"post_id":1061,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":2,"username":"dukefawks","post_date":"2016-04-05 02:47:07","message":"One of the S0 or S3 voltages is missing. Check which bus is not coming high, my bet is on 1V8 bus."}
-{"post_id":1080,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":21,"username":"appleonarim","post_date":"2016-04-05 14:32:32","message":"I checked S0 and S3 voltage its ok.But chipset vcore voltage is missing ( only PP1V05_S0_CPU_VCCPQE have)\nThey comes from U7400 when i checked it i cant see CPUIMVP_VR_ON and shematics show  ALL_SYS_PWRGD ==R7974==CPUIMVP_VR_ON. But I dont have ALL_SYS_PWRGD. My brain is really confused:(  Any body can help me"}
-{"post_id":1105,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":21,"username":"appleonarim","post_date":"2016-04-05 22:59:11","message":"I checked S0 and S3 voltage its ok.But chipset vcore voltage is missing ( only PP1V05_S0_CPU_VCCPQE have)\nThey comes from U7400 when i checked it i cant see CPUIMVP_VR_ON and shematics show ALL_SYS_PWRGD ==R7974==CPUIMVP_VR_ON. But I dont have ALL_SYS_PWRGD. My brain is really confused[IMG]https:\/\/www.rossmanngroup.com\/boards\/core\/images\/smilies\/frown.png[\/IMG] Any body can help me"}
-{"post_id":1106,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":2,"username":"dukefawks","post_date":"2016-04-05 23:32:22","message":"Again, ALL_SYS_PWRGD is not there because you are missing one of the S3 or S0 voltages.    [SIZE=12px][FONT=Courier]P1V5S0_PGOOD, P1V8S0_PGOOD, P5VS3_PGOOD, CPUVCCIOS0_PGOOD, PCHVCCIOS0_PGOOD, PVCCSA_PGOOD. One of these voltages will be missing, check them. Look at the diagram how ALL_SYS_PWRGD is generated and try to understand the circuit.[\/FONT][\/SIZE]"}
-{"post_id":1107,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":21,"username":"appleonarim","post_date":"2016-04-06 03:43:19","message":"Thank you for answer dukefawks.\nI checked again S3 and S0 voltages. I see peoblem at pgood returns. For example P1V8S0_PGOOD is not present but i can measure L7720 1.8V and same thing is P5VS3_PGOOD not present but L7220 shows 5V. When i inject 3.3V at ALL_SYS_PWRGD fan starts to spin ( SMC reads that i think) but no VCORE."}
-{"post_id":1126,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":2,"username":"dukefawks","post_date":"2016-04-06 09:45:46","message":"If any of the PCGOOD signals is missing none of them will be there, they are all connected together. Check all the coils for voltage, CPUcore voltages do not matter at this time."}
-{"post_id":1373,"thread_id":990,"title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)","user_id":21,"username":"appleonarim","post_date":"2016-04-11 11:44:21","message":"Problem solved after when i replaced U7600. Sorry dukefawks you are right board dont have PPCPUVCCIO_S0_REG_R so its cant create PGOOD signals.\n\nThank you."}
+[
+    {
+        "post_id":990,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":21,
+        "username":"appleonarim",
+        "post_date":"2016-04-04 09:22:35",
+        "message":"Hello everyone\n\nI have a 820-3330-B board.have greenlight at magsafe ,charging battery, when plug charge machine not turning on ( fans not working ,not chime etc) but GPU is hot up. When i checked voltage cant get ALL_SYS_PWRGD so cant get CPUVCORE.\n\nCan you help me?"
+    },
+    {
+        "post_id":994,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2016-04-04 10:11:35",
+        "message":"What is PPBUS_G3H? a bad mosfet on GPU buck converter could be pulling down PPBUS_G3H and also making the GPU hot. Orange light doesn't mean it is charging the battery if PPBUS_G3H is too low! My guess is your PPBUS_G3H is 1.7v due to bad high side MOSFET on GPU buck converter."
+    },
+    {
+        "post_id":1009,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":21,
+        "username":"appleonarim",
+        "post_date":"2016-04-04 12:34:53",
+        "message":"PPBUS_G3H is seems ok 12.5V. Yes orange light mean is charging battery ( when i connected battery its turning orange)  GPU is not too fast hot when i plug magsafe in one minute its warming up. PP1V5_S0 ,PP3V3_S5 and PP1V05_S0 is ok. I cant understand:("
+    },
+    {
+        "post_id":1061,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-05 00:47:07",
+        "message":"One of the S0 or S3 voltages is missing. Check which bus is not coming high, my bet is on 1V8 bus."
+    },
+    {
+        "post_id":1080,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":21,
+        "username":"appleonarim",
+        "post_date":"2016-04-05 12:32:32",
+        "message":"I checked S0 and S3 voltage its ok.But chipset vcore voltage is missing ( only PP1V05_S0_CPU_VCCPQE have)\nThey comes from U7400 when i checked it i cant see CPUIMVP_VR_ON and shematics show  ALL_SYS_PWRGD ==R7974==CPUIMVP_VR_ON. But I dont have ALL_SYS_PWRGD. My brain is really confused:(  Any body can help me"
+    },
+    {
+        "post_id":1105,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":21,
+        "username":"appleonarim",
+        "post_date":"2016-04-05 20:59:11",
+        "message":"I checked S0 and S3 voltage its ok.But chipset vcore voltage is missing ( only PP1V05_S0_CPU_VCCPQE have)\nThey comes from U7400 when i checked it i cant see CPUIMVP_VR_ON and shematics show ALL_SYS_PWRGD ==R7974==CPUIMVP_VR_ON. But I dont have ALL_SYS_PWRGD. My brain is really confused[IMG]https:\/\/www.rossmanngroup.com\/boards\/core\/images\/smilies\/frown.png[\/IMG] Any body can help me"
+    },
+    {
+        "post_id":1106,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-05 21:32:22",
+        "message":"Again, ALL_SYS_PWRGD is not there because you are missing one of the S3 or S0 voltages.    [SIZE=12px][FONT=Courier]P1V5S0_PGOOD, P1V8S0_PGOOD, P5VS3_PGOOD, CPUVCCIOS0_PGOOD, PCHVCCIOS0_PGOOD, PVCCSA_PGOOD. One of these voltages will be missing, check them. Look at the diagram how ALL_SYS_PWRGD is generated and try to understand the circuit.[\/FONT][\/SIZE]"
+    },
+    {
+        "post_id":1107,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":21,
+        "username":"appleonarim",
+        "post_date":"2016-04-06 01:43:19",
+        "message":"Thank you for answer dukefawks.\nI checked again S3 and S0 voltages. I see peoblem at pgood returns. For example P1V8S0_PGOOD is not present but i can measure L7720 1.8V and same thing is P5VS3_PGOOD not present but L7220 shows 5V. When i inject 3.3V at ALL_SYS_PWRGD fan starts to spin ( SMC reads that i think) but no VCORE."
+    },
+    {
+        "post_id":1126,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-06 07:45:46",
+        "message":"If any of the PCGOOD signals is missing none of them will be there, they are all connected together. Check all the coils for voltage, CPUcore voltages do not matter at this time."
+    },
+    {
+        "post_id":1373,
+        "thread_id":990,
+        "title":"[SOLVED] Not turn power on 820-3330-B (pgood missing from U7600)",
+        "user_id":21,
+        "username":"appleonarim",
+        "post_date":"2016-04-11 09:44:21",
+        "message":"Problem solved after when i replaced U7600. Sorry dukefawks you are right board dont have PPCPUVCCIO_S0_REG_R so its cant create PGOOD signals.\n\nThank you."
+    }
+]

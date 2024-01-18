@@ -1,20 +1,182 @@
-{"post_id":98334,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-12 14:47:45","message":"So I have this board here, no liquid damage, the macbook looks like new. I checked some voltages and found out that PP3v3_S5 is missing. There is no short on this line, resistance is 112kohm.\n\nSome measurments:\n\nPPBUS_G3H = 12,60V\nPP3v3_G3H_RTC = 3,390V\nPP3v3_G3H_PMU_VDDMAIN = 3,355V\n\nPP3v3_S5 = 0V\nPP3v3_S5 = 112kohm\n\nPP2v5_NAND_SSD_0 = 2,52V\nPP0v9_SSD_0 = 0,90V\nPPVCCQ_ANI_SSD0 = 1,80V\n\nI have managed to get in DFU mode, but same error message appears like in recovery mode:\n\nThe operation couldn\u2019t be completed. (AMRestoreErrorDomain error 75 - Failed to handle message type StatusMsg (Missing data volume)) [AMRestoreErrorDomain \u2013 0x4B (75)]\n\nIn my opinion the U7800 is faulty, because it is not producing the PP3v3_S5 line. Am I right?\n\nWhat do you think guys?"}
-{"post_id":98335,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-04-12 16:39:00","message":"\"Missing data volume\" sounds more like SSD problem.\nReflash SoC ROM and try again DFU.\n\nJust in case, check diode mode to ground on all big coils; compare with good board."}
-{"post_id":98350,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-13 05:25:09","message":"I have flashed a new Rom but result is same. only difference is now, that it starts directly in DFU mode not in recovery mode.\n\nI checked following coils, unfortunately not have a good board, but for some coils the readings are in felxbv:\n\nL8100 = 0,16V should be 0,072V\nL3500_VWR = 0,18V should be 0,511V\nL7660 = 0,47V is ok\nL7030 = 0,51V is ok\nL3500_VXT = 0,21V\nL8410 = 0,9V\n\nL7210 = 0,08V should be 0,331V\nL7220 = 0,08V should be 0,330V\nL7230 = 0,08V should be 0,330V\nL7400 = 0,15V"}
-{"post_id":98353,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-04-13 07:21:45","message":"CPU core coils have very low resistance to ground as normal; 0.08 should be good there.\nYou should compare the other coils with good board.\n\nAlso check all outputs on page 64."}
-{"post_id":98355,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-13 08:24:12","message":"I don't know why, but today board stuck at 5V and will not switch to 20V. I swear yesterday it switched to 20V. I will take later some new measurments but for the first, it switches to 20v only if battery is connected. Without battery PPBUS_G3H is 12,61V -> too low"}
-{"post_id":98363,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-13 09:51:04","message":"PPBUS_G3H = 12,29V\nPP3v3_G3H_RTC = 3,31V\nPP3v3_G3H_PMU_VDDMAIN = 3,38V\nPPDCIN_G3H = 5,06V\n\nR7021 = 1ohm\nR7022 = 1ohm\nR7061 = 1ohm\nR7062 = 1ohm\n\nLooks like U7000 is faulty..."}
-{"post_id":98365,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-04-13 10:02:24","message":"Why do you think U7000 is fault?\nDid you check UPC_I2C_INT_L?"}
-{"post_id":98373,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-13 11:44:28","message":"UPC_I2C_INT_L = 0,0V \/ 2,4Mohm \/ 0,47V\n\nWhy do you think U7000 is fault? Because in the repair wiki manual, it says that is very likely that U7000 is faulty."}
-{"post_id":98378,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-04-13 13:44:36","message":"It can't generate PPBUS_G3H by itself.\nIt is controlled by SMC through SMBUS.\nAnd SMC got an error from USB-C area; UPC_I2C_INT_L must be high."}
-{"post_id":98380,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-13 14:43:19","message":"ok so any other ideas?"}
-{"post_id":98381,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-04-13 15:03:18","message":"Can't complete DFU?"}
-{"post_id":98382,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-13 15:04:47","message":"It aborts always with same error"}
-{"post_id":98384,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-13 15:36:51","message":"I found something very weird. When I connect the charger on the same usb side as the thunderbolt cable to other macbook and the revive the macbook, after some seconds in step 4 of 4 (installing system) the voltage jumps to 20V. In this moment UPC_I2C_INT_L = 1,8V. But it aborts with same error. Now I'm totally confused. I tried this with naked board and also with all cables plugged but same result. PP3v3_S5 in this moment is still 0V"}
-{"post_id":98385,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-04-13 17:34:29","message":"Battery also connected?"}
-{"post_id":98393,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-04-14 04:04:59","message":"The measurments were taken only board nothing connected. With battery connected the charger do instantly 20V. But error is same, doesn't matter if all components are plugged in or not. I found this topic here\n\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/a2251-not-turning-on-probably-corrupted-t2.62983\/[\/URL]\n\nLooks no solution for this."}
-{"post_id":98394,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-04-14 07:38:19","message":"Error 75 can be caused by faulty CPU.\n\"Missing data volume\" sounds more like SSD problem.\n\nApple made all possible to confuse us.\nThere is no interest to repair its boards."}
-{"post_id":98967,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-05-11 03:39:00","message":"I have some update on this board. I found a mess\/short under the onboard display connector see pictures. Unsoldered the connector all pins are fine. Because I have not diode values of exact this board I took values from the A1989 board. Pin 1 and 3 are oL. These are connected directly to cpu. So faulty cpu? How can I found out if display is ok? Are there some values for displays?"}
-{"post_id":98968,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-05-11 05:08:45","message":"If you've measured correctly (red probe on ground), the CPU's eDP output is damaged."}
-{"post_id":98971,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":32539,"username":"waterchill","post_date":"2023-05-11 07:01:30","message":"Yes measurment was correct. What is eDP for? Is a cpu swap a solution for this?"}
-{"post_id":98975,"thread_id":63794,"title":"820-01949 stuck in recovery","user_id":682,"username":"2informaticos","post_date":"2023-05-11 09:20:12","message":"eDP stands for embedded Display Port.\nIs the actual video bus, used in almost all laptops.\n\nAs there is no series capacitor for any eDP line, you must change the CPU."}
+[
+    {
+        "post_id":98334,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-12 12:47:45",
+        "message":"So I have this board here, no liquid damage, the macbook looks like new. I checked some voltages and found out that PP3v3_S5 is missing. There is no short on this line, resistance is 112kohm.\n\nSome measurments:\n\nPPBUS_G3H = 12,60V\nPP3v3_G3H_RTC = 3,390V\nPP3v3_G3H_PMU_VDDMAIN = 3,355V\n\nPP3v3_S5 = 0V\nPP3v3_S5 = 112kohm\n\nPP2v5_NAND_SSD_0 = 2,52V\nPP0v9_SSD_0 = 0,90V\nPPVCCQ_ANI_SSD0 = 1,80V\n\nI have managed to get in DFU mode, but same error message appears like in recovery mode:\n\nThe operation couldn\u2019t be completed. (AMRestoreErrorDomain error 75 - Failed to handle message type StatusMsg (Missing data volume)) [AMRestoreErrorDomain \u2013 0x4B (75)]\n\nIn my opinion the U7800 is faulty, because it is not producing the PP3v3_S5 line. Am I right?\n\nWhat do you think guys?"
+    },
+    {
+        "post_id":98335,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-04-12 14:39:00",
+        "message":"\"Missing data volume\" sounds more like SSD problem.\nReflash SoC ROM and try again DFU.\n\nJust in case, check diode mode to ground on all big coils; compare with good board."
+    },
+    {
+        "post_id":98350,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-13 03:25:09",
+        "message":"I have flashed a new Rom but result is same. only difference is now, that it starts directly in DFU mode not in recovery mode.\n\nI checked following coils, unfortunately not have a good board, but for some coils the readings are in felxbv:\n\nL8100 = 0,16V should be 0,072V\nL3500_VWR = 0,18V should be 0,511V\nL7660 = 0,47V is ok\nL7030 = 0,51V is ok\nL3500_VXT = 0,21V\nL8410 = 0,9V\n\nL7210 = 0,08V should be 0,331V\nL7220 = 0,08V should be 0,330V\nL7230 = 0,08V should be 0,330V\nL7400 = 0,15V"
+    },
+    {
+        "post_id":98353,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-04-13 05:21:45",
+        "message":"CPU core coils have very low resistance to ground as normal; 0.08 should be good there.\nYou should compare the other coils with good board.\n\nAlso check all outputs on page 64."
+    },
+    {
+        "post_id":98355,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-13 06:24:12",
+        "message":"I don't know why, but today board stuck at 5V and will not switch to 20V. I swear yesterday it switched to 20V. I will take later some new measurments but for the first, it switches to 20v only if battery is connected. Without battery PPBUS_G3H is 12,61V -> too low"
+    },
+    {
+        "post_id":98363,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-13 07:51:04",
+        "message":"PPBUS_G3H = 12,29V\nPP3v3_G3H_RTC = 3,31V\nPP3v3_G3H_PMU_VDDMAIN = 3,38V\nPPDCIN_G3H = 5,06V\n\nR7021 = 1ohm\nR7022 = 1ohm\nR7061 = 1ohm\nR7062 = 1ohm\n\nLooks like U7000 is faulty..."
+    },
+    {
+        "post_id":98365,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-04-13 08:02:24",
+        "message":"Why do you think U7000 is fault?\nDid you check UPC_I2C_INT_L?"
+    },
+    {
+        "post_id":98373,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-13 09:44:28",
+        "message":"UPC_I2C_INT_L = 0,0V \/ 2,4Mohm \/ 0,47V\n\nWhy do you think U7000 is fault? Because in the repair wiki manual, it says that is very likely that U7000 is faulty."
+    },
+    {
+        "post_id":98378,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-04-13 11:44:36",
+        "message":"It can't generate PPBUS_G3H by itself.\nIt is controlled by SMC through SMBUS.\nAnd SMC got an error from USB-C area; UPC_I2C_INT_L must be high."
+    },
+    {
+        "post_id":98380,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-13 12:43:19",
+        "message":"ok so any other ideas?"
+    },
+    {
+        "post_id":98381,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-04-13 13:03:18",
+        "message":"Can't complete DFU?"
+    },
+    {
+        "post_id":98382,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-13 13:04:47",
+        "message":"It aborts always with same error"
+    },
+    {
+        "post_id":98384,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-13 13:36:51",
+        "message":"I found something very weird. When I connect the charger on the same usb side as the thunderbolt cable to other macbook and the revive the macbook, after some seconds in step 4 of 4 (installing system) the voltage jumps to 20V. In this moment UPC_I2C_INT_L = 1,8V. But it aborts with same error. Now I'm totally confused. I tried this with naked board and also with all cables plugged but same result. PP3v3_S5 in this moment is still 0V"
+    },
+    {
+        "post_id":98385,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-04-13 15:34:29",
+        "message":"Battery also connected?"
+    },
+    {
+        "post_id":98393,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-04-14 02:04:59",
+        "message":"The measurments were taken only board nothing connected. With battery connected the charger do instantly 20V. But error is same, doesn't matter if all components are plugged in or not. I found this topic here\n\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/a2251-not-turning-on-probably-corrupted-t2.62983\/[\/URL]\n\nLooks no solution for this."
+    },
+    {
+        "post_id":98394,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-04-14 05:38:19",
+        "message":"Error 75 can be caused by faulty CPU.\n\"Missing data volume\" sounds more like SSD problem.\n\nApple made all possible to confuse us.\nThere is no interest to repair its boards."
+    },
+    {
+        "post_id":98967,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-05-11 01:39:00",
+        "message":"I have some update on this board. I found a mess\/short under the onboard display connector see pictures. Unsoldered the connector all pins are fine. Because I have not diode values of exact this board I took values from the A1989 board. Pin 1 and 3 are oL. These are connected directly to cpu. So faulty cpu? How can I found out if display is ok? Are there some values for displays?"
+    },
+    {
+        "post_id":98968,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-05-11 03:08:45",
+        "message":"If you've measured correctly (red probe on ground), the CPU's eDP output is damaged."
+    },
+    {
+        "post_id":98971,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":32539,
+        "username":"waterchill",
+        "post_date":"2023-05-11 05:01:30",
+        "message":"Yes measurment was correct. What is eDP for? Is a cpu swap a solution for this?"
+    },
+    {
+        "post_id":98975,
+        "thread_id":63794,
+        "title":"820-01949 stuck in recovery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-05-11 07:20:12",
+        "message":"eDP stands for embedded Display Port.\nIs the actual video bus, used in almost all laptops.\n\nAs there is no series capacitor for any eDP line, you must change the CPU."
+    }
+]

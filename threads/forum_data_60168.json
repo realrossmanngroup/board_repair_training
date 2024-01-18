@@ -1,9 +1,83 @@
-{"post_id":66539,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":21359,"username":"Fanfwe","post_date":"2020-10-13 16:05:32","message":"Hi,\nI'm stuggling with this board.\nI got the board from a laptop which had obviously been taken apart previously.\nAt first, I only got 5V on the charger, so I replaced one of the CD3215s (the one that got hot) and then I got 20V and the board was booting fine.\nExcept there was no backlight.\nChecking the backlight regulator area, I found 2 resistors (R8445 and R8442) that had been ripped off the board. Probably by the previous guy who wasn't careful enough when manipulating the board. One of them is responsible for feeding PP5V_S0 to the chip, and the other one gives the BKLT_EN signal to the chip, so I thought it would be logical to have no backlight and it should be an easy fix.\nBut after putting back those two resistors, still no backlight.\nThe fuse is not blown, as usual.\nI have 13 volts at the input of the PMOS (Q8400) but nothing out of it.\nIts gate measures about 12 volts, which explains why it's not turning on.\nThere is no short to PPBUS on the gate. Both resistors of the voltage divider are measuring good.\nI can see the BKLT_EN_R signal to the chip going from 0V to 3.3V a few seconds after I plug the charger in.\nBut the chip never ties BKLT_SD to ground, therefore not activating the voltage divider.\nI do have keyboard backlight.\nLID_OPEN is high.\nI have tried to replace U8400, but still the same issue."}
-{"post_id":66546,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":682,"username":"2informaticos","post_date":"2020-10-13 19:36:14","message":"Any liquid sign at J8500?\nDo you get image and USB activity?"}
-{"post_id":66555,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":21359,"username":"Fanfwe","post_date":"2020-10-14 01:27:01","message":"No sign of liquid damage on the board.\nI do get image. I can see the Apple logo and it even boots into Mac OS.\nI can see a USB drive in the Finder.\n\nI have tried the board with its original display, but also on another known good display, still no backlight."}
-{"post_id":66560,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":682,"username":"2informaticos","post_date":"2020-10-14 04:25:32","message":"Inspect board for other knocked off components, or broken traces\/solders.\nDo PRAM reset 2-3 times, just in case.\nBe sure all R8450-53 are good.\nPost voltage and diode mode to ground at both pins of D8410.\n\nBacklight adjust goes from PCH to LCD and finally arrives to U8400 through I2C_BKLT  bus.\nYou could have the classic flexgate problem..."}
-{"post_id":66602,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":21359,"username":"Fanfwe","post_date":"2020-10-15 02:04:55","message":"Yeah, good spot. One of the two 0 Ohms resistors for the I2C bus to U8400 was damaged. Nothing visible at first, but in fact one of the metallic ends was detached from the rest of the resistor.\nWhen I probed it, since I was pushing on both ends with the probes, it actually made contact and gave me a good reading, but without the probe pushing on it, it was an open circuit.\nI didn't realize that the I2C bus was necessary for the backlight to turn on. I thought that it was only used to adjust brightness. Lesson learned.\nI knew it was not a flexgate because I tried on two different screens, including one which I knew was working fine.\nAnyway, the board now gives me a backlight and an image.\nI'm not done with it though. Although it boots and runs, it looks like thunderbolt doesn't work. My USB-C to HDMI port doesn't want to work on any of the two ports. System Information tells me I have no Thunderbolt hardware, also. Hopefully the last problem on that board, and hopefully fixable."}
-{"post_id":66608,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":682,"username":"2informaticos","post_date":"2020-10-15 04:32:29","message":"Does this board have USB redriver IC?"}
-{"post_id":66638,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":21359,"username":"Fanfwe","post_date":"2020-10-15 14:36:49","message":"redriver is indeed missing... Previous repair guy has removed it but not replaced it...\nI'll have to source new chips, all my donor boards already have this chip taken off.\nThanks for the hint"}
-{"post_id":66643,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":21359,"username":"Fanfwe","post_date":"2020-10-15 15:53:51","message":"In fact, digging around a little more, I was able to find a redriver chip.\nIt's now soldered on my board, and I now have USB ports working fine.\nLooks like this was the last issue on this board, which seems to be fully functional.\nThanks a lot !"}
-{"post_id":66645,"thread_id":60168,"title":"820-00840-A Backlight issue","user_id":682,"username":"2informaticos","post_date":"2020-10-15 19:34:54","message":"You're welcome, good job!"}
+[
+    {
+        "post_id":66539,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-10-13 14:05:32",
+        "message":"Hi,\nI'm stuggling with this board.\nI got the board from a laptop which had obviously been taken apart previously.\nAt first, I only got 5V on the charger, so I replaced one of the CD3215s (the one that got hot) and then I got 20V and the board was booting fine.\nExcept there was no backlight.\nChecking the backlight regulator area, I found 2 resistors (R8445 and R8442) that had been ripped off the board. Probably by the previous guy who wasn't careful enough when manipulating the board. One of them is responsible for feeding PP5V_S0 to the chip, and the other one gives the BKLT_EN signal to the chip, so I thought it would be logical to have no backlight and it should be an easy fix.\nBut after putting back those two resistors, still no backlight.\nThe fuse is not blown, as usual.\nI have 13 volts at the input of the PMOS (Q8400) but nothing out of it.\nIts gate measures about 12 volts, which explains why it's not turning on.\nThere is no short to PPBUS on the gate. Both resistors of the voltage divider are measuring good.\nI can see the BKLT_EN_R signal to the chip going from 0V to 3.3V a few seconds after I plug the charger in.\nBut the chip never ties BKLT_SD to ground, therefore not activating the voltage divider.\nI do have keyboard backlight.\nLID_OPEN is high.\nI have tried to replace U8400, but still the same issue."
+    },
+    {
+        "post_id":66546,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-13 17:36:14",
+        "message":"Any liquid sign at J8500?\nDo you get image and USB activity?"
+    },
+    {
+        "post_id":66555,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-10-13 23:27:01",
+        "message":"No sign of liquid damage on the board.\nI do get image. I can see the Apple logo and it even boots into Mac OS.\nI can see a USB drive in the Finder.\n\nI have tried the board with its original display, but also on another known good display, still no backlight."
+    },
+    {
+        "post_id":66560,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-14 02:25:32",
+        "message":"Inspect board for other knocked off components, or broken traces\/solders.\nDo PRAM reset 2-3 times, just in case.\nBe sure all R8450-53 are good.\nPost voltage and diode mode to ground at both pins of D8410.\n\nBacklight adjust goes from PCH to LCD and finally arrives to U8400 through I2C_BKLT  bus.\nYou could have the classic flexgate problem..."
+    },
+    {
+        "post_id":66602,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-10-15 00:04:55",
+        "message":"Yeah, good spot. One of the two 0 Ohms resistors for the I2C bus to U8400 was damaged. Nothing visible at first, but in fact one of the metallic ends was detached from the rest of the resistor.\nWhen I probed it, since I was pushing on both ends with the probes, it actually made contact and gave me a good reading, but without the probe pushing on it, it was an open circuit.\nI didn't realize that the I2C bus was necessary for the backlight to turn on. I thought that it was only used to adjust brightness. Lesson learned.\nI knew it was not a flexgate because I tried on two different screens, including one which I knew was working fine.\nAnyway, the board now gives me a backlight and an image.\nI'm not done with it though. Although it boots and runs, it looks like thunderbolt doesn't work. My USB-C to HDMI port doesn't want to work on any of the two ports. System Information tells me I have no Thunderbolt hardware, also. Hopefully the last problem on that board, and hopefully fixable."
+    },
+    {
+        "post_id":66608,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-15 02:32:29",
+        "message":"Does this board have USB redriver IC?"
+    },
+    {
+        "post_id":66638,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-10-15 12:36:49",
+        "message":"redriver is indeed missing... Previous repair guy has removed it but not replaced it...\nI'll have to source new chips, all my donor boards already have this chip taken off.\nThanks for the hint"
+    },
+    {
+        "post_id":66643,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-10-15 13:53:51",
+        "message":"In fact, digging around a little more, I was able to find a redriver chip.\nIt's now soldered on my board, and I now have USB ports working fine.\nLooks like this was the last issue on this board, which seems to be fully functional.\nThanks a lot !"
+    },
+    {
+        "post_id":66645,
+        "thread_id":60168,
+        "title":"820-00840-A Backlight issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-15 17:34:54",
+        "message":"You're welcome, good job!"
+    }
+]

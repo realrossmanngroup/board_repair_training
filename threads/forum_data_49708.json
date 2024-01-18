@@ -1,13 +1,119 @@
-{"post_id":49708,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":296,"username":"jadao","post_date":"2019-06-04 00:50:47","message":"This is a liquid damaged board\n\nIt had No backlight, charging forever and restarting when you shut down laptop from macos Apple menu.\n\nI am leaving Backlight issue at the end.\nI focused on the restart issue and fixed it by reworking theses signals: SMS_INT_L SMC_TCK SMC_TDI SMC_TDO SMC_S4_WAKE_SRC_EN (corrosion near SMC)\n\nNow I try to fix the charging forever:\n-Battery is detected, tested also known good battery.\n-Percentage increasing but very slow like 25 minutes for 1%\n-Estimated time untill full is always 20:00\n-Q7155 has 7,43v on all its pins.\n\n-Sensing charging resistors are good 4ohms and 21ohms\n-SMC data and clk resistors R5180, R5181 mesures 2kohms and have 0,499 in diode mode both of them\n-U5600 Battery monitor ic was corroded and I replaced it with no change\n\nI really don't know what to do next for this charging issue."}
-{"post_id":49712,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":682,"username":"2informaticos","post_date":"2019-06-04 03:45:46","message":"Check SMC_BMON_DISCRETE_ISENSE level, as SMC_BMON_ISENSE too.\nTo charge the battery, Q7155 requires 0V at pin 4; should need to change it.\nPost exact PPBIS_G3H voltage on charger mode (no battery connected)."}
-{"post_id":49744,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":296,"username":"jadao","post_date":"2019-06-05 02:38:51","message":"Without battery plugged in PPBUS_G3H= 8,56V\n\nWith battery and charger plugged\nSMC_BMON_DISCRETE_ISENSE: 0V\nSMC_BMON_ISENSE: 0,060V\n\nOn another working board with the same battery I got:\nSMC_BMON_DISCRETE_ISENSE: 0,152V\nSMC_BMON_ISENSE: 0,049V\n\nI replaced Q7155 and U5601 and that solved the issue. Don't know witch of them solved it but everything is good, Battery percentage is increasing normally from 12% to 21% and estimated time is 2:00 hours at 22%.\n\nNow will finish the backlight circuit.\n\nConsider it solved except if I end up with eaten pads in the middle of the backlight driver:o\n\nThanks for everything"}
-{"post_id":49745,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":682,"username":"2informaticos","post_date":"2019-06-05 03:11:08","message":"\"I replaced Q7155 and U5601 and that solved the issue. Don't know witch of them solved it\"\nYour previous measurments point to Q7155."}
-{"post_id":49903,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":296,"username":"jadao","post_date":"2019-06-12 01:00:01","message":"This board is driving me nut, it came back for no magsafe light.\nwhen I tested it it was working perfect until I discover that it won?t take 45W and 60W known good working chargers...\nit only work great with magsafe light with 85watts chargers.\n\nWith battery removed and 45 or 65 Watts charger i have 0v on ppbus_g3h and 0 on pp3V42_g3h also 0v at ppdcin_g3h.\nwith  battery removed and 85 Watts charger i have 8;56vv on ppbus_g3h and 3,42von pp3V42_g3h also 16.5v at ppdcin_g3h\n\nwhat should I  check from here.\nThanks!"}
-{"post_id":49907,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":682,"username":"2informaticos","post_date":"2019-06-12 04:19:45","message":"Check around Q7010, especially R7012 value.\nSome corrosion on that area, I suppose..."}
-{"post_id":49935,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":296,"username":"jadao","post_date":"2019-06-12 16:28:12","message":"Hi 2informaticos,\nR7012 is 64kOhms\nR7010 and R7011 are 100kOhms and 10kOhms\nWill replace Q7010 and the nano D7012 diode as corrosion may hit them in this area.\n\nBut what's confusing me is ppdcin_g3h not showing up with 45watts charger... If it doesn't show up, I guess it means charger is not told to turn on considering there is no short and that it shows up with a 85 watts charger? weak sys_onewire?"}
-{"post_id":49936,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":682,"username":"2informaticos","post_date":"2019-06-12 16:30:43","message":"Why don't you post some voltages on that area?\nOn both cases, 45\/85W charger."}
-{"post_id":49943,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":296,"username":"jadao","post_date":"2019-06-12 18:07:28","message":"Yes sorry, sure here is the voltages:\n\nWith magsafe 45W - no magsafe light:\nPin 4 Q7010 - DCIN_ISOL_GATE_R: 0,769V\nPPDCIN_G3H at pin 5 Q7010 and pin 1 R7012: 0,769V\nDCIN_ISOL_GATE at the cathode of D7012:  0,769V\nPPDCIN_G3H_ISOL at the drain pin 1 of Q7010: 0,083V\n\nWith magsafe 85W magsafe light present:\nPin 4 Q7010 - DCIN_ISOL_GATE_R: 6,75\nPPDCIN_G3H at pin 5 Q7010 and pin 1 R7012: 16,45V\nDCIN_ISOL_GATE at the cathode of D7012: 6,75V\nPPDCIN_G3H_ISOL at the drain pin 1 of Q7010: 16,45V\nThanks"}
-{"post_id":49945,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":682,"username":"2informaticos","post_date":"2019-06-12 18:20:19","message":"Possibly leakage at Q7180; change it and try again 45\/60W charger.\nHowever keep in mind, 45W charger is for 11\" Airs."}
-{"post_id":49953,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":296,"username":"jadao","post_date":"2019-06-12 18:52:38","message":"Hi 2informaticos will do as adviced and will report.\nFor the charger I am really not sureeI have a box for macbook air 13'' and the space for the charger in the box is only the small 45W... Anyways its having this behaviour with both 60w and 45w original magsafe...\nThanks again!"}
-{"post_id":49960,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":1153,"username":"JohnB8812","post_date":"2019-06-12 19:13:25","message":"45 watt is proper for Airs but best to use only 85 watt for testing. Sounds like Q7180 issue tho might not be a bad idea to replace it and ISL at the same time"}
-{"post_id":49970,"thread_id":49708,"title":"SOLVED - 820-3437 charging slowly 20:00 until full","user_id":296,"username":"jadao","post_date":"2019-06-12 21:59:39","message":"Hi\nThanks both of you [USER=\"1153\"]JohnB8812[\/USER]  and [USER=\"682\"]2informaticos[\/USER]\n\n\nI replaced Q7180 and what an amount of crap I found under the mosfet!! it was clean outside, somebody cleaned the board and it's an apple refurb board.\n\nSo maybe the voltage of the 85W charger was enough to drive the gate but not with 60W and 45W chargers.\n\nBy th way, I only use original 85w magsafe charger, this is how I've been tricked, gave back the laptop to customer because it was tested with 85W and he returned it back for no magsafe light, I asked him the 45W charger he was using, I tested again with my 85W it was good. Tested with his 45W and it was not working I stupidely told the dude his charger is not good. He told me nope it works with another machine:)\n\nAnd indeed his charger was working with other macbook air,\n\nI often have issues with Q7180 or DC-in circuitry but never had this exact issue with Q7180 trolling depending on the type of charger you use...\nSorry John didn't replaced  ISL, I cheated, I usually replace it when I have an issue with upper or lower buck converter mosfets.\n\nThanks again it's solved"}
+[
+    {
+        "post_id":49708,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-06-03 22:50:47",
+        "message":"This is a liquid damaged board\n\nIt had No backlight, charging forever and restarting when you shut down laptop from macos Apple menu.\n\nI am leaving Backlight issue at the end.\nI focused on the restart issue and fixed it by reworking theses signals: SMS_INT_L SMC_TCK SMC_TDI SMC_TDO SMC_S4_WAKE_SRC_EN (corrosion near SMC)\n\nNow I try to fix the charging forever:\n-Battery is detected, tested also known good battery.\n-Percentage increasing but very slow like 25 minutes for 1%\n-Estimated time untill full is always 20:00\n-Q7155 has 7,43v on all its pins.\n\n-Sensing charging resistors are good 4ohms and 21ohms\n-SMC data and clk resistors R5180, R5181 mesures 2kohms and have 0,499 in diode mode both of them\n-U5600 Battery monitor ic was corroded and I replaced it with no change\n\nI really don't know what to do next for this charging issue."
+    },
+    {
+        "post_id":49712,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-04 01:45:46",
+        "message":"Check SMC_BMON_DISCRETE_ISENSE level, as SMC_BMON_ISENSE too.\nTo charge the battery, Q7155 requires 0V at pin 4; should need to change it.\nPost exact PPBIS_G3H voltage on charger mode (no battery connected)."
+    },
+    {
+        "post_id":49744,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-06-05 00:38:51",
+        "message":"Without battery plugged in PPBUS_G3H= 8,56V\n\nWith battery and charger plugged\nSMC_BMON_DISCRETE_ISENSE: 0V\nSMC_BMON_ISENSE: 0,060V\n\nOn another working board with the same battery I got:\nSMC_BMON_DISCRETE_ISENSE: 0,152V\nSMC_BMON_ISENSE: 0,049V\n\nI replaced Q7155 and U5601 and that solved the issue. Don't know witch of them solved it but everything is good, Battery percentage is increasing normally from 12% to 21% and estimated time is 2:00 hours at 22%.\n\nNow will finish the backlight circuit.\n\nConsider it solved except if I end up with eaten pads in the middle of the backlight driver:o\n\nThanks for everything"
+    },
+    {
+        "post_id":49745,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-05 01:11:08",
+        "message":"\"I replaced Q7155 and U5601 and that solved the issue. Don't know witch of them solved it\"\nYour previous measurments point to Q7155."
+    },
+    {
+        "post_id":49903,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-06-11 23:00:01",
+        "message":"This board is driving me nut, it came back for no magsafe light.\nwhen I tested it it was working perfect until I discover that it won?t take 45W and 60W known good working chargers...\nit only work great with magsafe light with 85watts chargers.\n\nWith battery removed and 45 or 65 Watts charger i have 0v on ppbus_g3h and 0 on pp3V42_g3h also 0v at ppdcin_g3h.\nwith  battery removed and 85 Watts charger i have 8;56vv on ppbus_g3h and 3,42von pp3V42_g3h also 16.5v at ppdcin_g3h\n\nwhat should I  check from here.\nThanks!"
+    },
+    {
+        "post_id":49907,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-12 02:19:45",
+        "message":"Check around Q7010, especially R7012 value.\nSome corrosion on that area, I suppose..."
+    },
+    {
+        "post_id":49935,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-06-12 14:28:12",
+        "message":"Hi 2informaticos,\nR7012 is 64kOhms\nR7010 and R7011 are 100kOhms and 10kOhms\nWill replace Q7010 and the nano D7012 diode as corrosion may hit them in this area.\n\nBut what's confusing me is ppdcin_g3h not showing up with 45watts charger... If it doesn't show up, I guess it means charger is not told to turn on considering there is no short and that it shows up with a 85 watts charger? weak sys_onewire?"
+    },
+    {
+        "post_id":49936,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-12 14:30:43",
+        "message":"Why don't you post some voltages on that area?\nOn both cases, 45\/85W charger."
+    },
+    {
+        "post_id":49943,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-06-12 16:07:28",
+        "message":"Yes sorry, sure here is the voltages:\n\nWith magsafe 45W - no magsafe light:\nPin 4 Q7010 - DCIN_ISOL_GATE_R: 0,769V\nPPDCIN_G3H at pin 5 Q7010 and pin 1 R7012: 0,769V\nDCIN_ISOL_GATE at the cathode of D7012:  0,769V\nPPDCIN_G3H_ISOL at the drain pin 1 of Q7010: 0,083V\n\nWith magsafe 85W magsafe light present:\nPin 4 Q7010 - DCIN_ISOL_GATE_R: 6,75\nPPDCIN_G3H at pin 5 Q7010 and pin 1 R7012: 16,45V\nDCIN_ISOL_GATE at the cathode of D7012: 6,75V\nPPDCIN_G3H_ISOL at the drain pin 1 of Q7010: 16,45V\nThanks"
+    },
+    {
+        "post_id":49945,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-06-12 16:20:19",
+        "message":"Possibly leakage at Q7180; change it and try again 45\/60W charger.\nHowever keep in mind, 45W charger is for 11\" Airs."
+    },
+    {
+        "post_id":49953,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-06-12 16:52:38",
+        "message":"Hi 2informaticos will do as adviced and will report.\nFor the charger I am really not sureeI have a box for macbook air 13'' and the space for the charger in the box is only the small 45W... Anyways its having this behaviour with both 60w and 45w original magsafe...\nThanks again!"
+    },
+    {
+        "post_id":49960,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-06-12 17:13:25",
+        "message":"45 watt is proper for Airs but best to use only 85 watt for testing. Sounds like Q7180 issue tho might not be a bad idea to replace it and ISL at the same time"
+    },
+    {
+        "post_id":49970,
+        "thread_id":49708,
+        "title":"SOLVED - 820-3437 charging slowly 20:00 until full",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-06-12 19:59:39",
+        "message":"Hi\nThanks both of you [USER=\"1153\"]JohnB8812[\/USER]  and [USER=\"682\"]2informaticos[\/USER]\n\n\nI replaced Q7180 and what an amount of crap I found under the mosfet!! it was clean outside, somebody cleaned the board and it's an apple refurb board.\n\nSo maybe the voltage of the 85W charger was enough to drive the gate but not with 60W and 45W chargers.\n\nBy th way, I only use original 85w magsafe charger, this is how I've been tricked, gave back the laptop to customer because it was tested with 85W and he returned it back for no magsafe light, I asked him the 45W charger he was using, I tested again with my 85W it was good. Tested with his 45W and it was not working I stupidely told the dude his charger is not good. He told me nope it works with another machine:)\n\nAnd indeed his charger was working with other macbook air,\n\nI often have issues with Q7180 or DC-in circuitry but never had this exact issue with Q7180 trolling depending on the type of charger you use...\nSorry John didn't replaced  ISL, I cheated, I usually replace it when I have an issue with upper or lower buck converter mosfets.\n\nThanks again it's solved"
+    }
+]

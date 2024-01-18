@@ -1,10 +1,92 @@
-{"post_id":52015,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":296,"username":"jadao","post_date":"2019-09-05 11:42:21","message":"PPBUS_G3H: 12.56V PP5V_S5 5V PP3V3_S5: 3.3V PPVRTC_G3H: 3.3V normal green\/orange magsafe light\nNo further power rails present.\n\nU1900 seems ok, I can see 32KHz present, SMC_ONOFF_L, SMC_RESET_L present at 3.3V\n\nFound a very small micro greenish spot near smc, cleaned it and reflowed SMC but nothing changes may need a replacement or reball.\n\nAlso, with SMC bypass all rails are present but no chime (CPU voltage is at 1.8V), witch may indicate a sensor or SMC issue.\n\nAnything I could troubleshoot further before replacing SMC?\n\nThanks!"}
-{"post_id":52018,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":1153,"username":"JohnB8812","post_date":"2019-09-05 13:39:36","message":"Try a new SMC first"}
-{"post_id":52026,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":682,"username":"2informaticos","post_date":"2019-09-05 14:56:11","message":"First of all, be sure to have original 60\/85W Magsafe 2 charger.\nIf liquid signs around SMC, better to rerball it.\nCheck AVREF_SMC presence.\nIf OK, post CHGR_A\/BMON values.\nAlso check resistance between pins 17\/18 and 27\/28 of ISL6259."}
-{"post_id":52037,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":296,"username":"jadao","post_date":"2019-09-05 23:17:39","message":"Thanks JohnB8812 and 2informaticos,\nDidn't yet replaced smc.\nAlways using original 85W magsafe 2 for magsafe2 power jack boards.\nShould had mention I've already checked isl6259 pin 17-18 and 27-28 they are normal 25,5V and 5,5V.\nAVREF_SMC is present at 3,3V.\nCHGR_A\/BMON are 0.031V and 0.053V respectively."}
-{"post_id":52043,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":682,"username":"2informaticos","post_date":"2019-09-06 05:32:39","message":"\"isl6259 pin 17-18 and 27-28 they are normal 25,5V and 5,5V.\"\nI don't understand what this means...\n\nPost basic signals for power on sequence in normal mode."}
-{"post_id":52045,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":296,"username":"jadao","post_date":"2019-09-06 06:48:15","message":"Sorry I was tired. I mean ohms instead of volts!\nResistance on ISL6259 pins 17\/18 is 25,5 ohms and 5,5ohms on pins 27\/28.\nthanks"}
-{"post_id":52046,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":682,"username":"2informaticos","post_date":"2019-09-06 08:56:45","message":"Still waiting for signals.\nDo you get 3V3_S5\/SUS?"}
-{"post_id":52073,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":296,"username":"jadao","post_date":"2019-09-06 23:34:03","message":"Hi, here are all values I noted.\n\nPPDCIN_G3H 16,5V\nPP3V42_G3H 3.42V\nPPBUS_G3H 12,56V\nPPVRTC_G3H 3.3V\n\nPP5V_S5 5V\nPM_SLP_S5_L is missing (0V) so S4, S3 and S0 versions of PP5V are 0V\n\nPP3V3_S5 3.3V\nPP3V3_SUS 3.3V\n\nPP3V3_S4 0,446V\nS4_PWR_EN is missing (0V) because of PM_SLP_S5 missing\n\n\nPP3V3_S3 0,23V\n=P3V3S3_EN is missing (0V) because of PM_SLP_S4_L missing\n\nPP3V3_S0 2.02V (0,293 diode mode)\n\n32KHz present at u1900\n\nSMC_ONOFF_L 3.3V\nSMC_RESET_L 3.3V\nS5_PWRGD 3.4v\nSMC_ADAPTER_EN 3.4V\nPM_BATLOW_L 0.19V\nPM_PWRBTN_L 3.4V\nPM_SYSRST_L 2.09V\n\nPCH_SRTCRST_L 3.3V\nPCH_INTRUDER_L 3.058V\nPCH_INTVRMEN 3.237V\nRTC_RESET_L 3.328V\n\nAs I said earlier SMC bypass makes board to turn on with fan running high (no chime)\nI see that PM_BATLOW value is not normal... Also the presence of 2.02V on PP3V3_S0.\n\nThanks!"}
-{"post_id":52076,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":682,"username":"2informaticos","post_date":"2019-09-07 02:12:12","message":"See what happens without U8030.\nDo you get any S3 voltage in normal mode in such case?\n\nCheck SMC_DCIN_VSENSE level.\nLow PM_BATLOW_L blocks PCH to start.\nIf you have correct charger for sure, then could be SMC issue; change it, for test."}
-{"post_id":52108,"thread_id":52015,"title":"SOLVED - 820-4924 dead","user_id":296,"username":"jadao","post_date":"2019-09-08 01:08:30","message":"Without U8030 I had no S3 voltage.\nSMC_DCIN_VSENSE voltage is 2,42V whitch looks ok according to the voltage divider.\n\nChanged SMC and yes the board is back to life!\n\nI am sure just a reball would have worked but I didn't bother, board is in immaculate condition with white indicators but still this little corrosion I saw was the only hint.\nThank you very much for your support."}
+[
+    {
+        "post_id":52015,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-05 09:42:21",
+        "message":"PPBUS_G3H: 12.56V PP5V_S5 5V PP3V3_S5: 3.3V PPVRTC_G3H: 3.3V normal green\/orange magsafe light\nNo further power rails present.\n\nU1900 seems ok, I can see 32KHz present, SMC_ONOFF_L, SMC_RESET_L present at 3.3V\n\nFound a very small micro greenish spot near smc, cleaned it and reflowed SMC but nothing changes may need a replacement or reball.\n\nAlso, with SMC bypass all rails are present but no chime (CPU voltage is at 1.8V), witch may indicate a sensor or SMC issue.\n\nAnything I could troubleshoot further before replacing SMC?\n\nThanks!"
+    },
+    {
+        "post_id":52018,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-09-05 11:39:36",
+        "message":"Try a new SMC first"
+    },
+    {
+        "post_id":52026,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-05 12:56:11",
+        "message":"First of all, be sure to have original 60\/85W Magsafe 2 charger.\nIf liquid signs around SMC, better to rerball it.\nCheck AVREF_SMC presence.\nIf OK, post CHGR_A\/BMON values.\nAlso check resistance between pins 17\/18 and 27\/28 of ISL6259."
+    },
+    {
+        "post_id":52037,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-05 21:17:39",
+        "message":"Thanks JohnB8812 and 2informaticos,\nDidn't yet replaced smc.\nAlways using original 85W magsafe 2 for magsafe2 power jack boards.\nShould had mention I've already checked isl6259 pin 17-18 and 27-28 they are normal 25,5V and 5,5V.\nAVREF_SMC is present at 3,3V.\nCHGR_A\/BMON are 0.031V and 0.053V respectively."
+    },
+    {
+        "post_id":52043,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-06 03:32:39",
+        "message":"\"isl6259 pin 17-18 and 27-28 they are normal 25,5V and 5,5V.\"\nI don't understand what this means...\n\nPost basic signals for power on sequence in normal mode."
+    },
+    {
+        "post_id":52045,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-06 04:48:15",
+        "message":"Sorry I was tired. I mean ohms instead of volts!\nResistance on ISL6259 pins 17\/18 is 25,5 ohms and 5,5ohms on pins 27\/28.\nthanks"
+    },
+    {
+        "post_id":52046,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-06 06:56:45",
+        "message":"Still waiting for signals.\nDo you get 3V3_S5\/SUS?"
+    },
+    {
+        "post_id":52073,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-06 21:34:03",
+        "message":"Hi, here are all values I noted.\n\nPPDCIN_G3H 16,5V\nPP3V42_G3H 3.42V\nPPBUS_G3H 12,56V\nPPVRTC_G3H 3.3V\n\nPP5V_S5 5V\nPM_SLP_S5_L is missing (0V) so S4, S3 and S0 versions of PP5V are 0V\n\nPP3V3_S5 3.3V\nPP3V3_SUS 3.3V\n\nPP3V3_S4 0,446V\nS4_PWR_EN is missing (0V) because of PM_SLP_S5 missing\n\n\nPP3V3_S3 0,23V\n=P3V3S3_EN is missing (0V) because of PM_SLP_S4_L missing\n\nPP3V3_S0 2.02V (0,293 diode mode)\n\n32KHz present at u1900\n\nSMC_ONOFF_L 3.3V\nSMC_RESET_L 3.3V\nS5_PWRGD 3.4v\nSMC_ADAPTER_EN 3.4V\nPM_BATLOW_L 0.19V\nPM_PWRBTN_L 3.4V\nPM_SYSRST_L 2.09V\n\nPCH_SRTCRST_L 3.3V\nPCH_INTRUDER_L 3.058V\nPCH_INTVRMEN 3.237V\nRTC_RESET_L 3.328V\n\nAs I said earlier SMC bypass makes board to turn on with fan running high (no chime)\nI see that PM_BATLOW value is not normal... Also the presence of 2.02V on PP3V3_S0.\n\nThanks!"
+    },
+    {
+        "post_id":52076,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-07 00:12:12",
+        "message":"See what happens without U8030.\nDo you get any S3 voltage in normal mode in such case?\n\nCheck SMC_DCIN_VSENSE level.\nLow PM_BATLOW_L blocks PCH to start.\nIf you have correct charger for sure, then could be SMC issue; change it, for test."
+    },
+    {
+        "post_id":52108,
+        "thread_id":52015,
+        "title":"SOLVED - 820-4924 dead",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-07 23:08:30",
+        "message":"Without U8030 I had no S3 voltage.\nSMC_DCIN_VSENSE voltage is 2,42V whitch looks ok according to the voltage divider.\n\nChanged SMC and yes the board is back to life!\n\nI am sure just a reball would have worked but I didn't bother, board is in immaculate condition with white indicators but still this little corrosion I saw was the only hint.\nThank you very much for your support."
+    }
+]

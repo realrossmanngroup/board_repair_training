@@ -1,5 +1,47 @@
-{"post_id":59271,"thread_id":59271,"title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.","user_id":25485,"username":"it-solve","post_date":"2020-05-07 06:15:25","message":"Hi Guys,\n\nI am having Macbook Air A1466 which has no obvious liquid damage. Seems like decided to die out of nowhere\nI can feel the board warms up such as its working but no fanspin or USB activity.\n\nNot sure in what order to provide readings so just grabbed an example from other posts. Let me know if you like me to provide more\n\nPP3V3_S0 = 3.3V\nPP5V_S0 = 5.16V\nSMC_PM_G2_EN = 3.41v\nPP5VP3V3_VREF2 = 2.02v\nPM_SLP_BUF_L = 3.3V\nP1V8S3_PGOOD = 0.186V\nP5VS4RS3_PGOOD = 0.186V\nP1V05S0_PGOOD = 0.186V\nALL_SYS_PWRGD = 0.186V\nP5VS0_EN = 3.3V\nP3V3S0_EN = 3.3V\nPM_SLP_S4_L = 3.349V\n\nHaven't seen anything like this.\nAny input would be appreciated.\n\nCheers"}
-{"post_id":59276,"thread_id":59271,"title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.","user_id":682,"username":"2informaticos","post_date":"2020-05-07 07:09:45","message":"First of all, welcome to the forum!\n\n\"ALL_SYS_PWRGD = 0.186V\"\nAll the other mentioned power good signals met there; no need to specify them anymore.\n\nOne power supply from S3, or S0 state has missing voltage, or its power good fails somehow.\nPost the voltage on all big coils, as first step.\nAlso check U1950 and Q8150 for corrosion."}
-{"post_id":59281,"thread_id":59271,"title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.","user_id":25485,"username":"it-solve","post_date":"2020-05-07 07:54:16","message":"Thanks for the speedy reply.\n\nAll big coil voltages seemed alright apart CPU Phase ones, hence skipped them. Here they are:\nL7630 - PP1V05S0_LL = 1.06V\nL7430 - PDDR_S3_REG_L = 1.21V\nL7560 - PP3V3_S5_REG_L = 3.35V\nL7520 - P5V_S4RS3_REG_L = 5.17V\nL7130 - PPVBAT_G3H_CHRGR_REG = 8.59V\n\nL7320 - CPUVR_PHASE2 = 0.01V\nL7310 - CPUVR_PHASE1 = 0.01V\n\nNo Corrosion on U1950 and Q8159, replaced them just in case still same response. \n\nPoked around U1930, PM_SLP_S3_L is 3.3V\nI wonder where ALL_SYS_PWRGD is drained.\n\nThanks again."}
-{"post_id":59287,"thread_id":59271,"title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.","user_id":682,"username":"2informaticos","post_date":"2020-05-07 08:10:10","message":"You can try removing Q8150 first; is a redundant protection, not really needed.\nNext, remove power good resistors, one by one; keep R8167 in place!"}
-{"post_id":59291,"thread_id":59271,"title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.","user_id":25485,"username":"it-solve","post_date":"2020-05-07 09:11:21","message":"That was brilliant 2informaticos. Thank you very much.\n\nP1V8S3_PGOOD - after R8166 removed and line was fluctuating around 0.5V\nP5VS4RS3_PGOOD - after R8165 removed and line was fluctuating around 0.5V\nP1V05S0_PGOOD - After R8164 removed the fan spins. Resoldered it back all working. \n\nNot sure what have caused it but u7600 seems to be okay. I wonder why it was not sending PGOOD signal and instead was pulling ALL_SYS_PWRGD down. it had around 0.3Vdc\n\n\nThanks again."}
+[
+    {
+        "post_id":59271,
+        "thread_id":59271,
+        "title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2020-05-07 04:15:25",
+        "message":"Hi Guys,\n\nI am having Macbook Air A1466 which has no obvious liquid damage. Seems like decided to die out of nowhere\nI can feel the board warms up such as its working but no fanspin or USB activity.\n\nNot sure in what order to provide readings so just grabbed an example from other posts. Let me know if you like me to provide more\n\nPP3V3_S0 = 3.3V\nPP5V_S0 = 5.16V\nSMC_PM_G2_EN = 3.41v\nPP5VP3V3_VREF2 = 2.02v\nPM_SLP_BUF_L = 3.3V\nP1V8S3_PGOOD = 0.186V\nP5VS4RS3_PGOOD = 0.186V\nP1V05S0_PGOOD = 0.186V\nALL_SYS_PWRGD = 0.186V\nP5VS0_EN = 3.3V\nP3V3S0_EN = 3.3V\nPM_SLP_S4_L = 3.349V\n\nHaven't seen anything like this.\nAny input would be appreciated.\n\nCheers"
+    },
+    {
+        "post_id":59276,
+        "thread_id":59271,
+        "title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-07 05:09:45",
+        "message":"First of all, welcome to the forum!\n\n\"ALL_SYS_PWRGD = 0.186V\"\nAll the other mentioned power good signals met there; no need to specify them anymore.\n\nOne power supply from S3, or S0 state has missing voltage, or its power good fails somehow.\nPost the voltage on all big coils, as first step.\nAlso check U1950 and Q8150 for corrosion."
+    },
+    {
+        "post_id":59281,
+        "thread_id":59271,
+        "title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2020-05-07 05:54:16",
+        "message":"Thanks for the speedy reply.\n\nAll big coil voltages seemed alright apart CPU Phase ones, hence skipped them. Here they are:\nL7630 - PP1V05S0_LL = 1.06V\nL7430 - PDDR_S3_REG_L = 1.21V\nL7560 - PP3V3_S5_REG_L = 3.35V\nL7520 - P5V_S4RS3_REG_L = 5.17V\nL7130 - PPVBAT_G3H_CHRGR_REG = 8.59V\n\nL7320 - CPUVR_PHASE2 = 0.01V\nL7310 - CPUVR_PHASE1 = 0.01V\n\nNo Corrosion on U1950 and Q8159, replaced them just in case still same response. \n\nPoked around U1930, PM_SLP_S3_L is 3.3V\nI wonder where ALL_SYS_PWRGD is drained.\n\nThanks again."
+    },
+    {
+        "post_id":59287,
+        "thread_id":59271,
+        "title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-07 06:10:10",
+        "message":"You can try removing Q8150 first; is a redundant protection, not really needed.\nNext, remove power good resistors, one by one; keep R8167 in place!"
+    },
+    {
+        "post_id":59291,
+        "thread_id":59271,
+        "title":"A1466 820-00165 - 0.11A draw,  S0 Rails present but not turning on.",
+        "user_id":25485,
+        "username":"it-solve",
+        "post_date":"2020-05-07 07:11:21",
+        "message":"That was brilliant 2informaticos. Thank you very much.\n\nP1V8S3_PGOOD - after R8166 removed and line was fluctuating around 0.5V\nP5VS4RS3_PGOOD - after R8165 removed and line was fluctuating around 0.5V\nP1V05S0_PGOOD - After R8164 removed the fan spins. Resoldered it back all working. \n\nNot sure what have caused it but u7600 seems to be okay. I wonder why it was not sending PGOOD signal and instead was pulling ALL_SYS_PWRGD down. it had around 0.3Vdc\n\n\nThanks again."
+    }
+]

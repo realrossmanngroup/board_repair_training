@@ -1,15 +1,137 @@
-{"post_id":75637,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-05-21 14:47:16","message":"Hi, new here!\n\nGot a A1706 board that had minor liquid spill by the display connector on the screen side, as well as around BIOS chip.\nAfter a new display cable and touch-up of suspicious components, the symptoms are as follows:\n- No internal display with known good screen, external display works\n- Draws 20v 350-600mA\n- Takes nearly two minutes to boot up the screen and then another minute to display folder icon\n- PP3V3_2V7_NAND = 0v\n- PICCOLO_IUVD = 0v\n- PP3V3_2V7_NAND_VCC = 0v\n- PP1V2_SSD_HOT = 0v\n- No obvious corrosion left on the motherboard nor probe points\n- Nothing flaring up on thermal camera\n\nDo these symptoms sound familiar and what would be the next logical area to test?\n\nThanks for your assistance"}
-{"post_id":75640,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":682,"username":"2informaticos","post_date":"2021-05-21 16:39:06","message":"First of all, welcome to the forum!\n\nFolder icon displayed means SSD is not detected; normal, as no voltage on it.\nMissing image on internal LCD is very likely bad CPU eDP output.\nIs a classic fault after liquid spill on video connectors.\n\nPost diode mode to ground on SSD power rails."}
-{"post_id":75722,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-05-24 07:11:38","message":"Can eDP signals be measured with no screen attached? And what should I measure against?\n\nPP1V8_SSD_COLD - 0.6\nPP0V9_SSD_FIXED - 0.9\nPP1V2_SSD_HOT - 0.9\nPP1V8_SSD_HOT - 1.1\nPP1V2_SSD_COLD - 0.7\nPP0V9_SSD_REG - 0.15"}
-{"post_id":75723,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":682,"username":"2informaticos","post_date":"2021-05-24 07:42:26","message":"You can check diode mode to ground on data lines; w\/ and w\/o LCD connected (no power, of course)\nBut voltages will require LCD detection to be maintained.\n\nAs you also have missing SSD voltages, the problem is not only about video."}
-{"post_id":75834,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-05-26 06:09:54","message":"[QUOTE=\"2informaticos, post: 75723, member: 682\"]\nYou can check diode mode to ground on data lines; w\/ and w\/o LCD connected (no power, of course)\n[\/QUOTE]\nWhat voltages should I expect on the probe points?\n\n[QUOTE=\"2informaticos, post: 75723, member: 682\"]\nAs you also have missing SSD voltages, the problem is not only about video.\n[\/QUOTE]\nI am aware these are two different problems. Do the diode readings give any hints at what to measure next?\nAny reason to suspect U8600?"}
-{"post_id":75835,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":682,"username":"2informaticos","post_date":"2021-05-26 06:21:16","message":"You can only check for voltages at J8500 in the first few seconds, if the screen is not connected.\nAfter that, PCH will disable the voltages; because DP_INT_HPD stays low."}
-{"post_id":75844,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-05-26 09:59:28","message":"Do my SSD rails' diode readings give any hints at what to measure next?"}
-{"post_id":75847,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":682,"username":"2informaticos","post_date":"2021-05-26 11:12:52","message":"Check J9600 connector."}
-{"post_id":75941,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-05-28 10:42:28","message":"J9600 looks clean.\n\nJust noticed that PP3V3_S5_SSD is at 0.76v.\nDoes that point to U9300 Piccolo chip?"}
-{"post_id":75947,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-05-28 15:16:50","message":"[QUOTE=\"2informaticos, post: 75847, member: 682\"]\nCheck J9600 connector.\n[\/QUOTE]\nDoes the cap need to be present for it to function\/enable power to the SSD? I believe someone before me has removed it. The connector itself looks intact"}
-{"post_id":75955,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":682,"username":"2informaticos","post_date":"2021-05-29 05:36:20","message":"That cap is the heart of the Lifeboat connector!."}
-{"post_id":76097,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-06-03 07:02:02","message":"That's great!.\n\nWith the cap on, all these voltages are on point for the first 2 minutes before the screen boots up:\nPP1V8_SSD_COLD\nPP0V9_SSD_FIXED\nPP1V2_SSD_HOT\nPP1V8_SSD_HOT\nPP1V2_SSD_COLD\nPP0V9_SSD_REG\n\nHowever once the folder icon appears, they all drop to 0v.\n\nWhat could that indicate?"}
-{"post_id":76099,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":682,"username":"2informaticos","post_date":"2021-06-03 07:30:10","message":"Try to boot USB macOS and check what appears in Disk Utility."}
-{"post_id":76101,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":4189,"username":"iganas","post_date":"2021-06-03 07:37:26","message":"[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/820-00923-macbook-pro-touch-bar-question-mark-folder.60375\/#post-68248[\/URL]\nI'm getting the same issue of non-responsive keyboard as mccafe had. \nCannot perform resets nor hold Alt for boot selection.\nUSB key doesn't flash not even once during boot, nor when the folder icon appears"}
-{"post_id":76103,"thread_id":61216,"title":"820-00923 SSD issue and no internal display","user_id":682,"username":"2informaticos","post_date":"2021-06-03 07:41:04","message":"If someone else messed up with the board before you, rhis can be a nightmare.\nSome technicians intentionally rip off components, or make damage on the boards; when they cannot fixed them."}
+[
+    {
+        "post_id":75637,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-05-21 12:47:16",
+        "message":"Hi, new here!\n\nGot a A1706 board that had minor liquid spill by the display connector on the screen side, as well as around BIOS chip.\nAfter a new display cable and touch-up of suspicious components, the symptoms are as follows:\n- No internal display with known good screen, external display works\n- Draws 20v 350-600mA\n- Takes nearly two minutes to boot up the screen and then another minute to display folder icon\n- PP3V3_2V7_NAND = 0v\n- PICCOLO_IUVD = 0v\n- PP3V3_2V7_NAND_VCC = 0v\n- PP1V2_SSD_HOT = 0v\n- No obvious corrosion left on the motherboard nor probe points\n- Nothing flaring up on thermal camera\n\nDo these symptoms sound familiar and what would be the next logical area to test?\n\nThanks for your assistance"
+    },
+    {
+        "post_id":75640,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-21 14:39:06",
+        "message":"First of all, welcome to the forum!\n\nFolder icon displayed means SSD is not detected; normal, as no voltage on it.\nMissing image on internal LCD is very likely bad CPU eDP output.\nIs a classic fault after liquid spill on video connectors.\n\nPost diode mode to ground on SSD power rails."
+    },
+    {
+        "post_id":75722,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-05-24 05:11:38",
+        "message":"Can eDP signals be measured with no screen attached? And what should I measure against?\n\nPP1V8_SSD_COLD - 0.6\nPP0V9_SSD_FIXED - 0.9\nPP1V2_SSD_HOT - 0.9\nPP1V8_SSD_HOT - 1.1\nPP1V2_SSD_COLD - 0.7\nPP0V9_SSD_REG - 0.15"
+    },
+    {
+        "post_id":75723,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-24 05:42:26",
+        "message":"You can check diode mode to ground on data lines; w\/ and w\/o LCD connected (no power, of course)\nBut voltages will require LCD detection to be maintained.\n\nAs you also have missing SSD voltages, the problem is not only about video."
+    },
+    {
+        "post_id":75834,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-05-26 04:09:54",
+        "message":"[QUOTE=\"2informaticos, post: 75723, member: 682\"]\nYou can check diode mode to ground on data lines; w\/ and w\/o LCD connected (no power, of course)\n[\/QUOTE]\nWhat voltages should I expect on the probe points?\n\n[QUOTE=\"2informaticos, post: 75723, member: 682\"]\nAs you also have missing SSD voltages, the problem is not only about video.\n[\/QUOTE]\nI am aware these are two different problems. Do the diode readings give any hints at what to measure next?\nAny reason to suspect U8600?"
+    },
+    {
+        "post_id":75835,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-26 04:21:16",
+        "message":"You can only check for voltages at J8500 in the first few seconds, if the screen is not connected.\nAfter that, PCH will disable the voltages; because DP_INT_HPD stays low."
+    },
+    {
+        "post_id":75844,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-05-26 07:59:28",
+        "message":"Do my SSD rails' diode readings give any hints at what to measure next?"
+    },
+    {
+        "post_id":75847,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-26 09:12:52",
+        "message":"Check J9600 connector."
+    },
+    {
+        "post_id":75941,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-05-28 08:42:28",
+        "message":"J9600 looks clean.\n\nJust noticed that PP3V3_S5_SSD is at 0.76v.\nDoes that point to U9300 Piccolo chip?"
+    },
+    {
+        "post_id":75947,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-05-28 13:16:50",
+        "message":"[QUOTE=\"2informaticos, post: 75847, member: 682\"]\nCheck J9600 connector.\n[\/QUOTE]\nDoes the cap need to be present for it to function\/enable power to the SSD? I believe someone before me has removed it. The connector itself looks intact"
+    },
+    {
+        "post_id":75955,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-05-29 03:36:20",
+        "message":"That cap is the heart of the Lifeboat connector!."
+    },
+    {
+        "post_id":76097,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-06-03 05:02:02",
+        "message":"That's great!.\n\nWith the cap on, all these voltages are on point for the first 2 minutes before the screen boots up:\nPP1V8_SSD_COLD\nPP0V9_SSD_FIXED\nPP1V2_SSD_HOT\nPP1V8_SSD_HOT\nPP1V2_SSD_COLD\nPP0V9_SSD_REG\n\nHowever once the folder icon appears, they all drop to 0v.\n\nWhat could that indicate?"
+    },
+    {
+        "post_id":76099,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-03 05:30:10",
+        "message":"Try to boot USB macOS and check what appears in Disk Utility."
+    },
+    {
+        "post_id":76101,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":4189,
+        "username":"iganas",
+        "post_date":"2021-06-03 05:37:26",
+        "message":"[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/820-00923-macbook-pro-touch-bar-question-mark-folder.60375\/#post-68248[\/URL]\nI'm getting the same issue of non-responsive keyboard as mccafe had. \nCannot perform resets nor hold Alt for boot selection.\nUSB key doesn't flash not even once during boot, nor when the folder icon appears"
+    },
+    {
+        "post_id":76103,
+        "thread_id":61216,
+        "title":"820-00923 SSD issue and no internal display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-03 05:41:04",
+        "message":"If someone else messed up with the board before you, rhis can be a nightmare.\nSome technicians intentionally rip off components, or make damage on the boards; when they cannot fixed them."
+    }
+]

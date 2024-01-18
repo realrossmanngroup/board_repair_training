@@ -1,12 +1,110 @@
-{"post_id":89104,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-05 15:21:32","message":"Got this horribly liquid damaged, corrosion basically everywhere but somehow T2 and CPU seemed to have dodged most of it. Looks like it flowed around them rather than through. Replaced U7000, U6903, and U7100 where some of the worst of the corrosion was at which fixed stuck at 5v. Ran the board through my ultrasonic cleaner and currently get 20v and current slowly rises from 0.06a to ~0.35a then drops back down to 0.08a. I am still pretty new to board level repair so I apologize if I don't understand some of the jargon initially.\n\nALL_SYS_PWRGD: 0V\n[INDENT][I]PVDDQ_PGOOD: 0V[\/I][\/INDENT]\n[INDENT][I]P1V1S3_PGOOD: 0V[\/I][\/INDENT]\n[INDENT][I]CPUVR_PGOOD: 0V[\/I][\/INDENT]\nPPVCCIN_S0_CPU: 0V\n\nI have tried with a good battery, it is not seen in Configurator 2 but it does seem to be charging the battery at 19.5v 2.3a but still does the same thing, no power, PCH gets that warm dot.\n\nI hope this is just something to do with ALL_SYS_PWRGD because I am starting to believe the PCH is dead as you'll see in the attached photo. When the current starts rising, various IC's will begin warming up some along with T2, then PCH gets the warm dot and amperage goes down to 0.08a.\n\nThank you!"}
-{"post_id":89106,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":682,"username":"2informaticos","post_date":"2022-05-05 17:32:25","message":"First of all, welcome to the forum!\n\nPost diode mode to ground readings on the big coils.\n\nLooks like board tries to boot.\nYou should get voltage on some coils; which ones?"}
-{"post_id":89108,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-05 18:01:54","message":"L7400: 115 \/ fluctuates anywhere between 0.40-0.70v\nL7230: 055 \/ 0v\nL7220: 055 \/ 0v\nL7210: 055 \/ 0v\nL8100: 002 \/ 0v\nL3500_VWR: OL, resistance measures ~16.5k \/ 0v\nL7660: OL, resistance measures ~100k \/ 3.36v\nL7030: OL, resistance measures ~630k \/ 12.55v\nL3500_VXT: OL, resistance measures ~16k \/ 0v\n\nTested voltages when it attempts to boot as well, same results."}
-{"post_id":89109,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":682,"username":"2informaticos","post_date":"2022-05-05 19:39:08","message":"\"L8100: 002\"\nSeems that PP1V1_S3 power rail is shorted to ground.\nLift L8100 one side and check where the short remains.\n\nAbout OL readings, test again in diode mode; red probe connected to ground!"}
-{"post_id":89125,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-06 12:07:10","message":"Looks like the short is on pin 2 of L8100, removed R8118 and the short is on PP1v1S3 like you said. Injecting 1v all RAM modules change color [I]slightly[\/I] but are almost not even noticeable on thermals. Since voltage injection isn't really an option as it won't create enough heat, should I just start lifting components on the 1v1s3 line or do you recommend a better method?\n\nRed probe ground\nL3500_VWR: 495\nL7660: 435\nL7030: 516\nL3500_VXT: 493"}
-{"post_id":89131,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":682,"username":"2informaticos","post_date":"2022-05-06 15:47:19","message":"0.3 ohm is really pure short; 1V should heat something.\nUse powerfull cables to connect lab PSU; you need to heat the board, not the cables!\nYou can also increase voltage until 1.5V there.\n\nAt least one RAM chip is fried I suppose..."}
-{"post_id":89133,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-06 16:07:53","message":"The only thing that looks to get any sort of thermal signature is all 4 ram modules. Also, if I try to increase voltage past 1.3v current drops from 0.17a to 0.04a. Not sure if that will give you any extra info but I guess it's time to start pulling RAM chips for now.\n\nThanks for the help, I'll post an update if anything changes or I am successful."}
-{"post_id":89135,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-06 22:12:56","message":"Removed all 4 RAM modules, and looks like the short is gone... after I removed the last one (U2300_1). Thinking about it now, I should have taken that one off first as its closest to the 12v MOSFET for PPBUS_HS_CPU so I guess it had a higher chance of damage. There is a rainbow looking mess under it so hopefully, the module is still good and the balls were just shorting.\n\nWill continue with further updates"}
-{"post_id":89136,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-07 00:39:16","message":"Confirmed RAM module fried, reballed and resoldered just the one to board and short came back. Any way to just replace a single module or do they need to come as a set of 4? Looking online they seem to be hard to find, guess I could always buy a donor board.\n\nThanks for the help, unfortunately, this is looking like a dead end."}
-{"post_id":89137,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-07 00:43:53","message":"Forgot to attach photo of something I noticed on the underside of the bad RAM module. The black mark is inside the chip and connects with the pin that attaches to PP1v1_S3. I don't see that black 'burn' spot on any of the other 3 RAM modules.\n\nJust posting for anyone who is curious or for future repairs people may have."}
-{"post_id":89140,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":682,"username":"2informaticos","post_date":"2022-05-07 03:15:49","message":"You may have all RAM chips bad, not just one.\nCheck in diode mode between ground and power pads of the chip.\nUse boardview to identify corresponding pads."}
-{"post_id":89149,"thread_id":62664,"title":"820-01949 20v 0.06-0.35a","user_id":37705,"username":"Isolated","post_date":"2022-05-07 12:59:47","message":"Look like you are right, all RAM chips are fried. They all have 15ohm to ground but at least the short is gone on the board so maybe I can source some replacements somewhere.\n\nThanks for all your help, this is pretty much resolved."}
+[
+    {
+        "post_id":89104,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-05 13:21:32",
+        "message":"Got this horribly liquid damaged, corrosion basically everywhere but somehow T2 and CPU seemed to have dodged most of it. Looks like it flowed around them rather than through. Replaced U7000, U6903, and U7100 where some of the worst of the corrosion was at which fixed stuck at 5v. Ran the board through my ultrasonic cleaner and currently get 20v and current slowly rises from 0.06a to ~0.35a then drops back down to 0.08a. I am still pretty new to board level repair so I apologize if I don't understand some of the jargon initially.\n\nALL_SYS_PWRGD: 0V\n[INDENT][I]PVDDQ_PGOOD: 0V[\/I][\/INDENT]\n[INDENT][I]P1V1S3_PGOOD: 0V[\/I][\/INDENT]\n[INDENT][I]CPUVR_PGOOD: 0V[\/I][\/INDENT]\nPPVCCIN_S0_CPU: 0V\n\nI have tried with a good battery, it is not seen in Configurator 2 but it does seem to be charging the battery at 19.5v 2.3a but still does the same thing, no power, PCH gets that warm dot.\n\nI hope this is just something to do with ALL_SYS_PWRGD because I am starting to believe the PCH is dead as you'll see in the attached photo. When the current starts rising, various IC's will begin warming up some along with T2, then PCH gets the warm dot and amperage goes down to 0.08a.\n\nThank you!"
+    },
+    {
+        "post_id":89106,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-05 15:32:25",
+        "message":"First of all, welcome to the forum!\n\nPost diode mode to ground readings on the big coils.\n\nLooks like board tries to boot.\nYou should get voltage on some coils; which ones?"
+    },
+    {
+        "post_id":89108,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-05 16:01:54",
+        "message":"L7400: 115 \/ fluctuates anywhere between 0.40-0.70v\nL7230: 055 \/ 0v\nL7220: 055 \/ 0v\nL7210: 055 \/ 0v\nL8100: 002 \/ 0v\nL3500_VWR: OL, resistance measures ~16.5k \/ 0v\nL7660: OL, resistance measures ~100k \/ 3.36v\nL7030: OL, resistance measures ~630k \/ 12.55v\nL3500_VXT: OL, resistance measures ~16k \/ 0v\n\nTested voltages when it attempts to boot as well, same results."
+    },
+    {
+        "post_id":89109,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-05 17:39:08",
+        "message":"\"L8100: 002\"\nSeems that PP1V1_S3 power rail is shorted to ground.\nLift L8100 one side and check where the short remains.\n\nAbout OL readings, test again in diode mode; red probe connected to ground!"
+    },
+    {
+        "post_id":89125,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-06 10:07:10",
+        "message":"Looks like the short is on pin 2 of L8100, removed R8118 and the short is on PP1v1S3 like you said. Injecting 1v all RAM modules change color [I]slightly[\/I] but are almost not even noticeable on thermals. Since voltage injection isn't really an option as it won't create enough heat, should I just start lifting components on the 1v1s3 line or do you recommend a better method?\n\nRed probe ground\nL3500_VWR: 495\nL7660: 435\nL7030: 516\nL3500_VXT: 493"
+    },
+    {
+        "post_id":89131,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-06 13:47:19",
+        "message":"0.3 ohm is really pure short; 1V should heat something.\nUse powerfull cables to connect lab PSU; you need to heat the board, not the cables!\nYou can also increase voltage until 1.5V there.\n\nAt least one RAM chip is fried I suppose..."
+    },
+    {
+        "post_id":89133,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-06 14:07:53",
+        "message":"The only thing that looks to get any sort of thermal signature is all 4 ram modules. Also, if I try to increase voltage past 1.3v current drops from 0.17a to 0.04a. Not sure if that will give you any extra info but I guess it's time to start pulling RAM chips for now.\n\nThanks for the help, I'll post an update if anything changes or I am successful."
+    },
+    {
+        "post_id":89135,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-06 20:12:56",
+        "message":"Removed all 4 RAM modules, and looks like the short is gone... after I removed the last one (U2300_1). Thinking about it now, I should have taken that one off first as its closest to the 12v MOSFET for PPBUS_HS_CPU so I guess it had a higher chance of damage. There is a rainbow looking mess under it so hopefully, the module is still good and the balls were just shorting.\n\nWill continue with further updates"
+    },
+    {
+        "post_id":89136,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-06 22:39:16",
+        "message":"Confirmed RAM module fried, reballed and resoldered just the one to board and short came back. Any way to just replace a single module or do they need to come as a set of 4? Looking online they seem to be hard to find, guess I could always buy a donor board.\n\nThanks for the help, unfortunately, this is looking like a dead end."
+    },
+    {
+        "post_id":89137,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-06 22:43:53",
+        "message":"Forgot to attach photo of something I noticed on the underside of the bad RAM module. The black mark is inside the chip and connects with the pin that attaches to PP1v1_S3. I don't see that black 'burn' spot on any of the other 3 RAM modules.\n\nJust posting for anyone who is curious or for future repairs people may have."
+    },
+    {
+        "post_id":89140,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-05-07 01:15:49",
+        "message":"You may have all RAM chips bad, not just one.\nCheck in diode mode between ground and power pads of the chip.\nUse boardview to identify corresponding pads."
+    },
+    {
+        "post_id":89149,
+        "thread_id":62664,
+        "title":"820-01949 20v 0.06-0.35a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-05-07 10:59:47",
+        "message":"Look like you are right, all RAM chips are fried. They all have 15ohm to ground but at least the short is gone on the board so maybe I can source some replacements somewhere.\n\nThanks for all your help, this is pretty much resolved."
+    }
+]

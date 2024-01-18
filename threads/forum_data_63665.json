@@ -1,32 +1,290 @@
-{"post_id":97192,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-03 15:48:56","message":"[B]Hi guys,[\/B]\n\nI got a 820-01700-05 logic board that won\u2019t turn on after wake up from sleep with no signs of burned components or water spills. It is stuck at 5v and PPBUS seems to be shorted to ground. \n\nPPBUS_G3H - 0.1V\n\n\nIn resistance mode:\n\nPPBUS_G3H to ground: 17.7 Ohms\nPPBUS_G3H to CPU coils: 18.4 Ohms\nCPU coils to ground: 1.5 Ohms\nPP2V5_ NAND_SSD to ground: 7.0 K Ohms\n\nIn diode mode:\n\nCPU coils to ground: 001 \nOther big coils around: 007, 003, 002, 012, 015.\n\n\nAny ideas would be greatly appreciated."}
-{"post_id":97195,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-03 16:45:28","message":"First of all, welcome to the forum!\n\n\"PPBUS_G3H to ground: 17.7 Ohms\"\nDid you test with charger, or battery connected???\nAllow 10-15s after power is removed, before checking diode mode, or ohm scale!\n\nI suspect angle sensors issue.\nCheck U4802 signals, with lid closed\/open."}
-{"post_id":97206,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-04 22:35:48","message":"Thank you 2informaticos! Happy to be here!\n\n\nWell, on \"PPBUS_G3H to ground\", I'm getting 0 Ohms with charger and 16.5 Ohms with battery connected.\nIn diode mode 0.173 with charger and 0.008 with battery.\n\nU4802 signals - Lid closed.\n\nPin 1 - 0.001v\nPin 2 - 0.0v\nPin 4 - 0.005v\nPin 6 - 0.0v \n\nU4802 signals - Lid Open.\n\nPin 1 - 0.006v\nPin 2 - 0.0v\nPin 4 - 0.0v\nPin 6 - 0.0v\n\nJust in case - in resistance mode\n\nPin 1 - 4.23 MOhms\nPin 2 - 9.6 kOhms\nPin 4 - 50 KOhms\nPin 6 - 7.5 Ohms\n\nThank you!"}
-{"post_id":97211,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-05 06:54:56","message":"As expected, your ptoblem is caused by lid signals.\nMissing 1V8_SLPS2R to U4802 must be corrected.\nCheck the trace to other points of the same power rail.\nIf broken, you can run a wire.\n\nNOT expected, to see you still checking diode mode with power on the board; STOP that!"}
-{"post_id":97259,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-06 23:29:02","message":"Ah, sorry for the newbie mistake. Would be OK if I inject 1V to the 1V8_SLPS2R rail to find the short?"}
-{"post_id":97260,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-07 02:50:32","message":"What short?"}
-{"post_id":97287,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-08 00:32:19","message":"I thought maybe a component was causing a short to ground on 1V8_SLPS2R rail? sorry, I'm still learning.\n\nI've been checking other points of the same trail and the line seems to be broken, any ideas where I can run a wire?\n\nGracias!"}
-{"post_id":97290,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-08 02:27:17","message":"Do you get 1.8V on some points of that line, or nowhere?"}
-{"post_id":97312,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-08 15:53:45","message":"No, Im not getting 1.8V on that line. I was also checking voltages that U7800 outputs and nothing. May U7800 be bad? Let me know what you think.\n\nThanks."}
-{"post_id":97317,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-08 17:42:26","message":"So no voltage at L7813?\nCheck diode mode to ground there.\nBe sure R7813 has 0 ohm.\nIf all good, should change U7800."}
-{"post_id":97324,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-08 22:10:23","message":"L7813\nWith charger: 0.0v \nDiode mode to ground: .003V\n-----------------\nR7813\n0 Ohm.\n\nYou think reflowing the chip could be an option before replacing it?\n\nThank you."}
-{"post_id":97325,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-09 02:58:43","message":"Don't write end \"V\" after diode mode reading.\nWe don't want to make confusion with voltage measurment.\nI hope you've got 0.003 witout charger connected.\nFor low values (under 0.005), switch to ohm mode.\n\nYou can try first injecting voltage.\nThere are many components connected, not only U7800.\nIs not pure short, but an IR cam may help you to find the culprit.\nRemove CPU\/GPU heatsink first.\nThen start injecting 1V; you can slowly increase until 2V (no more).\nSet the amp limit to max first, on the lab PSU."}
-{"post_id":97352,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-09 22:18:35","message":"Got it!\n\nYes, I've got 0.003 without charger connected \/ in resitance mode: 6.1 ohms\n\nSo just to confirm, should I inject voltage to the 1V8_SLPS2R rail? \n\nThank you!"}
-{"post_id":97355,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-10 03:32:21","message":"Of course, on the power rail where you have the short.\nYou probably can't heat anything too much, with 6 ohm resistance; unless something enters in thermal avalanche.\nIR cam will help you to detect small temperature differences."}
-{"post_id":97394,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-10 17:14:22","message":"Well, the only component that is getting hot is the Apple T2 chip when voltage is injected. Could this be the issue? \n\nThank you."}
-{"post_id":97398,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-10 17:43:34","message":"Bad news.\nReally strange that machine still works, with only wake up issue."}
-{"post_id":97403,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-10 21:23:33","message":"Not fixable ?"}
-{"post_id":97406,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-11 04:22:49","message":"If the short is inside T2, need to change it..."}
-{"post_id":97458,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-13 12:06:15","message":"I've been reading about this issue, if the T2 chip is bad, it can be replaceable but touch ID wont work. Is that true?"}
-{"post_id":97467,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-13 14:17:11","message":"You need to get the touch ID from the same board found the replacement T2.\nIf not, need to bring the machine to an official Apple service; they can pair T2 and touch ID again."}
-{"post_id":97592,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-16 00:23:37","message":"Ok, I havent gotten the T2 replacement yet but I releived the short on PP1V8_SLPS2R rail, PPBUS_G3H still shorted to ground, Any suggestion? Thanks."}
-{"post_id":97596,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-16 03:59:04","message":"You had working board, just lid sensors problem.\nHow can you have short on PPBUS_G3H???"}
-{"post_id":97640,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-16 16:32:33","message":"I know! \n\nPPBUS_G3H to ground: 21 Ohms. \nPPBUS_G3H to CPU coils: 21 Ohms\nCPU coils to ground: 1.7 Ohms\n\nWould be safe to inject 1V into PPBUS_G3H?"}
-{"post_id":97641,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-16 17:27:13","message":"Did you check diode mode (or ohm scale) disconnecting charger and battery?\nCheck if any other big coil shows 17 ohm to ground.\nDon't forget L9080\/580."}
-{"post_id":97647,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-16 21:29:49","message":"Yes, I did.\n\nIm getting 1.7 Ohms only on these: L7221 \/ L7211 \/ L7231\n\nL9080: 3.5 KOhms\nL9580: 6.8 KOhms"}
-{"post_id":97652,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-17 04:05:07","message":"So actually your board doesn't turn on.\nWhat you did to happen this?\n\nBe very sure no short between PPBUS_G3H and any other coil; or you can fry the board injecting voltage!\n\nJust for refference:\nL6960\/61    424\nL7030        501\nL7211\/21\/31    003.2\nL7330        031.8\nL7410\/20    009\nLA710\/20\/30\/40    003 \/     8.5 ohm\nLA750        004.9\nLA850        032.7\nLA860        041.8*\nLA870        042\nLA950        024.6\nL7600        412\nL7660        387\nL7701        140\nL8102        128\nL8410        882       \nL9020\/21    467\nL9030        372\nL9080\/81    424\nL9520\/21    426\nL9530        373\n\nMissing L3500, L9580 and LB700 in the listing; check them too."}
-{"post_id":97691,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-17 21:24:13","message":"I did nothing, at the beginning I was thinking it was something related to SSD's just as many people claimed on internet. I also thought U7000 had something to do about it but it was Ok. Wasn't expecting to see PP1V8_SLPS2R shorted! That's it :).\n\nSo, for:\n\nL6960\/61: 6 Ohms\nL7030: 45.2 KOhms\nL7211\/21\/31: 1.6 KOhms\nL7330: 37 Ohms\nL7410\/20: 26 Ohms\nLA710\/20\/30\/40: 21 Ohms\nLA750: 24 Ohms\nLA850: 49 Ohms\nLA860: 49 Ohms\nLA870: 49 Ohms\nLA950: 37 Ohms\nL7600: 7 KOhms \nL7660: 2.9 KOhms\nL7701: 258 Ohms\nL8102: 80 Ohms\nL8410: 32 KOhms\nL9020\/21: The Ohm reading fluctuates up and down like crazy from 172 Ohm to 2.2 KOhms\nL9030: 2.8 KOhms\nL9080\/81: 7 KOhms\nL9520\/21: 259 Ohms\nL9530: 147 Ohms\nL3500: 8 KOhms\nL9580:  3.3 KOhms\nLB700: 8 KOhms\n\nThank you!"}
-{"post_id":97699,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-18 07:20:42","message":"I posted diode mode readings for refference; just one ohm value, for very low reading.\nWhy can't do the same?\n\nHowever, no need to recheck.\nYou have now a problem with 3V3_G3H_RTC power rail.\n\"L6960\/61: 6 Ohms\"\nNo idea what you did there..."}
-{"post_id":97714,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-18 13:20:46","message":"My bad. L6960\/61: 15.3 Ohms, rest is Ok.\n\nL9020\/21: It reads 172 Ohm, then 2.2 KO, then 0.6 KO, back to 172 Ohms, 2.2KO, 0.6 KO..."}
-{"post_id":97717,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-18 14:10:30","message":"STOP checking in ohm scale.\nSwitch from diode mode to ohm scale ONLY for very low values; usually under 0.005-0.010 in diode mode.\n\n6 or 15 ohm there is bad anyway.\nYou should get 0.300-0.450 in diode mode; depends of the multimeter used."}
-{"post_id":97724,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":46032,"username":"cpuentes23","post_date":"2023-03-18 15:42:08","message":"Yes, I got 0.007 in diode scale. Just injected voltage into 3V3_G3H_RTC and U5104 showed up in thermal camera."}
-{"post_id":97725,"thread_id":63665,"title":"Macbook Pro A2141 820-01700-05 Wont turn on.","user_id":682,"username":"2informaticos","post_date":"2023-03-18 16:37:09","message":"Change it then..."}
+[
+    {
+        "post_id":97192,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-03 13:48:56",
+        "message":"[B]Hi guys,[\/B]\n\nI got a 820-01700-05 logic board that won\u2019t turn on after wake up from sleep with no signs of burned components or water spills. It is stuck at 5v and PPBUS seems to be shorted to ground. \n\nPPBUS_G3H - 0.1V\n\n\nIn resistance mode:\n\nPPBUS_G3H to ground: 17.7 Ohms\nPPBUS_G3H to CPU coils: 18.4 Ohms\nCPU coils to ground: 1.5 Ohms\nPP2V5_ NAND_SSD to ground: 7.0 K Ohms\n\nIn diode mode:\n\nCPU coils to ground: 001 \nOther big coils around: 007, 003, 002, 012, 015.\n\n\nAny ideas would be greatly appreciated."
+    },
+    {
+        "post_id":97195,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-03 14:45:28",
+        "message":"First of all, welcome to the forum!\n\n\"PPBUS_G3H to ground: 17.7 Ohms\"\nDid you test with charger, or battery connected???\nAllow 10-15s after power is removed, before checking diode mode, or ohm scale!\n\nI suspect angle sensors issue.\nCheck U4802 signals, with lid closed\/open."
+    },
+    {
+        "post_id":97206,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-04 20:35:48",
+        "message":"Thank you 2informaticos! Happy to be here!\n\n\nWell, on \"PPBUS_G3H to ground\", I'm getting 0 Ohms with charger and 16.5 Ohms with battery connected.\nIn diode mode 0.173 with charger and 0.008 with battery.\n\nU4802 signals - Lid closed.\n\nPin 1 - 0.001v\nPin 2 - 0.0v\nPin 4 - 0.005v\nPin 6 - 0.0v \n\nU4802 signals - Lid Open.\n\nPin 1 - 0.006v\nPin 2 - 0.0v\nPin 4 - 0.0v\nPin 6 - 0.0v\n\nJust in case - in resistance mode\n\nPin 1 - 4.23 MOhms\nPin 2 - 9.6 kOhms\nPin 4 - 50 KOhms\nPin 6 - 7.5 Ohms\n\nThank you!"
+    },
+    {
+        "post_id":97211,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-05 04:54:56",
+        "message":"As expected, your ptoblem is caused by lid signals.\nMissing 1V8_SLPS2R to U4802 must be corrected.\nCheck the trace to other points of the same power rail.\nIf broken, you can run a wire.\n\nNOT expected, to see you still checking diode mode with power on the board; STOP that!"
+    },
+    {
+        "post_id":97259,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-06 21:29:02",
+        "message":"Ah, sorry for the newbie mistake. Would be OK if I inject 1V to the 1V8_SLPS2R rail to find the short?"
+    },
+    {
+        "post_id":97260,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-07 00:50:32",
+        "message":"What short?"
+    },
+    {
+        "post_id":97287,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-07 22:32:19",
+        "message":"I thought maybe a component was causing a short to ground on 1V8_SLPS2R rail? sorry, I'm still learning.\n\nI've been checking other points of the same trail and the line seems to be broken, any ideas where I can run a wire?\n\nGracias!"
+    },
+    {
+        "post_id":97290,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-08 00:27:17",
+        "message":"Do you get 1.8V on some points of that line, or nowhere?"
+    },
+    {
+        "post_id":97312,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-08 13:53:45",
+        "message":"No, Im not getting 1.8V on that line. I was also checking voltages that U7800 outputs and nothing. May U7800 be bad? Let me know what you think.\n\nThanks."
+    },
+    {
+        "post_id":97317,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-08 15:42:26",
+        "message":"So no voltage at L7813?\nCheck diode mode to ground there.\nBe sure R7813 has 0 ohm.\nIf all good, should change U7800."
+    },
+    {
+        "post_id":97324,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-08 20:10:23",
+        "message":"L7813\nWith charger: 0.0v \nDiode mode to ground: .003V\n-----------------\nR7813\n0 Ohm.\n\nYou think reflowing the chip could be an option before replacing it?\n\nThank you."
+    },
+    {
+        "post_id":97325,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-09 00:58:43",
+        "message":"Don't write end \"V\" after diode mode reading.\nWe don't want to make confusion with voltage measurment.\nI hope you've got 0.003 witout charger connected.\nFor low values (under 0.005), switch to ohm mode.\n\nYou can try first injecting voltage.\nThere are many components connected, not only U7800.\nIs not pure short, but an IR cam may help you to find the culprit.\nRemove CPU\/GPU heatsink first.\nThen start injecting 1V; you can slowly increase until 2V (no more).\nSet the amp limit to max first, on the lab PSU."
+    },
+    {
+        "post_id":97352,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-09 20:18:35",
+        "message":"Got it!\n\nYes, I've got 0.003 without charger connected \/ in resitance mode: 6.1 ohms\n\nSo just to confirm, should I inject voltage to the 1V8_SLPS2R rail? \n\nThank you!"
+    },
+    {
+        "post_id":97355,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-10 01:32:21",
+        "message":"Of course, on the power rail where you have the short.\nYou probably can't heat anything too much, with 6 ohm resistance; unless something enters in thermal avalanche.\nIR cam will help you to detect small temperature differences."
+    },
+    {
+        "post_id":97394,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-10 15:14:22",
+        "message":"Well, the only component that is getting hot is the Apple T2 chip when voltage is injected. Could this be the issue? \n\nThank you."
+    },
+    {
+        "post_id":97398,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-10 15:43:34",
+        "message":"Bad news.\nReally strange that machine still works, with only wake up issue."
+    },
+    {
+        "post_id":97403,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-10 19:23:33",
+        "message":"Not fixable ?"
+    },
+    {
+        "post_id":97406,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-11 02:22:49",
+        "message":"If the short is inside T2, need to change it..."
+    },
+    {
+        "post_id":97458,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-13 10:06:15",
+        "message":"I've been reading about this issue, if the T2 chip is bad, it can be replaceable but touch ID wont work. Is that true?"
+    },
+    {
+        "post_id":97467,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-13 12:17:11",
+        "message":"You need to get the touch ID from the same board found the replacement T2.\nIf not, need to bring the machine to an official Apple service; they can pair T2 and touch ID again."
+    },
+    {
+        "post_id":97592,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-15 22:23:37",
+        "message":"Ok, I havent gotten the T2 replacement yet but I releived the short on PP1V8_SLPS2R rail, PPBUS_G3H still shorted to ground, Any suggestion? Thanks."
+    },
+    {
+        "post_id":97596,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-16 01:59:04",
+        "message":"You had working board, just lid sensors problem.\nHow can you have short on PPBUS_G3H???"
+    },
+    {
+        "post_id":97640,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-16 14:32:33",
+        "message":"I know! \n\nPPBUS_G3H to ground: 21 Ohms. \nPPBUS_G3H to CPU coils: 21 Ohms\nCPU coils to ground: 1.7 Ohms\n\nWould be safe to inject 1V into PPBUS_G3H?"
+    },
+    {
+        "post_id":97641,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-16 15:27:13",
+        "message":"Did you check diode mode (or ohm scale) disconnecting charger and battery?\nCheck if any other big coil shows 17 ohm to ground.\nDon't forget L9080\/580."
+    },
+    {
+        "post_id":97647,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-16 19:29:49",
+        "message":"Yes, I did.\n\nIm getting 1.7 Ohms only on these: L7221 \/ L7211 \/ L7231\n\nL9080: 3.5 KOhms\nL9580: 6.8 KOhms"
+    },
+    {
+        "post_id":97652,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-17 02:05:07",
+        "message":"So actually your board doesn't turn on.\nWhat you did to happen this?\n\nBe very sure no short between PPBUS_G3H and any other coil; or you can fry the board injecting voltage!\n\nJust for refference:\nL6960\/61    424\nL7030        501\nL7211\/21\/31    003.2\nL7330        031.8\nL7410\/20    009\nLA710\/20\/30\/40    003 \/     8.5 ohm\nLA750        004.9\nLA850        032.7\nLA860        041.8*\nLA870        042\nLA950        024.6\nL7600        412\nL7660        387\nL7701        140\nL8102        128\nL8410        882       \nL9020\/21    467\nL9030        372\nL9080\/81    424\nL9520\/21    426\nL9530        373\n\nMissing L3500, L9580 and LB700 in the listing; check them too."
+    },
+    {
+        "post_id":97691,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-17 19:24:13",
+        "message":"I did nothing, at the beginning I was thinking it was something related to SSD's just as many people claimed on internet. I also thought U7000 had something to do about it but it was Ok. Wasn't expecting to see PP1V8_SLPS2R shorted! That's it :).\n\nSo, for:\n\nL6960\/61: 6 Ohms\nL7030: 45.2 KOhms\nL7211\/21\/31: 1.6 KOhms\nL7330: 37 Ohms\nL7410\/20: 26 Ohms\nLA710\/20\/30\/40: 21 Ohms\nLA750: 24 Ohms\nLA850: 49 Ohms\nLA860: 49 Ohms\nLA870: 49 Ohms\nLA950: 37 Ohms\nL7600: 7 KOhms \nL7660: 2.9 KOhms\nL7701: 258 Ohms\nL8102: 80 Ohms\nL8410: 32 KOhms\nL9020\/21: The Ohm reading fluctuates up and down like crazy from 172 Ohm to 2.2 KOhms\nL9030: 2.8 KOhms\nL9080\/81: 7 KOhms\nL9520\/21: 259 Ohms\nL9530: 147 Ohms\nL3500: 8 KOhms\nL9580:  3.3 KOhms\nLB700: 8 KOhms\n\nThank you!"
+    },
+    {
+        "post_id":97699,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-18 05:20:42",
+        "message":"I posted diode mode readings for refference; just one ohm value, for very low reading.\nWhy can't do the same?\n\nHowever, no need to recheck.\nYou have now a problem with 3V3_G3H_RTC power rail.\n\"L6960\/61: 6 Ohms\"\nNo idea what you did there..."
+    },
+    {
+        "post_id":97714,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-18 11:20:46",
+        "message":"My bad. L6960\/61: 15.3 Ohms, rest is Ok.\n\nL9020\/21: It reads 172 Ohm, then 2.2 KO, then 0.6 KO, back to 172 Ohms, 2.2KO, 0.6 KO..."
+    },
+    {
+        "post_id":97717,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-18 12:10:30",
+        "message":"STOP checking in ohm scale.\nSwitch from diode mode to ohm scale ONLY for very low values; usually under 0.005-0.010 in diode mode.\n\n6 or 15 ohm there is bad anyway.\nYou should get 0.300-0.450 in diode mode; depends of the multimeter used."
+    },
+    {
+        "post_id":97724,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":46032,
+        "username":"cpuentes23",
+        "post_date":"2023-03-18 13:42:08",
+        "message":"Yes, I got 0.007 in diode scale. Just injected voltage into 3V3_G3H_RTC and U5104 showed up in thermal camera."
+    },
+    {
+        "post_id":97725,
+        "thread_id":63665,
+        "title":"Macbook Pro A2141 820-01700-05 Wont turn on.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-18 14:37:09",
+        "message":"Change it then..."
+    }
+]

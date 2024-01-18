@@ -1,12 +1,110 @@
-{"post_id":32239,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":149,"username":"Fizzl92","post_date":"2018-03-04 09:59:39","message":"This 820-2936-B was waterdamaged. It has a green light but wont turn on. I replaced all bad looking components and cleaned the board. I cheched power rails and PP5V_SUS is missing because the enable is missing too. This enable is created by U7940 and PM_SLP_SUS_L. R7918 is only 0.5K Ohm ( but i think that is fine) abnd PM_SLP_SUS_L is only 0.7V. I replaced U7940 but no change. Diode mode reading on PM_SLP_SUS_L is 0.223V. Now i am stuck."}
-{"post_id":32251,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":1,"username":"larossmann","post_date":"2018-03-05 15:16:35","message":"[QUOTE=\"Fizzl92, post: 32239\"]I replaced all bad looking components and cleaned the board.[\/QUOTE]\n\nWhich were they? This is our only hint to go on, so we need it!\n\nIs PP3V3_S5 present? PP5V_S5 present? PPVRTC_G3H present? Where was the corrosion?"}
-{"post_id":32275,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":149,"username":"Fizzl92","post_date":"2018-03-06 01:56:32","message":"PP3V3_S5, PP5V_S5 and PPVRTC_G3H are present. There was a lot of corrosion on the by the LVDS, T29 circuit, around the SMC and a little bit around Q5300. Same on the other side of the board but there it was only on some small components between U1800 L3895 and C7523)"}
-{"post_id":32301,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":1,"username":"larossmann","post_date":"2018-03-06 20:22:39","message":"R7918 being 0.5kohm means it is 500 ohms when it should be 100kohms. \n\n99% of the time, resistors do not go bad by going down in resistance, they go bad by going up in resistance. Do keep in mind that the resistor is not all you are measuring here. On pin 1 of R7918 is PM_SLP_SUS_L, and on pin 2 is ground. it is not the resistor you are measuring there. Rather, you are measuring the resistance of every possible path to ground between PM_SLP_SUS_L and ground.\n\nSo, PM_SLP_SUS_L is shorted to ground here. There are three potential paths to ground for PM_SLP_SUS_L\n\n1) U1800.\n2) R7918\n3) U7940.\n\nIf you remove U7940 and R7918 and you still have 500 ohms to ground, then U1800 is your issue.\n\nIf that is the case, you would have to replace U1800. In this case you would also have to reprogram the BIOS with a clean ME region so it doesn't act all weird talking to the new PCH.\n\nIMO, this is only something to do if you legit have nothing else to work on. You will sink at least another hour into this and $15-$45 for a new chip to fix a seven year old board that may or may not work afterwards, which, if it were on my desk.. screw that. But to each their own. ;)"}
-{"post_id":32313,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":149,"username":"Fizzl92","post_date":"2018-03-07 13:53:53","message":"Thank you very much for the great explanation. I took U7940 and R7918 off the board and still only 500 Ohms to GND. So i try to reflow U1800 (i have nothing to lose in a case like this - maybe there was water under it) and i also ordered two new chips so i can try to swap U1800 completely... I can only learn from boards like this and i have not so many boards to work on right now... In the case that i get this thing to work how can the BIOS be reprogrammed?"}
-{"post_id":32328,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":2,"username":"dukefawks","post_date":"2018-03-07 20:06:40","message":"Need a programmer to do the BIOS. But it will work as-is for testing purposes. Once the board turns on and has an image the BIOS can be fixed. The TL866 is a good programmer for cases like these."}
-{"post_id":32350,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":149,"username":"Fizzl92","post_date":"2018-03-08 03:12:33","message":"Thank you. I try to get it to post and get back to you it it turns on. In the mean time i try tp understand the BIOS some more. Today i have no idea how this works, what the ME region is and how it can be fixed\/reprogrammed..."}
-{"post_id":33089,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":149,"username":"Fizzl92","post_date":"2018-03-29 10:40:53","message":"Finally i can come back to this. The new PCH arrived and i soldered it on to the board. I couldnt belive it but now it turns on. Unfortunately now it beeps 3 times. i tryed a lot of different Ram sticks in both slots but no change. I checked L7330 and it has 1.5 V on it. Now i am stuck again... Could it be bad soldering\/IC?"}
-{"post_id":33099,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":2,"username":"dukefawks","post_date":"2018-03-29 16:34:23","message":"Could be bad soldering but could also be a dead CPU, or corrosion pretty much anywhere. Not sure if you should waste more time on this one."}
-{"post_id":33104,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":149,"username":"Fizzl92","post_date":"2018-03-29 17:27:02","message":"The bios was from the exact same board 820-3476-A. I have no idea how i can know if the binary is good?"}
-{"post_id":33106,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":149,"username":"Fizzl92","post_date":"2018-03-29 17:35:12","message":"sorry wrong window...\n\nI have not so much to do at the moment so i will give it a try i think. Is there anything i can check or should i try to replace the PCH again? I was hoping that the CPU would be alive as it beeps and the CPU is getting a bit warm - the new PCH is getting warmer than the CPU but still not hot."}
-{"post_id":33109,"thread_id":32239,"title":"820-2936-B missing PM_SLP_SUS_L","user_id":2,"username":"dukefawks","post_date":"2018-03-29 18:46:21","message":"Of course you can try the PCH again. Reballing this one is also an option as it makes it much easier to solder."}
+[
+    {
+        "post_id":32239,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2018-03-04 07:59:39",
+        "message":"This 820-2936-B was waterdamaged. It has a green light but wont turn on. I replaced all bad looking components and cleaned the board. I cheched power rails and PP5V_SUS is missing because the enable is missing too. This enable is created by U7940 and PM_SLP_SUS_L. R7918 is only 0.5K Ohm ( but i think that is fine) abnd PM_SLP_SUS_L is only 0.7V. I replaced U7940 but no change. Diode mode reading on PM_SLP_SUS_L is 0.223V. Now i am stuck."
+    },
+    {
+        "post_id":32251,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2018-03-05 13:16:35",
+        "message":"[QUOTE=\"Fizzl92, post: 32239\"]I replaced all bad looking components and cleaned the board.[\/QUOTE]\n\nWhich were they? This is our only hint to go on, so we need it!\n\nIs PP3V3_S5 present? PP5V_S5 present? PPVRTC_G3H present? Where was the corrosion?"
+    },
+    {
+        "post_id":32275,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2018-03-05 23:56:32",
+        "message":"PP3V3_S5, PP5V_S5 and PPVRTC_G3H are present. There was a lot of corrosion on the by the LVDS, T29 circuit, around the SMC and a little bit around Q5300. Same on the other side of the board but there it was only on some small components between U1800 L3895 and C7523)"
+    },
+    {
+        "post_id":32301,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2018-03-06 18:22:39",
+        "message":"R7918 being 0.5kohm means it is 500 ohms when it should be 100kohms. \n\n99% of the time, resistors do not go bad by going down in resistance, they go bad by going up in resistance. Do keep in mind that the resistor is not all you are measuring here. On pin 1 of R7918 is PM_SLP_SUS_L, and on pin 2 is ground. it is not the resistor you are measuring there. Rather, you are measuring the resistance of every possible path to ground between PM_SLP_SUS_L and ground.\n\nSo, PM_SLP_SUS_L is shorted to ground here. There are three potential paths to ground for PM_SLP_SUS_L\n\n1) U1800.\n2) R7918\n3) U7940.\n\nIf you remove U7940 and R7918 and you still have 500 ohms to ground, then U1800 is your issue.\n\nIf that is the case, you would have to replace U1800. In this case you would also have to reprogram the BIOS with a clean ME region so it doesn't act all weird talking to the new PCH.\n\nIMO, this is only something to do if you legit have nothing else to work on. You will sink at least another hour into this and $15-$45 for a new chip to fix a seven year old board that may or may not work afterwards, which, if it were on my desk.. screw that. But to each their own. ;)"
+    },
+    {
+        "post_id":32313,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2018-03-07 11:53:53",
+        "message":"Thank you very much for the great explanation. I took U7940 and R7918 off the board and still only 500 Ohms to GND. So i try to reflow U1800 (i have nothing to lose in a case like this - maybe there was water under it) and i also ordered two new chips so i can try to swap U1800 completely... I can only learn from boards like this and i have not so many boards to work on right now... In the case that i get this thing to work how can the BIOS be reprogrammed?"
+    },
+    {
+        "post_id":32328,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-03-07 18:06:40",
+        "message":"Need a programmer to do the BIOS. But it will work as-is for testing purposes. Once the board turns on and has an image the BIOS can be fixed. The TL866 is a good programmer for cases like these."
+    },
+    {
+        "post_id":32350,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2018-03-08 01:12:33",
+        "message":"Thank you. I try to get it to post and get back to you it it turns on. In the mean time i try tp understand the BIOS some more. Today i have no idea how this works, what the ME region is and how it can be fixed\/reprogrammed..."
+    },
+    {
+        "post_id":33089,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2018-03-29 08:40:53",
+        "message":"Finally i can come back to this. The new PCH arrived and i soldered it on to the board. I couldnt belive it but now it turns on. Unfortunately now it beeps 3 times. i tryed a lot of different Ram sticks in both slots but no change. I checked L7330 and it has 1.5 V on it. Now i am stuck again... Could it be bad soldering\/IC?"
+    },
+    {
+        "post_id":33099,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-03-29 14:34:23",
+        "message":"Could be bad soldering but could also be a dead CPU, or corrosion pretty much anywhere. Not sure if you should waste more time on this one."
+    },
+    {
+        "post_id":33104,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2018-03-29 15:27:02",
+        "message":"The bios was from the exact same board 820-3476-A. I have no idea how i can know if the binary is good?"
+    },
+    {
+        "post_id":33106,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":149,
+        "username":"Fizzl92",
+        "post_date":"2018-03-29 15:35:12",
+        "message":"sorry wrong window...\n\nI have not so much to do at the moment so i will give it a try i think. Is there anything i can check or should i try to replace the PCH again? I was hoping that the CPU would be alive as it beeps and the CPU is getting a bit warm - the new PCH is getting warmer than the CPU but still not hot."
+    },
+    {
+        "post_id":33109,
+        "thread_id":32239,
+        "title":"820-2936-B missing PM_SLP_SUS_L",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-03-29 16:46:21",
+        "message":"Of course you can try the PCH again. Reballing this one is also an option as it makes it much easier to solder."
+    }
+]

@@ -1,25 +1,227 @@
-{"post_id":20536,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-18 22:53:17","message":"Board came in with a dead keyboard, but I've never seen it power on.\n\nGreen \/ Orange light all good.\n\nppbus_g3h = 12.58\npp3v42_g3h = 3.433\npp5v_s5 = 5.02\npp5v_s0 = 0v\npp3v3_s5 = 3.344\npp3v3_s4 = 0\npp3v3_s3 = 300mV"}
-{"post_id":20537,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-18 22:59:09","message":"P3V3S3_EN on U8010 missing.\n\nU8010::1\/3 = 300mV\n\nPM_SLP_S4 is 0v."}
-{"post_id":20555,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":637,"username":"TCRScircuit","post_date":"2017-05-19 14:29:03","message":"So we need to restore PM_SLP_S4 L in order to get P3v3S3_EN. Look at page 64 of the schematic and check the resistors for S3 Enable. Included a pic of the resistors you need to check.  [ATTACH type=\"full\" width=\"200px\"]20556._xfImport[\/ATTACH][ATTACH type=\"full\" width=\"30%\"]20557._xfImport[\/ATTACH]"}
-{"post_id":20558,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":637,"username":"TCRScircuit","post_date":"2017-05-19 14:32:00","message":"However, Since Pm_SLP_S4_L is missing, Those resistors are not likely the cause of the problem, but they need to be checked.... PM_SLP_S4_L comes from the CPU, But can't be generated if the CPU isn't on or if the clock signal is messed up. Check your clock circuit and see if you have Vcore."}
-{"post_id":20563,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-19 18:09:13","message":"PPVCOMP_S0_CPU = 0v.\n\nThanks for the info TCRS, I'll investigate why VCore is missing quickly."}
-{"post_id":20564,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-19 18:32:54","message":"If nothing above s4 is on, surely S0 won't be there?"}
-{"post_id":20569,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":1,"username":"larossmann","post_date":"2017-05-19 23:41:20","message":"Does PM_SLP_S4_L turn on really quickly then go to 0 or is it 0 from the moment it is plugged in? Does this turn on when everything is disconnected from the machine? Dead keyboard means liquid somewhere, how does U1950 area look? Clock area? SMC area?"}
-{"post_id":20582,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":2,"username":"dukefawks","post_date":"2017-05-20 00:40:53","message":"U6100 area termination resistors and traces suspect too"}
-{"post_id":20588,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-20 01:42:00","message":"[QUOTE=\"larossmann, post: 20569\"]Does PM_SLP_S4_L turn on really quickly then go to 0 or is it 0 from the moment it is plugged in? Does this turn on when everything is disconnected from the machine? Dead keyboard means liquid somewhere, how does U1950 area look? Clock area? SMC area?[\/QUOTE]\n\nMy DM doesn't pick up anything and I don't have a scope yet.\n\nBoard has never turned on for me, but the guy that received the job swears it was working.\n\nU1950 looks spotless. The board as a whole is really really clean."}
-{"post_id":20589,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-20 01:45:33","message":"[QUOTE=\"dukefawks, post: 20582\"]U6100 area termination resistors and traces suspect too[\/QUOTE]\n\nAll resisters around U6100 look really and measure fine."}
-{"post_id":20597,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":637,"username":"TCRScircuit","post_date":"2017-05-20 12:49:24","message":"[USER=\"375\"]gcain[\/USER] Check your clock circuit.... If everything looks and measures ok leading to u1900, I would take the long shot and replace the chip... Takes 2 min and It will rule out the possibility of a bad clock chip..."}
-{"post_id":20606,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-20 18:46:16","message":"The board performs an SMC reset just fine (light on charger flashes green, then orange again).\n\nInspecting clock circuit now."}
-{"post_id":20741,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-23 17:42:48","message":"[USER=\"2\"]dukefawks[\/USER] Should I replace the clock chip?\nI'm reluctant to just replace random chips hoping for a result."}
-{"post_id":20743,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":461,"username":"Gurmon","post_date":"2017-05-23 17:49:38","message":"[QUOTE=\"gcain, post: 20741\"][USER=\"2\"]dukefawks[\/USER] Should I replace the clock chip?\nI'm reluctant to just replace random chips hoping for a result.\n[\/QUOTE]\n\nwithout a scope you wont know if the 32khz signal is clean and stable. If you have another chip try it."}
-{"post_id":20748,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-23 18:39:50","message":"Tried to track down a scope again, but no dice.\n\nThanks Gurmon, will swap the clock chip and report back.\n\n\nOddly enough, the board booted (CPU got hot) once yesterday at random, but hasn't done so again."}
-{"post_id":20773,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-24 01:22:01","message":"Plugged another battery into the board and it boots up every time.\n\nSo it appears it will only boot when a good battery is connected. Trying to work out how come I didn't pick up on this.\n\nCan someone suggest what would be wrong that it will only boot with a known good battery? Going to try work backwards to see how I missed this.\n\nLuckily I hadn't started removing chips."}
-{"post_id":20775,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":461,"username":"Gurmon","post_date":"2017-05-24 02:07:21","message":"Fault will be around u7100. Is Q7180 opening ?"}
-{"post_id":20871,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":2,"username":"dukefawks","post_date":"2017-05-25 14:03:41","message":"Since your PPBUS is fine at 12.6V it must be a one wire issue. Do you get a green then orange light?"}
-{"post_id":20887,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-25 17:30:51","message":"Board only works if battery is connected.\n\nGreen\/Orange light etc. all good."}
-{"post_id":20889,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":2,"username":"dukefawks","post_date":"2017-05-25 17:44:53","message":"Smc_adapter_en high?  Checked current sense circuit around isl6259?"}
-{"post_id":20890,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-25 17:51:10","message":"SMC_ADAPTER_EN = 3.339v\n\nGoing to poke around the ISL6259 again."}
-{"post_id":20901,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":557,"username":"MDY","post_date":"2017-05-26 00:30:48","message":"Hi gcain. I had so meny problems with this board and working only with good battery and in fact this board need a ORIGINAL ac adapter. With chines and hight copy ac adapter it works and charge the battery but need you have to connect the battery always. With ORIGINAL ac adapter ONLY it works without battery."}
-{"post_id":20903,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-26 03:27:33","message":"MDY; thanks for your input.\n\nI am using a genuine apple charger, but it's a MagSafe1, not 2. Maybe there is something in that... Either way, it's working now which is good."}
-{"post_id":20944,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-26 22:40:08","message":"Just in case someone comes across this thread;\n\nMDY was onto it.\nBoard boots every time with a MagSafe2 (no battery) but won't boot with a MagSafe1 using a MagSafe1-to-MagSafe2 Adapter. Both are 85w.\n\nMark it solved please."}
-{"post_id":20945,"thread_id":20536,"title":"[SOLVED]820-4924 - No Power.","user_id":375,"username":"gcain","post_date":"2017-05-27 00:14:21","message":"Another thing with this board;\n\nTrackpad worked, keyboard did not work. Tried a known good keyboard, didn't work either.\n\nI swapped the trackpad cable, and the keyboard started working.\n\nSo, the trackpad cable on the trackpad which worked, was causing the keyboard, which also [technically] worked to not work. :\/\n\n(I need a drink)"}
+[
+    {
+        "post_id":20536,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-18 20:53:17",
+        "message":"Board came in with a dead keyboard, but I've never seen it power on.\n\nGreen \/ Orange light all good.\n\nppbus_g3h = 12.58\npp3v42_g3h = 3.433\npp5v_s5 = 5.02\npp5v_s0 = 0v\npp3v3_s5 = 3.344\npp3v3_s4 = 0\npp3v3_s3 = 300mV"
+    },
+    {
+        "post_id":20537,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-18 20:59:09",
+        "message":"P3V3S3_EN on U8010 missing.\n\nU8010::1\/3 = 300mV\n\nPM_SLP_S4 is 0v."
+    },
+    {
+        "post_id":20555,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":637,
+        "username":"TCRScircuit",
+        "post_date":"2017-05-19 12:29:03",
+        "message":"So we need to restore PM_SLP_S4 L in order to get P3v3S3_EN. Look at page 64 of the schematic and check the resistors for S3 Enable. Included a pic of the resistors you need to check.  [ATTACH type=\"full\" width=\"200px\"]20556._xfImport[\/ATTACH][ATTACH type=\"full\" width=\"30%\"]20557._xfImport[\/ATTACH]"
+    },
+    {
+        "post_id":20558,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":637,
+        "username":"TCRScircuit",
+        "post_date":"2017-05-19 12:32:00",
+        "message":"However, Since Pm_SLP_S4_L is missing, Those resistors are not likely the cause of the problem, but they need to be checked.... PM_SLP_S4_L comes from the CPU, But can't be generated if the CPU isn't on or if the clock signal is messed up. Check your clock circuit and see if you have Vcore."
+    },
+    {
+        "post_id":20563,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-19 16:09:13",
+        "message":"PPVCOMP_S0_CPU = 0v.\n\nThanks for the info TCRS, I'll investigate why VCore is missing quickly."
+    },
+    {
+        "post_id":20564,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-19 16:32:54",
+        "message":"If nothing above s4 is on, surely S0 won't be there?"
+    },
+    {
+        "post_id":20569,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2017-05-19 21:41:20",
+        "message":"Does PM_SLP_S4_L turn on really quickly then go to 0 or is it 0 from the moment it is plugged in? Does this turn on when everything is disconnected from the machine? Dead keyboard means liquid somewhere, how does U1950 area look? Clock area? SMC area?"
+    },
+    {
+        "post_id":20582,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-19 22:40:53",
+        "message":"U6100 area termination resistors and traces suspect too"
+    },
+    {
+        "post_id":20588,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-19 23:42:00",
+        "message":"[QUOTE=\"larossmann, post: 20569\"]Does PM_SLP_S4_L turn on really quickly then go to 0 or is it 0 from the moment it is plugged in? Does this turn on when everything is disconnected from the machine? Dead keyboard means liquid somewhere, how does U1950 area look? Clock area? SMC area?[\/QUOTE]\n\nMy DM doesn't pick up anything and I don't have a scope yet.\n\nBoard has never turned on for me, but the guy that received the job swears it was working.\n\nU1950 looks spotless. The board as a whole is really really clean."
+    },
+    {
+        "post_id":20589,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-19 23:45:33",
+        "message":"[QUOTE=\"dukefawks, post: 20582\"]U6100 area termination resistors and traces suspect too[\/QUOTE]\n\nAll resisters around U6100 look really and measure fine."
+    },
+    {
+        "post_id":20597,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":637,
+        "username":"TCRScircuit",
+        "post_date":"2017-05-20 10:49:24",
+        "message":"[USER=\"375\"]gcain[\/USER] Check your clock circuit.... If everything looks and measures ok leading to u1900, I would take the long shot and replace the chip... Takes 2 min and It will rule out the possibility of a bad clock chip..."
+    },
+    {
+        "post_id":20606,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-20 16:46:16",
+        "message":"The board performs an SMC reset just fine (light on charger flashes green, then orange again).\n\nInspecting clock circuit now."
+    },
+    {
+        "post_id":20741,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-23 15:42:48",
+        "message":"[USER=\"2\"]dukefawks[\/USER] Should I replace the clock chip?\nI'm reluctant to just replace random chips hoping for a result."
+    },
+    {
+        "post_id":20743,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":461,
+        "username":"Gurmon",
+        "post_date":"2017-05-23 15:49:38",
+        "message":"[QUOTE=\"gcain, post: 20741\"][USER=\"2\"]dukefawks[\/USER] Should I replace the clock chip?\nI'm reluctant to just replace random chips hoping for a result.\n[\/QUOTE]\n\nwithout a scope you wont know if the 32khz signal is clean and stable. If you have another chip try it."
+    },
+    {
+        "post_id":20748,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-23 16:39:50",
+        "message":"Tried to track down a scope again, but no dice.\n\nThanks Gurmon, will swap the clock chip and report back.\n\n\nOddly enough, the board booted (CPU got hot) once yesterday at random, but hasn't done so again."
+    },
+    {
+        "post_id":20773,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-23 23:22:01",
+        "message":"Plugged another battery into the board and it boots up every time.\n\nSo it appears it will only boot when a good battery is connected. Trying to work out how come I didn't pick up on this.\n\nCan someone suggest what would be wrong that it will only boot with a known good battery? Going to try work backwards to see how I missed this.\n\nLuckily I hadn't started removing chips."
+    },
+    {
+        "post_id":20775,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":461,
+        "username":"Gurmon",
+        "post_date":"2017-05-24 00:07:21",
+        "message":"Fault will be around u7100. Is Q7180 opening ?"
+    },
+    {
+        "post_id":20871,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-25 12:03:41",
+        "message":"Since your PPBUS is fine at 12.6V it must be a one wire issue. Do you get a green then orange light?"
+    },
+    {
+        "post_id":20887,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-25 15:30:51",
+        "message":"Board only works if battery is connected.\n\nGreen\/Orange light etc. all good."
+    },
+    {
+        "post_id":20889,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-25 15:44:53",
+        "message":"Smc_adapter_en high?  Checked current sense circuit around isl6259?"
+    },
+    {
+        "post_id":20890,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-25 15:51:10",
+        "message":"SMC_ADAPTER_EN = 3.339v\n\nGoing to poke around the ISL6259 again."
+    },
+    {
+        "post_id":20901,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":557,
+        "username":"MDY",
+        "post_date":"2017-05-25 22:30:48",
+        "message":"Hi gcain. I had so meny problems with this board and working only with good battery and in fact this board need a ORIGINAL ac adapter. With chines and hight copy ac adapter it works and charge the battery but need you have to connect the battery always. With ORIGINAL ac adapter ONLY it works without battery."
+    },
+    {
+        "post_id":20903,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-26 01:27:33",
+        "message":"MDY; thanks for your input.\n\nI am using a genuine apple charger, but it's a MagSafe1, not 2. Maybe there is something in that... Either way, it's working now which is good."
+    },
+    {
+        "post_id":20944,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-26 20:40:08",
+        "message":"Just in case someone comes across this thread;\n\nMDY was onto it.\nBoard boots every time with a MagSafe2 (no battery) but won't boot with a MagSafe1 using a MagSafe1-to-MagSafe2 Adapter. Both are 85w.\n\nMark it solved please."
+    },
+    {
+        "post_id":20945,
+        "thread_id":20536,
+        "title":"[SOLVED]820-4924 - No Power.",
+        "user_id":375,
+        "username":"gcain",
+        "post_date":"2017-05-26 22:14:21",
+        "message":"Another thing with this board;\n\nTrackpad worked, keyboard did not work. Tried a known good keyboard, didn't work either.\n\nI swapped the trackpad cable, and the keyboard started working.\n\nSo, the trackpad cable on the trackpad which worked, was causing the keyboard, which also [technically] worked to not work. :\/\n\n(I need a drink)"
+    }
+]

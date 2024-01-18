@@ -1,16 +1,146 @@
-{"post_id":73224,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-18 07:06:33","message":"I messed up trying to scratch the U1800 in an attempt to find NC_LVDS_IG_BKL_PWM and damaged the LVDS_IG_PANEL_PWR pin.\n\nIs there another signal pin that i can use to just hardwire this? can I use PP3V3_S0?"}
-{"post_id":73230,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":682,"username":"2informaticos","post_date":"2021-03-18 09:05:25","message":"Which kind of damage?\nLVDS_IG_PANEL_PWR  is available at R2015, pin 1.\n\n\"to find NC_LVDS_IG_BKL_PWM\"\nAll this damage because of not connected (NC) signal???"}
-{"post_id":73234,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-18 09:32:23","message":"I was trying to do this but failed.[ATTACH type=\"full\"]59772[\/ATTACH]"}
-{"post_id":73235,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-18 09:36:07","message":"Now both LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR are 0v."}
-{"post_id":73236,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":682,"username":"2informaticos","post_date":"2021-03-18 09:44:58","message":"Did you check them with LCD connected?\nSMC_LID should also be high."}
-{"post_id":73238,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-18 09:51:24","message":"Yes I did with LCD connected, it now chimes with only black screen, nothing shows even with flashlight shinning."}
-{"post_id":73246,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":682,"username":"2informaticos","post_date":"2021-03-18 10:58:39","message":"Do you get PP3V3_S0_LCD?\nCheck voltage and diode mode to ground at LVDS_DDC_CLK\/DATA."}
-{"post_id":73250,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-18 11:27:56","message":"There is no PP3V3_S0_LCD on this board?\n\ndiode mode to ground: LVDS_DDC_CLK\/DATA = 370\n\ni tried to connect PP3V3_S0 to LCD_BLKT_EN, LCD_PWR_EN, LCD_BKLT_PWM, I can see backlight but there is nothing on the screen."}
-{"post_id":73252,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":682,"username":"2informaticos","post_date":"2021-03-18 11:55:23","message":"My mistake, PP3V3_SW_LCd...\n\nPin 4\/J9000 gets 3V?\n\n\"Check [B][U]voltage[\/U][\/B] and diode mode\"\n???"}
-{"post_id":73258,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-18 12:23:42","message":"If I left PP3V3_S0 connected to  LCD_BLKT_EN, LCD_PWR_EN, LCD_BKLT_PWM:\n\n- PP3V3_SW_LCD is 3.3v\n- Pin4\/J9000 = LVDS_DDC_CLK = 3.3v\n- LVDS_DDC_DATA = 3.3v\n\nThe screen was working until I scratch up and damaged U1800...\n\nShould I remove PP3V3_S0 and test again? but PP3V3_SW_LCD is derived from LCD_PWR_EN which was 0v before."}
-{"post_id":73263,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":682,"username":"2informaticos","post_date":"2021-03-18 13:48:06","message":"Remove that jumper.\nU9600 may be damaged now!"}
-{"post_id":73282,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-19 00:29:41","message":"Oh I forget to mention, U9600 isnt presence on this board, it was removed and then hardwire bypass. The bypass was working before I scratched up the U1800."}
-{"post_id":73287,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":682,"username":"2informaticos","post_date":"2021-03-19 06:36:24","message":"Then recover damaged trace ( LVDS_IG_PANEL_PWR ).\nThe other signal is not needed."}
-{"post_id":73289,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-19 07:48:41","message":"hmm... how? I think i have screwed up by over scratching the U1800...\n\nHow come I dont see things on the screen if I jump 3.3v into  LCD_BLKT_EN, LCD_PWR_EN, LCD_BKLT_PWM ?!"}
-{"post_id":73296,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":682,"username":"2informaticos","post_date":"2021-03-19 09:51:11","message":"So you've broken some traces near the PCH?\n\nBKL_SCL\/SDA connects U9701 with PCH.\nIs not just an enable signal there."}
-{"post_id":73297,"thread_id":60938,"title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives","user_id":25140,"username":"protocold","post_date":"2021-03-19 09:53:25","message":"i have broken some traces on the PCH itself... perhaps i have even killed the PCH but the machine chimes when power on.."}
+[
+    {
+        "post_id":73224,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-18 05:06:33",
+        "message":"I messed up trying to scratch the U1800 in an attempt to find NC_LVDS_IG_BKL_PWM and damaged the LVDS_IG_PANEL_PWR pin.\n\nIs there another signal pin that i can use to just hardwire this? can I use PP3V3_S0?"
+    },
+    {
+        "post_id":73230,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-18 07:05:25",
+        "message":"Which kind of damage?\nLVDS_IG_PANEL_PWR  is available at R2015, pin 1.\n\n\"to find NC_LVDS_IG_BKL_PWM\"\nAll this damage because of not connected (NC) signal???"
+    },
+    {
+        "post_id":73234,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-18 07:32:23",
+        "message":"I was trying to do this but failed.[ATTACH type=\"full\"]59772[\/ATTACH]"
+    },
+    {
+        "post_id":73235,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-18 07:36:07",
+        "message":"Now both LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR are 0v."
+    },
+    {
+        "post_id":73236,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-18 07:44:58",
+        "message":"Did you check them with LCD connected?\nSMC_LID should also be high."
+    },
+    {
+        "post_id":73238,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-18 07:51:24",
+        "message":"Yes I did with LCD connected, it now chimes with only black screen, nothing shows even with flashlight shinning."
+    },
+    {
+        "post_id":73246,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-18 08:58:39",
+        "message":"Do you get PP3V3_S0_LCD?\nCheck voltage and diode mode to ground at LVDS_DDC_CLK\/DATA."
+    },
+    {
+        "post_id":73250,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-18 09:27:56",
+        "message":"There is no PP3V3_S0_LCD on this board?\n\ndiode mode to ground: LVDS_DDC_CLK\/DATA = 370\n\ni tried to connect PP3V3_S0 to LCD_BLKT_EN, LCD_PWR_EN, LCD_BKLT_PWM, I can see backlight but there is nothing on the screen."
+    },
+    {
+        "post_id":73252,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-18 09:55:23",
+        "message":"My mistake, PP3V3_SW_LCd...\n\nPin 4\/J9000 gets 3V?\n\n\"Check [B][U]voltage[\/U][\/B] and diode mode\"\n???"
+    },
+    {
+        "post_id":73258,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-18 10:23:42",
+        "message":"If I left PP3V3_S0 connected to  LCD_BLKT_EN, LCD_PWR_EN, LCD_BKLT_PWM:\n\n- PP3V3_SW_LCD is 3.3v\n- Pin4\/J9000 = LVDS_DDC_CLK = 3.3v\n- LVDS_DDC_DATA = 3.3v\n\nThe screen was working until I scratch up and damaged U1800...\n\nShould I remove PP3V3_S0 and test again? but PP3V3_SW_LCD is derived from LCD_PWR_EN which was 0v before."
+    },
+    {
+        "post_id":73263,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-18 11:48:06",
+        "message":"Remove that jumper.\nU9600 may be damaged now!"
+    },
+    {
+        "post_id":73282,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-18 22:29:41",
+        "message":"Oh I forget to mention, U9600 isnt presence on this board, it was removed and then hardwire bypass. The bypass was working before I scratched up the U1800."
+    },
+    {
+        "post_id":73287,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-19 04:36:24",
+        "message":"Then recover damaged trace ( LVDS_IG_PANEL_PWR ).\nThe other signal is not needed."
+    },
+    {
+        "post_id":73289,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-19 05:48:41",
+        "message":"hmm... how? I think i have screwed up by over scratching the U1800...\n\nHow come I dont see things on the screen if I jump 3.3v into  LCD_BLKT_EN, LCD_PWR_EN, LCD_BKLT_PWM ?!"
+    },
+    {
+        "post_id":73296,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-19 07:51:11",
+        "message":"So you've broken some traces near the PCH?\n\nBKL_SCL\/SDA connects U9701 with PCH.\nIs not just an enable signal there."
+    },
+    {
+        "post_id":73297,
+        "thread_id":60938,
+        "title":"820-2915 LVDS_IG_BKL_ON and LVDS_IG_PANEL_PWR alternatives",
+        "user_id":25140,
+        "username":"protocold",
+        "post_date":"2021-03-19 07:53:25",
+        "message":"i have broken some traces on the PCH itself... perhaps i have even killed the PCH but the machine chimes when power on.."
+    }
+]

@@ -1,12 +1,110 @@
-{"post_id":61523,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":26765,"username":"sws","post_date":"2020-06-27 14:33:14","message":"Hello,\n\nI'm troubleshooting an 820-2530 that consistently shows green light on charger but does not spin the fan.  I'm not quite sure what to test next and I'm hoping for some help.\n\nI have 16.98v on pin 2 of U7000 and PPBUS_G3H appears to be present, though that may be obvious because of the green light.  I'm attempting to walk through the troubleshooting logically rather than just trying to probe everything on the board.  To that end, I've looked through the forums and watched various videos on the subject too, but any specific next steps would be really helpful.\n\nSteve"}
-{"post_id":61527,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":682,"username":"2informaticos","post_date":"2020-06-27 17:10:59","message":"First of all, welcome to the forum!\n\n\"PPBUS_G3H appears to be present\"\nThe exact voltage is very important to know!\n\nThis is an old machine, MCP could be dead, or close to its end life.\nPost resistance to ground at 3V42_G3H rail; measured on ohm scale.\n\nDo you get 3V3_S5 and 1V05_S5?"}
-{"post_id":61531,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":26765,"username":"sws","post_date":"2020-06-27 18:49:20","message":"Hello,\n\nThank you for the reply and it's good to be here (and not just lurking).\n\nSpecific voltage of PPBUS_G3H as measured at pin 2 of F7000 is 12.59V and 12.60V at pin 1 of C7272 (near U7200) on the board.\n\nI measured resistance to ground using pin 2 of U5000 at received 2.566K; notably not sure if I am measuring that correctly for these boards.\n\nLooking at 1V05_S5, I receive 3.298V at pin 3 of Q3841 but then 0.000V from pin 6.  If Q3841 isn't producing 1.05V then that rail won't be created?\n\n3V3S5 as measured at 3V3S5_ENTRIP test point on U7200 is 0.751V.  If I'm understanding the architecture correctly, that should be coming from Q7800 which in turn comes from the SMC, U4900.  At test point SMC_PM_G2_EN which comes from pin 119 on U4900 and goes to pin 1 on Q7800, I read 3.416V.  Interestingly(?), trying to read PM_G2_P3V3S5_EN_L coming from pin 3 on Q7800 from its test point on the other side of the board, it is 0.00V.  And that's where I fall down: Knowing whether the voltage should make it through Q7800 and on to pin 5 of Q7221 and whether or where the 1V05_S5 rail is actually created or should be present.\n\nLooking at the schematics around U7200, I am getting 4.952V on 5V3V3S5_REG5 from U7200 and 3.388V on 5V3V3_REG_EN (pin 13) on U7200.\n\nYour response caused me to relook at the schematics and rethink the flow of where rails are coming from, which is definitely some of what I was looking for.  Hopefully I can gain a better understanding of the architecture involved as we work through this.\n\nSteve"}
-{"post_id":61541,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":682,"username":"2informaticos","post_date":"2020-06-28 03:47:26","message":"You still need time to understand the schematic; be patient, the practice will help.\nPPBUS_G3H is correct.\n\nIf SMC_PM_G2_EN is present, then 3V3_S5 must be present too.\nTo avoid any misunderstanding, post U7200 voltages; pins 16, 3, 13, 8, 17.\nUse the surrounding components as test points, instead of chip pins.\nAlso U7750, pins 1, 2, 6, 8.\n\n2.5K at 3V42_G3H is really bad; MCP seems to be dead in this case (more than 30K expected).\nBTW, I was expecting that you catch L6995 as test point for 3V42_G3H...\n\nYou can stil practice on this board, repairing 3V3_S5 and 1V05_S5 power supplies at least."}
-{"post_id":61566,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":26765,"username":"sws","post_date":"2020-06-28 14:44:02","message":"Hello,\n\nU7200:\nPin 3 (5VS3_3V3S5_VREF), as measured using both\/either of C7271 or the test point near there, is 2.000V.\nPin 8 (5V3V3S5_REG3), as measured using C7270 and the nearby test point, is 3.321V.\nPin 13 (5V3V3_REG_EN), as measured using R7273 or the nearby test point,is 3.388V.\nPin 16 (PPBUS_G3H), as measured using C7272, is 12.59V.\nPin 17 (5V3V3S5_REG5), as measured using C7273 or the nearby test point, is 4.952V.\n\nU7750:\nPin 1 (PP3V3_S5), measured using pin 2 of the nearby Q3810, is 3.320V.\nPin 2 (PM_G2_P1V05S5_EN), measured using both C7801 and the nearby test point, is 3.414V.\nPin 6 (1V05S5_FB), measured on the other side of the board at R7781, is 0.815V.\nPin 8 (1V05S5_SW), measured using L7770 is 1.054V.  You mentioned that exact voltages matter, and this one seemed to slightly but noticeably move between 1.053 and 1.056V.  Both sides of L7770 report the same voltage.\n\nFor what it's worth, 3.419V at L6995.  Your note on this and the resistance measurement prompted me to re-measure resistance to ground using L6995 - much bigger pad.  The multimeter took a while but did climb above 30K, so I probably did measure that incorrectly yesterday.\n\nThe 2.00V on pin 3 of U7200 caught me off-guard.  Guessing that VREF means \"voltage reference\" but I can't find a reference to 2V being used as a reference voltage in the schematic.  Is U7200 just creating that VREF for its own use, like a feedback?  Ties to pin 14, through C7271, and then onward to ?    In any event, I checked L7220 and am receiving 3.329V on pin 1, jumping around between 3.315V and 3.329V.\n\nSteve"}
-{"post_id":61567,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":682,"username":"2informaticos","post_date":"2020-06-28 15:36:18","message":"Post PM_PWRBTN_L, PM_RSMRST_L and RSMRST_PWRGD levels.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L, at same time."}
-{"post_id":61570,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":26765,"username":"sws","post_date":"2020-06-28 16:57:24","message":"PM_PWRBTN_L measured from the test point near C4902 is 0.016V.  Is that the only place to measure it?\n\nPM_RSMRST_L measured on R2151 is 0.001V.\n\nRSMRST_PWRGD at R7840 is 0.220V.\n\nTriggered SMC_ONOFF_L across R5016, the power-on pads, and the voltage of PM_PWRBTN_L remained at 0.016V, with no indication of any change.\n\nSteve"}
-{"post_id":61575,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":682,"username":"2informaticos","post_date":"2020-06-29 03:14:49","message":"All these signals must be steady high.\nPM_PWRBTN_L must drop only pressing SMC_ONOFF_L; which also must be high, rest of the time.\n\nCheck PM_BATLOW_L, SMC_ADAPTER_EN, PLT_RST_L and SM_INTRUDER_L.\nPost all voltages for U7840."}
-{"post_id":61582,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":26765,"username":"sws","post_date":"2020-06-29 08:45:38","message":"PM_BATLOW_L is 3.316V. \nSMC_ADAPTER_EN is 3.401V.\nSM_INTRUDER_L is 3.401V.\n\nU7840:\nPin 1 RSMRST_PWRGD is 0.151V.\nPin 2 is GND.\nPin 3 P1V05_S5_PGOOD is 3.392V.\nPin 4 CT is 0.429V to 0.430V.\nPin 5 PP3V3_S5 is 3.320V.\nPin 6 is 3.419V.\n\nI'm confused as to where to go next.  It seems like I'm missing something."}
-{"post_id":61587,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":682,"username":"2informaticos","post_date":"2020-06-29 10:36:01","message":"Be sure R7840 is good.\nIf yes, change C7841."}
-{"post_id":61598,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":26765,"username":"sws","post_date":"2020-06-29 11:52:28","message":"As would be expected, I don't have that cap, so I'll put together an order and probably get some of the 100K 1\/16W resistors.  I have 402 package 1\/10W, but I'm not sure if they're metal film or ceramic.  While I'm putting together the order are there other likely parts that I might need to replace - fully acknowledging that it's impossible to say for sure, but if something around this area is \"common\" then I'd like to get it on the same order.\n\nThanks for all of your help.\n\nSteve"}
-{"post_id":61607,"thread_id":59561,"title":"820-2530 - Green Light, No Fan Spin","user_id":682,"username":"2informaticos","post_date":"2020-06-29 14:59:47","message":"Get some MacBook scrap boards; is the best option for replacement parts..."}
+[
+    {
+        "post_id":61523,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":26765,
+        "username":"sws",
+        "post_date":"2020-06-27 12:33:14",
+        "message":"Hello,\n\nI'm troubleshooting an 820-2530 that consistently shows green light on charger but does not spin the fan.  I'm not quite sure what to test next and I'm hoping for some help.\n\nI have 16.98v on pin 2 of U7000 and PPBUS_G3H appears to be present, though that may be obvious because of the green light.  I'm attempting to walk through the troubleshooting logically rather than just trying to probe everything on the board.  To that end, I've looked through the forums and watched various videos on the subject too, but any specific next steps would be really helpful.\n\nSteve"
+    },
+    {
+        "post_id":61527,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-27 15:10:59",
+        "message":"First of all, welcome to the forum!\n\n\"PPBUS_G3H appears to be present\"\nThe exact voltage is very important to know!\n\nThis is an old machine, MCP could be dead, or close to its end life.\nPost resistance to ground at 3V42_G3H rail; measured on ohm scale.\n\nDo you get 3V3_S5 and 1V05_S5?"
+    },
+    {
+        "post_id":61531,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":26765,
+        "username":"sws",
+        "post_date":"2020-06-27 16:49:20",
+        "message":"Hello,\n\nThank you for the reply and it's good to be here (and not just lurking).\n\nSpecific voltage of PPBUS_G3H as measured at pin 2 of F7000 is 12.59V and 12.60V at pin 1 of C7272 (near U7200) on the board.\n\nI measured resistance to ground using pin 2 of U5000 at received 2.566K; notably not sure if I am measuring that correctly for these boards.\n\nLooking at 1V05_S5, I receive 3.298V at pin 3 of Q3841 but then 0.000V from pin 6.  If Q3841 isn't producing 1.05V then that rail won't be created?\n\n3V3S5 as measured at 3V3S5_ENTRIP test point on U7200 is 0.751V.  If I'm understanding the architecture correctly, that should be coming from Q7800 which in turn comes from the SMC, U4900.  At test point SMC_PM_G2_EN which comes from pin 119 on U4900 and goes to pin 1 on Q7800, I read 3.416V.  Interestingly(?), trying to read PM_G2_P3V3S5_EN_L coming from pin 3 on Q7800 from its test point on the other side of the board, it is 0.00V.  And that's where I fall down: Knowing whether the voltage should make it through Q7800 and on to pin 5 of Q7221 and whether or where the 1V05_S5 rail is actually created or should be present.\n\nLooking at the schematics around U7200, I am getting 4.952V on 5V3V3S5_REG5 from U7200 and 3.388V on 5V3V3_REG_EN (pin 13) on U7200.\n\nYour response caused me to relook at the schematics and rethink the flow of where rails are coming from, which is definitely some of what I was looking for.  Hopefully I can gain a better understanding of the architecture involved as we work through this.\n\nSteve"
+    },
+    {
+        "post_id":61541,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-28 01:47:26",
+        "message":"You still need time to understand the schematic; be patient, the practice will help.\nPPBUS_G3H is correct.\n\nIf SMC_PM_G2_EN is present, then 3V3_S5 must be present too.\nTo avoid any misunderstanding, post U7200 voltages; pins 16, 3, 13, 8, 17.\nUse the surrounding components as test points, instead of chip pins.\nAlso U7750, pins 1, 2, 6, 8.\n\n2.5K at 3V42_G3H is really bad; MCP seems to be dead in this case (more than 30K expected).\nBTW, I was expecting that you catch L6995 as test point for 3V42_G3H...\n\nYou can stil practice on this board, repairing 3V3_S5 and 1V05_S5 power supplies at least."
+    },
+    {
+        "post_id":61566,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":26765,
+        "username":"sws",
+        "post_date":"2020-06-28 12:44:02",
+        "message":"Hello,\n\nU7200:\nPin 3 (5VS3_3V3S5_VREF), as measured using both\/either of C7271 or the test point near there, is 2.000V.\nPin 8 (5V3V3S5_REG3), as measured using C7270 and the nearby test point, is 3.321V.\nPin 13 (5V3V3_REG_EN), as measured using R7273 or the nearby test point,is 3.388V.\nPin 16 (PPBUS_G3H), as measured using C7272, is 12.59V.\nPin 17 (5V3V3S5_REG5), as measured using C7273 or the nearby test point, is 4.952V.\n\nU7750:\nPin 1 (PP3V3_S5), measured using pin 2 of the nearby Q3810, is 3.320V.\nPin 2 (PM_G2_P1V05S5_EN), measured using both C7801 and the nearby test point, is 3.414V.\nPin 6 (1V05S5_FB), measured on the other side of the board at R7781, is 0.815V.\nPin 8 (1V05S5_SW), measured using L7770 is 1.054V.  You mentioned that exact voltages matter, and this one seemed to slightly but noticeably move between 1.053 and 1.056V.  Both sides of L7770 report the same voltage.\n\nFor what it's worth, 3.419V at L6995.  Your note on this and the resistance measurement prompted me to re-measure resistance to ground using L6995 - much bigger pad.  The multimeter took a while but did climb above 30K, so I probably did measure that incorrectly yesterday.\n\nThe 2.00V on pin 3 of U7200 caught me off-guard.  Guessing that VREF means \"voltage reference\" but I can't find a reference to 2V being used as a reference voltage in the schematic.  Is U7200 just creating that VREF for its own use, like a feedback?  Ties to pin 14, through C7271, and then onward to ?    In any event, I checked L7220 and am receiving 3.329V on pin 1, jumping around between 3.315V and 3.329V.\n\nSteve"
+    },
+    {
+        "post_id":61567,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-28 13:36:18",
+        "message":"Post PM_PWRBTN_L, PM_RSMRST_L and RSMRST_PWRGD levels.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L, at same time."
+    },
+    {
+        "post_id":61570,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":26765,
+        "username":"sws",
+        "post_date":"2020-06-28 14:57:24",
+        "message":"PM_PWRBTN_L measured from the test point near C4902 is 0.016V.  Is that the only place to measure it?\n\nPM_RSMRST_L measured on R2151 is 0.001V.\n\nRSMRST_PWRGD at R7840 is 0.220V.\n\nTriggered SMC_ONOFF_L across R5016, the power-on pads, and the voltage of PM_PWRBTN_L remained at 0.016V, with no indication of any change.\n\nSteve"
+    },
+    {
+        "post_id":61575,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-29 01:14:49",
+        "message":"All these signals must be steady high.\nPM_PWRBTN_L must drop only pressing SMC_ONOFF_L; which also must be high, rest of the time.\n\nCheck PM_BATLOW_L, SMC_ADAPTER_EN, PLT_RST_L and SM_INTRUDER_L.\nPost all voltages for U7840."
+    },
+    {
+        "post_id":61582,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":26765,
+        "username":"sws",
+        "post_date":"2020-06-29 06:45:38",
+        "message":"PM_BATLOW_L is 3.316V. \nSMC_ADAPTER_EN is 3.401V.\nSM_INTRUDER_L is 3.401V.\n\nU7840:\nPin 1 RSMRST_PWRGD is 0.151V.\nPin 2 is GND.\nPin 3 P1V05_S5_PGOOD is 3.392V.\nPin 4 CT is 0.429V to 0.430V.\nPin 5 PP3V3_S5 is 3.320V.\nPin 6 is 3.419V.\n\nI'm confused as to where to go next.  It seems like I'm missing something."
+    },
+    {
+        "post_id":61587,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-29 08:36:01",
+        "message":"Be sure R7840 is good.\nIf yes, change C7841."
+    },
+    {
+        "post_id":61598,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":26765,
+        "username":"sws",
+        "post_date":"2020-06-29 09:52:28",
+        "message":"As would be expected, I don't have that cap, so I'll put together an order and probably get some of the 100K 1\/16W resistors.  I have 402 package 1\/10W, but I'm not sure if they're metal film or ceramic.  While I'm putting together the order are there other likely parts that I might need to replace - fully acknowledging that it's impossible to say for sure, but if something around this area is \"common\" then I'd like to get it on the same order.\n\nThanks for all of your help.\n\nSteve"
+    },
+    {
+        "post_id":61607,
+        "thread_id":59561,
+        "title":"820-2530 - Green Light, No Fan Spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-29 12:59:47",
+        "message":"Get some MacBook scrap boards; is the best option for replacement parts..."
+    }
+]
