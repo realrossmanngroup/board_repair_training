@@ -17,6 +17,9 @@ for eachfile in os.listdir(jargon_directory):
 # Load DataFrames (assuming this part is already done)
 # For example: resistors_df, capacitors_df, etc.
 
+print(jargon_dataframes)
+
+
 def annotate_jargon(text, df, jargon_type):
 	for index, row in df.iterrows():
 		jargon = row[df.columns[0]]
@@ -46,6 +49,7 @@ for filename in os.listdir(thread_directory):
 			#Open and load the JSON file
 			with open(file_path, 'r') as file:
 				data = json.load(file)
+				print(f"\n\n{data}\n\n")
 
 			#Assuming the structure of your JSON file is a list of posts or similar
 			for post in data:
@@ -58,3 +62,4 @@ for filename in os.listdir(thread_directory):
 				json.dump(data, file)
 		except Exception as e:
 			print(f"Error processing file '{filename}': {e}")
+
