@@ -28,20 +28,11 @@ for jargon_type, df in jargon_dataframes.items():
 	df['jargon_type'] = jargon_type.upper()  # Add a column for jargon type
 	combined_jargon_df = pd.concat([combined_jargon_df, df], ignore_index=True)
 
-# Load DataFrames (assuming this part is already done)
-# For example: resistors_df, capacitors_df, etc.
 
-print("DATAFRAME JARGON_DATAFRAMES BELOW\n\n")
-print(jargon_dataframes)
-print("\n\nDATAFRAME COMBINED_JARGON_DF BELOW!\n\n")
-print(combined_jargon_df)
-print("\n\n")
-
-'''
 def annotate_jargon(text, df):
 	for index, row in df.iterrows():
-		jargon = row[df.columns[0]]
-		description = row['Description'] if 'Description' in df.columns else ''
+		jargon = row['NAME']
+		description = row['DESCRIPTION'] if 'DESCRIPTION' in df.columns else ''
 		jargon_type = row['jargon_type']
 
 		# Don't mess me up if there is jargon inside jargon
@@ -81,5 +72,3 @@ for filename in os.listdir(thread_directory):
 				json.dump(data, file)
 		except Exception as e:
 			print(f"Error processing file '{filename}': {e}")
-
-'''
