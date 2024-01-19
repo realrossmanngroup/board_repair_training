@@ -14,18 +14,36 @@ for eachfile in os.listdir(jargon_directory):
 		file_name = os.path.splitext(eachfile)[0]
 		jargon_dataframes[file_name] = pd.read_csv(file_path, header=0).fillna('')
 
+'''
+Combine all jargon dataframes with an additional 'jargon_type' column
+When I run my command to annotate separately based on the different jargon types
+being in different dataframes, I wind up with annotations within annotations of
+annotations and that's a mess. I have to look for them all at once, but
+I also need to know the name of the jargon if they are all in one combined
+dataframe, which requires an extra column.
+'''
+
+combined_jargon_df = pd.DataFrame()
+for jargon_type, df in jargon_dataframes.items():
+	df['jargon_type'] = jargon_type.upper()  # Add a column for jargon type
+	combined_jargon_df = pd.concat([combined_jargon_df, df], ignore_index=True)
+
 # Load DataFrames (assuming this part is already done)
 # For example: resistors_df, capacitors_df, etc.
 
+print("DATAFRAME JARGON_DATAFRAMES BELOW\n\n")
 print(jargon_dataframes)
+print("\n\nDATAFRAME COMBINED_JARGON_DF BELOW!\n\n")
+print(combined_jargon_df)
+print("\n\n")
 
-
-def annotate_jargon(text, df, jargon_type):
+'''
+def annotate_jargon(text, df):
 	for index, row in df.iterrows():
 		jargon = row[df.columns[0]]
-		description = ''
-		if len(df.columns) > 1:
-			description = row[df.columns[1]]
+		description = row['Description'] if 'Description' in df.columns else ''
+		jargon_type = row['jargon_type']
+
 		# Don't mess me up if there is jargon inside jargon
 		pattern = r'\b' + re.escape(jargon) + r'\b'
 		
@@ -55,13 +73,13 @@ for filename in os.listdir(thread_directory):
 
 			#Assuming the structure of your JSON file is a list of posts or similar
 			for post in data:
-				for jargon_type, df in jargon_dataframes.items():
-					#Annotate for each type of jargon using respective DataFrame
-					post['title'] = annotate_jargon(post['title'], df, jargon_type.upper())
-					post['message'] = annotate_jargon(post['message'], df, jargon_type.upper())
+				#Annotate for each type of jargon using respective DataFrame
+				post['title'] = annotate_jargon(post['title'], combined_jargon_df)
+				post['message'] = annotate_jargon(post['message'], combined_jargon_df)
 					
 			with open(file_path, 'w') as file:
 				json.dump(data, file)
 		except Exception as e:
 			print(f"Error processing file '{filename}': {e}")
 
+'''
