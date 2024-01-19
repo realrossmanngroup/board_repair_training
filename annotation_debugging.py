@@ -23,7 +23,9 @@ print(jargon_dataframes)
 def annotate_jargon(text, df, jargon_type):
 	for index, row in df.iterrows():
 		jargon = row[df.columns[0]]
-		description = row[df.columns[1]]
+		description = ''
+		if len(df.columns) > 1:
+			description = row[df.columns[1]]
 		# Don't mess me up if there is jargon inside jargon
 		pattern = r'\b' + re.escape(jargon) + r'\b'
 		
