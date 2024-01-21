@@ -1,0 +1,83 @@
+[
+    {
+        "post_id":26872,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":1149,
+        "username":"Thorsten",
+        "post_date":"2017-10-16 23:28:20",
+        "message":"Hi,\n\nI am not new to component level repairs but also not a pro at all. Have done some work and still learning. The machine I am talking about today is a friends 2011 MBP that I am trying to diagnose and repair. To make a long story short: All I know is that the battery was swapped for a new one and since then the machine is stuck to 800 MHz according to Intel POWER Gadget.\n\nI know that this board need the battery for full performance. Battery is \"seen\" and does work. R5280\/R5281 measure 2k.\n\nTried to swap the battery again for a known good -> no fun, same situation.\n\nSo somehow the SMC does not see the battery in a manner that it allows the CPU to work full speed while the battery is seen clear enough by whatever else to charge, run off the battery, show stats, use Coconut and os on. Seems that I am missing something. Any help? Thank you in advance!\n\n\nEdit: I forgot to mention that the 3S144 ASD does not throw any sensor related problem (no problem at all to be precise)."
+    },
+    {
+        "post_id":26876,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-10-17 04:26:18",
+        "message":"Chinese garbage battery I bet."
+    },
+    {
+        "post_id":26880,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":1149,
+        "username":"Thorsten",
+        "post_date":"2017-10-17 05:15:18",
+        "message":"Thank you for your answer, Duke. I am not sure what you're trying to tell me. I wrote that I replaced that battery with another battery that was and still is \"known good\" to no avail. Same problem. So how do I have to interpret your answer, Duke? Thanks.\n\n\nEDIT:\nI have read the schematics a little bit more in detail. There is a signal \"prochot\" that seems to be a pin at the CPU that either tells the CPU to throttle down to 800 MHz (when set by the SMC) or signals back to the SMC if the internal temp sensors detect an overheat of the CPU. Page 45 of the schematics has information on how SMC and CPU interact (SMC FSB to 3.3V level shifting). Given that the sensors (HWmonitor and also hardwaremonitor) do not report ANY obviously wrong reading and also given that the ASD does not throw any problem for any sensor we could safely assume that the sensors should NOT trigger that signal. But we are running at 800 MHz flat. That's a prove that prochot is active, right? So what might cause this? Defective SMC, defective CPU or any of these components on page 45? I am not sure about the latter, can anybody have a look and see if there is a candidate for my problem? Usually I would say that the battery (I2C) and thus the SMC is to blame for a triggered prochot. But the battery is seen and there is no sign whatsoever that the battery is to blame for the 800 MHz slowness. What IS to blame is a triggered prochot, that's for sure. \nBonus question: Has anybody already tried to hardwire the prochot signal? Effectively disable the SMCs ability to throttle the CPU? Might not work as there might be power regulation involved, too, I know. But that's only a fun question..."
+    },
+    {
+        "post_id":26885,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-10-17 07:32:20",
+        "message":"What do you consider a known good battery. Fresh from China is a good indicator of not good....."
+    },
+    {
+        "post_id":26892,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":1149,
+        "username":"Thorsten",
+        "post_date":"2017-10-17 07:54:22",
+        "message":"Battery from a different A1286 that does work there normally does not fix the problem here and neither does the battery from this machine here reproduce a problem in the other A1286. In short: The problem sticks to the logic board and does not move over with the battery. That's what I mean when saying \"known good\".\n\nAny other helpful hint, that bet you lost, Sir."
+    },
+    {
+        "post_id":26893,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-10-17 08:07:08",
+        "message":"[QUOTE=\"Thorsten, post: 26880\"] That's a prove that prochot is active, right?[\/QUOTE]\n\nOnly proof is to probe it and see it yourself. I am not sure this might be the issue but feel free to proof me wrong! Always a first time for everything :)\n\nAre you using ASD OS or ASD EFI?"
+    },
+    {
+        "post_id":26894,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":1149,
+        "username":"Thorsten",
+        "post_date":"2017-10-17 08:12:10",
+        "message":"First: Sorry for my misspelling. :)\n\nI am using ASD EFI. My understanding is that this is closer to the hardware and better for things like sensor diagnostics. Or am I mistaken here?\nYou are right that the only proof is to measure it. I will do and report! Thank you!\n\nAnother question when measuring: U1000 (Sandy bridge) \"prochot\" is marked with a \"*\" and the according signal CPU_PROCHOT_R_L carries the \"_L\" at the end. So this signal is low active, isn't it? When trying to proof my statement I should get a \"0 V\" reading at R1103,1, correct?"
+    },
+    {
+        "post_id":26901,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-10-17 11:39:55",
+        "message":"The CPU_PROCHOT_L signal is active when the voltage on this signal is logic low (So anything close to 0v). So Low active, yes.\n\nTo see if this signal is being pulled down by the SMC check the SMC_PROCHOT signal. If SMC_PROCHOT high Q5059 will pull CPU_PROCHOT_L to ground which will cause it to be low.\n\nWhat is the voltage of CPU_PROCHOT_L and SMC_PROCHOT?\n\nAlso check out ASD OS, it can do a couple of other tests that can be of use."
+    },
+    {
+        "post_id":26916,
+        "thread_id":26872,
+        "title":"800 MHz problem with 820-2915",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-10-17 18:39:28",
+        "message":"I have no idea. This is one of those the machine works don't mess with it. Be happy it runs on low clock, the GPU may last another 3 months instead of 3 weeks.\n\nLast thing to try is have you ruled out software, are you comparing an exact identical machine? Power gadget may be buggy and report BS."
+    }
+]

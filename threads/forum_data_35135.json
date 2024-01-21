@@ -1,0 +1,137 @@
+[
+    {
+        "post_id":35135,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-05-23 16:48:42",
+        "message":"BOARD HAD LIQUID DAMAGE AROUND TE EDGE OF THE BOARD (SMC AREA)\n\nPPBUS_G3H : 16,11\nPP3V42_G3H :3,476\nPPVRTC_G3H :3,317\n\n5V Rails:\n\nPP5V_S5 (PP5V_S5_LDO) : 5,030\nPP5V_SUS : 5,030\nPP5V_S3 :0V TURNS TO 5V WHEN FAN SPINS\nP5V_3V3_SUS_EN : 3,316v\nSMC_BATLOW_L : 3,284V\nPM_SLP_SUS_L : 3,315v\nSMC_RESET_L : 3,444V\n\n3.3V Rails:\n\nPP3V3_S5 :3,297V BUT QUICKLY DROPS TO 1,4V WITH THE QUARTER FAN SPIN\nPP3V3_S4 :0v BUT TURNS ON WITH THE QUARTER FAN SPIN\n\nU7200 VOLTAGES:\n\nP5VS3_ENTRIP: 0V\n5V3V3_REG_EN: 3,431V\nP5V3V3_REG_EN: 3,461V\nP3V3S5_ENTRIP: 0,769V\n\n\nPPVRTC_G3_OUT: 3,316V\nSYSCLK_CLK32K_RTC : 32,77KHZ\nCPU_VCORE_SO_CPU: 0v JUMPS TO 0,300v WHEN FAN QUARTER FAN SPINS    resistance to ground 4ohms,I'm wondering if its not a short to ground?\nALL_SYS_PWRGD: PULSING TO 3,3V\nvoltage on R5014 IS 3.4V BUT PULSE TO 0V WHEN FAN SPINS\nPP5V_S0 :0V BUT PULSE TO 4,5V WHEN FAN SPINS"
+    },
+    {
+        "post_id":35137,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-05-23 18:00:25",
+        "message":"16 volts is way WAY too high on PPBUS_G3H! Replace Q7080, Q7030, Q7055 and the ISL all at the same time. Also check resistance between pins 17\/18 and 27\/28 of the ISL current sensing can definitely cause this problem."
+    },
+    {
+        "post_id":35162,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-05-25 05:46:29",
+        "message":"Thanks John for your reply. Do you think that if i don't replace everything at the same time there is a risk to blow again ? What if i replace the isl first for example . ."
+    },
+    {
+        "post_id":35163,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-05-25 05:59:46",
+        "message":"Yes it will. If you replace the ISL only and one or any of the fets are shorted, the ISL will die again. Best to replace Q7080\/30\/35 and the ISL all at the same time to avoid issues. That will likely fix the PPBUS issue. The quarter spin my guess would be current sensing so need to measure resistance between pins 17\/8 and 27\/28 of the ISL6259"
+    },
+    {
+        "post_id":35164,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-05-25 06:06:47",
+        "message":"See if it wants to power from a charged battery. The ISL circuit is not needed for that. If it also does quarter fan spin on battery then there are more issues."
+    },
+    {
+        "post_id":35166,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2018-05-25 06:43:31",
+        "message":"Also keep in mind that if liquid hit that SPI ROM chip, it could be damaged...and symptoms would be very similar to what you describe. Swap over another chip (just for testing!) once you address the obviously damaged stuff."
+    },
+    {
+        "post_id":35221,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-05-27 12:12:20",
+        "message":"Hi Dukefawks, JohnB8812, team\n\nThe motherboard starts with a charged battery, does that also means that Q7055 is OK? I guess so.....\nI've also checked the current sensing resistances between 17\/18 and 27\/28 and there OK: R7051 is 2,4Ohms, R7052 is 0,2 Ohm R7021 is 10,1 Ohms and R7022 is 10,2Ohms\nQ7030 is not shorted between 123 \/ 5 ,123 \/ 4 and 5 \/ 4. Q7035 also is not shorted, i've compared with a good known board.\nThe same for Q7080\nAll that to say maybe only the ISL is bad no?"
+    },
+    {
+        "post_id":35223,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-05-27 12:30:07",
+        "message":"You should measure directly on the pins 17\/18 27\/28 to rule out corroded traces."
+    },
+    {
+        "post_id":35231,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-05-28 04:07:59",
+        "message":"OK i think there is some thing bad with the ISL because between 17\/18 i have around 311ohms vs 3,5ohms for a good board and for 27\/28 it should be OK as i have around 20,5ohms like a good known board.\nSo i've replaced the U7000:\nFirst i only had ppbus at 8,5V and no fan spin then few min later it came back to 15,90V with quarter fan spin in loop.\nNow resistance 17\/18 is 244 Ohms and 27\/28 is 20,4 Ohms."
+    },
+    {
+        "post_id":35232,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-05-28 07:53:31",
+        "message":"Resistance between 17\/18 is wayyyyy too high. A few possibilities there:\n\n1. R7051 is blown check it again to make sure it\u2019s not\n2. R7052 is blown check it again to make sure it\u2019s not\n3. R7050 is blown (way less common but in this case could be)\n4. The traces between the ISL and resistors or resistors and R7050 are blown which seems like the issue if your resistors all measure in spec"
+    },
+    {
+        "post_id":35272,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-05-30 15:54:22",
+        "message":"Hi JohnB8812, Dukefawks, team\n\nit was the 4th possibility: both traces from resistors R7051 and 7052 to R7050 were blown. I've put new traces.\nNow fan spins fine at power ON and have a nice 12,71v for PPBUS_G3H but the ISL is getting very hot (can't let my finger on it more than 3-5 sec) so i'm disconnecting the charger to prevent something else to blow.\nDo you think this new ISL has been damaged because i've put the power on the board before solving the traces\/high resistance issue?"
+    },
+    {
+        "post_id":35286,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2018-05-30 20:47:17",
+        "message":"Possibly bad soldering or a bad ISL. 12.71 volts is a little high so if a new ISL doesn't bring it down, that makes Q7080, Q7030 and Q7055 suspect"
+    },
+    {
+        "post_id":35306,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-05-31 06:03:01",
+        "message":"The overheat was coming from the other side of the board, just at the opposite of R7051 and R7052, where the traces blown it was still shorted to ground. So i removed the short and cleaned the area\nyou can see it in the attached pictures.\nNow ppbus_g3h is fluctuating between 12,44V and 12,51V with average of 12,48V. Resistance 17\/18: 2,5Ohms 27\/28: 21Ohms\nJust have a single quarter fan spin , not in loop\nPPVCORE_S0_CPU pulsing once then 0V\nIdem if I only plug the battery and short the power pads.If you remember the board was starting with the battery;\nIf I plug the charger then the battery, all the volatges around the ISL drops to 0V I loose the green light but PP3V42_G3H stays ok and ppbus_g3h to 11,09V which is the voltage of the battery."
+    },
+    {
+        "post_id":35362,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-01 14:04:26",
+        "message":"That is a massive short inside the board. This is a write off, RIP."
+    },
+    {
+        "post_id":35591,
+        "thread_id":35135,
+        "title":"820-3115 quarter fan spins in loop",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-07 16:26:31",
+        "message":"Hi duke you can close it,  i will use it as a donor board"
+    }
+]

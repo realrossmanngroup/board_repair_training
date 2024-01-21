@@ -1,0 +1,92 @@
+[
+    {
+        "post_id":44508,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-01-08 16:25:13",
+        "message":"Board was water damaged. Fixed a couple of parts to get ISL working. The rest I have cleaned with iso.\n\nPPBUS_G3H -------------------------------- 12.56V\nPP3V42 --------------------------------------- 3.42V\nPP5V_S5 ------------------------------------- 5V\nPP3V3_S5 ----------------------------------- 3.3V\nPPVRTC_G3H ------------------------------ 3.3V\nSMC_CLK32K ------------------------------ 1.7V\nPCH_CLK32K_RTCX1 ------------------- 0.42V\nPM_CLK32K_SUSCLK_R --------------- 1.7V\nSMC_ADAPTER_EN ---------------------- 3.3V\nPM_BATLOW_L ---------------------------- 3.3V\nPM_SLP_SUS_L --------------------------- 3.3V\nPM_PWRBTN_L ---------------------------- 3.42V\n\nI'm using a genuine 60W charger. I could try another one I guess.\n\nS4 rails are not present. Am I missing something?"
+    },
+    {
+        "post_id":44509,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-01-08 17:23:35",
+        "message":"Post 3V3_S5. 3V3_SUS, PM_RSMRST_L.\nTrigger SMC_ONOFF_L and check if PM_PWRBTN_L reacts.\nNo pulse at least at PM_SLP_S4_L?"
+    },
+    {
+        "post_id":44516,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-01-08 19:28:16",
+        "message":"Yes check all that 2informaticos suggested. Also, check resistance between pins 17\/18 and 27\/28 of the ISL6259 you said there was liquid there"
+    },
+    {
+        "post_id":44526,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-01-09 04:46:11",
+        "message":"PP3V3_S5 ---------- 3.3V\nPP3V3_SUS ------- 3.3V\nPM_RSMRST_L -- 3.3V\n\nI haven't triggered SMC_ONOFF only because I've found R7202 broken, along with its trace. (Even though I don't see how that would make prior stuff not work)\n\nThere is no pulse at PM_SLP_S4_L.\n\n[USER=\"1153\"]JohnB8812[\/USER] PPBUS_G3H is 12.56V. I've rebuilt the circuit around ISL. They all measure correct. including pins 17\/18 and 27\/28 Sorry I haven't written that explicitly what has been done."
+    },
+    {
+        "post_id":44531,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-01-09 06:57:06",
+        "message":"\"I haven't triggered SMC_ONOFF\"\nTry and comment.\nCheck PM_SLP_S4_L reaction at the same moment when SMC_ONOFF_L is triggered..."
+    },
+    {
+        "post_id":44533,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-01-09 07:11:10",
+        "message":"If you're 100% sure pins 17\/18 and 27\/28 measure 20.9 and 3.9 approximately, then yes next thing to try is SMC_ONOFF_L and check if PM_SLP does anything."
+    },
+    {
+        "post_id":44819,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-01-15 05:33:36",
+        "message":"Got it to work. PM_SLP_S4_L is back due to R7202 being corroded and messed up all necessary rails prior to PM_SLP_S4_L.\n\nMark as solved please."
+    },
+    {
+        "post_id":44820,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-01-15 05:58:53",
+        "message":"R7202 is not involved in PM_SLP_S4_L generation.\nIn fact this signal should appear in the first moments of power sequence.\nI bet it was pulsing and not maintained because of missing power good from VCORE power supply.\n\nBe aware of wrong assumptions, is not the best way to learn..."
+    },
+    {
+        "post_id":44821,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-01-15 06:15:38",
+        "message":"I tried to catch some pulse on PM_SLP_S4_L as soon as the charger was connected, but didn't see anything. I tried 3 times.\n\nAs for R7202, that is correct. It is not related in PM_SLP_S4_L generation, rather as input voltage for U7200 which releases CPUVR_PGOOD, which goes to U1950, creates PM_S0_PGOOD, responsible for creating SYS_PWROK_R, after R1962 it is PM_PCH_SYS_PWROK, and finally comes to CPU, which then releases PM_SLP_S4_L.\n\nWell, either my eyes are not seeing good or something, but you say that even without U7200, there should be a pulse on PM_SLP_S4_L from CPU?"
+    },
+    {
+        "post_id":44823,
+        "thread_id":44508,
+        "title":"820-4924-A water damaged, doesn't turn on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-01-15 06:54:02",
+        "message":"CPU cannot get VCORE if PM_SLP_S4_L is not released first by PCH...\nYou may not see that signal pulsing when charger is connected.\nBut you can see that if manually trigger SMC_ONOFF_L signal.\nBetter to use an o-scope to catch fast pulses...\n\nPM_SLP_S4_L is used to enable S3 voltages.\nPM_SLP_S3_L is used to enable S0 volatges."
+    }
+]

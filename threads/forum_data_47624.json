@@ -1,0 +1,308 @@
+[
+    {
+        "post_id":47624,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-19 13:41:48",
+        "message":"Hi all,\n\nI'm repairing a water damage 820-00840 here. Visible liquid damage is around u3900, u8400 and u7650. Has been cleaned.\nSo situation is as follow:\n-PPDCIN_G3H = 5.2v\n-PP3V3_G3H = 3.4v\n\nStarted by replacing both CD3215 (might not have been needed after all):\n- PP20V_USBC_XA_VBUS = 3.4v\n- PP3V3_UPC_XA_LDO = 3.3v\n- PP1V8_UPC_XA_LDOA = 1.8v\n- PP1V8_UPC_XA_LDOD = 1.8v\n- PP1V1_UPC_XA_LDO_BMC = 1.1v\nSame with XB.\nAlso I see activity on UPC_XA_UART_RX, UPC_XA_UART_TX and TBT_X_SPI_MISO.\nThis indicates that the CD3215s are ok to me.\n\nI had a short on PP3V3_G3H and u1900 (SLG3AP3444) got hot.\nReplaced u1900 from a donor board but SYSCLK_CLK12M_SMC is still missing.\nI think the schematics say that SMC_CLK12M_EN should be high to enable the clock for the SMC.\nThe SMC is needed to communicate with i2c to the CD3215s right?\nSMC_CLK12M_EN is low and is generated from the SMC.\n\nSo SMC u5000:\n- PP3V3_S5_SMC = 3.4v\n- BUF_SMC_RESET_L = 3.4v\n- SMC_BC_ACOK = 3.4v\n- SMC_CBC_ON (not sure if needed I don't have a working board) = 0v\n\nSo questions are:\nSMC clock needs to work to communicate with the charger to get 20v right?\nDo you guys have any idea if the SMC is at fault here or do I need to measure more?\nIt could be that the old hot u1900 had blown the SMC SMC_CLK12M_EN pin.\n\nThanks in advance :)"
+    },
+    {
+        "post_id":47681,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-21 11:01:30",
+        "message":"Anyone?\nI've reflowed the SMC but no difference.\nSMC_CLK12M_EN isn't going high so the SMC won't get a clock signal.\nI do not know what the requirements are for the SMC to enable SMC_CLK12M_EN.\nSMC_RESET_L is high."
+    },
+    {
+        "post_id":47687,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-21 13:15:10",
+        "message":"Do you get 24MHz oscillation at Y1900?\n\n\"-PPDCIN_G3H = 5.2v\n- PP20V_USBC_XA_VBUS = 3.4v\"\nCan you confirm that???\nFirst voltage is generated from the second one..."
+    },
+    {
+        "post_id":47691,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-21 13:46:33",
+        "message":"Sorry made a little mistake in the post:\n-PPDCIN_G3H = 5.2v\n-PP20V_USBC_XA_VBUS = 5.2v\n\nI do not have oscillation at Y1900.\nHowever, I do have a nice SYSCLK_CLK32K_PCH going to the PCH.\nI do not have SMC_CLK32K from the PCH to the SMC..."
+    },
+    {
+        "post_id":47692,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-21 14:33:43",
+        "message":"Well I've checked with a working 820-3476 to check some clock signals.\nSMC doesn't need the 32khz clock for the green light so probably also not for the 20v line.\nSMC however does need the 12mhz clock.\n\nNot sure if needed but S5_PWRGD is NOT present.\nThis is because PP3V3_S5 is only about 1.2v. Should PP3V3_S5 be available for the charger to switch to 20v is the question?"
+    },
+    {
+        "post_id":47699,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-21 19:00:31",
+        "message":"I suppose Y1900 should have 24MHz always.\nOE_12M input should enable x1\/2 divider only.\nCheck R1900 and traces.\nReplace C1907\/08, Y1900 and U1900 (again, just in case)."
+    },
+    {
+        "post_id":47701,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-03-21 19:11:59",
+        "message":"You don't have 20 volts on DC in that is your first problem. If PP3v3_G3H is present, you likely have an issue with one of the CD3215 chips. Do a diode mode reading of the LDO lines by both CD3215s to see if either measures low. My trick is usually to inject 3.3 volts into 3v3_G3H and monitor for current draw. Usually, one of the CD3215s causes a slight amperage draw."
+    },
+    {
+        "post_id":47708,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-22 01:12:27",
+        "message":"Checked all traces around y1900, resistors and caps. All seems fine.\nu1900 generates the 32khz from itself somehow. The 24mhz clock is started when enabled through one of the VIOE lines (and probably SMC_CLK12M_EN) I think.\n\nMeasured both CD3215 chips:\n- PP20V_USBC_XA_VBUS = .345\n- PP3V3_UPC_XA_LDO = .494\n- PP1V8_UPC_XA_LDOA = .512\n- PP1V8_UPC_XA_LDOD = .474\n- PP1V1_UPC_XA_LDO_BMC = .496\n\n- PP20V_USBC_XB_VBUS = .345\n- PP3V3_UPC_XB_LDO = .495\n- PP1V8_UPC_XB_LDOA = .499\n- PP1V8_UPC_XB_LDOD = .467\n- PP1V1_UPC_XB_LDO_BMC = .484\n\nDoes injecting voltage have any advantage if the line works fine from the charger?"
+    },
+    {
+        "post_id":47709,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-22 03:39:53",
+        "message":"32KHz is square wave, generated internally by U1900; no external crystal needed.\nIf you have working similar board, check if 24MHz oscillation is present on Y1900 when board is off."
+    },
+    {
+        "post_id":47717,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-22 11:37:40",
+        "message":"I just checked with a 3476 board (with a magsafe2) that the 24mhz clock starts after power is applied to PPDCIN_G3H.\nSo the 24MHz crystal is not interesting anymore.\n\nAmazingly so isn't the 32KHz clock.\nWhat I did:\n- Probe 1 (yellow) on SMC_CLK32K\n- Probe 2 on SYS_ONEWIRE\n\n[ATTACH alt=\"NewFile1.png\" type=\"full\"]47718._xfImport[\/ATTACH]\nSMC_CLK32K starts about 600ms after SYS_ONEWIRE communication is done.\n\nThan to go even further:\n- Probe 1 on SMBUS_SMC_5_G3_SCL\n- Probe 2 on S5_PWRGD\nI'm looking to find what enables the SMC to start communicating with an bus.\n\nWhy SMBUS_SMC_5_G3_SCL? Because I don't have a SMBUS_SMC_4_G3_SCL (that communicates with the CD3215) on the 3476 so I took SMBUS_SMC_5_G3_SCL that's available on both the boards.\n[ATTACH alt=\"NewFile3.png\" type=\"full\"]47719._xfImport[\/ATTACH]\nSo when S5_PWRGD is present SMBUS_SMC_5_G3_SCL starts immediately (even when no clock is available yet).\nI've also checked that SMBUS_SMC_5_G3_SCL and SYS_ONEWIRE starts at the same time.\n\nThis concludes the following:\n- The SMC doesn't need ANY clock source for it to work (probably also for communicating with the CD3215s)\n- Maybe S5_PWRGD is needed but need to check more"
+    },
+    {
+        "post_id":47721,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-22 11:50:25",
+        "message":"When looking at the publicly available TM4C123x this makes totally sense.\n[URL]http:\/\/embedded-lab.com\/blog\/tiva-c-clock-system\/[\/URL]\nThe TM4C123 contains a Precision Internal Oscillator (PIOSC) so yeah...\n32khz is for MCU hibernation and the external for some pheriperals inside the MCU.\nGoing to look what might be needed for the SMC to start communication. It might be just PP3V3_S5 is needed but I do not know."
+    },
+    {
+        "post_id":47744,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-24 03:36:43",
+        "message":"Well I've replaced both CD3215s again. Same issue. Very frustrating.\nI know for sure the CD3215s communicate with the ROM chip so that's fine. Checked all traces all are OK.\n\nWe do need a working SMC right to communicate with the charger on these usb-c macbooks? Louis doesn't say anything about that in his vids.\nTo him it's all about PP3V3_G3H and the two CD3215. These are fine.\nThe CD3215s pull SMC_USBC_INT_L low after a very short time so they say an interrupt is available.\nThe SMBUS_SMC_4_G3_SCL\/SDA both go high with a pullup resistor but there is no communication on that line.\n\nI don't have a working usb-c board to check with but I'm interested in the following:\n- Is there communication on the SMBUS_SMC_4_G3_SCL\/SDA before 20v is reached? This verifies a working SMC is required.\n- Is PP3V3_S5 present before 20v is reached? This verifies that S5_PWRGD needs to be present before the SMC starts to live. I don't have this line working."
+    },
+    {
+        "post_id":47745,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-24 04:11:25",
+        "message":"\"PP3V3_S5 is only about 1.2v.\"\nDo you still have 1.2V on L7690?\nPost some voltages for U7650; pins 23, 12, 13, 22, 29, 21."
+    },
+    {
+        "post_id":47746,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-24 04:34:06",
+        "message":"There was corrosion around U7650.\npin 22 (VREG3) trace was broken due to corrosion.\nAfter fixing VREG3 I now get 0v on PP3V3_S5 and P3V3S5_EN is low.\n- pin 23 is 0v because PPBUS_G3H is 0v\n- pin 12 0v\n- pin 13 0v\n- pin 22 0v\n- pin 29 0v - pin 21 0v"
+    },
+    {
+        "post_id":47747,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-24 07:22:48",
+        "message":"Strange to get any voltage at 3V3_S5 (even low), if no PPBUS_G3H present.\nPost resistance to ground (diode mode) for PPBUS_G3H."
+    },
+    {
+        "post_id":47748,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-24 07:31:53",
+        "message":"Yeah thats not possible. 3V3_S5 had a low voltage. Now it doesn't so doesn't PPBUS_G3H.\nPPBUS_G3H diode mode when doing the red wire on ground:\n- 0.422\n\nShould PPBUS_G3H be at 5v from PPDCIN_G3H when there is no 20v?"
+    },
+    {
+        "post_id":47761,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-24 18:14:26",
+        "message":"PPBUS_G3H could be even 13V when PPDCIN_G3H is 5.2V.\nBut SMC decides that, in base of power supply detected.\nIt needs to talk with the power device attached to USB-C port.\nSeems that it can't in your case."
+    },
+    {
+        "post_id":47762,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-25 01:42:49",
+        "message":"Even without battery? I thought u7000 is a buck converter that can't do boost or can it?\nThe SMC is already reflowed so either the SMC is dead or SMC is missing something I guess (like maybe S5_PWRGD). \nI think the best way for me would be to buy a working board and compare. Than I can always use that board to compare if no 20v is given."
+    },
+    {
+        "post_id":47763,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-25 03:22:11",
+        "message":"U7000 can work as buck-converter (with Q7030) when receives 20V at R7020.\nBut it can work as boost-converter too (with Q7040) from 5V at R7020.\nHigh-side MOSFET of \"unused\" Q7030\/40 will stay always ON (short) and low-side one in OFF (open) state.\nOnly one of Q7030\/40 works in PWM mode.\nTo enable fast battery charging, 20V required for buck-converter mode.\n\nI don't have similar board to play with now, but I'm pending for more tests when available.\nRecently got one A1534\/00045 where I can confirm 8.6V at PPBUS_G3H, even 3V3 and 5V at the coils; with only 5.2V from charger (no battery connected)."
+    },
+    {
+        "post_id":47765,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-25 03:37:20",
+        "message":"Interesting.\nBut u7000 is enabled from SMC I think. Unless it always tries to add voltage to PPBUS in that case u7000 is faulty.\nSo two scenarios:\n- u7000 always add voltage to PPBUS which results in U7650 maybe enabling P3V3S5 which results in S5_PWRGD which enables SMC.\n- u7000 waiting for SMC which just simply doesn't start and doesn't require S5_PWRGD.\nIt al comes back to S5_PWRGD. If that is not needed for the SMC to start communicating on any i2c line like CD3215 or U7000 than the SMC is bad."
+    },
+    {
+        "post_id":47766,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-25 03:59:28",
+        "message":"SMC is the master, the one which set PPBUS_G3H level.\nSo communication through corresponding I2C bus is required.\n\nRemove U5274\/R5275 (as per case) and check if any voltage appears at PPBUS_G3H."
+    },
+    {
+        "post_id":47787,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-25 14:30:08",
+        "message":"No difference.\nSMC_RST_IN is also around 90k.\nSMC_RST_IN stays LOW which seems fine.."
+    },
+    {
+        "post_id":47790,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-25 18:43:05",
+        "message":"Yeah, on old boards is active low; its name ends in _L.\nISL6259 will deliver 12.25V (3 cells battery case) with 0V at reset pin (reset enabled).\nIn such case no communication is possible through I2C with SMC.\nYou can force now 3V at ISL9239 reset pin (SMC_RST_IN); it will enable reset in this case.\nDon't forget to isolate SMC_RST_IN for the rest of board.\nU7000 should enable reset for SMC too (0V at SMC_RESET_L) and you can check if some voltage appears at PPBUS_G3H.\nI don't know untill which point has similar behaviour with old boards..."
+    },
+    {
+        "post_id":47797,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-26 00:46:46",
+        "message":"Well nothing interesting is connected to SMC_RST_IN or SMC_LSOC_RST so i've applied 3v to them (no keyboard connected).\nResult is SMC_RST_IN low, SMC_RESET_L low and BUF_SMC_RESET_L low.\nNo voltage at PPBUS_G3H.\n\nVery interesting things happen though when I disconnect the 3v.\nSMC_RESET_L gets high again (3.41v) but BUF_SMC_RESET_L gets to only 1v.\nAfter disconnecting charger and reconnecting same thing happens. Than waited some time reconnect charger and BUF_SMC_RESET_L is 3.41v again.\nI do have U8510 (SLG4AP4998). \nI though you may have found the issue but after waiting and reconnecting charger it's 3.41v again. So either the SMC is doeing weird things or U8510 may be bad."
+    },
+    {
+        "post_id":47808,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-26 04:10:27",
+        "message":"Discard U8510 first.\n\n\"Result is SMC_RST_IN low\"\nYou are injecting 3V there, no?"
+    },
+    {
+        "post_id":47819,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-26 06:50:35",
+        "message":"Sorry damn I'm making mistakes in documenting it here. \nSMC_RST_IN high to 3v\nSMC_RESET_L than goes low.\nBUF_SMC_RESET_L also goes low.\n\nWhen SMC_RST_IN power is removed:\nSMC_RESET_L goes to 3v\nBUF_SMC_RESET_L sometimes stops at 1v\n\nWhat do you mean with discard U8510? What does it do? In the schematics there is a bypass version which just has a 0 ohm resistor between SMC_RESET_L and BUF_SMC_RESET_L."
+    },
+    {
+        "post_id":47820,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-26 07:33:11",
+        "message":"Change U8510, if possible.\nOr try the bypass at least (chip removed); just to see what happens with PPBUS_G3H."
+    },
+    {
+        "post_id":47827,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-26 13:51:42",
+        "message":"Ok I've removed U8510 and replaced it with a bypass resistor just for the SMC_RESET circuit. When the 20v works I'll place a u8510 from a donor board.\nAnyway the 1v issue is gone. Still no difference on the other rails. Still nothing on PPBUS_G3H."
+    },
+    {
+        "post_id":47838,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-26 19:13:49",
+        "message":"Can you change U7000?"
+    },
+    {
+        "post_id":47841,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-27 02:10:46",
+        "message":"I don't have them available but can order them. Will take two week though.\nSo at this point I think that would be the best option.\nAlso If that doesn't work I'm thinking of replacing the SMC.\nI have a china donor board with the same 820-00840.\nAlso on ebay there are SMC chips for sale. TM4EA23IH6ZXRI which matches exactly.\nUnsure if that might be an option.\nThe serial number and manufacturing date are burned in the SMC right? So changing SMC would change serial number?"
+    },
+    {
+        "post_id":47842,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-27 03:24:38",
+        "message":"New SMC is useless; must be removed from donor board, same model...\n\nWe suspect U7000 and\/or SMC, assuming good USB-C communication; cross the fingers.\nCan you detect any activity (with o-scope) at UART lines of USB-C controllers?\nAlso look at any data lines between them and SMC."
+    },
+    {
+        "post_id":47846,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-27 04:02:00",
+        "message":"I'm not at location at the moment so I can't double check but I've previous measured the following:\n- On UART TX line was activity\n- On UART RX line was activity (so they both communicate. Was unable to see at what baud rate though)\n- On the SPI lines to the ROM chip was also activity\n\nWill verify when I'm at home.\ni2c lines between SMC and CD3215 are not there. They're just high the entire time.\nHaven't verified any lines between charger and CD3215 because I need to remove the metal cap around the USB-C controller which I haven't done yet."
+    },
+    {
+        "post_id":47866,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-03-27 13:30:02",
+        "message":"So I've done some digging.\n\nUART:\n[ATTACH alt=\"NewFile4.png\" type=\"full\"]47867._xfImport[\/ATTACH]\n1.2us for one bit means a UART baud rate of 833333. High but not impossible. This would make sense because connected to my computer I was getting different data transfers on every baudrate. So 833333 seems possible.\n\n[ATTACH alt=\"NewFile5.png\" type=\"full\"]47868._xfImport[\/ATTACH]\nTransfers are send as pairs with some fixed delay in between.\n\n[ATTACH alt=\"NewFile6.png\" type=\"full\"]47869._xfImport[\/ATTACH]\nZoomed out.\n\n[ATTACH alt=\"NewFile7.png\" type=\"full\"]47870._xfImport[\/ATTACH]\nThen you can see that there are some long delays between each 'packet'. A total of 10 are send when power is applied. This is the same for TX and RX.\n\nThen SPI:\n[ATTACH alt=\"NewFile8.png\" type=\"full\"]47871._xfImport[\/ATTACH]\nThis is the CLK signal. As you can see the period is 42ns which relates to a SPI clock speed of 23.81MHz. At first I thought that's impossible that's really high. \nThan a quote from the SPI ROM chip (W25Q80DVUXIE):\n\"The W25Q80DV\/DL (8M-bit) Serial Flash memory provides a storage solution for systems with limited\nspace, pins and power. The 25Q series offers flexibility and performance well beyond ordinary Serial\nFlash devices. They are ideal for code shadowing to RAM, executing code directly from Dual\/Quad\nSPI (XIP) and storing voice, text and data. The W25Q80DV operates on a single 2.7V to 3.6V and the\nW25Q80DL operateds on a single 2.3V to 3.6V power supply with current consumption as low as 1?A\nfor power-down.\"\n\n\"The W25Q80DV supports the standard Serial Peripheral Interface (SPI), and a high performance\nDual\/Quad output as well as Dual\/Quad I\/O SPI: Serial Clock, Chip Select, Serial Data I\/O0 (DI), I\/O1\n(DO), I\/O2 (\/WP), and I\/O3 (\/HOLD). SPI clock frequencies of up to 104MHz are supported allowing\nequivalent clock rates of 208MHz (104MHz x 2) for Dual I\/O and 416MHz (104MHz x 4) for Quad I\/O\nwhen using the Fast Read Dual\/Quad I\/O instructions.\"\nSo the 23.81MHz now seems pretty realistic.\n\nThe SPI ROM size is 8mbit. With a speed of 23.81mbit\/s that would explain the very short data transfer on power on. It's really fast.\nI'm guessing the entire firmware is in the ROM and is transferred through UART to the other CD3215. There is always one CD3215 connected to the ROM and the other is connected through UART.\nWhen 4 CD3215s are on logic board then there are two ROMS.\n\nChanging CD3215C to CD3215B may be possible when also changing ROM. This may only be valid when the I2C communication with the SMC is the same with the B and C revisions.  \n\nAnyway SPI and UART definitely work :)\nUSB-C communication still unsure."
+    },
+    {
+        "post_id":47881,
+        "thread_id":47624,
+        "title":"820-00840 no SYSCLK_CLK12M_SMC",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-03-27 18:42:25",
+        "message":"CD3215 chips boot in master\/slave pairs.\nThe second one (slave) boots from UART lines of first one (master).\n\nThese new boards require lot of work to collect necessary information for repairs.\nI appreciate the time you take on this one.\nShould be good to check an working board and see what happens with PPBUS_G3H when SMC_RST_IN is forced high.\nYou can see then if U7000 requires communication with SMC, in order to generate PPBUS_G3H."
+    }
+]

@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":18988,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-04-24 04:15:50",
+        "message":"Hi,\n\nI have that board which has the quarter fan spin. It has the normal sign of corrosion on the top edge of the board but looks quite good though.\nI have measured the voltage drop to ground on the S3 and S0 rails and have found a 0.115v drop ground on PP5V_S3 compared to a 0.425v drop to ground on a known working board.\nCan someone confirm this measurement?\n\nAlso, since it is not a complete short circuit, I have tried removing a few chips, like all the audio amps (U6610, U6620, U6630, U6201), some USB chips (U4800, U4600) but no cigar.\nI do not believe it has to be a caps, am I right to think that?\n\nHave anyone experienced that and could give me a hint?"
+    },
+    {
+        "post_id":19004,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-04-24 05:47:31",
+        "message":"CPU Vcore coming on?"
+    },
+    {
+        "post_id":20344,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-05-16 23:13:42",
+        "message":"No it's not coming on.\n\nActually you lead to find that this rail is shorted..."
+    },
+    {
+        "post_id":20358,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-05-17 04:32:31",
+        "message":"CPU Vcore is not shorted :( Did you even compare to a known good one.\n\n5V_s3 should be in the 0.4xx range. Not that many components on that rail really and no way to find the short besides pulling stuff off. Usually it is U4800 that goes first, but anything on the rail can be dead."
+    },
+    {
+        "post_id":21604,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-06-12 22:31:56",
+        "message":"Hello,\n\nWell... after spending some more time on that board, I finally got the short to be gone however I am not getting CPU_VCORE.\nThe enable signal on CPUIMVP_VR_ON is 3.3V and PP5V_S0 is 5V.\nI have measured voltage on Phase 1 and 2 and I am getting 0V. Resistance to ground on these rails is 3ohms whereas on a known good board it is 6-7ohms.\n\nShall I assume CPU is shorted?"
+    },
+    {
+        "post_id":21641,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-06-13 16:06:02",
+        "message":"What was causing the low reading on 5V rail?"
+    },
+    {
+        "post_id":21671,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-06-13 20:24:15",
+        "message":"Not sure to be honest...\n\nI input 5V onto that rail to find out what would become hot.\nI couldn't find anything.\n\nThen plugged back the fan to start doing some other measurements and saw the fan spinning normally. That's then I realize I would not get any voltage on the CPU."
+    },
+    {
+        "post_id":21672,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-06-13 22:02:41",
+        "message":"Well back to step 1... I've replaced U7400 and still got the CPU rail not trun on. Then I decided to replace Q7510 and Q7520 and I am back to a quarter fan spin.\nIf I understand well, I should replace U7400, Q7510, Q7520, Q7550 and Q7560 , all at the same time, if the problem comes from the buck converter right?"
+    },
+    {
+        "post_id":21703,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-06-14 18:47:10",
+        "message":":( Where did I even suggest messing with U7400 and friends. The CPU is not talking to U7400 that is why there is no Vcore.\nYou have now introduced more variables that could be wrong. I suspect corrosion under SMC\/PCH and possible bad clock chip. But now U7400 etc was messed with I can not rule that out also......"
+    },
+    {
+        "post_id":24981,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":680,
+        "username":"phuketmymac",
+        "post_date":"2017-09-02 21:36:50",
+        "message":"Ok, let's assume you are right and I screw up the board doing that.\n\nThough, in order to understand, what could prevent the CPU rail from being created if U7400 is powered on and CPU_IMVP_VR_ON is at 3.3V.\nI am also getting less than a volt on both CPUIMVP_TONA and CPUIMVP_TONB which seems fine.\n\nWhich signal from the SMC\/PCH could be missing, disabling U7400?\n\nThanks."
+    },
+    {
+        "post_id":24995,
+        "thread_id":18988,
+        "title":"820-3115 with quarter fan spin (low resistance to ground on PP5V_S3)",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-09-03 03:54:26",
+        "message":"CPU talks to U7400 to set the voltage, read the datasheet on this chip."
+    }
+]

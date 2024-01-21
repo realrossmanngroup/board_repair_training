@@ -1,0 +1,74 @@
+[
+    {
+        "post_id":93677,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2022-11-03 19:14:33",
+        "message":"Hello. I have a 820-01700 that has no liquid damage, but was not turning on. I was getting 20v and amps fluctuating up to .700ma and then back down to 0.03a. The ports on the right side of the mac did not work at all and gave me 0v on my meter. I checked those ports and found a short on USBC_TB_CC1, USBC_TA_CC1, USBC_TA_CC2. I replaced UB300\/400 with new chips I got on eBay and then I was getting 5v 0.27a on all 4 ports. I decided to try it with a charged battery and got it to turn on with the battery connected and it boots to the OS, but charger is not detected. Amp meter shows 20v 0.03a on all 4 ports when the board is on and booted with the battery connected. UPC_I2C_INT_L is always 0v, which I think is why the charger is not being detected. It is 1.8v on a good board. R5246 is good. Doing more research I found this [URL]https:\/\/logi.wiki\/index.php\/CD3217_and_T2_Power_on_Sequence#820-001700_CD3217_Compatibility_issues[\/URL] which seems to indicated that some CD3217 chips are not compatible with this board. I then tried to take good 2 CD3217 chips from a 2019 820-01598 donor board and reballed them and replaced UB300\/400 again, but I still have the same issue. I even tried a T2 firmware restore and it completed successfully, but did not fix the issue. What should I check next?"
+    },
+    {
+        "post_id":93699,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2022-11-05 13:52:52",
+        "message":"Update on this. I got another 820-01700 board that turns on but has a GPU issue. I took all 4 CD3217 chips from this donor board and used them to replace all 4 CD3217s on the board I am working on. I also took both TBT rom chips from the donor board and swaped them on my board. So now I have a full set of compatiable CD3217's and matching TBT roms, but I am still getting 5v 0.27a on all 4 ports without the battery and it still turns on only using a battery. I tried to do another DFU restore, but I cannot because now it seems I have no USB activity on any ports. I can tell the mac is in DFU mode based on the amps its taking, there is not communication over the tunderbolt cable, so nothing comes up on the other computer and I cannot do the restore. When the computer is on a booted, USB drive is not detected on 3 of the 4 ports, and one ports give me an error that it needs power.\n[ATTACH]60851[\/ATTACH]"
+    },
+    {
+        "post_id":93708,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-07 01:01:15",
+        "message":"Compare diode mode readings around all CD3217 chips with good board.\nPay atention to pages 32 and 112."
+    },
+    {
+        "post_id":93741,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2022-11-07 13:20:03",
+        "message":"I compared diode mode values on J3300 and JB500 with a good board and most of the signals are the same, except for the PPVBUS_USBC signals and PPBUS. PPBUS is only 0.360 which seems a little low compared to a good board.\n\nBad Board:\nPPVBUS_USBC_XA - 0.144\nPPVBUS_USBC_XB - 0.188\nPPVBUS_USBC_TA - 0.144\nPPVBUS_USBC_TB - 0.144\nPPBUS_G3H - 0.360\n\nGood Board:\nPPVBUS_USBC_XA - 0.188\nPPVBUS_USBC_XB - 0.144\nPPVBUS_USBC_TA - 0.188\nPPVBUS_USBC_TB - 0.188\nPPBUS_G3H - 0.440"
+    },
+    {
+        "post_id":93749,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-08 02:18:00",
+        "message":"Are you using 96\/140W charger for sure?\n\nDo you get 5V at L3500, or LB700, depending where the external USB device (not charger) is connected?"
+    },
+    {
+        "post_id":93766,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2022-11-08 08:06:15",
+        "message":"I am using a 140w charger.\n\nI get 5v on PP5V_S4_X_USBC when I plug in a USB drive to the ports on the left side, but the light does not come on on the drive, and it gives me the error that it needs power. When I plug the drive into the other side, I get 0v on PP5V_S4_T_USBC, and usb drive does not seem to be recognized at all. \n\nI have one of these adapters [URL]https:\/\/www.apple.com\/shop\/product\/MUF82AM\/A\/usb-c-digital-av-multiport-adapter[\/URL], and when I plug the usb drive into the USB-A port on that adapter and then plug it into one of the ports on the left side, the light on the drive turns on and flashes and the drive is reconginized and usable in MacOS. No more error saying it needs power now when using this adapter. Not sure why."
+    },
+    {
+        "post_id":93777,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-08 09:45:52",
+        "message":"U3500 and UB700 work in the same manner.\nCompare their voltages when you connect an external USB device on the corresponding port.\nCheck their power rails and enable signal."
+    },
+    {
+        "post_id":94233,
+        "thread_id":63243,
+        "title":"820-01700 Only works on battery, does not charge",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2022-11-20 16:47:16",
+        "message":"This is solved now. See below for what I did to fix it. Hopefully it helps someone else. \n\nI tried multiple different CD3217's from multiple different donor boards, and none of them seemed to work. I was always getting 5v 0.27a on all 4 ports using just the charger, but it turns on using battery. Out of desperation, I put all 4 of the original CD3217's back on the board (including the 2 bad UB300 and UB400 chips) and put the original TBT rom's back as well. Now I was back to where I started with the board giving me 20v now and up to .700ma before it turns itself off. In this state, it does not turn on even with the battery, but I do get 20v and the battery will charge now. This confirms the issue is with the CD3217\u2019s I was using. It seems the CD3217's I used are not compatible with this board, although I do not really know how to tell which ones are and which are not. I purchased 2 CD3217's online that were specifically said to be compatible with an A2141, and replaced UB300 and UB400 again with these 2 new chips. After that I was still getting only 5v 0.27a on all 4 ports, but this time the ports on the UB300\/400 side were power cycling every 5 seconds or so. I suspected and issue with UB090 so I took UB090 off of a 820-00928 donor board and flashed it with the correct firmware for an A2141, and then replaced UB090 on this board with that one. Now I finally got 20v using just the charger and the board turns on without the battery. Now everything seems to working correctly."
+    }
+]

@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":17197,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-03-23 13:06:33",
+        "message":"Working on an 820-3115 board that has \"bouncing\" voltages all around. Hard to pinpoint where it starts and, obviously, what's causing it:\n\n1. PPBUS_G3H with charger bounces from 12.26v to 12.59v and in-between over and over. Up then down, then up.\n2. VRTC_G3H bounces from 3.32v to 3.43v and in-between over and over.\n3. PP5v_s5, same symptoms (bouncing).\n3. SMC_PM_G2_EN bounces so fast the multimeter doesn't catch it.\n4. Tiniest amount of liquid corroded R5014, so I replaced it.\n5. Replaced SMC, U5010 and U7941, as well as the clock, as I've seen those all cause similar issues in the past.\n6. PPBUS_G3H is steady at ~12.10v with battery, no bouncing, but the board does not power on with battery.\n\nI was going to replace U7000, but it would just be a guess at this point; I have a feeling that the cause is earlier in the power line, as it's affecting all of these down-the-line rails. I thought for sure replacing the SMC would resolve it, but it doesn't. PP3v42 is steady (no bouncing), and it's steady at U5010.\n\nAny ideas where I should check next? All help appreciated."
+    },
+    {
+        "post_id":17207,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-23 13:35:01",
+        "message":"The real question here is of course is SMC_RESET stable?"
+    },
+    {
+        "post_id":17208,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-03-23 13:37:29",
+        "message":"Hey Duke, yes SMC_RESET_L is 3.42v, stable.\n\nAlso, I wanted to add: I found no shorts anywhere on the board, across all main power rails."
+    },
+    {
+        "post_id":17210,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-23 13:43:10",
+        "message":"G2_EN not being stable can indicate another SMC failure or S5_PWRGD going low. S5_PWRGD going low could be caused by a short on the 3V3_S3\/S0 bus. Possible TPS51125 issue....\n\nBut PPBUS going to 12.23V would indicate a total reset\/crash of the SMC. Is the battery indicator working when a charged battery is connected?"
+    },
+    {
+        "post_id":17213,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-03-23 13:58:01",
+        "message":"Hey Duke, yeah battery indicator works normally with battery connected. I'm going to swap out u7200 real quick and see if that has any affect on anything.\n\nEdit: UPDATE on this post--the battery level indicator literally worked 1 time, and now it does not work when a charged battery is connected. I wanted to check if the board charged a battery, and when I plug in the charger, the BIL illuminates, but it does NOT respond to being pressed. This is definitely looking like a case of the SMC being in a wrong mode."
+    },
+    {
+        "post_id":17214,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-03-23 14:07:55",
+        "message":"Swapped out U7200 and no change.\n\nI thought for sure it was the SMC originally, and I pulled it from a board with liquid-damage to the reverse IO area. I imagine it could always be bad, too, but it would be peculiar it's giving the exact same behavior as the original one (instead of being bad in some other way, etc).\n\nWould you suggest I try replacing the SMC again?\n\nI just updated the above post; the BIL worked one single time (the first time I plugged in a battery--immediately before writing the post), but now it won't work until the charger is connected. It lights up when charger is connected\/disconnected, but does not work when the button is pressed. Charger also never turns orange with a half-charged battery."
+    },
+    {
+        "post_id":17219,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-23 14:48:27",
+        "message":"I'm pretty sure the SMC is crashing\/resetting. Confirm 3V42 is good and SMC_RESET is good."
+    },
+    {
+        "post_id":17224,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-03-23 15:27:50",
+        "message":"Yeah, I'm going to check everything well in the morning and may pull the SMC again. 3v42 looked fine everywhere, and U5010 was doing it's job (replaced it again to be sure). I'll update once I've done all that--thanks for your help with this, Duke."
+    },
+    {
+        "post_id":17256,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-03-24 07:25:53",
+        "message":"OK, a bit of an update, but no real change:\n\nI replaced the SMC again with a known-good chip. I pulled it from a board that powered on but had 2 bad RAM slots. Chip replacement went well, as usual, and behavior is 100% identical. I think I can firmly rule out the SMC in this case. This is the 3rd chip that's been on the board, and every time the behavior goes completely unchanged. \n\nI replaced U7000, simply because I saw that SMC_RESET_L is connected, and wanted to make sure I tried everything related to SMC_RESET. No change.\n\nI did want to update the thread with more information, as some of it is new and\/or has changed:\n\n- Charger light flickers ever so slightly (solid green light the whole time, just indication of power attempting to stabilize), which is common with this type of issue from what I've experienced.\n- BIL DOES work after all. After some back-and-forth on this, and me deciding to try a new BIL assembly, I get a working BIL with battery connected. This has been convoluted, but there is BIL function (when I said it \"worked once\", that was due to a faulty assembly after all, and not a board\/SMC function issue).\n- have replaced U7000, U7200, SMC, U5010, Clock, U7941.\n- PP3v42_G3H is stable at 3.44v\n- PPBUS_G3H fluctuates from 12.1 - 12.6\n- SMC_RESET_L is stable at 3.42v\n- SMC_ONOFF_L is stable at 3.44v\n- PM_PWRBTN_L is not stable at all--fluctuates from .9v to 1.8v, etc., so I guess the board is thinking the power button is being pressed over and over?\n- Keyboard connector looks fine\n- R1985, R2585, and R2502 all check out fine.\n\nSounding like it may be a PCH issue at this point. Would it be worth sending this thing through the ultrasonic as a last ditch effort? Maybe something underneath the PCH?\n\nI'll call it quits on this board after one more reply from you duke, as I don't want to take up a ton of time with one thread. I was just hoping to fix this one as it's a 2.9 i7 model."
+    },
+    {
+        "post_id":17258,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-24 08:08:02",
+        "message":"The green light flickering still suggest an issue with the SMC. I really have no idea, inspect for corrosion or damage around SMC area. Regardless of the PCH it should charge a battery."
+    },
+    {
+        "post_id":17265,
+        "thread_id":17197,
+        "title":"820-3115 that's got me stumped.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2017-03-24 09:07:58",
+        "message":"Thanks, Duke. I'm giving up on this one. SMC area looks flawless, and I've replaced the SMC three times. Not worth the time anymore. I appreciate your help on it! Thanks."
+    }
+]

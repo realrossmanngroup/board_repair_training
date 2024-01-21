@@ -1,0 +1,281 @@
+[
+    {
+        "post_id":85274,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-19 16:36:42",
+        "message":"It's not too often I see a device where all of the USB-C ports pull basically zero current (Starts at 0.01A and drops to 0.0A) with no looping or other activity, but that's the case on this 820-01700-05. No liquid damage or issues spotted with a visual inspection, pretty through check for shorts didn't turn up anything, customer reports sudden death. Anything in particular that's common on this model that I should check for before spending an hour going through every power rail in the CD3217 startup sequence? The best reference I've found so far is [URL]https:\/\/logi.wiki\/index.php\/CD3217_and_T2_Power_on_Sequenc[\/URL], but that's a heck of a lot of rails to test and not specific to this board."
+    },
+    {
+        "post_id":85276,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-19 16:45:57",
+        "message":"First step for T2 machine, check if is recognized in DFU.\nIf not, then need to get into hardware."
+    },
+    {
+        "post_id":85277,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-19 16:47:04",
+        "message":"Actually PPBUS_G3H is 0.099V diode drop to ground, which is surprising given it didn't beep during an initial quick check. Every CPU related coil measures approx 0.1V drop to PPBUS_G3H, what all do I need to check before safely injecting power?"
+    },
+    {
+        "post_id":85278,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-19 16:48:36",
+        "message":"[QUOTE=\"2informaticos, post: 85276, member: 682\"]\nFirst step for T2 machine, check if is recognized in DFU.\nIf not, then need to get into hardware.\n[\/QUOTE]\nI don't have a working USB-C machine on hand to test with at the moment, but given the above update, I believe that indicates a certain hardware issue?"
+    },
+    {
+        "post_id":85280,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-19 17:20:13",
+        "message":"Okay, did a lot of measurements and determined the CPU fets should be good, so I injected 13.1V into PPBUS_G3H, consumed about 250mA and U9580 got warm, found PP2V5_NAND_SSD0 to have low resistance (About 6 Ohms, but randomly drops to nearly 0 on occasion), so I injected 2.5V into that rail which consumed 250mA, but on occasion randomly jumps to 4Amps for a few seconds (I've observed this repeatedly, I'm not accidently shorting anything). U9400 gets warm with 3 distinct hot spots that melt first when using freeze spray. Is this adequate to conclude that this NAND chip has died? What do I need to do to replace this NAND chip? Can I just swap this one and dfu restore afterwards or is it a more complex process?"
+    },
+    {
+        "post_id":85288,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-20 01:01:21",
+        "message":"Pufff, injecting 13V directly; too risky, don't do this again.\n\nDid you check diode mode to ground at L9580 first?\nWhat if there was 0.099 (meaning L9580 shorted to PPBUS_G3H)?\n\nWe have few threads about changing NAND chips, but nobody left a feedback about did it and succeed.\nOf course, DFU is needed in such case.\nSome people claim on Internet they got it swapping with NAND from the same position on the donor board.\n\nBTW, do not write the end \"V\" after diode mode reading; avoid voltage confusion."
+    },
+    {
+        "post_id":85310,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-20 07:58:28",
+        "message":"In the future, how would you recommend finding a partial secondary short with low power consumption if not by injecting on the main rail? I started at 1V and worked up very gradually while monitoring the outputs of every independent fet I could find to determine that there wasn't a significant risk before cranking up the power.\n\nI didn't check at L9580 first, and certainly see your point, but also from experience I believe it's a lot less common for an integrated buck IC like this to short the input rail to the output than with independent fets. What do you suggest instead when most everything on the board shows a low diode drop?\n\nI'm willing to go through with changing all the NAND chips + controller + rom if need be as this is a pretty expensive device, but I'm struggling to come up with any definitive answers on this. I suppose I'll just have to get a donor and start with one, and swap the rest if it doesn't work. I don't suppose it would be possible to use an iPhone NAND programmer to clone the low level data to another NAND chip I already have laying around, would it?\n\nWill do, thanks for your help!"
+    },
+    {
+        "post_id":85317,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-20 08:53:00",
+        "message":"If a NAND chips is bad and need to be replaced, I bet you cannot even read it, no?\n\nWe talked a lot about how and NOT to inject voltage on PPBUS_G3H power rail on the forum.\nALWAYS check first for shorted high-side MOSFETs; including the ones integrated on the power chips.\nIf you search the forum, will find lot of threads with shorted U9080\/580!\n\nBTW, you've didn't mention to started voltage injection with 1V; just said injected 13V..."
+    },
+    {
+        "post_id":85324,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-01-20 09:21:03",
+        "message":"There's been some recent developments with reading sysconfig data from dead iPhone NANDs, generally it's more focused on when the damage prevents access to the main partitions but still allows the sysconfig regions to be read with some software tricks, but I've also had success with using this on partially shorted NANDs while injecting external power. Maybe I'll give it a go, probably can't hurt.\n\nInteresting, I'm surprised the integrated fets short that often, I will check that in the future! Fair point, I was trying to summarize a lot of testing that I did.\n\nAssuming the customer approves the quote, I'll let you know what I find wrt NAND swapability."
+    },
+    {
+        "post_id":86340,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-15 19:23:36",
+        "message":"Finding donor NAND's for this board has been quite the saga, but now I'm afraid it might have been in vain.\n\nI removed U9400, the NAND that was getting warm, after which PP2V5_NAND_SSD0 still has a diode reading of 0.018, which seems low to me. This is the exact same value as it had before, expect previously when I injected 1V into PP2V5_NAND_SSD0, the board consumed 5A, now it only consumes 80mA.\n\nUpon powering the board, PP2V5_NAND_SSD0 alternates between 1.5V and 3V in 3-5 second intervals. Previously it was partially shorted and nearly 0V. This is not what I expected to find, and I'm pretty confused as to how I'm getting 3V on a 2.5V line that's switched off of a subsidiary of PPBUS. Does this point to swapping 6x NANDs being a waste of time? Or what could possibly be going on here?"
+    },
+    {
+        "post_id":86341,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-15 19:25:37",
+        "message":"Additional note: Before removing U9400, the board consumed 0.01A at 5V when powered, now it consumes 0.110A at 20V, so I feel confident the NAND was the issue, but I don't understand the present situation."
+    },
+    {
+        "post_id":86345,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34883,
+        "username":"Maltinho",
+        "post_date":"2022-02-16 00:12:08",
+        "message":"[QUOTE=\"Alex Thayer, post: 86340, member: 34273\"]\nFinding donor NAND's for this board has been quite the saga, but now I'm afraid it might have been in vain.\n\nI removed U9400, the NAND that was getting warm, after which PP2V5_NAND_SSD0 still has a diode reading of 0.018, which seems low to me. This is the exact same value as it had before, expect previously when I injected 1V into PP2V5_NAND_SSD0, the board consumed 5A, now it only consumes 80mA.\n\nUpon powering the board, PP2V5_NAND_SSD0 alternates between 1.5V and 3V in 3-5 second intervals. Previously it was partially shorted and nearly 0V. This is not what I expected to find, and I'm pretty confused as to how I'm getting 3V on a 2.5V line that's switched off of a subsidiary of PPBUS. Does this point to swapping 6x NANDs being a waste of time? Or what could possibly be going on here?\n[\/QUOTE]\n\nWhere did you take the donors from? Exact same board or maybe iphone?"
+    },
+    {
+        "post_id":86346,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-16 00:17:02",
+        "message":"[QUOTE=\"Maltinho, post: 86345, member: 34883\"]\nWhere did you take the donors from? Exact same board or maybe iphone?\n[\/QUOTE]\nI have not installed any donor NANDs yet. Just removed the shorted NAND and observed that somehow I'm getting 1.5 to 3v on a 2.5v line. I'm familiar with the need to transfer a complete set of NANDs from a select list of compatible boards and match up the clock request line IDs and not doing anything silly. I have an exact match donor board in this case.\n\nIf you're asking for yourself, unless you've developed a new programmer tool, you can't use an iPhone NAND, there's system configuration data on each NAND that's used to configure the raid array under the hood. There's not a programmer available for transferring or generating this, so you must swap a complete set of NANDs from another board."
+    },
+    {
+        "post_id":86347,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-16 00:56:29",
+        "message":"\"I'm pretty confused as to how I'm getting 3V on a 2.5V line\"\nDid you check the voltage at correct output pin of the coils?"
+    },
+    {
+        "post_id":86386,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-16 08:15:30",
+        "message":"Yes, both sides of L9581, and every other spot I've probed PP2V5_NAND_SSD0 show the exact same behavior. To get more specific on the timing, PP2V5_NAND_SSD0 is 3.07V for about 15 seconds, then drops to 1.51V for about 2 seconds, and then repeats in a loop. This isn't the output of the buck collapsing and residual voltage on the line leaking slowly. The transitions between 3V and 1.5V are sharp, and those levels are stable for their respective periods."
+    },
+    {
+        "post_id":86388,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-16 08:41:52",
+        "message":"You may have problem with R9580\/81\/83 voltage divider, or C9582."
+    },
+    {
+        "post_id":86392,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-16 11:43:12",
+        "message":"C9582 and C9585 are not shorted, capacity test in circuit didn't work but I can pull either if that's helpful.\nR9583 is 10 ohms as expected.\nR9580 and R9581 both measure 150K but show as 475K and 221K on my 820-01700-A schematic.\n\nCould this be due to differences between the 820-01700-A and 820-01700-05 board designs? Looking at the circuit topography makes me feel like this isn't the result of them just being in circuit, as they have almost the exact same value. I can pull them and measure if pertinent.\n\nShould I take voltage measurements throughout the buck circuit?\n\nJust to be extra clear, I have a NAND removed, this isn't the cause of the elevated voltage, right?"
+    },
+    {
+        "post_id":86397,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-16 12:09:08",
+        "message":"The removed NAND cannot change the voltage.\n\nChange C9582, just in case.\nIs not about short there; its capacity sets the soft start time.\n\nR9580\/81 value must be checked out of board.\nYou can play with the mentioned resistors to adjust output voltage.\nIncreasing R9581 will decrease the output voltage.\nGet the same result decreasing R9580."
+    },
+    {
+        "post_id":86415,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-17 00:42:28",
+        "message":"No change with C9582, after removing the original I verified the correct capacitance of 2.2nF\n\nR9580 and 81 have the correct values when removed from the board and tested externally\n\nIs there any way that tinkering with the feedback voltage divider could solve my cycling problem?"
+    },
+    {
+        "post_id":86416,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-17 00:58:31",
+        "message":"Well, I think I figured it out... This board is a trip.\n\nBoard was sitting across the room with USB-C power connected with the same behavior as before I removed and replaced the passives, when U9580 suddenly exploded, and the right 12 pads were completely vaporized. After removing the remains of U9580, I found PP2V5_NAND_SSD0 to be completely shorted and PPBUS to be unaffected. The short is now in NAND chip U9100.\n\nMy analysis is that U9580 was intermittently failing and originally killed U9400, causing the system to cut power. After I removed the short, the elevated voltage on U9580's output was a result of it being on it's last legs, and when I saw it explode PPBUS was connected to PP2V5_NAND_SSD0, killing a second NAND chip and causing the short to return. Sound right to you?\n\nSo, from here... I was planning to replace all the NANDs anyway, is that still realistic in addition to U9580? Or now that we know that PP2V5_NAND_SSD0 probably got hit by PPBUS, is there a high likelihood of severe damage to other circuits such that I should call it quits? Looking at the schematic, U9500 is the only other IC that strikes me as likely to have been impacted."
+    },
+    {
+        "post_id":86417,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-17 02:17:41",
+        "message":"If you are not afraid to change the NANDs chip, do it.\nYou can't lose more than time now.\n\nI recommend to change U9580 and check its output before placing the new NANDs."
+    },
+    {
+        "post_id":86449,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-17 22:39:16",
+        "message":"While I'm comfortable flipping NANDs, donor boards with 6x NANDs in a high capacity SSD configuration are extremely expensive, so I'm very hesitant to take the NANDs off my $275 donor board unless I'm confident this is going to work.\n\nI've now removed all six NANDs, and replaced U9580 with U9080 for testing. Now I have 2.5V on PP2V5_NAND_SSD0, but every 15 seconds or so the output collapses to nearly 0V for about a second. I noticed that PPBUS is going from 12.6V to 12.3V on the same schedule, is this normal for a board with no NANDs? The power consumption on my ammeter is steady at 0.05A 20V. After digging out the burned fiberglass, there was a huge hole in the board and I had to replace pretty much every pad that was not ground with a jumper, so it's possible there's a bad connection to U9580, but I don't see how this would cause PPBUS to fluctuate and I'm pretty confident in my soldering."
+    },
+    {
+        "post_id":86451,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-02-18 02:11:02",
+        "message":"T2 has its firmware partition on SSD.\nBad SSD will also cause T2 problems.\n\nI recommend to keep the NANDs for other board repair.\nThis one may be unrepairable..."
+    },
+    {
+        "post_id":86471,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-18 08:16:49",
+        "message":"Thank you for your insights and advice on this project!\n\nMy hope is that because the T2 can\u2019t find its firmware, the system automatically resets after 15 seconds and that\u2019s why I see fluctuations in PPBUS and other rails.\n\nSo last question - Any idea if it\u2019s normal to see some sort of an automatic reset loop when the SSD isn\u2019t functioning, isn\u2019t powered, or has been removed?"
+    },
+    {
+        "post_id":86509,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-02-19 18:54:28",
+        "message":"Update: I verified with a working board, removing  U9080 caused the behavior described above. I will be proceeding with the SSD transplant."
+    },
+    {
+        "post_id":87137,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-09 18:53:42",
+        "message":"Unfortunately I'm stuck in DFU after the NAND transplant, here's what I did:\n\n-Verified that no NAND power rails were shorted on the donor board\n-Replaced U9080 on the customer board, verified that all NAND voltages were now stable\n-Moved 6x NANDs from an identical donor board with the same size SSD (1TB)\n-Placed all NANDs in the exact same location as on the donor\n-Replaced any small components that were knocked off, verified everything missing nearby was no stuff on the donor\n-Checked for shorts on major NAND power rails, then powered up in DFU\n-Verified that all NAND voltages were as expected\n\nDFU restore gave error 4042 on the first attempt and 16383 on the second attempt. The progress bar quickly approaches the end of step 4 of 4, but then hangs for several minutes before producing an error. There's not much info online about these errors, I'm feeling totally stuck. I'm very confident in my soldering and pretty surprised this didn't work out, any suggestions?"
+    },
+    {
+        "post_id":87144,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-10 00:33:04",
+        "message":"NAND chips are directly connected with T2.\nThe overvoltage could affected it too..."
+    },
+    {
+        "post_id":87163,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-10 08:18:37",
+        "message":"Any way to diagnose this or make sense of those error codes? Can I replace T2?"
+    },
+    {
+        "post_id":87164,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-10 08:35:41",
+        "message":"As already said, nobody left positive feedback on the forum about NAND swap.\nSame apply for T2 replace.\nI appreciate the feedback from your experiment, but maybe didn't choose the best machine to do this."
+    },
+    {
+        "post_id":87179,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":34273,
+        "username":"Alex Thayer",
+        "post_date":"2022-03-10 12:38:50",
+        "message":"I hear you... If I transplant the T2 from the donor board, could that theoretically work?\n\nI see so many of these newer boards dead in the water and would like to raise the repair rate even if it takes throwing in some time and practice at NAND and T2 swaps, in particular this board is work about $1k when working."
+    },
+    {
+        "post_id":87189,
+        "thread_id":62231,
+        "title":"820-01700-05 5V 0.00-0.01A on all USB-C Ports",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-10 14:43:09",
+        "message":"I said, no positive feedback left on the forum.\nPeople claimed to done it on Internet.\n\nThere is some information can't be copied; ID code is baked into T2."
+    }
+]

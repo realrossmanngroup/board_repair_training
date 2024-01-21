@@ -1,0 +1,65 @@
+[
+    {
+        "post_id":9045,
+        "thread_id":9045,
+        "title":"[SOlVED]S820-3330, Missing PPVCORE_S0_AXG.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2016-11-02 12:10:18",
+        "message":"Working an 820-3330 board with no liquid damage. Board powers on, has backlight, but black LCD. No chime. No liquid. Board has PPVCORE_S0_CPU (1.13v) but is missing PPVCORE_S0_AXG (0v). \n\nAt U7542, I have 0v on pins 4, 7 and 8. Other pins have voltage.\n\nIs this a bad PCH?"
+    },
+    {
+        "post_id":9049,
+        "thread_id":9045,
+        "title":"[SOlVED]S820-3330, Missing PPVCORE_S0_AXG.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-11-02 13:42:36",
+        "message":"No AXG is normal on external GPU at boot. If backlight is on system must be working. No chime is probably solved by PRAM reset. Got a LCD assembly to test? 2012 has unique connector.\nMeasure all LVDS line at LCD connector on diode mode, should all measure the same."
+    },
+    {
+        "post_id":9103,
+        "thread_id":9045,
+        "title":"[SOlVED]S820-3330, Missing PPVCORE_S0_AXG.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2016-11-03 07:51:35",
+        "message":"Hey duke, thanks. You were right, the board actually does have video, just no backlight. It also doesn't chime UNLESS I do a PRAM reset. Also, the board does not boot from a hard drive (known-good cable and drive). I only get 30V at pin 40 on the LVDS connector (shouldn't it be closer to 50V?). Backlight enable is present (3.12v). Changed the LED driver with same results. I get 3.3v on pins 2, 3, 4. Fuse measures fine.\n\nDiode measurements for LVDS:\n\nPin 1: 0\n2: .385\n3: .385\n4: .256\n5: .395\n6: .430\n7: .428\n8: .358\n9: .358\n10: 0\n11: .358\n12: .358\n13: 0\n14: .358\n15: .358\n16: 0\n17: .358\n18: .358\n19: 0\n20: .358\n21: .358\n22: 0\n23: .358\n24: .358\n25: 0\n26: .358\n27: .358\n28: 0\n29: .358\n30: .358\n31: .553\n32: .562\n33: .562\n34: .564\n35: .564\n36: .556\n37: OL\n38: .518\n39: .518\n40: .518"
+    },
+    {
+        "post_id":9107,
+        "thread_id":9045,
+        "title":"[SOlVED]S820-3330, Missing PPVCORE_S0_AXG.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-11-03 08:02:44",
+        "message":"30V is fine there should be backlight. Can you see the question mark? Are you using a 2012 LCD cable, they are different to ->2011."
+    },
+    {
+        "post_id":9108,
+        "thread_id":9045,
+        "title":"[SOlVED]S820-3330, Missing PPVCORE_S0_AXG.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2016-11-03 08:04:41",
+        "message":"Yes, I have 3 dedicated test assemblies for 2012 15\" boards, all three result in no backlight with this board (but work fine with other 820-3330 boards we have on hand). I can see the flashing folder\/question mark (which is another issue, as there is a known-good drive and cable in place that, again, works with all the other 820-3330 boards we have)."
+    },
+    {
+        "post_id":9117,
+        "thread_id":9045,
+        "title":"[SOlVED]S820-3330, Missing PPVCORE_S0_AXG.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-11-03 11:22:03",
+        "message":"The usual checks, LCD_BKLT_PWM, SMC_LID."
+    },
+    {
+        "post_id":9169,
+        "thread_id":9045,
+        "title":"[SOlVED]S820-3330, Missing PPVCORE_S0_AXG.",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2016-11-04 06:54:47",
+        "message":"Got this one fixed, and it was sort of weird.\n\nBoard ended up being EFI locked, even though the board WOULD PRAM reset (never seen that before). Board wouldn't chime when powered on unless I reset PRAM, and wouldn't boot from hard drive. Made me think to try booting from USB (even though I had no backlight), and I was able to see the padlock icon pop up. Ah ha! I didn't think that would be the issue, since it would PRAM reset this whole time (normally with BIOS lock it won't PRAM reset). Well, I guess the PRAM reset was only partial (if that's possible?), because once I got rid of the BIOS lock, and reset the PRAM, backlight returned once it hit OSX (it didn't work even immediately after the PRAM reset).\n\nThanks, duke--mark this one solved."
+    }
+]

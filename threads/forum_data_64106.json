@@ -1,0 +1,110 @@
+[
+    {
+        "post_id":100892,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-08-07 08:23:50",
+        "message":"I was testing and saw low resistance on PP3v3_G3H_RTC at one of the CD3217 U3100_T. I thought easy problem. Swapped the CD3217, tested diode and was normal. Powered it up and nothing. Checked it again and it seemed like it was blown again same spot but then I realized that if I waited a while after unplugging the charger the resistance would be back up to normal. Something is lowering resistance on that rail after connecting to charger. It's been a minute but I feel like U3100_T charging port was only one not drawing any amperage but all other ports were just over 5V drawing some amps.\n\nSo I think something related to that port... could something with U2800_T cause that? Does that chip have firmware or can I pull from different model board like 01958 2020 macbook air board? I don't have 01949 donor."
+    },
+    {
+        "post_id":100896,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-07 09:57:14",
+        "message":"Always allow 10-15s since power is removed, before checking diode mode, or ohm scale.\nIf not, the readings may be affected by remanent voltage.\n\nCompare diode mode readings around all CD3217 chips.\nOnline refference table may help you:\n[URL unfurl=\"true\"]https:\/\/openboarddata.org\/?a=showboardsolutions&bpath=laptops\/apple\/820-01949[\/URL]\n\nThe board should boot without TBT chip, but you loss any USB activity once macOS is loaded."
+    },
+    {
+        "post_id":101380,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-09-05 10:47:37",
+        "message":"I was able to get this working by changing out the CD3217 on left side again and some components around it. All seemed good and it boots, but after you turn it off, it wouldn't boot up again without letting it sit a long time (usually have to wait until the next day). It seems to be on as when I check it there is data activity. Internal screen stays off (no image\/backlight) but external screen sticks to Apple logo. I successfuylly tried revive, no change. I let it sit so I could check it with hardware test and that shows no issues. I was able to restore it but issue persists. I've been unable so far to get it through recovery\/reload. I'm a bit baffled as to what's happening. It seems like it just stalls out and display never comes on."
+    },
+    {
+        "post_id":101386,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-09-05 13:26:14",
+        "message":"Are you able to access security settings in recovery menu?\nIf yes, change tem, to allow USB boot.\nThen check how it works with USB macOS."
+    },
+    {
+        "post_id":101439,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-09-07 08:49:38",
+        "message":"I was able to reload it with Ventura but the internal screen stops working and now external works fine. I literally have to wait a whole day for internal screen to work again. It will stay working until the screen shuts off\/sleeps or the mac is powered off. If it is the first boot for the day it will successfully come back on with restart or wake up for the first 15-30 minutes but after that if the screen goes off it won't come back on unless the Mac is shut off and battery disconnected for approximately 18-24 hours."
+    },
+    {
+        "post_id":101443,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-09-07 14:41:13",
+        "message":"You may have problems with lid sensors.\nCheck SMC_LID_LEFT\/RIGHT signals."
+    },
+    {
+        "post_id":101504,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-09-12 10:58:54",
+        "message":"This turned out to be a screen issue. Test screen regularly came on. I attempted to transfer donor t-conn but must have slight damage to ribbon cable now. gets intermittent distortion and I cant see where the damage. resoldered and exact same symptoms :(. WIll have to order a new screen"
+    },
+    {
+        "post_id":101558,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-09-14 07:42:27",
+        "message":"Heyy there, this mac has no keyboard backlight. I'm not sure what changed because originally when i got the board working, half of the KB Backlight worked. Previous tech had ripped left side KB BL cable off completely but right side worked. I ordered top case and neither works. I tried putting board back in original to test and right side doesn't work anymore. I have 5V for PPVOUT_S0_KBLED at J8400\/1. If I press the keyboard light option on the touch bar I don't get the popup that either would normally show it can't be adjusted or that it is adjusting."
+    },
+    {
+        "post_id":101572,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-09-14 11:59:03",
+        "message":"Be sure R8435\/6 are both good.\nCheck all traces of J8400\/1\/2.\nU8472 gets I\/O voltages?"
+    },
+    {
+        "post_id":101596,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-09-15 12:32:10",
+        "message":"appears t2 is not sending PWM. I tried dfu restore and reloading. can i just send 3v3_S0 to pin 12 of u8400 so keyboard BL stays on when awake? I had a similar case with A1989 where keyboard backlight would be intermittent then eventually it was consistently on... seems like this might be related to T2 bug of some sort?"
+    },
+    {
+        "post_id":101599,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-09-15 13:13:57",
+        "message":"ALS works correctly?"
+    },
+    {
+        "post_id":101605,
+        "thread_id":64106,
+        "title":"820-01949 drop in resistance on 3v3LDO after plugging charger in",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-09-16 08:13:41",
+        "message":"Dah! good call. I forgot I had my tech try different display cable when originally screen quit working not sure exactly what he did but L8504 was visibly bad. Replaced and KB backlight is back. I'm happy to finally punt this mac from my bench! Thanks!"
+    }
+]

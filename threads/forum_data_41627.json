@@ -1,0 +1,74 @@
+[
+    {
+        "post_id":41627,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-11-01 21:05:39",
+        "message":"No water damage, received this board initially with no green light it was also missing U9310..\nPP3v42_g3h was 3,42v SMC_BC_ACOK was also 3.4V sys_onewire and adapter_sense = 3.3V.\nIt turned out smc data line was shorted by isl...\n\nReplaced ISL and got green light with ppbus_g3h at 12.23V :( I noticed green light come a little bit later than usual...\nSMC_RESET_L is present at 3.3V.\nchecked U5010 and it's ok, with pp3v42_g3h = 3.42V SMC_RESET_L = 3.3 v SMC_ONOFF_L = 3.3v and 2.8V on smc_manual_rst_l, 3.3v on pin 8. smc_tpad_rst_l = 3.3V.\n\nIt looks like I  will have to find another 2936 smc.\n\nAnything else I could check before replacing SMC, Is U9310 important to put back? I know it shares data line with other components to PCH...\n\nThanks"
+    },
+    {
+        "post_id":41628,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-02 01:34:31",
+        "message":"U9310 is not involved in power on sequence.\nIs used for external display port.\n\nFirst check if R7000 is OK.\nAlso look at resistance to ground on SCL\/SDA lines of battery bus; diode mode, red probe to ground.\nIf get more than 1% difference, remove D6950 and check again.\nIf still bad, remove ISL6259 and measure the values; if not good, SMC issue...\nBIL connector is supposed to be disconnected."
+    },
+    {
+        "post_id":41644,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-11-02 13:11:54",
+        "message":"Thanks for u9310 clarification. And sorry for the basics info i forget to tell.\n\nYes R7000 is 0 ohms with continuity to u7000, I can see also 3,46v on both sides and U7000-Pin13\n\nResistance to ground\nR5280 2,611 kOhms\nR5281  2,614 kOhms\n\nDiode mode also checks ok after changing the shorted ISL\nR5280 0.493\nR5281 0.491\n\nI will go for the SMC maybe a spike killed U7000 and SMC in combo...It sucks I don't have a lot from these old board, I will dig for a good SMC.\n\nI will report."
+    },
+    {
+        "post_id":41665,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-11-03 00:26:28",
+        "message":"So back to the board, Ireplaced smc, and got 12,56v on ppbus_g3h. It's turning magasfe light to orange when a battery is plugged. However board still doesn't boot (no fan spin).\nI found U2800 with a small hole crack, all signal were present except PP3V3_T29. witch is total short from ground."
+    },
+    {
+        "post_id":41668,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-03 02:31:04",
+        "message":"Do you get 32KHz clock output from U2800?\nPM_SLP_SUS_L goes high?\nWhat about 3V3_S5?\n\nI recommend you change U2800; check if PP3V3_T29 is gone when U2800 removed.\nIf not, remove U3810 and see if board starts this way; with new U2800, of course."
+    },
+    {
+        "post_id":41673,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-11-03 08:55:29",
+        "message":"3V3_S5 is present at 3.3v.\nDidn't checked 32 kHz, I will check and confirm it with O-scope and new U2800. I found something like 0.6v wich I think should be more around 0,4V... I will check also PM_SLP_SUS_L.\n\nI found diode mode on PP3V3_S0 very low 0.050. with PP3V3_T29 full short to ground 0.001 in diode mode, must be something with U3810.\n\nI remove u3810 and will report... THANKS!"
+    },
+    {
+        "post_id":41678,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-11-03 12:46:39",
+        "message":"Waw this board is trash I removed U3810 and still full short on PP3V3_T29 and PP3V3_S0 with diode mode 0.050.\nIt looks like endless issues...\n\nPP3V3_T29 short was caused by u3900.\n\ninjected power 3.3V on PP3V3_S0 and only j9000 area and U1800 are slighly warm nit burning at all.\n\nPP1V05_S0 is also full short removed R7640 and confirmed short from system side...\nInjected 1v05 5 amps it draws 2Amps and only U1800 and U1000 are slightly  warm...\nremoved all power switches u4202 u3815 u3816 and caps to make sure...\n\nBoard is in S0 state but it's a nightmare... game over for this one I think, too much trouble...\nthanks for the help..."
+    },
+    {
+        "post_id":41688,
+        "thread_id":41627,
+        "title":"820-2936 with 12,23V on ppbus_g3h",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-11-03 16:48:18",
+        "message":"Sometime, unsuccessful repair serves too; you gain experience!"
+    }
+]

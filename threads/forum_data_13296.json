@@ -1,0 +1,110 @@
+[
+    {
+        "post_id":13296,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-01-19 15:57:46",
+        "message":"Ive got this board here 820-3115 that I've been working on, It had been water damaged pretty good. i had to replace a few components one of them being the smc. the machine now powers on and will boot into os, but fails ASD EFI test for the following...\n\nsensor- current(ID0R) dc in--- reading above the high limit\nsensor- voltage (VC0C) cpu vcore--- reading above high limit\nsensor- voltage (VP0R) pbus --- reading above high limit\n\ndc in on pin 1 of c5439 .27v (doesn't seem right)\ncpu vcore  on pin 1 of c5329 .825v\npbus on pin 1 of r5489 2.1v ( Doesn't seem right) \n\nnot really sure where to go from here. any ideas or is there something I'm just not seeing?"
+    },
+    {
+        "post_id":13304,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-19 18:43:36",
+        "message":"Looks like an SMC issue to me, replace again."
+    },
+    {
+        "post_id":13376,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-01-21 11:47:22",
+        "message":"ok. replaced the SMC again with one i ordered off the internet. Still same issue. Could be that that one was bad also iguess. i had one come in yesterday with same issues (water damage, got it to boot to asd with same errors). Wondering if maybe something is not right with the trace on the data line for pbus?"
+    },
+    {
+        "post_id":13401,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-21 14:17:35",
+        "message":"Check the avref supply to SMC. Check in ASD what the actual readings on the sensors are."
+    },
+    {
+        "post_id":13674,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-01-26 10:59:07",
+        "message":"Sorry took me a minute to get back to this project board. i checked for avref on u5010 pin1 and had .970v also checked pin8 to have .950v. so obvious issue there. i also checked the readings for the ASD failures to find. ID0R is running ar 6.311Amp instead of 4.6Amp, VP0R is running at 19.763v instead of 16v, and VC0C is reading at 3.205v instead of 1.7v.\n\nI'm kinda lost as to which of these i go after first."
+    },
+    {
+        "post_id":13700,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-01-26 14:35:35",
+        "message":"Well U5010 pin 8 needs to have 3V3. So either U5010 is bad or something is loading that rails down. Check resistance to GND on the rail and if not unusually low replace U5010. Else it could be one of the caps on that rails that is pulling it down."
+    },
+    {
+        "post_id":14240,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-02-03 15:03:06",
+        "message":"ok. so i took a look at the area around u5010 to find that i not only had a broken trace between pin3 of q5480 and pin 1 of r5339 but that it was shorted to ground as well. removed some of the trace and ran a wire that solved one of the issuesin asd, also notice a broken trace from pin1 of u5010 to the test point, ran wire from pin1 on u5010 to pin2 of  r5077 and fixed the other sensor issue in asd.\n\nnow for the fun one... vcore voltage is low now. found short to ground on r7550 pin 2.\n\nQuestion is this fixable with out replacing u1000? any ideas i could try or things i might have looked over?"
+    },
+    {
+        "post_id":14245,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-03 16:01:27",
+        "message":"Does the board turn on? ASD errors now?"
+    },
+    {
+        "post_id":14259,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-02-03 18:04:08",
+        "message":"yes the board does turn on but fails asd efi now for....\n\nsensor voltage (vn0c)-- axg vcore sensor is reading above the high limit.\n\nsensor value is reading at 2.55v when high limit is supposed to be no higher than 1.7v.\n\ni found the short to ground on pin 2 of r7550. so not sure how it could be going high with a dead short to ground."
+    },
+    {
+        "post_id":14270,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-02-04 04:03:07",
+        "message":"There is no short AXG is usually a pretty low value. Sensor is just R5339 straight into the SMC so if this is the only sensor failing look at R5339 or bad SMC. Measure actual voltage on AXG first of course."
+    },
+    {
+        "post_id":14279,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-02-04 11:05:02",
+        "message":"ahhh ha. i found an issue with a broken trace going to r5339. Will change and report back."
+    },
+    {
+        "post_id":14283,
+        "thread_id":13296,
+        "title":"[SOLVED]820-3115 asd EFI Failure",
+        "user_id":451,
+        "username":"jgraffis",
+        "post_date":"2017-02-04 12:13:08",
+        "message":"Ok we got this one fixed. broken traces around the u5010 killed me on this one, but was a good lesson for me. \n\nthanks for all the help duke. you can mark this one as problem solved."
+    }
+]

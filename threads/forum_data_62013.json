@@ -1,0 +1,56 @@
+[
+    {
+        "post_id":83055,
+        "thread_id":62013,
+        "title":"A1707 - 820-00281-A Missing S4",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2021-11-25 12:11:56",
+        "message":"Happy Thanksgiving!\n\nI bought an A1707 that was liquid damaged. It [I]sometimes[\/I] turns on after leaving it alone for a while (albeit doesn't boot, but that might be a separate problem).\n\nRight now, these are what I probed for (not in order). It shows 0.05A and 20V from the USB-C meter. I poured Alcohol on the board and it doesn't get [I]that[\/I] hot anywhere.\n[LIST]\n[*]PPBUS_G3H - 12.62V\n[*]PP3V3_S5 - 3.327V\n[*]SMC_PM_G2_EN - 3.42V\n[*]PP3V3_G3H - 3.42V\n[*]PP3V3_S4 - 0V\n[*]PP5V_S5 - 5.15V\n[*]PPBUS_HS_OTH3V3 - 12.62V\n[*]P5VS0_TG - 0V\n[*]P5VS0_VBST_R - 4.79V\n[*]P5VS4_SW - 0V\n[*]PM_EN_PVXS5 - 3.4V\n[*][B]P5VS5_PGOOD - 0V[\/B]\n[*]PM_SLP_SUS_L - 0V\n[*]S5_PWRGD - 0V 100Ohm to ground right after powering off but rises to 90k\n[*][B]P5VS4_PGOOD - 0V[\/B]\n[*]PP3V3_S5 - 5V\n[*]P3V3S5_SW - 3.3V\n[*][B]PM_EN_PVXS5 - 3.42V[\/B]\n[*][B]P3V3S5_EN_RCD - 3.3V[\/B]\n[*][B]P3V3S5_COMP2 - 1.96V[\/B]\n[\/LIST]\n\nI think the main problem is that S5_PWRGD is missing even though P3V3S5_EN_RCD, PM_EN_PVXS5, and PPBUS_HS_OTH3V3 is present. Does this mean I have to change U7650? I don't see any damage near there. I don't have an ultrasonic cleaner so would prefer to root-cause it before purchasing one.\n\nThank you!\nRohit"
+    },
+    {
+        "post_id":83060,
+        "thread_id":62013,
+        "title":"A1707 - 820-00281-A Missing S4",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-25 13:04:48",
+        "message":"Check R7802 resistor; may need to replace it."
+    },
+    {
+        "post_id":83083,
+        "thread_id":62013,
+        "title":"A1707 - 820-00281-A Missing S4",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2021-11-26 08:29:24",
+        "message":"So somehow I now have S5_PWRGD but I don't have P5VS4_PGOOD, and R7802 is approximately 100K.\n\nI then found that P5VS4_EN_RCD is missing , and more importantly that PM_SLP_S5_L (its dependency) is missing.\n\nCould you please point me what PCH signals need to be present for PM_SLP_S5_L to be alive? I see some articles online but they're for older gen CPUs. This is a 7th gen Intel - I have no idea how SLP_S5_L is released.\n\n[U]Sanity check:[\/U]\n- PP5V_S5 - 5.00V\n- PP5V_S4 - 0.00V\n\n[U]Pins around U7650:[\/U]\n- P5VS4_DRVL (DRVL1 pin) - 0V\n- P5VS4_DRVH (DRVH1 pin) - 0V\n- S5_PWRGD (PGOOD2 pin) - 3.28V\n- P5VS4_PGOOD (PGOOD1 pin) - 0V\n- P5VS4_EN_RCD (EN1 pin) - 0V\n- PM_EN_PVXS5 (EN pin) - 3.417V\n- P5VP3V3_VREG3 (VREG3 pin) - 3.3V\n- P5VP3V3_VREF2 (VREF2 pin) - 2.00V\n\n[U]Figuring out why P5VS4_EN_RCD is dead:[\/U]\n- PM_SLP_S5_L - 0V\n- PM_SLP_SUS_L - 3.32V\n- SMC_ADAPTER_EN - 3.417V\n\n[U]Going through some related PCH voltages:[\/U]\n- PP3V0_G3H (checked for stability) - 3.08V\n- RTC_RESET_L - 3.078V\n- PCH_SRTCRST_L - 3.07V\n- PM_PCH_PWROK (I think this won't come until S0?) - 0V\n- PM_BATLOW_L - 3.31V\n- PM_PWRBTN_L - 3.3V\n- PM_SYSRST_L - 3.3V\n[B]- PCH_INTRUDER_L - 2.78V (Seems lower?)[\/B]\n\nThanks again, I appreciate the help."
+    },
+    {
+        "post_id":83084,
+        "thread_id":62013,
+        "title":"A1707 - 820-00281-A Missing S4",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-26 08:36:41",
+        "message":"Check PM_RSMRST_L and PM_PWRBTN_L signals.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L (at same time).\nUse SW5200, or R5226 pads, instead of power button."
+    },
+    {
+        "post_id":83088,
+        "thread_id":62013,
+        "title":"A1707 - 820-00281-A Missing S4",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2021-11-26 08:59:01",
+        "message":"- PM_RMRST_L - 3.32V\n- PM_PWRBTN_L - 3.32V\n\nWhen I short SMC_ONOFF_L to ground at SW5200, PM_PWRBTN_L (measured at R1802) goes to a few millivolts while I hold the short. It then comes back to 3.3V when I release the short."
+    },
+    {
+        "post_id":83091,
+        "thread_id":62013,
+        "title":"A1707 - 820-00281-A Missing S4",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-26 12:01:45",
+        "message":"Then check if PM_SLP_S5_L pulses at same time.\nDo the same for PM_SLP_S4\/3_L."
+    }
+]

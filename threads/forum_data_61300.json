@@ -1,0 +1,56 @@
+[
+    {
+        "post_id":76426,
+        "thread_id":61300,
+        "title":"820-00923 Liquid damage on touchbar connector, won't post",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-06-10 08:16:31",
+        "message":"I actually have 2 of these 820-00923 boards that have the same issue. Both had the same initial damage, liquid damage on J4402 and pins 22 and 20 melted and damaged the board in that area and the touchbar cable. The rest of board looks completely clean. I checked and there is no short on either of those rails, and when I plug the board in, I get 20v 0.9 amps for a few seconds and then it drops to about 650ma and stays around there. I have 0.991v at L7210\/20 and 0.767v on L7410\/20\/30. I do have USB activity (tested with USB flash drive and the light flashes steadily), but no caps lock reaction or chime. I get about 1v on PPVCCEDRAM_S0_REG_F, but have 0v on PPVCCEDRAM_S0_CPU. I assume there was an overvoltage on PP5V_S0_T139 that caused the touchbar connector to melt, but maybe that assumption is wrong. PPVCCEDRAM_S0_CPU comes from U7760, which is powered by PP5V_S0, but the enable signal PM_OPC_ZVM_L is 0v. That enable comes from U7790 from CPU_ZVM_L, which is also 0v. Not sure where to look on this now since that seems to come from CPU. Any idea what would cause this?"
+    },
+    {
+        "post_id":76428,
+        "thread_id":61300,
+        "title":"820-00923 Liquid damage on touchbar connector, won't post",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-10 08:43:49",
+        "message":"Check on known good board if CPU core is 1V, or drops to 0.6V when booted.\nBe sure USB flashes like booting from pendrive, not a constant flash."
+    },
+    {
+        "post_id":76431,
+        "thread_id":61300,
+        "title":"820-00923 Liquid damage on touchbar connector, won't post",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-06-10 08:55:27",
+        "message":"I do not have a good board right now, but I am pretty sure it is supposed to drop to 0.6v when it boots. I tried with another external SSD connected and the light turns on but does not flash, so I guess I just have power no activity. Doesn't the CPU need PPVCCEDRAM_S0_CPU before it will fully boot?"
+    },
+    {
+        "post_id":76439,
+        "thread_id":61300,
+        "title":"820-00923 Liquid damage on touchbar connector, won't post",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-10 10:08:09",
+        "message":"Possible leakage to pins 18\/19 of J4402 could damaged U3900.\n\nPPVCCEDRAM_S0_CPU  should be there, I suppose; compare with similar working board .\nAlso check for short on any missing power rail.\n\nDid you test the board alone on the desk?"
+    },
+    {
+        "post_id":77435,
+        "thread_id":61300,
+        "title":"820-00923 Liquid damage on touchbar connector, won't post",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-07-06 06:36:12",
+        "message":"I have started working on these again and tried replacing U3900 from a donor board, but I still have the same issue. I do not have any A1708 or A1706 boards that work right now, but I do have a working A1989. I checked the values on that board and CPU vcore does drop to 0.6v and PPVCCEDRAM_S0_CPU is 0v, so I guess this voltage is not required. On these broken a1706's I am working on, the CPU vcore voltage starts at like 1.1v and then drops to 0.9v, but never gets to 0.6v so its not posting. I am working with the board alone on the desk. I think the voltage from PP5V_S0_T139 leaked onto PP1V8_S0SW_DFR due to the damage on J4402. Could this have somehow killed the CPU?"
+    },
+    {
+        "post_id":77436,
+        "thread_id":61300,
+        "title":"820-00923 Liquid damage on touchbar connector, won't post",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-06 08:24:42",
+        "message":"That power rail is separated with U4404.\nMaybe communication problem on some data bus, because of liquid spill."
+    }
+]

@@ -1,0 +1,56 @@
+[
+    {
+        "post_id":18118,
+        "thread_id":18118,
+        "title":"820-2936 - Doesn't start, S0 there, ALL_SYS_PWRGD missing",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-04-10 09:14:25",
+        "message":"Hey everyone another day, another issue\n\nI have this 2936 board here where someone messed with before. I already fixed a area where their \"put it full of flux and heat it up\" procedure knocked an important pull-up resistor off.\nRight now I managed to have all S0 power lines there, but I can't get ALL_SYS_PWRGD to become high\n\nI've already replaced R7951 and R7952 as they did not mesure their right values, however the replacements do exactly the same which makes me think my multimeter can't calculate it properly as its a divider.\n\n\nThese are the values I measured, with the resistors I've written down their supposed values from the datasheet after the Part#:\n\n[CODE]PP3V3_S0_VMON: 3.29V\nR7951 (15k): 7.16k\nR7952 (7.15k): 5.35k\nVMON_3V3_DIV: 0.76V\nR7933 (1k): 0.993k\nVMON_Q2_BASE: 0.7V\n\nPP3V3_S5_VMON: 3.30V\nR7956 (150k): 148.7k\nS0PGD_C: 0.13V\n\nPP1V5_S3RS0_VMON: 1.48V\nR7954 (1k): 0.995k\nVMON_Q3_BASE: 0.78V\n\nPP1V05_S0_VMON: 1.03V\nR7955 (1k): 1.007k\nVMON_Q4_BASE: 0.74V\n\nR7957 (100): 99.6\nS0PGD_BJT_GND_R: 0.109V\n\nBetween Q2&Q3 (Pin 8): 0.135V\nBetween Q3&Q4 (Pin 2): 0.127V\n\nALL_SYS_PWRGD: 0.049V\n\n[\/CODE]\n\nAny idea what could be it? It feels once again like the answer is right in front of my nose but I just can't quite put my finger on it.\n\nCheers!"
+    },
+    {
+        "post_id":18123,
+        "thread_id":18118,
+        "title":"820-2936 - Doesn't start, S0 there, ALL_SYS_PWRGD missing",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-04-10 10:18:05",
+        "message":"Nothing wring with Q7950 circuit. Look at the rest of PG generation, comes through R7963 and up."
+    },
+    {
+        "post_id":18141,
+        "thread_id":18118,
+        "title":"820-2936 - Doesn't start, S0 there, ALL_SYS_PWRGD missing",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-04-10 13:50:03",
+        "message":"I checked R7962 - R7967 and they're all within specification\n\nI mesured the value on pin 1 of each resistor (R7963 to 7966) and all of them expect PVCCSA_PGOOD returned 0.049V (PVCCSA_PGOOD was at 0.011V)\nSo I checked the U7100 chip and PPVCCSA_S0_REG_R was at 0V, I missed it it seems!\n\nI checked if the enable signal and it was high and it was, also all the resistors come back within specification.\n\nDecided to swap U7100, but still the same problem.\n\nWhere would you recommend looking? At this point I think the best would be to test continuity on VCCSAS0_DRVL, VCCSAS0_LL and VCCSAS0_DRH and maybe replace Q7100?"
+    },
+    {
+        "post_id":18148,
+        "thread_id":18118,
+        "title":"820-2936 - Doesn't start, S0 there, ALL_SYS_PWRGD missing",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-04-10 16:17:49",
+        "message":"Did you check for a short on that rail?"
+    },
+    {
+        "post_id":18153,
+        "thread_id":18118,
+        "title":"820-2936 - Doesn't start, S0 there, ALL_SYS_PWRGD missing",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-04-10 17:11:48",
+        "message":"Oh yes forgot to mention it, 44ohms resistance to ground so no short"
+    },
+    {
+        "post_id":18164,
+        "thread_id":18118,
+        "title":"820-2936 - Doesn't start, S0 there, ALL_SYS_PWRGD missing",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-04-11 07:57:06",
+        "message":"No idea. Bad soldering\/killed U7100 again or bad Q7100?"
+    }
+]

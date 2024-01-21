@@ -1,0 +1,74 @@
+[
+    {
+        "post_id":72766,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":5210,
+        "username":"KC Micro Tronix",
+        "post_date":"2021-03-08 12:22:01",
+        "message":"I use HW monitor to monitor all the sensors when testing a LB.   I have a board where the Heatpipe 2 sensor is \"128\" not working.   and for the life of me I do not know which sensor this is.\n\nI took a working board and removed thermal sensors one by one.\nHere are the results as detected by HW Monitor.\n(The battery does not have sensors in this model machine)\n\nA1465 820-3435\n\nQ5810      Memory Module Proximity  (just right of first memory module)\ntrackpad  Heatpipe Incomming Air  (Track pad)\ntrackpad  Heatpipe Outgoing Air (Track Pad)\nQ5830        -no effect-  (right of J-Tag)\nQ8560        -no effect-  (near SSD plug )\nQ5850        -no effect-  (right of camera processor)\nQ8540      Airport Proxmity  (PP3v42 supply)\nQ5820        -no effect-  (near display port ic inside shield)\n\n\nIf anyone knows where \"Heatpipe 2\" is please let me know."
+    },
+    {
+        "post_id":72767,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-08 12:34:20",
+        "message":"Is better to run corresponding ASD, gives you more precise information.\nTrackpad should include battery thermal sensor too.\nFirst, test disconnecting webcam.\nAlso try known good trackpad board\/flex."
+    },
+    {
+        "post_id":72768,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":5210,
+        "username":"KC Micro Tronix",
+        "post_date":"2021-03-08 12:35:36",
+        "message":"you don't know either.   :(\n\nI am testing with a 100% working board.   Every sensor passes in HW-monitor and I am trying to break Heatpipe 2 so I know where it is.  I have another board that is failing this sensor and I can't figure out where it is.\n\nI am testing with the bare working board and used a ribbon \/ track pad to verify.\n\nWhat other software should I use?\nI tested every part in the \"Thermal Sensors\" section of the schematics.\nWhere else can I look?\nIs this stupid sensor coming from the PCH or something?"
+    },
+    {
+        "post_id":72770,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":29628,
+        "username":"Askaleto",
+        "post_date":"2021-03-08 12:41:54",
+        "message":"Unfortunately, this is not documented well and the names used in the schematics are often misleading. Also, I have seen in my own example that HWMonitor and iStats often use different names for the same sensors.\nThis is a good article but there is no strict reference to the schematics.\n[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/Mac_sensors_reference_designators#MacBook_Air_11.22_2013_820-3435[\/URL]\nUnfortunately, problem like yours are solved by trial and error, swapping modules like trackpad until problem is solved.\n\nIf you have a good, known working board, you can install HWMonitor and then disconnect the trackpad, start laptop and record what is reported as failed sensors. If this sensor is included, that is how you will know if it is on the trackpad. If not, connect trackpad back and repeat same procedure but this time disconnect webcam cable."
+    },
+    {
+        "post_id":72771,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2021-03-08 12:52:16",
+        "message":"I believe that sensor is on the I\/O board, goes through SMBUS via J9500."
+    },
+    {
+        "post_id":72772,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":29628,
+        "username":"Askaleto",
+        "post_date":"2021-03-08 13:08:46",
+        "message":"As duke said, it is very likely that this sensor is so called Fin Stack on your schematics \"LIO Finstack Temp\", it is also known as Th1H, page 38 of schematics.\nNot sure if possible to start macbook without I\/o board connected (on battery). If possible this could be a good test to read HW Monitor values."
+    },
+    {
+        "post_id":72789,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-03-08 14:55:46",
+        "message":"Board should work with DC-in FFC disconnected but will throttle hard so it'll be extremely slow. (and of course no green light, fan spinning at full speed and no audio)"
+    },
+    {
+        "post_id":72822,
+        "thread_id":60897,
+        "title":"820-3435-B  (Heatpipe 2) sensor",
+        "user_id":5210,
+        "username":"KC Micro Tronix",
+        "post_date":"2021-03-09 07:57:04",
+        "message":">> Askaleto   \/  Dukefawks <<  You sir are a steely eyed missile men!\n\nProblem on damaged LB was R5371 was knocked off.  Found the pat on the exact page you mentioned in schematics and went to check that resistor and it was missing!   It was LIO Finstack Temp!   That is Heatpipe 2!\n\nI have been keeping track of HWmonitor sensors and their locations adding to my text file but had nothing for Heatpipe 2.   Now I know!  Very hard problem to figure out.    Thanks again Askaleto and to everyone else who chimed in."
+    }
+]

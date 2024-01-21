@@ -1,0 +1,227 @@
+[
+    {
+        "post_id":65063,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-12 06:39:07",
+        "message":"Macbook Pro A1398 - 820-3332A. Fan spins continuously on battery but no chime and no display. No fan spin without battery, Yellow light on Magsafe Adapter. Checked all voltage rails and results as below.\n\nPPBUS_G3H = 12.6v\nPPVIN_S5_HS_COMPUTING_ISNS = 12.6v\nPPVIN_S5_HS_GPU_ISNS = 12.6v\nPPVIN_S5_HS_OTHER_ISNS = 12.6v\nPP18V5_DCIN_CONN = 16.3v\nPP3V42_G3H = 3.4v\nPP5V_S5 = 5.1 v\nPP3V3_S4 = Missing.\n\nWhat next?"
+    },
+    {
+        "post_id":65074,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-12 07:54:32",
+        "message":"This board will not start without 85W charger, if battery not present.\nBoard turns on with both charger and battery connected?\nDo you get USB activity?\n\nStart resoldering U8900 with leaded solder."
+    },
+    {
+        "post_id":65178,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-14 00:04:11",
+        "message":"Yes. board turns on with both charger and battery connected and after connecting to 85w charger, turns on without battery. USB activity - just the red light on. no blinking. Fan spins but no display."
+    },
+    {
+        "post_id":65179,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-14 00:17:43",
+        "message":"And i even get 3.3v on  PP3V3_S4."
+    },
+    {
+        "post_id":65181,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-14 00:30:21",
+        "message":"Do you get voltages on CPU and GPU coils?"
+    },
+    {
+        "post_id":65187,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-14 00:53:44",
+        "message":"L7510 - L7520 - L7530 = 1.1V\nL7550 - L7560 - L8960 - L8930 - No voltage"
+    },
+    {
+        "post_id":65206,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-14 07:37:13",
+        "message":"You should get voltage on L8930\/60.\nL7550\/60 only get voltage under heavy graphics load, when Intel graphics is used.\n\nCheck GPU Rail Sequencing, page 88."
+    },
+    {
+        "post_id":65253,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-15 05:12:39",
+        "message":"Checked rails and result... I hope i am doing it right. All rails showing 3.3v doesn't seem right.... \nP3V3GPU_EN - R9121 Pin 1 - 3,3v\nP1V8GPU_EN - R9122 Pin 1 - 3.3v\nGPUVCORE_EN - R9123 Pin 1 - 3.3v\nP1V35GPUFB_EN - R9124 Pin 1 - 3.3v\nP1V05_S0GPU_EN - R9125 Pin 1 - 3.3v"
+    },
+    {
+        "post_id":65255,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-15 05:30:09",
+        "message":"You measured enable signals.\nCheck if each power supply which receive the enable, generates output voltage..."
+    },
+    {
+        "post_id":65261,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-15 05:46:21",
+        "message":"please... can u explain once how i do it. Just an example with 1 rail."
+    },
+    {
+        "post_id":65265,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-15 10:04:57",
+        "message":"P3V3GPU_EN controls 3V3_GPU and so on.\nFollow each enable signal and see if corresponding power supply (just a MOSFET in some case), generates the output voltage.\nP3V3GPU_EN  --> Q7872 --> Q7870 --> 3V3_GPU..."
+    },
+    {
+        "post_id":65406,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-20 19:08:21",
+        "message":"Just a quick observation. I was checking GPU voltages and found PPVCORE_S0_GFX_REG - 900mv on Pin 1 of C8961\/63. I was wondering if this is the cause of the problem. Should I change U8900 and check? Just a thought before I post the voltages you asked for later today."
+    },
+    {
+        "post_id":65407,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-21 00:22:18",
+        "message":"0.9V looks good for GPU VCORE."
+    },
+    {
+        "post_id":65410,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-21 04:44:39",
+        "message":"Findings as requested. Hope i am on the right track...\n\n\nP3V3GPU_EN - PP3V3_S0GPU \u2013 Q7870 Pin 2 \u2013 3.3v\nP3V3GPU_EN_L \u2013 Q7872 Pin 3 \u2013 300mv\nGPUVCORE_PGOOD \u2013 U8900 Pin 1 \u2013 3.1v\nGPUFB_PGOOD - U8350 Pin 14 \u2013 1.7v\nP1V05_S0GPU_PGOOD \u2013 U8310 Pin 9 \u2013 1.8v"
+    },
+    {
+        "post_id":65417,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-21 07:00:34",
+        "message":"Seems that you didn't understand me.\nI said\n\"P3V3GPU_EN  --> Q7872 --> Q7870 --> 3V3_GPU\"\nin other words, if 3V3GPU_EN is present, then 3V3_GPU must be present too.\nI was expecting that you apply the same rule for the other GPU rails..."
+    },
+    {
+        "post_id":65477,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-22 09:20:18",
+        "message":"Sorry.. I simply can\u2019t get the hang of this one. Any links where I can read up on this. I feel I should give up on this board."
+    },
+    {
+        "post_id":65484,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-22 11:37:12",
+        "message":"Search in pdf for each signal name and found corresponding power supplies.\n\nCheck voltage at L8360, L8310, L8930\/60 and Q7870 output."
+    },
+    {
+        "post_id":65517,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-23 01:22:33",
+        "message":"Checked voltage at\nL8360 \u2013 1.5v\nL8310 \u2013 1.06v\nL8930 \u2013 900 mv\nL8960 \u2013 905 mv\nQ7870 output. \u2013 3.3v"
+    },
+    {
+        "post_id":65524,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-23 01:51:06",
+        "message":"So GPU voltages are good.\nThen what was this???\n\"L8960 - L8930 - No voltage\"\nWhen do we expect to have correct information reported?"
+    },
+    {
+        "post_id":65526,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-23 02:04:54",
+        "message":"I am sorry but this is what it is. Just 900mv on both the coils."
+    },
+    {
+        "post_id":65527,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-23 02:50:32",
+        "message":"\"Just 900mv on both the coils\".\nAnd is the exact voltage must be there.\n\nPost exact voltage at L7510\/20\/30 in the first moment and after 10-15 seconds.\nOne coil is sufficient to measure."
+    },
+    {
+        "post_id":65529,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-23 04:09:28",
+        "message":"1.118v on L7510 right from the moment it starts and steady after 20 seconds..."
+    },
+    {
+        "post_id":65539,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-23 07:48:45",
+        "message":"So board doesn't really boot.\nVCORE should drop to 0.78V aprox, when does.\n\nTry known good RAM module, each slot separately."
+    },
+    {
+        "post_id":65547,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":27324,
+        "username":"arshees",
+        "post_date":"2020-09-23 08:34:02",
+        "message":"Am I missing something here.... aren't the ram modules soldered on board. how do I change the ram modules."
+    },
+    {
+        "post_id":65548,
+        "thread_id":60003,
+        "title":"Macbook Pro A1398 - 820-3332A. No Fan Spin.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-23 08:38:07",
+        "message":"Right, I was thinking about 3330 board, sorry.\n\nYou can try to disable GPU, just in case.\nThe necessary information is already posted on the forum."
+    }
+]

@@ -55,26 +55,32 @@ def annotate_jargon(text, df):
 
     return text
 
+# Define a function to process each file
+def process_file(filename):
+    file_path = os.path.join(thread_directory, filename)
+    try:
+        #Open and load the JSON file
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+
+        #Assuming the structure of your JSON file is a list of posts or similar
+        for post in data:
+            #Annotate for each type of jargon using respective DataFrame
+            post['title'] = annotate_jargon(post['title'], combined_jargon_df)
+            post['message'] = annotate_jargon(post['message'], combined_jargon_df)
+                
+        with open(file_path, 'w') as file:
+            json.dump(data, file)
+
+    except Exception as e:
+        print(f"Error processing file '{filename}': {e}")
+
 # Directory where your JSON files are located
 thread_directory = '/home/louis/board_repair_training/threads/'
 
-# Iterate through each JSON file
-for filename in os.listdir(thread_directory):
-	if filename.endswith('.json'):
-		file_path = os.path.join(thread_directory, filename)
-		try:
-			#Open and load the JSON file
-			with open(file_path, 'r') as file:
-				data = json.load(file)
-				print(f"\n\n{data}\n\n")
+# Get list of filenames to process
+filenames = [f for f in os.listdir(thread_directory) if f.endswith('.json')]
 
-			#Assuming the structure of your JSON file is a list of posts or similar
-			for post in data:
-				#Annotate for each type of jargon using respective DataFrame
-				post['title'] = annotate_jargon(post['title'], combined_jargon_df)
-				post['message'] = annotate_jargon(post['message'], combined_jargon_df)
-					
-			with open(file_path, 'w') as file:
-				json.dump(data, file)
-		except Exception as e:
-			print(f"Error processing file '{filename}': {e}")
+# Use ThreadPoolExecutor to process files in parallel
+with ThreadPoolExecutor(max_workers=14) as executor:
+    executor.map(process_file, filenames)

@@ -1,0 +1,137 @@
+[
+    {
+        "post_id":16996,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-03-20 11:08:53",
+        "message":"got in a 820-2849,  had liquid spilled on it, primary spot i found was around the u3500 had green corrosion around this area. i replaced all the parts in the area just in case any are dead\/shorting to gnd.  but i still get no power or fan. both gpu chips get very hot very fast.  i checked the voltage going to the gpu to ensure it was not getting over powered and frying and it was .76 volts so im not sure where to look next.  i do get a green light on the charger, and i ultra sonic the board after i swapped the parts out in the bad area and looked around for anything else that might be corroded or fried and did not see anything out of the norm.  any ideas?  or suggestions? \nMany thanks \nNate"
+    },
+    {
+        "post_id":17007,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-20 11:58:45",
+        "message":"Shorted high side FET on GPU power supply. Q9510 probably shorted (PPBUS to GPU core) and U9500 dead. Dead GPU also possible."
+    },
+    {
+        "post_id":17021,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-03-20 13:53:48",
+        "message":"okay what is the high side on the FET? i replaced the q9510 and u9500 and now only the nvidia chip is getting hot but slowly like its working normal. after i replaced the q9510 the fan kicks on for about 5 seconds then turns off and back on. im sure there must be a short to ground on the fet on gpu power supply like you are saying maybe? the fan spin has me hopeful haha."
+    },
+    {
+        "post_id":17066,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-21 03:46:19",
+        "message":"If fan spins then there must be more voltages present."
+    },
+    {
+        "post_id":17102,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-03-21 14:19:07",
+        "message":"i'm sorry i am not exactly sure what your saying."
+    },
+    {
+        "post_id":17106,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-03-21 14:36:03",
+        "message":"I'm saying the boards powers on now because the fan is spinning. CPU Vcore coming on?"
+    },
+    {
+        "post_id":18883,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-21 14:29:33",
+        "message":"cpu vcore is .81 volts when the system cycles on it starts at 1 volt but within a second it goes to .8 and stays there until it cycles again.   sorry had this one to the side for a wile now. working my way through the stacks today is 17\" boards.  also wanted to note that this does not charge the battery either, not sure if this is a separate issue or on the same track."
+    },
+    {
+        "post_id":18885,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-04-21 14:37:18",
+        "message":"CPU voltage dropping means it is almost working. Usually with these boards it means a GPU issue. Voltage on L9510\/9560 present? No damaged caps in PCIe lines to GPU?"
+    },
+    {
+        "post_id":18887,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-21 15:18:38",
+        "message":"Okay thats a good sign haha \n\nL9510 1.8 volts\n\nL9560 0 volts i guess this is an issue"
+    },
+    {
+        "post_id":18893,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-21 15:34:50",
+        "message":"tracing back the l9560 \n\nQ9561 pin 5 and pin 4 0volts\nq9560 pin 1,2,3 = 0 volts pin 4 0 volts, pin 5 8.4volts\nu9500 pin 23=0v , 24= 4.7volts, 25=0, 26=0,"
+    },
+    {
+        "post_id":18906,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-04-22 00:59:35",
+        "message":"Track back all you want but why do you not check enable on pin 27? Short to GND on L9560 too?"
+    },
+    {
+        "post_id":18918,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-22 10:47:21",
+        "message":"sorry forgot to post that. pin 27 3.3v\n\nvoltage drop to ground in diode mode\nl9560 0.109\nl9510 0.145\nshould be .49 or something similar there so this confirms the short to ground there. swapped out the l9560 no change. also i tried running it to see if it would work without the l9560 connected to see if the short is before or after the l9560 and it did the same thing.  would this mean that the short is before the l9560? \n\nalso on q9510 i was getting no power on pin 1 & 6. replaced it with another one and now i am getting 1v on pin 6 and 3.3v on pin 1.\n\nalso i noticed twice now that i plugged it in to test and wile testing it stops cycling and stays on, one time i let it go to see what it would do and it kicked into high fan speed to try and cool the system so it was working, but when i try to get it to work again it just cycles on a and off. not sure what would cause that."
+    },
+    {
+        "post_id":18922,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-04-22 11:18:10",
+        "message":"Why swap a coi?? Bad U9500\/Q95609\/61 or soldering is more likely."
+    },
+    {
+        "post_id":18926,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-22 11:54:18",
+        "message":"i know coils never go out, i wanted to see if it would stop cycling without the coil on so while i was there i swapped it out.  going  to swap the u9500 and work my way down to the q9561 and see if anything changes along the way, also i had edited the last comment before i saw your response sorry. \nwill update after i swap the main components."
+    },
+    {
+        "post_id":18928,
+        "thread_id":16996,
+        "title":"[SOLVED]820-2849 liquid damage no power, gpu chips get really hot",
+        "user_id":371,
+        "username":"nate8organic",
+        "post_date":"2017-04-22 12:21:23",
+        "message":"okay it was the u9000. i should have swapped that out last night when i was going too haha.  the only other problem now is that when i plug it into the computer the fans do not want to spin. then i hold the power button down turn it off then power it back on and the fans kick on and everything loads and works,  what would cause it to not power on the fans when the power adapter plugs in? is this just nothing or is this something to look into? i tried an smc reset and thats how i got it to start working and then realized i could power it off and then back on and it would work. i do not have the battery in tho not sure if that can affect this but haven't seen this before.  i did just try it a few more times before posting this and it seems to be working every time now. not sure what was happening at first. \n\n feel free to mark as solved.  \nThanks duke and as always appreciate the help & knowledge!"
+    }
+]

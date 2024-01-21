@@ -1,0 +1,128 @@
+[
+    {
+        "post_id":68929,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-12-08 16:43:58",
+        "message":"Hello, long time no post.\n\nI have a 820-00850 board which has no power, USB provides approximately 5.2v on all ports and 0.05 \/ 0,06 amps.\n\nWe have got\nPPBUS_G3H 12.3v\n\nHave not got\nPP5V_G3S\n\nI'm unfamiliar with exactly how this model works, aside from a few of louis' videos.\n\nLooking at the board I saw corrosion under Q3440 which was missing pin 3 on the chip side so will need to be replaced.  Is this enough to stop the laptop from booting?\n\nThe rest of the board looks OK. Is it worth reflowing the U3100 chip on that part of the board?"
+    },
+    {
+        "post_id":68942,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-12-09 01:28:02",
+        "message":"Q3440 is involved in the communication with the charger on that port.\nAll ports get 5V only?\nReplace Q3440 before trying other things on the board."
+    },
+    {
+        "post_id":68944,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-12-09 02:04:09",
+        "message":"All ports get 5v only."
+    },
+    {
+        "post_id":69418,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-12-21 16:22:54",
+        "message":"Q3440 replaced. but all USB3 still draw 5v. \n\nAny ideas where I should look next?"
+    },
+    {
+        "post_id":69420,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-12-21 18:38:44",
+        "message":"Update. Tested all ports again. \n\nOne USBC port only draws 0.01A .\n\nI'm not sure how to differentiate which port it's connected to at this stage. I'm running tests at varioius points, and will post below.\n\nAll draw 5.22v  v with no reset\nJ3300 side\n\n[TABLE]\n[TR]\n[TD]Circuit[\/TD]\n[TD]Top (0.01a draw)[\/TD]\n[TD]Bottom (0.07 \/ 0.08a  draw)[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_XB_USB_TOP_P[\/TD]\n\n[TD]2.5v steady[\/TD]\n[TD]1.5v (varies)[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_XB_USB_TOP_N[\/TD]\n\n[TD]2.68v [\/TD]\n[TD]1.04v[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_XB_CC1_CONN[\/TD]\n\n[TD]1.051[\/TD]\n[TD]1.6v (varies)[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_XB_CC2_CONN[\/TD]\n\n[TD]0v[\/TD]\n[TD]1.6v (varies)[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_XA_USB_DBG_BOT_N[\/TD]\n\n[TD]1.55v[\/TD]\n[TD]2.588v[\/TD]\n[\/TR]\n[TR]\n[TD]USBC_XA_USB_DBG_TOP_N[\/TD]\n\n[TD]1.8v[\/TD]\n[TD]1.75v[\/TD]\n[\/TR]\n[TR]\n[TD]PP3v3_G3H[\/TD]\n[TD]700mv (decaying)[\/TD]\n[TD]3.3v[\/TD]\n[\/TR]\n[TR]\n[TD]PPBUS_G3H[\/TD]\n\n[TD]1.5v (decaying slowly)[\/TD]\n[TD]12.27v[\/TD]\n[\/TR]\n[\/TABLE]\n\nOK so....\n\nOne port does not provide main power rails to board which I discovered after testing outputs from USBC ROM chip.It didn't occur to be me to run seperate tests. \n\nI'm not quite following yet how one port can work through a circuit, but when connected with the other port, it does not work.\nI have swapped the USBC connector, and the USB connector on the board looks OK.\n\n\nIs this a U3100 issue or a U3200 isssue ?  I am having trouble separating out where the fault is.\n\nHope this information helps clear things up. I will post more after lunch!"
+    },
+    {
+        "post_id":69426,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-12-22 02:58:42",
+        "message":"Do you get 5V on all ports now?\nR7020 gets voltage?\nPost diode mode to ground at PPBUS_G3H; be sure F7000 is good."
+    },
+    {
+        "post_id":69671,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-12-29 21:08:53",
+        "message":"5.21v on all ports. \n3 ports draw 0.7a \n1 port draws 0.1a\n\nR7020 is getting voltage (5.2v) ONLY when connected with ports drawing .7a, NOT with port drawing 0.1a\n\nF7000  On\"working\" usb 12.29v on '0.1a\" usb we get 1v"
+    },
+    {
+        "post_id":69672,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-12-29 21:15:22",
+        "message":"PPBUS G3H 0.332v diode mode to ground (assuming I did it right)\n\nIssue appears to be localised to something going on with that one port.\n\nI am assuming my issue is with U3100 since that was the only area of damage I could see. \n\nDoes that correlate with the port that is only drawing o.1a?\n\nIt's the port closest tothe back of the laptop \/ heat sync."
+    },
+    {
+        "post_id":69673,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-12-29 23:11:19",
+        "message":"Yes, the problem is located on the \"0.1A\" port.\nUse boardview to locate corresponding CD3215 chip.\nYou can also check which CD3215 doesn't generate 1V1 LDO."
+    },
+    {
+        "post_id":69735,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2020-12-30 19:53:22",
+        "message":"Update\n\nReflowed area around suspected damaged CD3215\n\nNow all ports get 5.21v and 0.07a \/ 0.08a\n\nAll ports deliver power to F7000 (12.29v) and R7020 (5.2v)\n\nDoes not continue to 20v success :("
+    },
+    {
+        "post_id":69738,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-12-31 01:57:07",
+        "message":"Try DFU revive\/restore now.\nBe sure all SLPS2R and AWAKE voltages are present."
+    },
+    {
+        "post_id":69909,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2021-01-04 17:19:33",
+        "message":"Seems to be\n\nPP1V8_SLPS2R - 1.8 volts (pulsing \/ not stable)\nPP1V8_AWAKE - 1.8v\nPP1V1_SLPS2R 1.1v\nPP0V8_SLPS2R 0.79v\nPP0V82_SLPDDR 0.82v\nPP3V3_AWAKE 3.37v\nPPVDDCPUSRAM_AWAKE .8\nPP0V9_SLPDDR .9v\nPP1V1_SLPDDR 1.1v\nPP1V2_AWAKE 1.2v\nPPVDDCPU_AWAKE 0.754\n\n\n\nWill try DFU"
+    },
+    {
+        "post_id":69912,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":26818,
+        "username":"LCDR2",
+        "post_date":"2021-01-04 20:59:31",
+        "message":"Hello\n\nTried DFU.\n\nNot sure how long I am supposed to wait. It appeared to work but laptop didn't boot like in video. Got to the point where it got \"stuck\"\n\nI get this error, sometimes, when I try to run again. \n\nI didn't get this error when I attempted the second time (where the progress bar paused like in your video)\n\nLaptop still drawing 5.2v 0.08a :) \n\n[ATTACH type=\"full\"]59613[\/ATTACH]"
+    },
+    {
+        "post_id":69921,
+        "thread_id":60471,
+        "title":"820-00850 no power - 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-01-05 03:21:45",
+        "message":"Try with Catalina and Big Sur too in the second machine, if you don't exactly know the macOS installed in T2 machine.\n\n\"PP1V8_SLPS2R - 1.8 volts (pulsing \/ not stable)\"\nThis could be a problem; should be stable, as all other SLPS2R voltages."
+    }
+]

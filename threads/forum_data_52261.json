@@ -1,0 +1,56 @@
+[
+    {
+        "post_id":52261,
+        "thread_id":52261,
+        "title":"A1502 820-4924-a no backlight",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-09-14 03:31:13",
+        "message":"Hi all. Not frequented the forum for a while as been getting along with the Macbook repairs quite well. So an overdue helloooo. Anyway, those that have read my posts know it is not going to be a short one... here goes.\n\nAbove mentioned Macbook pro is given to me for repair. Presented with no display. Upon opening, logic board is immaculate with the exception of a little corrosion on J6601. TBH, I feel it was a \"little\" to clean.\nDone the checks of shine a light onto the screen and the image is there, so I know it is backlight related. Tested pin 1 of J8300- no volts at all ( 0.001). traced pack as far as F7700. Checked the fuse and this was OK ( no surprises there). Pin 1 had 12.6v and pin 2 had 1.608v. Thus indicating a short. Pins 1-4 on R7700 had 12.6v and pins 3 and 4 of Q7700 has 12.6v where as pins 1\/2\/5\/6 had zero volts. Literally zero. So I swapped Q7700 for one from a donor board. Still the same. Followed back to U7700 and saw evidence of flux there. I now feel that the board may have been looked at before. My soldering is not the best but I decided to swap the U7700. Still had the same readings as before. I then noticed that R5455 was not next to F7700. Looked on the schematic ( page 40) and it shows R5455 being there for the LCD Backlight Current Sense circuit. So I got a resistor of the same value and put it on. I feel it should have been there as the pads were populated with solder. Also C5450 was also not there. But I feel this was never there due to the pads only having a small amount of solder there and the copper pad showing around it. see image 1. Excuse the fuse, I will explain further on about that. Again the schematic shows this as being there. But I decided due to the pads not to fit this. Its at this point I think I may have f**ked up. Connected the power and F7700 popped. I lost PPBUS_G3H. No Green LED, no 8.6v ( even though pin 1 of F7700 was showing 12.6v). Anyway, managed to resolve the PPBUS_G3H issue and got power back at 12.6v. This has confused me even more as the schematic says PPBUS_G3H should be 8.6v. I get 12.6v at pin 1 of F7700 with the same voltages at R7700 and Q7700 across all pins. The was also 12.6v at pin 1 on J8300. I know that pin 1 on J8300 should be in the 25v area ( i think). Connected the screen and power, screen flashed and F7700 popped. At this point I am out of fuses. Hence the 0802 fuse soldered to pin 1 and jumpered to pin 2. Yeah, troll me but it worked. But I now have the 12.6 on pin 1 and 1.6 on pin 2 of F7700. Thus indicating the short again. I have managed to find the culprit. It was C7768 as shown on FlexBV. done a search on the schematic for C7768 and it comes up not found. on the schematic I suspect it to be C7710\/7711\/7712 but not sure which. I have removed C7768 and the short is gone but still only getting 12.6v up to pin 1 of J8300. connect a screen and still have image but no backlight.\n\nMy head hurts.\n\nSo.... questions:-\n1\/ I have got the schematic and BV in the same file however some of the designations do not correspond. Am I being trolled by this?\n2\/ what am I missing in respect of the low power to pin 1 on j8300? I have watched Louis's video explaining what the voltages should be and different values will indicate the issue, but I think I missed the 12.6v reason.\n3\/ in image 2 it shows L7710 has a cracked top but the voltages pin 2 is 12.27v and pin 1 is 12.28v ( minor difference). You can also see in this image the cap I removed C7768. Could this cracked coil be the cause of my issus?\n\nAs usual and assistance is greatfully received.\nThanks in advance.\nMarc"
+    },
+    {
+        "post_id":52264,
+        "thread_id":52261,
+        "title":"A1502 820-4924-a no backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-14 04:13:40",
+        "message":"\"I get 12.6v at ... Q7700 across all pins.\"\nThis is impossible, unless Q7700 is shorted; change it now.\nPin 3 needs aprox half voltage level, to open it.\n\n\"Checked the fuse and this was OK ( no surprises there). Pin 1 had 12.6v and pin 2 had 1.608v\"\nNot at all OK, just burnt (open).\nNever power up the board again, before checking for short on the output pin!\n\n\"got power back at 12.6v. This has confused me even more as the schematic says PPBUS_G3H should be 8.6v.\"\nPin 6 of U7100 sets the output voltage; connected to high level (12.6V output) for3 cells battery.\nFor 2 cells is connected to ground (8.5V output).\n\nUse a tiny wire (0.03-0.05mm) instead of a such big fuse.\n\n\"L7710 has a cracked top but the voltages pin 2 is 12.27v and pin 1 is 12.28v ( minor difference).\"\nIf has internal short is good for nothing.\nChange it, just in case; coil good functionality is not described by DC voltages (boost converter here).\n\nQ7700 is controlled by U7700 which requires EN, PWM and correct communication on SCL\/SDA lines with LCD screen.\nDid you try known good compatible screen?"
+    },
+    {
+        "post_id":52306,
+        "thread_id":52261,
+        "title":"A1502 820-4924-a no backlight",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-09-16 01:16:02",
+        "message":"Hi [USER=\"682\"]2informaticos[\/USER]. Come into work with a new set of eyes and took all readings again.\nso, changed the F7700 ( replacment fuses arrived) and L7710. C7768 removed ( again still not sure which cap this is due to C7768 not being found in the schematic I have).\nFollowing readings have been obtained and verified with 3 different meters.\nQ7700 Pin 3 12.17v\n             Pin 4 12.27v\nPins 1\/2\/5\/6  12.27v which before had 0v\n\nR7700 Pin 1 12.27v\n             Pin 2 12.27v\n             Pin 3 12.27v\n             Pin 4 12.27v\n\nF7700 Pin 1 12.27v\n             Pin 2 12.27v  diode mode .1604v resistance mode 3368mOhms\n\nQ7100 Pin 6 3.422v\n\nOrginal and spare screen connected. ( Spare screen is cracked in the corner but does illuminate and show ? folder)\nJ8300 Pin 1 12.27v\n             Pin 2 0.000v\n             Pin 3 5.161v\n             Pin 4 5.161v\n             Pin 5 3.422v\n             Pin 6 3.322v\n             Pin 7 3.322v\n             Pin 8 1.478v\n             Pin 9 3.311v\n             Pin 10 3.316v   \n             Pin 11 0.002v\n             Pin 12 0.002v\n             Pin 13 0.000v\n             Pin 14 0.002v\n             Pin 15 0.005v\n             Pin 16 0.000v\n             Pin 17 0.022v\n             Pin 18 0.010v\n             Pin 19 0.000v\n             Pin 20 0.020v\n             Pin 21 0.035v\n             Pin 22 0.000v\n             Pin 23 0.010v\n             Pin 24 0.035v\n             Pin 25 0.000v\n             Pin 26 0.000v\n             Pin 27 0.000v\n             Pin 28 5.145v\n             Pin 29 5.145v\n             Pin 30 5.145v\n\nU7700\nPin 1  1.200v\nPin 2  1.200v\nPin 3  0.000v\nPin 4  0.000v\nPin 5  5.168v\nPin 6  5.168v\nPin 7  0.000v\nPin 8  N\/C\nPin 9  12.27v\nPin 10  12.27v\nPin 11  11.74v\nPin 12  0.000v (C7747 no stuff on original and 2 donors schematic shows 33pF cap)\nPin 13  0.032v\nPin 14  2.749v\nPin 15 4.502v\nPin 16  4.471v\nPin 17  3.343v\nPin 18  5.168v\nPin 19  0.485v\nPin 20  1.193v\nPin 21  10.93v\nPin 22  0.000v\nPin 23  0.000v\nPin 24  0.000v\n\nV7768 Pin 1 12.01v\n             Pin 2 0.000v\n\nI hope this gives you some more information. If there are any other readings you need let me know\nThanks in advance"
+    },
+    {
+        "post_id":52310,
+        "thread_id":52261,
+        "title":"A1502 820-4924-a no backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-16 03:33:58",
+        "message":"\"Spare screen is cracked in the corner but does illuminate and show ? folder\"\nDo you mean tested in working board, not in this one?\nBe sure is compatible with 2015 machine.\n\n\"Q7700 Pin 3 12.17v\nPin 4 12.27v\nPins 1\/2\/5\/6 12.27v which before had 0v\"\nLooks like you didn't read all my post.\n\"This is impossible, unless Q7700 is shorted; change it now.\"\n\n\"Pin 9 3.311v\"\nIs a bit strange, as could be 2.5V; is the reason why U8340 used to transalte level 2.5->3.3V.\nAre you sure is compatible screen?\nDo you get image on both LCDs?\n\nFL8300 and others OK?"
+    },
+    {
+        "post_id":52329,
+        "thread_id":52261,
+        "title":"A1502 820-4924-a no backlight",
+        "user_id":1879,
+        "username":"RESQ-MYTECH",
+        "post_date":"2019-09-16 11:02:23",
+        "message":"Spare screen is one i use to test with. Bottom left corner is cracked. Shine a torch through the apple logo and I can see the ? folder. The screen assembly has been used on various repairs and come from an A1502 emc 2835. See image below.\nI did read your post and I did change it--- Q7700\nYes I do get an image on both screens, when I shine a light through the apple symbol I can see the ? folder"
+    },
+    {
+        "post_id":52332,
+        "thread_id":52261,
+        "title":"A1502 820-4924-a no backlight",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-16 11:05:40",
+        "message":"\"Q7700 Pin 3 12.17v\nPin 4 12.27v\nPins 1\/2\/5\/6 12.27v\"\nThis is impossible with good Q7700..."
+    }
+]

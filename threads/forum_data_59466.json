@@ -1,0 +1,155 @@
+[
+    {
+        "post_id":60611,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-08 03:18:22",
+        "message":"Little bit of history on this one - customer plugged an external hdd into this one - one of those cheap sata to usb converter box style ones but also plugged in a 5v dc psu to the hdd as well. After which machine is dead - i'm thinking the USB 5V S3 Rail has been back fed with the power from the drive and killed something. \n\nI've checked PP5V_S3 for shorts and found none. I'm  not getting any S4 power rails but I am getting PP3V3_S5 and PP5V_S5. PPBUS_G3H is present, green light is on the charger which changes to orange as I would expect. \nPM_SLP_S4_L is missing however the prerequisites for it are there. PPVRTC_G3H, RTC_RESET_L, PP3V3_SUS etc. \n\nAnyone know the likely problem given the history?"
+    },
+    {
+        "post_id":60616,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-08 03:31:10",
+        "message":"Trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\nIf yes, check for pulse at PM_SLP_S4_L too."
+    },
+    {
+        "post_id":60622,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-08 09:01:51",
+        "message":"SMC_ONOFF_L is triggerin PM_PWRBTN_L yes. There is a tiny pulse on PM_SLP_S4_L - almost missed it with the meter goes up to 0.023v only that I can see then immediately off again."
+    },
+    {
+        "post_id":60624,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-08 10:14:53",
+        "message":"That is also 0V, no pulse.\nYou should be able to catch higher peak (1-2V), if trigger it several times.\nAn o-scope can catch the peak of any fast pulse..."
+    },
+    {
+        "post_id":60638,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-08 17:43:59",
+        "message":"Dont have a scope unfortunately, just a fluke meter. If we assume it is pulsing what is next?"
+    },
+    {
+        "post_id":60665,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-09 06:59:11",
+        "message":"We cannot ASSUME; need confirmation to go ahead.\nPulse, or not at PM_SLP_S4_L is very important to know exactly.\nIf present, check the other PM_SLP_Sx_L signals too.\n\nIf you trigger SMC_ONOFF_L several times, should be able to catch a higher pulse, on DC voltmeter; if exists, of course."
+    },
+    {
+        "post_id":60686,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-09 10:42:39",
+        "message":"Seems like this is another one of apple's idiot boards that won't even attempt to start without the battery plugged in.. \nWith a fully charged new battery the system is pulsing on the PM_SLP_Sx_L signals and actually goes into S0 state. CPU doesn't appear to be heating up though but I do have PP5V_S0 and PPVCC_S0_CPU_PH1 is reading between 1v and 1.3v. not seeing anything on the display at all. I hope this information helps narrow this down a bit further and if you want me to measure anything else let me know!"
+    },
+    {
+        "post_id":60693,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-09 12:55:23",
+        "message":"A recent thread about 4924 reports same issue about NO start w\/o battery present.\nHowever, I didn't face with this problem yet myself...\n\nDo you get stable voltage at C1301?\nPLT_RESET_L comes high?\nDid you test for USB activity?"
+    },
+    {
+        "post_id":60721,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-10 02:12:38",
+        "message":"No C1301 on this board - if you mean C1001 - getting a solid 0v from there. PLT_RESET_L is staying low 0v. USB Mouse lights up. Also appear to be getting some heat from Q7180 and L7130 - they are not excessively hot but warmer than the rest of board."
+    },
+    {
+        "post_id":60722,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-10 03:13:44",
+        "message":"\"No C1301 on this board\"\nMy error, meant C1031; is on the same rail as C1001 too.\nIf no VCORE, then board doesn't really boot.\n\nYou've said before to get 1-1.3V on VCORE..."
+    },
+    {
+        "post_id":60743,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-10 07:12:15",
+        "message":"Was getting vcore yesterday yes - not today it seems!\nDouble checked it again no vcore!\nIt is still getting to S0 as getting PP5V_S0 still at a stable 5V"
+    },
+    {
+        "post_id":60745,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-10 08:43:00",
+        "message":"What about ALL_SYS_PWRGD, when NO VCORE present?"
+    },
+    {
+        "post_id":60812,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-11 01:59:22",
+        "message":"With again no VCORE ALL_SYS_PWRGD is a stable 3.3V"
+    },
+    {
+        "post_id":60819,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 02:18:21",
+        "message":"Check now voltage U1950, pins 5, 6, 7."
+    },
+    {
+        "post_id":60834,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-11 04:05:57",
+        "message":"u1950:\npin 5 - 3.4v\npin 6 - 3.4v\npin 7 - 3.4v\n\nIs it possible dead U7200? I see it gets power from PP5V_S0 which i'm sure has been backfed from the hard drive customer plugged in?\n\nEdit - I think dead CPU actually VCORE is reading 1ohm to Ground"
+    },
+    {
+        "post_id":60865,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 11:18:59",
+        "message":"1 ohm is short; usually 10-15 normal for this board, depending by CPU type.\nJust in case, lift the coils and check if short is on the CPU side; 99% yes :("
+    },
+    {
+        "post_id":60947,
+        "thread_id":59466,
+        "title":"820-4924-a No Power",
+        "user_id":1547,
+        "username":"CRC2018",
+        "post_date":"2020-06-12 17:45:18",
+        "message":"Coils removed - short still there, dead CPU it seems shame. Macbook's have to be the first laptops i've worked on where a dodgy USB device can kill the processor - very good circuit design there!"
+    }
+]

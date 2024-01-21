@@ -1,0 +1,218 @@
+[
+    {
+        "post_id":82806,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-11-17 13:49:08",
+        "message":"I have an 820-01700 that had corrosion under U3100 CD3217. \nReplaced IC and now device pulls 5v at .3 Amps on charger alone. PPBUS gets 12.3v. \nWhen connected to battery, it turns on and boots up to desktop just fine but does not charge. Ammeter reads 20v 0. amps with battery connected. \nReplaced ISL9240 to no avail. \nReplaced the CD3217 that was next to the corroded one just incase, but still same results."
+    },
+    {
+        "post_id":82807,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-17 15:03:53",
+        "message":"If board boots with battery, but doesn't switch to 20V with charger alone, the problem is on USB-C area for sure.\nProbably some corroded resistors, or traces.\nAll 4 ports have exact the same behviour?\n\nCompare diode mode readings around CD3217 chips between left\/right ports.\nInspect U2890 and its adjacent resistors."
+    },
+    {
+        "post_id":83526,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-08 13:26:34",
+        "message":"Sorry for the delayed response. \n\nAll ports have the same issue. \n\nDiode mode readings between and left and right ports read the same. Also compared with a donor board.\n\nU2890 and nearby resistors read normal. Compared using working donor board.\n\nThe board has trace damage on Test pad UPC_XA_FUALT_L, but diode mode reading on this line compared to a donor is the same, so I think this is more of just a test point and not a via or trace.\n\nI am missing PP5V_S4_X_USBC.\n\nJust for sheer curiosity, i connected a charged battery and attempted and connected a USB to see if it was detectable in system report.\n\nSystem report would detect a connected USB in all 4 ports but I would get an error saying that USB needs to be connected to a USB port that has power.\nSo there is some data going through, but no power on the ports."
+    },
+    {
+        "post_id":83527,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-08 14:02:44",
+        "message":"Check U3500 and UB700 voltage at pins 19 & 20."
+    },
+    {
+        "post_id":83529,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-08 14:11:34",
+        "message":"U3500\nPin 19: 0.02v\nPin 20: 0.02v\n\nUB700\nPin 19: 0.02v\nPin 20: 0.02v"
+    },
+    {
+        "post_id":83532,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-08 14:21:31",
+        "message":"Diode mode to ground readings?\n\nPP5V_G3S not present there?"
+    },
+    {
+        "post_id":83533,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-08 14:27:48",
+        "message":"PP5V_G3S is missing. I found that to be strange.\n\nDiode reading 0.39 on those points."
+    },
+    {
+        "post_id":83534,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-08 15:51:42",
+        "message":"Run a wire to another point, where 5V_G3S is present..."
+    },
+    {
+        "post_id":83535,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-08 17:50:00",
+        "message":"This could be where the issue lies. 5V_G3S is not present anywhere on the board. Is the rail suppose to be always present? It looks like this line is created by U7650. I see there is an enable signal for P5VG3S_EN_R reading 0v. On my donor board, it looks like it is 3.3v."
+    },
+    {
+        "post_id":83536,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-08 17:57:30",
+        "message":"Is it possible that U7800 is the issue? P5VG3S_EN signal is 0v. I'm curious as to how this computer still powers on to home screen with battery connected."
+    },
+    {
+        "post_id":83539,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-08 22:19:43",
+        "message":"Following the power sequence guide, I have all slpr and awake signals and voltages up until PMU_PVDDMAIN_EN ."
+    },
+    {
+        "post_id":83542,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-09 01:03:57",
+        "message":"Even CPU power supply controller (U7100) is powered up from 5V_G3S.\nMachine can't work without this voltage..."
+    },
+    {
+        "post_id":83557,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-09 07:23:58",
+        "message":"5V_G3S is only present (5v) when battery connected. \n\nPMU_PVDDMAIN_EN comes from U7800 but is not present.\n\nCHGR_INT_L is 1.8v\nPCH_RTC_RESET_L is 3v\nCHGR_CBC_ON under both U7800 and U7000 so I am unable to test if it is sending a signal to U7800 to turn on.\n\nThis unit is not detected in DFU mode. How it stands, the USB c ports are not actually getting power with a battery, without a battery, or in DFU mode. I don't believe it is a T2 issue since the ports are not turning on or being detected in DFU mode. I'm leaning toward this being an issue with the TBT controller next to the corroded CD3217. Unless you think there is another point of interest."
+    },
+    {
+        "post_id":83558,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-09 08:04:23",
+        "message":"UPC_XA_FAULT_L is an error about USB-C port, sent out by U3100; goes to PCH, via R1845.\nYou must have 3V at all these fault signals, R1843-46.\nIncorrect value, will block 5V output power to USB devices.\nBTW, only the port with connected device should get 5V.\n\nOf course, I'm talking about the case when board is RUNNING with battery connected.\nI was thinking your previous posts reffered to same case too.\nSeems that you mix the states, when board runs with battery and also posting something about only charger, when baord is off.\n\nDetecting the problem about no 5V output for USB device (battery connected), may help to diagnose why the ports don't switch to 20V (charger alone)."
+    },
+    {
+        "post_id":83565,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-09 08:45:39",
+        "message":"Interesting. I am glad that you point that out. Fault signal is 0v on all 4 resistors. Comparing with donor board has same diode reading of 0.66.\nWhen connected to battery and running, it is 3.3v and pull 20v, 0amps. \n\nWhen testing on donor board, 3.3v is not present on Fault line until device pulls 20v at 0.6 amps"
+    },
+    {
+        "post_id":83566,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-09 09:20:15",
+        "message":"Comparing diode reading between donor board and I discovered that PP5V_S4_X_USBC is reading 0.34 on patient board but 0.5 on donor board."
+    },
+    {
+        "post_id":83567,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-09 09:46:50",
+        "message":"UPC_X_5V_EN reading 0.61 on this board and 0.53 on donor. I am not sure if that is enough variance for to to be a concern."
+    },
+    {
+        "post_id":83568,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-09 10:11:28",
+        "message":"5V sould appear at L3500, or LB700 when USB device is connected on the corresponding port.\nVoltage may be disabled is a fault signal is detected on that USB port.\n\nNot sure if you've seen Louis video about ISL95870A (GAY) chips.\nYou should check the one with lower diode mode reading on the coil.\nAlso check which side of the coil has the lower value."
+    },
+    {
+        "post_id":83570,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-09 10:32:52",
+        "message":"I was reading in a previous post about that. When you say that 5v appears on those coils when a USB device is connected, would that include a charger, or something else like an USB mouse?\n\nI do recall a video talking about replacing the ISL95870A on new models with an older ISL.\n\nL3500 is reading 0.34 on both sides. \nLB700 0.5\n\nSo U3500 is of interest. Both sides of L3500 are reading the same in diode. I removed L3500 to get a better reading and I am getting a lower reading on Pin 1 on U3500 side."
+    },
+    {
+        "post_id":83588,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-10 01:03:12",
+        "message":"Then change U3500.\nThe MLB should send out 5V to USB port only if external device requires it; like pendrive, mouse, not charger."
+    },
+    {
+        "post_id":83776,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2021-12-14 21:45:37",
+        "message":"Found a donor board with a replacement ISL95870A and swapped out U3500 but looks like nothing has changed. U3500 is in close proximity to U8297 which is 3.3v TBT switch, which is not generating power. Should PP3V3_S0SW_TBT_X be present to power on USB?"
+    },
+    {
+        "post_id":83788,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-15 03:55:32",
+        "message":"It looks like being used by thunderbolt functions, not for normal USB.\nThere sholud be something more affected by liquid on the part of pure USB management."
+    },
+    {
+        "post_id":85569,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":2552,
+        "username":"EsteTron",
+        "post_date":"2022-01-25 20:24:15",
+        "message":"Sorry for taking so long to get back to this one. I was able to determine that when a USB pendrive is connected, the corresponding USB port and CD3217 it is connected to will generate 5v. However, macOS will report an error saying that USB needs power in order to work. I \n\nSo the USB ports are attempting to turn on but there appears to be a communication issue somewhere on the logic baord.\n\nLooking back at earlier pictures of the board I took before replacing the corroded U3100 and U3200, I noticed that the Resistors R3100 and R3101 are connected to USB_UPC_PCH_XA were significantly corroded. Both resistors were measuring proper resistance of 0 ohms. However, I think this is where my issue maybe.\n\nI am under the suspicion that when liquid killed U3100, the line USB_UPC_PCH_XA may have been over volted and killed part of the PCH.\n\nSince I have been working off an on with this one for a few months and potentially having a PCH issue, I am deeming it irreparable here. I hope this logic makes sense."
+    },
+    {
+        "post_id":85574,
+        "thread_id":61982,
+        "title":"Liquid damaged A2141 820-01700 Only powers on with Battery",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-26 00:22:21",
+        "message":"CD3217 must send out 5V to VBUS, when USB device is detected on its port."
+    }
+]

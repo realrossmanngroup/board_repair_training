@@ -1,0 +1,137 @@
+[
+    {
+        "post_id":49420,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-05-22 13:09:13",
+        "message":"Hi guys,\n\nI'm having a strange issue with a liquid damage 820-00239.\nCharger does switch to 20v with 0 current draw. PPBUS is 13v.\nP3V3_S5 = 3.3v.\nPP5V_S5 = 5v.\nNo S4 voltages.\nNo PM_SLP_S5_L and lower is not present.\nSo I checked S5_PWRD which is 0.07v.\n\nThan I started checking on U7650:\n- P5VP3V3_VREG3 = 3.3v\n- PP5V_S5 = 5v\n- P5VP3V3_VREF2 = 2v\n- P3V3S5_EN = 3.4v\n- P5VS5_EN = 3.4v\n- S5_PWRGD = 0.074v\n- P3V3S5_VFB2 = 1.003v\n\nDiode mode S5_PWRGD = 0.490\n\nReplaced U7650 twice with exact same results...\nThat I don't have any PM_SLP_ and no s4 rails must be because S5_PWRGD needs to be present right? S5_PWRGD should be high when S4 rails aren't enabled yet?\nThere was no liquid damage around U7650. When it's outputting all voltages correct why isn't it saying that the S5 power is good?"
+    },
+    {
+        "post_id":49422,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-05-22 13:50:08",
+        "message":"SMC and U7800 require S5_PWRGD presence, before entering on S4 state.\nThis signal is pulled-up through R7802; check the resistor and traces.\nIf you suspect U7650 issue, cut off the trace to pin 20..."
+    },
+    {
+        "post_id":49425,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-05-22 14:28:30",
+        "message":"Hmm well there is no easy place to cut for pin 20.\nMeasured R7802. Has 3.3v on one side and is around 95kohm. So pullup should be working.\nAnyway S5_PWRGD is now definitely the problem to solve.\n\nThere is corrosion around U7800. Will reflow it tomorrow maybe it is pulling it down."
+    },
+    {
+        "post_id":49427,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-05-23 00:29:37",
+        "message":"Reflow didn't help. Do you think injecting 3.3v with a low current is a good idea? If I need to replace u7800 this chip doesn't have firmware like u5000 right?"
+    },
+    {
+        "post_id":49429,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-05-23 03:35:52",
+        "message":"U7800 possibly to have firmware, I'm not sure however.\nYou cannot inject 3V when U7650 pulls down that line.\nChange U7650, or reflow it at least..."
+    },
+    {
+        "post_id":49431,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-05-23 04:14:08",
+        "message":"Well I said earlier that I've replaced u7650 twice already with the exact same results. So I don't think u7650 is pulling the line low. I've found a trace to cut s5_pwrgd from the smc. May take that approach first. Will check again for a s5_pwrgd trace by u7650"
+    },
+    {
+        "post_id":49437,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-05-23 09:24:36",
+        "message":"Be aware, SMC, as U7800, needs to receive high signal on S5_PWRGD.\nSo do not cut the line between them and R7802!"
+    },
+    {
+        "post_id":49441,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-05-23 10:52:39",
+        "message":"Well I've been able to cut the line between U7650 and the rest.\nU7650 s5_pwrgd slowely increase to about 2v which is normal because it is missing the pullup resistor.\nThe line that contain U7800 U5000 and the resistor R7802 is still low @ 0.074v.\nThe resistor looks good and I don't see a short of something. So either U5000 or U7800 is pulling the line low. Not sure what to do now apart from injecting voltage on that line..."
+    },
+    {
+        "post_id":49444,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-05-23 13:41:59",
+        "message":"Reflow SMC and U7800.\nYou may need to change one of them..."
+    },
+    {
+        "post_id":50756,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-07-16 12:00:09",
+        "message":"Bumping an older thread. I removed U7800 and applied USB-C power. Some smoke came from somewhere.\nThan I noticed PPBUS_G3H got shorted. U7800 was still removed.\nI've injected 5v on PPBUS_G3H with 0.5a. Only thing that heats up is the PCH\/CPU. Is the PCH now dead?\n\nI just read I shouldn't inject voltage on PPBUS before checking mosfets. What should I measure?"
+    },
+    {
+        "post_id":50765,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-07-16 13:21:13",
+        "message":"You can NOT power this without U7800...your CPU is now dead game over"
+    },
+    {
+        "post_id":50766,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-16 13:26:34",
+        "message":"At least one high-side MOSFET from various power supplies controlled by U7800 was burnt.\nYour board is trash now..."
+    },
+    {
+        "post_id":50774,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-07-16 14:18:07",
+        "message":"So powering the board without u7800 will blow the CPU? Why? If the MOSFET isn't controlled it won't open right?\n\nWith high-side MOSFET you mean like u7900, u7960, u8050, u8000, u7220, u7420 etc right? Any safe way to check before proceeding and making this mistake a second time?"
+    },
+    {
+        "post_id":50783,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-07-16 16:40:49",
+        "message":"You should know MOSFET Gate is very sensitive to electrostatic tension.\nOnce triggered, nothing can turn it off, as Gate has been left floating on air..."
+    },
+    {
+        "post_id":50876,
+        "thread_id":49420,
+        "title":"Liquid damage 820-00239",
+        "user_id":2848,
+        "username":"melvinvdb",
+        "post_date":"2019-07-20 10:42:12",
+        "message":"A yes of course... Thanks will remember that for in the future."
+    }
+]

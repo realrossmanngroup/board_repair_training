@@ -1,0 +1,119 @@
+[
+    {
+        "post_id":92028,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-24 06:13:14",
+        "message":"So I got two A1398 2015\" with 820-00138 boards from different customers, but with exactly same issue -  no backlight (image is present). One of them is untouched, the other one has been worked on, but the other technician couldn't find the solution for backlight and gave up - he replaced LVDS connector, probably tried another U7701 because it's missing, tried another screen (the original screen was working with another board).\n\nWhat I have done so far:\n\n- tried another known good display assembly (100% 2015 model)\n- tried another U7701\n- tried another Q7706\n- checked LVDS connectors on both boards - they look completely fine\n\nU7701 measurements:\n\npin 5 = 5,07V\npin 18 = 5,06V\npin 11 = 5,84V\npin 17 = 3,33V\npin 15 = 5,01V\npin16 = 5,00V\n\nPPVOUT_S0_LCDBKLT - 51,2V\n\nD7701 is not shorted\n\nF7700 has continuity\n\nQ7706 measurements\n\npins 1-6 - 12,58V\npin 3 - 8,78V\npin 4 - 12,58V\n\nI believe boards are fine, as they produce 51,2V output voltage which is present on LVDS connector but for some reason backlight is not turning on..."
+    },
+    {
+        "post_id":92029,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-24 07:56:36",
+        "message":"\"PPVOUT_S0_LCDBKLT - 51,2V\"\nSo backlight circuit works.\nThere is no continuity for this power rail to the LED strip, or back to the ground.\nDo you have the high tension present on pin 1 of J8300?\n\n\"pin 11 = 5,84V\"\nThis is strange, should be 0V.\n\"pin 3 - 8,78V\"\n5.84V should be correct here (5.5V in theory).\n\nBe sure all resistors around U7701 are good; pay atention to R7708\/09.\n\nJust in case, do PRAM reset 2-3 times."
+    },
+    {
+        "post_id":92034,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-24 08:50:09",
+        "message":"Yes, I have 51,2V present on pin 1 of J8300 and even on LCD LVDS connector side. All resistors around U7701 are measuring OK except two - R7723\/4 by schematic should be 10,2 ohm, but on my two (and one donor) boards they are 0,005 ohm.  Anyway, they are not related to LCD but keyboard backlight. PRAM resets gives nothing..."
+    },
+    {
+        "post_id":92042,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2022-08-24 13:06:22",
+        "message":"[URL unfurl=\"true\"]https:\/\/logi.wiki\/index.php\/Backlight_Troubleshooting#LP8548_.2B_LP8549[\/URL]"
+    },
+    {
+        "post_id":92055,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-25 02:03:12",
+        "message":"[USER=1057]@piernov[\/USER], I've seen this article, but it hasn't changed anything in my situation, or maybe I dont understand something? Actually my I2C_BKLT_SCL and I2C_BKLT_SDA are 5V, they have continuity from J8300 to U7701. I have already replaced connector just in case. I have tested 3 different displays (2015 model). According to article on LogiWiki there is no U7750 on the board, whis is source of I2C_BKLT_SCL and I2C_BKLT_SDA. So it means it's present on LCD side?"
+    },
+    {
+        "post_id":92061,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-25 05:16:15",
+        "message":"Check diode mode to ground on I2C_BKLT_SCL\/SDA lines, w\/ and w\/o LCD connected.\nAlso check solders and traces continuity for pins 6, 7 & 8 of J8300.\nInspect Q8032 and its related resistors and traces.\n\nDo you still have image present on internal LCD?"
+    },
+    {
+        "post_id":92084,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-25 06:45:02",
+        "message":"Without LCD:\n\nI2C_BKLT_SCL  - 0,488v\nI2C_BKLT_SDA - 0,488v\n\nWith LCD:\n\nI2C_BKLT_SCL  - 0,463v\nI2C_BKLT_SDA - 0,462v\n\nAre you sure you meant Q8032? I can't find it on BV (820-00163\/820-00426) nor schematic for 820-00138. Maybe Q8302?\n\nYes, I'm still getting image on the screen."
+    },
+    {
+        "post_id":92087,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-25 06:53:45",
+        "message":"Sorry, it is Q8302."
+    },
+    {
+        "post_id":92093,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-25 08:19:52",
+        "message":"Resistors and traces around U8302 are OK. These are voltages on U8302 (LCD connected):\n\npin 1 - 3,3V\npin 2 \/ 5 - 3,3V\npin 3 - 3,3V\npin 4 - 3,3V\npin 6 - 3,3V"
+    },
+    {
+        "post_id":92118,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-26 04:38:02",
+        "message":"Ok, I have repaired one of the boards (the one which has been worked on). It turns out I made a mistake measuring J8300 and missed pin 8 LCD_BKLT_PWM_R. There was R7780 missing on the board. Now this one works. The second one is still on process..."
+    },
+    {
+        "post_id":92121,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-08-26 07:35:02",
+        "message":"Thanks for feedback.\nI was expecting missing backlight voltage in this case; good to note!"
+    },
+    {
+        "post_id":92123,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-26 08:07:06",
+        "message":"Both boards have 51,2V on PPVOUT_S0_LCDBKLT, so that's not the case ;) I feel, that there is something small I'm missing again.."
+    },
+    {
+        "post_id":92177,
+        "thread_id":63019,
+        "title":"820-00138 no backlight though has 51,2V on output",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2022-08-29 08:13:40",
+        "message":"Second one fixed too - though J8300 looked perfect I decided to replace it and that was the trick, backlight is back again."
+    }
+]

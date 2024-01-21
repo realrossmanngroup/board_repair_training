@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":46126,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":2316,
+        "username":"Naevius",
+        "post_date":"2019-02-12 19:14:31",
+        "message":"I have a 820-00923-A board that gets into a S0 state, but no fan spin or image. Since I can't find the correct schematic and brd I'm using the 820-00239 one, seems to work ok with this board.\n\nThe board takes about 0.77A and CPU is getting hot, so seems to boot. I'm not getting All_SYS_PWRGD tho.\nSome measurements:\n\nPP3V0_G3H = 3V\nPPVCC_S0_CPU = 1.098V\nPP0V6_S0_DDRVTT = 0.6V\nPP1V8_S0 = 1.8V\nPP1V2_S0SW = 1.2V\nPP1V0_S0SW = 1V\nPP5V_S0_T139 = 5.12V\nPP5V_S0 = 5.12V\nPP3V3_S0 = 3.33V\nSMC_PM_G2_EN = 3.4V\nPM_PCH_PWROK = 3.31V\nPP3V3_PMICLDO = 3.29V\nPPBUS_PMIC = 13.03V\nCPU_VCCST_PWRGD = 0.999V\nS5_PWRGD = 3.25V\nSMC_DELAYED_PWRGD 3.4V\n\nThose rails look fine to me, still U7800 it not turning All_SYS_PWRGD on.\n\nNo visible liquid damage. I kind of suspect U7800, but the area around that chip looks just fine."
+    },
+    {
+        "post_id":46129,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-02-12 21:06:22",
+        "message":"I?m pretty sure it?s not possible to have VCore but no ALL_SYS...double check that. Do you get any external video?"
+    },
+    {
+        "post_id":46130,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-13 02:01:24",
+        "message":"Recheck ALL_SYS_PWRGD signal.\nStrange to get complete power sequence without it...\n\nCheck for USB activity and external video."
+    },
+    {
+        "post_id":46253,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":2316,
+        "username":"Naevius",
+        "post_date":"2019-02-14 10:38:35",
+        "message":"Rechecked ALL_SYS_PWRGD, still not present (0.0V). Tested on both R7103 and R7805\n\nAlso checked PP5V_S0_VCORE1\/2, both are 5.12V.\n\nNo external image. Can't test USB activity since this board doesn't have actual USB-B connection, and I don't have a USB-C>USB-A convertor\n\nI am noticing that if you leave power on for a while, and the CPU is getting really hot the fans start spinning. But no fan spin when you apply power to a cooled board\n\n[edit]\nI did find a USB-C->A convertor, but no USB activity it seems (tested with a USB drive with a flashing LED, no light at all on the USB drive)"
+    },
+    {
+        "post_id":46258,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-02-14 11:49:34",
+        "message":"PP5v_S0_VCORE is not CPU Vcore. PPVCC_S0_CPU is Vcore. I'm assuming that is missing due to no ALL_SYS, but if the CPU is getting hot with no VCore, this is bad and probably a dead CPU."
+    },
+    {
+        "post_id":46260,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":2316,
+        "username":"Naevius",
+        "post_date":"2019-02-14 13:23:47",
+        "message":"PPVCC_S0_CPU is 1.098V as stated in my first post.\n\nSo apparently it's not surposed to get PPVCC_S0_CPU without ALL_SYS_PWRGD? Is it possible there is a line break in the ALL_SYS_PWRGD line, so U7800 is actually outputting voltage on ALL_SYS_PWRGD to the CPU, but not to other parts of the system? Would not be easy to check I guess\n\n[edit]\nLet's say just for testing purposes I manually wire 3.3V to ALL_SYS_PWRGD on R7103 or R7805, can something go wrong? Can I break more than already is?"
+    },
+    {
+        "post_id":46274,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-14 16:14:37",
+        "message":"Is R7805 good?\nEven if you get VCORE, missing ALL_SYS_PWRGD is \"letal\".\nThis denotes a PCH issue, as it shouldn't enable VCORE in this case."
+    },
+    {
+        "post_id":46497,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":2316,
+        "username":"Naevius",
+        "post_date":"2019-02-20 08:39:14",
+        "message":"Checked R7805, is 10k as it should.\n\nSo is it certain that it's a PCH issue? This pretty much makes the board unrepairable, right?"
+    },
+    {
+        "post_id":46499,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-20 09:09:09",
+        "message":"Do you get 3V at pin 1\/R7805?\n\nALL_SYS_PWRGD is controlled by U7800 in this model.\nIt monitors other power rails and power good signals."
+    },
+    {
+        "post_id":46515,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":2316,
+        "username":"Naevius",
+        "post_date":"2019-02-20 14:39:02",
+        "message":"Yes, 3.3V on pin 1\/R7805, but 0V on pin 2. So U7800 is very likely pulling it down.\n\nOn page 74 of the schematic it seems all the required voltages are present to enable ALL_SYS_PWRGD, even though I find this type of diagram kind of confusing, since it's not always clear what is an input or output. Would replacing U7800 still be a possible solution?"
+    },
+    {
+        "post_id":46527,
+        "thread_id":46126,
+        "title":"820-00923-A S0 state, no All_SYS_PWRGD",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-02-20 17:59:30",
+        "message":"Should be U7800, but you cannot be 100% sure.\nInternal damage on SMC can cause that too.\nIf you can cut off the trace for U7800, you can see which chip pulls down the signal.\n\nReflow U7800 with good flux.\nMaybe bad contact for one supervised voltage..."
+    }
+]

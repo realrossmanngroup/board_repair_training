@@ -1,0 +1,56 @@
+[
+    {
+        "post_id":93162,
+        "thread_id":63165,
+        "title":"820-00239 No Backlight (NOT flexgate)",
+        "user_id":6319,
+        "username":"richilg1",
+        "post_date":"2022-10-10 13:39:29",
+        "message":"Hello all, first post here, apologies for any missing details you all may need to help me. I'm ready to provide measurements for any component.\n\n820-00239 board, perfect shape, no liquid damage whatsoever. Below is a list of every component I've replaced so far. I have a donor board I frequently test with, and every component I've listed here has been desoldered from donor and resoldered to the board in question. No change. All were then removed from board and resoldered back to donor, [B]ALL[\/B] worked on the donor once again. I'd confidently say everything listed here is \"good\". \n\n-U8400 (multiple)\n-Q8401\n-C8430\n-R8432\n-R8431\n-D8410\n-C8410\n-Q8400\n-R8400\n-R8402\n-R8401\n-C8412\n\n\nTried all common solutions after checking for shorts, no shorts on C84XX caps, so I didn't replace any. No current passing through C84XX caps. My best guess is that U8400 is somehow not receiving an enable signal. Forgive my ignorance on this board, I got caught up in firing the parts cannon at it without thoroughly researching the schematics, only because I have the luxury of multiple donors. I have only had experience with dead U8400s and blown C84XX caps on this board, though I've had many. \n\nHope someone can point me in the right direction, thanks!"
+    },
+    {
+        "post_id":93171,
+        "thread_id":63165,
+        "title":"820-00239 No Backlight (NOT flexgate)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-10 17:11:20",
+        "message":"First of all, welcome to the forum!\n\nYou've forgot to mention if image is present, on internal LCD.\nI suppose you already tested with external monitor and get image on it.\nBe aware, image must come before backlight.\n\nCan you list any voltages and signals measured on the backligh circuit?\nPay atention to BKLT_EN_R, BKLT_SD and U8400 power pins."
+    },
+    {
+        "post_id":93183,
+        "thread_id":63165,
+        "title":"820-00239 No Backlight (NOT flexgate)",
+        "user_id":6319,
+        "username":"richilg1",
+        "post_date":"2022-10-11 09:39:47",
+        "message":"Thanks for the welcome! \n\nImage fine, boots fine on external display and LCD (tried multiple LCDs) . \n\nBKLT_EN_R - 3.3V\nBKLT_SD - 12.8V\n\nTesting donor side-by-side with identical measuerments. Donor reads 6.3V on BKLT_SD when backlight turns on, subject board does not change from 12.8V.\n\nPin 4 of U8400 (R8433 and lines associated) when computer boots remains at roughly 2 Ohms when image appears. It never even blips to the 2V+ that it normally would when backlight is told to turn on."
+    },
+    {
+        "post_id":93184,
+        "thread_id":63165,
+        "title":"820-00239 No Backlight (NOT flexgate)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-11 11:01:19",
+        "message":"Looks like missing communication through I2C bus, for backlight adjustment.\nReset PRAM 2-3 times first.\nIf still the same, check R8450-53 and their traces.\nPost voltage and diode mode to ground on SCL\/SDA lines.\n\nPCH sends backlight adjust PWM signal to LCD assembly (TCON), which sends necessary info to U8400 through I2C__BKLT_SCL\/SDA bus.\nInspect J8500 and change the small video cable, just in case."
+    },
+    {
+        "post_id":93202,
+        "thread_id":63165,
+        "title":"820-00239 No Backlight (NOT flexgate)",
+        "user_id":6319,
+        "username":"richilg1",
+        "post_date":"2022-10-11 20:29:08",
+        "message":"After days of image with no backlight, it seems we've now downgraded to no image and no backlight  :( \n\n(external image still fine)\n\nThanks again for your input, I'm not sure whether or not no image sheds any light on backlight issue (pun intended). Multiple PRAM resets, swapped J8500 cable for known good one, good R8450-53 lines. I will backtrack and see if I've done anything to kill the image, I was very careful measuring SCL\/SDA lines, and touched nothing else. They measured around 5V each, and that's the moment I noticed there was no longer an image displayed.\n\nI'm wondering if this image issue is intermittent and related to no backlight. Mac belongs to a friend of mine, and she swears she saw nothing with flashlight when backlight went out, though when left with me, I could see her login screen using one. I'm starting to believe now she may have been correct. I'm considering replacing J8500, even though it's in great shape, I need to rule out everything at this point.\n\nThanks again, I hope I can narrow this down tomorrow."
+    },
+    {
+        "post_id":93203,
+        "thread_id":63165,
+        "title":"820-00239 No Backlight (NOT flexgate)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-12 00:50:03",
+        "message":"For no image issue, check 3V3\/5V_S0SW_LCD and DP_INT_HPD.\nOf course, check with internal LCD connected."
+    }
+]

@@ -1,0 +1,119 @@
+[
+    {
+        "post_id":36904,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":1466,
+        "username":"jpadie",
+        "post_date":"2018-07-10 22:33:04",
+        "message":"I had a rain damaged 820-3437b in the last few days.  no obvious problems\/corrosion on the board, there were some s0 rails present but no vcore and no fan spin.\n\non testing I found that no pp5v_s4r3 was present on the dcin connector, so replaced that.  Then U8080 got very very hot.  Replacing that returned the board to being able to boot and operate.\n\nBut it only lasted an hour before failing again. (green->orange light present, 5v_s0 present but no vcore)\n\nOn testing the board, the DCin board started smoking (the wee chip just next to the audio connector) when I measured from the PP5V_S4R3 pin and ground.  Current jumped too, and was limited by the PSU.\n\nThis happened on two DCin boards.\n\nany thoughts on the cause of this?  I've not yet tested the rest of the board.\n\nthanks\nJustin"
+    },
+    {
+        "post_id":36923,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-07-11 05:57:42",
+        "message":"No idea. But there is no need to connect the flat cable to the IO board for testing. These board will power on just fine with just the power connector. So first see what is going on with the board now. \nU8080 getting hot would point more to  short somewhere than to actually U8080 being dead."
+    },
+    {
+        "post_id":36947,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":1466,
+        "username":"jpadie",
+        "post_date":"2018-07-11 09:01:26",
+        "message":"flat cable wasn't connected (can't get to the S4R3 pin on the IO connector with the flat cable on). \n\ntried a number of IO boards (three now).  they all have green->orange but no fan spin.  Test voltage on PP5v_S4R3 on the IO connector and the chip on IO board goes up in smoke.  \n\nI can't work out what is going on electrically to create this issue.  evidently the IO board switches is being asked to draw too much current.  But why this is triggered by measuring the PD to ground across that pin is a mystery."
+    },
+    {
+        "post_id":36949,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-07-11 09:34:02",
+        "message":"If the flat cable is not connected then the green light can never work. I have no idea what you are doing."
+    },
+    {
+        "post_id":36960,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":1466,
+        "username":"jpadie",
+        "post_date":"2018-07-11 14:19:32",
+        "message":"with the flat cable in situ I can see that the charger goes from green to orange. therefore am confident that I have a working SMC and 3v42  + PPBUS G3H are good.\n\nto test for S4R3 on the IO connector you have to disconnect the flat cable.  \n\nso power off, disconnect flat cable, power on.  test the PD between the pin and ground.  and the chip near the audio port on the IO board blows up."
+    },
+    {
+        "post_id":36964,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-07-11 14:53:01",
+        "message":"I have really no idea what you are doing. What is S4R3? Why are you testing it on J9500?"
+    },
+    {
+        "post_id":36975,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":1466,
+        "username":"jpadie",
+        "post_date":"2018-07-11 22:41:32",
+        "message":"pp5v_s4RS3, as referenced (incompletely) above.\n\nI am not testing it on J9500. As above I am testing it on the IO connector that one cannot access without removing the flat cable. J7000. It is supposed to be present on pin 3."
+    },
+    {
+        "post_id":36976,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":1466,
+        "username":"jpadie",
+        "post_date":"2018-07-12 00:04:14",
+        "message":"moving on from the misunderstanding issue, I powered the board up once again this morning and started testing the rails again. \n\nI no longer have pp5v_s0.  pp3v3_s0 is present. as pp1v5_s0  and pp1v05_s0. \n\nvcore is not present.\n\nthe dcin board gets very hot.  60 degrees generally although far higher on the audio chip itself.  hot enough to start the alcohol bubbling.  exactly the same occurs on U6410.  \n\nthese get their power from PP5V_S4RS3; and although it is delivering 5v to the chip the resistance to ground is only 11Ohm.  the PSU shows 330mA being drawn at DCIN.  and measuring the current across R6412 shows that 220mA is on that audio circuit.  \n\nI think it is unlikely that both audio R and L circuits have spontaneously blown, but I'll take advice of course.  It seems that there is something awry on the PP5v_S4RS3 line.  are there any known culprits that should be investigated?  there does not seem value in pushing voltage down this line since the audio chips are already burning, although I could remove the zero ohm resistor and DCin board and then inject voltage if people think that would be useful?"
+    },
+    {
+        "post_id":36981,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-07-12 01:35:56",
+        "message":"I am going to tell you again to leave the flat cable to to IO board disconnected it is not needed for the board to power on and can only cause problems at this point. The cable to J9500 that is.\n\n5V_s0 missing then U8080 would be a good suspect as it was messed with. Check for short on this rail too."
+    },
+    {
+        "post_id":36982,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":1466,
+        "username":"jpadie",
+        "post_date":"2018-07-12 02:08:32",
+        "message":"Duke - the flat cable is in for testing the green->orange.  I am currently testing without any IO board, injecting voltage directly on the PPv5_S4RS3.  the audio chip gets extremely hot. \n\nI will test U8080 again."
+    },
+    {
+        "post_id":37006,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-07-12 14:28:31",
+        "message":"The audio chip is on the IO board."
+    },
+    {
+        "post_id":37011,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":1466,
+        "username":"jpadie",
+        "post_date":"2018-07-12 14:43:41",
+        "message":"U6410 is on the main board ."
+    },
+    {
+        "post_id":37014,
+        "thread_id":36904,
+        "title":"820-3437b - multimeter blows up DC In board ...",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-07-12 14:48:55",
+        "message":"U6410 is just a speaker amplifier not the sound\/codec chip. If it gets hot it is dead and that is what is pulling down 5V. Remove R6414 to isolate the chip. There is possibly more stuff shorted on the 5V rail as I suspect DCIN was shorted to 5V rail when measuring on J7000. This is why you never measure there."
+    }
+]

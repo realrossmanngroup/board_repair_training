@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":101217,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":31984,
+        "username":"GoobyPlzz",
+        "post_date":"2023-08-27 07:30:17",
+        "message":"Good morning, \n\nNo signs of liquid damage. When I received the board, only one of the USB-C Ports was working, I replaced the CD3215 with a correct C00 version and now both ports work. Prior to replacing the CD3215 PP3V3_G3H was at 2.1v, not it's at 4.8v. However, the device still does not turn on. \n\nWith the battery removed:\n\npp3v3_s5  0.1mV\npp1v8_s5g 0.0\npp3v3_G3H 4.83v\nppbus_g3h_cpu 40mV\nppbus_g3h 40.3mV\npp20v_usbc_xa_usbx-Ca_vBus_conn 5.1v\npp3v3_ldo3v - 0.6mV\n\nI reflowed U7800 since it seemed like this would be the problem area, but still no dice. Any help appreciated. Thank you"
+    },
+    {
+        "post_id":101220,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-27 07:56:46",
+        "message":"\"pp3v3_G3H 4.83v\"\nBig problem there; you have important overvoltage on 3V3_G3H power rail.\nCheck the exact values of the resistor in the feedback network (R6993-97); don't forget R\/C6994.\nAlso check all traces in that area; pay atention to XW6995."
+    },
+    {
+        "post_id":101222,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":31984,
+        "username":"GoobyPlzz",
+        "post_date":"2023-08-27 08:31:40",
+        "message":"R6993 - 30.6 mV\nR6994 - 7.8 V (both sides)\nR6995 - 3.4V (right side)\nR6995 - 1.1V (left side)\nR6996 -30.6 mV (right side) \nR6996 - 1.013 V (left side\nR6997 - 3.4V (both sides)\n\nC6993 - 4.8V\nC6994 - V3V3G3H__BST_R 7.7V\nC6994 - V3V3G3H_SW 3.4V\n\nCan't seem to find XW6995\n\nas always, thank you for your help. Trying to figure this out."
+    },
+    {
+        "post_id":101223,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":31984,
+        "username":"GoobyPlzz",
+        "post_date":"2023-08-27 08:55:32",
+        "message":"D6905 was the culprit, PPDCIN wasn't making contact, now that it's fixed I get 3.4v on 3V3G3H, still stuck at 5.191v 0a\n\n\nUpdated numbers With the battery removed:\n\npp3v3_s5 0.0mV\npp1v8_s5g 0.0\npp3v3_G3H 3.4V\nppbus_g3h_cpu 40mV\nppbus_g3h_s5 46.8 mV\nppbus_g3h -50mV\npp20v_usbc_xa_usbx-Ca_vBus_conn 5.1v\npp3v3_ldo3v - 0.6mV\n\nI noticed the USB-C port that wasn't working before switching the CD3215 chip is reading PP3V3_G3H at 2.9-3.0v little lower than the other USB-C port."
+    },
+    {
+        "post_id":101226,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-27 11:10:10",
+        "message":"So you never had 4.83V at 3V3_G3H?\nPlease, post accurate information; is your interest to save time.\nYou couldn't get higher voltage there with bad contact on D6905.\n\nBoth USB-C ports must have same behavior.\nIf not, compare diode mode readings between both channels around CD3215 chips.\nStart with their LDO lines.\n\nCheck diode mode to ground at PPBUS_G3H and all big coils.\nRemove F7000 and check C7050 voltage."
+    },
+    {
+        "post_id":101231,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":31984,
+        "username":"GoobyPlzz",
+        "post_date":"2023-08-27 13:39:49",
+        "message":"Power in, no battery:\nRemoved F7000 C7050 was at 50mV\n\nDIODE Readings (no power obviously)\n\nPP1V1_UPC_XA_LDO_BMC 0 .523V\npp1V1_UPC_XB_LDO_BMC - 0.523V\n\nXA_LDOA .530V\nXB_LDOB  .530V\n\nXA_LDOD .490V\nXB_LDOD .494V\n\nPP3V3_UPC_XA_LDO .511v\nPP3V3_UPC_XB_LDO .506V\n\nPP3V3_PDO3V - .419"
+    },
+    {
+        "post_id":101233,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-28 01:00:55",
+        "message":"All mentioned LDOs get correct voltage?\nBe aware, 1V1 LDO should appear on the powered port only.\n\nYou've forgot diode mode on PPBUS_G3H and big coils."
+    },
+    {
+        "post_id":101242,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":31984,
+        "username":"GoobyPlzz",
+        "post_date":"2023-08-28 06:59:26",
+        "message":"I'm showing PPBUS_G3H at .403V (diode mode)\n\nPutting F7000 back on \n1V1 LDO is showing .1 mV - .2mV back and forth on both sides at the same time."
+    },
+    {
+        "post_id":101246,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-28 08:08:40",
+        "message":"We still don't know if you get correct LDOs voltage on CD3215 chips.\nEach one has 4 LDO lines."
+    },
+    {
+        "post_id":101267,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":31984,
+        "username":"GoobyPlzz",
+        "post_date":"2023-08-28 18:33:46",
+        "message":"I'm going to be honest man, I don't know what exactly you're asking or telling me to look at.\n\nWhat do you mean we don't know if I get the correct LDO's voltage on the CD3215 chips? I gave you the reading I found, not sure how I'm suppose to spot check that. I realize each one has 4 LDO lines, I believe i've provided all of them to you.\n\nI understand you can't just tell me the answer as there can be many answers, but at the same time I joined this forum because I don't know how to find these things. I'm asking for guidance so I can learn."
+    },
+    {
+        "post_id":101269,
+        "thread_id":64155,
+        "title":"A1708 820-00840-A No power 5v 0amp",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-29 01:24:28",
+        "message":"\"DIODE Readings (no power obviously)\"\nI supposed that you've posted diode readings indeed.\nBTW, for the future, don't write \"V\" after diode readings; avoid any misunderstood.\n\nPlease, post now voltage on these LDOs.\nLet see if you get all them good.\nBe aware, 1V1 LDO must appear on the powered port only.\n\nAlso, did you check diode mode on the big coils?"
+    }
+]

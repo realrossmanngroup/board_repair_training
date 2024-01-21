@@ -1,0 +1,65 @@
+[
+    {
+        "post_id":70014,
+        "thread_id":60587,
+        "title":"820-00850 - T2 Corrupted \/ SSD Issue?",
+        "user_id":1358,
+        "username":"mccafe",
+        "post_date":"2021-01-07 20:16:07",
+        "message":"I have an 820-00850 with no sign of liquid damage for data recovery. The customer is unable to login to his user and says he is 100% certain he is using the correct password. When trying to use the Reset Password feature, after a few seconds of the \"examining volumes\" screen, we are presented an empty list of users to choose from. I am unable to open up Disk Utility or terminal to find out more about this computer. Secure boot is enabled so essentially this computer is bricked at this point whether or not he wants the data, but in this case he does. Customer brought it to Apple and they said the motherboard had to be replaced and data would be lost.\n\nAny advice on where I should begin?"
+    },
+    {
+        "post_id":70016,
+        "thread_id":60587,
+        "title":"820-00850 - T2 Corrupted \/ SSD Issue?",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-01-08 01:16:20",
+        "message":"I don't know if this works with Full security but did you try Target Disk Mode?"
+    },
+    {
+        "post_id":70017,
+        "thread_id":60587,
+        "title":"820-00850 - T2 Corrupted \/ SSD Issue?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-01-08 01:31:25",
+        "message":"If Target Disk mode is not possible, you can try DFU revive, just in case.\nBe aware, revive, not restore."
+    },
+    {
+        "post_id":70051,
+        "thread_id":60587,
+        "title":"820-00850 - T2 Corrupted \/ SSD Issue?",
+        "user_id":1358,
+        "username":"mccafe",
+        "post_date":"2021-01-08 23:10:18",
+        "message":"Working on this MacBook again and target disk mode did not work with full security, but after numerous tries of getting into recovery, I was able to get in with terminal access, etc. I am not too sure why it was not working before.\n\nLooks like it is a corrupted partition. I found that the Macintosh HD - APFS partition has an encryption error which now makes sense why customer is able to boot to login screen and see username, but unable to login with correct password. I am in the process of cloning the SSD in case of any issues, but any ideas on the \"Ecrypted: ERROR -69808\" for disk2s1? Must fix in order to decrypt and recover data.\n\nI realize this is not component level repair help, but hopefully I can get some advice.\n\n[CODE=bash]-bash-3.2# ls\n.forward    Library\n-bash-3.2# diskutil apfs list\nAPFS Container (1 found)\n|\n+-- Container disk2 6B2D2622-3808-45C3-8392-6D85FCB0F767\n    ====================================================\n    APFS Container Reference:     disk2\n    Size (Capacity Ceiling):      250685575168 B (250.7 GB)\n    Capacity In Use By Volumes:   38388994048 B (38.4 GB) (15.3% used)\n    Capacity Not Allocated:       212296581120 B (212.3 GB) (84.7% free)\n    |\n    +-< Physical Store disk0s2 9467321E-7A3D-42F9-B818-3A635815E1BA\n    |   -----------------------------------------------------------\n    |   APFS Physical Store Disk:   disk0s2\n    |   Size:                       250685575168 B (250.7 GB)\n    |\n    +-> Volume disk2s1 243CEC26-CB1F-47F2-B906-7D73B06E9B0F\n    |   ---------------------------------------------------\n    |   APFS Volume Disk (Role):   disk2s1 (No specific role)\n    |   Name:                      Macintosh HD (Case-insensitive)\n    |   Mount Point:               Not Mounted\n    |   Capacity Consumed:         35547934720 B (35.5 GB)\n    |   Encrypted:                 ERROR -69808\n    |\n    +-> Volume disk2s2 8AA98121-CA98-458A-ABF2-40BC131323A3\n    |   ---------------------------------------------------\n    |   APFS Volume Disk (Role):   disk2s2 (Preboot)\n    |   Name:                      Preboot (Case-insensitive)\n    |   Mount Point:               Not Mounted\n    |   Capacity Consumed:         44425216 B (44.4 MB)\n    |   FileVault:                 No\n    |\n    +-> Volume disk2s3 18177DCD-09DF-4396-8198-A5D2658D9D28\n    |   ---------------------------------------------------\n    |   APFS Volume Disk (Role):   disk2s3 (Recovery)\n    |   Name:                      Recovery (Case-insensitive)\n    |   Mount Point:               Not Mounted\n    |   Capacity Consumed:         510595072 B (510.6 MB)\n    |   FileVault:                 No\n    |\n    +-> Volume disk2s4 BE867448-F329-4D75-A97A-FDEF4BF3BBFE\n        ---------------------------------------------------\n        APFS Volume Disk (Role):   disk2s4 (VM)\n        Name:                      VM (Case-insensitive)\n        Mount Point:               Not Mounted\n        Capacity Consumed:         2147659776 B (2.1 GB)\n        FileVault:                 No (Encrypted at rest)\n-bash-3.2# diskutil decryptVolume \/dev\/disk2s1\ndiskutil: did not recognize verb \"decryptVolume\"; type \"diskutil\" for a list\n-bash-3.2# diskutil apfs decryptVolume \/dev\/disk2s1\nPassphrase for existing \"Disk\" user 243CEC26-CB1F-47F2-B906-7D73B06E9B0F:\nStarting background decryption of disk2s1 using the \"Disk\" crypto user as authorization\nError starting background decryption of APFS Volume: Some information was unavailable during an internal lookup (-69808)\n-bash-3.2# [\/CODE]"
+    },
+    {
+        "post_id":70055,
+        "thread_id":60587,
+        "title":"820-00850 - T2 Corrupted \/ SSD Issue?",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-01-09 02:02:11",
+        "message":"According to [URL]https:\/\/mrmacintosh.com\/mojave-2019-001-security-update-causing-data-loss-if-interrupted\/[\/URL] and [URL]https:\/\/www.jamf.com\/jamf-nation\/discussions\/33844\/security-update-2019-001-mojave[\/URL] , a bridgeOS update could have failed and the T2 encryption keys were lost (confirmed if `xartutil --list` reports nothing). If that's the case the data is not recoverable. So as usual, no backup = no data\u2026"
+    },
+    {
+        "post_id":70074,
+        "thread_id":60587,
+        "title":"820-00850 - T2 Corrupted \/ SSD Issue?",
+        "user_id":1358,
+        "username":"mccafe",
+        "post_date":"2021-01-09 10:35:57",
+        "message":"This is what I see. Looks like one legitimate entry:\n\n[CODE=bash]-bash-3.2# xartutil --list\nTotal Session count: 2\n\nEntry: 0\nUUID: 00000000-0000-0000-0000-000000000000 ; Session seeds: 3\n\nEntry: 1\nUUID: 243CEC26-CB1F-47F2-B906-7D73B06E9B0F ; Session seeds: 2\n\n-bash-3.2#[\/CODE]"
+    },
+    {
+        "post_id":70075,
+        "thread_id":60587,
+        "title":"820-00850 - T2 Corrupted \/ SSD Issue?",
+        "user_id":1057,
+        "username":"piernov",
+        "post_date":"2021-01-09 11:02:49",
+        "message":"Not the exact same issue then, but I don't know where to go from there unfortunately\u2026"
+    }
+]

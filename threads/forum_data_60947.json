@@ -1,0 +1,182 @@
+[
+    {
+        "post_id":73336,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-20 03:15:05",
+        "message":"Hi,\n\nI made a stupid thing while trying to fix a fan connector issue on a 820-2914-A, shortcutting the PP5V_S0 to ground.\n\nAfter that I'm sure something blown, because I heard it and I smell it.\n\nSearching with microscope don't show anything damaged, but obviously the board is not working anymore. \n\nI'm trying to troubleshoot it. Actually PP3V42_G3H is not present (I read 0). \n\nPPVIN_G3H_P3V42G3H is present when the charger or the battery are connected (with the charger I read 16,48V).\n\nOn pin 8 and 2 of U6990 I can read 3,86V (P3V42G3H_FB), but the output of U6990 is 0.\n\nIf a use a multimeter in diode mode on the output (red on ground and black on pin) I read 0,001 so I think I have a shortcut somewhere.\n\nWhat is the best way to go on? Removing one by one the components on the line to find the one failing on injecting some power to find (I hope) the one heating?\n\nIs the time worth or the shortcut on PP5V_S0 could have destroyed the board?\n\nThanks"
+    },
+    {
+        "post_id":73337,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-20 04:23:32",
+        "message":"First of all, welcome to the forum!\n\nA simple short on 5V_S0 shouldn't cause such damage.\nYou are \"the lucky guy\" in 1000, to happen this.\n\nIf you have pure short on 3V42_G3H, voltage injection method will locate the culprit rapidly.\nStart with 1V and go up slowly (if needed), no more than 4V.\nFirst, set amp limit of your lab PSU to max.\n\nBTW, I hope you've measured diode mode after removing power."
+    },
+    {
+        "post_id":73338,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-20 06:54:36",
+        "message":"[QUOTE=\"2informaticos, post: 73337, member: 682\"]\nBTW, I hope you've measured diode mode after removing power.\n[\/QUOTE]\nSure\n\nI will test the injection and see whats happen. \n\nThanks"
+    },
+    {
+        "post_id":73344,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-20 14:50:46",
+        "message":"ok, strange things happen here. With voltage injection nothing start heating. But I see, after a while, that the current goes down to a low level. So I check again with diode mode the possible shortcircuit and it was gone :oops::oops:. The only thing that could be happen is that the shortcircuit was completely blown by the voltage injection....\n\nSo I try to connect the power supply to the board and I have got 3V42_G3H again, and green led on the power supply connector.\n\nI check some voltage values:\n\nPPVBUS = 12,56V\nPP5V_S3 = 4,90V\n\nBut the board don't start.\n\nThe system is charging the battery because after a while the green led became amber."
+    },
+    {
+        "post_id":73345,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-20 15:19:33",
+        "message":"Check the voltage on all big coils.\nThe fan spins?\nALL_SYS_PWRGD goes high?"
+    },
+    {
+        "post_id":73346,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-20 15:56:31",
+        "message":"[QUOTE=\"2informaticos, post: 73345, member: 682\"]\nCheck the voltage on all big coils.\n[\/QUOTE]\nI will check ASAP\n\n[QUOTE=\"2informaticos, post: 73345, member: 682\"]\nThe fan spins?\n[\/QUOTE]\nNo. Only a little when I remove power connector.\n\n[QUOTE=\"2informaticos, post: 73345, member: 682\"]\nALL_SYS_PWRGD goes high?\n[\/QUOTE]\nNo\n\nAfter a while I was able to find a very hot component. Is U4800. Is so hot I can't place a finger over it. I think it is gone. Could be the reason the board don't start? As I can understand is an infrared receiver. Could I remove it and try if the board start?"
+    },
+    {
+        "post_id":73347,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-20 16:14:03",
+        "message":"Remove and check if board turns on.\nIt is totally unnecessary thing..."
+    },
+    {
+        "post_id":73348,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-21 04:03:59",
+        "message":"Removed, no change.\n\nALL_SYS_PWRGD don't goes high.\n\nAbout the coils:\nL9710 = 0V\nL3895 = 322mV\nL7260 = 3,34V\nL7720 = 1,81V\nL7770 = 1,53V\nL7220 = 5,01V\nL8920 = 0V\nL7550 = 0V\nL7510 = 0V\nL7520 = 0V\nL7530 = 0V\nL7030 = 12,55V\nL7100 = 0V\nL9560 = 1,51V\nL7630 = 0V\nL9510 = 1,02V\nL7330 = 1,5V\n\nI hope I don't miss someone.\n\nSystem powered only by charger, no battery connected.\n\nOne more note: U1800 stay warm, also if the board is not running.\n\nThanks"
+    },
+    {
+        "post_id":73349,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-21 04:30:13",
+        "message":"Missing 1V05_S0 and VCCSA.\nPost U7100 and U7600 voltages.\n\nAlso check ohm resistance to ground at L7100 and L7630."
+    },
+    {
+        "post_id":73353,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-21 07:44:49",
+        "message":"U7100\nAll pin at 0, except 14 (20mV), 15 (3,29V), 20 (5V).\n\nU7600\nAll pin at 0, except 3 (3,26V), 4 (0,5V), 7 (24mV), 8-10-11-12 (30mV), 13-14 (5V).\n\nL7100 to ground 41,6 Ohm\nL7630 tp ground 13 Ohm\n\nThanks"
+    },
+    {
+        "post_id":73354,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-21 08:07:14",
+        "message":"\"U7100\nAll pin at 0, except 14 (20mV), 15 (3,29V), 20 (5V).\"\nWhat about pin 19, surely 0V?\nIf yes, post diode mode to ground there."
+    },
+    {
+        "post_id":73355,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-21 08:40:18",
+        "message":"I checked again and I can confirm a 0V reading.\n\nChecking in diode mode I have 0,001V, so shorted. I think C7102 shorted. Correct?\n\nAlso R7101 seems strange. I read 44 Ohm instead of 2,2 expected from the schematic.\n\nThanks"
+    },
+    {
+        "post_id":73356,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-21 08:51:51",
+        "message":"Removed C7102, but short still there."
+    },
+    {
+        "post_id":73357,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-21 09:01:26",
+        "message":"Change U7100 & R7101..."
+    },
+    {
+        "post_id":73359,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-03-21 12:03:55",
+        "message":"I'll do that asap"
+    },
+    {
+        "post_id":73890,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-04-03 07:56:40",
+        "message":"One step forward....\n\nAfter replacing U7100 & R7101 on L7100 I can read 0,911V. Should be 1,05V, correct?\n\nBut still no voltage on L7630."
+    },
+    {
+        "post_id":73896,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-03 09:49:02",
+        "message":"0.9V is good; did you look at VID1\/0 table?\nDon't make wrong assumptions so easy.\n\nPost U7600 voltages; pins 3, 13, 14.\nAlso check diode mode to ground at L7630."
+    },
+    {
+        "post_id":73909,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-04-03 11:54:29",
+        "message":"[QUOTE=\"2informaticos, post: 73896, member: 682\"]\n0.9V is good; did you look at VID1\/0 table?\nDon't make wrong assumptions so easy.\n[\/QUOTE]\nSorry, I look near L7100 on the schematic and I see Voltage=1.05, I don't see the table at all.\n\nBut at least I fixed something. This is good.\n\n[QUOTE=\"2informaticos, post: 73896, member: 682\"]\nPost U7600 voltages; pins 3, 13, 14.\nAlso check diode mode to ground at L7630.\n[\/QUOTE]\nPin 3 = 3,26V\nPin 13 and 14 = 5V\n\nL7630 seems shorted to ground (0,005V). I remove it (to understand where the short is) and I remove also R7640, and seems the only pin shorted of R7640 is the number 2, but that pin is connected everywhere.... After the resistor removal no more short (obviously) in L7630."
+    },
+    {
+        "post_id":73910,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-03 13:22:06",
+        "message":"Doesn't look to be short; compare with good board.\n\nChange U7600 and check its solders, traces and surrounding components."
+    },
+    {
+        "post_id":73914,
+        "thread_id":60947,
+        "title":"Board 820-2914-A no PP3V42_G3H after shortcut",
+        "user_id":30254,
+        "username":"Daccordo73",
+        "post_date":"2021-04-03 14:04:57",
+        "message":"ok, good news.\n\nI'll change it asap.\n\nthanks"
+    }
+]

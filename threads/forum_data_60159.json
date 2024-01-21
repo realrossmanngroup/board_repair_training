@@ -1,0 +1,119 @@
+[
+    {
+        "post_id":66376,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-09 08:59:14",
+        "message":"So I have an 820-00239 which was working until one day it apparently just decided to stop working.\nOpened the unit to expect liquid damage, absolutely nothing whatsoever - very very clean unit with no signs of damage nor obvious shorts.\n\nDevice pulls 20v at 0.2 amps, checked PPBUS_G3H which is at 13V. Seems to enter S0 state, and noticed CPU doesn't get warm at all - So checked PPVCC_S0_CPU and as expected, 0V. 3ohms which seems normal if I remember correctly. \n\nChecked PPVCCSA_S0_CPU and this is where it gets confusing - I probed the test point near L7270 , and it starts showing 0v, then after a second it'll jump to 0.8V to then 1.02V and will stay there - All of a sudden CPU starts to get warm. Not sure what this is all about never seen this happen before on any other board.\n\nI then checked CPUCORE_FCCM and that does the same thing, as PPVCCSA_S0_CPU. Checked CPUCORE_PWM1 and 2 and both are at a steady 2.5V.\n\nNot sure what to do with this one as there doesn't seem to be any shorts anywhere from what I can see. Is the CPU\/PCH dead? I can already tell I've not put enough readings down, but any advise on what to test would be much appreciated.\n\nThanks!"
+    },
+    {
+        "post_id":66389,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-09 11:21:01",
+        "message":"Does the board start working when you touch the test point?"
+    },
+    {
+        "post_id":66390,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-09 11:25:54",
+        "message":"I haven't actually tried to see if it display and powers on fully.\n\nI did spot a video that Louis Rossmann put on YouTube of common issues with these particular boards being the cpu phase rail caps spontaneously blow so wondering if that could be something to look for, I won't be near the board until Monday so will have a look if it powers up and displays when touching the test point."
+    },
+    {
+        "post_id":66392,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-09 11:28:03",
+        "message":"Good enough to connect an USB macOS pendrive and check if Link LED starts flashing."
+    },
+    {
+        "post_id":66393,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-09 11:33:03",
+        "message":"Okay will do! Thanks for the advise so far will give that a go on Monday when I have the board to work on. So surprised not a single drop of liquid on this board and it does this, never experienced a failing board without any damage as such"
+    },
+    {
+        "post_id":66482,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-12 08:15:00",
+        "message":"I've just managed to take time and have a look at this board - So I tried powering up the unit whist having a USB connected and there was absolutely no activity at all. Getting 3ohms on PPVCC_S0_CPU with 0v. \n\nU7210:\nPin 1: 2.5v\nPin 2: spiking between 0v - 0.02v\nPin 3: 5v\nPin 5: 4.9v\nPin 6: 0v\nPin 7: 0v\nPin 8-11: 13v\nPin 16-24: 0v\nPin 29: 5v\n\nI unfortunately don't have a similar board to work on to compare values with - from my understanding pin 2 has to be high for the chip to work. \nI'm going to assume the next test is to replace U7100? I may attempt that now but hoping to get some reply before I actually go ahead with this as I'd be worried I'm getting this incorrect"
+    },
+    {
+        "post_id":66483,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-12 09:00:19",
+        "message":"Hmm chances of this being brain dead. Replaced U7100 - Getting a fluctuation of 0v-0.5v now - Wonder if it's U7210 as I did take that off the board earlier on (don't ask why not even sure myself...) - Will probably look at replacing those too and go from there"
+    },
+    {
+        "post_id":66766,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-18 16:19:50",
+        "message":"Hi sorry for bumping, I'm just looking to see if there's any power up sequence for this board or any  advise on how, when and where cpucore_fccm is created and any ways of seeing if this cpu is dead?\n\nI will be working on this board tomorrow morning and what to try get somewhere with it.\n\nGot no readings right now but from my knowledge, this board seems to get PPVCCSA_S0_CPU and stays at the high voltage now instead of pulsing. I just don't get any cpucore voltage, sometimes it pulses like 0.05v but other than that I get nothing not even gpu core either, but from reading a different post the cpucore must come before gpu?\n\nThere is no direct cpu short to ground, its roughly 3ohms which seems fine and gpu core has roughly 4ohms to ground too. Not sure if I'm missing something that enables the fccm rail for the buck converter ICs. Any help will be much appreciated"
+    },
+    {
+        "post_id":66767,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-18 16:44:52",
+        "message":"FDMF5808 chips, like other VCORE drivers, are controlled with PWM signal.\nThere is not just an enable signal.\n\nEnable signal goes to U7100; comes from ALL_SYS_PWRGD.\nBut good working of U7100 is controlled by PCH and other CPU blocks; BIOS is involved in this too."
+    },
+    {
+        "post_id":66768,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-18 16:52:07",
+        "message":"Hmm interesting, thanks for that info! I've just been reading up the no power issues with this particular board on the forum with some search results, and it seems like this is more than likely a dead CPU now. Would just like to try confirm its dead. I do remember replacing U7100 on this board in case that was at fault, and remember the cou did get slightly warm with only PPVCCSA rail on but no cpucore rail.\n\nI'll try get some readings off the board in the morning but I'm just going to assume its a dead cpu but can't give up hope just yet"
+    },
+    {
+        "post_id":66800,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-19 07:39:52",
+        "message":"Currently having a look at this board now and looking around the U7100 area, I've noticed two caps are missing, C7156 and C7146. Looking at the schematics it doesn't actually show anything regarding them being tagged as \"NOSTUFF\" where some components are. Could this actually be the issue with this board? Find it a bit odd that this board doesn't seem like it was ever touched and there are two caps missing\n\nEdit:\n\nI've now noticed this board seems to spike CPU VCore 0v-0.5v - seems to happen when I move the ground probe around on a grounded shield of some sort on the board. This board is starting to become very confusing to work on"
+    },
+    {
+        "post_id":66834,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-20 08:25:24",
+        "message":"Check if these caps are placed in a good board.\nC7146 doesn't seem to be critical."
+    },
+    {
+        "post_id":66854,
+        "thread_id":60159,
+        "title":"820-00239 dead(?)",
+        "user_id":2873,
+        "username":"Alex97Lewis",
+        "post_date":"2020-10-20 09:53:12",
+        "message":"Decided to find the exact same caps from an 820-00165 board and placed them there, unfortunately I don't have the same board to compare but it didn't do any difference anyway.\n\nI decided to change U7100 again to be on the safe side, and sure enough cpucore_fccm is now at 2V, gonna guess that it didn't have a good enough contact with the previous chip... cpucore is still 0v though so now looking into that"
+    }
+]

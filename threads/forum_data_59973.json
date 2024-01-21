@@ -1,0 +1,119 @@
+[
+    {
+        "post_id":64854,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-08 19:16:52",
+        "message":"No obvious liquid damage, super grimy user (oils, weed, crap) along edge of board, no visible corrosion.  \n\nBoard was missing 32KHz clock.  Replaced chip, clock present.  Orange light, fans spin for 5 seconds, seems to reach S0 but then powers off. No chime, no memory beeps.  Tried SMC bypass, still shuts down.  I'm about to start a backup of the BIOS just in case."
+    },
+    {
+        "post_id":64863,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-08 23:31:51",
+        "message":"First of all, welcome to the forum!\nInspect J6100 pins; remove it if you do not use it for BIOS job.\nAlso check all SPI Bus Series Termination resistors and their traces.\n\nDo you get VCORE and PLT_RESET_L?"
+    },
+    {
+        "post_id":65131,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-12 21:40:39",
+        "message":"Thanks 2! I'm going to try to be as unannoying and 100% responsive as possible.  Our valley caught on fire last week, so I've had to take a few days away from the shop.\n\nKilled J6100, pads look fine.  I have an XGecu Pro so don't need jtag.\n\nlifted all 16 term resistors, each measured out of circuit, seems fine.  Haven't done traces check yet, i'm going to make a drawing for myself of the relevant bits for a beep test and values for the resistors there first.\n\nPPVCC_S0_CPU present after magsafe light goes on (genuine 85w mag2) for ~5 seconds.\nPLT_RESET_L present after magsafe for ~5 seconds.  Hmm.\n\nWill post again when continuity of spi resistor traces done."
+    },
+    {
+        "post_id":65132,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-12 22:07:28",
+        "message":"Traces OK.\n\nIs SPI_MLB_CLK supposed to be a clock signal?  I get no wave on scope, no partial voltage on meter.  Full 3.3 after it shuts down though.  Dunno if that's important"
+    },
+    {
+        "post_id":65133,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-13 01:56:49",
+        "message":"Do not remove these resistors in the future; have low values enough to check them onboard.\n\nBoard stays off after 5s, or cycling every 5s?\nTry known good BIOS file, clean ME; links available on the forum."
+    },
+    {
+        "post_id":65136,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-13 02:06:33",
+        "message":"Thanks for the advice.  I was looking at the pads too i think.  \n\nThe board stays off.  Hooked to a keyboard, i can get the button to power it on again for another 5s. \n\nNo go for the BIOS file, I did that earlier today.  I think i skipped the erase and blank check, i'm used to a diff program.  I'll try again in morn with another one with a blank cycle and maybe even a different source from here or discord."
+    },
+    {
+        "post_id":65137,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-13 02:29:51",
+        "message":"No need of keyboard; use R5115\/16 pads instead of power button.\nAn USB mouse is good to test USB activity, without hooking LCD screen."
+    },
+    {
+        "post_id":65180,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-14 00:29:13",
+        "message":"Yeah, was doing a PRAM reset just in case.\n\nDifferent BIOS did not work.  Tried one from my stash of .bin files i know works (it was from 2018 though), and also one from labone, and one from the rossmann forums discord.\n\nWhat happens after CPU comes to life? Do we know the POST sequence?  EDIT: If it matters, this board doesn't do the 2 super fast reboots.  Just fan on solid for ~5 sec."
+    },
+    {
+        "post_id":65208,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-14 07:42:51",
+        "message":"\"this board doesn't do the 2 super fast reboots\"\nThat is 820-3437 specific behaviour.\n\nCheck if all voltages from pages 57\/58 appear.\nAlso check voltage at all L\/C blocks aligned between CPU and edge board.\nSometime one coil can get broken there."
+    },
+    {
+        "post_id":65368,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-18 21:46:08",
+        "message":"Kudos for paying attention.  I forgot i was on a 00165\n\npg. 57\nPP1V8_S3 on inductor L7820 present\nPP1V05_SUS present on pin 1 of u7840 \nPP1V5_S0 present at pin 1 of u7870\n\npg. 58\nPP1V5_S0SW_AUDIO present\nPP3v3_S4_FET_R Present (why does this exist? all it does is go to a pad with an unpopulated current sense resistor)\nPP3v3_S3_FET_R Present (same)\nPP3V3_S0_FET_R Present \nPP3V3_S4SW_SNS_FET_R Present\nPP3V3_SUS_FET_R Present\nPP5V_S0_FET_R Present at 5.1v\nPP3V3_S0SW_SSD_FET_R Present \nPP1V05_S0 \/ PP1V05_S0SW_PCH_HSI both Present.  Curiously, after probing here, the board stayed on.  I've replaced the IC but no go.  Gonna follow the traces."
+    },
+    {
+        "post_id":65369,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-18 22:05:35",
+        "message":"L\/C Blocks (the 4 present and the 1 unpopulated) groupings seem fine.  All pass 1.05.\n\nThere's something with that PCH switch U8005.   I checked my solder job, cleaned and repopulated etc and it stayed on again. Then it broke again.  Then i flipped the board and it stayed on again.   Think i'm going to find another donor, replace again, then possibly replace the LC block it goes to with my hot tweezers.\n\nEdit: I'm running out of 00165s, who runs out of these things? I thought i had a billion."
+    },
+    {
+        "post_id":65371,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":27543,
+        "username":"down1nit",
+        "post_date":"2020-09-19 01:47:10",
+        "message":"No luck.  To hell with this board.  Some trace somewhere maybe. I may just put it in the reflow oven tomorrow."
+    },
+    {
+        "post_id":65372,
+        "thread_id":59973,
+        "title":"00165 : Powers on ~5 seconds, then off again.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-19 01:57:57",
+        "message":"If PLT_RESET_L comes high, Power On Sequence is acomplished.\nHowever, I asked about more power rails, which don't have a power good signal included in the sequence.\n\nNow should be a (data) communication problem.\nIf board randomly stays on, there could be a broken trace\/solder; not easy to diagnose, sometime impossible."
+    }
+]

@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":84266,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-27 10:34:14",
+        "message":"Hello. Got this board here that has bee cleaned by another store because of liquid damage, so I don't really know where original damage was. After some inspection I found a blown coil, L4004 was gone and so was its pin 1 trace, so I rebuilt it with a wire, there's no shorts I could find. As U3200 area looked a bit bad I decided to replace U3200 as board was not negotiating 20V with charger. I inspected all components around it and everything is measuring good. Before replacing it I was getting 5V, 50mA on all ports except the one corresponding to U3200. After replacement I now get 5V 50mA on all ports. I'm missing PP1V1_UPC_XB_LDO_BMC but there are no shorts to GND on it. I'm stuck now. I'm having serious trouble to understand this messy USB-C architecture... I compared BMC diode readings from all ports and all of them give from 0.458 to 0.475, very similar readings, so I think probably all CD3215s are ok."
+    },
+    {
+        "post_id":84267,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-27 10:45:15",
+        "message":"1V1 LDO must appear only on the powered USB port.\nIs it present on the other 3 ports, missing only at u3200?\n\nCompare diode mode readings of all LDO rails between the 4 CD3215 chips.\nDo you get PP3V3_G3H?\nAny voltage at F7000?"
+    },
+    {
+        "post_id":84269,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-27 11:23:51",
+        "message":"All ports are missing that signal. Yes, PP3V3_G3H is present. Here we go:\n\nU3200:\n\nPP3V3_UPC_XB_LDO - 0.474\nPP1V8_UPC_XB_LDOA - 0.495\nPP1V8_UPC_XB_LDOD - 0.461\nPP1V1_UPC_XB_LDO_BMC - 0.477\n\nU3100:\n\nPP3V3_UPC_XA_LDO - 0.167\nPP1V8_UPC_XA_LDOA - 0.496\nPP1V8_UPC_XA_LDOD - 0.462\nPP1V1_UPC_XA_LDO_BMC - 0.477\n\nUB300:\n\nPP3V3_UPC_TA_LDO - 0.472\nPP1V8_UPC_TA_LDOA - 0.477\nPP1V8_UPC_TA_LDOD - 0.446\nPP1V1_UPC_TA_LDO_BMC - 0.461\n\nUB400:\n\nPP3V3_UPC_TB_LDO - 0.471\nPP1V8_UPC_TB_LDOA - 0.476\nPP1V8_UPC_TB_LDOD - 0.445\nPP1V1_UPC_TB_LDO_BMC - 0.458\n\nLooks like U3100 is dead. Will replace it and post back."
+    },
+    {
+        "post_id":84276,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-27 12:23:04",
+        "message":"All LDO diode mode readings are equal now, still no 20V and no BMC voltage."
+    },
+    {
+        "post_id":84281,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-27 14:58:20",
+        "message":"Did you check 1V1 LDO on each chip connecting charger to corresponding port?\nCheck U2890 and UB090 for corrosion; be sure all traces and surrounding components are good.\n\nBUF_SMC_RESET_L goes high?"
+    },
+    {
+        "post_id":84306,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-28 09:16:03",
+        "message":"1V1 LDO appears on the UB300 and UB400 side(both ports) but not on the other 2 ports. No corrosion and no missing\/looking bad components around U2890 or UB090. BUF_SMC_RESET_L is 3.3V on all ports."
+    },
+    {
+        "post_id":84309,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-28 10:04:42",
+        "message":"Then you still have a problem on U3100\/200 area.\nCompare diode mode readings to ground on several points of both left\/right USB-C areas.\nCheck the value of all resistors from pages 28-30."
+    },
+    {
+        "post_id":84364,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-29 10:14:24",
+        "message":"I decided to check the value of all resistors around U3100 and U3200 and found that R3205, R3203, R3209 and R3208 were all reading weird. So I replaced all of them. Now I have correct readings but still stuck on 5V and no LDO_BMC being generated on U3100\/200 ports. Now, suddenly UB300\/400 ports decided to keep resetting in loop. I'm almost throwing this board on the other side of the street."
+    },
+    {
+        "post_id":84368,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-29 12:43:53",
+        "message":"Power cycling could be sign that board tries to start on UB300\/400 side.\nPossibly short, or overcurrent detected on secondary supplies..."
+    },
+    {
+        "post_id":84369,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":4543,
+        "username":"brunomotter",
+        "post_date":"2021-12-29 13:41:15",
+        "message":"I can't find any shorts..."
+    },
+    {
+        "post_id":84377,
+        "thread_id":62135,
+        "title":"820-00239 No 20V",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-30 01:08:48",
+        "message":"Still problems on USB-C, as you don't have the same behavior on all ports.\nBut apart of that, there must be a problem with some secondary power rail.\nWhat happens if you connect the battery (with some charge)?"
+    }
+]

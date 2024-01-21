@@ -1,0 +1,155 @@
+[
+    {
+        "post_id":51638,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-26 03:52:51",
+        "message":"PPBUS - 12.2V\nPP3V42 - 3.4V\nPGOOD - 3.3V\nALL_SYS_PWRGOOD - 3.3V\n\nI seem to have input signals for U7400, but it doesn't shoot out CPU VCORE.\n\nDCPS pulls 155mA before it raises up to 230mA as the fan ramps up. SMC was just replaced with another working.\n\nWhat other signals should I take care of?"
+    },
+    {
+        "post_id":51644,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-26 04:13:32",
+        "message":"\"PPBUS - 12.2V\"\nThis is a sign of bad communication between SMC and U7000.\nDid you replace SMC with one from same donor board?\nWhich was PPBUS voltage before?\nDid you inspect R7402\/03?\nYou can also try new BIOS dump."
+    },
+    {
+        "post_id":51647,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-26 04:33:33",
+        "message":"R7402\/03 = good\nPPBUS was 12.2 before SMC change. New SMC was pulled from same working board."
+    },
+    {
+        "post_id":51648,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-26 04:43:53",
+        "message":"I saw boards starting with 12.2V, but battery will not be charged, maybe more issues even.\nSo I recommend you to start fixing that problem first.\nIf not, you can end with working board which will not charge battery and wasted time."
+    },
+    {
+        "post_id":51650,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-26 04:59:50",
+        "message":"I should be looking at SMBus connections then and go from there?"
+    },
+    {
+        "post_id":51651,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-26 05:09:25",
+        "message":"Yes, check I2C battery bus.\nCompare SCL\/SDA lines on diode mode to ground, as voltage too."
+    },
+    {
+        "post_id":51656,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-26 05:39:13",
+        "message":"Okay, R5280 only 1.2V on pin 2. Resistor measures 2kOhms. Whole rail looks visually good. Shall I try with new ISL?\n\nEDIT: replaced ISL with new one, PPBUS is 12.56V"
+    },
+    {
+        "post_id":51669,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-26 08:31:42",
+        "message":"Still not working?\nDid you try SMC bypass?\n\nCheck all SPI Bus Serie Termination resistors.\nDid you try new BIOS?"
+    },
+    {
+        "post_id":51673,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-26 11:23:52",
+        "message":"Not working with SMC bypass.\nSPI all good.\nNew BIOS didn't bring any change.\n\nEDIT: I got like 2 Ohms on CPU VCORE if that means anything."
+    },
+    {
+        "post_id":51679,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-26 12:49:40",
+        "message":"Looks like good value, for an i7, maybe even i5.\nYou can compare with similar board, with Ivy Bridge CPU.\n\nApart of EN presence, check VCC and VDDA\/B for U7400.\nIf still the same, could be bad CPU, or PCH.\nA small  corroded resistor somewhere in that area could have the same effect..."
+    },
+    {
+        "post_id":51683,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-26 13:10:06",
+        "message":"U7400 looks good too.\n\nThe laptop was working before, just slow. I believe I was too fast and burned out one SMC during reflow (even though I was supposed to look at I2C lines first). PP3V42 was lower than usual, I cannot remember the correct value since it was some time ago.\n\nWith SMC and ISL replacement, I don't see how these could short CPU, if possible.\n\nI took some diode measures on Q7510\/20\/50. They all have pins 3 at 0.000 after I disconnect power. I removed all three now and pins measure 1.550. Does this have any correlation? I should be normally getting voltage there, but U7400 doesn't shoot anything out.\n\nEDIT: just put them back, pins 3 have around 0.620. After the power went through, they're sitting at 0.002 now.\nEDIT 2: just checked SPI Bus Series Termination again. Resistors measure good values. However, compared to the working board, I have constant 3.3V on U6100 pin 5 and pin 6."
+    },
+    {
+        "post_id":51693,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-26 16:31:02",
+        "message":"Constant 3.3V there looks like PCH doesn't access SPI chip.\nShould drop to 0V when PCH gets access.\n\nLow values on Gate pins of the CPU MOSFETs is OK.\nU7400 shorts G-S of high-side MOSFETs to force them in off state.\n\n\"The laptop was working before, just slow\"\nWhat did you check before replace SMC?"
+    },
+    {
+        "post_id":51695,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-26 16:38:54",
+        "message":"Do you think there could be broken via from SPI to PCH?\n\nI haven't checked I2C properly before reflowing SMC. Unfortunately, I had hot air a bit longer than usual on SMC and haven't check after it if PP3V42 was connected to something else during reflow, before starting the laptop. Other than that, prior to messing with SMC, everything seemed to be working just fine, except the laptop was running slow."
+    },
+    {
+        "post_id":51697,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-26 17:51:31",
+        "message":"\"broken via from SPI to PCH?\"\nNo, because pull-up resistors are inside PCH.\n\nSomething happened when changing SMC.\nSlow machine is usually sign of sensor issue, not SMC itself..."
+    },
+    {
+        "post_id":51708,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-27 03:25:16",
+        "message":"Correct. I made a mistake thinking there could be crap under SMC since that area was water damaged and R5280 look good but turned out to be vice-versa.\n\nIs there anything else that could be checked on the board?"
+    },
+    {
+        "post_id":51709,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-08-27 03:46:19",
+        "message":"Change SMC and pray no other bad things happened..."
+    },
+    {
+        "post_id":51710,
+        "thread_id":51638,
+        "title":"820-3115 = no chime, no CPU VCORE",
+        "user_id":1898,
+        "username":"djdblaster",
+        "post_date":"2019-08-27 03:58:55",
+        "message":"Okay, time to go hunting. Thank you"
+    }
+]

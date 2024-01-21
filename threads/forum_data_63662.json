@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":97154,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-03-02 14:16:47",
+        "message":"This board will usually boot fine the first time but will often not turn back on with or without battery plugged in. On bench nothing plugged in if I shutoff by grounding SMC_ONOFF_L it wont restart. IN this state, I get 3.4V at SMC_ONOFF_L with and without keyboard plugged in. When triggering on\/off I get voltage drop at PM_PWRBTN_L. When it won't restart I tested voltages at U5110 and everything looks good there.  Board always starts when I unplug and replug charger back in. Somerhing appears ro not be resetting when board stays connected to power but shut down manually or via OS. Only if removing all power.\n\nPM_SLP_S4_L is not present. From what I can tell the below are all present:\n\nPPVRTC_G3H\nRTC_RESET_L\nPCH_SRTCRST_L\nPCH_INTVRMEN_L\nPCH_DSWVRMEN_L\nPP3V3_S5\nPM_DSW_PWRGD\nPP3V3_SUS\nPM_BATLOW_L\nPM_RSMRST_L\nPM_PWRBTN_L"
+    },
+    {
+        "post_id":97161,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-02 15:42:33",
+        "message":"PM_PWRBTN_L reacts even when doesn't want to turn on?\nAny pulse at PM_SLP_S4_L then (at same time)?\n\nYou've forgot to check PCH_INTRUDER_L?"
+    },
+    {
+        "post_id":97176,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-03-03 07:18:49",
+        "message":"I did forget to add to list: yes PCH_INTRUDER_L is good also. PM_SLP_S4_L does go to 3.3V  momentarily when toggling on\/off while board is in state of being unable to start after shutdown."
+    },
+    {
+        "post_id":97177,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-03 08:23:10",
+        "message":"Then check for pulse at S3 voltages.\nDo the same with PM_SLP_S3_L abd S0 voltages.\nCheck if ALL_SYS_PWRGD pulses too.\n\nInspect U1950 for corrosion.\nRemove Q8150 and test again."
+    },
+    {
+        "post_id":97185,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-03-03 12:16:31",
+        "message":"Well you helped me discover some things I realized the board is cycling the rails even without triggering SMC_ONOFF_L.\n\nPLT_RESET_L is jumping to 3.3V every couple of seconds also. So if I shut the board off it seems to go to normal s5 state (rails are not pulsing), but once I trigger the board to start again, the board is continously trying to restart and I get pulse at PLT_RESET_L.\n\nI couldn't get the board to PRAM reset when it was in the Mac so I PRAM reset via Medusa and also did cleanME. The board still won't start again without disconnecting power."
+    },
+    {
+        "post_id":97186,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-03 12:24:06",
+        "message":"Did all mentioned tests?\n\nJust in case, test starting in SMC bypass mode."
+    },
+    {
+        "post_id":97189,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-03-03 12:56:03",
+        "message":"Yes U1950 good, Tried without Q8150. \n\nIf I start in SMC bypass, then force off by grounding SMC_ONOFF, then triggering did start the board again but only briefly. Then you can see fans periodically start to spin but stop again and this continues.\n\nYou think SMC is shit maybe?"
+    },
+    {
+        "post_id":97194,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-03 14:39:09",
+        "message":"Any history available?\n\nYou can try heating PCH area with quality flux; in case of accumulated crap underneath\nReballing SMC can also be done.\n\nNot sure if is related with FDMF6808N chips, but you can try replacing them too.\nUse FDMD6708\/3030 from reliable source (not China)."
+    },
+    {
+        "post_id":97202,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-03-04 08:56:26",
+        "message":"No history. I tried heating PCH and also replacing SMC and new BIOS but no change. I think I will just replace the board unfortunately."
+    },
+    {
+        "post_id":97203,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-03-04 09:02:03",
+        "message":"Did you test removing Q8150\nAlso try pressing power button 2-3s."
+    },
+    {
+        "post_id":97415,
+        "thread_id":63662,
+        "title":"00138 won't turn back on after initial boot",
+        "user_id":26621,
+        "username":"grmacs",
+        "post_date":"2023-03-11 08:04:58",
+        "message":"I ended up as last hope, reflowing PCH w\/ flux and high temp enough to melt solder and it now is restarting normally."
+    }
+]

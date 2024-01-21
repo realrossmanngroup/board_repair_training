@@ -1,0 +1,110 @@
+[
+    {
+        "post_id":35859,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2018-06-15 21:03:39",
+        "message":"This board had a small amount of liquid damage around the SMC area and in that area on the other side of the board I replaced several components around that area and have ultrasonic'd the board. \nInitially I started by replacing Q5030\/50, R\/C5329, C4901\/20, R5488\/89, C5489\nC\/U6901, C7782, U7780, R2460\/65, C7781\nAfter replacing all those the board was just pulsing and not turning on. I then replaced U7760 and then the board started turning on and the heatsink got warm.\n\nAfter assembling there was no chime or video on the screen but the fan spun and I was able to turn the machine on and off with the keyboard. I did an SMC and PRAM reset but that didn't help.\n\nI measured PPVCORE_S0_AXG and PPVCORE_S0_CPU but I only get about 0.017v.\n\nThe entire U7400 area is spotless and R7402\/03 measure the proper resistance  and that is from the resistor to the pin on the chip so I made sure the traces are fine.\nU7400 Measurements\nPin 1 - 0.53v\nPin 48 - 0.64v\nPin 47 - 3.29v\nPins 46, 29, 19 - 5v"
+    },
+    {
+        "post_id":35879,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-17 11:27:47",
+        "message":"Hi ytesfay80, \n\u200b\u200b\u200b\u200b\u200b\u200bI have the same exact issue with the same board, i'm suspecting the smc. \nDo you have ALL_SYS_PWRGD and DDRVTT rails ?"
+    },
+    {
+        "post_id":35890,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2018-06-17 22:45:30",
+        "message":"I only get 0.13v on ALL_SYS_PWRGD and 0v on PP0V75_S0_DDRVTT.\nI figure it might be an issue with the U7760 chip I replaced.  I am only getting 0.9v on both sides of R7765 and 0.6v on C7764. I tried putting 2 other U7760 chips from donor boards but the fan wouldn't even turn on and the cpu didn't get warm."
+    },
+    {
+        "post_id":35892,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-18 00:19:33",
+        "message":"I don't understand why you're looking at U7760, this one is only providing PP1V8_S0_REG, do you have that rail?\nIn my case also the CPU is not getting hot ( normal : it's not powered)"
+    },
+    {
+        "post_id":35903,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2018-06-18 12:01:39",
+        "message":"For some reason when I measured PP1V8_S0 on C7780 & C7762 and get 3.28v.\nOn R7760 I get 3.26v on Pin 1 and 1.09v on Pin 2. Not sure but these measurements don't seem like what they should be.\n\nI get 0.75v on PPVTTDDR_S3 but 0v on PP0V75_S0_DDRVTT\n\nPP1V5_S3, PP1V5_S0 and PP1V05_S0 all have the proper voltage on them so it looks like the 1V8 rail is the issue."
+    },
+    {
+        "post_id":35925,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-18 13:41:14",
+        "message":"ALL_SYS should be present before you even worry about PPVCORE. There must be a rail missing that is keeping ALL_SYS low. If PP1V8_S0_REG is not present then that will at least be a problem!"
+    },
+    {
+        "post_id":35928,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2018-06-18 14:07:40",
+        "message":"I am getting 3.28v on C7780(PP1V8_S0). \nDo you know why it would be so high when it should be 1.8v? Could it be due to the U7760 chip I put on? I didn't have a stencil to reball that chip so I just put solder on the pads and flowed it onto the board."
+    },
+    {
+        "post_id":35929,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-18 14:14:49",
+        "message":"3V on 1.8V line is NOT good. Yes of course the problem is a fucked U7760 and now the board is possibly totally fried. Pull of U7760 and put balls on the board then put a clean U7760 from a donor on the balls and pray that the whole thing did not fry with the 3V fuck up."
+    },
+    {
+        "post_id":35986,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2018-06-20 13:23:32",
+        "message":"Okay I replaced U7760 with a new one from digi-key(MAX15053EWL+T) and now I has no fan spin and the 5v\/3v3 S3 and S0 rails are missing. I checked for pm_slp_s4_l but there is only a quick pulse when the charger plugged in and then 0v afterwards.\n\nThe 1V8_S0 line is not shorted to ground in diode mode.\n3v3_S0 and 1V8_S0 is no longer connected to each other."
+    },
+    {
+        "post_id":35995,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-20 14:50:23",
+        "message":"I'm pretty sure you already killed the CPU or PCH by sending 3V to the 1.8V rail."
+    },
+    {
+        "post_id":36023,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2018-06-21 11:31:08",
+        "message":"I removed that chip again from the board and cleaned the pads and now I'm getting a quarter fan spin that keeps trying to turn on every 5 seconds.\n\nCan someone take a picture of the positioning of the U7760 chip on a donor board so I can make sure I am putting this new chip facing the right direction because I don't see any dot on the chip that marks where pin 1 is?"
+    },
+    {
+        "post_id":36038,
+        "thread_id":35859,
+        "title":"820-3115 fan spins but no chime or vcore",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-21 13:48:34",
+        "message":"You already killed the cpu\/pch....."
+    }
+]

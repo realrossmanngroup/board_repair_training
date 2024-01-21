@@ -1,0 +1,110 @@
+[
+    {
+        "post_id":89847,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-06-03 16:03:23",
+        "message":"Hello, back again with a funky one. I have an 820-01987 with no signs of liquid damage that sits at 20v 0.00a. When plugging the board into another MacBook it is instantly recognized as being in DFU mode every time it is connected. I have tried reviving and restoring multiple times and it always fails giving 1 of 2 error messages shown in the attached photos. Not sure how to proceed on this one.\n\nPPBUS_G3H: 12.35v\nPP5v_G3S: 0v (looks to be told to enable by T2 which isn't sending out that signal for some reason)\nPP2v5_NAND_SSD0: 0v (read other posts that you need this for DFU but the others have said they had a successful DFU and it restored this rail so I don't know.)\n\nThese T2 models are pretty annoying and seem to have many issues, unfortunately.\n\nThanks for any help you guys can provide!"
+    },
+    {
+        "post_id":89848,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-06-03 16:46:59",
+        "message":"Seems to have a problem with SSD.\nCheck diode mode to ground on its power rails.\nSSD voltages should come on during DFU process."
+    },
+    {
+        "post_id":89855,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-06-03 18:15:53",
+        "message":"PP2v5_NAND_SSD0 is ~50 ohm to ground, and known good is ~100k. Checked PPBUS_G3H_SSD0 and it has a 0 ohm to ground. Looks like U9080 is bad based off thermals, there is also a small bump on the chip only visible at certain angles. I think this is the issue and I should have checked for a short first, don't know why I didn't before posting. Thanks for the help and sorry for wasting your time on this thread."
+    },
+    {
+        "post_id":89856,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-06-03 18:57:49",
+        "message":"Well, looks like that wasnt it. Short is gone but still no PP2v5_NAND_SSD0. Will post updates later."
+    },
+    {
+        "post_id":89857,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-06-03 19:37:48",
+        "message":"\" PPBUS_G3H: 12.35v \n-------------------------------------\nChecked PPBUS_G3H_SSD0 and it has a 0 ohm to ground.\"\nHow is possible to get 12.35V into 0 ohm to ground???\n\nDid you remove power when checked resistance to ground?"
+    },
+    {
+        "post_id":89858,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-06-03 21:22:46",
+        "message":"Yes, no power just plain board on desk. U9080 had a dead short to ground, replaced it and now short is gone. Not sure how that is possible but it fixed the short on PPBUS_G3H_SSD0. PPBUS_G3H is still 12.35v though, and DFU has the same error."
+    },
+    {
+        "post_id":89865,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-06-04 02:11:55",
+        "message":"The mentioned rails are connected through R5460.\nSo you had 12V one side and short to ground on the other.\nWhat do you think about this resistor, or its traces???"
+    },
+    {
+        "post_id":89882,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-06-04 10:39:55",
+        "message":"R5460 was not on this board and its pads look factory, I still get 12.35v on PPBUS_G3H_SSD0 though but no voltage on PP2v5_NAND_SSD0. The whole area around U9080 looked fine except for U9080 itself. Had a slight bulge in the chip and a small burn mark right outside the chip (near pin 21 and 22). Ive noticed something weird though, [I]when heating the area around L9081, I get resistance readings similar to a working board on PPBUS_G3H_SSD0. When the board is cold, I only get ~150 ohm to ground[\/I]. PP5v_G3S is still missing as well."
+    },
+    {
+        "post_id":89883,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-06-04 10:50:19",
+        "message":"Actually, never mind on that 150 ohm reading, it's getting normal resistance now. I think it could have just been drained caps on SSD0? U9080 does not get  SSD0_PMIC_VR_P2V5_EN, looks like that comes directly from U9000 and(?) U7800 through R9618."
+    },
+    {
+        "post_id":89884,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-06-04 11:23:11",
+        "message":"Leakage from 12V to 2V5_NAND could damaged a NAND chip (through U9080); even if you don't get low resistance there.\n\nR5460 boards have direct continuity, so I can't really understand how could you got short one side and 12V the other side.\nI'm not sure about how do you measure on the board."
+    },
+    {
+        "post_id":89904,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":37705,
+        "username":"Isolated",
+        "post_date":"2022-06-04 15:11:11",
+        "message":"I measured the board in diode mode, black probe ground, and just the board with nothing connected. You are correct that it should not be 12v on one side and then short on the other, most reasonable explanation is I misread a reading or used the wrong pin. U9080 was shorted though and was taking 1.8a at 1.5v when injecting on  PPBUS_G3H_SSD0.\n\nDefinitely a weird short like you said, but it's gone after replacing U9080. I found a document I believe you posted on the forum showing the power sequence of the rails for T2 machines so I am going to just go through those rails and see what's missing for now. Thanks for the help so far, I will update the thread with any solutions I come across."
+    },
+    {
+        "post_id":89907,
+        "thread_id":62763,
+        "title":"820-01987 20v 0.00a",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-06-04 16:14:48",
+        "message":"Do you get now 12.3V on the same point where you've got short before (PPBUS_G3H_SSD0) ?\nIf not, you have broken trace; which can explain the issue about short and 12.3V on the same rail..."
+    }
+]

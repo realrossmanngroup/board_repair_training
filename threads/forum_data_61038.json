@@ -1,0 +1,308 @@
+[
+    {
+        "post_id":74244,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-11 16:25:56",
+        "message":"Hello. I am usually pretty good at fixing 5v issues on touchbar machines, but this one has got me stumped. This board had very minor liquid damage in some small areas around the board. It takes steady 5v on all 4 ports and the amp draw fluctuates between 40-60ma. U3100 has some minor corrosion around it so I changed it but it did not make any difference. I do not find any shorts and PP3V3_G3H is present at 3.4v on all 4 ports. I compared diode mode reading on all the LDO lines for the CD3215 and they all match. All 4 chips produce their 1.1v LDO rail, so it does not seem to be an issue with the CD3215's. Despite this, I still replaced the other 3 CD3215's just in case but still have the same issue. I figured it must be an SMC issue, so I replaced the SMC from a donor board of the same model, but still same thing. All 4 ports still steady 5v and 40-60ma. SMC_RESET_L and BUF_SMC_RESET_L are both preset at 3.3v and PPBUS_G3H is ~10mv and is not shorted, so I don't know what else could be wrong. Is there something else I should check?"
+    },
+    {
+        "post_id":74245,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-11 18:29:21",
+        "message":"There should be other components affected by corrosion.\nRemove F7000\/1 and check C7050 voltage.\nCheck ohm resistance over C7020\/23.\nAlso check R\/C\/Q7030\/40."
+    },
+    {
+        "post_id":74246,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-11 19:35:38",
+        "message":"There was only some minor corrosion around U3100, U9391\/93 and C7608. I removed F7000\/1 and I get about 75mv on c7050. C7020\/23 are both 3.3 ohms. I also replaced U7000 just in case, but no change. R\/C\/Q7030\/40 seem to all be ok. All 4 ports still takes 5v and amps cycle between 40-60ma. One thing I did notice is that when its using only 40ma, SMBUS_SMC_4_G3H_SCL and SMBUS_SMC_4_G3H_SDA are 3.4v. Then when it goes to 60ma, both of those voltages drop to around 0.5-0.8v, then go back to 3.4v when the board goes back to 40ma current draw."
+    },
+    {
+        "post_id":74253,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-12 01:47:18",
+        "message":"Post voltage and diode mode to ground  at SMBUS_SMC_5_G3H_SCL \/SDA lines.\nCheck PPBUS_G3H and 3V3_G3H with battery connected; w\/ and w\/o charger present.\nDon't forget to connect battery data cable."
+    },
+    {
+        "post_id":74357,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-14 19:05:11",
+        "message":"SMBUS_SMC_G3_SCL and SMBUS_SMC_G3_SDA are both 3.3v and fluctuates down to about 2.6v every couple of seconds. Both measure 0.441 in diode mode, which matches another board I have that gets 20v. PPBUS is like 5mv with or without the battery connected and PP3V3_G3H is 3.4v with the battery and charger, but 1.4mv with just the battery. I don't think the battery is charged though so that would be why PP3V3_G3H is missing on battery alone."
+    },
+    {
+        "post_id":74369,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-15 02:20:16",
+        "message":"Did you test the board alone on the desk?\nNo trackpad, LCD, nor other cable connected."
+    },
+    {
+        "post_id":74384,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-15 17:54:44",
+        "message":"Yes just the board alone on the desk with charger connected."
+    },
+    {
+        "post_id":74391,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-15 23:22:28",
+        "message":"Can you charge the battery with the other board, which switch to 20V?\nThis may help to diagnose if the problem is on USB-C side, or other side."
+    },
+    {
+        "post_id":74408,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-16 18:57:23",
+        "message":"Yea I was able to charge the battery using another board with a dead CPU. Now when I connect this board to the charged battery and connect the charger, I get 20v 0.00a, still does not turn on. PPBUS is 12.7v and PP3v3_g3h is 3.4v with both the battery and charger connected and its the same thing with just the battery."
+    },
+    {
+        "post_id":74409,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-17 02:26:26",
+        "message":"If USB-C ports switch to 20V with battery connected, means SMC can communicate properly with CD3215 chips.\nYou can have a problem with U7000, or its surrounding components.\nCheck SMC_BC_ACOK and A\/BMON."
+    },
+    {
+        "post_id":74424,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-17 20:49:25",
+        "message":"SMC_BC_ACOK is 3.4v but AMON and BMON are 0v both with and without the battery connected. I replaced U7000 again, but still the same"
+    },
+    {
+        "post_id":74425,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-17 21:27:19",
+        "message":"SMC_DCIN_VSENSE seems low at only 0.682v. R5498 and R5499 are good. I have 5.2v at pin 1 of R5498 and then 0.682v on pin 2."
+    },
+    {
+        "post_id":74426,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-18 01:31:18",
+        "message":"SMC_DCIN_VSENSE  is correct, as you don't get 20V input voltage yet.\nA\/BMON are also good, because the board doesn't start.\n\nCheck power on signals with charger plus battery connected."
+    },
+    {
+        "post_id":74450,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-18 19:34:04",
+        "message":"SMC_BC_ACOK is actually 3.4v only when just the charger is connected and the board is stuck at 5v. When the battery and charger are connected and its taking 20v, that signal is 0v. I checked the below signals with just the charger connected and then again with both charger and battery connected.\n\n[TABLE]\n[TR]\n[TD][B]Signal[\/B][\/TD]\n[TD][B]Battery + Charger\n(20v)[\/B][\/TD]\n[TD][B]Charger only\n(5v)[\/B][\/TD]\n[\/TR]\n[TR]\n[TD]SMC_USBC_INT_L[\/TD]\n[TD]0[\/TD]\n[TD]0[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_CHGR_INT_L[\/TD]\n[TD]3.4[\/TD]\n[TD]0[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_PMIC_INT_L[\/TD]\n[TD]3.4[\/TD]\n[TD]3.3[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_BC_ACOK[\/TD]\n[TD]0[\/TD]\n[TD]3.4[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_ADAPTER_EN[\/TD]\n[TD]0[\/TD]\n[TD]0[\/TD]\n[\/TR]\n[TR]\n[TD]S5_PWRGD[\/TD]\n[TD]0[\/TD]\n[TD]0[\/TD]\n[\/TR]\n[TR]\n[TD]PM_BATLOW_L[\/TD]\n[TD]0[\/TD]\n[TD]78.7mv[\/TD]\n[\/TR]\n[TR]\n[TD]PM_DSW_PWRGD[\/TD]\n[TD]0[\/TD]\n[TD]0[\/TD]\n[\/TR]\n[TR]\n[TD]SMC_RESET_L[\/TD]\n[TD]3.4[\/TD]\n[TD]3.4[\/TD]\n[\/TR]\n[TR]\n[TD]PM_RSMRST_L[\/TD]\n[TD]0[\/TD]\n[TD]360mv[\/TD]\n[\/TR]\n[\/TABLE]"
+    },
+    {
+        "post_id":74452,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-19 01:36:30",
+        "message":"You should get some voltage on PPBUS_G3H, when battery is connected.\nBe sure to get good contacts with data cable.\nAlso try another battery.\nIf not possible, then you have a problem with the communicayion between SMC, U7000 and battery."
+    },
+    {
+        "post_id":74456,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-19 03:47:09",
+        "message":"I do have 12.6v with the battery connected on PPBUS, but the board still won't start."
+    },
+    {
+        "post_id":74459,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-19 09:59:11",
+        "message":"Then check U7800 basic signals with battery connected.\nAlso check PCH's RTC signals."
+    },
+    {
+        "post_id":74472,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-19 18:10:54",
+        "message":"PP3V3_S5 - 0v\nPP5V_S5 - 0v\nPP5V_S4 - 0v\nPP3V0_G3H  - 3.09v\nPM_DSW_PWRGD  - 0v\nPCH_INTRUDER_L  - 2.8v\nRTC_RESET_L  - 3.08v\nPCH_SRTCRST_L  - 3.4v\nPPDCPRTC_PCH  - 1.123v\nSMC_PMIC_INT_L - 3.4v\nPM_SLP_SUS_L  - 0v\nLPC_PWRDWN_L  - 26.5mv\nPM_RSMRST_L  - 0v\nPM_PCH_PWROK  - 0v\nPM_PCH_SYS_PWROK  - 0v\nPMIC_SHUTDOWN_L  - 3.2v"
+    },
+    {
+        "post_id":74473,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-20 00:47:29",
+        "message":"Check LDO and VREF rails at U7800 (7 OF 10).\nAlso check SMC_ONOFF_L and SMC_RESET_L levels.\nRemember to keep battery connected."
+    },
+    {
+        "post_id":74478,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-20 04:49:50",
+        "message":"PP3V3_PMICLDO    3.3\nPP5V_PMICLDO    5.0\nPPBUS_PMIC    11.31\nPP1V25_PMICVREF    1.25\nSMC_ONOFF_L    3.4\nSMC_RESET_L    3.4"
+    },
+    {
+        "post_id":74486,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-20 12:32:57",
+        "message":"Trigger SMC_ONOFF_L and check for reaction at PM_RSMRST_L and PM_PWRBTN_L."
+    },
+    {
+        "post_id":74496,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-20 14:40:16",
+        "message":"Both PM_RSMRST_L and PM_PWRBTN_L are 0v. Then when I trigger SMC_ONOFF_L, PM_RSMRST_L has no reaction, but PM_PWRBTN_L goes up to 3.3v for about 3-5 seconds and then drops to 0v again."
+    },
+    {
+        "post_id":74500,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-20 15:34:59",
+        "message":"3V3_SUS appears at same time?\nIf yes, check R7810."
+    },
+    {
+        "post_id":74503,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-20 16:45:17",
+        "message":"No 3V3_SUS does not go high at the same time"
+    },
+    {
+        "post_id":74515,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-21 01:59:22",
+        "message":"No pulse at PM_SLP_SUS_L?\nThen is PCH problem."
+    },
+    {
+        "post_id":74648,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-24 21:10:09",
+        "message":"Ok I started working on this again. I checked and was not getting any pulse on PM_SLP_SUS_L, but I had my doubts it was a PCH issue. I removed U7000 again and checked diode mode values on all the pads and compared them to a good board. I noticed pad 6 and 31 were higher than normal. I replaced Q7030 and Q7040, and the diode mode values now match my good board, but still only get 5v on the charger. I connected the battery again and still have 20v 0 amp draw. Checked for a pulse at PM_SLP_SUS_L again and this time it does go to 3.3v and stays like that. PM_RSMRST_L also goes high and I noticed the CPU was getting warm, as if the board was turning on, and CPUVCORE voltage was preset at .6v. I put the board back in the case and connected everything and when you open the lid, nothing happens, but if I hit the power button, it actually turns on and boots. Left fan is spinning at high speed, but right fan is normal. Diagnostic mode reports there may be an issue with the fan, but nothing else. If I connect the charger, it does not charge or recognize the charger on any port. I also noticed that USB devices are not recognized at all either when connected to any of the ports. The light on the USB does not even turn on."
+    },
+    {
+        "post_id":74649,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-24 22:16:34",
+        "message":"I fixed the left fan issue. Q6000 was ripped off the board and pad 2 was gone. I ran a jumper and replaced the chip and now both fans run normal. Also it does turn on when you open the lid or press the power button. Still have issues with USB ports and charging. I noticed SMC_USBC_INT_L is 0v and R3038 is good."
+    },
+    {
+        "post_id":74650,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-25 00:47:29",
+        "message":"Do you get 5V at L3500, or LB700?\nDepending where the USB device is connected."
+    },
+    {
+        "post_id":74657,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-25 06:17:40",
+        "message":"I do not get 5v on either coil"
+    },
+    {
+        "post_id":74671,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-25 13:42:22",
+        "message":"So USB devices are not recognized.\nJust in case, check for short at both coils."
+    },
+    {
+        "post_id":74675,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-04-25 15:35:00",
+        "message":"I figured it out. SMC_USBC_INT_L need to be high and it was 0v. Looking over the points on the board that signal goes too, I noticed a small amount of corrosion on the pads for JB200. I cleaned the pads with new solder and now SMC_USBC_INT_L is 3.3v and the board turns on using just the charger. I guess the corrosion there was shorting that signal somehow, even though it did not show a short. USB devices now works also on all 4 ports also. Thanks for the help."
+    },
+    {
+        "post_id":74678,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-04-26 00:16:50",
+        "message":"Thanks for feedback.\nIt will help other members for sure."
+    },
+    {
+        "post_id":83195,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":27343,
+        "username":"Vennela",
+        "post_date":"2021-11-30 09:41:31",
+        "message":"i also have same board no 20v boost , the 5v  not stable , amp meter show 5v and 0 , its happening repeat, same issue 2 boards"
+    },
+    {
+        "post_id":83196,
+        "thread_id":61038,
+        "title":"820-00928 stuck on 5v",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-11-30 10:44:55",
+        "message":"Please, open new thread with your problem.\nSame symptom, doesn't imply to have the same culprit\/solution."
+    }
+]

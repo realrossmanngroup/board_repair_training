@@ -1,0 +1,263 @@
+[
+    {
+        "post_id":103175,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-18 10:38:17",
+        "message":"Hello everyone,\n\nI have a 820-00923-A board that used to boot without any issues before I flashed the BIOS. After programming the BIOS chip with the CH341A programmer, the board did not power up anymore.\n\nSo, I took the schematics of the board and started checking the power aliases. I verified all the voltages, and they are all correct. The only skewed voltage is on PPVCC_S0_CPU, where the measured value is 0.785V instead of 1.5V. I thought the CPU might be dead, but I'm not certain.\n\nWhen I try to power on the board, I notice that it correctly receives 20V input, but only draws 0.461A. Using the thermal camera, I observe that the CPU heats up, and just above the CPU, there are the U7210, U7220, U7410, U7420, U7430 chips, all heating up beyond 45 degrees.\n\nI have tested L7210 and L7220, and on both, I read a voltage of 0.785V."
+    },
+    {
+        "post_id":103176,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-18 11:15:10",
+        "message":"First of all, welcome to the forum!\n\nYou get even S0 voltages, so board powers up; not booting is another problem.\nCPU core should drop near the 0.65V when board really boots.\nMonitor its voltage from start and see when stops to 0.785V.\nJust in case, check USB activity and Caps Lock LED reaction.\n\nI recommend to check for knocked off components near the BIOS chip; be sure U6100 has good solders.\nWhere did you get the BIOS file?\n\n\"board that used to boot without any issues before I flashed the BIOS\"\nWhy did it???\n\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1zqEhJcX9Ol9v7HMLIyFWm-Gpt-lQ0_dP\/view?usp=sharing[\/URL]"
+    },
+    {
+        "post_id":103180,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-18 12:05:06",
+        "message":"[QUOTE=\"2informaticos, post: 103176, member: 682\"]\nFirst of all, welcome to the forum!\n\nYou get even S0 voltages, so board powers up; not booting is another problem.\nCPU core should drop near the 0.65V when board really boots.\nMonitor its voltage from start and see when stops to 0.785V.\nJust in case, check USB activity and Caps Lock LED reaction.\n\nI recommend to check for knocked off components near the BIOS chip; be sure U6100 has good solders.\nWhere did you get the BIOS file?\n\n\"board that used to boot without any issues before I flashed the BIOS\"\nWhy did it???\n\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1zqEhJcX9Ol9v7HMLIyFWm-Gpt-lQ0_dP\/view?usp=sharing[\/URL]\n[\/QUOTE]\nThanks for the help,\n\nI don't have the green LED on the Caps Lock, but the fans spin at maximum speed. After about a minute, they restart and continue this cycle indefinitely.\n\nHere are the voltages on the following lines:\n\nCPUCORE_PWM1: 0.369V\nCPUCORE1_GL0: 4.686V\nCPUCORE2_GL0: 4.694V\n\nMeasuring the voltage of PPVCC_S0_CPU on C10G1, I get exactly 0.784V after 10 seconds, and after about 12 seconds, the voltage drops back to 0. It repeats this cycle continuously.\n\nI got the bin file on alisaler.com. I had to flash the bios cause I could not install anyone MacOS outside of Sonoma with OpenCore, but the TouchBar was not working with that OS, so I had to solve the corrupted bios issue..."
+    },
+    {
+        "post_id":103187,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-18 13:44:01",
+        "message":"\"I get exactly 0.784V after 10 seconds\"\nI said to [B]monitor[\/B] the voltage.\nConnect multimeter before applying power; see the voltage changes in time!\n\nDid you make BIOS backup?\nIf not, try the uploaded file.\n\nWhat didn't work under Ventura, to need Sonoma???\n\nBTW, do not quote an entire post visible few centimeters above.\nWrite directly on the bottom reply box, instead of clicking reply button.\nPlease, maintain forum aesthetic..."
+    },
+    {
+        "post_id":103189,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-18 14:22:50",
+        "message":"No, unfortunately, I forgot to back up the BIOS.\n\nI've tested Ventura, High Sierra, Monterey, Big Sur, Catalina, but despite everything, I received the message that it's not possible to update after installing the operating system. So, the system never started.\n\nI ask for your forgiveness, but I'm still a beginner, trying to do my best.\nI monitored the voltage on PPVCC_S0_CPU, and it starts rising from 0 to 0.785V instantly as soon as the board reaches a current draw of 0.488A. After about ten seconds, the board stops drawing amperes, then starts rising again to 0.488A, and the voltage on PPVCC_S0_CPU remains fixed at 0.785V for the time that I monitored it for about ten minutes, then I powered off the board. \n\nDo you think that if I replace U7210 and U7220 could I solve the problem? I thought at this because the input Voltage on the chips is right, but when I test the voltage on the inductors L7210 and L7220 it is not 1.5V but 0.785V.\n\nI want to clarify that I am conducting the test only on the board, without connecting fans or a keyboard."
+    },
+    {
+        "post_id":103193,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-18 23:33:07",
+        "message":"Don't touch anything more, apart of BIOS chip.\n\nDid you flash the file linked for you?\n\nIf you make the installation from USB, connect the mac to Internet also.\nTouchbar update requires Internet connection."
+    },
+    {
+        "post_id":103198,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-19 02:12:13",
+        "message":"Yes, I flashed the bin file you linked.\n\nNow, after soldering the chip back onto the motherboard, I reassembled the board in the case.\nUpon powering it on, I noticed the fans start spinning, the voltage remains at 20V, while the current rises and stops at 2.840A [URL='https:\/\/imgur.com\/RSMpS7K'](See here)[\/URL].\nHowever, upon turning it on, I still don't have the green light on the caps lock, and I see nothing on the screen.\n\nNow, I observe that on PPVCC_S0_CPU, I have a value of 1.020V, but I still have the short on C10G1."
+    },
+    {
+        "post_id":103202,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-19 03:33:47",
+        "message":"1-1.15V is a good start voltage for CPU core.\nBut should drop until 0.65V aprox, when board really boots.\nCheck all SPI Bus Termination resistors, or other components which you could blew up when heating U6100.\nToo much heat applied could also affected CPU, or other something else on the board.\n\nYou don't need to mount the board in housing every time for test.\nI was hoping that you already understood CPU core level after 10-15s is a good enough test; with board alone on the desk.\n\nYou don't have any short there.\nDon't make wrong assumptions so easy."
+    },
+    {
+        "post_id":103206,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-19 04:18:07",
+        "message":"I've now tested the board directly on the bench. The board draws 0.980A, and the voltage on PPVCC_S0_CPU is 1.15V. However, after just 10-12 seconds, the board starts drawing 0.488A, and the voltage on PPVCC_S0_CPU returns to 0.65V.\nI tested also VCC on U6101 and on U6100 and there are 3.3V. [URL='https:\/\/imgur.com\/kOtPSou'](See here)[\/URL]\nI tested C6000, C6101 and C6102 and there is 3.3V.\n\nI've tested all SPI Bus Series Termination resistors [URL='https:\/\/imgur.com\/UMYDKZ7'](these)[\/URL], and they are working correctly.\n\nIs there any other test I can perform?"
+    },
+    {
+        "post_id":103208,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-19 07:08:18",
+        "message":"\"PPVCC_S0_CPU returns to 0.65V\"\nLooks like board boots then.\nYou can test external video, or USB activity; board still alone on the desk."
+    },
+    {
+        "post_id":103209,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-19 07:27:44",
+        "message":"I tried external video via display port and via HDMI for both does not work. \nUSB activity works because I connected a keyboard with backlight ant it works.\nIs there something else I can test?"
+    },
+    {
+        "post_id":103210,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-19 08:04:43",
+        "message":"Mount the board and connect only internal LCD assembly first."
+    },
+    {
+        "post_id":103212,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-19 09:33:38",
+        "message":"I did, but it does show nothing on the screen.\n\nNow I noticed that for the second time the LB190 blow up [URL='https:\/\/imgur.com\/Y2zSmNX'](See here)[\/URL]. I don't know why it has to happen.\n\nI still don't know which test could I try...\n\nAny idea?"
+    },
+    {
+        "post_id":103216,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-19 15:04:00",
+        "message":"Possibly UB000 is dead now.\nCheck diode mode to ground on both pins of LB190."
+    },
+    {
+        "post_id":103217,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-19 15:30:49",
+        "message":"I checked, they are not shorted to ground."
+    },
+    {
+        "post_id":103220,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-19 22:39:53",
+        "message":"I didn't ask for short!\nWhy don't you compare the values with good board, or reference table???"
+    },
+    {
+        "post_id":103230,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-20 04:26:30",
+        "message":"If I were to power the PPVCC_S0_CPU line using the bench power supply to detect any shorted components with a thermal camera, do you think it would cause any damage? Or could it be a potential solution?"
+    },
+    {
+        "post_id":103236,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-20 07:35:19",
+        "message":"Why do you insist about short there???\nDidn't was curiuos enough to compare with good board?\nCPU core for such processor shows 1-2 ohm as normal resistance to ground.\nYou've got even correct voltage there; how possible with short???"
+    },
+    {
+        "post_id":103373,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-30 07:56:25",
+        "message":"[USER=682]@2informaticos[\/USER] \n\nApologies for the delayed response; the holidays kept me busy.\n\nReturning to the issue: unfortunately, I don't have an identical and functioning board to compare values. After checking the main lines and confirming their functionality, I also ruled out an issue with the internal display by connecting an external display via USB-C with both display port and HDMI. However, there was still no display.\n\nConsidering a potential problem with the graphics interface, I measured the input voltages to Chips U7410, U7420, U7430. Both VCC and PVCC measured 5V and 13.06V, respectively. The issue arises with Vout, which reads 0V instead of the expected 0.55V - 1.5V range. This leads me to believe that without proper power, it can't supply the graphics part of the processor. [URL='https:\/\/imgur.com\/Zcpoq54'](See here)[\/URL]\n\nI also checked inductors L7410, L7420, L7430, and on all three, I read 0V on both ends. What could this indicate?"
+    },
+    {
+        "post_id":103374,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-30 09:11:38",
+        "message":"\"I also checked inductors L7410, L7420, L7430, and on all three, I read 0V on both ends.\"\nThat is normal; only get voltage there when iGPU detects high load graphics.\nBut you should get GPU voltage instead, all the time.\n\n\"PPVCC_S0_CPU returns to 0.65V\"\nIs that still valid???\nOnly then the board boots."
+    },
+    {
+        "post_id":103384,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-30 10:09:11",
+        "message":"Yes, on PPVCC_S0_CPU after some seconds the Voltage drops from 1.15V to 0.64V and remains stable on 0.64V, but I still don't see the Apple logo on screen.\nThere is also not audio when it boot up. What else could I test?"
+    },
+    {
+        "post_id":103385,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-30 12:47:00",
+        "message":"\"USB activity works because I connected a keyboard with backlight ant it works.\"\nDon't make confusion between USB power and activity!\n\nInternal Caps Lock LED reacts?"
+    },
+    {
+        "post_id":103387,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-30 12:52:13",
+        "message":"No, internal caps lock led does not react at all"
+    },
+    {
+        "post_id":103388,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-30 13:20:05",
+        "message":"Really strange, if you get correct CPU core behavior.\nTry another BIOS file...\n[URL unfurl=\"true\"]https:\/\/drive.google.com\/file\/d\/1W-l9MXzQjDRcX3tIgWPRAMVhcYajjX8t\/view?usp=sharing[\/URL]"
+    },
+    {
+        "post_id":103389,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-30 14:28:23",
+        "message":"Thanks, I flashed the BIOS you sent me.\nNow the tension of PPVCC_S0_CPU on C10G1 start from 0V up to 0.785V and remain stable at 0.785V. If it can help, I noticed also that the tension on PPVCCGT_S0_CPU is now present with 1.05V.\n\nI still don't see the Apple logo on screen. I'am thinking that maybe the right BIOS file could resolve the issue... or what else? \ud83d\ude2d\n\nP.s.: However, I noticed that with the previous BIOS the board absorbed 0.900A while now it reaches a maximum of 0.450A. The voltage however remains at 20V. [URL='https:\/\/imgur.com\/dYFCzGS'](See here)[\/URL]"
+    },
+    {
+        "post_id":103392,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-30 18:33:42",
+        "message":"Search for other dumps on Internet.\nAnd remember to make ALWAYS backup when you touch the BIOS..."
+    },
+    {
+        "post_id":103394,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-31 02:05:09",
+        "message":"I initially did not inform you that I had two similar BIOS chips. What I did was desolder the original BIOS, program the second BIOS (the non-original one), and then solder the second BIOS onto the board. Meanwhile, the original BIOS still contained its original bin file. After soldering the second BIOS onto the board, the computer no longer booted. I then resoldered the original BIOS chip, but the computer didn't boot with that chip either. From that point, I started flashing the original BIOS as well, forgetting to backup the original BIOS.\n\nHowever, I want to highlight that after this process, the computer didn't boot even with the original BIOS, whereas before soldering the second flashed BIOS, it worked fine.\n\n\nFor this reason, I have a slight doubt that no BIOS file may resolve the issue. I'm considering two other scenarios: overheating of the board (due to all these soldering and desoldering operations in the BIOS area) or it might require an ultrasonic cleaning. What do you think?"
+    },
+    {
+        "post_id":103395,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-12-31 03:03:28",
+        "message":"Board overheated, or knocked of components is expected in this case."
+    },
+    {
+        "post_id":103397,
+        "thread_id":64399,
+        "title":"820-00923-A Not Powering Up After BIOS Flash",
+        "user_id":57277,
+        "username":"imperialboard89",
+        "post_date":"2023-12-31 04:14:37",
+        "message":"I've tested 5 different BIOS files (2 sent by you + 3 found on the internet), but none of them allows the MacBook to start up.\n\nI compared the area near the BIOS with an identical non-functional board, and all the components are present; there is no missing component in the area surrounding the BIOS.\n\nIf there are no further tests to conduct, I would even be willing to send you the board for analysis. My curiosity about this issue has grown to the point where I'm eager to understand why the board isn't booting. I am genuinely willing to invest money in resolving this problem, all in the pursuit of learning and gaining insight into the issue."
+    }
+]

@@ -1,0 +1,47 @@
+[
+    {
+        "post_id":40371,
+        "thread_id":40371,
+        "title":"00165 Weird CPU problem",
+        "user_id":372,
+        "username":"Rford",
+        "post_date":"2018-10-07 13:49:49",
+        "message":"Have a 00165 with some issue. The CPU is getting warm just like the other one I did but there is no short to ground betwixt VCORE and PPBUS_G3H\n\nPPBUS_G3H-8.58V\nPP3v42_G3H-3.43V\nPP5V_S5 = 5V\nPP3v3_S5 = 3.32\nSMC_PM_G2_EN = 3.42\nPPVRTC_G3H = 3.29\nPP3v3_SUS = 0V\nPM_DSW_PWRGD = 3.42\nS5_PWRGD = 3.39\nPPBUS_S5_HS_COMPUTING_ISNS = 8.58\n\nPM_SLP_S4 = 0\nPP3v3_s4 = 0\nPP5v_s4 = 0\n\nPPVCOMP_S0_CPU- 0\nVCORE- 9.5 Ohm resistance to ground\n\nCPU is warm? Wierd\n\nS4s arent running... of course... Ideas??"
+    },
+    {
+        "post_id":40372,
+        "thread_id":40371,
+        "title":"00165 Weird CPU problem",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-10-07 13:55:55",
+        "message":"Really strange thay CPU gets warm, when only 3V3_S5 is present.\nCould be PCH issue, as you miss PM_SLP_SUS_L I suppose.\nI can only think to VCCRTC issue of PCH.\n\nRemove heatsink and tocuh PCH die (small one).\nIf that heats, most likely VCCRTC problem.\nCheck resistance to ground on it."
+    },
+    {
+        "post_id":40381,
+        "thread_id":40371,
+        "title":"00165 Weird CPU problem",
+        "user_id":372,
+        "username":"Rford",
+        "post_date":"2018-10-07 16:53:16",
+        "message":"Indeed it is the PCH portion that is getting warm. Is there a separate VCCRTC? PPVRTC is 16K Ohms to Ground... VCCRTC is within and I cant test it... However ppvrtc connects directly to it."
+    },
+    {
+        "post_id":40383,
+        "thread_id":40371,
+        "title":"00165 Weird CPU problem",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-10-07 17:55:50",
+        "message":"Actually VCCRTC is the PCH labelling,  You are in the RTC portion of the PCH and the name of the power rail going into VCCRTC is PPVRTC_G3H. Yep I had the same issue a few weeks ago on exactly the same board.\n\nHowever, your resistance to ground on ppvrtc_g3h doesn't look like a short...\nOn my good bord I have 12kohms on the shorted one it's like 3ohms...\n\nLet us know about :\nPP3V3_SUS = 0V, Is it a short?\nDo you have P3V3_SUS on U8020?  You need both P3V3_SUS and PP3V3_S5 at U8020.\nAre you missing (most likely) PM_SLP_SUS_L?"
+    },
+    {
+        "post_id":40384,
+        "thread_id":40371,
+        "title":"00165 Weird CPU problem",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2018-10-07 18:26:41",
+        "message":"3V3_S5 also goes to PCH.\nDon't waste time, if PCH heats without any other voltage than 3V42 and 3V3_S5, board is trash.\nNot always short, or low value in a power rail point to a bad chip.\nEven for high value there, one bad chip can go into some avalanche process when is powered up..."
+    }
+]

@@ -1,0 +1,344 @@
+[
+    {
+        "post_id":58151,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-11 13:39:55",
+        "message":"Sadly I dont have that much troubleshooting experience yet. Have rebuilt some backlight circuits and repaired the common iPhone errors so that's something.\n\nThe board Im working on now 820 4924 stopped working because of liquid damage and didn't turn on but with a light on the charger. Got the board out and it took around 36mA. Got the first few G3H lines as normal so went ahead to clean up the dirty corroded areas:\nU3740\nQ5480\nQ1840\nQ1842\n\nI first was confused by the PPBUS_G3H being 12.5V for a macbook since I worked more on MBA's. Expected it to be 8.6V so looked around the ISL6259 and replaced it with a donor. PPBUS stayed the same and found out that the voltage is normal for the MBP's. Now it's starting around 44mA and working to 49-51mA after a few seconds. This after replacing the ISL and cleaning up. These are a few rails to get an idea:\n\nPPBUS_G3H = 12.5\nPPBUS_S5_HS_COMPUTING = 12.5\nPP3V42_G3H = 3.42\nPPBUS_S5_HS_OTHER5V = 12.5\nPPBUS_S5_HS_OTHER3V3 = 12.5\nPPVRTC_G3H = 3.32\nPP3V3_SUS = 3.32\n\n\nPP5V_S5 = 5.0\nPP3V3_S5 = 3.32\nPP3V3_SUS = 3.32\n\nPP5V_S4 = 0\nPPBUS_S4_X239 = 0\n\nPPVIN_S0_CPUVR = 12.53\n\nLooking around the web I expected that an S4_EN signal is maybe missing since I couldn't find any shorts on the S4 rails which might cause all S4 rails to be pulled to ground. Trailing back some S4_EN signals gets me to big BGA chips. When it is not reaching an S4 state, what would be some of the first useful enable signals to check? Or is there something that Im overlooking right now?\n\nThanks in advance!"
+    },
+    {
+        "post_id":58153,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-11 13:46:39",
+        "message":"First of all, welcome to the forum!\n\nBe sure to use original 60\/85W Magsafe 2 charger; forget about 1 -> 2 adapter!\n\nPost PM_BATLOW_L, PM_DSW_PWRGD, PCH_DSWVRMEN, PM_RSMRST_L and PM_PWRBTN_L.\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L.\n\nAlso try to start in SMC bypass mode."
+    },
+    {
+        "post_id":58156,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-11 16:39:47",
+        "message":"Thanks alot!\n\nThe values I found are:\nPM_BATLOW_L = 37mV\nPM_DSW_PWRGD = 3.34V\nPCH_DSWVRMEN = 2.5V\nPM_RSMRST_L = 3.0V\nPM_PWRBTN_L = 3.34V\n\nWhen triggering SMC_ONOFF_L PM_PWRBTN_L goes to 0.36V\n\nLooked up SMC bypass mode, suddenly it's alive! Does this mean that it looks fixable after all?"
+    },
+    {
+        "post_id":58161,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 01:12:58",
+        "message":"\"PM_BATLOW_L = 37mV\n----------------------\nBe sure to use original 60\/85W Magsafe 2 charger; forget about 1 -> 2 adapter!\"\n???\n\nCheck if starts with both charger and battery connected."
+    },
+    {
+        "post_id":58165,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-12 04:38:00",
+        "message":"I've snipped this magsafe 2 which came in the box of an 2013 A1466. Now hooking it to a fully functioning an unsnipped 60W magsafe 2 and connecting the battery the device does not boot but has S0 rails. No chime no keyboard backlight or display backlight or display.\n\nPP5V_S0 = 5.13V\nPP3V3_S0 = 3.32V\nPPVCC_S0_CPU = 1.85V\nPP1V5_S0 = 1.5V\n\nCant find short so I think it's another simple thing I am overlooking. Fan is spinning but no questionmark folder."
+    },
+    {
+        "post_id":58166,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 05:34:17",
+        "message":"\"Fan is spinning\"\nIn normal mode???\nIt should spin at max from the begining in SMC bypass; but fan only starts in normal mode when CPU gets really hot.\nSo, did you really start in normal mode?"
+    },
+    {
+        "post_id":58168,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-12 05:43:32",
+        "message":"It does not spin max, it only spins as if the CPU gets hot, so spins in normal mode and I did a start in normal mode.\n\nI see that it probably spun because CPU got very hot. Trying it again now results in no fanspin at all. I do have Vcore. What is the thought process from here? Does the board need a battery to boot or is that a diagnostic trick? I remember reading old A1502's need a battery to start.\n\nSo far I'm thinking: ALL_SYS_PWRGD -> PPVCC_S0_CPU -> CHIME but not getting a chime :("
+    },
+    {
+        "post_id":58171,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 06:53:50",
+        "message":"If you get VCORE, check PLT_RESET_L.\nAlso test for USB activity.\n\nTry PRAM reset."
+    },
+    {
+        "post_id":58173,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-12 07:20:46",
+        "message":"PLT_RESET_L = 3.32V\nL4605 reads 5.13V when connecting a lightningcable with an iPhone, looks like this is normal\n\nPRAM reset resulted in no chime no image flickering and no change as far as I can tell"
+    },
+    {
+        "post_id":58178,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 08:42:49",
+        "message":"I said test for USB \"activity\", no \"power\"; is a BIG difference.\nUse a pendrive with Link LED; if flashes, activity is onfirmed..."
+    },
+    {
+        "post_id":58187,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-12 13:56:58",
+        "message":"The link LED flashes, so there is activity! :)"
+    },
+    {
+        "post_id":58188,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-12 14:03:45",
+        "message":"So no image, no backlight at this point?\nCaps Lock reacts?\n\nTest external video too."
+    },
+    {
+        "post_id":58193,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-12 16:46:51",
+        "message":"No capslock react, sadly dont have another known good 2013-2015 Pro keyboard to test atm. No backlight, no image. When connected to an external monitor the monitor recognizes the power of the source but no further data (TV sees a hdmi being used but does not give image).\n\nSince USB data does work, does this work towards corrupt BIOS or more CPU issues? Or does the Vcore already rule out most if not all CPU issues?"
+    },
+    {
+        "post_id":58198,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-13 00:12:47",
+        "message":"I'm not sure if you really have USB activity.\nIf you connect preinstalled OSX into pendrive, does it flash like loading OSX?\n\nTry full known good BIOS..."
+    },
+    {
+        "post_id":58203,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-13 04:39:25",
+        "message":"oh sorry, the  flashiing was only power, but since it connected poorly it flashed twice which I read as activity instead of power. Got a pendrive with link led which does not flash :("
+    },
+    {
+        "post_id":58204,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-13 05:57:39",
+        "message":"So no USB activity, as I was expecting.\nNow try BIOS."
+    },
+    {
+        "post_id":58205,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-13 07:50:36",
+        "message":"Yep Im on it! One question, since I am just starting out I dont have a BIOS programmer I saw you recommending the Medusa programmer on the forum. The first version supports until 2017 models. Any benefit to going for the series 3 instead of the 2?\n\nHow do I go about flashing the SPI when I dont have a programmer? Desoldering and then :S? Or is the medusa mandatory for these BIOS modifications?\n\nThank you for helping by the way!"
+    },
+    {
+        "post_id":58206,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-13 09:21:56",
+        "message":"Medusa allows to read\/write BIOS onboard and time is money!\n\nYou can do the job with any BIOS programmer and correct adapter.\nThis imply lot of time and not easy job.\nWithout Medusa, you need to do any mods on the BIOS file by software, in another PC."
+    },
+    {
+        "post_id":58236,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-14 13:37:30",
+        "message":"Hi 2informaticos! I ordered the medusa and today it shipped right away. Meanwhile I was wondering if there are some videos on how to erase the current SPI ROM and how to write a full new BIOS to the chip. The manufacturer does not have many videos on that. Do you have any? I cannot seem to find any BIOS flashing videos of louis :(. Would like not to do it as trial and error since I heard plenty of horror stories about bricking a motherboard by installing the wrong BIOS or the right BIOS the wrong way."
+    },
+    {
+        "post_id":58241,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-14 13:48:36",
+        "message":"Medusa comes with pdf manual.\nYou just need to connect it properly and move the switches according with the needed operation mode."
+    },
+    {
+        "post_id":58374,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-18 09:53:23",
+        "message":"Medusa arrived together with a regular programmer\n\nI've downloaded a full BIOS, made a backup of the current BIOS en flashed the fresh one. I let medusa clean the ME but still no activity on USB or Display.\n\nI think I am also not sure about the Vcore. On this model I measure PPVCC_S0_CPU which looks to be the CPU power in, is this the \"Vcore\""
+    },
+    {
+        "post_id":58386,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-18 13:46:11",
+        "message":"Yes, PPVCC_S0_CPU is common power rail for core CPU and iGPU.\nDid you verify Mac ROM against Medusa ROM after each read\/write operation?\n\n\n[ATTACH type=\"full\" width=\"30%\"]58387._xfImport[\/ATTACH]"
+    },
+    {
+        "post_id":58442,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-19 11:00:42",
+        "message":"Yes I verfied it with two BIOSes right now. I can link them but don't know if that's allowed on the forum\n\nSummary until now:\nAll S0 rails work as does Vcore (very nice and stable 1.85V)\nTried flashing two different bioses all verified and afterwards Cleaned by the Medusa\nNo USB activity nor any image on macbook-\/external display (also tried with flashlight in case of no backlight.\nHave the board only connected with the DCIN adapter, no battery nor fan connected (don't know if that makes a difference on that board)\n\nNext up:\nBuy a 85W charger to get amperage for further troubleshooting? (only have a 45W snipped hooked on my PS right now and using a fully functioning 60W version which is not snipped.\nCheck all S0 subrails for voltage and short? (\"bruteforce searching\" as I don't have any idea what could be the issue right now.)"
+    },
+    {
+        "post_id":58469,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-19 14:08:38",
+        "message":"Fan doesn't help to diagnose this board.\nIt only spins very late, when CPU gets really hot.\n\nTest for USB activity on the onboard port.\n\nThis board should start with 60\/85W Magsafe 2 charger, but not 45W one.\n\nDidn't find clean ME (tested) BIOS posted on the forum?"
+    },
+    {
+        "post_id":58521,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-21 06:46:54",
+        "message":"Tested for USB activity on onboard port. My normal desktop gives a flashing red light.\n\nUsed a 60W and 85W charger\nUsed 4 BIOSes, cleaned all ME's through medusa and verified every step of the way and also checked if Vcore was present.\nOne of those 4 bioses was the only 820 4924 bios I could find on the forum which did not have an expired link. Sadly I could not find out if the BIOS was for a 820-4924-A or non -A.\n\nAlso tested through MiniDP but the only response I got was that the port game power, no display visible.\n\nAm I maybe missing the BIOS SN change? Should I change the SN of the flashed dump to correspond with the old SN?"
+    },
+    {
+        "post_id":58534,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-21 10:09:10",
+        "message":"No need to change serial number, untill get an working board.\nStill no USB activity?\n\nTry this BIOS...\n[url]https:\/\/drive.google.com\/open?id=1Hhdhd_t-9FxALozsa2067WnfRAUZqxNr[\/url]"
+    },
+    {
+        "post_id":58562,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-21 13:23:02",
+        "message":"Still no change sorry :("
+    },
+    {
+        "post_id":58780,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-25 08:43:08",
+        "message":"Is there anything else I can check? Maybe the SPI chip not communicating properly? Short on any S0 subrail? Or confirming dead CPU somehow?"
+    },
+    {
+        "post_id":58781,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-25 09:35:32",
+        "message":"Check all SPI Bus Termination resistors and traces.\nNot too much else to check.\nCould be damaged CPU this case..."
+    },
+    {
+        "post_id":58807,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-26 16:10:11",
+        "message":"There was a broken trace between R6118 and R6130. Now it boots but with questionmarkfolder. Does not recognize SSD and does not give bootoptions when holding option key. Making a bootable Catalina drive, will update tomorrow!"
+    },
+    {
+        "post_id":58814,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-27 02:53:42",
+        "message":"Possibly no APFS support on BIOS.\nA fresh install (internal SSD only) will update APFS support..."
+    },
+    {
+        "post_id":58815,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-27 03:21:14",
+        "message":"OS on external HDD gives me this. First boots normally, but around a half filled loading bar it starts behaving like this and reboots after ~30 sec"
+    },
+    {
+        "post_id":58817,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-27 03:23:03",
+        "message":"That could be RAM, or CPU issue.\nBe sure first to have good BIOS, clean ME."
+    },
+    {
+        "post_id":58818,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-27 03:45:01",
+        "message":"Used your BIOS and cleaned ME afterwards. Verified and all. After starting the ME changed which means the PCH has turned on. I can see some indication of waterdamage near the BIOS connector leading under the RAM heatshield. Any way to remove that thing? Since 500 celsius and 120L\/min wont do."
+    },
+    {
+        "post_id":58825,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-27 07:15:34",
+        "message":"Try another macOS installer?\nWhat happens with internal SSD installation?\nStart fresh install too..."
+    },
+    {
+        "post_id":58898,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-04-29 04:45:00",
+        "message":"Wont start any MacOS recovery. Can choose wifi, but the loading bar after that does not got further than halfway."
+    },
+    {
+        "post_id":58901,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-04-29 05:18:52",
+        "message":"I talk about starting new installation on internal SSD from USB pendrive, not Internet recovery."
+    },
+    {
+        "post_id":60593,
+        "thread_id":58151,
+        "title":"820 4924 taking 51 mA and not getting into S4 state",
+        "user_id":945,
+        "username":"Roan",
+        "post_date":"2020-06-07 08:55:47",
+        "message":"It finally worked! Took a while since I waited for a tool to make a backup of the SSD. Put Catalina on a pendrive and let it restore the os.\n\nThanks slot!\n\nOne last question. Why doesnt the online recovery method work (while giving weird screen distortions) when the pendrive way does work?"
+    }
+]

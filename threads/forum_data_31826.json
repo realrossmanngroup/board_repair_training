@@ -1,0 +1,74 @@
+[
+    {
+        "post_id":31826,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":1368,
+        "username":"RedDemonic",
+        "post_date":"2018-02-20 10:15:24",
+        "message":"not liquid damage, cant see any corrosion at all under a microscope ([B]damn it[\/B]). never been rework.\n\nUsing a [URL=\"https:\/\/www.emojibase.com\/emoji\/1f4af\/hundredpointssymbol\"]?[\/URL]Real Genuine Original Apple Charger!\n\ngreen light, orange light, can charge the battery[URL=\"https:\/\/emojipedia.org\/battery\/\"]?[\/URL].\n\nif I press and hold the Power Button for 2-3 second, the board will power up to OSX and fan spin normal\nif i press once, the fan will spin for 1 second and failed.\n\nYes, the board is out of the housing, without the trackpad plugged in.\n\nASD shows 12 sensors has failed. [IMG type=\"full\" width=\"200px\"]https:\/\/i.imgur.com\/D6NScZu.jpg[\/IMG]\n    [IMG type=\"full\" width=\"200px\"]https:\/\/i.imgur.com\/3uMjzyl.jpg[\/IMG]\n \n\n\n\n\n\n\n\nPPBUS_G3H = 8.39v\nPPBUS_S5_HS_COMPUTING_ISNS = 8.38v\nPPBUS_S5_HS_OTHER_ISNS 8.36v\nPPVRTC_G3H = 3.3v\nPP5V_S5 = 5.13v\nPP3V3_S5 = 3.3v\nPP3V3_S4 = 0.007 (i get 3.3v for split second if i replug the magsafe)\nS5_PWRGD = 3.4v\nPM_SLP_S4_L = 0v. (i get 3.3v for split second if i replug the magsafe)\nP5VS3_EN = 0v (i get 3.3v for split second if i replug the magsafe)\nPP5V_S3 = 0v (i get 5.1v for split second if i replug the magsafe)\nPP3V3_S3 = 0.023v (i get 3.3v for split second if i replug the magsafe)\nPP5V_S0 = 0.02v (i get 5.12v for split second if i replug the magsafe)\nPP3V3_S0 0v (i get 3.3v for split second if i replug the magsafe)\nPP5V_S5 - 0v (i get 5.1v for split second if i replug the magsafe)\n\nALL_SYS_PWRGD = 0.0v\nSMC_PM_G2_EN = 3.421v\nSMC_BC_ACOK - 3.394"
+    },
+    {
+        "post_id":31836,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-02-20 19:24:46",
+        "message":"You are starting the board in SMC safe mode so all sensors will fail. Usually this problem is caused by current sense issue around ISL6259. Check resistance between pins 17\/18 and 27\/28."
+    },
+    {
+        "post_id":31845,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":1368,
+        "username":"RedDemonic",
+        "post_date":"2018-02-21 02:39:17",
+        "message":"17\/18 : 2.8 ohms\n27\/18: 20.2 ohms \n\ni've checked all the resistors around the iSL, they are within specs."
+    },
+    {
+        "post_id":31858,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-02-21 09:22:14",
+        "message":"Check 3V3 on PP3V3_S5_AVREF_SMC"
+    },
+    {
+        "post_id":31865,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":1368,
+        "username":"RedDemonic",
+        "post_date":"2018-02-21 09:42:35",
+        "message":"[QUOTE=\"dukefawks, post: 31858\"]Check 3V3 on PP3V3_S5_AVREF_SMC [\/QUOTE]\n\n0.051v on PP3V3_S5_AVREF_SMC\n\n\ni get 3.4v on pin1,3 on U5010\n\n\nSo U5010 is bad or one of the 4 capacitors on the bus is leaky and pulling it down?"
+    },
+    {
+        "post_id":31866,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":1368,
+        "username":"RedDemonic",
+        "post_date":"2018-02-21 09:56:46",
+        "message":"ok, the 4 caps are shorted to GND.\n\njust compared with known working board."
+    },
+    {
+        "post_id":31869,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":1368,
+        "username":"RedDemonic",
+        "post_date":"2018-02-21 10:36:55",
+        "message":"C5025 was the culprit. i took this one out and this cap does beeps on my fluke.\n\nreplaced with one from a donor board, now the board can power up normally.\n\ntested all good.\n\nthank you Duke and take care!"
+    },
+    {
+        "post_id":31882,
+        "thread_id":31826,
+        "title":"[SOLVED]820-3208 - Turn on if i press and hold power button.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-02-21 12:31:22",
+        "message":"Just for reference, AVREF is the reference voltage for the A\/D converters in the SMC. This is the reason all analog sensor were reading wrong."
+    }
+]

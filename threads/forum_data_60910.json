@@ -1,0 +1,110 @@
+[
+    {
+        "post_id":72938,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":28727,
+        "username":"chedda",
+        "post_date":"2021-03-11 04:44:30",
+        "message":"Hi,\n\nI'll try to list everything I know so far:\n[LIST=1]\n[*]Draws ~1.1A @ 20V when powered (without battery)\n[*]Draws ~330mA @ 20V when turned of with power button\n[LIST=1]\n[*]Kind of high right? but nothing gets hot, checked with IR camera\n[\/LIST]\n[*]All _s0 power rails present\n[*]Tried flashing 4 different bios images found on this board, no change\n[*]Only once the boot logo was visible after SMC reset\n[LIST=1]\n[*]After that, the fans were always running at max\n[*]Now after probing on some smc lines, the fans run normal (gradually revving up, but not to max)\n[\/LIST]\n[*]No chime, caps lock light, usb activity, Touch Bar, external video\n[*]Trackpad clicks\n[*]No voltage drop at ppvcc_s0_cpu, stays at ~1.05V\n[*]smc bypass mode won't work\n[*]No reaction on multimeter or otherwise when trying PRAM reset\n[*]History not known, but I can see it was worked on\n[LIST=1]\n[*]A line is soldered from R6001[2] to it's probe point (SMC_FAN_0_CTL) slightly below \n[\/LIST]\n[\/LIST]\n\nWhere to go from here?"
+    },
+    {
+        "post_id":72947,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-11 09:43:33",
+        "message":"330mA for a board in S5 state, is really high.\nYou should find the reason.\nRemove F7000 and check again the current."
+    },
+    {
+        "post_id":72949,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":28727,
+        "username":"chedda",
+        "post_date":"2021-03-11 09:48:56",
+        "message":"I guess you mean both F7000 and F7001, right?"
+    },
+    {
+        "post_id":72951,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-11 11:02:32",
+        "message":"Yeah, didn't look at schematic; big boards have 2 fuses on parallel."
+    },
+    {
+        "post_id":73054,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":28727,
+        "username":"chedda",
+        "post_date":"2021-03-13 07:23:37",
+        "message":"At the top I said, all power rails present, but actually PPBUS_G3H was 12.59V, which is ok for other boards, but not this, right?\nNow after removing the fuses, the usb-c multimeter says 350mA @20V and PPBUS_G3H is still 12.59V.\nWhen measuring PPDCIN_G3H_CHGR I get 21.2V although the usb-c multimeter actually says 19.3V. Don't know if that's significant.\nI measured around the ISL9239 and got these values:\nGate_Q4: 0V\nLX2:          0V\nBoot2:      5V\nGate_Q3: 5V\nGate_Q2: 5V\nBoot2:      5V\nLX1:          0V\nGate_Q1: 0V\nNo shorts to ground on the caps.\nOn L7030 I get 0.02V on both sides.\n\nAre these values normal. Sorry for asking basic stuff. I don't have a working A1707."
+    },
+    {
+        "post_id":73060,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-13 08:31:19",
+        "message":"You still have high current without the fuses.\nI can suppose a problem through 3V3_G3H power rail.\nSome chip sinks too much current there probably.\nCould be SMC, or PCH."
+    },
+    {
+        "post_id":73068,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":28727,
+        "username":"chedda",
+        "post_date":"2021-03-14 04:19:48",
+        "message":"Without the fuses the PCH stays cold and the SMC is barely (~1\u00b0C) warmer then room temperature.\nWith the fuses the PCH gets almost as hot as the CPU. The SMC stays as before.\nAny way to rule out or confine without blindly replacing those two?"
+    },
+    {
+        "post_id":73076,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-14 13:25:19",
+        "message":"In such case, you should have bigger current difference between the two cases; w\/ and w\/o fuses on board."
+    },
+    {
+        "post_id":73077,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":28727,
+        "username":"chedda",
+        "post_date":"2021-03-14 13:30:05",
+        "message":"Sorry, that wasn't clear. The PCH only gets hot when it's trying to turn on. When I turn it off by pressing the power button, it's as if the fuses were removed, except without fuses it's drawing 20mA more."
+    },
+    {
+        "post_id":73080,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-14 16:12:53",
+        "message":"Do you get the same current on USB-C meter in all 4 ports (in S5 state)?"
+    },
+    {
+        "post_id":73108,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":28727,
+        "username":"chedda",
+        "post_date":"2021-03-15 09:38:15",
+        "message":"Yes. \nAlso, when I do an SMC reset, the current goes down to 350mA (like without fuses) while pressing the key combo and after letting go. Than it won't turn on (draw more amps) anymore unless I replug the charger."
+    },
+    {
+        "post_id":73109,
+        "thread_id":60910,
+        "title":"820-00928a not turning on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-03-15 09:46:31",
+        "message":"Some chip sinks too much current from 3V3_G3H."
+    }
+]
