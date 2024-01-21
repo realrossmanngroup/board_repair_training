@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import re
 import json 
+from concurrent.futures import ProcessPoolExecutor
 
 #make dataframe to store jargon
 jargon_dataframes = {}
@@ -80,7 +81,8 @@ thread_directory = '/home/louis/board_repair_training/threads/'
 
 # Get list of filenames to process
 filenames = [f for f in os.listdir(thread_directory) if f.endswith('.json')]
+print(filenames)
 
 # Use ThreadPoolExecutor to process files in parallel
-with ThreadPoolExecutor(max_workers=14) as executor:
+with ProcessPoolExecutor(max_workers=14) as executor:
     executor.map(process_file, filenames)
