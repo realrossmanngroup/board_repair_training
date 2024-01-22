@@ -1,14 +1,15 @@
 import pandas as pd
 import os
 import re
-import json 
+import json
+import traceback
 from concurrent.futures import ProcessPoolExecutor
 
-#make dataframe to store jargon
+# Make dataframe to store jargon
 jargon_dataframes = {}
-#where jargon is
+# Where jargon is
 jargon_directory = '/home/louis/board_repair_training/jargon_lists/'
-#read each csv file with a jargon list into a pandas dataframe named by the type of jargon it is(resistors, signals, etc)
+# Read each CSV file with a jargon list into a pandas dataframe named by the type of jargon it is (resistors, signals, etc)
 for eachfile in os.listdir(jargon_directory):
 	if eachfile.endswith('.csv'):
 		file_path = os.path.join(jargon_directory, eachfile)
@@ -29,53 +30,65 @@ for jargon_type, df in jargon_dataframes.items():
 	df['jargon_type'] = jargon_type.upper()  # Add a column for jargon type
 	combined_jargon_df = pd.concat([combined_jargon_df, df], ignore_index=True)
 
-
 def annotate_jargon(text, df):
-    # Step 1: Marking positions for annotations
-    annotations = []
-    for index, row in df.iterrows():
-        jargon = row['NAME']
-        description = row['DESCRIPTION'] if 'DESCRIPTION' in df.columns else ''
-        jargon_type = row['jargon_type']
+	found_jargon = {}  # Dictionary to hold jargon terms found in the text
+	for index, row in df.iterrows():
+		jargon = row['NAME']
+		description = row['DESCRIPTION'] if 'DESCRIPTION' in df.columns else f"a {row['jargon_type']}"
+		jargon_type = row['jargon_type']
 
-        pattern = r'\b' + re.escape(jargon) + r'\b'
-        for match in re.finditer(pattern, text):
-            if pd.notnull(description) and description.strip() != '':
-                annotation_text = f"<s>[INST] [{jargon_type}]{jargon}[/{jargon_type}]: {description} [/INST]</s>"
-            else:
-                annotation_text = f"[{jargon_type}]{jargon}[/{jargon_type}]"
-            annotations.append((match.start(), match.end(), annotation_text))
+		# Don't mess me up if there is jargon inside jargon
+		pattern = r'\b' + re.escape(jargon) + r'\b'
 
-    # Step 2: Applying annotations
-    # Sort the annotations in reverse order of start position
-    annotations.sort(key=lambda x: x[0], reverse=True)
+		# Check if the jargon is in the text
+		if re.search(pattern, text):
+			annotation = f"<{jargon_type}>{jargon}</{jargon_type}>"
+			# Replace only the specific instance of jargon in the text
+			text = re.sub(pattern, annotation, text)
+			found_jargon[jargon] = description
 
-    # Apply annotations from end to start to not mess up the indices
-    for start, end, annotation_text in annotations:
-        text = text[:start] + annotation_text + text[end:]
-
-    return text
+	return text, found_jargon
 
 # Define a function to process each file
 def process_file(filename):
-    file_path = os.path.join(thread_directory, filename)
-    try:
-        #Open and load the JSON file
-        with open(file_path, 'r') as file:
-            data = json.load(file)
+	file_path = os.path.join(thread_directory, filename)
+	try:
+		# Open and load the JSON file
+		with open(file_path, 'r') as file:
+			data = json.load(file)
 
-        #Assuming the structure of your JSON file is a list of posts or similar
-        for post in data:
-            #Annotate for each type of jargon using respective DataFrame
-            post['title'] = annotate_jargon(post['title'], combined_jargon_df)
-            post['message'] = annotate_jargon(post['message'], combined_jargon_df)
-                
-        with open(file_path, 'w') as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
+		# Initialize a dictionary to hold all definitions for this file
+		all_definitions = {}
 
+		# Go through JSON file and find content in 'threads'
+		for post in data['threads']:
+			# Annotate for each type of jargon using dataframe of jargon. 
+			# THIS FUNCTION RETURNS TWO THINGS, remember for later if this confuses you
+			# the second thing it returns is a dictionary, not one single value
+			post['title'], found_jargon_title = annotate_jargon(post['title'], combined_jargon_df)
+			post['message'], found_jargon_message = annotate_jargon(post['message'], combined_jargon_df)
 
-    except Exception as e:
-        print(f"Error processing file '{filename}': {e}")
+			# Update all_definitions only with jargon found in the text
+			for jargon, definition in found_jargon_title.items():
+				all_definitions[jargon] = definition
+			for jargon, definition in found_jargon_message.items():
+				all_definitions[jargon] = definition
+
+		# Format the definitions section
+		formatted_definitions = {}
+		for jargon, definition in all_definitions.items():
+			formatted_definitions[jargon] = f"What is {jargon}? {definition}."
+
+		# Add the formatted definitions to the 'definitions' section in data
+		data['definitions'] = formatted_definitions
+
+		# Write the updated data back to the file
+		with open(file_path, 'w') as file:
+			json.dump(data, file, indent=4, ensure_ascii=False)
+
+	except Exception as e:
+		print(f"Error processing file '{filename}': {e}")
+		traceback.print_exc()
 
 # Directory where your JSON files are located
 thread_directory = '/home/louis/board_repair_training/threads/'
@@ -86,4 +99,4 @@ print(filenames)
 
 # Use ThreadPoolExecutor to process files in parallel
 with ProcessPoolExecutor(max_workers=20) as executor:
-    executor.map(process_file, filenames)
+	executor.map(process_file, filenames)
