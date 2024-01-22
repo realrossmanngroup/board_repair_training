@@ -34,17 +34,17 @@ def annotate_jargon(text, df):
 	found_jargon = {}  # Dictionary to hold jargon terms found in the text
 	for index, row in df.iterrows():
 		jargon = row['NAME']
-		description = row['DESCRIPTION'] if 'DESCRIPTION' in df.columns else f"a {row['jargon_type']}"
+		description = row['DESCRIPTION'] if 'DESCRIPTION' in df.columns and not pd.isna(row['DESCRIPTION']) and row['DESCRIPTION'].strip() != '' else f"a {row['jargon_type']}"
 		jargon_type = row['jargon_type']
 
 		# Don't mess me up if there is jargon inside jargon
 		pattern = r'\b' + re.escape(jargon) + r'\b'
 
 		# Check if the jargon is in the text
-		if re.search(pattern, text):
+		if re.search(pattern, text, re.IGNORECASE):
 			annotation = f"<{jargon_type}>{jargon}</{jargon_type}>"
 			# Replace only the specific instance of jargon in the text
-			text = re.sub(pattern, annotation, text)
+			text = re.sub(pattern, annotation, text, flags=re.IGNORECASE)
 			found_jargon[jargon] = description
 
 	return text, found_jargon
