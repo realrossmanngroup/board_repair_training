@@ -1,0 +1,218 @@
+[
+    {
+        "post_id":77496,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-07-08 06:49:17",
+        "message":"I have this board that was severely liquid damaged around U7800 and the trackpad connector was burnt. I replaced U7800 and the components around it and also had to dig out a short on PPBUS in the board by the trackpad connector. I cleared the short and replaced the trackpad connector and ran wires for all the broken traces on the trackpad connector. Now the board turns on and seem to work fine. I was able to install big sur on the internal SSD and was using it for a few hours without any issues. Then I turned it off and when I went to turn it back on again, it gave me a flashing folder icon. I turned it off an back on again and now this time it boots fine. It seems to randomly lose connection to the SSD now. Most of the time, it will boot fine, but sometimes it will give me a flashing folder when I turn it on. I checked J9600 and it did have some small amount of dirt on it. I cleaned it and replaced the plate, but same issue. I checked the voltages and I have all the correct voltages on pins 4, 6, 12, 14, and 44 of J9600 when the board boots to the SSD. When I get the flashing folder icon, I have all the voltages expect for pin 14 for SSD_CLKREQ_LB_L. That voltage is 0v when it gives me a flashing folder and then 3.3v when it works. That signal comes from U8605, so is it safe to assume that chip is faulty, or is there something else that could cause this like the SMC?"
+    },
+    {
+        "post_id":77504,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-08 10:33:46",
+        "message":"Are you sure about Clock Request signal?\nUsusally it is 0V (active low, as ended with _L) in working state."
+    },
+    {
+        "post_id":77509,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-07-08 12:04:48",
+        "message":"I double checked and yes it is 3.27v when the board boots to the internal SSD and then 0v when it boots to flashing folder icon. SSD_RESET_LB_L is 3.27v steady also and it has the _L on the end. I ran diagnostics and it only reports error PPF004, there may be an issue with the fan, but the fans seem fine. I have also noticed that when the battery is not connected, I cannot start the board using just a 87w charger. It will turn on and display a low battery symbol and then turn off. If I try it without the battery and use a 96w charger instead, it does turn on and boot using just that charger. I am pretty sure it should be able to turn on using the 87w charger only. All the other 15\" boards I have worked on turn on using the 87w. Also, I noticed I can get it to boot to the internal SSD every time if I disconnect it from power completely (disconnect both charger and battery) and then reconnect it to power. The first time it boots after that, it always works, then won't work if you reboot with power still connected."
+    },
+    {
+        "post_id":77510,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-07-08 14:27:37",
+        "message":"\"SSD_RESET_LB_L is 3.27v steady also and it has the _L on the end\"\nOf course, is also active low, so is disabled with 3V; didn't see anything working in reset mode, yet...\n\nI didn't check on this kind of board, just was thinking about airport cards, where clock CLKREQ_L drops to 0V when inserted.\nMaybe Apple continues to mess up with signal names; as in case of audio codec reset, for example.\n\nThere could be a problem withh SSD reset timing, if always works after removing power.\nCheck what happens if only reset SMC, without removing power."
+    },
+    {
+        "post_id":77511,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-07-08 15:51:59",
+        "message":"SMC reset does not seem to fix it, but randomly it will boot to the SSD if I keep turning it on and off."
+    },
+    {
+        "post_id":77712,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-07-14 18:49:37",
+        "message":"I replaced the SMC on this board, but same issue. I can get it to boot to the SSD and then it seems to work fine. If I leave it open and let it go to sleep, after only about a minute or so, the fans start to go slowly ramp up to max and then it shows me a flashing folder icon. If I hold the power button down and then restart it after this, it boots to the SSD fine again, with no issues. I checked HW Monitor and all the readings appear normal. Any idea what I should check next?"
+    },
+    {
+        "post_id":79839,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-05 09:28:17",
+        "message":"I put this board to the side to work on some other things, but now I am trying to fix this one again. I was comparing diode mode values on this board vs a good board and found that U4540, U3760, and U3770 were bad. I replaced those and now my diode mode reading match my good board and I seem to be able to reboot the board without any SSD issues now. The problem seems to be now when the computer goes to sleep. If I close the lid with it on, the fan will stop spinning after a few seconds, as if it is sleeping, but the amps on my USB meter are cycling from 0.03a up to 1.4a, as if it is rebooting itself. This is without the battery connected of course. If I open the screen again, it still shows me logged into my desktop, and does not go to the login screen like normal. If you leave it closed long enough, the fans will slowly start to speed up until they are at max and if you open the screen during this time, it will show a flashing folder icon. After I reboot it, it works fine again, with normal fan speed. What should I check for this kind of issue?"
+    },
+    {
+        "post_id":79840,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-05 09:54:59",
+        "message":"Check the three SMC_LID\/_LEFT\/RIGHt signals, when come back from sleep."
+    },
+    {
+        "post_id":79850,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-05 15:54:10",
+        "message":"Checked and they are all 3.4v when it comes back from sleep with the lid open. With lid closed SMC_LID is 0v."
+    },
+    {
+        "post_id":79851,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-05 16:36:36",
+        "message":"All three lid signals go to 0V once lid is closed?"
+    },
+    {
+        "post_id":79852,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-05 17:36:22",
+        "message":"Yes"
+    },
+    {
+        "post_id":79855,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-05 23:39:21",
+        "message":"Check if PM_SLP_S3_L goes low and stays at 0V (lid close)."
+    },
+    {
+        "post_id":79859,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-06 09:07:01",
+        "message":"Well when I have it on and I close the lid, the fans turn off after a few seconds and then they turn back on now and the board reboots itself with high fan spin and flashing folder. PM_SLP_S3_L seems to stay high the whole time."
+    },
+    {
+        "post_id":79863,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-06 11:09:48",
+        "message":"PM_SLP_S3_L doesn't drop at all, nor even when fan turns off?"
+    },
+    {
+        "post_id":79871,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-06 16:05:18",
+        "message":"Sorry yes it does drop when the fan turns off and then comes back right before they come on again. Sometimes when I close it, the fans turn off and then go back on right after and ramp up to high speed. Other times when I close it, the fans turn off and stay off, but the amps are jumping all over the place. All PM_SLP signals go high during this but do drop for a second when the board reboots itself. I even get a quick pulse on CPU_VCORE of 0.7v during this power cycle with the lid closed."
+    },
+    {
+        "post_id":79872,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-06 16:16:11",
+        "message":"Be sure all SMC_LID signals stay low when lid is closed.\n\nOnce looged into macOS, allow USB boot in security settings, then boot USB macOS; disconnect J9600, if needed.\nTry to discard internal SSD issue this way."
+    },
+    {
+        "post_id":79875,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-06 18:20:26",
+        "message":"All SMC_LID signals stay low when the lid is closed. I booted to a external USB drive and then I closed the lid and it does the same thing where the fans stop but power is still cycling. When you open the lid, the screen turns back on and shows the login screen, but fans still ramp up to max speed like it does with the internal SSD."
+    },
+    {
+        "post_id":79876,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-07 01:51:11",
+        "message":"If you can enter back to macOS with fans spinning high, check temps reported by HWMonitor.\n\nI suspect trackpad\/keyboard problem.\nThere should be something else damaged by corrosion on the connector areas.\nMay be even leakage between internal copper layers."
+    },
+    {
+        "post_id":80187,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-15 07:03:32",
+        "message":"Yea it would seem likely that there is something wrong with the trackpad, since that was where the original damage was, but I have checked all the pins on the connector and they match with a good board. Also checked the keyboard connector and that is good also. The whole computer works fine until you close the lid or let it go to sleep. When it reboots itself it always shows a flashing folder icon but then I can reboot back into the internal OS with the below KP report. I checked HWmonitor with my external SSD and all the temps seem to be normal even with the fans at max speed. I tried to boot this board in SMC bypass mode just for testing, but it refuses to start in SMC bypass mode and instead just boots normally every time. I know I am doing it right because it works on another board. Could there be an issue with the SMC?\n[ATTACH]60157[\/ATTACH]\n[ATTACH]60158[\/ATTACH]"
+    },
+    {
+        "post_id":80189,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-15 07:09:57",
+        "message":"Maybe keyboard problem.\nCheck if SMC_LSOC_RST_L drops when you do SMC reset key combination."
+    },
+    {
+        "post_id":80320,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-17 12:55:14",
+        "message":"I found the issue! It was a broken trace on PP1V8_SUS. I ran a wire to reconnect that and now everything seems to be working like it should. I will have to do some more testing though to make sure its 100% functional, but thanks for the help."
+    },
+    {
+        "post_id":80321,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-17 13:25:50",
+        "message":"Can you tell between which points did you run the wire?\nThis is something to save for tips & tricks library."
+    },
+    {
+        "post_id":80333,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2021-09-17 17:00:04",
+        "message":"I ran the wire from pin 1 of L1602, which is no stuff, to pin 1 of C8026. After a few hours of testing, all seem to working correctly now."
+    },
+    {
+        "post_id":80334,
+        "thread_id":61412,
+        "title":"820-00928 Intermittent SSD issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-17 17:56:32",
+        "message":"Thanks for feedback.\n1V8_SUS trace was probably broken somewhere near the PCH."
+    }
+]

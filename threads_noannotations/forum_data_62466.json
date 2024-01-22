@@ -1,0 +1,200 @@
+[
+    {
+        "post_id":87363,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-14 11:21:01",
+        "message":"Hi,\n\nI have an A1534 820-00687-A that doesn't  power on. On the ampmeter it puls 20.5V, but 0A. Already tried a new flex cable, but no success.\n\nI'm using one boardview and schematics of a 244 (not sure if this is OK, but don't have a 687)\n\nPPBUS_G3H = 8.68V\nPPBUS_S5_HS_COMPUTING_ISNS = 8.68V\nPPVBUS_LIO = 20.54V\nPP3V3R3V0_AON = 3.3V\nPPVRTC_G3H = 3.0V\nPP5V_G3H = 5.1V\nPP5V_S0 = 5.1V\nPP3V3_S5 = 3.3V\nPP3V3_S0 = 0V\nPP3V3_SUS = 0V\n\nOn PP3V3_S4, mesuaring on R7801 I only get 1.6V; On L4802, I only get 1.6V, and on pin 12 of U1900 I get 0V.\n\nCan you help?"
+    },
+    {
+        "post_id":87364,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-14 12:29:07",
+        "message":"I'n wondering how do you get 5V_S0 without 3V3_S0, nor even 3V3_SUS.\nRe-check your measurments..."
+    },
+    {
+        "post_id":87406,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-15 03:53:31",
+        "message":"Sorry, you're right.\nPP5V_S0 = 0V\n\nPP5V_S5 = 5.1V\nPP5V_S4 = 5.1V\n\nThe other mesuarements are correct."
+    },
+    {
+        "post_id":87415,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-15 06:02:54",
+        "message":"To enter S4 state, board must pass through SUS first.\nStill unclear ho do you get S4 voltage, but no 3V3_SUS.\nPM_SLP_SUS_L missing for sure?"
+    },
+    {
+        "post_id":87424,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-15 07:32:52",
+        "message":"Hi,\n\nUnless my schematics is wrong (I'm using a 244 board schematics), I think that I'm reading it corectly.\n\nI'm measuring  3V3_SUS  on C6100, and C6101, and I get 0V on both.\n\nPM_SLP_SUS_L on R1554 has 0V also.\n\nPP5V_S4 on R7100 has 5.1V\n\nPP3V3_S4  on L4802 has 1.7V"
+    },
+    {
+        "post_id":87437,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-15 10:33:33",
+        "message":"From schematic looks this board has different behavior for SUS state.\n\nIf you get 5V_S4, then 3V3_S4 must be present too; same enable signal is used for both rails.\nCheck diode mode to ground at 3V3_S4.\nIf good, then change U8200.\nBe sure to get 3V at its ON pin."
+    },
+    {
+        "post_id":87487,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-16 04:50:49",
+        "message":"diode on  3V3_S4  seams to be ok (0.491).\n\nDo you know if I can use a component from a 244 boarde, and witch one? I don't have any other 687, an I'm not identifying one on the 244 board..."
+    },
+    {
+        "post_id":87508,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-16 07:47:33",
+        "message":"Hi,\nDiode reading on 3V3_S4 is ok (0.491).\nI've replaced U8200 but no sucess. However, now on  3V3_S4 I have 2.83V.\n\nVoltages on U8200: I have PP3V3_S5 (3.3V), but on PM_SLP_S5_L (pin 6) I have 0.055V. Can it be U5000 or a bad U8200?"
+    },
+    {
+        "post_id":87516,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-16 09:16:56",
+        "message":"The same PM_SLP_S5_L is present at pin 4 of U7650.\nCheck for continuity."
+    },
+    {
+        "post_id":87523,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-16 09:54:59",
+        "message":"I don't have continuity from U8200 to U7650, but i have from U8200 to R8305 (pin 1), and I have from U7650 to R8305 (Pin 2).\n\nOn R8305 I read 9.96 kohm, but my schematic doesn't have R8305 (and I don't have other board to compare), and so I'm not sure if the value is the correct one. Do you think that it can be it?"
+    },
+    {
+        "post_id":87531,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-16 11:13:03",
+        "message":"Are you using 00244 schematic?\nI can't find R8305 there.\n\nYou must check continuity for PM_SLP_S5_L..."
+    },
+    {
+        "post_id":87536,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-16 11:45:35",
+        "message":"Hi, yes, I'm using 00244 schematic and boardview.\n\nI've checked continuity of PM_SLP_S5_L from U8200 to U7650, but it doesn't have continuity.\n\nThe schematic doesn't have it, but the boardview shows it (R8305)."
+    },
+    {
+        "post_id":87541,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-16 13:17:26",
+        "message":"What is the voltage on both pins of R\/D8305?"
+    },
+    {
+        "post_id":87566,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-17 04:24:52",
+        "message":"D8305 is a no stuf. However, on pads I have:\n1 = 0V\n2 = 0.034V\n\nR8305:\n1 = 0.034V\n2 =  0.053V"
+    },
+    {
+        "post_id":87567,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-17 04:37:50",
+        "message":"D8305 is a no stuf. However, on pads I have:\n1 = 0V\n2 = 0.034V\n\nR8305:\n1 = 0.034V\n2 =  0.053V"
+    },
+    {
+        "post_id":87573,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-17 06:05:04",
+        "message":"Then you don't have PM_SLP_S5_L.\nHow then do you get 5V_S4?\n\nPossible there are more differences between board and schematic.\nIf PM_SLP_S5_L is really present at U7650, then wire it to U8200."
+    },
+    {
+        "post_id":87580,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-17 08:22:33",
+        "message":"After replacing (twice) U8200, because I broked it, now I don't have PP5V_S4 (0V), neither PM_SLP_S5_L (0V), and only have 0.650V on 3V3_S4.\n\nI have  PP3V3_S5 (3.3V), and PP5V_S5 (5.0V)\n\nPP5VS4_EN pin 4 of U7650 has 0.054V\n\n3V3_SUS   = 0.003V\n\nPossiblly, the heat damage something else?"
+    },
+    {
+        "post_id":87583,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-17 09:18:51",
+        "message":"Did you get PM_SLP_S5_L present at U7650 for sure before?\nI suppose PCH problem; possibly affected by the heat now."
+    },
+    {
+        "post_id":87586,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-17 09:48:32",
+        "message":"I never had PM_SLP_S5_L on U7650. I had 5.1V on PP5V_S4, but I didn't measured it on U7650; I've used R7100 to measured PP5V_S4 , and I'm sure that there I had 5.1V.\n\nShall I try to replace U7650?"
+    },
+    {
+        "post_id":87587,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-17 10:12:02",
+        "message":"Why, if is not enabled?\n\nReally strange to got 5V_S4 before; U7650 requires high level at pin 4 for that."
+    },
+    {
+        "post_id":87589,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":25466,
+        "username":"hgoncalves",
+        "post_date":"2022-03-17 10:54:35",
+        "message":"I understood your point, but I'm not sure if I had it there before, because I didn't cheked. I suppose I had it.\n\nCan't it be U5000? R1553 should be 100k ohm (i think) but I'm reading a lot of oscilating values on it. Do you think that this can be related?"
+    },
+    {
+        "post_id":87593,
+        "thread_id":62466,
+        "title":"A1534 820-00687-A no power on",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-17 12:55:04",
+        "message":"PCH is the one in charge to release PM_SLP_Sx_L signals.\nOf course, it requires some other previous signals; like RTC and S5 power."
+    }
+]

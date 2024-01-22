@@ -1,0 +1,200 @@
+[
+    {
+        "post_id":52995,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-04 19:37:29",
+        "message":"Hi:\nI have a peculiar issue with the 820-2838 board display working but no backlight due to missing LCD_BKLT_EN & BKLT_PLT_RST_L. On investigating I find that PCIE_RESET_L is also low.\n\nApparently the missing signals is what's causing Q9806 not to turn on although the booster circuit seems to be working fine because shorting 4 & 5 on Q9806 brings back backlight.\n\nWill appreciate any help on the missing signals.\nRegards."
+    },
+    {
+        "post_id":53000,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-05 01:57:42",
+        "message":"\"I find that PCIE_RESET_L is also low\"\nNone of PCI-Express devices can work in this case.\nVery strange to get image.\nYou may have corroded\/broken trace for PCIE_RESET_L somewhere.\nCheck presence of AP_RESET_L and PCA9557D_RESET_L."
+    },
+    {
+        "post_id":53004,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-05 08:37:23",
+        "message":"AP_RESET_L and PCA9557D_RESET_L both are low but not shorted to ground.\nImage on internal LCD as well as on external monitor through Mini DP Port!\n\nEverything seems fine except no backlight due to missing LCD_BKLT_EN & BKLT_PLT_RST_L.\n\nplease advise."
+    },
+    {
+        "post_id":53005,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-05 08:56:14",
+        "message":"The board is not water damaged and traces seem OK under scope. Problem appeared by flickering and dead backlight and after 5 seconds. LCD good and fuse OK."
+    },
+    {
+        "post_id":53006,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-05 09:06:16",
+        "message":"Remove (one by one) R2891\/93\/94\/95.\nCheck if in any moment PCI_RESET_L goes high."
+    },
+    {
+        "post_id":53013,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-05 10:27:58",
+        "message":"Removing R2891 (for PCA9557D_RESET_L) takes the PCI_RESET_L to 1.4 V.\nA. It is normal?\nB.  LCD_BKLT_EN still low.\n\nR2891 removal leads to another problem of why PCA9557D_RESET_L is 0V and pulling down PCI_RESET_L!"
+    },
+    {
+        "post_id":53021,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-05 14:23:59",
+        "message":"PCI_RESET_L should be 3.3V.\nDid you remove al the resistors?"
+    },
+    {
+        "post_id":53117,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 04:18:12",
+        "message":"Sorry for the delayed response!\nyes I did remove all one by one with no change in each step. Voltage on PCI_RESET_L remains as 1.4-1.55V (of course this measurement is with LCD panel removed, which shouldn't impact PCI_RESET_L)\nAdditionally, PP3V3_S0_MCP_PLL_HVDD and PP1V05_S0_MCP_PLL_PEXSATA (both going to PCI Express section of U1400 are good and 3.3V and 1.05V respectively)\n\nStrangely Mini DP port is outputting image on external monitor despite PCI_RESET_L being down. \n\nHelp Please."
+    },
+    {
+        "post_id":53120,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 05:09:58",
+        "message":"Looks like MCP issue...\n\nRemove R1600 and check again PCI_RESET_L."
+    },
+    {
+        "post_id":53121,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 05:15:48",
+        "message":"Removing R1600 brings it to 3.2V. Replacing R1600 with a fresh one brings it back to 1.9V"
+    },
+    {
+        "post_id":53122,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 05:16:19",
+        "message":"Replaced R1600 with 22K as per schematic"
+    },
+    {
+        "post_id":53123,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 05:17:40",
+        "message":"R2891\/93\/94\/95. are still disconnected and if I remove r1600 then PCI_RESET_L. is 3.2V"
+    },
+    {
+        "post_id":53128,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 06:33:13",
+        "message":"Something wrong inside MCP.\nCheck if board works correctly without R1600, resoldering the other resistors.\nIf not, try replacing with 100-220K instead of 22K"
+    },
+    {
+        "post_id":53130,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 06:47:35",
+        "message":"Removing R1600 and replacing R2891\/93\/94\/95 restore PCIE_RESET_L to 3.2V. \n\nLCD_BKLT_EN is still low. Please advise how to diagnose and get it back to 3.2V..."
+    },
+    {
+        "post_id":53136,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 08:46:54",
+        "message":"So you get image for sure, only missing backlight?\nConfirm USB activity and external video..."
+    },
+    {
+        "post_id":53142,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 10:54:27",
+        "message":"I am currently testing the board without SSD and confirm getting the question mark folder on mDP as well as LCD. Replacing R1600 with 200K maintains 3.2V.\n\nFurther, removing R8910 (10K) from LCD_BKLT_EN results in 1.5V and triggers the no-load PPVOUT_SW_LCDBKLT to 39V.\n\nWill revert on USB and on-load Backlight once I replace the LCD panel as the backlight connector ir broken as hence the no-load test of PPVOUT_SW_LCDBKLT as 39V.\n\nThere seems to be something MYSTERIOUS going on as pull-down resistors to ground on both - the PCIE_RESET_L as well as LCD_BKLT_EN screw the signal which otherwise seems to jump back to normal (3.2V) in case of PCIE_RESET_L and partially (1.5V) in case of LCD_BKLT_EN with panel connected."
+    },
+    {
+        "post_id":53143,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 11:55:27",
+        "message":"39V means LED strip open.\nTest another compatible LCD assembly, if LCD connector already changed."
+    },
+    {
+        "post_id":53145,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 12:01:39",
+        "message":"LCD backlight working only with R8910 removed. Changing it from 10K to even 200K doesn?t pull up the backlight enable signal. Will test USB and SD\/ SSD and revert."
+    },
+    {
+        "post_id":53157,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 17:42:52",
+        "message":"I can't find R8910 in schematic..."
+    },
+    {
+        "post_id":53158,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-08 17:59:45",
+        "message":"Sorry, it?s 9810. Pull down for LCD_BKLT_EN before pin 5 of Q9807."
+    },
+    {
+        "post_id":53159,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-10-08 18:38:32",
+        "message":"BKLT_EN comes from MCP too, as PCI_RESET_L.\nDefinetely MCP issue then.\nBoth signals have weak pull-up inside MCP.\nShort pins 3\/4 of Q9807 (or leave R9810 out of board) and check if backlight goes off when close the lid."
+    },
+    {
+        "post_id":53172,
+        "thread_id":52995,
+        "title":"820-2838 Missing LCD_BKLT_EN & BKLT_PLT_RST_L",
+        "user_id":13813,
+        "username":"Kittu",
+        "post_date":"2019-10-09 09:02:43",
+        "message":"Removed R9810 to restore BKLT_EN and Replaced R1600 with 200K to maintain 3.2V. Subsequently,\n1. System booted with SSD\n2. Both USB ports worked\n3. Backlight sustains at full brightness and PPVOUT_SW_LCDBKLT measures 24V\n\nAs you rightly say, it seems to be a busted driver inside each of the two signals within MCP resulting in weak signal which is hampered by the pull-down resistors.\n\nSeems MCP survives for now!\n\nThank you so much for your guidance. Presume we can consider this post closed and issues resolved, albeit with a twist in the tale and new ways of reviving dead backlight signals from the MCP!\n\nCheers!"
+    }
+]

@@ -1,0 +1,110 @@
+[
+    {
+        "post_id":35576,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-07 07:52:27",
+        "message":"Hi Team\n\nI have a 820-3115 which had a lot of issues: No DCIN : fixed was Q7085 shorted to ground\nThen PPBUS_G3H shorted to ground, fixed was Q7030 and Q7035 shorted to ground\nNow the ISL doesn't turn it's pin 1 to ground to switch Q7085\nPP3V42: OK 3,47V\nPPBUS_G3H: 1,4V but slowly going to ground\nPin 2 PPCHGR_DCIN: fluctuating between 16,4V and 16,7V\nPin 3: OK 4V\nPin 14 CHGR_ACOK : 0V\nResistance 17\/18 OK: 3,3 Ohms 27\/28 20,2 Ohms\n\nNow I'm suspecting the ISL.\nIs there anything else to check before i replace the ISL\n\nthanks\n\nFinally I've replaced it and PPBUS_G3H is 12,56V\n\nNow I've a quarter fan spin.....let me go throught it and check which rail is missing"
+    },
+    {
+        "post_id":35592,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-07 17:29:16",
+        "message":"Here are my mesurements:\n\nPPBUS_G3H : 12,51\nPP3V42_G3H :3,471\nPPVRTC_G3H :3,326\n\n5V Rails:\n\nPP5V_S5 (PP5V_S5_LDO) : 4,997\nPP5V_SUS : 4,994\nPP5V_S3 : 0V\nP5V_3V3_SUS_EN : 3,326v\nSMC_BATLOW_L : 3,297V\nPM_SLP_SUS_L : 3,325v\nSMC_RESET_L : 3,437V\n\n3.3V Rails:\n\nPP3V3_S5 :3,326V\nPP3V3_S4 :0,6v BUT PULSE TO 3,3v\nPP3V3_SUS : 3,324v\nPP3V3_S3 : 0v BUT PULSE TO 3,3v\n\nU7200 VOLTAGES:\n\nP5VS3_ENTRIP: 0V\nP5V3V3_REG_EN: 3,453V\nP3V3S5_ENTRIP: 0,769V\n\n\nU1800 Level :\nPM_SLP_S4_L : PULSING TO 3,3v\nSYSCLK_CLK32K_RTC : 32KHZ OK\nPP3V3_ENET_SYSCLK : PULSING\nSMC_ADAPTER_EN: 3,436 OK\nPM_PCH_SYS_PWROK : 0V\n\nALL_SYS_PWRGD: Pulsing\nPP5V_S0: Pulsing\nR7402: OK\n\nPM_SLP_S3_L: Pulsing\n\nI've replaced C3898 it was bad looking and bad value (2,5uF vs 4,7uF) , also replaced R5481 and R5482.\nNow I'm suspecting U1800: corroded or bad\n\nCould you please give your feeling\n\nTHANKS"
+    },
+    {
+        "post_id":35593,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2018-06-07 17:34:43",
+        "message":"Still a short somewhere, maybe 3v3 or 5v rail, board is cycling...if you found all that other stuff damaged\/killed, this one might have several issues. Was this liquid or bad charger?"
+    },
+    {
+        "post_id":35605,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-07 19:30:20",
+        "message":"Was this liquid?"
+    },
+    {
+        "post_id":35621,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-08 00:14:49",
+        "message":"It look like that in fact it was liquid damaged"
+    },
+    {
+        "post_id":35622,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-08 01:05:10",
+        "message":"R5123 was missing : THAT FIXED THE QUARTER FAN SPIN, it's directly involved in the SPI Bus\nC1713 was also missing\nalso i didn't reported it, but i had 2 brokens traces around U7000 one in the R17\/18 loop and in the 27\/28 loop.\nNow had to put back every thing together to check if all the functions are fine."
+    },
+    {
+        "post_id":35675,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-11 06:26:19",
+        "message":"So here are the last news:\n\nWhen i've reassembled qll together, i had no chime, no display, fan increasing speed until it stoped, board overheating.\nThe overheqting was because U3890 was shorted to ground, i revomed it and continued my troubleshooting without it as it's used for the thunderbolt.\nat that point nothing overheating on the board but still same behavior regarding the fan ( increasing speed until it stops).\nall my main power rails looked OK, then i checked the voltages PPVCORE_S0_CPU and PPVCORE_S0_AXG both were 0V with low resistance to ground.\nI decided to remove R7510,R7520,R7550 and R7640 looking for a short to ground, nothing found but after replacing back all those 4 resistances the fan doesn't spin anymore but just a tiny pulse when the charger is plugged.\nso i went throught all the rails again and this is what i have:\n\nPPBUS_G3H : 12,56\nPP3V42_G3H :3,471\nPPVRTC_G3H :3,326\n\n5V Rails:\n\nPP5V_S5 (PP5V_S5_LDO) : 5,105\nPP5V_SUS : 5,102\nPP5V_S3 : 5,107V\nP5V_3V3_SUS_EN : 3,326v\nSMC_BATLOW_L : 3,296V\nPM_SLP_SUS_L : 3,325v\nSMC_RESET_L : 3,437V\n\n3.3V Rails:\n\nPP3V3_S5 :3,326V\nPP3V3_S4 :3,325v\nPP3V3_SUS : 3,323v\nPP3V3_S3 : 3,326v\nPP3V3_S0 :3,320v\n\nPP1V8_S0 : 1,798v\nPP1V5_S3_DDR : 1,506 v\n\n\nU7200 VOLTAGES:\n\nP5VS3_ENTRIP: 1,120V\nP5V3V3_REG_EN:3,453V\nP3V3S5_ENTRIP: 0,769V\n\n\nPM_SLP_S4_L :3,317v\nSYSCLK_CLK32K_RTC : 32KHZ OK \/ 0,417V\nPP3V3_ENET_SYSCLK : 3,314v\nSMC_ADAPTER_EN: 3,436 OK\nPM_PCH_SYS_PWROK : pulse to 0,49 then 0V\n\nALL_SYS_PWRGD: 0,020V\nPP5V_S0: 5,104V\nR7402: OK\n\nPM_SLP_S3_L: 3,306V\n\nPP1V5_S3_CPU_VCCDQ : 1,505v\nPP1V05_S0 : 0,014v with 54 ohms to ground when power and 4,5 Ohms to ground without power\nPPVCORE_S0_CPU : 0,001V with 5,9 ohms to ground with power and 2,1omhs without.\nPPVCORE_S0_AXG : 0,000v wtith 1,5 ohms to gound with power and 1,3 ohms without.\n\nWith R7640 Removed:\n\nNothing on pin1 of L7630 mesured also with the scope.\n\nU7600 VOLTAGES:\nCPUVCCIOS0_EN: 3,264V\nPP5V_S0_CPUVCCIOS0: 5,103v\nUGATE AND NGATE no signal on the scope except one pulse on UGATE\nU7600 replaced and still the same"
+    },
+    {
+        "post_id":35687,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-06-11 15:19:58",
+        "message":"You are in S0 state but missing PP1V05_S0.\nYou will not have all_sys_pwrgd without It. \n\nNot sure but it looks like you are measuring resistance with power applied.\n\nI don't have a board in front of me to compare but I think 4,5 ohms on the missing rail is low. If no short look around U7780 see if voltage rails on pin 3, 4 and 6 are present."
+    },
+    {
+        "post_id":35691,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-11 16:31:14",
+        "message":"Hi Jadao,\nthanks for your answer: apparently I have all the correct voltages around U7780, on pin 1 I have 1,057V, but if i mesure this rail around U5511 for example I mesure 0,020V.\nBut what you asking me to mesure is PP1V05_S0_LDO which is different from PP1V05_S0 see page 7. Am I wrong?\nAlso I'm mesuring 362Ohms between those \"2\" rails.\nI've noticed that i've forgot to put back R7640 sorry.\nNow it's done and the fan is spining but increases until it stops"
+    },
+    {
+        "post_id":35692,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2018-06-11 16:56:26",
+        "message":"Oh sorry,  scrap this,  nothing to do with pp1v05_S0_ldo!\nYour problem is PP1V05_S0. Make sure by comparing with another 3115 there is no short on this rail. I can check resistance for you tomorrow.\nQ7630 is suspect. There is low value resistors in U7600 circuit, check them to make sur all ok."
+    },
+    {
+        "post_id":35876,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":1464,
+        "username":"Bouba148",
+        "post_date":"2018-06-17 06:20:15",
+        "message":"HI Team,\n\nhere are the last voltages mesured for this board, after ultrasonic cleaner, fan progressively spin to max speed, board not getting hot, no chime, smc re heated with flux, no ALL_SYS_PWRGD, CPU and DDRVTT voltages:\n\nALL_SYS_PWRGD : 0v\nPP1V8_S0 : 1,802V\nPP1V5_S3_DDR : 1,506\nPP1V5_S0 : 1,516v\nPP0V75_S0_DDRVTT : 0v RESISTANCE TO GND 1,4KOHM\nPPVCCSA_S0_CPU : 0,904v\nPP1V05_SUS : 1,040v\nPP1V05_S0 : 1,056V\nPP1V05_S0_PCH_VCCADPLL : 1,059V\nPPVCORE_S0_CPU : 0V\nPPVCORE_S0_AXG : 0V\nPP1V5_S3_CPU_VCCDQ : 1,506V\nPP1V05_S0_CPU_VCCPQE : 1,056v\nPP1V8_S0_CPU_VCCPLL_R : 1,796V\n\nCan someone explain me how Q7510, Q7520, Q7550 and Q7560 are working please, i couldn't find the datasheet on google.\nShould i suspect the SMC?\n\nThanks"
+    },
+    {
+        "post_id":35913,
+        "thread_id":35576,
+        "title":"820-3115 no chgr_acok",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2018-06-18 13:01:38",
+        "message":"ALL_SYS is not present so there must be a rail missing. PPVCORE is not involved in this, once ALL_SYS comes high then you need to worry about PPVCORE. Check voltages at Q7950"
+    }
+]

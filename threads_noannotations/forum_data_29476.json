@@ -1,0 +1,155 @@
+[
+    {
+        "post_id":29476,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-16 17:08:21",
+        "message":"I get orange\/green light.  Board does not power on or fan spin.\n\nhad some small spots of corrosion - replaced r1517 and c2450\n\nPPBUS_G3H 8.4\nPPBUS_S5_HS_OTHER_ISNS 8.4\nPPBUS_S5_HS_COPMUTING_ISNS 8.4\nPPDCIN_G3H 16.07\nPP3V42_G3H 3.42\nPPVRTC_G3H 3.42\nPP5V_S0 - 0\nPP3V3_S5 0\nPPV3V_S0 0\nPP1V8_S0 0\nPP1V5_S0 0"
+    },
+    {
+        "post_id":29477,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-16 17:23:49",
+        "message":"You're probably missing SMC_PM_G2_EN\n\nVoltage of SMC_PM_G2_EN and SMC_BC_ACOK?\n\nI can't find R1517 on my schematic by the way"
+    },
+    {
+        "post_id":29531,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-18 09:45:34",
+        "message":"SMC_BC_ACOK - 3.394\nSMC_PM_G2_EN - 3.423\n\nand sorry...i meant R5017"
+    },
+    {
+        "post_id":29532,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-18 09:52:19",
+        "message":"I was rechecking work on the replaced caps and noticed this test point missing.  would this stop board from powering up?\n\n[ATTACH type=\"full\" width=\"60%\"]29533._xfImport[\/ATTACH]"
+    },
+    {
+        "post_id":29535,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-18 11:04:37",
+        "message":"No missing that test point would at best cause issues in S0, but you're not even fully getting into S5\n\nVoltage of PP5V_S5, P5VP3V3_VREG3 & P5VP3V3_VREF2?\nVoltage of P3V3S5_EN_R?\nVoltage of PPVIN_S5_P5VP3V3 probed at C7200?\nVoltage of Pin 12 of U7201? (Probed at the pin or otherwise as close as possible)\n\nI'm suspecting U7201 trouble"
+    },
+    {
+        "post_id":29542,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-18 12:12:19",
+        "message":"PP5V_S5 - 5.040\nP5VP3V3_VREG3 - 3.304\nP5VP3V3_VREF2 - 2.003\nP3V3S5_EN_R - 3.423\nC7200 - 8.4 (my does schematic not say PPVIN_S5_P5VP3V3.  it says PPBUS_S5_HS_OTHER_ISNS)\nPin 12 is P5V3V3_REG_EN - 3.422"
+    },
+    {
+        "post_id":29544,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-18 17:50:29",
+        "message":"R7206, R7216, R7238, R7246 and R7260\/61 within specifications?\n\nResistance to ground on PP3V3_S5 in Ohms?"
+    },
+    {
+        "post_id":29558,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-19 10:05:39",
+        "message":"r7206 - 247k\nr7216 - 1.248k ( this is off  will change)\nR7238 - 7.5\nR7246 - 1.250\nR7260 - 6.98 (this is off will change)\nR7261 - 7.00 (this is off will change)\n\nResistance to ground on PP3V3_S5 - .3-.4\n\nis it weird that so many resistors are bad?  just wondering before i replace them."
+    },
+    {
+        "post_id":29559,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-19 11:03:02",
+        "message":"[QUOTE=\"wirelessplanet, post: 29558\"]is it weird that so many resistors are bad? just wondering before i replace them.[\/QUOTE]\n\nThe resistors are all good, in almost all cases a resistor fails high resistance. The lower resistance measurements are simply because the electricity found a different way to flow\n\n\nThe resistance to ground on PP3V3_S5 is bad though, that shoudn't be so low.\n\nInject 1V into it and start with something like 2 Amps and increase after a while if nothing noticeable heats up. Only increase voltage if you're running into an amperage limit\nIts probably a capacitor or IC shorted somewhere, see what heats up. Use alcohol when you have found a spot that is somewhat hot, unless you want to make the same mistake as me by burning the tip of your finger on a shitty 0402 capacitor thats burning hot ;)"
+    },
+    {
+        "post_id":29564,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-19 11:30:57",
+        "message":"So i shouldn't replace them?\n\nr7216 should be 6.65k and i'm only getting 1.248\nr7260 should be 23.2 and i'm only getting 7\nr7261should be 10 and i'm only getting 7"
+    },
+    {
+        "post_id":29566,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":461,
+        "username":"Gurmon",
+        "post_date":"2017-12-19 11:35:26",
+        "message":"No, dont replace the resistors. Remove L7260, see which pad the short is on, and the inject power as Smiba has explained."
+    },
+    {
+        "post_id":29568,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-19 12:28:38",
+        "message":"so the power supply is maxing out at 1.5amps. c9487 is the only thing that gets slightly warm, not boiling hot. its showed a short on multimeter so i removed and short was still there. any other ideas?"
+    },
+    {
+        "post_id":29569,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-19 13:15:52",
+        "message":"so i tried with freeze test instead.  found the shorted cap.  c7290.  now i have fan spin."
+    },
+    {
+        "post_id":29571,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-19 13:42:07",
+        "message":"To battle the supply maxing out: increase the voltage, the maximum allowed in this case is 3.3V."
+    },
+    {
+        "post_id":29572,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-19 13:43:08",
+        "message":"Glad you resolved it!"
+    },
+    {
+        "post_id":29573,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":386,
+        "username":"wirelessplanet",
+        "post_date":"2017-12-19 13:44:13",
+        "message":"should i be worried about that missing testpoint?  computer turns on and works now."
+    },
+    {
+        "post_id":29574,
+        "thread_id":29476,
+        "title":"[SOLVED]820-3209-a No Power",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-12-19 13:53:59",
+        "message":"Unlikely, I think if the PCH was missing its DAC voltage the system woudn't work or at least not pass AHT. Should be alright :)"
+    }
+]

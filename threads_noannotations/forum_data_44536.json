@@ -1,0 +1,65 @@
+[
+    {
+        "post_id":44536,
+        "thread_id":44536,
+        "title":"820-00281 a1707 misbehaving. Strange DCIN and other pulsing rails",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2019-01-09 08:31:21",
+        "message":"820-00281 i fixed around 18 months ago for minor liquid damage has come back to me.\nI originally fixed the board by running pin 2 R4911 to Debug power button, at the time of doing this no schematics were available and pin 1 of R4911 was completely destroyed, so running to the debug power pads was the only option i had.\n\nIt has worked well since the above repair until now. Now it works however its not behaving like it should! When the charger is plugged in, sometimes DCIN pulses between 5V and 20V, this seems inconsistent, sometimes it will work for hours, sometimes it wont post.\n\nWhen running of the battery with a charger plugged in it behaves normally for a few hours and then goes into some sort of quarter fan spin pulse. Originally i suspected an issue with CD3215's however it seems to still be going into a quarter fan spin cycle with the charger unplugged. With the charger unplugged G3H remains constant and so does battery voltage, but everything S5 and beyond seems to pulse.\n\nI can recreate this fault without fail by trying to do a clean install on the device. \nDoes anyone know if when a CD3215 fails if the machine will run normally off the battery?\nOne thing ive noticed is that the battery cycles have not increase since the original repair around 18 months ago, suggesting it has been ran on its charger for almost its entire lifetime."
+    },
+    {
+        "post_id":44540,
+        "thread_id":44536,
+        "title":"820-00281 a1707 misbehaving. Strange DCIN and other pulsing rails",
+        "user_id":1153,
+        "username":"JohnB8812",
+        "post_date":"2019-01-09 09:35:49",
+        "message":"If any CD3215 fails, the machine won't power on. Was their liquid possibly near the ISL9239 by chance?"
+    },
+    {
+        "post_id":44541,
+        "thread_id":44536,
+        "title":"820-00281 a1707 misbehaving. Strange DCIN and other pulsing rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-01-09 11:56:30",
+        "message":"When you get it working, does it recognize the battery?\nDoes it always start in SMC bypass mode?\n\nCheck exact value for R7021\/22 and R7061\/62.\nPost voltage for SMC_DCIN_ISENSE and SMC_BMON_ISENSE when MLB doesn't start."
+    },
+    {
+        "post_id":44552,
+        "thread_id":44536,
+        "title":"820-00281 a1707 misbehaving. Strange DCIN and other pulsing rails",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2019-01-09 12:35:47",
+        "message":"[QUOTE=\"JohnB8812, post: 44540\"]If any CD3215 fails, the machine won't power on. Was their liquid possibly near the ISL9239 by chance?[\/QUOTE]\n\nNope, liquid was very localised to R4911 and the surrounding area, and extremely minor. You can only tell its ever been damaged if you really look hard for it."
+    },
+    {
+        "post_id":44554,
+        "thread_id":44536,
+        "title":"820-00281 a1707 misbehaving. Strange DCIN and other pulsing rails",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2019-01-09 12:39:12",
+        "message":"[QUOTE=\"2informaticos, post: 44541\"]When you get it working, does it recognize the battery?\nDoes it always start in SMC bypass mode?\n\nCheck exact value for R7021\/22 and R7061\/62.\nPost voltage for SMC_DCIN_ISENSE and SMC_BMON_ISENSE when MLB doesn't start.[\/QUOTE]\n\nWhen it is running it is recognising and charging the battery.\nIt does starts normally (not in SMC bypass). Since the original repair i have removed my wire from debug power button and replaced r4911 wiring it to the correct net, so this board can now be treated as unmodified.\n\nI will check exact value of the resistors, and the voltages tomorrow when i am back in work.\nThanks"
+    },
+    {
+        "post_id":44911,
+        "thread_id":44536,
+        "title":"820-00281 a1707 misbehaving. Strange DCIN and other pulsing rails",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2019-01-17 05:40:07",
+        "message":"R7021\/22 and R7061\/62 All measure perfectly (1ohm) each\nI have been able to get it into its failure mode. When this happens all power rails other than CPU-Vcore pulse. I belive it is caused by some USB C charging issue maybe. This is because in its failure state DCIN seems to be wrong (pulsing 1.7V at r7020). If i reseat the charger it seems to start working again.\n\nSMC_BMON_ISENSE remains 0V (batt plugged in)\nSMC_DCIN_ISENSE pulses to around 0.3V.\nThanks"
+    },
+    {
+        "post_id":45036,
+        "thread_id":44536,
+        "title":"820-00281 a1707 misbehaving. Strange DCIN and other pulsing rails",
+        "user_id":468,
+        "username":"ALB-Repairs",
+        "post_date":"2019-01-21 01:18:16",
+        "message":"Replaced all 4 CD3215's with no improvement.\nI am confused because something is causing the CD3215's to not communicate with the charger during its failed state. \nBecause PP3V3_G3H is not pulsing it leads me to believe a GPIO pin is causing the DCIN Rail to pulse. \n\nDoes anyone know of all the requirements for the DCIN rail to come high?. As i understand the CD3215's need to be present and communicate with there ROM chip via i2c, PP3v3_G3H is needed to power the CD3125's, PP3V3_UPC_TA_LDO is required from CD3215 to power the ROM chip. CC1 and CC2 select voltage from the charger.ect\n\nI am really confused by the DCIN rail pulsing, maybe a Reset signal is pulsing causing this?\nAny help would be awesome."
+    }
+]

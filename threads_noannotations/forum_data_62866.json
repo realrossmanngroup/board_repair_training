@@ -1,0 +1,74 @@
+[
+    {
+        "post_id":90828,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":39870,
+        "username":"KosBalint",
+        "post_date":"2022-07-07 01:56:05",
+        "message":"Hi, \n\nI've got an A2442 model which was previously liquid damaged. Liquid damage was only at the MagSafe side of the board, mostly around the SSD, and at the audio amplifyers. After cleaning the board with IPA, and an ultrasonic bath, almost everything was working fine, for a few months. The few not working functions were, the left side audio, the Touch ID sensor, and the 2.4GHz communications were realy slow (the Bluetooth and 2.4G wifi). This was fine with me I did'nt bother to fix these issues. \n\nUntil one day the laptop not allways charged from the MagSafe port, no green light either, but it was charging properly from the typeC ports. Then it started to drain the battery overnight, even in standby mode. And at one point, I even couldn't charge the device after this overnight drain. \n\nI opend the machine up again, to try to fix this power issue, but now I'm a little bit stuck. PPBUS_AON is fluctuating at around 6.9V, see on the image bellow:\n\n[ATTACH type=\"full\" width=\"435px\"]60682[\/ATTACH]\n\nPP3v8_AON tries to get up at 3.8 V, but at the valleies of the PPBUS_AON it fails and that voltage also drops, I assume the 3v8 line is created from PPBUS, so it could be OK. \nAlso PPDCIN_AON stays only at 5V. This is the same either with a MagSafe, or a TypeC port. \n\nI also found out that U7700 the PMIC is getting a little bit hot at the CPU side. Unfortionatly I don't have a thermal camera, so I only \"measured\" this with evaporating IPA.\n\nIn advance, I appreciate any help.\nB\u00e1lint Kosty\u00e1l"
+    },
+    {
+        "post_id":90829,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":39870,
+        "username":"KosBalint",
+        "post_date":"2022-07-07 02:04:31",
+        "message":"Also as far as I'm aware there's no boardview, or schematics available for this board. I use the 16\" modell's 820-02100 schematic and pdf \"board view\" found in other forum. That is mostly accurate, but at chip distribution sometimes I have to search hard to find them on my board :)"
+    },
+    {
+        "post_id":90834,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-07-07 06:03:57",
+        "message":"First of all, welcome to the forum!\n\nCheck if this helps you:\n[URL unfurl=\"true\"]https:\/\/repair.wiki\/w\/A2442_2021_14%22_MacBook_Pro[\/URL]"
+    },
+    {
+        "post_id":90837,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":39870,
+        "username":"KosBalint",
+        "post_date":"2022-07-07 06:22:22",
+        "message":"I tought I did this guid already, but I did it again anyway, and found out that PP3v8_AON is 0.052 in diode mode. Maybe something is shorting it to GND?\n\nThe other lines seens fine:\n\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]Diode Mode[\/TD]\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD]Required[\/TD]\n[TD]Measured[\/TD]\n[\/TR]\n[TR]\n[TD]PPDCIN_AON[\/TD]\n[TD]0.500[\/TD]\n[TD]0.544[\/TD]\n[\/TR]\n[TR]\n[TD]PPBUS_AON[\/TD]\n[TD]0.430[\/TD]\n[TD]0.477[\/TD]\n[\/TR]\n[TR]\n[TD]PP3v8_AON[\/TD]\n[TD]0.305[\/TD]\n[TD][B]0.052[\/B][\/TD]\n[\/TR]\n[TR]\n[TD]PP5v_S2_MAIN[\/TD]\n[TD]0.350[\/TD]\n[TD]0.366[\/TD]\n[\/TR]\n[\/TABLE]\n\nEdit:\n\nAlso PP3v8_AON has voltage on it when MagSafe is connected:\n\n[ATTACH type=\"full\" width=\"495px\"]60683[\/ATTACH]"
+    },
+    {
+        "post_id":90838,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-07-07 06:48:58",
+        "message":"May be accumulated crap under some BGA chips, or just corrosion advanced in time and damaged more components.\nCapacitors on AON power rails have always power and this make them sensitive to corrosion."
+    },
+    {
+        "post_id":91013,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":39870,
+        "username":"KosBalint",
+        "post_date":"2022-07-13 02:23:28",
+        "message":"I haven't had mutch time recently, but I resolderd a few BGA chips where the corrosions occured but none of them solved the issue. After this I looked around the PMIC, and I found out that a GND, and a PP3V8_AON_SPMU pin shorted together on the chip itself. I think this is totally unrelated to the liquid damage, as no sign of damage is present at that area. \n[ATTACH type=\"full\" width=\"444px\"]60688[\/ATTACH]\nBut with the removed PMIC the short on the PP3v8_AON is now gone. And I can measure the short on the PMIC.\nI tried to clean the IC with no success, so my only option now is to get my hand on one of this APL1098 PMIC. After a quick Google search I found out that the Iphone 13 Pro modell also uses this PMIC. \n\nDo you think is it feasible to get the PMIC from an Iphone or these are programmed or binded to the motherboard\/CPU?\nI currently do not have this Iphone board, so I can't just try it. Also I don't want to spend money on a board if it's clearly can't solve my issue."
+    },
+    {
+        "post_id":91014,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-07-13 02:47:45",
+        "message":"Not certain information for these new Apple boards.\nPMICs have GPIO pins; not sure if are the same for all models.\nAlso looks like AMUX and TDEV pins are platform dependant; check the top note on page 39 from 820-02100 schematic."
+    },
+    {
+        "post_id":91016,
+        "thread_id":62866,
+        "title":"A2442 820-02098-07 Liquid Damage, fluctuating PPBUS_AON",
+        "user_id":39870,
+        "username":"KosBalint",
+        "post_date":"2022-07-13 03:10:41",
+        "message":"Yeah I see. So now it looks like my only option is try to get a board exactly like this, because of this little chip. Nyeh that's gona be a challange.\nThanks for the help"
+    }
+]

@@ -1,0 +1,74 @@
+[
+    {
+        "post_id":88076,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":34050,
+        "username":"Mac Tech",
+        "post_date":"2022-03-29 09:59:17",
+        "message":"Hello, greetings to all.\n\nThis plate got liquid on it.\n\nThe problem is that it does not recognize the battery, it only turns on with the charger.\n\nWhen connecting the battery the voltage on ppbus_g3h is 12.28V.\n\nSDA line 0v\nSCL line 0v\n\nWhen only the charger is connected without the battery connected, the voltages return to 3.3v in both SDA and SCL.\n\nIt has already been tested with another battery and flex from another functional machine."
+    },
+    {
+        "post_id":88077,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-29 10:52:19",
+        "message":"\"When connecting the battery the voltage on ppbus_g3h is 12.28V.\"\nWhat about charger alone?\n\nCheck diode mode to ground at SCL\/SDA lines of battery bus."
+    },
+    {
+        "post_id":88081,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":34050,
+        "username":"Mac Tech",
+        "post_date":"2022-03-29 12:07:39",
+        "message":"that's right, 12.28V\n\ndiode mode\n\nSDA: 427\nSCL: 427\n\nWith charger PPBUS_G3H it is 13.04V\n\nSDA: 3.37V\nSCL: 3.37V\n\nWhen I connect the battery flex, the usb c meter restarts."
+    },
+    {
+        "post_id":88082,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-29 13:39:56",
+        "message":"Check resistance over C7020\/23 (ohm scale).\nAlso check SMC_DCIN\/BMON_ISENSE levels."
+    },
+    {
+        "post_id":88085,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":34050,
+        "username":"Mac Tech",
+        "post_date":"2022-03-29 14:15:08",
+        "message":"C7020 0.70M ohms on both sides\n\nC7023 starts to drop from 02.23M ohms to 00.69M ohms then rises to 200K ohms.\n\nSMC_DCIN_ISENSE 07.10M ohms\n\nSMC_BMON_ISENSE 08.10 M ohms"
+    },
+    {
+        "post_id":88088,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-29 17:26:45",
+        "message":"I asked about resistance over the caps; in other words, measuring BETWEEN their pins!\n\nChecking signal level, means its voltage..."
+    },
+    {
+        "post_id":88127,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":34050,
+        "username":"Mac Tech",
+        "post_date":"2022-03-30 10:45:31",
+        "message":"there is continuity between its lines.\n\nC7020 voltages is 13.04v on both sides.\n\nC7023 voltage is 14.77 on both sides."
+    },
+    {
+        "post_id":88129,
+        "thread_id":62538,
+        "title":"820-00875",
+        "user_id":34050,
+        "username":"Mac Tech",
+        "post_date":"2022-03-30 11:33:35",
+        "message":"resolved. I noticed that ppbus_g3h with the battery connected went to fuse F7000, that was fine.\n\nAnalyzing the i2c lines of the battery I see that they feed on pp3v3_g3h.\n\nThis voltage comes out of ic U6990.\n\nWhen I measure the input voltage which is PPVIN_G3H_P3V3G3H I see that there is no voltage.\n\nThis voltage comes from PPBUS_G3H which passes through a resistor R6905, which I measure and there is no PPBUS_G3H voltage, I see that the resistor is a little sulfated. I proceed to change it and find the solution.\n\nThnks!!! [USER=682]@2informaticos[\/USER]"
+    }
+]

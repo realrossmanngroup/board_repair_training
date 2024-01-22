@@ -1,0 +1,38 @@
+[
+    {
+        "post_id":100256,
+        "thread_id":64009,
+        "title":"820-01598 not detecting or running on battery after liquid ingress.",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2023-06-26 19:22:02",
+        "message":"Hi all.\n\nI'm working on a 820-01598 that had water damage.\nIt originally came in not turning on.\n\nThe only signs of corrosion was on the bottom side of the board.\nThere was a small amount of corrosion on the battery PCB,\nOn the logic board, there was a small amount of corrosion near F7000.\n\nI'll attach an image of the logic board.\nThe other areas that had corrosion do not seem to be related to the battery charging.\n\nI cleaned off the logic board and battery PCB and tested it.\nThe unit powered on and booted OK, however the battery reported 1% and failed to charge at all.\nIf I disconnected the USBC, it would immediately turn off.\n\nI shut it down, and tested with a new battery.\nThe unit powered on and was charging the battery - the charge increased from 70-80% while charging.\nThe System information correctly detected the battery, and said the new battery had a charge count of zero.\n\nI left the job on the bench last Friday.\n[B]This morning I again powered it on, and it doesn't detect the battery at all.[\/B]\n\nI tried PRAM\/SMC reset.\nI re-seated the battery.\nI tried with another new battery.\nNone of the new batteries detect, charge, or will run on the battery alone.\n\nI tested with USBC connected, with the customers genuine 3A charger, and a workshop 4A charger as well.\n\nF7000 is not shorted, reads 12.61v with USBC connected.\nOn the battery BMU Flex Solder Pads, PPVBAT_G3H_CONN also reads 12.61v.\n\nI don't think it is related, but near F7000, a zero ohm resistor, R6700, reads open resistance.\nIt measures 12.61v on pin1, PPBUS_G3H and 0v on Pin2, PPVIN_S4_TPAD_FUSE.\nThe location on the board for F6700, the TPAD Fuse, is not populated.\n\nI'm not sure where to start diagnosing this.\nI've had little experience with batteries in these units, usually once I can get them working they've charged and worked on battery fine.\n\nAny help greatly appreciated."
+    },
+    {
+        "post_id":100258,
+        "thread_id":64009,
+        "title":"820-01598 not detecting or running on battery after liquid ingress.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-06-27 02:13:21",
+        "message":"R6700 is not battery related.\nYou must resolder it anyway; PPBUS_G3H is needed by the trackpad actuator.\n\nFirst check SYS_DETECT and SYS_DETECT_L signals.\nWrong values may be caused by corroded R6956, or Q6955.\n\nD6950 is another suspect.\nCheck diode mode on SCL\/SDA lines before and after Q6950."
+    },
+    {
+        "post_id":100287,
+        "thread_id":64009,
+        "title":"820-01598 not detecting or running on battery after liquid ingress.",
+        "user_id":22870,
+        "username":"joshAU",
+        "post_date":"2023-06-27 21:05:46",
+        "message":"Hi 2informaticos.\nLong time no speak. :)\nThanks for your suggestions.\n\nSYS_DETECT 3.29v\nSYS_DETECT_L 0v\n\nR6956 is 10K ohm. 3.29v on both pins.\nQ6955 0v on pin3 (SYS_DETECT_L)\nQ6950:\nPin1 1.8v\nPin2 1.8v\nPin3 3.3v\nPin4 1.8v\nPin5 1.8v\nPin6 Fluctuates slightly between 3.24v and 3.29v\n\nDiode mode, red to ground:\nPin1 428\nPin2 -721 (beeps)\nPin3 431\nPin4 428\nPin5 -722 (beeps)\nPin6 431"
+    },
+    {
+        "post_id":100288,
+        "thread_id":64009,
+        "title":"820-01598 not detecting or running on battery after liquid ingress.",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-06-28 00:33:33",
+        "message":"I suspect corrosion between J6951 pins."
+    }
+]

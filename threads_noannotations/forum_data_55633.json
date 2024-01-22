@@ -1,0 +1,281 @@
+[
+    {
+        "post_id":55633,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-06 12:21:49",
+        "message":"Hello,\nSo, this is my first attempt at an Apple board repair.\nI have a defective board taken from an A1502 2013 13' Retina MBP.\n\nNo sign of liquid damage, no obviously burnt component. Overall board visually looks in very good shape.\n\nBoard gives a green and then orange light on the charger, but no fan spin.\n\nI have checked the power rails, and PPBUS_G3H is present at 12.58V\nAll S5 power rails are present and with good voltage\nNothing on S4 power rails.\n\nLooking at the power switching circuits, the Enable signals for PP5V_S4 and PP3V3_S4 are low.\nAccording to the schematic, they are driven by the PCH.\n\nNot quite sure where to look at from that point. I've seen people suggesting to look at RTC and SPI flash.\nI have a good 32Khz signal on PCH_CLK32K_RTCX1.\n\nI also looked at the SPI_CLK signal, and I can see pulses there when I apply power to the board, then a steady 3.3V\nOne thing I don't quite understand is who is driving this clock. Because on the schematic, there's two SPI masters on the bus - SMC and PCH, which seems weird to me.\n\nSo, this is where I am at. Hopefully the PCH is not dead. Any idea where to look at next ? Is it worth it dumping and\/or reflashing the ROM ?\n\nThanks in advance!"
+    },
+    {
+        "post_id":55638,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-06 17:21:03",
+        "message":"Try first to start in SMC bypass mode.\nIf nothing, post PM_BATLOW_L, PM_RSMRST_L, PM_PWRBTN_L and SMC_ONOFF_L levels."
+    },
+    {
+        "post_id":55665,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-07 12:59:00",
+        "message":"Hi,\n\nBoard won't start in SMC bypass mode.\n\nLevels are (with the board out of the machine, no battery plugged in):\nPM_BATLOW_L 3.33V\nPM_RSMRST_L 3.26V\nPM_PWRBTN_L 3.41V\nSMC_ONOFF_L 3.41V"
+    },
+    {
+        "post_id":55667,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-07 14:59:57",
+        "message":"Now trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L at same time."
+    },
+    {
+        "post_id":55688,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-08 10:36:50",
+        "message":"Yup, when I tie SMC_ONOFF_L to ground, I get 0V on PM_PWRBTN_L"
+    },
+    {
+        "post_id":55689,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-08 11:26:35",
+        "message":"OK then, all PM_SLP_Sx_L signals should pulse at same time, check that.\nAlso check for pulse at all big coils..."
+    },
+    {
+        "post_id":55693,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-08 13:48:42",
+        "message":"PM_SLP_S5_L, PM_SLP_S4_L and PM_SLP_S3_L all pulses from 0V to 3.3V when pulsing SMC_ONOFF_L\nPM_SLP_S0_L however is a little weirder. After connecting charger, I get a pulse from 0V to 3.3V but then it goes down to about 2V (with a lot of ripple, too). Then each time I pulse SMC_ONOFF_L, I see a pulse from this 2V to 3.3V and then back to 2V.\nI measured 120kOhms to ground on PM_SLP_S0_L, so the pull down resistor seems OK.\n\nAs for the coils, I can see permanent high frequency pulses on L7130, I can see pulses for a short time on L7520 when I pulse SMC_ON_OFF_L, nothing at all on L3905, continuous high frequency pulses on L7430, and nothing on L7310 and L7320. Hopefully I didn't miss any."
+    },
+    {
+        "post_id":55694,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-08 14:03:09",
+        "message":"So no pulse at all at VCORE.\nInspect for corrosion around U1950 and check if ALL_SYS_PWRGD pulses at same time with all PM_SLP_Sx_L signals.\nIgnore PM_SLP_S0_L, is not important now."
+    },
+    {
+        "post_id":55716,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-09 12:07:02",
+        "message":"No signs of corrosion around U1950.\nNothing on ALL_SYS_PWRGD. Remains at 0V even when I pulse SMC_ONOFF_L\n\nLooking at the schematic and ISL88042 datasheet, ALL_SYS_PWRGD will be pulled to ground until all 4 S0 rails are good. But my S0 rails (actually all rails from S4 and down) don't turn on, so I shouldn't be seeing any pulse on ALL_SYS_PWRGD, right ?"
+    },
+    {
+        "post_id":55717,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-09 15:30:28",
+        "message":"If PM_SLP_S3_L pulses, some S0 voltages (controlled by it) should pulse too; check corresponding coils..."
+    },
+    {
+        "post_id":55737,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-10 13:25:18",
+        "message":"So I checked PP1V05_S0, PP1V5_S0, PP3V3_S0 and PP5V_S0 and I get a pulse on all of them whenever I connect charger, or pulse SMC_ONOFF_L.\nSpecial thing on PP3V3_S0 though, it actually never gives 0V. Averages at 1.94V and pulses to 3V3 when I pulse SMC_ONOFF_L"
+    },
+    {
+        "post_id":55741,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-10 16:41:44",
+        "message":"Check for pulse at pins 7 & 3 of U1950."
+    },
+    {
+        "post_id":55748,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-11 01:11:10",
+        "message":"I get a pulse on pin 7, but not on pin 3.\nSo, I checked the other input of the AND gate on pin 6 (SMC_DELAYED_PWRGD) and no pulse there. SMC_DELAYED_PWRGD is not shorted to ground."
+    },
+    {
+        "post_id":55749,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-11 02:32:36",
+        "message":"SMC_DELAYED_PWRGD appears after VCORE.\n\n\"Nothing on ALL_SYS_PWRGD. Remains at 0V even when I pulse SMC_ONOFF_L\"\nYou cannot get pulse at pin 7 of U1950 if no pulse at ALL_SYS_PWRGD.\nPlease post correct information.\n\nCheck for pulse and short at all Power FETs from page 60.\nPay atention to C6412\/22\/32\/42."
+    },
+    {
+        "post_id":55752,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-11 03:59:20",
+        "message":"So U8050 doesn't give me a pulse on the output. But the enable signal from the SMC also doesn't pulse.\n\nMore interesting, I think, is on U8005. I do see a pulse out of it, but only about half a volt, instead of 1.05. I measure 175 Ohms to ground on PP1V05_S0SW_PCH_HSIO so it looks like this is where I have a short to ground, right ?\n\nAnd yeah, I re-probed ALL_SYS_PWRGD for pulses and I get them. I must have probed wrong last time, sorry about that..."
+    },
+    {
+        "post_id":55755,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-11 06:26:42",
+        "message":"\"More interesting, I think, is on U8005. I do see a pulse out of it, but only about half a volt, instead of 1.05\"\nIs not easy to catch the peak pulse with multimeter.\nAn o-scope helps in such case.\n\n\"I measure 175 Ohms to ground on PP1V05_S0SW_PCH_HSIO so it looks like this is where I have a short to ground\"\nDoesn't look like short; compare with similar working board.\n\nDid you check 4V5 and 5V power rails from audio area?"
+    },
+    {
+        "post_id":55758,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-11 09:45:12",
+        "message":"Yeah, I'm already doing those measurements with a scope, not a multimeter. So I'm 100% sure that the pulse out of U8005 is only 0.5V, not 1.05V.\nUnfortunately I do not have another working board I can compare this to, but on all other power rails, I'm at least in the range of kilo-ohms, if not meg-ohms to ground, which is why I'm surprised by this 175 Ohms here.\n\nI just checked PP4V5_AUDIO_ANALOG, PP5V_S0_AUDIO_AMP_R and PP5V_S0_AUDIO_AMP_L and all three are pulsing."
+    },
+    {
+        "post_id":55761,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-11 11:30:36",
+        "message":"That is PCH power rail, so could have lower value than other rails.\nWhat happens if you start without U8005?"
+    },
+    {
+        "post_id":55762,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-11 12:55:49",
+        "message":"I desoldered U8005. Still no fan spin when connecting charger. Anything specific I should look at now that the chip is off the board ?"
+    },
+    {
+        "post_id":55765,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-11 16:17:39",
+        "message":"Check if other voltages are steady now..."
+    },
+    {
+        "post_id":55766,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-12 06:39:10",
+        "message":"Looks like there's a bit of change now.\n\nPP5V_S5 steady\nPP5V_S4 pulses\nPP5V_S0 pulses\nPP4V5_AUDIO_ANALOG pulses\nPP3V42_G3H steady\nPP3V3_S5 steady\nPP3V3_S4 pulses\nPP3V3_S3 pulses\nPP3V3_S0 steady (That one used to have 2V between pulses, and pulses to 3.3V now this one works at 3.3V permanently)\nPP1V5_S0 pulses\nPP1V05_S0 pulses\n\n\nAlso I now get a pulse on L7310 and L7320"
+    },
+    {
+        "post_id":55767,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-01-12 08:24:23",
+        "message":"Replace U8005.\nIf still the same, probably bad PCH..."
+    },
+    {
+        "post_id":55789,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-01-14 13:11:52",
+        "message":"Allright. Thanks for all the help so far. I'll need to source U8005 and it will probably take me some time. Will update you once I have a new chip soldered. Hopefully it's not the PCH, fingers crossed (although I don't have much hope anymore)"
+    },
+    {
+        "post_id":57421,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-03-11 12:07:39",
+        "message":"Allright, coming back to this board. Sorry for the long delay.\nI did replace U8005, and no luck. I still don't get the PM_PCH_PWROK and PM_PCH_SYS_PWROK signals from those two logic gates.\nI saw a video where Louis \"sodomized\" a board of the same type, and where he removed U8005 and put jumper wires directly between PP3V42_G3H and those two signals. I tried that too. The board doesn't boot.\nAs a last attempt, I removed the ROM flash in order to reprogram it with a clean ME dump. It appears that the fan spins while the ROM is off the board, but well, without a firmware, it doesn't mean it actually boots.\nAfter I solder the ROM back on the board, after reflash, the board still doesn't start. It draws 20mA from the power supply, and every 5 seconds or so, spikes to around 160mA for a very short time and goes back down. So it tries to boot, but fails.\nIs this time for me to call this a donor board ?"
+    },
+    {
+        "post_id":57424,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-11 12:41:14",
+        "message":"What about U1950 pins?"
+    },
+    {
+        "post_id":57428,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-03-11 13:54:35",
+        "message":"Oh sorry, I must be tired.\nI actually meant U1950.\nI did replace U8005 as you suggested, and that didn't help.\nThen, since I saw no PM_PCH_PWROK and no PM_PCH_SYS_PWROK on U1950, I removed it and bypassed it with a juper wire to \"force\" PRWOK signals (since all my power rails actually look good when they pulse. I was kinda thinking that maybe the circuit that checks the power rails is bad, and so the system turns the rails on, sees that PWROK signals don't come up, so system turns all rails off right away, and then tries again 5 seconds later. Is that what would happen if the voltage sensing stuff around Q8150 doesn't work properly ?)."
+    },
+    {
+        "post_id":57429,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-11 14:24:39",
+        "message":"Put back (good) U1950 and post its voltages (or pulses)..."
+    },
+    {
+        "post_id":57464,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-03-12 10:42:36",
+        "message":"Pin 2 - CPUVR_PGOOD_R: 1.9V\nPin 8 - PP3V42_G3H: 3.42V\nAll other pins read 0V\n\nWith that chip back on the board, instead of the bypass wires, the board doesn't try to start anymore. I have a steady 0.025A current reading on my power supply, no more spikes to 160mA every 5 seconds like I had when I forced the PWROK signals high."
+    },
+    {
+        "post_id":57465,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-12 13:19:18",
+        "message":"\"With that chip back on the board\"\nDo you mean U8005, or U1950?\n\nNo pulse at all at pin 7 of U1950, when you get pulse at PM_SLP_Sx_L signals?"
+    },
+    {
+        "post_id":57468,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":21359,
+        "username":"Fanfwe",
+        "post_date":"2020-03-12 14:53:11",
+        "message":"I mean with U1950 back on the board. (And it's a good one for sure, I have tried it on another board right before)\nNo, I don't have a pulse on PM_SLP_Sx_L signals anymore. I don't see the board trying to start anymore. It draws 25mA and that's all.\nAll I have is the G3H and the S5 rails. Other stuff doesn't even pulse."
+    },
+    {
+        "post_id":57475,
+        "thread_id":55633,
+        "title":"820-476-A no fan spin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-03-12 17:50:30",
+        "message":"No pulse for sure when you trigger SMC_ONOFF_L to ground?\nIf you get pulses w\/o U1950, you must get them w\/ it too.\nUse an o-scope, helps to catch fast pulse."
+    }
+]

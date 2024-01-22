@@ -1,0 +1,110 @@
+[
+    {
+        "post_id":80098,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":136,
+        "username":"george-a",
+        "post_date":"2021-09-13 03:33:53",
+        "message":"Hi guys,\n\nlittle water damage at CD3217 closest to the hall sensor on the side where there are 2x CD3217s together. \n\nCleaned and removed the chip to find out that 3rd ball from the top left (ball 48?) is short to ground (had to remove the other CD3217 to double check although I could also see corresponding the pull-up resistor - no short there). \n\nThis signal according to other schematics (820-01700) is TBT_T_CIO_PWR_EN and in 820-01949 is connected using a 10k resistor to 3.3V_LDO. Also in 820-01949 this signal seems to be independent for all CD3217s while in 820-01700 it is shared for each CD3217 pair and doesn't seem to have a pull-up to LDO.\n\nI assume TBT_T_CIO_PWR_EN is the same pad for all CD3217s in all motherboards.\n\n5V\/0.275A at USB-C meter.\n\nAny ideas?\n\n[ATTACH]60156[\/ATTACH]"
+    },
+    {
+        "post_id":80103,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-13 06:03:56",
+        "message":"\"I assume TBT_T_CIO_PWR_EN is the same pad for all CD3217s in all motherboards.\"\nThis line comes from a GPIO pad, so is firmware dependant.\nIf the chips have the same marking code termination, shouldn't have any difference.\nPossibly all the boards use the same pad for this function; can be confirmed 100% with schematic only.\n\nTo correctly identify the pads from your board, compare with other board which use the same CD3217 chip.\nThis way avoid any firmware dependency issue."
+    },
+    {
+        "post_id":80138,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":136,
+        "username":"george-a",
+        "post_date":"2021-09-14 05:24:50",
+        "message":"I used 820-01700 as a reference exactly because it has CD3217s - I didn't know TBT_T_CIO_PWR_EN is firmware depended but I assumed its the same in all motherboards that use that chip. \n\nQuestion is if this signal is shorted on one CD3217 does that mean that the PCH or something else on that line is toast? can you suggest other boards that have CD3217 so I could double (triple) check? What is the closest schematic for 820-01949?"
+    },
+    {
+        "post_id":80147,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-14 11:36:23",
+        "message":"Didn't work on such board yet..."
+    },
+    {
+        "post_id":80275,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":136,
+        "username":"george-a",
+        "post_date":"2021-09-17 02:59:55",
+        "message":"OK I used the thermal camera to detect the partial short of 0.09A of pad 48. It was the Intel Retimer JHL8040R (every CD3217 has one JHL8040R companion), and when removed the short cleared. I soldered back the second CD3217 (good one) I removed at the beginning to take comparison measurements and left out the LD CD3217 and of course the shorted Intel JHL8040R hoping that the board can start or reach 20V without thise. Unfortunately the board keeps going to 5V\/0.280A and at this point with the thermal camera I also noticed the T2 gets a bit warm. Not sure if thats normal or T2 is toast and thus game over. See attached pics:\n\n[ATTACH]60165[\/ATTACH][ATTACH]60166[\/ATTACH][ATTACH]60167[\/ATTACH][ATTACH]60168[\/ATTACH]"
+    },
+    {
+        "post_id":80286,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-17 06:36:26",
+        "message":"Very likely damaged T2..."
+    },
+    {
+        "post_id":80362,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":136,
+        "username":"george-a",
+        "post_date":"2021-09-20 01:50:00",
+        "message":"ok now that schematics are out the shorted signal (pad48) of U3100_X was I2C_UPC_X_INTM_L which routes to pad10 of U2800_X (intel tb retimer).. when I removed U2800 the short cleared but I see that this IC is on two data buses (as shown in pic) - could this lead to T2 damage? --there were no other liquid spots on the motherboard.\n\nany other reasons T2 could give out some heat? ie performing some normal operation before we see 20V on charger?\n\n[ATTACH]60173[\/ATTACH]"
+    },
+    {
+        "post_id":80371,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-20 08:04:58",
+        "message":"A good communication is required between T2 and CD3215 chips, to allow 20V on input.\nDid you test the board after removing U2800?"
+    },
+    {
+        "post_id":80405,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":136,
+        "username":"george-a",
+        "post_date":"2021-09-21 04:29:56",
+        "message":"yes I tested the board with same results -> 5V\/0.280A\n\nIll replace U2800 and check again - waiting for parts."
+    },
+    {
+        "post_id":80678,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":136,
+        "username":"george-a",
+        "post_date":"2021-09-28 02:05:10",
+        "message":"ok I received today the U2800(_X) and replaced the CD3217 that was corroded and voila!\n\n[ATTACH]60188[\/ATTACH][ATTACH]60189[\/ATTACH][ATTACH]60190[\/ATTACH]"
+    },
+    {
+        "post_id":80679,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-09-28 03:40:57",
+        "message":"Thanks for feedback.\n\nDid you try before soldering U2800 (after replacing corroded CD3217)?"
+    },
+    {
+        "post_id":80821,
+        "thread_id":61702,
+        "title":"820-01949 LD at left side (dual CD3217 next to each other)",
+        "user_id":136,
+        "username":"george-a",
+        "post_date":"2021-10-01 06:40:44",
+        "message":"I soldered U2800 first.. then CD3217 ...also someone bought all  JHL8040R from Mouser :D :D"
+    }
+]

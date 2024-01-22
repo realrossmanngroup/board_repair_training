@@ -1,0 +1,173 @@
+[
+    {
+        "post_id":93237,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-13 07:15:38",
+        "message":"Hello, my customer brught me a Macbook A1466 which has a board number 820-3209.\n\nI have changed the all parts which had corrosion. And we have bought a new I\/O board for the device. When we put the board into the case and connect everything we saw that the fan starts for a second then goes off and device too.\n\nThen we took the board out from the case and put the charger on again under the thermal camera, and found out that Q7080 is flashing under the thermal. \n\nThought that it might be charger problem and tried another one but the problem is still same. \n\nAny ideas about what it could be ?"
+    },
+    {
+        "post_id":93238,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-13 07:51:14",
+        "message":"You didn't mentione any board voltage, or signal.\nNo idea if you get Magsafe light at least.\n\nTo discard Q7080 leakage, test the board using lab PSU, or fake charger."
+    },
+    {
+        "post_id":93240,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-13 08:03:27",
+        "message":"First of all sorry for the empty post.\n\nI get orange magsafe light on for a while then in 3 or 4 seconds it goes slowly down. I found out that on Q7630 I can read the 8.4V on 1st and 2nd leg. But on other legs the voltage jumps from 0.00 to different voltages on each leg.\n\nI dont know where else I need to start to  look at it to be honest."
+    },
+    {
+        "post_id":93248,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-13 14:00:43",
+        "message":"No idea how did you arrive to Q7630.\n\nWhat about 3V42_G3H and PPBUS_G3H voltage at F7040 (without battery connected)?\nCheck when Magsafe light disappears too."
+    },
+    {
+        "post_id":93259,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-14 01:26:39",
+        "message":"As Im always saying that Im a learner. I have found out that I forgot the put the flex cable from I\/O board to mainboard. Now the magsafe lights are on always and it is orange. \n\n PPBUS_G3H = 8.39V\n3V42_G3H = 3.43V"
+    },
+    {
+        "post_id":93260,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-14 02:19:40",
+        "message":"Post 3V3_S5\/SUS, PM_BATLOW_L, SMC_PM_G2_EN, SMC_ADAPTER_EN, PM_DSW_PWRGD, PCH_DSWVRMEN and the 4 PCH's RTC (DC) signals.\nIf all present, trigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L, at same time."
+    },
+    {
+        "post_id":93267,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-14 03:43:59",
+        "message":"I couldn't find the  3V3_S5\/SUS  line and is 4PCH's RTC signals are from:\n\nPPVRTC_G3H, PPVOUT_G3_PCH_DCPRTC, RTC_RESET_L, PCH_SRTCRST_L these ones you want me to check signals as 4 PCH's RTC?\n\nPM_BATLOW_L = 3.33V\nSMC_PM_G2_EN = 3.43V\nSMC_ADAPTER_EN = 3.4V\nPM_DSW_PWRGD = 3.43V\nPCH_DSWVRMEN = 3.32V\n\nAnd normally I have 3.4V steady on  PM_PWRBTN_L but when we trigger  SMC_ONOFF_L  it goes down to 0.35V and stays there. When we leave it it goes back to 3.4V again."
+    },
+    {
+        "post_id":93268,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-14 03:50:12",
+        "message":"\"I couldn't find the  3V3_S5\/SUS  line\"\nOf course, there is no LINE; I mentioned two LINES.\nWe use such notation since years here; guess what means, please.\n\nIf you detected the drop pulse on PM_PWRBTN_L, then check for pulse at PM_SLP_S4_L, at same time.\nUse SMC_ONOFF_L pads to simulate power button, not keeping the line down."
+    },
+    {
+        "post_id":93271,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-14 03:59:08",
+        "message":"PM_SLP_S4_L on this line without trigger way there is always a pulse from 0.00V to 3.4V but nothing effecting when we trigger the SMC_ONOFF\n3V3_S5 =3.3V\n3V3_SUS = 3.3V too"
+    },
+    {
+        "post_id":93276,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-14 06:44:30",
+        "message":"PM_SLP_S4_L pulsing every 5s, or how.\nWhen it pulse, you should also catch a pulse at 5V coil, at least."
+    },
+    {
+        "post_id":93281,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-14 08:02:08",
+        "message":"I catched it from L5750 and yes it is definitely every 5 sec goes up to 5V and back to around 0"
+    },
+    {
+        "post_id":93282,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-14 08:09:38",
+        "message":"Then check if other big coils pulse in same manner.\nI was thinking about L7270.\nL5750 receives 5V_S0, so you should get pulse on many more coils.\nPay atention to L7510\/50.\n\nCheck what happens in SMC bypass mode."
+    },
+    {
+        "post_id":93283,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-14 08:13:06",
+        "message":"I got no V on L7510 and L7550 if you meant so and unfortunately I can't see any L7270 on the boardview.\nI think you meant L7220 it is same with L5750 pulse 5V every 5 sec"
+    },
+    {
+        "post_id":93285,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-14 08:16:01",
+        "message":"Sorry, L7220...\n\nSo no pulse at all at CPU coils?\nCheck all other coils..."
+    },
+    {
+        "post_id":93286,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-14 08:29:19",
+        "message":"No pulse on L7630\nPulse on L7330\nPulse on L7100\nPulse on L7030\npulse between 1V - 2V on L3895\nPulse on L7720\nPulse between 3V - 4.8V on L4605"
+    },
+    {
+        "post_id":93290,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-14 10:07:43",
+        "message":"\"Check what happens in SMC bypass mode.\"\n???"
+    },
+    {
+        "post_id":93319,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-15 06:22:21",
+        "message":"Please dont be mad with me :) What is smc bypass mode and how can I do it?"
+    },
+    {
+        "post_id":93321,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-10-15 07:15:31",
+        "message":"[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/how-to-collection.60974\/[\/URL]"
+    },
+    {
+        "post_id":93331,
+        "thread_id":63177,
+        "title":"820-3209 Turn On Problem After Liquid Spilled",
+        "user_id":37634,
+        "username":"MeTech Turkey",
+        "post_date":"2022-10-16 09:32:15",
+        "message":"Nothing happened on smc bypass :( but want to double check it on monday again"
+    }
+]

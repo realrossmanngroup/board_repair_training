@@ -1,0 +1,389 @@
+[
+    {
+        "post_id":1909,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-23 00:09:28",
+        "message":"I am not getting a green light on the charger but I am getting 16.7 on ppdcin_g3h and 3.37v on pp3v42_g3h.\nR7101 is showing 0.48v on pin 1  and 1.4v on pin 2. There is suppose to be 5v on the VDD pins in order to turn on U7100(ISL6259) so I troubleshooted to the U7190 area since that is where PP5V1_CHGR_VDDP is created.\n\nI replaced U7190 with one from a donor board.\n\nHere are some of the measurements I got from the U7190 area.\n\nU7190 voltage | diode mode\npin 1 - 0.64v      0.688\npin 2 - 1.41v      0.003\npin 3 - 3.59v      0.361\npin 4 - 1.58v      0.004\npin 6 - 13.55v    0.56\npin 7 - shows 5v even though the schematic says it's a NC.\n\nI replaced C7195, R7195, R7196 and C7198\/C7199 with new parts from mouser. For some reason R7195 and R7196 both measure 155kohms even though they measured the proper resistance before I put them on the board. Is there something that could pull the resistance down?\n\nI get a short to ground on both sides of L7195 and when I remove it and check for the short on the pads I get a short only on the Pin 2 side."
+    },
+    {
+        "post_id":1914,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-23 02:49:25",
+        "message":"Id say U7100 is dead for sure. Also check R7101, R7105 and the current sense circuits."
+    },
+    {
+        "post_id":1925,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-23 13:29:29",
+        "message":"Also R7101 & R7105 measured proper resistance. R7105 showed 13.5v on one side and 10.8v on the other in voltage mode.  the current sense resistors(r7121\/r7122) weren't measuring properly so I just replaced them but that didnt solve the issue.\n\nSo U7100 is what could be bringing the voltage down from pp5v1_sw on U7190? I didn't know that was possible since it is separate diagram from the U7100 circuit on the schematic. Nice to know. I'll try replacing it later on tonight."
+    },
+    {
+        "post_id":1926,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-23 14:48:26",
+        "message":"U7190 powers the 5V to U7100 so yes it can pull it down. You need to check the resistors again as a shorted U7100 could have burned them again. First replace U7100 then the resistors."
+    },
+    {
+        "post_id":1957,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-24 16:50:19",
+        "message":"Okay. I replaced U7100 and now I get a green light on charger and 15.5v on PPBUS_G3H(though schematic says it should be 8.6v).\n\nI checked most of the power rails and these are the ones that were missing.\nPP5V_S0 - 0.08v\nPP5V_S0_FET - 0.08\nPP0V675_S0_DDRVTT - 0.002\nPP1V05_S0SW_PCH_HSIO - 0.079\nPPVCC_S0_CPU - .022\nPPVIN_SW_TBTBST - 0v\nPP15V_TBT - 0v\nPP3V3_TBTLC - 3.3v\n\nI couldn't find which chip creates PP5V_S0 but I did see PP5V_S0_FET comes from U8080 and I was only getting 3.31v on P5VS0_EN(turns U8080 on) and 5v on PP5V_S4. Should I be troubleshooting P5VS0_EN?\n\nWorth noting: When I first had this board 6 months I was just starting and I was testing the board w\/o the heatsink on and the cpu would get hot so hopefully I didn't kill the cpu. Also, when probing around I caused u7700 to spark and it has a burn on the top of the chip.\nI also see a tiny bit of blue corrosion next to U1900 so I don't know if that could be causing any issues here."
+    },
+    {
+        "post_id":1960,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-24 17:20:43",
+        "message":"How can the CPU get hot if it doesn't even turn on? Yes corrosion anywhere can cause problems. A hole in the chip would of course mean it is dead. This board sound like a hell hole."
+    },
+    {
+        "post_id":1967,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-24 19:13:11",
+        "message":"There is a slight misunderstanding.\nThe CPU doesn't turn on at all now but when I first got this board months ago it was working & getting hot and I was getting a fan spin but I wasn't getting anything to appear on the screen. \nThen while trying to troubleshoot display issues I caused a spark things started messing up and I was getting no light on the charger or fan spin. \n\nI will replace the burned U7700 chip and start troubleshooting. Where should I start looking in order to get PP5V_S0 working?"
+    },
+    {
+        "post_id":1974,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-25 01:49:47",
+        "message":"U7700 has nothing to do with the board working, you can remove it once the boards powers up we'll get to that one."
+    },
+    {
+        "post_id":1975,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-25 02:08:12",
+        "message":"Okay.\nP5VS0_EN is showing 3.31v which is a problem. Should I check U8180 to figure why its 3.31v and not 5v?"
+    },
+    {
+        "post_id":1976,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-25 06:19:35",
+        "message":"Why would an enable signal be 5V, it's a logic signal and is normally 3.3V. If 5VS0_EN is there then all other S0 voltages should be there and you should move on the check if CPU Vcore is there."
+    },
+    {
+        "post_id":1981,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-25 17:16:19",
+        "message":"Sorry. I thought since the title had 5V in it that it should be 5v.\n\nAnyways, I checked PPVCC_S0_CPU and got 0.022v.\n\nIf I have 0.08v on PP5V_S0 how is U7310 going to turn on in order to make PPVCC_S0_CPU."
+    },
+    {
+        "post_id":1984,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-25 17:21:30",
+        "message":"All_sys_pwrgd?"
+    },
+    {
+        "post_id":1986,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-25 18:37:25",
+        "message":"I got 0.111v on ALL_SYS_PWRGD. I also measured on R8162 and got 0.003 on pin 1 and 0.111v on pin 2. Also there is no resistor on r8162 as well as on my 3 donor boards but the schematic doesn't say that it is a no-stuff.\n\nCould you explain to me what ALL_SYS_PWRGD does in the circuit? Thanks."
+    },
+    {
+        "post_id":1998,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-26 02:40:18",
+        "message":"What is on PM_SLP_S4_L?"
+    },
+    {
+        "post_id":2025,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-26 13:23:38",
+        "message":"PM_SLP_S4_L shows 3.33v as well as PM_SLP_S3_L"
+    },
+    {
+        "post_id":2029,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-26 14:09:30",
+        "message":"Well, some voltage is missing. If S4 and S3 are there then everything should come on, besides CPU Vcore. Find the one that is missing, measure voltage on all coils first."
+    },
+    {
+        "post_id":2032,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-26 14:46:03",
+        "message":"[QUOTE=\"dukefawks, post: 2029\"]Well, some voltage is missing. If S4 and S3 are there then everything should come on, besides CPU Vcore. Find the one that is missing, measure voltage on all coils first.[\/QUOTE]\nWhen you say measure voltage on all coils which coils are you referring to?\nPP5V_s0 is the rail that is missing. All the other s0 rails are present.\nIs U8080 the chip that creates PP5V_S0? If so, should I try replacing that chip?"
+    },
+    {
+        "post_id":2033,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2016-04-26 15:36:39",
+        "message":"What voltage do you have on PP5V_S0_FET? If you have nothing and have 5V on pin 1-3 and 3V on pin 2 from U8080 could be a bad U8080 or a short on PP5V_S0_FET line.."
+    },
+    {
+        "post_id":2034,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-26 16:20:27",
+        "message":"I get 0.08v on PP5V_S0_FET and PP5V_S0.\nOn U8080 I got 5.147v on pins 1\/3. 3.31v on pin 2.\nI have the very thin fluke probes but I cant fit it inside on the U8080 pin for PP5V_S0_FET to check for a short. Is there any other way I can check for a short on PP5V_S0_FET.\n\nAlso, when I insert a usb stick and power on the board the usb stick lights up. I don't know if that adds to anything."
+    },
+    {
+        "post_id":2035,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2016-04-26 16:42:02",
+        "message":"Pads for R5530, R5530 is not present but pin 1 and 2 are shorted on the board, here is where PP5V_S0_FET becomes PP5V_S0........."
+    },
+    {
+        "post_id":2036,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-26 17:39:16",
+        "message":"I got a short to ground on pins 1 and 2 of R5530. Where should I go next in order to find the problem?"
+    },
+    {
+        "post_id":2037,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2016-04-26 18:54:38",
+        "message":"Apply 0.5V with power supply on that rail without limit current and feel what is getting hot, you can use the alcohol trick... If you don't see\/feel anything go up on voltage little by little...."
+    },
+    {
+        "post_id":2039,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-26 19:03:57",
+        "message":"I can take a guess that U8080 is dead. You have 5V coming in and enable is high and the output is shorted. U8080 is probably getting hot too.\nI assume you already removed the fried U7700!"
+    },
+    {
+        "post_id":2044,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-26 20:37:43",
+        "message":"Wow I left the fried U7700 on the board the whole time and once I removed it the short was gone R5530 and when I plugged the charger in the fan spun and the cpu gets warm.\n\nWhen I removed U7700 the pads for pins 9 and 10 were burned and came off.\nNow I need to run a wire but I have never done this before. I have some very thin wire that was from a lvds cable. Can I just use a piece for each pad and put one side of the wire on the pad and solder the other side to the probe points that are next to it."
+    },
+    {
+        "post_id":2052,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-27 02:31:57",
+        "message":"The CPU gets warm but does the board work? You should have an image without backlight now."
+    },
+    {
+        "post_id":2078,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-27 16:47:58",
+        "message":"I plugged the board into the computer as well as KB,TP, speakers but I don't get anything on the screen as well as no chime and no questionmark folder when i use a flashlight. When I checked PPVCC_S0_CPU i got somewhere around 1.74v and PP15V_TBT showed 15v.\n\nI tried many scenarios to see if one of the cables might be causing this. I tried with & w\/o the keyboard, trackpad, and display cable.\nI used my thunderbolt to hdmi cable port, the hdmi cable in the hdmi port and that still didnt show and I also tried with the ssd plugged in.\n\nBefore this computer stopped working part of the screen would show lines going through and was messed up. I also believe the trackpad wasn't working but ill have to check with the owner about it.\n\nI did all this with the battery unplugged because when I plug the battery in the charger just keeps flashing a green light and the fan never spins and nothing happens.\n\nAlso, I haven't put another chip on U7700 yet. I wanted to know where do I run the wire to for pins 9\/10."
+    },
+    {
+        "post_id":2085,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2016-04-27 19:54:32",
+        "message":"Use boardview and press \"N\" and write the name of pin 9 (ISNS_LCDBKLT_N), this will show you all the point where this \"NET\" goes, choose the closest one, in this case probe 541.... Same for pin 10...."
+    },
+    {
+        "post_id":2086,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-28 00:11:31",
+        "message":"Okay I ran the wires to there points and put the chip on top. I get a short to ground in diode mode on both of the wires I ran but when I measure pins 3 and 4 of R7700 I get 15.75v so I don't know if the wires I ran are good.\nAnyways I tried once again to turn the computer on and I still see nothing with a flashlight or with hdmi on tv. SMC_LID shows 3.37v so that isn't the issue."
+    },
+    {
+        "post_id":2116,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-28 19:29:39",
+        "message":"I checked all the power rails and they are all present except the thunderbolt rails are no longer there which is why thunderbolt to hdmi wasnt working.\n\nI fixed the wires I ran on u7700 and they are no longer shorting to ground.\nI've been trying to troubleshoot backlight on U7700 so hopefully I can see the screen is working. I am getting 15v on pin 3 and 4 of Q7700. The voltage dividers R7701\/R7702 both measured the proper resistance and pin 11 of u7700 is not shorted to ground. I'm more familiar with the backlight circuit on the MBA than with these MBP retina's. Should I try replacing Q7700?\n\nAny thoughts\/ideas [USER=\"2\"]dukefawks[\/USER] [USER=\"1\"]larossmann[\/USER] [USER=\"36\"]aprendiz[\/USER] ?"
+    },
+    {
+        "post_id":2126,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-29 02:05:45",
+        "message":"IS the board even working? You are worrying about the backlight while there is no chime. Plug in an USB mouse and see if it lights up, of not the board is not even working...."
+    },
+    {
+        "post_id":2131,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-29 04:08:50",
+        "message":"Yes. When I plug a usb stick in it lights up. I also get a fan spin and the cpu gets warm and ppvcc_s0_cpu measures 1.74v. All the main power rails are there except for thunderbolt."
+    },
+    {
+        "post_id":2134,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-29 05:17:26",
+        "message":"Does a USB mouse light up was the question. Who knows what the light on the USB stick is for, it should probably blink if there is activity...\nMOUSE!"
+    },
+    {
+        "post_id":2151,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-29 15:18:03",
+        "message":"Okay yes I got a hold of a usb mouse and when I plugged it in it started flashing green lights. \nWhen you test for that what does it tell you about a board?"
+    },
+    {
+        "post_id":2168,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-30 09:32:24",
+        "message":"I have no idea about lights on a mouse. A normal USB mouse has just one LED for the sensor, does that light up?"
+    },
+    {
+        "post_id":2189,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-30 17:03:56",
+        "message":"yes. It started off flashing then the light stayed on."
+    },
+    {
+        "post_id":2220,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-01 20:45:28",
+        "message":"Should I start troubleshooting backlight even though i'm not getting a chime since the cpu gets hot and vcore is there?"
+    },
+    {
+        "post_id":2222,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-05-01 22:34:53",
+        "message":"First you need at least an image on the LCD. Got 5V on L8300?"
+    },
+    {
+        "post_id":2224,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-01 23:23:31",
+        "message":"L8300 would fluctuate but the most I saw on it was 0.18v. I checked R8319 as well and it showed 0.1v and would also fluctuate. The resistance measured the proper 1k.\n\nAlso on Pin 1 of J8300(PPVOUT_S0_LCDBKLT) I get around 9v immediately after I plug the charger in and it quickly goes down towards 0v. I got 0v on LCD_PSR_EN, EDP_BKLT_EN, and EDP_PANEL_PWR.\nDoes that mean that the board is not seeing the screen. When the computer was working the right side of the screen was showing lines through it so that could be the issue."
+    },
+    {
+        "post_id":2273,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-03 02:08:32",
+        "message":"Is this an issue where the screen isn't being recognized?"
+    },
+    {
+        "post_id":2297,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-05-03 15:53:41",
+        "message":"You now first need to verify if the LCD is at least working. Try it on another machine of the same type. You can also connect an external LCD to the thunderbolt port."
+    },
+    {
+        "post_id":2300,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-03 16:35:21",
+        "message":"Dang. I don't have another retina mbp.\nhow can I connect an external lcd to thunderbolt? I tried connecting the computer to my tv with a thunderbolt to hdmi adapter i have but that didn't work since the PP15v_tbt and the other TBT rails aren't present anymore. It was present before I replaced that burned u7700 chip."
+    },
+    {
+        "post_id":2327,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-05-05 05:28:58",
+        "message":"I have no idea any more. If you cannot rule out a defective LCD you can mess with the board all you want it is not going to work. This problem could now be the board or the LCD"
+    },
+    {
+        "post_id":2398,
+        "thread_id":1909,
+        "title":"820-3476 no green light or ppbus_g3h",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-06 09:34:12",
+        "message":"Okay. Hopefully I can restore the thunderbolt rails so I can at least know that works. I am not getting PP15v_TBT and I traced that back to Q3005. I am not getting anything on TBT_A_HV_EN and that signal comes from U2800 which is covered with a shield.\n\nDo you know what signal turns on the U2800 because maybe that is missing?"
+    }
+]

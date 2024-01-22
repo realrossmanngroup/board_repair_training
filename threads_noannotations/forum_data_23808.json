@@ -1,0 +1,65 @@
+[
+    {
+        "post_id":23808,
+        "thread_id":23808,
+        "title":"[SOLVED]820-2838 no fan spin, no CPU VCORE",
+        "user_id":820,
+        "username":"brrayne",
+        "post_date":"2017-08-04 00:17:53",
+        "message":"Hi there, I have an old MacBook Air that I'm using for practice (still very much a novice at this). Apparently it was water damaged, but I saw little evidence of that inside.\n\nI have most of the rails present, apart from PPVCORE_S0_CPU and PPVCORE_S0_MCP.\n\nLooking at U7400, PP5V_S0_CPU_IMVP is coming in on pin 21 okay, but nothing is coming out. I'm not sure if this is a fault with U7400, or if it's not being told to turn on. If I'm following the schematic correctly (and I may not be) IMVP_VR_ON should be coming from the SMC into pin 25, but I'm getting 0V at pin 25.\n\nI'm trying to figure out of this is an issue with U7400 or the SMC, or perhaps something else that is preventing the VCORE from being created.\n\nI know this is very vague, and I apologise for that. Any suggestions as to what I might check next?\n\nThanks in advance,\nBruce"
+    },
+    {
+        "post_id":23814,
+        "thread_id":23808,
+        "title":"[SOLVED]820-2838 no fan spin, no CPU VCORE",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2017-08-04 04:24:15",
+        "message":"First fan spin, then CPU vcore. After hitting power do you get the other S0 rails? PP5V_S0, PP3V3_S0, etc. CPU vcore comes after all of that. I am guessing your problem is you are missing PP5V_S3 and everything after."
+    },
+    {
+        "post_id":23819,
+        "thread_id":23808,
+        "title":"[SOLVED]820-2838 no fan spin, no CPU VCORE",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-08-04 05:12:16",
+        "message":"VCORE_S0_MCP needs to be there before the CPU Vcore will come on. As you have 5V_S0 U7500 should also receive an enable signal. Check MCPCORES0_EN high. If it is high there should be voltage on L7560. If there is no voltage on L7560 check for short to GND and if that is ok then check around U7500."
+    },
+    {
+        "post_id":23847,
+        "thread_id":23808,
+        "title":"[SOLVED]820-2838 no fan spin, no CPU VCORE",
+        "user_id":820,
+        "username":"brrayne",
+        "post_date":"2017-08-04 20:11:57",
+        "message":"Thanks Louis and Duke.\n\nLouis, all of the other S0 rails are present. I'm only missing the VCORE rails.\n\nDuke, MCPCORES0_EN is there, but there is no voltage on L7560. I don't think there's a short to ground, and the area around U7500 looks pretty tidy.\n\nI'm still waiting for my donor board to arrive, but when it does, do you think I should try replacing U7500?\n\nThanks again,\nBruce"
+    },
+    {
+        "post_id":23848,
+        "thread_id":23808,
+        "title":"[SOLVED]820-2838 no fan spin, no CPU VCORE",
+        "user_id":820,
+        "username":"brrayne",
+        "post_date":"2017-08-04 23:02:18",
+        "message":"Sorry guys, ignore that last comment.\n\nThe problem was just staring me in the face. C7576 was missing off the board. Knocked off by the looks of it.\n\nThanks again for your help."
+    },
+    {
+        "post_id":23858,
+        "thread_id":23808,
+        "title":"[SOLVED]820-2838 no fan spin, no CPU VCORE",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-08-05 11:40:01",
+        "message":"So this is fixed?"
+    },
+    {
+        "post_id":23871,
+        "thread_id":23808,
+        "title":"[SOLVED]820-2838 no fan spin, no CPU VCORE",
+        "user_id":820,
+        "username":"brrayne",
+        "post_date":"2017-08-05 17:04:45",
+        "message":"Sorry, yes. All fixed, tested and working perfectly now, thank you.\n\nThe tip about focusing on VCORE_S0_MCP before PPVCORE_S0_CPU was exactly what I needed.\n\nThanks again,\nBruce"
+    }
+]

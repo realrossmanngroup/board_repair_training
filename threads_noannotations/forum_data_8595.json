@@ -1,0 +1,47 @@
+[
+    {
+        "post_id":8595,
+        "thread_id":8595,
+        "title":"820-3437 PM_SL_S4_L 0v.",
+        "user_id":235,
+        "username":"MUUK",
+        "post_date":"2016-10-25 09:16:37",
+        "message":"History:  Dog piss on logic board (yes, customer admitted to dog piss). \n\nWas turning on but no backlight, had major damage to the backlight and intMD\/lvds area.  Stripped the intMD\/lvds connector and replaced all the components (fuse, 1012 caps, coil etc) until i got 0.542 diode mode reading on backlight output.  Checked for shorts to ground on all replaced components. Lp8550 feedback was fucked so ran a wire, that was all good.  \n\nPlugged in AC (known good Apple original 85w) got fan spin for 2 seconds then powered off. Now when AC power applied machine does not spin fans or go on from S4 > S4 state.\n\nChecked backlight fuse (still good), re-checked backlight area for shorts, still good.\nRemoved the backlight fuse to see if anything further up was causing it, but no change.\n\nThen back to testing power rails (results below) i've tried to follow this back through the schematic as far as i can but i'm getting a bit lost. Here are the readings i have taken so far.\n\n\nS5 rails\n\nPPBUS_S5_HS_COMPUTING_ISNS  present\nPPBUS_G3H present\nPPBUS_S5_HS_OTHER_ISNS present\nPPDCIN_G3H_ISOL 16.6v present\nPPVRTC_G3H 3.3v present\nPP3V3_S5 3.3v present\n\nPP5V_S4RS3 missing\nPP3V3_S4 missing\n\nU8080 0v at pin 2\/3 (enable pin)\n5v present at pin 29 of U7501\nQ7520 pin 1\/3 8.5v all other pins 0\nU7501 pin 4 P5VS4RS3_EN_R is 0v)\nU7501 pin 21 P3V3S5_EN_R is 3.4v\n\nso i believe the problem is on U7501 not turning P5VS4 on\nR7551 is showing as 0.5ohm\nC8175 appears to be missing from the board - is this so ?\nR8177 is missing also....\nR8179 is present on the board (PM_SLP_S4_L) and is 0v\nR1461 (PM_SLP_S4_L nearest SMC) 0v\n\nSMC_ONOFF_L is 3.4v at C4834 and at R5170. \n\nI realise these PM_SL_S4_L issues are tricky but am hoping the Rossman \/ Duke gods can suggest anything that can help before i move on."
+    },
+    {
+        "post_id":8601,
+        "thread_id":8595,
+        "title":"820-3437 PM_SL_S4_L 0v.",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2016-10-25 11:57:52",
+        "message":"Is PM_DSW_PWRGD present, was there corrosion at all around the U1950\/ALL_SYS_PWRGD areas? Corrosion on backlight area puts you close to corrosion on SMC area. What does J6100 look like?"
+    },
+    {
+        "post_id":8607,
+        "thread_id":8595,
+        "title":"820-3437 PM_SL_S4_L 0v.",
+        "user_id":235,
+        "username":"MUUK",
+        "post_date":"2016-10-25 13:22:42",
+        "message":"Thank you Louis.\n\nthe dog piss was very localised in the LVDS area as far as i could see, but it made a right mess.\n\nPM_DSW_PWRGD measures  3.4v at R8141,  R8141 measures 93K ohm (vs 100k on schematic so ok).\n\nNo corrosion around U1950 that is obvious, here are the pin voltages \/ diode mode in case that helps\n\nU1950 \n\npin       voltage   diode mode   rail\n\npin 1:       0v           0.411         ALL_SYS_PWRGD\npin 2:       0v           0.668        CPUVR_PGOOD_R\npin 3:       0v           0.646        SYS_PWORK_R\npin 4:       0v           0               GND\npin 5:       0v           0.634        PM_S0_PGOOD\npin 6:       0v           0.667        SMC_DELAYED_PWRGD\npin 7:       0v           0.635        PM_S0_PGOOD\npin 8:       3.42v      0.303        PP3V42_G3H\n\n\nworking backward from U1950\n\nlooked at CPUVR_PGOOD_R\nR1951 (not present)\nR1955 0.03v either side resistance 10k ohms.\nthen noticed it says NO STUFF on schematic so presume that the only input to U1950 is ALL_SYS_PWRGD as CPUVR_PGOOD_R is no stuff.\n\nJ6100 looked very clean but i have removed it anyway.\n\nfollowed schematic back on ALL_SYS_PWRGD but this lead me to U8160, R8164-r8167 but these seem to be produced when in an S0 state, which we are not in.\n\nR5100 SMC_RESET_L is 3.42v\n\nthank you again."
+    },
+    {
+        "post_id":8647,
+        "thread_id":8595,
+        "title":"820-3437 PM_SL_S4_L 0v.",
+        "user_id":235,
+        "username":"MUUK",
+        "post_date":"2016-10-26 09:30:35",
+        "message":"Further testing:\n\nu7501 pin 12 is 3,42v\nSMC_LSOC_RST_L =3.42v\nSMC_RESET_L 3.42v at R5100 and at R7100\nSMC_ADAPTER_EN R5185 3,42\nSMC_PM_G2_EN is 3.42\nSMC_CLK32K is 0v\n\nPP3V3_SUS is 0.7v not 3.42 at R6101\nU8020 area C8020 PP3V3S present 3.39v\nfollowing back to P3V3SUS_EN \nR8190 is 3.3v\npin 1 of R8020 PP3V3_SUS_FET_R 3.4v (not present resitor) \nlooking at U6100\nR6102 0v\n\nam i following this in the right direction do you think ? is 0.7v at R6101 PP3V3_SUS due to PM_SLP_S4_L being low or could it be causing it. \nCould i jumper R8020 pin 1 to R6101 for testing ?"
+    },
+    {
+        "post_id":8659,
+        "thread_id":8595,
+        "title":"820-3437 PM_SL_S4_L 0v.",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-10-26 10:19:41",
+        "message":"So 3V3_SUS is present at R8020. It is not present at R6102 so there must be a corroded trace somewhere. Run a wire from R8020 to R6102."
+    }
+]

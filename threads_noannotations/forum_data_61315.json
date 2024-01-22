@@ -1,0 +1,92 @@
+[
+    {
+        "post_id":76589,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-06-12 21:51:30",
+        "message":"Got this liquid damage board. I have 20V on usb-c meter.\n\nWith battery I get 20V 2A so it seems charging well, the fan spins also with and without charging cable.  Without battery I get 20V 0.55A.\n\nBoard reacts to power button, opening the lid, pressing the trackpad or a keyboard key. I can see the fan stopping with 0A on the usb-c meter. an it goes back to 20V 0.55 when I press again the power button.\n\nThere is no image, no backlight and no boot, tested also hdmi with external monitor and disconnected internal lcd cable.\n\nI have these voltages at the coils:\n\nL7030 : 12,60V\n\nL7690 :   3,3V\nL7670 :  5,0V\n\nL8410 : 0,08V (backlight coil)\n\nL8100 : 1,2V PP1V2_S3\nL8102 : 0,959V PPVCCIO_S0_CPU\n\nL7702 : 1,035V PPVCCEDRAM_S0_CPU\nL7270 : 1,021V PPVCCSA_S0_CPU\n\nL7210 : 0,824V PPVCC_S0_CPU\nL7220 : 0,825V PPVCC_S0_CPU\n\nL7410 : 0V PPVCCGT_S0_CPU\nL7420 : 0V PPVCCGT_S0_CPU\n\n\nTried a DFU revive then restore but nothing changed. SMC bypass also doesn't change anything.\n\nTried also the board with nothing connected and noticed suprisingly  that without the trackpad cable plugged in the board will go to 20V 0,12 ->0,55A then after 3 secondes come back to solid 20V 0A at that time I will only have 3.3V and 5V. If I press the power button it will simply repeat 20V 0,12 ->0,55A for few seconds and come back to 20V 0A.\n\nI don't know at this point what to look or check further...\n\nThanks"
+    },
+    {
+        "post_id":76593,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-13 02:27:55",
+        "message":"Did you complete DFU?\nCouldn't start recovery there?"
+    },
+    {
+        "post_id":76599,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-06-13 07:45:32",
+        "message":"Yes it seems I completed the dfu, both revive\/restore I had no error but nothing happened on device under dfu.\n\nAs for recovery, I don\u2019t see how I could start it, I have no chime, I don\u2019t see anything on internal lcd or external monitor, No capslock or usb mouse light, same with usb keyboard."
+    },
+    {
+        "post_id":76604,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-13 14:14:29",
+        "message":"Restore option in DFU should continue with macOS fresh installation, as internal SSD is erased.\n\nT2 machine remains in off state, once DFU completed?"
+    },
+    {
+        "post_id":76609,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-06-13 19:23:28",
+        "message":"Yes exactly, that's what I noticed on machines where a dfu restore solved the problem.\n\nAnd yes this T2 machine remains in off state once dfu is completed, I don't see the apple Logo that bring you to the question mark or any process to install a fresh OS...\n\nI am not sure if it's normal on this machine the trackpad cable trick...seems odd to me that if I disconnect it the machine stays at 20V 0A."
+    },
+    {
+        "post_id":76613,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-14 00:42:09",
+        "message":"Which area was affected by liquid damage?\nYou may have corrosion under some BGA chip."
+    },
+    {
+        "post_id":76623,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-06-14 07:36:38",
+        "message":"Areas affected by liquid: \nISL9240 had some greeny crap corrosion,  U3710 WLAN serial EEPROM, J6410 (speaker).\n\nI have just discovered 2 test points TP5905\/06 completely gone ISNS_HS_OTHER3V3_P (and \/N) but it seems there is no  U5440 on this board...\nI will look again carefully and do an ultrasonic.\nThanks"
+    },
+    {
+        "post_id":76707,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-06-16 16:09:50",
+        "message":"After an ultrasonic  I don\u2019t have anymore 20V, I have 5V 0.16-0.20A and loops on both ports usb-c meter.\n\nI still get 12.25V on PPBUS_G3H, 3.3V on PP3V_G3H and 5V on L7030.\nNo more PP5V_G3S...\nIt doesn\u2019t enter DFU mode anymore.\n\nChecked around both usbc mux chip and didn\u2019t find any short on signals or power rails\u2026Surprisingly, no matter witch usbc port is plugged in, I will find 5V on both usbc mux associated fuses.(2020 boards?)\n\nSomething should be wrong under bga as the ultrasonic changed the state of the board.\n\nI found them difficil these recent boards, specially with the sensistive cpu, easy to loose confidence?"
+    },
+    {
+        "post_id":76711,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-06-16 17:21:36",
+        "message":"Looks like T2 doesn't work; not properly at least.\nDo you get all AWAKE and SLPS2R voltages?\n\n\"find 5V on both usbc mux associated fuses\"\nAs per schematic, both fuses are connected together.\n\nIf you didn't use sweep function, ultrasonic clean could damaged the board; read about ultrasonic hot spots.\nCheck now for knocked off components, or broken traces."
+    },
+    {
+        "post_id":76783,
+        "thread_id":61315,
+        "title":"820-01987 all power rails but no boot",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2021-06-19 21:13:37",
+        "message":"Hello 2informaticos,\n\nSweep function is embedded by default in my ultrasonic cleaners. I have no way to use them without sweep function.\nI think I have a good idea about cavities, transducers, dead or hot spots and standing waves.\n\nThis board didn't have the acid very agressive damage that we are used to see from time to time, not the kind of damaged board where components come off alone. After ultrasonic, the board is in pristine state not the greyed discolored components from over ultrasoniced board.\n\nUnfortunately I had to return the laptop, If I had time, I would have check the SLPS2R and AWAKe voltages and probably reflow slightly the T2...\n\nThanks as always."
+    }
+]

@@ -1,0 +1,119 @@
+[
+    {
+        "post_id":66985,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2020-10-22 19:03:52",
+        "message":"I bought an A1708 laptop (from original owner in person) for my personal use.\n\n1) The original symptom was the screen would occasionally have a glitchy-looking screen until you move the display (indicating an issue with the flex cable).\n\n2) Took it apart and (don't ask why, I was an idiot) while it was on, I accidentally yanked the flex cable off (J8500). At this point I knew I screwed up, but upon disconnecting everything, reinstalling that connector, and turning the laptop on, the internal display was [I]no longer recognized. [\/I]When I went to \"About this Mac\" with an external USB-c monitor connected, the internal display is not found.\n\n3) Incidentally, this laptop was eligible for the backlight recall, so I sent it to apple and they replaced the entire display assembly for free then returned it saying the logic board needed replacement.\n\n4) Now that the flex cable and the display have been replaced, I knew the logic board needs fixing. Below is what I tested with the laptop on, display connected, and lid open:\n\nFirst off, I checked that there is no display when shining a flashlight. I also tried a PRAM reset as part of the AppleCare return steps. I also notice the keyboard LEDs are powered on (whatever that is worth).\n\nPin 3 of Q8400 (LCDBKLT_EN_L) - 13v\nPin 4 of Q8400 (PPVIN_S0SW_LCDBKLT_R) - 11.7v\nBKLT_SD - 11.2V\nEDP_BKLT_EN (Pin 0 and 1 of R8442) - 0V\n            \nHow badly did I shoot myself in the foot, and did I fry the SMC? Is there any other reading I should check?"
+    },
+    {
+        "post_id":66994,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":1427,
+        "username":"Narek",
+        "post_date":"2020-10-23 01:36:50",
+        "message":"Does system recognise new screen now? What does J8500 look like? Any signs of burn? Disconnect charger and battery and check if PPVOUT_S0_LCDBKLT is not shorted. On these screens even if there is an image it's really hard to see it without backlight, even with flashlight. Also check LID_OPEN voltage."
+    },
+    {
+        "post_id":66999,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-23 02:01:05",
+        "message":"Before bothering with backlight, be sure image is enabled.\n\nDo you get 3V3\/5V_S0SW_LCD, at least in the first few seconds (when chime)?\nIf yes, DP_INT_HPD must go high at same time; this signal is required by PCH to detect LCD.\nCheck at least EDP_PANEL_PWR_EN.\n\nThis board has series caps on data lines to CPU, but this will not assure that CPU eDP output is not damaged now.\nCheck diode mode to ground on data lines to CPU."
+    },
+    {
+        "post_id":67006,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2020-10-23 07:54:03",
+        "message":"Oh very interesting, thanks for the hint! Below are the measurements once again while lid is open and external monitor connected.\n\n5V_S0SW_LCD - 5V for a second\nPP3V3_S0SW_LCD (R8520 Pin 2) - 3.3v for a second\nDP_INT_HPD (R8501 Pin 1) - 3.3v for a second\nEDP_PANEL_PWR_EN (R8510 Pin 1) - 3.1v for a second\n\nPPVOUT_S0_BKLT (C8460 Pin 1) - 0V\nLID_OPEN - 3.3V constant\n\n^ All the above voltages appeared right before the apple logo came on external monitor\n\nPP5V_S0SW_LCD (C8512 Pin 1) is ~500\u03a9 to ground\n\nAs for the data lines, please see the picture attached - all the red dots indicate they were not shorted to ground (i.e >200ohm to ground)\n\nPlease let me know if you see anything else I could double-check. I just find it weird that the display isn't even recognized by MacOS."
+    },
+    {
+        "post_id":67011,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-23 08:21:33",
+        "message":"I'm not sure if you measured with internal LCD connected..."
+    },
+    {
+        "post_id":67012,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2020-10-23 08:22:50",
+        "message":"Neither the data lines nor the PP5V_S0SW_LCD resistance - I thought those should be measured without the LCD connected - will redo those measurements then.\n\nAll the voltages above were done with the LCD connected and the board flipped around - I'll also order another flex cable in case Apple didn't actually change that."
+    },
+    {
+        "post_id":67014,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-23 08:23:56",
+        "message":"Voltage and signals are irrelevant if internal LCD is not connected."
+    },
+    {
+        "post_id":67015,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2020-10-23 08:25:14",
+        "message":"Yep the voltages were measured with the internal LCD connected and board flipped around"
+    },
+    {
+        "post_id":67016,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2020-10-23 08:29:59",
+        "message":"Don't waste your time--eGPU is dead. You killed it when the LCD cable tore with power applied. I've had a dozen or so boards come in with damaged LCD cables (screwed-through, torn, etc) and it ALWAYS kills the eGPU. You need to replace the board. There is almost no margin of error for working on these with power applied. Learn from this and don't do it again."
+    },
+    {
+        "post_id":67017,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2020-10-23 08:32:18",
+        "message":"Hmm if the GPU is dead it wouldn't work with an external monitor though, that's why I thought there may be hope."
+    },
+    {
+        "post_id":67019,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":515,
+        "username":"SMMRepair",
+        "post_date":"2020-10-23 08:41:26",
+        "message":"No, totally incorrect. External display and internal display are handled totally separately. In fact, the eGPU on these boards USUALLY fail with external video working normally but no internal video. I have a stack of 20 boards I'll be happy to show you with the exact issue.\n\nYour board is toast."
+    },
+    {
+        "post_id":67023,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-10-23 09:43:00",
+        "message":"\"5V_S0SW_LCD - 5V for a second\nPP3V3_S0SW_LCD (R8520 Pin 2) - 3.3v for a second\nDP_INT_HPD (R8501 Pin 1) - 3.3v for a second\nEDP_PANEL_PWR_EN (R8510 Pin 1) - 3.1v for a second\"\nOnce PCH receives HPD signal, it should maintain voltages.\nIf not, internal eDP video output is bad."
+    },
+    {
+        "post_id":67026,
+        "thread_id":60224,
+        "title":"820-00875 No Backlight \/ No Display",
+        "user_id":1450,
+        "username":"rkrishnan",
+        "post_date":"2020-10-23 09:46:59",
+        "message":"That's unfortunate, okay thanks."
+    }
+]

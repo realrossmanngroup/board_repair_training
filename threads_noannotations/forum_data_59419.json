@@ -1,0 +1,164 @@
+[
+    {
+        "post_id":60227,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-05-30 17:12:42",
+        "message":"So I received a board that\u2019s missing pm_slp_s4_L looks like someone had removed the bios. I checked the vias and\nThey seem good. I checked the spi bios Bi-directional Via as well. The hold signal spirom_use_mlb 0v.\nPm_Pch_pwrok=3.42v\n\nU2800\nPpvrtc_g3h =3.27v\nPp3v3_s5 = 3.3v\nPp3v42_g3h = 3.42v\nSysclk_clk25m_x2_r = 0v\nsysclk_clk32k_rtc =0v\n\nu2800 pin 12 has (32.6khz frequency measured with oscilloscope)\n\nU4900\npp3v3_s5_avref_smc = 3.42v\nSmc_onoff_l =3.42v\nSmc_reset_l = 3.42v\n\nu6100\nPin 1 = 0\nPin 2 = 3.3v slp_mlb_miso\nPin 3 = 3.3v soi_wp_L\nPin 4 = 0v vss\nPin 5 =3.3 spi_mlb_mosi\nPin 6 =3.3v spi_mlb_clk\nPin 7 =0v spirom_use_mlb\nPin 8=3.3v vdd"
+    },
+    {
+        "post_id":60236,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 04:09:34",
+        "message":"\"Pin 5 =3.3 spi_mlb_mosi\nPin 6 =3.3v spi_mlb_clk \"\nLooks like PCH doesn't access BIOS yet.\nCheck first PLT_RESET_L level.\nAlso check PM_PCH_SYS_PWROK."
+    },
+    {
+        "post_id":60239,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-05-31 04:52:44",
+        "message":"Plt_reset_L =0v\nPm_pch_sys_pwrok =0v\nWhat I don\u2019t understand is if I\u2019m missing pm_slp_s4_L\nHow can I have s3 State and if I don\u2019t have s3 how can I have pm_pch_sys_pwrok or plt_reset_L can you give me a hint to where I\u2019m going wrong I\u2019m my thought process?"
+    },
+    {
+        "post_id":60242,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 05:51:22",
+        "message":"\"Pm_Pch_pwrok=3.42v\"\nThis should appear in S0 state.\nSo where is your error, missing PM_SLP_S4_L, or missing PM_PCH_PWROK???"
+    },
+    {
+        "post_id":60244,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-05-31 06:44:50",
+        "message":"I\u2019m sorry it was pm_pch_pwrok =0v \nI don\u2019t have pm_slp_s4_L \nI mistakenly wrote 3.42v on the first post."
+    },
+    {
+        "post_id":60245,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-05-31 07:15:33",
+        "message":"Ok let me explain myself yesterday I was stuck around q7820 and\nu7940\npin 1 = 3.285v   smc_batlow_L\nPin 2 = 0v   Ground\nPin 3 = 0v   pm_sus_en\nPin 4= 0v    pm_sus_en\nPin 5 = 3.3v pp3v3_s5\nPin 6 = 0 v   Pm_slp_sus_L\n\nq7820\nPin 1=0v      pp3v3_sus\nPin 2 =0v     pp3v3sus_ss\nPin 3 = 3.3v  pp3v3_s5\npin 4= 3.3v   pp3v3_s5\n\nI was thinking this q7820 (I have gate and source but no output) was bad but I wanted Ask your input on my problem before I changed this. I\u2019m sorry if I misunderstand the circuit :("
+    },
+    {
+        "post_id":60247,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 09:00:42",
+        "message":"Don't worry about PM_SLP_S4_L: you have missing PM_SLP_SUS_L!!!\nPost PM_DSW_PWRGD, PCH_DSWVRMEN, SMC_ADAPTER_EN, PM_RSMRST_L, PM_PWRBTN_L and all 4 RTC signals."
+    },
+    {
+        "post_id":60261,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-05-31 14:27:49",
+        "message":"PM_DSW_PWRGD =3.27v\nPCH_DSWVRMEN =3.15v\nSMC_ADAPTER_EN=3.36v\nPM_RSMRST_L=0v\nPM_PWRBTN=3.42v\n\nRTC signals\n\nSysclk_clk32k_rtc =0v\nPpvrtc_g3h=3.26v\nRtc_reset_L=3.24v\nPch_srtcrst_L=3.18v\nPch_intvrmen_L =3.2v\nPch_intruder_L=2.8v\nPpvout_g3_pch_dcprtc=0v\nAre these the rtc signals you needed ?\n\nPm_slp_sus_L = 79ohms resistance to ground"
+    },
+    {
+        "post_id":60262,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 14:50:41",
+        "message":"\"Are these the rtc signals you needed ? \"\nMissing two, PCH_INTVRMEN and PCH_INTRUDER_L.\nI didn't ask about 32KHz oscillation, as requests o-scope to test it for sure.\n\n\"PM_RSMRST_L=0v \"\nNormal, I forgot about missing PM_SLP_SUS_L.\n\n\"Ppvout_g3_pch_dcprtc=0v \"\nLooks like PCH issue; there should be 1.5V I think.\nPost the missing signals first..."
+    },
+    {
+        "post_id":60268,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-05-31 16:22:12",
+        "message":"Pch_intvrmen_L =3.2v\nPch_intruder_L=2.8v\nI tested the sysclk_clk32k_rtc signal yesterday it\u2019s was 32.6khz tested with oscilloscope\nI\u2019m still missing pp3v3_sus"
+    },
+    {
+        "post_id":60272,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-05-31 16:50:30",
+        "message":"\"I\u2019m still missing pp3v3_sus\"\nYou cannot get it without PM_SLP_SUS_L.\nAs above mentioned, looks like you have a problem with the PCH.\nPut quality flux and heat it; no more than 180-200 degress.\nYou don't need to melt the balls, just burn eventually accumulated crap underneath..."
+    },
+    {
+        "post_id":60273,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-05-31 17:41:03",
+        "message":"Ok will try thanks :)"
+    },
+    {
+        "post_id":60792,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-06-10 17:53:42",
+        "message":"Ok I\u2019m gonna ask this I\u2019m just lightly heating the cpu\/pch at 180 degrees at a moderate air speed and don\u2019t remove underfill and remove whatever crap is accumulated under it. Did I understand you correctly  ?"
+    },
+    {
+        "post_id":60821,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-11 02:20:43",
+        "message":"Yes!\nRemoving the underfill from corners can help flux distribution..."
+    },
+    {
+        "post_id":61063,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-06-16 17:40:12",
+        "message":"Ok so let me ask you this if I boot in to OS X and the fan spins high all the time with an erratic mouse, keyboard is a little laggy . Is it most likely a heat sensor issue? I was guessing maybe it can\u2019t sense the temp and runs it at high to compensate?"
+    },
+    {
+        "post_id":61064,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-06-16 18:06:11",
+        "message":"I\u2019m checking r5271, r5270 and r5260, r5262, and the Vias for continuity.\nit\u2019s booting quickly and just buggy with trackpad and fan speed I\u2019m gonna see if I find the asd efi for this board to help me narrow it down"
+    },
+    {
+        "post_id":61076,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-06-17 03:59:33",
+        "message":"The board started after heating PCH?\nYou should run ASD to detect sensor errors.\n\nYou can also try disconnecting webcam and changing trackpad board\/flex."
+    },
+    {
+        "post_id":61117,
+        "thread_id":59419,
+        "title":"820-2915 missing s3 rails",
+        "user_id":21617,
+        "username":"Chuck60",
+        "post_date":"2020-06-17 16:01:02",
+        "message":"I got it :) Q5501 and yes it\u2019s all working now \nThank you so much for your help"
+    }
+]

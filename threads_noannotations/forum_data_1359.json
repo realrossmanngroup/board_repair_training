@@ -1,0 +1,290 @@
+[
+    {
+        "post_id":1359,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-11 01:08:21",
+        "message":"[COLOR=#333333][FONT=Verdana][SIZE=13px]This board had a blown F9700 fuse and 0v on LCD_BKLT_EN. I replaced F9700 but I am still getting 0v on LCD_BKLT_EN. BKLT_PLT_RST_L measures 3.3v.[\/SIZE][\/FONT][\/COLOR]\n\n[COLOR=#333333][FONT=Verdana][SIZE=13px]I googled around and saw that LCD_BKLT_EN comes from LVDS_IG_BKL_ON so I measured R1981 and that measured a proper 100k.[\/SIZE][\/FONT][\/COLOR]\n\n[COLOR=#333333][FONT=Verdana][SIZE=13px]There was some water damage around the U1800 and Q9707 area. I have given the area a 99% alcohol and toothbrush scrub since I dont have an ultrasonic yet.[\/SIZE][\/FONT][\/COLOR]\n[COLOR=#333333][FONT=Verdana][SIZE=13px]I have done the testing with the display connected. The LVDS connector and cable both look fine. When I disconnect the display and use my thunderbolt to hdmi cable on my tv it works fine.[\/SIZE][\/FONT][\/COLOR]\n[COLOR=#333333][FONT=Verdana][SIZE=13px]Would this probably be a problem with the U1800 chip since that is where LVDS_IG_BKL_ON is produced?[\/SIZE][\/FONT][\/COLOR]"
+    },
+    {
+        "post_id":1364,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2016-04-11 06:00:28",
+        "message":"Diode mode reading on LCD_BKLT_EN (red probe to ground black probe to LCD_BKLT EN)...."
+    },
+    {
+        "post_id":1374,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-11 09:48:12",
+        "message":"[QUOTE=\"aprendiz, post: 1364\"]Diode mode reading on LCD_BKLT_EN (red probe to ground black probe to LCD_BKLT EN)....[\/QUOTE]\nI measured Pin 5(LCD_BKLT_EN) of Q9707 in diode mode and got 0.557. Is that the proper voltage?"
+    },
+    {
+        "post_id":1375,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":36,
+        "username":"aprendiz",
+        "post_date":"2016-04-11 10:03:26",
+        "message":"it is ok, water damage on LVDS connector?? maybe a bad connector or cable, screen is not been detected..."
+    },
+    {
+        "post_id":1377,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-11 10:13:50",
+        "message":"[QUOTE=\"aprendiz, post: 1375\"]it is ok, water damage on LVDS connector?? maybe a bad connector or cable, screen is not been detected...[\/QUOTE]\nThe connector and cable look fine. There was some blue corrosion on C9797 and C9799 so I replaced those two earlier."
+    },
+    {
+        "post_id":1380,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-11 10:53:26",
+        "message":"I checked Q9707 again and I see that Pin 3(LCDBKLT_EN_L) is showing 12v in voltage mode and 0.99v in diode mode.\nThere is still 0v on LCD_BKLT_EN.\nI don't see how LCDBKLT_EN_L is getting any voltage. Shouldn't the mosfet only open when there is a higher voltage on the gate then the source?"
+    },
+    {
+        "post_id":1384,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2016-04-11 11:51:09",
+        "message":"Q9706 is a P type MOSFET that will only open when the voltage on the gate is much lower than the voltage on the source. R9788 & R9789 are a voltage divider whose purpose it is to send 5v to the gate of Q9706. A voltage divider needs a path to a lower voltage\/ground on the \"bottom\" for it to work though, which means R9789 needs a path to ground.\n\nR9789 doesn't get a path to ground unless Q9707 opens. LCD_BKLT_EN and BKLT_PLT_RST_L need to be present in order for Q9707 to open, allow R9788\/R9789 voltage divider to work, and allow Q9706 to pass power.\n\nThis usually happens when the LCD is recognized. If LCD_BKLT_EN isn't present, either SMC_LID is stuck at a low voltage because of corrosion by BIL connector or the machine doesn't recognize the LCD.\n\nWhat voltage is present on pin 2\/3, and 4 of the LCD connector?"
+    },
+    {
+        "post_id":1402,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-11 15:12:10",
+        "message":"Thanks for the explanation.\nPins 2 and 3 of the LCD Connector show 0v and pin 4 shows 3.32v\nAlso I checked pin 5(SMC_LID) of J6955 and R6961 and got 3.45v. That number isn't low for SMC_LID is it?"
+    },
+    {
+        "post_id":1404,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2016-04-11 15:16:18",
+        "message":"ok, so we end troubleshooting of no backlight, and start troubleshooting of screen detection. If LCD_PWR_EN is 0v on U9000(check that for me), the machine is not seeing the LCD. Do you have a known good LCD & cable lying around for testing? Have you reset PRAM? Do the resistors for LVDS_DDC_DATA and LVDS_DDC_CLK check out good?"
+    },
+    {
+        "post_id":1447,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-12 05:02:23",
+        "message":"I measured Pin 1(LCD_IG_PWR_EN) of U9000 and got 0v. I checked the resistors you said to check and this is what I got.\nR9008 -  3.08kohms\nR9009 - 3.09kohms\n\nI did a PRAM reset but nothing happened. \n\nThe only other MBP I have is this one [url]http:\/\/www.everymac.com\/systems\/apple\/macbook_pro\/specs\/macbook-pro-core-2-duo-2.26-aluminum-13-mid-2009-sd-firewire-800-unibody-specs.html[\/url].\nWould this be compatible with a 2012 MBP?"
+    },
+    {
+        "post_id":1449,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-12 07:29:09",
+        "message":"Measure on diode mode pin 6 and 7 on LCD connector and carefully inspect pin 4 for corrosion and 3V present.\nThe 2012 models have a unique LCD connector so no other models are compatible."
+    },
+    {
+        "post_id":1471,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-12 12:17:10",
+        "message":"[QUOTE=\"dukefawks, post: 1449\"]Measure on diode mode pin 6 and 7 on LCD connector and carefully inspect pin 4 for corrosion and 3V present.\nThe 2012 models have a unique LCD connector so no other models are compatible.[\/QUOTE]\n\nIn diode mode \npin 6 - 0.514\npin 7 - 0.543\n\nThere doesn't look to be any corrosion on pin 4 and there is 3.32v on it.\nPins 6 and 7 also have 3.32v on them."
+    },
+    {
+        "post_id":1546,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-14 04:40:39",
+        "message":"Is there anything else I can do besides replacing the screen?"
+    },
+    {
+        "post_id":1551,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-14 06:13:48",
+        "message":"pin 6 and 7 should read the same. Did you measure this with LCD plugged in?"
+    },
+    {
+        "post_id":1555,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-14 08:11:48",
+        "message":"Yes. that is with the cable plugged in. When I remove the cable pin 6 measures 0.605v and pin 7 measures 0.609v in diode mode."
+    },
+    {
+        "post_id":1600,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-15 13:22:53",
+        "message":"At this point I would first try another LCD assembly to rule that out. Don't rip the original apart it might be fine. Get another machine to test or order a cable+LCD to test."
+    },
+    {
+        "post_id":1602,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-15 13:27:20",
+        "message":"I just ordered a used lcd and cable from powerbook medic. Is that a good company to purchase from? I think louis might have some experience with them."
+    },
+    {
+        "post_id":1626,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-15 19:03:25",
+        "message":"You'll get your stuff, but in my opinion they are too expensive. But if you want it quick then sure. Make sure the cable you ordered is for 2012+ models!"
+    },
+    {
+        "post_id":1630,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-15 20:54:01",
+        "message":"thanks. i ordered a used lcd for $20 from them."
+    },
+    {
+        "post_id":1738,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-19 12:13:14",
+        "message":"My lcd and cable I ordered came in today and I tested it and the lcd is still not being recognized as there is nothing on Pin 1(LCD_IG_PWR_EN) of U9000. \nI checked R1984 and I also got no voltage there and 91kohms on the resistance.\nHere are some measurements on the lcd connector with the cable plugged in\n           diode mode | voltage\nPin 2 - 0.575            0v\nPin 3 - 0.575            0v\nPin 4 - 0.331            3.31v\nPin 6 - 0.604            3.31v\nPin 7 - 0.599            3.31v\n\nIs this an issue with U1800 chip?"
+    },
+    {
+        "post_id":1757,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-19 19:59:20",
+        "message":"Check if pin 4 6 and 7 actually have continuity to the LCD side of the cable. Also check SMC_LID again to be 100% sure"
+    },
+    {
+        "post_id":1762,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-19 20:54:42",
+        "message":"Ok. So before checking for continuity I decided to flip the cable connecting to the lcd upside down and now I am getting 3.31v on Pins 2 & 3 and the lcd is working but there is no backlight(saw questionmark folder with flashlight) so I will troubleshoot this issue. Thanks for the help if I need anymore I'll reply on this thread."
+    },
+    {
+        "post_id":1763,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-19 21:41:43",
+        "message":"I am getting 12.5v on L9701 as well as D9701 and the output of C9799 is a constant 12.5v and in diode mode C9799 measures 0.579 on output. I replaced C9797\/C9799 weeks ago as they had some corrosion so I don't think that could be the issue.\nBKLT_PLT_RST_L and LCD_BKLT_EN both show 3.3v.\nI checked the feedback line of the U9701 LED Driver and it doesn't look burned but I do have a several LP8550's that I can replace it with.\nIs this likely a LED Driver issue?"
+    },
+    {
+        "post_id":1847,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-21 11:10:33",
+        "message":"Hey [USER=\"2\"]dukefawks[\/USER] do you think I should replace the LED Driver since I am only getting 12.5 on the ouput capacitors?"
+    },
+    {
+        "post_id":1849,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-21 11:14:09",
+        "message":"Sure why not?"
+    },
+    {
+        "post_id":1861,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-04-21 16:35:42",
+        "message":"\u200b[USER=\"2\"]dukefawks[\/USER] [USER=\"1\"]larossmann[\/USER]  Ok so a bunch of confusing stuff has happened since I reflowed the LED Driver. I reflowed it to see if it would work before having to replace it and after reflowing I was getting 12v on pin 3 of Q9706 and Q9707 which is too high and no voltage on the output pins of Q9706. \n\nI replaced Q9707 but that made no difference.\n\nI replaced R9788 and R9789 even though they measured correct resistance because I thought that was causing pin 3 of Q9707 to be so high. I didnt have a donor board for this model so I took the resistors from a 820-3209 that had the same resistance but 1\/20w instead of 1\/16w(don't know if that is a big issue.)\n\nNow after replacing those resistors I no longer have LCD_BKLT_EN and once again the board isn't seeing the lcd as there is no voltage on Pins 2\/3 of the lcd connector and Pin 1(LCD_IG_PWR_EN) of U9000.\n\nThe lcd cable and connector look fine so I don't know what could have happened."
+    },
+    {
+        "post_id":1868,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2016-04-21 19:21:25",
+        "message":"I don't know either, replace LCD connector."
+    },
+    {
+        "post_id":2762,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-17 16:30:49",
+        "message":"[USER=\"2\"]dukefawks[\/USER] [USER=\"1\"]larossmann[\/USER] \nIts been a few weeks now and I have tested this board with 2 screens (one used and one new AU Optronics B133EW07) and 2 different lcd cables.\nI also replaced the lcd connector and I gave this board an ultrasonic cleaning. \nIs there anything else I can check for? [h=1][\/h]"
+    },
+    {
+        "post_id":2769,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":55,
+        "username":"JorgePayar",
+        "post_date":"2016-05-18 00:41:06",
+        "message":"did you replace lp8550?"
+    },
+    {
+        "post_id":2771,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-18 03:36:12",
+        "message":"[QUOTE=\"JorgePayar, post: 2769\"]did you replace lp8550?[\/QUOTE]\n\nNo. Louis said earlier in this thread that I shouldn't be worried about backlight if the screen is not even being recognized since I get 0v on Pin 1 of U9000."
+    },
+    {
+        "post_id":2798,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2016-05-18 19:29:45",
+        "message":"this honestly sounds like a clunker at this point. either bad PCH or some broken via inside the board. if you want to torture yourself, this is the board to do it on."
+    },
+    {
+        "post_id":2804,
+        "thread_id":1359,
+        "title":"820-3115 No backlight - missing LCD_BKLT_EN",
+        "user_id":90,
+        "username":"ytesfay80",
+        "post_date":"2016-05-18 22:27:00",
+        "message":"Okay. Ill cut my ties with this one and it's going back on ebay."
+    }
+]

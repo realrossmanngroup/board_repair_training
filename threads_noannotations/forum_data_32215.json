@@ -1,0 +1,56 @@
+[
+    {
+        "post_id":32215,
+        "thread_id":32215,
+        "title":"820-3115 wont run off battery",
+        "user_id":1190,
+        "username":"Gmorb",
+        "post_date":"2018-03-03 10:56:26",
+        "message":"system detects and charges battery but wont run off of it.\nwhen i do an smc reset it runs off of it for a short period and on the problem comes back.\nwhen i hold the power button for 5 seconds on startup it boots off of battery fine.\n\nany ideas?"
+    },
+    {
+        "post_id":32218,
+        "thread_id":32215,
+        "title":"820-3115 wont run off battery",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2018-03-03 11:41:46",
+        "message":"1) What voltage is PPBUS_G3H with charger connected, battery NOT connected?\n2) What is diode mode to ground on pin 2 of R5280, R5281? Red probe on ground, black probe on pin 2. Make these two measurements without power connected. \n3) What is the resistance between pins 17\/18 of U7000? Make these two measurements without power connected. \n4) What is the resistance between pins 27\/28 of U7000? Make these two measurements without power connected. \n5) What is the voltage measured on PPBUS_G3H when the battery is charged, and the charger is not plugged in?"
+    },
+    {
+        "post_id":32221,
+        "thread_id":32215,
+        "title":"820-3115 wont run off battery",
+        "user_id":1190,
+        "username":"Gmorb",
+        "post_date":"2018-03-03 12:32:10",
+        "message":"PPBUS_G3H= 12.56volts\nR5280= .505\n25281= .506\nResistance 17\/18 U7000=  3.3ohm\nResistance 27\/28 U7000= 20.4ohm\nPPBUS_G3H with battery charged and no charger connected= 11.69volts"
+    },
+    {
+        "post_id":32226,
+        "thread_id":32215,
+        "title":"820-3115 wont run off battery",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2018-03-03 17:39:32",
+        "message":"This is odd. Typically this is a logical problem or a power problem.\n\nA logical problem is that the SMC is unable to communicate with the battery - it doesn't see the battery due to a short on a data line, or the SMC is dead. That does not appear to be the case because PPBUS_G3H is the proper voltage and there are no shorts on that data line. \n\nA power problem is when a rail that can be powered off the charger or the battery is not working off the battery. Take PP3V42_G3H and observe R6990 and R6905, for instance. PP3V42_G3H is the first rail that must be initialized, so it has inputs from the battery(R6905) and the charger(R6990). If R6905 were blown, then PP3V42_G3H would only work off the charger. Even if the battery [I]were[\/I] charged, battery power would never make its way to U6990 and PP3V42_G3H would never be present. That is not the case here because, as you say, it will turn on from the battery for a short period due to SMC_RESET_L.\n\nIt does not appear to be a logical problem either. PPBUS_G3H is 12.56v, which it would not be if the data line to the battery were destroyed. The same data line to the battery from the SMC, is the data line between the SMC and the ISL6259 chip that tells ISL6259 to make PPBUS_G3H 12.56v. When that data line is destroyed you would only have 12.23v. \n\nIn this case I would guess the issue is SMC. The data provided is too trolling and inconclusive to be certain, but without more history\/signs of corrosion that is all I can provide. Something like [I]\"this happened when someone tried to replace their own battery\"[\/I] is helpful - it would mean that they likely shorted the battery power to the data line which would mean clear cut case of replacing SMC\/ISL6259."
+    },
+    {
+        "post_id":32227,
+        "thread_id":32215,
+        "title":"820-3115 wont run off battery",
+        "user_id":1190,
+        "username":"Gmorb",
+        "post_date":"2018-03-03 20:05:27",
+        "message":"The system had water damage when i got it. the area above the cpu was the most damaged replaced all the components that were barely hanging on to the board that made it turn back on then i ran into that odd battery issue. Holding the power button for 5 seconds on startup makes it work just fine but when i close the lid for longer than 10 seconds and it goes into a sleep state it turns off.\n\nguess ill try replacing isl6259 and if issue continues then ill leave it alone. dont have proper tools to replace smc and seems to me like for the most part its not worth it?\n\nwhats your take for this 2012 model."
+    },
+    {
+        "post_id":32230,
+        "thread_id":32215,
+        "title":"820-3115 wont run off battery",
+        "user_id":1,
+        "username":"larossmann",
+        "post_date":"2018-03-03 22:26:43",
+        "message":"area above CPU = near the SMC. Check all your traces and components in that area again, and replace the SMC after is what I'd say."
+    }
+]

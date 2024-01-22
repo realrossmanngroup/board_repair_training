@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":84392,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":29109,
+        "username":"Outofwhack",
+        "post_date":"2021-12-30 14:02:06",
+        "message":"ppbus_g3h 12.3v\n\n(\nI noticed that if I have battery connected charger does switch to 20v but zero current flows.\nAnother board I have only boots with battery connected otherwise the charger sits at 5volts.\nSo should these boards be debugged with battery connected to allow charger to get to 20v?\n)"
+    },
+    {
+        "post_id":84399,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-31 02:52:37",
+        "message":"Not really true.\nHowever never can trust Apple stuff.\nIs better to have known good battery.\n\nI repaired one few days ago; switched to 20V without battery connected.\nIn fact, it was stuck in 5V, until I disconnected the battery and machine came back to life; with charger alone.\nAfter tested working good, I reconnected the battery and charged correctly."
+    },
+    {
+        "post_id":84416,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":29109,
+        "username":"Outofwhack",
+        "post_date":"2021-12-31 04:24:54",
+        "message":"Thanks for clearing that up.\nCould I get some guidance on finding the problem with the board. I have a new battery for it so should be able to rule the battery out."
+    },
+    {
+        "post_id":84422,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-31 08:38:40",
+        "message":"Did you try DFU?"
+    },
+    {
+        "post_id":84424,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":29109,
+        "username":"Outofwhack",
+        "post_date":"2021-12-31 10:37:00",
+        "message":"Im trying DFU and I see 'DFU' on host Mac [even without jumping swk003] but when I click update I get message \"Configurator could not perform the requested action. Apple Controller devices do not support this action\""
+    },
+    {
+        "post_id":84427,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-31 14:04:54",
+        "message":"Did you try both Revive and Restore options?\nBe aware, Restore will erase SSD, if succeed."
+    },
+    {
+        "post_id":84429,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":29109,
+        "username":"Outofwhack",
+        "post_date":"2021-12-31 15:15:01",
+        "message":"Ive tried both revive and restore and both timeout with message \"The system cannot be restored on this device. Gave up waiting for device to transition from DFU state to DFU state.com.apple.MobileDevice.MobileRestore - 0xFA5 (4005)\nPardon my use of phone  to snap screen image[ATTACH type=\"full\" alt=\"Photo on 31-12-2021 at 23.16.jpg\"]60336[\/ATTACH]\nI have the board out of the case with nothing attached and finding I get the large DFU icon on the host without having to short the pads to get the board into DFU mode."
+    },
+    {
+        "post_id":84570,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":29109,
+        "username":"Outofwhack",
+        "post_date":"2022-01-05 06:24:32",
+        "message":"DFU would not work as displayed above.\nAs a recap the board is stuck at 5volts, 3 USB ports draw around 50mA and one draws zero.\nThe one drawing zero is the top left (XB) when sat at laptop. \nOut of interest when I put an oscilloscope on the clock signal of the flash memory I can see the burst of clock signal when I power the 3 CD3215s that draw current.\nNo burst of clock signal on the CD3215 drawing zero (XB).\nBoth signals USBC_X_RESET_L and USBC_T_RESET_L are 0v when powered on X side and T side and there are no pull up resistors to find.\n\nI tried to follow the steps in logic.wiki for CD3215 boot up sequence.\n\n\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD][\/TD]\n\n[TD]PP3V3_UPC_XB_LDO[\/TD]\n\n[TD]3.2v[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD][\/TD]\n\n[TD]PP1V8_UPC_XB_LDOA[\/TD]\n[TD]1.8v[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD][\/TD]\n\n[TD]PP1V8_UPC_XB_LDOD[\/TD]\n[TD]1.8v[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD][\/TD]\n\n[TD]PP1V1_UPC_XB_LDO_BMC[\/TD]\n[TD]0v (0.44v diode mode)[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD][\/TD]\n\n[TD]HV_GATE1[\/TD]\n[TD]0.36v (10.9v seen on other ports when powered)[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD][\/TD]\n\n[TD]HV_GATE2[\/TD]\n[TD]4.5v (6.7v seen on other ports when powered)[\/TD]\n[\/TR]\n[TR]\n[TD][\/TD]\n\n[TD][\/TD]\n\n[TD]PPDCIN_G3H[\/TD]\n[TD]0v (5.2v seen on other ports when powered)[\/TD]\n[\/TR]\n[\/TABLE]"
+    },
+    {
+        "post_id":84578,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-05 08:28:58",
+        "message":"1V1 LDO can only appear on the powered port.\nCompare diode mode to ground on LDO lines of bad port with another port."
+    },
+    {
+        "post_id":84588,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":29109,
+        "username":"Outofwhack",
+        "post_date":"2022-01-05 10:38:07",
+        "message":"CD3215 XB = U3200\nCD3215 XA = U3100\nCD3215 TA = UB300\nCD3215 TA = UB400\n\n[TABLE]\n[TR]\n[TD][\/TD]\n\n[TD]Voltage (when relevant port powered)[\/TD]\n[TD]Diode Mode[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_XB_LDO[\/TD]\n[TD]3.2[\/TD]\n[TD]0.42[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_XB_LDOA[\/TD]\n[TD]1.8[\/TD]\n[TD]0.477[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_XB_LDOD[\/TD]\n[TD]1.8[\/TD]\n[TD]0.443[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_XB_LDO_BMC[\/TD]\n[TD]0v[\/TD]\n[TD]0.443[\/TD]\n[\/TR]\n[TR]\n[TD]PP3V3_UPC_XA_LDO[\/TD]\n[TD]3.3[\/TD]\n[TD]0.465[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_XA_LDOA[\/TD]\n[TD]1.8[\/TD]\n[TD]0.478[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V8_UPC_XA_LDOD[\/TD]\n[TD]1.8[\/TD]\n[TD]0.43[\/TD]\n[\/TR]\n[TR]\n[TD]PP1V1_UPC_XA_LDO_BMC[\/TD]\n[TD]1.1[\/TD]\n[TD]0.451[\/TD]\n[\/TR]\n[\/TABLE]"
+    },
+    {
+        "post_id":84589,
+        "thread_id":62145,
+        "title":"820-01041 5v 50mA no visible corrosion",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-01-05 12:28:44",
+        "message":"Seems to have a problem around U3200.\nCheck all adjacent resistors; may need to change the chip also."
+    }
+]

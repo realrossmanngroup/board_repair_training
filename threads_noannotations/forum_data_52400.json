@@ -1,0 +1,65 @@
+[
+    {
+        "post_id":52400,
+        "thread_id":52400,
+        "title":"820-00045 - DCIN stuck at 5.21V 65mA",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-18 18:19:04",
+        "message":"This board has no liquid damage, usb meter shows that dcin is set to 5.2V at 0.065A witch means no negociation with SMC.\n\nPP3V3R3V0_AON is missing (0V), 0.306 in diode mode and resistance to ground is 600 kOhms\n\nPP3V3_G3H is missing (0V), 0.359 in diode mode and resistance to ground is 82kOhms\n\nSince I have no short on PP3V3R3V0_AON I don't think replacing yet U4700.\n\nI am tempted to replace U7100 because it's creating PP3V3R3V0_AON.  However, I am not sure what other signal needs  to be present for U7100 to  create PP3V3R3V0_AON. Also I don't know if PP3V3_G3H is my first concern or my second...\n\n\nBtw, I know how CPU will end up on this board:)"
+    },
+    {
+        "post_id":52403,
+        "thread_id":52400,
+        "title":"820-00045 - DCIN stuck at 5.21V 65mA",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-19 01:50:01",
+        "message":"Do you get PPDCIN_G3H_CHGR (5V at least)?\nBe aware, U7100 has firmware, so need donor board."
+    },
+    {
+        "post_id":52413,
+        "thread_id":52400,
+        "title":"820-00045 - DCIN stuck at 5.21V 65mA",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-19 19:13:34",
+        "message":"Yes I do measure 5.22 V on PPDCIN_G3H and PPDCIN_G3H_CHGR.\nCHGR_ACIN voltage divider is working and I get 1,32V.\n\nI found out SMC_RESET_L at 0,22V.\nR7160 is ok at 100kOhms and I get 0,22V on both sides of this resistor.\nNo short, in diode mode, I get 0,720 on SMC_RESET_L and 0,568 on SMC_RST_L.\n\nWaiting for donnour boards will try to replace U7100..."
+    },
+    {
+        "post_id":52418,
+        "thread_id":52400,
+        "title":"820-00045 - DCIN stuck at 5.21V 65mA",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-20 04:03:05",
+        "message":"Looks like bad U7100 in this case..."
+    },
+    {
+        "post_id":52691,
+        "thread_id":52400,
+        "title":"820-00045 - DCIN stuck at 5.21V 65mA",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-28 09:38:08",
+        "message":"I received donnour boards and replaced U7100, now the board is power cycling.\n\nPPDCIN is spiking to 5.21V and PPBUS is spiking to 8.16V\nSMC_RESET_L is now spiking to 3.3V\nPP3V3_G3H is now spiking at 3,3V\nPP3V3R3V0_AON is also spiking to 3,3V\n\nI really have no other idea what to look next, if it's again a bad u7100 or something else messed.\nI can still replace U7100 with another one but power rails and signals changed compared with old u7100 and want to make sure before wasting a lot of time.\n\nI noticed batch code are not the same but u7100 come from same 820-00045 can this also matter?\n\nDefect board had this marking on u7100:\n95530\nB506BH\n\nDonnour board U7100\n95530\nB449AJ\n\nThank for any tips."
+    },
+    {
+        "post_id":52692,
+        "thread_id":52400,
+        "title":"820-00045 - DCIN stuck at 5.21V 65mA",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2019-09-28 10:32:04",
+        "message":"Should be good if really comes from 00045 donor board.\nTry to start in SMC bypass.\nCheck if all PM_SLP_Sx_L signals pulse.\nIf any pulses, check for the corresponding Sx volatges.\nTrigger SMC_ONOFF_L signal for tests..."
+    },
+    {
+        "post_id":52700,
+        "thread_id":52400,
+        "title":"820-00045 - DCIN stuck at 5.21V 65mA",
+        "user_id":296,
+        "username":"jadao",
+        "post_date":"2019-09-28 19:37:46",
+        "message":"Tried smc bypass and nothing happens, it continues pulsing.\nPM_SLP_S5 is missing 0V\nTried my second U7100 and back to square one with only stable 5,2V at ppdcin_g3h. Wanted to try SMC_Bypass and still nothing happened, I checked at SMC_ONOFF_L and it was low 0,2V.\nSo I may have an SMC issue... but this doesn't explain to me why with two U7100 replacement, result are not conistent...\nalso there is no short 0,650 diode mode on SMC_ONOFF_L, R5170 is ok with 10kOhms."
+    }
+]

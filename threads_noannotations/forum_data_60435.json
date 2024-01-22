@@ -1,0 +1,47 @@
+[
+    {
+        "post_id":68735,
+        "thread_id":60435,
+        "title":"820-00045-A DIY Lifeboat Connector",
+        "user_id":26559,
+        "username":"clusterfsck",
+        "post_date":"2020-12-03 08:38:29",
+        "message":"Got an 820-00045-A logic board here that appears to have a failed CPU. I can't find any missing power rails, board pulls 20V from charger, but I can't get it to boot. The customer is only interested recovering his data from the failed MacBook.\n\nWe've had some success using the lifeboat connector on 2016-2017 touch bar boards and I'm wondering if it is possible to do something similar with this board. Unless I'm missing something, both models simply have a PCIe NVMe SSD integrated into the board. There isn't anything incredibly special about the lifeboat connector. Removing the cover disconnects the SSD from the rest of the board and the migration tool taps into the power\/PCIe lines leading to the SSD. Can you similarly tap into the power\/data lines on this logic board and access the SSD with another computer?\n\nI decided to try wiring up a working 820-00045-A board to a PCIe-M.2 (NGFF) adapter. I removed the M.2 connector from the adapter made the following connections to the logic board:\n\n[IMG]https:\/\/i.imgur.com\/svlvq6F.jpg[\/IMG]\n\n[TABLE]\n[TR]\n[TD]M.2 Pin[\/TD]\n\n[TD]Logic Board[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]1 GND[\/TD]\n\n[TD]GND[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]41 PETn0[\/TD]\n\n[TD]PCIE_SSD_D2R_N<0>[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]43 PETp0[\/TD]\n\n[TD]PCIE_SSD_D2R_P<0>[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]47 PERn0[\/TD]\n\n[TD]PCIE_SSD_R2D_C_N<0>[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]49 PERp0[\/TD]\n\n[TD]PCIE_SSD_R2D_C_P<0>[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]50 PERST#[\/TD]\n\n[TD]SAK_SSD_PCIE_RESET_L[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]52 CLKREQ#[\/TD]\n\n[TD]SSD_CLKREQ_L[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]53 REFCLKn[\/TD]\n\n[TD]PCIE_CLK100M_SSD_N[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[TR]\n[TD]55 REFCLKp[\/TD]\n\n[TD]PCIE_CLK100M_SSD_P[\/TD]\n\n[TD][\/TD]\n[\/TR]\n[\/TABLE]\n\nTo stop the logic board from trying to access the SSD, I tied PM_SYSRST_L to GND. I verified that grounding this signal does reset the machine and I'm hoping holding the CPU in a reset state keeps it off the PCIe bus. I secured the logic board to the adapter board and stuck it in a Linux box. Unsurprisingly, this did not work. The host machine did not see an NVMe SSD or anything in the PCIe slot.\n\nOne of my earliest concerns was how to go about powering the SSD. The lifeboat migration tool supplies its own 3.3V, but different SSD components (DRAM buffer, NAND, etc.) require different voltages and I worried that these wouldn't be supplied without the enable signals from the system.\n\nHas anyone tried something like this before and had success?"
+    },
+    {
+        "post_id":68742,
+        "thread_id":60435,
+        "title":"820-00045-A DIY Lifeboat Connector",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-12-03 11:32:28",
+        "message":"You try to access the same lines which CPU requires to work with SSD.\nData migration tool is good for non-working boards, where SSD area is still OK; bad CPU, or other onboard problem.\nIn your case, CPU works.\nWhy do you think you can access the lines which CPU cannot???"
+    },
+    {
+        "post_id":68752,
+        "thread_id":60435,
+        "title":"820-00045-A DIY Lifeboat Connector",
+        "user_id":26559,
+        "username":"clusterfsck",
+        "post_date":"2020-12-03 14:31:13",
+        "message":"CPU on the customer board is bad. The customer needs his data, though, and I'm assuming the SSD still works. My idea is to connect another PC to the PCIe lines going to\/from the SSD to recover the data.\n\nI have another, working board that I'm testing with because I don't want to risk damage to the customer board. I wired everything up like I described, but could not see the SSD with the other PC. Asking if anyone here has tried something similar or has any insight on how to make this work."
+    },
+    {
+        "post_id":68753,
+        "thread_id":60435,
+        "title":"820-00045-A DIY Lifeboat Connector",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-12-03 14:36:06",
+        "message":"Hopeless project, if you cannot isolate CPU from SSD data lines.\nLifeboat connector does that, but no way here.\nData lines remain connected to BAD CPU, which will block the communication."
+    },
+    {
+        "post_id":68757,
+        "thread_id":60435,
+        "title":"820-00045-A DIY Lifeboat Connector",
+        "user_id":26559,
+        "username":"clusterfsck",
+        "post_date":"2020-12-03 14:46:03",
+        "message":"Okay, thanks"
+    }
+]

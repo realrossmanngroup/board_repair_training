@@ -1,0 +1,101 @@
+[
+    {
+        "post_id":65030,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":27570,
+        "username":"DCSTechs",
+        "post_date":"2020-09-11 10:02:28",
+        "message":"Hi, new to the forum and have been reading some of the posts on the A1534 and not feeling good about getting this one. Device had battery changed by another tech and now will not power up. Below are the voltage measurements. PM_SLP_S4_L = 0 which I think is due to PM_RSMRST_L being at 61mv. R7810 resistance measures fine and did not find anything out of the ordinary with diode mode. Tracing back on the schematics I think the issue could be with U7800 but wanted some expert advice on where I might go next to validate. I do not have an Oscope to check clock signals. Thanks in advance.\n\nPPVRTC_G3H = 3.09\nPCH_SRTCRST_L = 3.07\nPP3V3_S5 = 3.34\nPM_DSW_PWRGD = 3.35\nPP3V3_SUS = 3.34\nPM_BATLOW_L = 3.32\nPM_RSMRST_L = 61mv\nPM_PWRBTN_L = 3.34\nPM_SLP_S4_L = 0"
+    },
+    {
+        "post_id":65043,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-11 17:32:06",
+        "message":"First of all, welcome to the forum!\n\nWhat is the exact PPBUS_G3H voltage?\nTrigger SMC_ONOFF_L and check for drop pulse at PM_PWRBTN_L at same time.\n\nPM_RSMRST_L can be pulled down by U7800, SMC, or PCH.\nCheck PCH_RTCRST_L and PCH_INTRUDER_L."
+    },
+    {
+        "post_id":65082,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":27570,
+        "username":"DCSTechs",
+        "post_date":"2020-09-12 09:05:44",
+        "message":"Thanks for the welcome and the help. \n\nPPBUS_G3H  = 8.72\n\nPM_PWRBTN_L  dropped to .3 from 3.3 when  PM_PWRBTN_L  triggered\n\nPCH_INTRUDER_L  = 2.57 (seems low to me)\nPCH_RTCRST_L  = 3.07\nPPVRTC_G3H = 3.08"
+    },
+    {
+        "post_id":65084,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-12 10:30:57",
+        "message":"PCH_INTRUDER_L is good enough.\n\n\"when  PM_PWRBTN_L  triggered\"\nDo you mean SMC_ONOFF_L?\nIf yes, PCH receives the power button information from SMC, but cannot reply while PM_RSMRST_L is pulled down.\nPost diode mode to ground at PM_RSMRST_L with red probe at ground."
+    },
+    {
+        "post_id":65122,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":27570,
+        "username":"DCSTechs",
+        "post_date":"2020-09-12 15:10:16",
+        "message":"sorry, yes I meant SMC_ONOFF_L\n\nPM_RSMRST_L  diode measurement is .415"
+    },
+    {
+        "post_id":65125,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-12 17:18:59",
+        "message":"You can try replacing SMC and U7800.\nIf PM_RSMRST_L still low, then bad PCH (CPU)...\n\nYou should already know the CPU on A1534 board doesn't have long life..."
+    },
+    {
+        "post_id":65166,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":27570,
+        "username":"DCSTechs",
+        "post_date":"2020-09-13 14:25:23",
+        "message":"Thanks and I have read a lot on here about these CPUs so hoping it is not."
+    },
+    {
+        "post_id":65220,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":27570,
+        "username":"DCSTechs",
+        "post_date":"2020-09-14 11:26:47",
+        "message":"Thanks again for all of your help. One more question. Do you know where I can find the ICs? I have been unable to locate them."
+    },
+    {
+        "post_id":65224,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-14 11:41:29",
+        "message":"Which ICs???"
+    },
+    {
+        "post_id":65230,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":27570,
+        "username":"DCSTechs",
+        "post_date":"2020-09-14 13:52:47",
+        "message":"U7800 and SMC for the 820-00244"
+    },
+    {
+        "post_id":65231,
+        "thread_id":59996,
+        "title":"A1534 820-00244 no boot",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-09-14 15:00:38",
+        "message":"SMC MUST be from donor board, same model.\nI don't know if U7800 has specific firmware for particular board; maybe not, need to try..."
+    }
+]

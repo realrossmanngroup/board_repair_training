@@ -1,0 +1,92 @@
+[
+    {
+        "post_id":83215,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":31779,
+        "username":"leshuq",
+        "post_date":"2021-12-01 03:50:39",
+        "message":"Hello everyone.\nGot some liquid spill on KB and on the housing, but none of it actually made it to the board.\n\nWell, where to start...\nBoard slow boots, then asks for critical update.\nThat's all, I suppose.\n\nWhat's done:\n- Checked for corrosion everywhere, none found\n- Checked PMU output voltages on main 4(?) Coils, seems fine to me, never checked the LDOs though.\n- Checked diode readings from anywhere the T1 goes (touchid connector, touchbar connectors, lcd connector)\nSPI\/I2C lines seems fine, voltages seem to be fine too.\n- Booted OS from safe mode, there is Apple Mobile Device (Recovery Mode) as expected, seems than it can't get out of recovery.\n- Checked SPI data lines with oscope between T1 and its SPI, there is some life.\n- Being out of options, swapped T1, it's SPI and SEP from donor board. Made no difference.\n- Swapped touchbar to a \"new\" one. Never saw it working.\n- Swapped T1's PMU from donor, again, no difference.\n- Checked i2c\/SPI pull-ups everywhere I can find, seems fine.\n- Booted bare board with only usbc connector, external monitor and nothing else. Same thing here. Tries to update and then rolls back to same screen asking to update.\n\nTo make it clear: this is not the network issue, not the OS issue probably, as I tried wiping SSD clean and doing a clean install of Monterey, tried booting from external Catalina, tried different Wi-Fi network, nah.\n\nSo, 2 questions:\n1) can it update T1 succesfully if there is nothing connected to it? (Touchbar, touchid, nfc, lcd, camera, als) what's the minimal setup? Anyone ever experimented?\n2) what am I missing here? Maybe there is something that needs to be checked that I've missed?\n\nThx"
+    },
+    {
+        "post_id":83219,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-01 06:30:59",
+        "message":"First of all, welcome to the forum!\n\nTried all mentioned by dukefawks here?\n[URL unfurl=\"true\"]https:\/\/boards.rossmanngroup.com\/threads\/touchbar-critical-software-update-required.58379\/[\/URL]\n\nCheck DFR_TOUCH_LID and DFR_TOUCH_RESET_L levels."
+    },
+    {
+        "post_id":83234,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":31779,
+        "username":"leshuq",
+        "post_date":"2021-12-01 09:20:01",
+        "message":"[QUOTE=\"2informaticos, post: 83219, member: 682\"]\nFirst of all, welcome to the forum!\n[\/QUOTE]\nThx\n[QUOTE=\"2informaticos, post: 83219, member: 682\"]\nTried all mentioned by dukefawks here?\n[\/QUOTE]\nYep. Tried all combinations.\n[QUOTE=\"2informaticos, post: 83219, member: 682\"]\nCheck DFR_TOUCH_LID and DFR_TOUCH_RESET_L levels.\n[\/QUOTE]\nDFR_TOUCH_LID = 0.15V,\n\/Retried measuring, lid = 0v when board is only connected to power, booted.\/\nSMC_LID = 3,3V\nreset is 0V.\n\/Again, remeasured when board is laying flat on the table, reset= 1,8V, that's weird\/\n\nThat is without touchbar connected at all.\n_______________________________________________\nGot diode readings under berkellium from actually working board, compared with mine, the same"
+    },
+    {
+        "post_id":83237,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-01 10:37:27",
+        "message":"SMC_LID must be high and DFR_TOUCH_LID low (0V), when lid is open.\nDFR_TOUCH_RESET_L must be high.\nAlso be sure PMU_TO_SOC_RESET_L is high."
+    },
+    {
+        "post_id":83239,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":31779,
+        "username":"leshuq",
+        "post_date":"2021-12-01 10:43:07",
+        "message":"[QUOTE=\"2informaticos, post: 83237, member: 682\"]\nSMC_LID must be high and DFR_TOUCH_LID low (0V), when lid is open.\nDFR_TOUCH_RESET_L must be high.\nAlso be sure PMU_TO_SOC_RESET_L is high.\n[\/QUOTE]\nWell, you're right;\nDFR_TOUCH_RESET seemed to be the issue.\nGot it booted up on the table and flashed with TB connected.\n______\nIt refused to flash-boot T1 without TB attached\nWhen flashed successfully, board can boot without TB.\n______\nThx y'all"
+    },
+    {
+        "post_id":83242,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-01 12:25:54",
+        "message":"What was the reason of incorrect DFR_TOUCH_RESET_L?\n\nBTW, write directly into reply box, instead of clicking Reply button.\nNo real reason to quote an entire post, visible few centimeters above.\nWe try to maintain forum aesthetic, thanks."
+    },
+    {
+        "post_id":83243,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":31779,
+        "username":"leshuq",
+        "post_date":"2021-12-01 13:15:41",
+        "message":"Well, that's surely something to dig more into, I guess.\nI don't exactly figured out the real reason by now.\nWhen board was in the housing, it was below 1,8. \nThen when I took the board out again for some additional measurings, I checked it again, and it was there. You know the rest of the story.\n\nFor now I suspect pullup resistor to 1,8. There are two options that come to mind right now, either it was shorted to gnd cause it was touching some shielding below or maybe it was some solder crack or other defect, but i triple checked under microscope, and it looks fine to me. \n\nAnyway, it's getting late, I'll continue to work on this tomorrow. Maybe I find the real reason."
+    },
+    {
+        "post_id":83244,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-01 13:40:42",
+        "message":"Liquid spilled on keyboard may affects SMC_LID; check it w\/ and w\/ trackpad connected.\nAlso check HALL_SENSOR_LEFT\/RIGHT, both connected; the pull-up resistor is near the sensors, not on MLB."
+    },
+    {
+        "post_id":83245,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":31779,
+        "username":"leshuq",
+        "post_date":"2021-12-01 13:44:41",
+        "message":"But SMC_LID is high and judging by the schematic, it works fine, DFR_TOUCH_LID is 0v"
+    },
+    {
+        "post_id":83248,
+        "thread_id":62029,
+        "title":"820-00239 Critical update issue",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-12-01 15:59:14",
+        "message":"Check hall sensor signals when board is mounted in the shell; in case touchbar doesn't work then."
+    }
+]

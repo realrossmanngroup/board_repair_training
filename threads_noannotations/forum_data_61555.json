@@ -1,0 +1,119 @@
+[
+    {
+        "post_id":78701,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":427,
+        "username":"overshoot",
+        "post_date":"2021-08-10 22:43:48",
+        "message":"Hi,\n\nI got that board for data recovery.\nCustomer went to Apple after he cracked his screen.\nMacBook was working prior to going to Apple as he said he could use it on an external screen + internal screen was lighting up.\nApple did diagnose that both screen and mainboard were dead.\nAnyhow, Apple did not wanted to get his board replaced or fixed.\n\nCustomer needs data recovery now and hopefully would like to fix the laptop but he has crypto on it so data recovery is more important.\n\nInspection...\nBoard takes 20V and amperage will go to around 0.3A before going to 0 and does that over and over again.\nThere are no visual damage on the board, neither corrosion or knocked off parts.\nWith thermal cam I am only seeing the PMIC\/T2 area getting warm.\nI've tried a DFU revive with no luck on both Catalina\/BigSur and I am always getting the same error message.\n\nMeasurements...\nPPBUS_G3H jumps between 12.3V and 12.6V every 3-4 seconds\n\nPPVDDCPU_AWAKE - 0.75V\nPP1V2_AWAKE - 1.2V\nPP1V8_AWAKE - 1.8V\nPPVDDCPUSRAM_AWAKE - 0.8V\nPP0V82_SLPDDR - 0.82V \nPPVDDCPUSRAM - 1.06V\nPP3V3_G3H_PMU_VDDMAIN - 3.34V\nPP1V_PRIM - 0V\nPPVPCORE_S5 - 0V\nPP1V8_SLPS2R - 1.8V\nPP0V9_SLPDDR - 0.9V\nPP1V1_SLPS2R - 1.09V\nPP0V8_SLPS2R - 0.8V\nPP3V_G3H_RTC - 3V\nPP1V8_S5 - 0V\nPMU_ONOFF_L - 3.4V\nPMU_RSLOC_RST_L - 3.4V\nPM_SLP_S4_L - 0V\nPM_SLP_SUS_L - 0V"
+    },
+    {
+        "post_id":78702,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":427,
+        "username":"overshoot",
+        "post_date":"2021-08-10 22:57:30",
+        "message":"While PPBUS_G3H is a 12.6V I am also getting the following SSD voltages:\n\n- PP0V9_SSD0 - 0.9V\n- PP1V8_SSD0 - 1.8V\n- PP3V3_G3H_SSD0 3.3V\n- PP2V7_NAND_SSD0 2.7V\n\nEDIT: I have to mention that I can see the NANDs warming up as well as U9000 and U9080 under the thermal cam."
+    },
+    {
+        "post_id":78703,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-11 00:33:14",
+        "message":"SSD voltages must be present all the time, as T2 requires access to its firmware partition.\n\nWhy the client accepted non-working machine back from Apple, if it was good with external screen?\nSomething happened in the Apple service; if they really disassemnled the machine.\n\nDid you test the board alone on the desk?"
+    },
+    {
+        "post_id":78707,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":427,
+        "username":"overshoot",
+        "post_date":"2021-08-11 01:07:58",
+        "message":"Because here is Thailand and there are not much recourse...\nAlso they just mentioned that the board had an underlying problem that came after.\n\nAnyhow, he needs data.\n\nI did indeed test the board alone.\nIf those SSD voltages come up, stay for a few seconds and then drop (with PPBUS dropping to 12.2V), should I be concern about the PPBUS voltage or SSD voltages first?"
+    },
+    {
+        "post_id":78708,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-11 01:39:23",
+        "message":"PPBUS_G3H dropping denotes some problem with T2.\nSomehow, it loses the communication with U7000.\n\nPPBUS_G3H stays high for 3-4s and drops after, or viceversa?\nCheck diode mode to ground on all big coils and after Power FETs.\nAlso try starting in SMC bypass mode."
+    },
+    {
+        "post_id":78711,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":427,
+        "username":"overshoot",
+        "post_date":"2021-08-11 03:30:12",
+        "message":"It stays high for 3-4s while amperage is climbing.\nOnce drop to 0, this is when PPBUS drops to 12.2V\n\nSo I have to suspect a short somewhere I guess.\n\nSince I am not getting an S5 rail to pulse I was thinking it has to do first with the PMIC\/T2 correct?\nI am not getting the TRIM rails coming out of the PMIC. Is that a concern yet?"
+    },
+    {
+        "post_id":78715,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-11 06:23:29",
+        "message":"If PPBUS_G3H reaches 13V, T2 communicates with U7000 in this time.\nLooks like something happens when the board tries to boot.\nDo you get a pulse at least, on any S5 voltage?"
+    },
+    {
+        "post_id":78740,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":427,
+        "username":"overshoot",
+        "post_date":"2021-08-12 01:59:58",
+        "message":"PP5V_S5_LDO is the only S5 that has voltage.\nNothing, not even a pulse on the others.\n\nHere are some measurements:\n\nPP5V_S5_LDO 5V\nPM_SLP_S5_L 0V (no short)\nPP1V05_S5_PCH_VCCDSW 0V (no short)\nPP1V24_S5_PCH_VCCDPH 0V (no short)\nPP1V8_S5 0V (no short)\nPP3V3_S5 0V (no short)\nPPVPCORE_S5 0V (200ohms)\n\nPP5V_G3S 5V\nPP1V8_G3S 1.8V\nPP3V3_G3S 3.3V"
+    },
+    {
+        "post_id":78745,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-12 04:56:00",
+        "message":"\"Also try starting in SMC bypass mode.\"\n?"
+    },
+    {
+        "post_id":78771,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":427,
+        "username":"overshoot",
+        "post_date":"2021-08-12 21:02:48",
+        "message":"It did not make any difference from what I can tell"
+    },
+    {
+        "post_id":78783,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-13 05:05:34",
+        "message":"Could be broken trace, solders, knocked off components..."
+    },
+    {
+        "post_id":78826,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":427,
+        "username":"overshoot",
+        "post_date":"2021-08-13 22:11:22",
+        "message":"I understand that it could be all of these things.\nIs there a chart of which signal in order we should be looking at to find out where it's hanging?\n\nLike for instance, with no S5 rails coming up, what rails should I be checking before that. Any idea please?"
+    },
+    {
+        "post_id":78831,
+        "thread_id":61555,
+        "title":"820-00850 - No S5 voltages",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2021-08-14 00:36:04",
+        "message":"If T2 stops to communicate with U7000, it will not continue power on sequence also.\nPossibly detects a short in the sequence, if drops after 3-4s only.\nStrange that no pulse at all on S5 voltages; check them for short."
+    }
+]

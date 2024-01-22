@@ -1,0 +1,74 @@
+[
+    {
+        "post_id":62775,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-23 12:45:22",
+        "message":"Hello. I got a 820-00840 board in that is running perfectly fine but the battery seems to be draining even when the computer is turned off. I shutdown the computer last night from OSX with 48% battery and closed the lid and left it overnight unplugged. This morning when I opened the lid, it turned on with only 8% battery left. I checked the board with it off and the battery connected and do not have any voltage on the S5 rails. PP3V3_G3H is 3.3v and PPBUS_G3H is 11v. The board looks spotless, so not sure where to look. I have also tried to put the board in a completely different case with another battery and screen, but the battery is still draining about 5% every hour with the computer off."
+    },
+    {
+        "post_id":62776,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-23 14:04:25",
+        "message":"Check CHGR_BMON level in the off state."
+    },
+    {
+        "post_id":62781,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-23 17:01:12",
+        "message":"CHGR_BMON is 0v and CHGR_AMON is also 0v"
+    },
+    {
+        "post_id":62782,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-23 17:40:00",
+        "message":"Change U7800, let see what happens...\n\n\"CHGR_BMON is 0v\"\nIt is really 0.000V???"
+    },
+    {
+        "post_id":62801,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-24 06:34:03",
+        "message":"With the board off, CHGR_BMON was showing 5.3 mv. I changed U7800 from a donor board last night, and checked CHGR_BMON again and it was still 5.3 mv. When the board is on and running off the battery, CHGR_BMON is only like 23 mv. I turned the computer off last night at 49% charge and this morning it had 30%, which seems better then before, but still seems to be using to much power when off."
+    },
+    {
+        "post_id":62805,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-24 08:56:12",
+        "message":"I disconnected the battery and only plugged in the charger with my amp meter to start the board. Once it booted to OSX, I shut it down and left the charger still connected, and the amp meter shows its taking 19.8v 0.14a while off."
+    },
+    {
+        "post_id":62808,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2020-07-24 13:53:47",
+        "message":"3V3_S5 is present on charger.\nCompare the consum with good board."
+    },
+    {
+        "post_id":62816,
+        "thread_id":59710,
+        "title":"820-00840 battery drains while off",
+        "user_id":7922,
+        "username":"tcampbell34",
+        "post_date":"2020-07-24 20:13:12",
+        "message":"Ok I think I fixed this issue. I tested the board only with the charger and amp meter connected, and then I shorted SMC_ONOFF_L to ground and the board did not fully turn off. It was still using 19v and 0.15a, and I tried the same on a working board, and that one takes 19v 0.01a when off. While checking some rails with the board off and charger connected, I noticed U3100 was getting very hot. Found a partial short on PP3V3_UPC_XA_LDO, so I replaced U3100 and now the board is only using 19v 0.01a when off, just like the good board. I will check tomorrow morning to make sure it did not drain battery overnight, but I thinks its solved. Weird that the issue was a CD3215 chip, since the board was turning on fine and both ports were working fine for charging at least."
+    }
+]

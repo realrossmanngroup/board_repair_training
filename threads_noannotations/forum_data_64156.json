@@ -1,0 +1,92 @@
+[
+    {
+        "post_id":101236,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":55318,
+        "username":"CaptOnH2O",
+        "post_date":"2023-08-28 02:15:25",
+        "message":"TLDR: Aside from replacing the DC IN board, does anything below indicate need to replace ISL6259 IC? Is there a way to test the charger (60W) to see if the cable needs replacing? (No fraying or exposed wiring, but the cord bends too easily just outside the rubber nipple at the brick.)\n\nI have a 2011 13\" MBP that won't charge or power on. I can't find any usable voltage anywhere on the board so I tested the DC IN board (820-2565-A, which looks rough). Here's what I got:\n[TABLE]\n[TR]\n[TD][B]Pin[\/B][\/TD]\n[TD][B]Name[\/B][\/TD]\n[TD][B]Volts[\/B][\/TD]\n[TD][B]Ohms[\/B][\/TD]\n[TD][B]Continuity\n to Ground[\/B][\/TD]\n[TD][B](Unplugged)\n Cont to Gnd[\/B][\/TD]\n[TD][B](Unplugged)\n Ohms[\/B][\/TD]\n[\/TR]\n[TR]\n[TD]1[\/TD]\n[TD]PPV18V5_DCIN_FUSE[\/TD]\n[TD]0[\/TD]\n[TD].3[\/TD]\n[TD]Yes[\/TD]\n[TD]No[\/TD]\n[TD]1.85M[\/TD]\n[\/TR]\n[TR]\n[TD]2[\/TD]\n[TD]PPV18V5_DCIN_FUSE[\/TD]\n[TD]0[\/TD]\n[TD].3[\/TD]\n[TD]Yes[\/TD]\n[TD]No[\/TD]\n[TD]0[\/TD]\n[\/TR]\n[TR]\n[TD]3[\/TD]\n[TD]GND[\/TD]\n[TD]0[\/TD]\n[TD].1[\/TD]\n[TD]Yes[\/TD]\n[TD]Yes[\/TD]\n[TD]0[\/TD]\n[\/TR]\n[TR]\n[TD]4[\/TD]\n[TD]GND[\/TD]\n[TD]0[\/TD]\n[TD].1[\/TD]\n[TD]Yes[\/TD]\n[TD]Yes[\/TD]\n[TD]40k[\/TD]\n[\/TR]\n[TR]\n[TD]5[\/TD]\n[TD]Adapter Sense[\/TD]\n[TD]0.3V[\/TD]\n[TD]350k[\/TD]\n[TD]Yes[\/TD]\n[TD]No[\/TD]\n[TD]40k[\/TD]\n[\/TR]\n[\/TABLE]\n\nI also measured Volts on U6900 & U6901 and got the following:\nSYS_ONEWIRE - 0.5mV falls to 0.2mV\nSMC_BC_ACOK_VCC - 0.1mV\nSMC_BC_ACOK - 13mV falls slowly to 0.2mV\nPP3V42_G3H - 0.5mV falls slowly to 0.2mV\n\nThe logic board was dusty but after gentle cleaning (soft ESD brush, NOT toothbrush, + 99% Alcohol) I don't see any obvious signs of burning or corrosion. The DC IN board itself looks OK but the MagSafe connector looks rough - signs of cracking & exposed pin surface.\n\nI definitely plan to replace the DC IN board. Does anything in the above readings indicate need to replace ISL6259 chip? (This would be my first microsolder attempt and would rather skip if it can be avoided.) Is there a way to test the charger? It's genuine and a bit dirty, but no frayed\/exposed wires. The charging cable bends too easily just outside the rubber nipple at the brick.\n\nAs advised in the Rossmann Repair Training Guide, I did NOT use my genitals to check for thermal issues.\n\nThanks!"
+    },
+    {
+        "post_id":101241,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-28 05:50:48",
+        "message":"First of all, welcome to the forum!\n\nYou should test with known good Magsafe charger.\nEven lab power supply with correct 60\/85W cable is good enough for test.\n\nOriginal Apple charger is smart and will not deliver any voltage, if detects a short in MacBook.\nIf nothing connected to charger, it will not deliver more than 6V anyway.\n\nDo you get 0.3 ohm (300 miliohm) to ground at F6905?\nOr that was just diode mode (0.300) reading?\nIf you really have short on DCIN board, there is a protection TVS diode which is first suspect."
+    },
+    {
+        "post_id":101273,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":55318,
+        "username":"CaptOnH2O",
+        "post_date":"2023-08-29 03:55:08",
+        "message":"Thanks for the welcome!\n\nI don't have a spare Magsafe charger nor lab power just yet. The pins on the magsafe charger only output 0.03V on the Adapter Sense pin, 0V on the neighboring pins when tested to the outside (GND) pins. But just now I noticed EACH of the 5 Magsafe pins output 0.03V when measured against the Magsafe housing.\n\nI had yet to remove the left speaker. Yes, I get 0.3 Ohm at F6905 to ground when charger is plugged in. Here's something unexpected... I accidentally had the Magsafe plugged in, but the charger brick was not plugged in... I still read 0.3 Ohm. But when Magsafe is unplugged, I get 40k Ohm. Multimeter is set to resistance only, not diode mode. If I'm reading it correctly, I would need to set it to 2k Ohm for diode mode.\n\nYou mention TVS diode... R1980 reads 3.5k Ohm at pin 1 to ground, 2.5k at pin 2 to ground, which confirms 1k per schematic."
+    },
+    {
+        "post_id":101278,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-29 06:48:18",
+        "message":"\"I get 0.3 Ohm at F6905 to ground when charger is plugged in.\"\nSTOP checking diode mode, or ohm scale, with power applied.\n\nUse diode mode scale; switch to ohm scale only for low readins, like under 0.010...\n\nIf no short between DCIN board pins, TVS diode is Ok.\nYou probably have leakage problem on the MLB and original charger detects it.\nPost ohm resistance for R7080\/81 and R7085\/86, measured on board."
+    },
+    {
+        "post_id":101292,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":55318,
+        "username":"CaptOnH2O",
+        "post_date":"2023-08-29 19:18:41",
+        "message":"\"STOP checking diode mode, or ohm scale, with power applied.\"\nUnderstood, thanks for clarifying.\n\nR7080 - 98kO (in spec)\nR7081 - 60.2kO (in spec)\nR7085 - 472kO (in spec)\nR7086 - 330kO (in spec)"
+    },
+    {
+        "post_id":101293,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-30 00:58:19",
+        "message":"Q7080\/85 look good, shouldn't cause a leakage.\n\nGet a known good charger and test the board.\nFake\/chinese charger will help you to detect a leakage situation."
+    },
+    {
+        "post_id":101315,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":55318,
+        "username":"CaptOnH2O",
+        "post_date":"2023-08-30 16:41:39",
+        "message":"I have an 85W Apple charger on its way. Should arrive tomorrow. Will report findings then. Thanks!\n\nHave any recommendations for a reputable seller of replacement magsafe cables? I found [URL='https:\/\/www.ebay.com\/itm\/174576664240?hash=item28a5947eb0']this one on eBay[\/URL] but don't know how to tell if they're legit. Am I correct in assuming my original charger is NOT built to provide 85W and therefore should NOT install an 85W rated cable?"
+    },
+    {
+        "post_id":101316,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-08-30 17:36:26",
+        "message":"A1278 requires 60W cable; but works with 85W also.\nFor testing purpose, you can use 85W cable connected to lab power supply.\nIt will help to detect leakage problems.\nI recommend to connect Magsafe cable to laptop first; next apply 18V from lab power supply."
+    },
+    {
+        "post_id":101360,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":55318,
+        "username":"CaptOnH2O",
+        "post_date":"2023-09-02 13:05:46",
+        "message":"Charger delivery was delayed. Got it earlier today... plugged it in and got fan spin. Assembled the MBP and it booted without issue!\n\nBefore I send this back to my friend, would there be any point to checking voltages on the board?\n\nFor a 12 year old laptop it looks OK. Only a few spots where there's a hint of corrosion. I don't feel comfortable resoldering or reflowing any parts on an otherwise working board until I get some practice in on non-functioning PCBs.\n\nI also want to replace the MagSafe cable on the old charger but will post separately about things to check first.\n\nThanks a ton for your help! I learned A LOT! Enough, in fact, to spot some crappy soldering on some eSATA external enclosures I recently bought (and will be returning per MFR Support)."
+    },
+    {
+        "post_id":101362,
+        "thread_id":64156,
+        "title":"[SOLVED] A1278 820-2936-A only 0.3V on Adapter Sense pin",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-09-02 15:25:41",
+        "message":"No more checkings on the board if machine works properly.\nTell all keys, camera, ambient light sensor, keyboard backlight, sound."
+    }
+]

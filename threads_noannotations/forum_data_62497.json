@@ -1,0 +1,389 @@
+[
+    {
+        "post_id":87681,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-20 05:44:33",
+        "message":"Hello guys, I have this one with a non-starting failure, on board diagnostic led 1 lights ok, tested with other know working power supply to discard, same behavior.\n\nthe S5 lines read: \n\nPP1V1_S5_REG -> 1.11V\n\nPP3V3_S5_REG -> 3.37V\n\nPP5V_S5_LDO -> 4.98V\n\nPP12V_S5 -> 12.01V \n\nSeems this are all ok\n\nThis one not, too high reading, maybe the same culprit:\n\nPGOOD_1V1_S5 -> 3.37V (should not be 1.1V?)\n\nI was thinking that the U7300 could be the problem, as reading here on some other similar faults, but replaced it 2 times and all is the same.\n\nAny guidance would we appreciated, this is making me crazy.\n\nRegards"
+    },
+    {
+        "post_id":87688,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-20 09:28:45",
+        "message":"First of all, welcome to the forum!\n\nU7300 is the first suspect on this model.\nHowever, before change it, check if gets proper voltage and signal to work.\nTrigger SMC_ONOFF_L signal and check U7300 basic voltage; pins 11, 10, 1.\n\n\"PGOOD_1V1_S5 -> 3.37V (should not be 1.1V?)\"\nDon't make confusion between a power rail and one of its related signals.\nDo you expect to get 1.1V on all U7950 pins with \"1V1\" included in the signal\/power name???\nDon't make wrong assumptions so easy in the future..."
+    },
+    {
+        "post_id":87714,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-21 00:32:47",
+        "message":"Many thanks!\n\nSorry for the mistake, I'm still learning, I do not distinguish well the nomenclatures used on this boards.\n\nU7300\n\nPin 11-> 12.08v\nPin 10-> 5.15v\nPin 1-> 3.36v"
+    },
+    {
+        "post_id":87715,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-21 02:01:33",
+        "message":"Possibly bad chip.\nIf really good, then check all surrounding resistors and traces.\nAlso check C7306 and D7301.\n\nBe sure to solder U7300 properly; this board has lot of copper, not easy to heat.\nScratch chip pads and apply leaded solder on them (including laterally) before placing it on the board.\nYou must get nice solder between board pads and lateral of the chip too."
+    },
+    {
+        "post_id":87718,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-21 02:27:56",
+        "message":"C7306 pin1-> 2.15v pin2-> 0v 1.1nF seems OK\nD7301 Pin1-> 5.15v pin2-> 6.74v, at diode mode 0.160v and 0v\n\nWill try again to solder the chip, I preheat the board a little to make easy the solder"
+    },
+    {
+        "post_id":87722,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-21 04:31:26",
+        "message":"Same result, still no luck"
+    },
+    {
+        "post_id":87728,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-21 06:34:09",
+        "message":"U7300 gets power and enable; so should generate 5V_S3.\n\nFor surrounding components, I was expected that you check their values (ohm scale; out of board, if needed).\nI didn't ask for diode mode to ground on them.\nDiode mode to ground on L7320 yes, must be checked.\nBe sure all traces and solders are good.\nCheck U7300 again..."
+    },
+    {
+        "post_id":87749,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-22 05:43:02",
+        "message":"Hello, will work around, soldered a new one again, and same.\n\nL7320 -> 0.118\n\nR7301-> 99.9K\nR7302-> 24.89K\nR7304-> 0\nR7305-> 7.70K ?? (43.2k)\nR7306-> 6.8K ?? (8.06k)\nR7310-> 9.92K \nR7311-> 101.1K \nR7312-> 38K  ?? (100k)\n\nShould any of the ?? ones to be desoldered to check out the board? \n\nThe  D7301 Pin1-> 5.093v pin2-> 5.071v \n\nMany thanks for your advice"
+    },
+    {
+        "post_id":87759,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-22 09:43:56",
+        "message":"Value for resistors measured on board is lower than nominal; this happens for high values, K\/Mohm.\n\nIf you get correct power input and enable signal for U7300, I can only suspect bad solders, or broken traces.\n\nWhen I said \"surrounding resistors\", I was looking at schematic; some components can be placed on other side of the board.\nYou may need to replace Q7330\/35 and C7326."
+    },
+    {
+        "post_id":87809,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-23 04:34:21",
+        "message":"Hello, unsoldered the Q7330 and the Q7335, both seems good on readings and gate enabling compared with new ones.\nThe C7326 reads 102,5nf (0.1uF) seems OK"
+    },
+    {
+        "post_id":87814,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-23 06:17:36",
+        "message":"Did you solder new U7300, or from scrap board?"
+    },
+    {
+        "post_id":87815,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-23 06:21:00",
+        "message":"New ones"
+    },
+    {
+        "post_id":87819,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-23 07:43:17",
+        "message":"If got all them from same seller, try to find another lot; or get one from scrap board."
+    },
+    {
+        "post_id":87826,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-23 09:21:29",
+        "message":"Two lots of 2 units from different sellers, latest ones came in bga sealed packets, tested all four with same results, just because of this I said this make me crazy. Any other thing to check?"
+    },
+    {
+        "post_id":87829,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-23 10:44:26",
+        "message":"Nothing more that already said.\nIf chip gets power and enable then must work, if all related components and traces are good.\nIf not, bad solders...."
+    },
+    {
+        "post_id":87848,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-24 05:47:23",
+        "message":"The U7300 gets some hot when powered, around 38C quickly, and also the U1400, if the 7300 was bad, should not heat up? not?"
+    },
+    {
+        "post_id":87860,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-24 10:26:52",
+        "message":"This is a very old machine; bad MCP will not be strange at all."
+    },
+    {
+        "post_id":87895,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-25 00:27:36",
+        "message":"Do you know a easy way to check for a problem there?"
+    },
+    {
+        "post_id":87903,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-25 04:51:54",
+        "message":"What is actual diode mode reading to ground at L7320?\nDo you still get 5VREG_EN (after pressing power button)?"
+    },
+    {
+        "post_id":87942,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-26 06:30:28",
+        "message":"Yes, I have the  5VREG_EN at 3.36v\n\nL7320 -> 0.108\n\nU7300\n                v         diode\nP1 ->    3,36---- 0,568\nP2 ->    4,55---- 0,728\nP3 ->    2,66---- 0,726\nP4 ->    0 ------   0,721\nP5 ->    0 ------       0,112\nP6 ->    0 ------      0,827\nP7 ->    5,089--   0,582\nP8 ->     gnd  ---    0,001\nP9 ->     5,089--   0,669\nP10 ->   5,089--    0,582\nP11 ->   12,09--    0,528\nP12 ->   5,067--   0,64\nP13 ->   0 ------       0,774\nP14 ->   0 ------       0,112\nP15 ->   5,089 --  0,734\nP16 ->   1,25---  0,733"
+    },
+    {
+        "post_id":87943,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-26 07:37:42",
+        "message":"Replace Q7330\/35 and D7301 from donor board.\nBetter to replace the caps too."
+    },
+    {
+        "post_id":87971,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-27 05:28:25",
+        "message":"Hello, unsolded from a donor a D7301, values where different on diode, so changed it first\n\nResults:\n\nP1->3,36\nP2->4,55\nP3->1,078\nP4->0,801\nP5->5,09\nP6->5,09\nP7->5,09\nP8->GND\nP9->2,89\nP10->5,09\nP11->12,08\nP12->9,98\nP13->7,09\nP14->5,09\nP15->5,09\nP16->1,25\n\nBut still not working led 2 of the board."
+    },
+    {
+        "post_id":87972,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-27 05:40:01",
+        "message":"Check voltage on other big coils."
+    },
+    {
+        "post_id":87996,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-28 00:36:41",
+        "message":"L7320->5,08\nL7460->0,01*\nL7610->1,21\nL7660->3,37\nL7920->1,11\n\nSeems that there is a problem at the L7460, likely u7401 related? what to check there?\n\nMany thanks for all your help and guidance"
+    },
+    {
+        "post_id":88004,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-28 01:20:51",
+        "message":"Check U7401 voltage; pins 14, 16, 22, 29."
+    },
+    {
+        "post_id":88006,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-28 01:45:47",
+        "message":"U7401  \n14 ->   12,08\n16 ->    5,09\n22 ->   5,07\n29 ->    3,33"
+    },
+    {
+        "post_id":88013,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-28 02:39:21",
+        "message":"Seems to have similar problem.\nCheck resistance to ground at L7460 (ohm scale)."
+    },
+    {
+        "post_id":88018,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-28 03:05:05",
+        "message":"L7460 to ground-> 5,5 Ohms"
+    },
+    {
+        "post_id":88019,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-28 04:02:55",
+        "message":"Value looks good.\nCheck U7401 surrounding components.\nIf all good, change the chip.\n\nBTW, any reason to quote an entire post, visible few centimeters above?\nWrite directly into reply box, instead of clicking Reply button..."
+    },
+    {
+        "post_id":88056,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-29 05:22:34",
+        "message":"Just only find a too high diode value at pin 13 of the U7401, 2,056"
+    },
+    {
+        "post_id":88103,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-30 05:18:59",
+        "message":"Just replaced the U7401, now the second light powers up, mounted the system, but powers, fan speeds up and power down again. No post error sounds, no \"dong\" sound and no screen powering up."
+    },
+    {
+        "post_id":88135,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-30 12:54:02",
+        "message":"L7201\/21\/41 voltage appears?\nCheck ALL_SYS_PWRGD and PCIE_RESET_L, when fans spin.\nYou may need to test with other MXM graphics card."
+    },
+    {
+        "post_id":88144,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-30 23:33:21",
+        "message":"L7201\/21\/41 0,01v\nALL_SYS_PWRGD 3.38v\nPCIE_RESET_L  0v\n\n\nThe MXM card is a working one."
+    },
+    {
+        "post_id":88145,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-31 00:56:01",
+        "message":"Check voltage at pins 19 & 32 of U7100."
+    },
+    {
+        "post_id":88146,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-31 00:56:10",
+        "message":"Check voltage at pins 19 & 32 of U7100."
+    },
+    {
+        "post_id":88147,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-31 01:16:22",
+        "message":"P19-> 5,056v\nP32-> 1,085v"
+    },
+    {
+        "post_id":88148,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-31 02:19:46",
+        "message":"Check pin 33 too..."
+    },
+    {
+        "post_id":88149,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-31 02:33:38",
+        "message":"P33-> 3,37v\n\nP36->0,05v"
+    },
+    {
+        "post_id":88152,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-31 03:53:34",
+        "message":"Try changing U7100.\n\nDid you test with known good CPU?"
+    },
+    {
+        "post_id":88156,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-03-31 07:39:51",
+        "message":"Tested with a functional CPU, still same. I started the board without CPU and there is 1.28v at the L7201\/21\/41\n\nSeems that something shorts them with the CPU inside...  Could inject that voltage to find any heating element, if there is any other, apart the cpu.\n\nWhat do you think?"
+    },
+    {
+        "post_id":88162,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-03-31 09:43:44",
+        "message":"Did you try known good DDR module, each slot at time?\nJust in case, try known good BIOS."
+    },
+    {
+        "post_id":88180,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":35729,
+        "username":"ex250",
+        "post_date":"2022-04-01 02:21:26",
+        "message":"DDR slots tested with the same result.\n\nDid several tries, and sometimes  L7201\/21\/41  get 1.08v (that should be ok), restarts if self and get 1.28, then powers off. Next manual switch on, starts at 1.28, restarts in 2 seconds and gets 1,53v, then powers off, switch on manually and reads 0.8v and swith off, not appears to me a BIOS issue.\n\nThis is quite confuse."
+    },
+    {
+        "post_id":88183,
+        "thread_id":62497,
+        "title":"A1311 late 2009 820-2494A only 1 led non starting",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-04-01 03:07:52",
+        "message":"Considering its age, may be MCP issue..."
+    }
+]

@@ -1,0 +1,182 @@
+[
+    {
+        "post_id":93797,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-08 14:00:09",
+        "message":"Good evening,\n\nI have a 820-4924-A logic board with amber and green light on the charger. The board is currently out of the MacBook,and not connected to anything besides the charger.\n\nI measured PPBUS_G3H on the fuse F7140.  \nPin1: 12.68V\nPin2: 0V\n\nI unplugged the board, tested the fuse with diode mode; probes on pin 2 and ground => Beep. I also measured 0.1 Ohms.\nProblem seems similar to what was described there : [URL]https:\/\/boards.rossmanngroup.com\/threads\/820-4924-a-ppsub_g3h-shorted-ground.7292\/[\/URL]\n\ndukefawks and aprendiz asked the resistance to ground from  F7140 to L7320. Original author didnt reply. \nOn my board, I have 0.5ohms on pin 2 of L7320, but it decreases to 0.0 in 5-6 sec.\nI have 0 ohm on pin 1 of L7320\n\nThere is no sign of corrosion, no sign of liquid, board has not been cleaned; there is still dust a bit everywhere, but almost nothing.\n\nNothing get hot.\n\nHow do I narrow down the cause of the problem ? And if there was no liquid, then what might have caused a short?\n\nP.S: Was I supposed to post under the old thread, 6y old, or create a new one ?"
+    },
+    {
+        "post_id":93814,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-09 02:37:36",
+        "message":"\"resistance to ground from  F7140 to L7320\"\nIncorrect expression; try to understand what you read on the forum.\n\nIn this case, you must check resistance between F7140 and L7320; not to ground.\nChecking to ground will give similar short on both, which points to shorted Q7310\/20.\nThat's the reason of this check, mentioned in that post.\n\nI you have short to ground at L7310\/20, CPU is dead most likely.\nLift L7310\/20 one side and find where is the short between PPBUS_G3H and Q7311\/21."
+    },
+    {
+        "post_id":93866,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-09 17:35:01",
+        "message":"Hi 2informaticos, thanks for your help;\nI guarantee you that I try to understand what I read...\n\nHere are the measurements:\nResistance between F7140, pin1, and pin1&2 of L7320 is 399 Ohms.\nResistance between F7140, pin1, and pin1&2 of L7310 is 402 Ohms.\nAnd Resistance between F7140, pin 1, and ground : 399 Ohms, as above\n\nI'm not even sure that I have to measure from pin1 of F7140.\nIf I measure from pin2 of F7140, to pin1&2 of L7310\/20, I get 0.1 Ohm.\nCurrent goes from the charger to this pin 1\n\nProblem is, I do not understand the rationale.\nHow do you know that there is a path, before any measurement, between pin1 of F7140 and L7310\/20? It's not obvious to me.\nWhat if the measure was infinite resistance? How would I make the difference between \"it's normal, there is actually no path\" and \"the path is 'broken' for some reason\" ?\nOn the schematics, page 56, current flows through L7310\/7320 from pin 1 to pin 2; it gives PPVCC_S0_CPU_REG (OUT). Ok fine.\nBefore that, current flows through Q7320\/21 and Q7310\/11. Before, it seems to come from PP5V_S0_CPUVR, which seems to come from U7200, which....\nI can't find the path back to F7140, pin1.\n\n\nI did what you asked, but again, I dont understand all the logic behind everything, unfortunately. If you could explain just a little bit more your reasoning regarding the \"why\", it would be very much appreciated \u263a.\n\nI lifted L7310 and L7320.\n[ATTACH type=\"full\" alt=\"820-1494-A L7310 L7320 - Copie.jpg\"]60859[\/ATTACH].\nL7310 lifted looks fine, I have 9120 Ohm between pin 1 and ground.\nOn pin 1\/2\/3 of Q7310, and on pin 5 of Q7311, I also have this value, as expected.\n\nL7320 does not look fine, I have 0 Ohm between pin 1 and ground.\nQ7320\/21 dont look fine; I've 0Ohm all over the place, pin 1 to 5 on each.\n\n\nThe owner of this MacBook said that the last time he turned on the MacBook, everything was fine until the desktop appeared; then the mac suddenly crashed. He tried to turn it on again, but this time the crash occured during the boot, just after the apple logo. Eventually, he tried to turn it on a third time, but there was no third time: No boot at all."
+    },
+    {
+        "post_id":93873,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-10 01:37:38",
+        "message":"\"If I measure from pin2 of F7140, to pin1&2 of L7310\/20, I get 0.1 Ohm.\"\nWhat do you expect measuring from pin 1, if F7140 is burnt (open)?\nPlease, put some logic on your job.\n\nThe forum purpose is to help in the repair process.\nPersonal training is different thing.\nYou can still learn a lot reading as many threads as possible.\n\nCan't you see any path F7140 -> Q7320 -> L7320 -> CPU core voltage???\n\nYou are lucky if only Q7320\/21 are the burnt components; maybe U7320 too (less probably).\nHowever, was expecting resistance to ground on the other side of L7320.\nTo know if CPU may still be alive."
+    },
+    {
+        "post_id":93990,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-12 18:22:38",
+        "message":"[LIST]\n[*]\"What do you expect measuring from pin 1, if F7140 is burnt (open)? \"\n\nIf I measure the resistance from pin1 of F7140 [I]to ground[\/I], which is 8.3 kOhms (and identical to the measure from pin 1 of L7130 to ground, pin 2 of L7310 to ground, etc), then I get the resistance of the circuitry between the measurement point and the ground.\nAnd I get this 8300 Ohms because the fuse is burnt. If it was not burnt, I would measure another resistance, very likely higher.\n\nIf I measure the resistance from pin1 of F7140 [I]to pin1 L7310\/20[\/I], I m not sure about what to expect, I'm confused, and that's why I'm here.\nA first guess would be : Since the path through the fuse is broken (open circuit), I actually measured the resistance of \"everything\" between pin 1 of F7140 and pin 1 of L7310\/7320, assuming there is a path. Measurements show that there is one, otherwise resistance would be infinite. And there is no short on this part otherwise I would read 0.0 Ohm. Is it wrong ?\n\nI'm way more interested in understanding all the rationale behind what I'm told to do, rather than in fixing the board. Understanding is more valuable than a board....\n\nWith the black probe on pin 1 of F7140 and red probe on pin 1 below lifted L7310, I get 10.85kOhms\nWith the red probe on pin 1 of F7140 and black probe on pin 1 below lifted L7310, I get 9.8kOhms\nWith the black probe on pin 1 of F7140 and red probe on pin 1 below lifted L7320, I get 0.850kOhms\nWith the redprobe on pin 1 of F7140 and black probe on pin 1 below lifted L7320, I get 7.85kOhms\n\nWith the black probe on pin 1 of F7140 and red probe on ground, I get 410 Ohms\nWith the red probe on pin 1 of F7140 and black probe on ground, I get 8.25 kOhms\n\n\n\n\n[*]\"The forum purpose is to help in the repair process. Personal training is different thing.\"\n\nIf there is a way to aquire above knowledge quickly, I'm totally ready to pay for this, or even for a detailed answer.\nI've spent the day on the schematics and Google browsing\/reading but I essentially found infos that I already knew; not what I was looking for.\nI would be interested in \"personal training\" on a pay-per-question\/per-hour basis, if providing the rationale that I currently miss is what you call \"personal training\". I do not think I would need to ask twice the same question. Let me know in PM if you do this\ud83d\ude0a, at which cost for 15minutes ?\n\n\n\n[*]\"You can still learn a lot reading as many threads as possible. \"\n\nTrue, but answers are sometimes just a little bit too much \"repair oriented\", straight to the point, and the rationale is not necessarily explained. Some threads don't have any conclusion\/feedback, OP didnt answer to the questions asked, etc.\nDon't get me wrong please\ud83d\ude4f, the above are not negative critics, just observations. Besides, this forum is great as it is, and given its purpose it makes sense. I did read the terms of use, etc, I am not complaining of anything. I'm thankful\/grateful for the answers and your time.\nNevertheless, I would like to avoid behaving like a donkey who would just \"do this\" then \"that\" because he reads this and that. Again, I'm not criticizing anything\/anybody.\n\n\n\n\n[*]\"Can't you see any path F7140 -> Q7320 -> L7320 -> CPU core voltage???\"\n\nI do see a path from U7200, which receives the 5V voltage regulator:\nPP5V_S0_CPUVR, PPVIN_S0_CPUVR_VIN, and PP1V05_S0_CPU_VCCST\nand creates pulse with modulation to CPU, CPU_PWM2, CPU_PWM1, CPUVR_FCCM and CPUVR_PGOOD,\nto U7310\/U7320 via CPU_FCCM and _PWM1\/2.\nI do see the path to Q7320, L7320, and to PPVCC_S0_CPU_REG\n\nWhat I do not see is the path between F7140 and the rest; F7140's output is PPBUS_G3H.\nIt seems that from PPBUS_G3H we get PP3V42_G3H_REG, but I dont see the path between this and the 5V. I will keep reading the schematics tomorrow and update this post, should I find it before you read me\n\n\n[*]\"I was expecting resistance to ground on the other side of L7320.\"\n[COLOR=rgb(41, 105, 176)]Resistance from Ground (black) to pin 2 of L7320 is 14.3 Ohms\nResistance from Ground (black) to pin 2 of L7310 is 14.4 Ohms[\/COLOR]\n\nIs there still a chance for the CPU to be alive ? I checked on a an untouched-still-in-the-macbook working board, I had 150 Ohms, but with L7320\/7310 unlifted. Would need to unlift it to check wether it is relevant.\n[\/LIST]\n\nThanks for your time so far\u263a"
+    },
+    {
+        "post_id":93991,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-13 01:09:37",
+        "message":"\"What do you expect measuring from pin 1, if F7140 is burnt (open)? \"\nI mean from pin 1 to L7310\/20, which is where you've checked.\nOpen fuse, how can indicate something in such case???\nWas especially mentioned checking from fuse to some components, not to ground.\nPlease, make use of logic!\n\n\"between pin 1 of F7140 and pin 1 of L7310\/7320, assuming there is a path.\"\nWhat path, if fuse is open???\nYou MUST check from pin 2 (output) to the rest of board!\nI can't believe that you've still wasted time checking from pin 1 of (burnt) F7140.\n\n14 ohm is a good reading for VCORE, you may be lucky.\nJust change the mentioned components.\nDon't forget to replace F7140, at the end.\n\nDificult to understand how do you see a path from 5V to VCORE, but not from PPBUS_G3H.\nWhat do you think these very powerful MOSFETs (Q73xx) do there?\nIf you expect VCORE generation from 5V, what's the reason to have them?\n\nFeel free to send a PM, if you require another information, regardless online assistance."
+    },
+    {
+        "post_id":93992,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-13 07:43:53",
+        "message":"Thanks; I will come back on this part of the issue asap, give it a xth thought, and answer the questions.\n\nHowever, I must apologize because I was working on 2 similar boards and while I checked the presence of PP5V_S0 on the second one, I forgot to do it on this one...\n\nI suddenly realized that I have [B]no PP5V_S0[\/B] on this one neither => I did new measurements on [B]U7501 [\/B]to check whether I had _S5.\n\nOn the schematics page 58, there is a \"[B]PP5V_S5_LDO[\/B]\" which is not named like this on the boardview, and must be at 5V, as VOUT. Problem is, I measured on pin 14, I have 0.31V. So, for some reason, this U7501 is NOT ouputing 5V.\n\nMeasurements on U7501:\n\npin 14, pin 29, PP5V_S5_LDO: [COLOR=rgb(226, 80, 65)]0.31V => Problem[\/COLOR]\n\npin 21, P3V3S5_EN : 3.33V\npin 20, P3V3S5_PGOOD: 3.34V\n-> the chip receives P3V3S5_EN and send P3V3S5_PGOOD [COLOR=rgb(26, 188, 156)]=>OK[\/COLOR]\n\npin 12, P5VS5_EN: 3.38V same as S5_PWR_EN same as P3V3S5_EN (page 64 \"S5 Enable\") [COLOR=rgb(26, 188, 156)]=>OK[\/COLOR]\n\npin 4: P5VS3_EN : [COLOR=rgb(251, 160, 38)]0V[\/COLOR]; but if _S5 not present on pin 14, not surprising.\npin 5: P5VS3_PGOOD: [COLOR=rgb(251, 160, 38)]0V[\/COLOR]; again, if _S5 not present on pin 14, not surprising.\nI wont check the other P5VS3 pins, no reason to have anything different from 0V.\n\npin 15: P3V3S5_COMP2 : 0V\npin 16: P3V3S5_VFB2 : 0.165V\npin 3: P3V3S5_RF : 0V\npin 17: P3V3S5_CSN2: 0.55V\npin 18: P3V3S5_CSP2: 0.55V\npin 24: P3V3S5_DRVH: 0.54V\npin 25: P3V3S5_LL: 0.54V\npin 26: P3V3S5_VBST: 0.41V\npin 27: P3V3S5_DRVL: 0V\n\nSo, in short:\n[COLOR=rgb(41, 105, 176)]U7501 is told that P5VS5 is enabled on pin12.  It is also told that P3V3S5_EN is enabled on pin 21. The chip returns P3V3_S5_PGOOD on pin 20. \nHowever, it doesnot ouput the PP5V_S5_LDO correctly (0.31V on pin14 and 29). Since this _S5 is not what it should, the chip cannot receive the P5VS3_EN because the P5VS3 is actually not enabled correctly, and therefore the chip returns 0V on pin 5 for P5VS3_PGOOD.[\/COLOR]\n\nI tried to find the datasheet of TPS51980 to learn more about it, didnt find it.\n\nIs it possible that the short around the Q7310\/20 might have killed the U7501 ?\n\nIn that case I better find and fix the short first, then very likely replace U7501, then replace the fuse.\n\n\n\"Feel free to send a PM, if you require another information, regardless online assistance.\"\nThanks for this \ud83d\ude4f"
+    },
+    {
+        "post_id":93993,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-13 08:36:26",
+        "message":"What can you expect from a board without F7140 (PPBUS_G3H shorted to ground)?\nDid you think where 5V comes from???\n\nAs already said, try to put logic on your job..."
+    },
+    {
+        "post_id":93996,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-13 09:46:45",
+        "message":"Regarding the short:\nI had a very small resistance on pin 4 of Q7320; 0 on the other pins.\nAnd I had 0 ohms on all the pins of Q7321. I therefore removed Q7321 first.\n\nNow on the pins below Q7321 I have:\npin 1\/2\/3: 0 Ohm, ground, as expected.\npin 4: >800kOhms\n\"pin5\": >200kOhms\n\nAnd on pins of Q7320, I read >20kOhms on all pins.\nSo, short is gone and Q7321 was the culprit.\n\n\"What can you expect from a board without F7140 (PPBUS_G3H shorted to ground)?\"\nDid you think where 5V comes from??? \n\nYes I did, and I hadn't the answer. I had wrongly supposed that it could be created from all the P3V3S5 currently at 0V, but I suddenly realized that I had completely missed the VIN pin 23, \"PPVIN_S5_HS_OTHER3V3_ISNS\" which comes straight from G3H...which is not there...\n\nJeez I feel shameful.o_O\n\nSo. Will solder a new Q7321 on that board, replace the fuse and we should be good."
+    },
+    {
+        "post_id":93997,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-13 10:22:42",
+        "message":"\"Will solder a new Q7321 on that board, replace the fuse and we should be good.\"\nI hope you don't do (only) that.\nDon't you want to eliminate the short between PPBUS_G3H and L7320???"
+    },
+    {
+        "post_id":94003,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-13 11:56:59",
+        "message":"Well, I had measured resistance from pin 1 of L7320 (lifted) to ground, I had 0 Ohm; now that the dead Q7321 is out of the board I have > 20kOhm. So, no short anymore on this side.\n\nOn pin 2,with L7320 lifted, I had 14 Ohms.\n\nI soldered back the L7320, I read 10 Ohms now, lower because of the heat I guess.\n\nL7310 is still lifted ; pin1 to ground: 8400 Ohms, pin2 to ground 10 Ohms\n\nI dont get what makes your think that there is another short somewhere betweenPPBUS_G3H and L7320.\n\nI did some measurement from a working board, though, and i get 150 Ohms on pin1\/2 of L7320 and L7310.\nTherefore, you're very likely right, there might still be issue somewhere, but I don't understand how you can infer that from the above mesurements. \ud83e\udd14 \ud83e\udd14 \ud83e\udd14"
+    },
+    {
+        "post_id":94005,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-13 12:08:10",
+        "message":"Edit: you're right, there is 0.1 Ohm resistance between pin2 of F7140 and pin 2 of my not-lifted L7320, so, there is still a problem, as you said"
+    },
+    {
+        "post_id":94006,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-13 12:13:01",
+        "message":"Didn't change Q7320 yet???\nWas mentioned in the first post."
+    },
+    {
+        "post_id":94009,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-13 13:07:34",
+        "message":"Not yet, wanted to check everything I need prior to order the necessary components. \n\nAs I said, I'm just starting with the logic board repairs; I dont have donor boards to harvest for these 13\" 2015. I'm checking the usual\/common failures on these models and filling my cart. Will receive everything in 2 days. Any suggestion is welcomed."
+    },
+    {
+        "post_id":94213,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-20 10:06:48",
+        "message":"So, I removed Q7320, and now there is infinite resistance between pin2 of F7140 and pin 2 of my not-lifted L7320. No path anymore so...expected.\n\nHowever, I have 0 resistance between pin2 of F7140 and pin 5 \"below\" Q7320 (removed). Not normal.\n\nPin 5 is PPVIN_S0_CPUVR. This is also VIN of U7200 on pin 17. U7200 creates PP5V_S0_CPUVR, and PP5V_S0_CPUVR goes into U7310\/20, then to Q7320...\n\nP68 shows that PPVIN_S0_CPUVR is created from PPVIN_S5_HS_COMPUTING_ISNS but I don't find where,\nand PPVIN_S5_HS_COMPUTING_ISNS comes from PPBUS_G3H. So. I assume it is normal that I do not have an infinite resistance between above pin 5 and pin2 of F7140. I'm stuck with that loo.\n\nI guess I have to break the circuit at some other part to find where is the short causing the resistance between pin2 of F7140 and pin5 of Q7320 (removed) to be 0. But I can't figure out where. Remove U7200?\n\nGoing to replace Q7320\/Q7321 now"
+    },
+    {
+        "post_id":94216,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-20 12:01:19",
+        "message":"\"I have 0 resistance between pin2 of F7140 and pin 5 \"below\" Q7320 (removed). Not normal.\"\nWhy not normal???\n\nPlease, pay atention when you interpret the schematic!\nBoth mentioned points are connected to PPBUS_G3H; at least in my opinion."
+    },
+    {
+        "post_id":94227,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-20 14:49:23",
+        "message":"well, since I did not find any direct connection point between PPBUS_G3H and PPVIN_S0_CPUVR, I assumed that the resistance should be different from 0. \nBut you're very likely right, you have more experience than I have, obviously.\n\nI replaced F7140, Q7320, Q7321, put back in place L7310; L7320 was already back in place.\n\nTime to clean, put this board back in the case and test if problem is fixed..."
+    },
+    {
+        "post_id":94229,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-11-20 15:55:21",
+        "message":"Almost fixed.\nNow the MacBook is able to boot; but it takes 24 seconds. It's quite slow.\nFurthermore, it does not see the battery anymore.\nAnd at the end of the boot, the screen first displays an image on 70% of its surface, then switch to black, and then display the image on 100%. That's weird.\n\n[ATTACH width=\"288px\"]60867[\/ATTACH][ATTACH width=\"291px\"]60868[\/ATTACH]"
+    },
+    {
+        "post_id":94230,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2022-11-20 16:08:56",
+        "message":"\"I did not find any direct connection point between PPBUS_G3H and PPVIN_S0_CPUVR\"\nTake a better look at pages 68 & 42..."
+    },
+    {
+        "post_id":94902,
+        "thread_id":63258,
+        "title":"820-4924-A - burnt Fuse F7140 - PPBUS_G3H shorted to ground?",
+        "user_id":22065,
+        "username":"stef4n",
+        "post_date":"2022-12-17 06:28:49",
+        "message":"Regarding my last post; the battery was dead, i replaced it, the macbook was able to boot properly then. The death of Q7320, Q7321 probably caused to battery, or the battery caused the problem. Anyway, this part is sorted.\nRegarding the image size on screen after boot, it was caused by the settings; everything was scaled down to display more info on screen.\nEverything fixed so, thanks for your help 2informaticos\n\nRegarding  \"direct connection point between PPBUS_G3H and PPVIN_S0_CPUVR\": Indeed. p68 shows that from PPVIN_S5_HS_COMPUTING_ISNS we get PPVIN_S0_CPUVR, and PPBUS_G3H gives PPVIN_S5_HS_COMPUTING_ISNS_R, which on page 42 sends back PPVIN_S5_HS_COMPUTING_ISNS (U5400) if it has  PP3V3_S0_HS_COMPUTING_ISNS"
+    }
+]

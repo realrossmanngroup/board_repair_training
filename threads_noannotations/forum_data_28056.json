@@ -1,0 +1,83 @@
+[
+    {
+        "post_id":28056,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":868,
+        "username":"computercaverva",
+        "post_date":"2017-11-14 20:16:08",
+        "message":"Ive gone through the MacBook Air Backlight Repair lifeline that Louis posted however this problem seems to extend beyond the simpler solutions. The Backlight and LCD work fine most of the time, I get 3.34V on BKL_PWM and I found 2 resistors that were a little out of spec so I replaced them (R7715 \/ R7731) along with the LED driver as I was worried it was shorting a rail to ground intermittently. The computer runs fine most of the time however it randomly cuts the backlight in and out, when the backlight is off the BKL_PWM rail drops to 0 v. Also sometimes the only thing that drops out is backlight and the LCD stays on but is just dark, however sometimes the entire screen goes dead and then comes back on randomly.\n\nI also forgot that there was some corrosion around U3210, U3220, and Q5510. I did localized reflows with flux before cleaning in the Crest first, then further investigated and replaced the resistors and LED driver."
+    },
+    {
+        "post_id":28057,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-11-15 01:19:02",
+        "message":"Did you try a known good display? Sounds like it might be messing up.\n\nDoes the system (sometimes) go into sleep mode if this happens? In that case check the SMC_LID signal, it might be thinking you're closing it.\n\nVerify if PP3V3_S0SW_LCD_UF is between 3.2V and 3.4V"
+    },
+    {
+        "post_id":28063,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":868,
+        "username":"computercaverva",
+        "post_date":"2017-11-15 09:02:42",
+        "message":"The system does sometimes go to sleep and the LCD turns off in addition to the backlight, I measure SMC_LID and its 2.66 V. That sounds low, possibly a small leak on the rail that could be causing the problem. PP3V3_S0SW_LCD_UF is 3.331 V."
+    },
+    {
+        "post_id":28068,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-11-15 14:46:59",
+        "message":"SMC_LID should be above >3V.\n\nCheck if R5171 is around 100kOhm, inspect around C4835.\nDoes the signal get higher if you disconnect the I\/O board cable? (Obviously test this with the board inside of the casing with the screen open)"
+    },
+    {
+        "post_id":28081,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":868,
+        "username":"computercaverva",
+        "post_date":"2017-11-15 16:47:15",
+        "message":"So I put the board back in the case, I had the machine \"bread boarded\" out while I was measuring before. With the IO Cable connected I still get the same 2.65 V and this time I was actually able to watch it drop down as low as 1.73 V at one point and of course the backlight was cutting on and off. With the cable disconnected I get 3.42 V measured at Pin 1 of the keyboard connector. Even though the voltage goes up the backlight problems persist.\n\nR5171 is 99k ohm\n\nC4835 looks very good and is not shorted measured at Pin 1 of C4835 I get 0.727 V in diode mode."
+    },
+    {
+        "post_id":28089,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-11-15 17:58:16",
+        "message":"Leave IO board disconnected and measure SMC_LID again. If still low then check trackpad cable\/connector. Also look at diagram and find everywhere SMC_LID goes."
+    },
+    {
+        "post_id":28090,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":868,
+        "username":"computercaverva",
+        "post_date":"2017-11-15 18:47:30",
+        "message":"SMC_LID stays high at 3.42 V with the IO board cable disconnected and with the trackpad cable disconnected, with the IO cable connected and the trackpad cable disconnected it gets 0.8 V on SMC_LID. The only other places that leaves is that there is probably crap under \/ dead SMC? I do not see any other reason the screen would go dark and the computer go to sleep with SMC_LID high?\n\nAlso side not the BKL_PWM rail is in spec and follows the on and off of the screen light."
+    },
+    {
+        "post_id":28103,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":289,
+        "username":"smiba",
+        "post_date":"2017-11-16 00:52:43",
+        "message":"Issue is not with the SMC at most likely, if I remember correctly the SMC_LID signal should only be pulled down by the Trackpad connector as the sensor is inside of the keyboard. The I\/O Board should leave SMC_LID alone.\nSMC_LID high would be >3V to be \"high\". Voltages like 1.73V and 2.65V are neither really high, neither really low and will cause unexpected behaviour.\n\nTry a new I\/O board and see if the issue goes away."
+    },
+    {
+        "post_id":28107,
+        "thread_id":28056,
+        "title":"820-00165 Weird Backlight and LCD Problems",
+        "user_id":2,
+        "username":"dukefawks",
+        "post_date":"2017-11-16 01:00:54",
+        "message":"Apply some logic here and eliminate if it is the trackpad or IO board\/cable pulling it down. Inspect those parts for corrosion. SMC is fine of course."
+    }
+]

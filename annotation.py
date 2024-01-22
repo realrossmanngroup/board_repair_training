@@ -71,7 +71,8 @@ def process_file(filename):
             post['message'] = annotate_jargon(post['message'], combined_jargon_df)
                 
         with open(file_path, 'w') as file:
-            json.dump(data, file)
+            json.dump(data, file, indent=4, ensure_ascii=False)
+
 
     except Exception as e:
         print(f"Error processing file '{filename}': {e}")
@@ -84,5 +85,5 @@ filenames = [f for f in os.listdir(thread_directory) if f.endswith('.json')]
 print(filenames)
 
 # Use ThreadPoolExecutor to process files in parallel
-with ProcessPoolExecutor(max_workers=14) as executor:
+with ProcessPoolExecutor(max_workers=20) as executor:
     executor.map(process_file, filenames)

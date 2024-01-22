@@ -1,0 +1,65 @@
+[
+    {
+        "post_id":100411,
+        "thread_id":64031,
+        "title":"820-01521 MacBook Air 2018 with USB-C issues",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2023-07-03 14:31:28",
+        "message":"This 2018 Air came in with liquid damage in the area of the USB-C connector on the logic board. Pins 59 (20V) and 55 (Gnd) on the connector were visibly burnt, and a few nearby caps looked corroded (C6405, C6416, CC711, C3306). \n\nAfter clean-up, USB is now stuck at 5V, drawing 0.08A. PPBUS is at 12.3V. I replaced both CD3215s, and I get all LDO voltages except for PP1V1_UPC_XA_LDO_BMC when plugging into port B. I replaced the Thunderbolt ROM (U2890) with no change.\n\nThe CC lines for port A (USBC_XA_CCx) are not what I see on a good board, while USBC_XB_CCx are correct. I checked resistances on the CC lines (in diode mode) and those are fine.\n\nWhat should I check next to find out why PP1V1 and USBC_XA_CCx are not working?"
+    },
+    {
+        "post_id":100413,
+        "thread_id":64031,
+        "title":"820-01521 MacBook Air 2018 with USB-C issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-07-03 15:25:55",
+        "message":"1V1 BMC LDO only appears on the port where the charger is connected.\nYou can't get  PP1V1_UPC_XA_LDO_BMC when connect the charger to U3200 port.\n\nDid you test the board with both charger and battery connected?\nDo you have S-UEM2 tester?\nYou may need to change J3300.\n\nCheck UPC_I2C_INT_L level."
+    },
+    {
+        "post_id":100444,
+        "thread_id":64031,
+        "title":"820-01521 MacBook Air 2018 with USB-C issues",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2023-07-04 12:52:27",
+        "message":"Sorry, I meant to write that I do get PP1V1_UPC_XB_LDO_BMC when plugging into port B, but not PP1V1_UPC_XA_LDO_BMC when plugging into port A.\n\nWhen I have a battery and the charger connected, plugging into port B gives me 20V but 0A. Nothing at all on port A.\n\nNo S-UEM2 tester. \n\nI checked for continuity of the CC signals between board and USB-C receptacle and they check out. So I suspect J3300 is fine.\n\nUPC_I2C_INT_L is always 0V."
+    },
+    {
+        "post_id":100445,
+        "thread_id":64031,
+        "title":"820-01521 MacBook Air 2018 with USB-C issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-07-04 14:02:05",
+        "message":"\"UPC_I2C_INT_L is always 0V\"\nThat is sign of USB-C problems.\n\nDid you change J3300?\nYou've said had burnt pins..."
+    },
+    {
+        "post_id":100447,
+        "thread_id":64031,
+        "title":"820-01521 MacBook Air 2018 with USB-C issues",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2023-07-04 14:21:43",
+        "message":"On a good board, UPC_I2C_INT_L only changes from 0 to 1.8V when USB-C switches to 20V, so no surprise there.\n\nI replaced J3300, with no change."
+    },
+    {
+        "post_id":100448,
+        "thread_id":64031,
+        "title":"820-01521 MacBook Air 2018 with USB-C issues",
+        "user_id":682,
+        "username":"2informaticos",
+        "post_date":"2023-07-04 15:11:02",
+        "message":"If UPC_I2C_INT_L goes low, no 20V switching possible.\nSMC is advised about a problem in USB-C area in this case.\n\nYou may have broken trace, or still corroded components.\nCompare diode mode readings on J3300 with good board.\n\nBTW, SMC is embedded into T2 chip."
+    },
+    {
+        "post_id":100467,
+        "thread_id":64031,
+        "title":"820-01521 MacBook Air 2018 with USB-C issues",
+        "user_id":28264,
+        "username":"sekidata",
+        "post_date":"2023-07-05 14:33:03",
+        "message":"Diode readings of J3300 on this board match a good board exactly. \n\nI think you're right: there's still an undiscovered corroded component or trace somewhere that's messing things up. I'll keep looking."
+    }
+]
