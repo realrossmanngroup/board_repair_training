@@ -11,32 +11,26 @@ Once I have figured out how to do that, some sort of continuous system that keep
 Here are the steps I need to follow:
 
 1. Get threads from forum, get rid of crap, and turn it into JSON files.
-DONE! `/threads/extract_threads.py` grabs each post and turns it into a JSON file without the bold/italics tags & HTML junk
+*DONE!* `extract_threads.py` grabs each post and turns it into a JSON file without the bold/italics tags & HTML junk
 
 2. Get jargon from forum so I can teach the model industry jargon(chips, resistors, caps, board model numbers, etc)
 
-a) resistors - DONE `get_resistors.sql` & `resistors.csv`
-b) capacitors - DONE `get_capacitors.sql` & `capacitors.csv`
-c) diodes - DONE `get_diodes.sql` & `diodes.csv`
-d) chips - HALF DONE `get_chips.sql` & `chips.csv` - still need to add context(what chips are for what, etc)
-e) signal names - DONE! `get_signal_names.sql` This has to grab stuff like `PM_SLP_S4_L` & `PPBUS_G3H` from threads and list them all. This is unfortunately also grabbing underscore'd content in URLs as well as signal names and there is no way within mysql queries to remove them. I can exclude messages with URLs in them, but what if someone posts a link to something in a message that mentions a signal? `signal_names_cleanup.py` was used to compare different methods of using mysql queries to extract signal names and revealed I am screwing myself doing this within mysql.
+`get_jargon_list_multithreaded.py` does this and outputs csv files to `jargon_lists` with jargon, along with a count of how often it was mentioned. Signal names/chips that are mentioned are high up on the priority list for definitions. 
 
-What I need to do is strip all URLs *BEFORE* processing and searching for regular expressions that match `PPBUS_G3H` and `PM_SLP_S4_L` ish signal names. Python is better suited for this. `get_signal_names.py` doees the job perfectly so I deprecated `get_signal_names.sql` and renamed it to  `get_signal_names.sql.DEPRECATED`
+3. Annotate the forum thread JSON files with a prompt to the model to learn board repair from the thread as well as with jargon terms & definitions that are specific to that thread.
 
-This works.
+*DONE* `annotation.py` goes through my jargon lists once I have edited them with definitions of jargon(this is done manually, unfortunately a real brain has to work before we can train computer brain) and annotates my threads so that the model knows what I want them to learn from the thread, and understands what some of the jargon terms from the thread mean.
 
-f) board model numbers - HALF DONE `get_macbook_board_models.sql` gets board models mentioned on the forum, `get_board_list.py` gets a list of boards from a table that is maintained by the community of boards. `macbook_board_models.ods` is my attempt at manually resolving board names as well as teaching the model what typos are, `macbook_board_models.csv` is the flattened version of this.
+We are not even close to training a model yet. This is just the groundwork before we get to that.
 
-3. Explain jargon. In the csv with all the signals, power rails, chip names, etc, give a brief explanation of what they are for.
+5. Tokenize data
 
-4. Annotate threads with jargon. For instance, each time I see a chip/signal name/resistor mentioned, make sure to annotate it as a resistor, signal, etc.
+6. Find a worthwhile model to train
 
-4. Tokenize data
+7. Train it
 
-5. Find a worthwhile model to train
+8. If it wasn't a complete fail, grab articles from repair.wiki in a manner that the AI likes to train it
 
-6. Train it
+9. If it was a complete fail... try & try again.
 
-7. If it wasn't a complete fail, grab articles from repair.wiki in a manner that the AI likes to train it
-
-8. If it was a complete fail... try & try again.
+10. Retire, once computer fixes boards better than me. 

@@ -104,7 +104,7 @@ def process_thread(thread_id):
 	return df 
 	
 # Function to find matches using regular expression and cut off the end if it's bs. 
-def find_regex_matches(text, pattern):
+def find_regex_matches(text, patterns):
 	if pd.isna(text):
 		return []
 	all_matches = []
