@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import html
 import re
 import sys
-from config import db_params  # Import the db_params variable from the config.py file
+from config.config import db_params  # Import the db_params variable from the config.py file
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor  # Import ProcessPoolExecutor for parallel processing
 import os  # Import missing os module
@@ -15,6 +15,28 @@ subdirectory = "jargon_lists"
 # Create the subdirectory if it doesn't exist
 if not os.path.exists(subdirectory):
 	os.makedirs(subdirectory)
+
+# Initialize a list to store DataFrames
+dataframes = []
+
+#regex patterns of jargon
+signals = r'\b[A-Za-z0-9]{1,9}(?:_[A-Za-z0-9]{1,9})+\b'
+chips = [
+	r'\b[Ii][Ss][Ll][0-9]{4}[^0-9a-zA-Z]?\b',  # ISL-#### pattern
+	r'\b[Ll][Pp][0-9]{4}[^0-9a-zA-Z]?\b',      # LP-#### pattern
+	r'\b[Cc][Dd][0-9]{4}[^0-9a-zA-Z]?\b',      # CD-#### pattern
+	r'\b[Ii][Ss][Ll][0-9]{5}[^0-9a-zA-Z]?\b',  # ISL-##### pattern
+	r'\b[Tt][Pp][Ss][0-9]{5}[^0-9a-zA-Z]?\b',  # TPS-##### pattern
+	r'\b[Uu][0-9]{4}[^0-9]?\b',                # U#### pattern
+]
+capacitors = r'\b[Cc][0-9]{4}[^0-9]?\b'
+resistors = r'\b[Rr][0-9]{4}[^0-9]?\b'
+diodes = r'\b[Dd][0-9]{4}[^0-9]?\b'
+transistors = r'\b[Qq][0-9]{4}[^0-9]?\b'
+board_models = [
+	r'\b820-[0-9]{4}[^0-9]',	# 820-#### pattern
+	r'\b820-[0-9]{5}[^0-9]',	# 820-##### pattern
+]
 
 # Function to remove bold & italics tags and URLs
 def clean_text(text):
@@ -30,9 +52,6 @@ def remove_html_tags(text):
 # Function to decode HTML entities
 def decode_html_entities(text):
 	return html.unescape(text)
-
-# Initialize a list to store DataFrames
-dataframes = []
 
 # How we get a list of threads from the mac repair subforum only
 thread_ids_query = "SELECT thread_id FROM xf_thread WHERE node_id = 15 GROUP BY thread_id;"
@@ -88,31 +107,12 @@ def find_regex_matches(text, pattern):
 		
 	return all_matches  # Return all matches, including duplicates
 
-# Concatenate all DataFrames in the list
-all_threads_df = pd.concat(dataframes, ignore_index=True)
-
-#regex patterns of jargon
-signals = r'\b[A-Za-z0-9]{1,9}(?:_[A-Za-z0-9]{1,9})+\b'
-chips = [
-	r'\b[Ii][Ss][Ll][0-9]{4}[^0-9a-zA-Z]?\b',  # ISL-#### pattern
-	r'\b[Ll][Pp][0-9]{4}[^0-9a-zA-Z]?\b',      # LP-#### pattern
-	r'\b[Cc][Dd][0-9]{4}[^0-9a-zA-Z]?\b',      # CD-#### pattern
-	r'\b[Ii][Ss][Ll][0-9]{5}[^0-9a-zA-Z]?\b',  # ISL-##### pattern
-	r'\b[Tt][Pp][Ss][0-9]{5}[^0-9a-zA-Z]?\b',  # TPS-##### pattern
-	r'\b[Uu][0-9]{4}[^0-9]?\b',                # U#### pattern
-]
-capacitors = r'\b[Cc][0-9]{4}[^0-9]?\b'
-resistors = r'\b[Rr][0-9]{4}[^0-9]?\b'
-diodes = r'\b[Dd][0-9]{4}[^0-9]?\b'
-transistors = r'\b[Qq][0-9]{4}[^0-9]?\b'
-board_models = [
-	r'\b820-[0-9]{4}[^0-9]',	# 820-#### pattern
-	r'\b820-[0-9]{5}[^0-9]',	# 820-##### pattern
-]
-
 # Use ThreadPoolExecutor for parallel processing
 with ProcessPoolExecutor(max_workers=4) as executor:  # Adjust max_workers as needed
 	executor.map(process_thread, thread_ids_df['thread_id'])
+	
+# Concatenate all DataFrames in the list
+all_threads_df = pd.concat(dataframes, ignore_index=True)
 
 # Make a CSV list for a type of regex pattern
 def make_csv_list(jargon_type, regex_pattern):
