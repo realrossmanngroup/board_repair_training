@@ -157,11 +157,11 @@ def make_csv_list(jargon_type, regex_pattern):
 	print(f"Distinct matches saved to {csv_file_path}")
 	return distinct_matches_df
 
-signals_df = make_csv_list("signals", signals)
-chips_df = make_csv_list("chips", chips)
-capacitors_df = make_csv_list("capacitors", capacitors)
-resistors_df = make_csv_list("resistors", resistors)
-diodes_df = make_csv_list("diodes", diodes)
-transistors_df = make_csv_list("transistors", transistors)
+signals_df = make_csv_list("signals", [signals])
+chips_df = make_csv_list("chips", [chips])
+capacitors_df = make_csv_list("capacitors", [capacitors])
+resistors_df = make_csv_list("resistors", [resistors])
+diodes_df = make_csv_list("diodes", [diodes])
+transistors_df = make_csv_list("transistors", [transistors])
 board_models_df = make_csv_list("board models", board_models)
 
