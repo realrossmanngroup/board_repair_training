@@ -1,0 +1,104 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "P5VS4_EN": "What is P5VS4_EN? a SIGNAL NAME.",
+        "820_3787": "What is 820_3787? a SIGNAL NAME.",
+        "U6100": "What is U6100? a CHIP.",
+        "U7501": "What is U7501? This chip is often responsible for creating PP3V3_S5,  PP3V3_S3,  PP3V3_S0,  PP5V_S5,  PP5V_S4,  PP5V_S0.",
+        "u8170": "What is u8170? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "SMC_S4_WAKESRC_EN": "What is SMC_S4_WAKESRC_EN? a SIGNAL NAME.",
+        "BAT_LOW": "What is BAT_LOW? a SIGNAL NAME.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_SLP_SX_L": "What is PM_SLP_SX_L? a SIGNAL NAME."
+    },
+    "threads": [
+        {
+            "post_id": 41937,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 1495,
+            "username": "PPVCC_S0_CPU",
+            "post_date": "2018-11-09 01:06:03",
+            "message": "Its a previous repair attempt,\nppvrtc is present\n<SIGNAL NAME>PP5V_S5</SIGNAL NAME> and <SIGNAL NAME>PP3V3_S5</SIGNAL NAME> are present\n<SIGNAL NAME>PPBUS_G3H</SIGNAL NAME> is 12.56\nadapter en and <SIGNAL NAME>BAT_LOW</SIGNAL NAME> and <SIGNAL NAME>PM_DSW_PWRGD</SIGNAL NAME> is there.\n<SIGNAL NAME>PP3V3_SUS</SIGNAL NAME> is 3.3v.\nchecked resistors around <CHIP>U6100</CHIP> and they look fine.\n\npp5vs4 comes for few seconds when adapter is plugged in and then it goes to 0\n\n\nFollowed enable pin(4) of <CHIP>U7501</CHIP> and checked for <SIGNAL NAME>PM_SLP_S5_L</SIGNAL NAME> and its 0 volts and same goes for <SIGNAL NAME>SMC_S4_WAKESRC_EN</SIGNAL NAME> .\ni have replaced <CHIP>U7501</CHIP> just to be sure that its not pulling enable signal low but the result was same. So i removed <CHIP>u8170</CHIP> and measured pins without it and there was 5 volts on pin 4 which is <SIGNAL NAME>S4_PWR_EN</SIGNAL NAME>, as far as i know there shouldn't be anything on pin 4 if <CHIP>u8170</CHIP> was missing\n\nand p5vs4 comes without <CHIP>u8170</CHIP> and it stops when i put it back\n\nany ideas what i should do next"
+        },
+        {
+            "post_id": 41941,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-09 01:45:30",
+            "message": "<CHIP>u8170</CHIP> can only pull down the output; doesn't have a pull-up resistor inside...\nRemoving it, output remains at high level.\n\nToggle <SIGNAL NAME>SMC_ONOFF_L</SIGNAL NAME> signal and see if all <SIGNAL NAME>PM_SLP_SX_L</SIGNAL NAME> signals react.\nThen check if the power supply correspondintg of each signal give something on the output.\nIs better to use an o-scope for this purpose.\n\nDid you try to start in SMC bypass mode?\nAre you using original Apple 85W charger?"
+        },
+        {
+            "post_id": 41946,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 1495,
+            "username": "PPVCC_S0_CPU",
+            "post_date": "2018-11-09 02:09:55",
+            "message": "[QUOTE=\"2informaticos, post: 41941\"]\n\nDid you try to start in SMC bypass mode?\nAre you using original Apple 85W charger?[/QUOTE]\n\nyes i am using original 85w adapter.\ncan you tell how to start in smc bypass mode?"
+        },
+        {
+            "post_id": 41950,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-09 03:20:23",
+            "message": "Press power button, connect charger and maintain pressed 5-10s...\nYou can use <SIGNAL NAME>SMC_ONOFF_L</SIGNAL NAME> pads when board is alone on the desk."
+        },
+        {
+            "post_id": 41952,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 1495,
+            "username": "PPVCC_S0_CPU",
+            "post_date": "2018-11-09 03:48:15",
+            "message": "​[QUOTE=\"2informaticos, post: 41950\"]\nYou can use <SIGNAL NAME>SMC_ONOFF_L</SIGNAL NAME> pads when board is alone on the desk.[/QUOTE]\n\n​​​​​​Thanks, i will try it tomorrow.\ni also noticed that all pins of <CHIP>U6100</CHIP> are on 3.3 volts except the gnd."
+        },
+        {
+            "post_id": 42008,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 1495,
+            "username": "PPVCC_S0_CPU",
+            "post_date": "2018-11-09 15:12:44",
+            "message": "Its Its not working on smc bypass mode, i removed <CHIP>U6100</CHIP> and fans started spinning and all power rails comes up.\ni can see light in usb mouse when its plugged in"
+        },
+        {
+            "post_id": 42009,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-09 15:21:57",
+            "message": "Try new BIOS, with clean ME..."
+        },
+        {
+            "post_id": 42032,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 1495,
+            "username": "PPVCC_S0_CPU",
+            "post_date": "2018-11-09 18:55:37",
+            "message": "[QUOTE=\"2informaticos, post: 42009\"]Try new BIOS, with clean ME...[/QUOTE]\n\nI will try it on Monday, i measured resistance to ground on cpu vcc rail and it was around 0.7 ohms and it gives 0 volts drop on diode mode. Is this normal?? I tried removing 3 chips for cpu vcc and powered it, the fans starts spinning too(didn't removed <CHIP>U6100</CHIP> this time) but when board is powered without <CHIP>U6100</CHIP> cpu vcc shows 1.7 volts."
+        },
+        {
+            "post_id": 42039,
+            "thread_id": 41937,
+            "title": "<SIGNAL NAME>820_3787</SIGNAL NAME>-a no <SIGNAL NAME>P5VS4_EN</SIGNAL NAME>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-10 02:05:05",
+            "message": "CPU VCORE has very low values..."
+        }
+    ]
+}

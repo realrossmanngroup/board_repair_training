@@ -30,6 +30,15 @@ for jargon_type, df in jargon_dataframes.items():
 	df['jargon_type'] = jargon_type.upper()  # Add a column for jargon type
 	combined_jargon_df = pd.concat([combined_jargon_df, df], ignore_index=True)
 
+# Compile regex patterns for each jargon term outside the loop
+jargon_patterns = {
+        row['NAME']: {
+                'pattern': re.compile(r'\b' + re.escape(row['NAME']) + r'\b', re.IGNORECASE),
+                'description': row['DESCRIPTION'] if not pd.isna(row['DESCRIPTION']) and row['DESCRIPTION'].strip() != '' else f"a {row['jargon_type']}",
+                'jargon_type': row['jargon_type']
+        }
+        for _, row in combined_jargon_df.iterrows()
+}
 
 # Compile regex patterns for each jargon term outside the loop
 # so this isn't slow. we do this once, so we never have to do it again!
@@ -90,6 +99,11 @@ def process_file(filename):
 		# Write the updated data back to the file
 		with open(file_path, 'w') as file:
 			json.dump(data, file, indent=4, ensure_ascii=False)
+			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
+			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
+			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
+			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
+			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
 
 	except Exception as e:
 		print(f"Error processing file '{filename}': {e}")
@@ -105,13 +119,3 @@ print(filenames)
 # Use ThreadPoolExecutor to process files in parallel
 with ProcessPoolExecutor(max_workers=20) as executor:
 	executor.map(process_file, filenames)
-
-# Compile regex patterns for each jargon term outside the loop
-jargon_patterns = {
-	row['NAME']: {
-		'pattern': re.compile(r'\b' + re.escape(row['NAME']) + r'\b', re.IGNORECASE),
-		'description': row['DESCRIPTION'] if not pd.isna(row['DESCRIPTION']) and row['DESCRIPTION'].strip() != '' else f"a {row['jargon_type']}",
-		'jargon_type': row['jargon_type']
-	}
-	for _, row in combined_jargon_df.iterrows()
-}
