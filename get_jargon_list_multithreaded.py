@@ -6,7 +6,9 @@ import re
 import sys
 from config.config import db_params  # Import the db_params variable from the config.py file
 from collections import Counter
+from concurrent.futures import ProcessPoolExecutor
 import os  # Import missing os module
+from concurrent.futures import ProcessPoolExecutor
 
 # Define the subdirectory name
 subdirectory = "jargon_lists"
@@ -69,7 +71,6 @@ def process_thread(thread_id):
 	SELECT
 		p.thread_id,
 		t.title,
-		p.post_id,
 		p.message
 	FROM
 		xf_post AS p
@@ -100,13 +101,16 @@ def process_thread(thread_id):
 	print("\nNumber of rows retrieved:", df.shape[0])
 	#'''
 	
-	dataframes.append(df)
+	#dataframes.append(df) # not necessary after modifying code for multithreading
 	#DEBUGGING CODE
-	print(f"\n dataframes is below: \n{dataframes}\n")
+	#print(f"\n dataframes is below: \n{dataframes}\n")
 
 	# Close the database connection
 	connection.close()
-
+	#return the cleaned up forum title/post/threadid we have grabbed
+	return df 
+	
+	
 # Function to find matches using regular expression and cut off the end if it's bs. 
 def find_regex_matches(text, pattern):
 	if pd.isna(text):
@@ -120,10 +124,25 @@ def find_regex_matches(text, pattern):
 		
 	return all_matches  # Return all matches, including duplicates
 	
+	
+# Use ProcessPoolExecutor for parallel processing
+with ProcessPoolExecutor(max_workers=14) as executor:
+    # Submit tasks to the executor
+    futures = [executor.submit(process_thread, thread_id) for thread_id in thread_ids_df['thread_id']]
+    
+    # Collect results in the main process
+    for future in concurrent.futures.as_completed(futures):
+        try:
+            df = future.result()  # Get the result from process_thread
+            dataframes.append(df)  # Append the result to the dataframes list in the main process
+        except Exception as exc:
+            print(f'Thread {thread_id} generated an exception: {exc}')
+
+'''singlethreaded code
 for thread_id in thread_ids_df['thread_id']:
 	print(f"\nwe are now processing THIS thread ID here: {thread_id}\n")
 	process_thread(thread_id)
-	
+'''
 	
 # Concatenate all DataFrames in the list
 all_threads_df = pd.concat(dataframes, ignore_index=True)
