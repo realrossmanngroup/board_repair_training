@@ -98,7 +98,7 @@ def process_thread(thread_id):
 	#DEBUGGING CODE
 	#print(f"\n dataframes is below: \n{dataframes}\n")
 
-	# Close the database connectionl
+	# Close the database connection
 	connection.close()
 	#return the cleaned up forum title/post/threadid we have grabbed
 	return df 
@@ -141,8 +141,8 @@ all_threads_df = pd.concat(dataframes, ignore_index=True)
 # Make a CSV list for a type of regex pattern
 def make_csv_list(jargon_type, regex_pattern):
 	# Search in 'title' and 'message' columns
-	titles_matches = all_threads_df['title'].apply(find_regex_matches, pattern=regex_pattern)
-	messages_matches = all_threads_df['message'].apply(find_regex_matches, pattern=regex_pattern)
+	titles_matches = all_threads_df['title'].apply(find_regex_matches, args=(regex_pattern,))
+	messages_matches = all_threads_df['message'].apply(find_regex_matches, args=(regex_pattern,))
 	# Flatten the lists and get distinct values
 	all_matches_counter = Counter()
 	for matches_list in titles_matches:
