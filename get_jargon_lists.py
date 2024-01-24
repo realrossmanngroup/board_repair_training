@@ -6,7 +6,6 @@ import re
 import sys
 from config.config import db_params  # Import the db_params variable from the config.py file
 from collections import Counter
-from concurrent.futures import ProcessPoolExecutor  # Import ProcessPoolExecutor for parallel processing
 import os  # Import missing os module
 
 # Define the subdirectory name
@@ -59,6 +58,8 @@ connection = pymysql.connect(**db_params)
 thread_ids_df = pd.read_sql(thread_ids_query, connection)
 connection.close()
 
+print(thread_ids_df)
+
 def process_thread(thread_id):
 	# Connect to the database
 	connection = pymysql.connect(**db_params)
@@ -79,7 +80,10 @@ def process_thread(thread_id):
 	"""
 	# Fetch data for each thread
 	df = pd.read_sql(thread_query, connection)
-
+	
+	#DEBUGCODE
+	print(f"\n this is the thread we just grabbed: \n\n {df}\n\n")
+	
 	# Data Cleaning
 	df['message'] = df['message'].apply(remove_html_tags)
 	df['message'] = df['message'].apply(decode_html_entities)
@@ -89,7 +93,16 @@ def process_thread(thread_id):
 	df['title'] = df['title'].apply(clean_text)
 
 	# Append the DataFrame to the list
+	'''DEBUGGING CODE HERE'''
+	print("\nDEBUG OUTPUT: message and title are below")
+	print("\nFirst few rows of 'message':\n", df['message'])
+	print("\nFirst few rows of 'title':\n", df['title'])
+	print("\nNumber of rows retrieved:", df.shape[0])
+	#'''
+	
 	dataframes.append(df)
+	#DEBUGGING CODE
+	print(f"\n dataframes is below: \n{dataframes}\n")
 
 	# Close the database connection
 	connection.close()
@@ -106,10 +119,11 @@ def find_regex_matches(text, pattern):
 		all_matches.extend(matches)
 		
 	return all_matches  # Return all matches, including duplicates
-
-# Use ThreadPoolExecutor for parallel processing
-with ProcessPoolExecutor(max_workers=4) as executor:  # Adjust max_workers as needed
-	executor.map(process_thread, thread_ids_df['thread_id'])
+	
+for thread_id in thread_ids_df['thread_id']:
+	print(f"\nwe are now processing THIS thread ID here: {thread_id}\n")
+	process_thread(thread_id)
+	
 	
 # Concatenate all DataFrames in the list
 all_threads_df = pd.concat(dataframes, ignore_index=True)
