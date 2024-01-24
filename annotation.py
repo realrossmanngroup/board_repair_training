@@ -30,22 +30,27 @@ for jargon_type, df in jargon_dataframes.items():
 	df['jargon_type'] = jargon_type.upper()  # Add a column for jargon type
 	combined_jargon_df = pd.concat([combined_jargon_df, df], ignore_index=True)
 
-def annotate_jargon(text, df):
+
+# Compile regex patterns for each jargon term outside the loop
+# so this isn't slow. we do this once, so we never have to do it again!
+jargon_patterns = {
+	row['NAME']: {
+		'pattern': re.compile(r'\b' + re.escape(row['NAME']) + r'\b', re.IGNORECASE),
+		'description': row['DESCRIPTION'] if not pd.isna(row['DESCRIPTION']) and row['DESCRIPTION'].strip() != '' else f"a {row['jargon_type']}",
+		'jargon_type': row['jargon_type']
+	}
+	for _, row in combined_jargon_df.iterrows()
+}
+
+#annotate jargon in the JSON file
+def annotate_jargon(text, jargon_patterns):
 	found_jargon = {}  # Dictionary to hold jargon terms found in the text
-	for index, row in df.iterrows():
-		jargon = row['NAME']
-		description = row['DESCRIPTION'] if 'DESCRIPTION' in df.columns and not pd.isna(row['DESCRIPTION']) and row['DESCRIPTION'].strip() != '' else f"a {row['jargon_type']}"
-		jargon_type = row['jargon_type']
-
-		# Don't mess me up if there is jargon inside jargon
-		pattern = r'\b' + re.escape(jargon) + r'\b'
-
-		# Check if the jargon is in the text
-		if re.search(pattern, text, re.IGNORECASE):
-			annotation = f"<{jargon_type}>{jargon}</{jargon_type}>"
-			# Replace only the specific instance of jargon in the text
-			text = re.sub(pattern, annotation, text, flags=re.IGNORECASE)
-			found_jargon[jargon] = description
+	for jargon, info in jargon_patterns.items():
+		# Check if the jargon is in the text (case-insensitive search)
+		if info['pattern'].search(text):
+			annotation = f"<{info['jargon_type']}>{jargon}</{info['jargon_type']}>"
+			text = info['pattern'].sub(annotation, text)  # Replace jargon with annotation
+			found_jargon[jargon] = info['description']  # Store found jargon description
 
 	return text, found_jargon
 
@@ -65,8 +70,8 @@ def process_file(filename):
 			# Annotate for each type of jargon using dataframe of jargon. 
 			# THIS FUNCTION RETURNS TWO THINGS, remember for later if this confuses you
 			# the second thing it returns is a dictionary, not one single value
-			post['title'], found_jargon_title = annotate_jargon(post['title'], combined_jargon_df)
-			post['message'], found_jargon_message = annotate_jargon(post['message'], combined_jargon_df)
+			post['title'], found_jargon_title = annotate_jargon(post['title'], jargon_patterns)
+			post['message'], found_jargon_message = annotate_jargon(post['message'], jargon_patterns)
 
 			# Update all_definitions only with jargon found in the text
 			for jargon, definition in found_jargon_title.items():
@@ -100,3 +105,13 @@ print(filenames)
 # Use ThreadPoolExecutor to process files in parallel
 with ProcessPoolExecutor(max_workers=20) as executor:
 	executor.map(process_file, filenames)
+
+# Compile regex patterns for each jargon term outside the loop
+jargon_patterns = {
+	row['NAME']: {
+		'pattern': re.compile(r'\b' + re.escape(row['NAME']) + r'\b', re.IGNORECASE),
+		'description': row['DESCRIPTION'] if not pd.isna(row['DESCRIPTION']) and row['DESCRIPTION'].strip() != '' else f"a {row['jargon_type']}",
+		'jargon_type': row['jargon_type']
+	}
+	for _, row in combined_jargon_df.iterrows()
+}

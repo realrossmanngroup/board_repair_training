@@ -8,6 +8,9 @@ from concurrent.futures import ThreadPoolExecutor  # Use ThreadPoolExecutor for 
 from config import db_params  # Import the db_params variable from the config.py file
 from concurrent.futures import ProcessPoolExecutor
 
+# Define output subdirectory
+subdirectory = "threads"
+
 # Remove bold & italics tags
 def clean_bbcode(text):
 	# Regular expression to remove BBCode tags
@@ -51,10 +54,15 @@ def process_thread(thread_id):
 		"definitions": {},  # Blank definitions section, to be filled later
 		"threads": thread_data  # Thread data from the DataFrame
 	}
+	
+	# Create the subdirectory if it doesn't exist
+	if not os.path.exists(subdirectory):
+	    os.makedirs(subdirectory)
 
-	# Save each thread to a separate JSON file
-	with open(f'forum_data_{thread_id}.json', 'w') as json_file:
-		json.dump(structured_json, json_file, indent=4)
+	# Save each thread to a separate JSON file in the "threads" subdirectory
+	with open(os.path.join(subdirectory, f'forum_data_{thread_id}.json'), 'w') as json_file:
+	    json.dump(structured_json, json_file, indent=4)
+
 
 	# Close the database connection
 	connection.close()
