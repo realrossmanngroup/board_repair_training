@@ -1,0 +1,65 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7970": "What is U7970? a CHIP.",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "C7800": "What is C7800? a CAPACITOR.",
+        "Q7803": "What is Q7803? a TRANSISTOR.",
+        "U6900": "What is U6900? a CHIP.",
+        "U6901": "What is U6901? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "5V_S3": "What is 5V_S3? 5V_S3 is an abbreviation of “PP5V_S3” which is a 5 volt power rail present in an S3 state. S3 (Suspend to RAM) is a state where the system saves its context to RAM, a faster but more power-consuming method than S4. The system shuts down most components except for RAM, which remains powered to retain the system state. PM_SLP_S4_L is required for this rail to be present. .",
+        "3V3_S4": "What is 3V3_S4? This is an abbreviation of PP3V3_S4, a 3.3v power rail when the machine is in an S4 state. .",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. ."
+    },
+    "threads": [
+        {
+            "post_id": 33034,
+            "thread_id": 33034,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> - no green/orange light.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-03-27 21:44:07",
+            "message": "Works fine off a charged battery. Missing <SIGNAL>PP3V3_S4</SIGNAL> and then <SIGNAL>PP5V_S3</SIGNAL>.\n\n<CAPACITOR>C7800</CAPACITOR>::1 = 2.5v\n<CAPACITOR>C7800</CAPACITOR>::2 = 0.480v.\n\n\n<TRANSISTOR>Q7803</TRANSISTOR>::1 = 0v\n<TRANSISTOR>Q7803</TRANSISTOR>::3 = 3.24\n\n<TRANSISTOR>Q7803</TRANSISTOR>::1 signal comes from <CHIP>U7970</CHIP>::4 which seems to be 0.0v\n\nAny suggestions on where to look next?"
+        },
+        {
+            "post_id": 33039,
+            "thread_id": 33034,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> - no green/orange light.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-03-27 23:24:02",
+            "message": "If it works of a charged battery <SIGNAL>3V3_S4</SIGNAL> and <SIGNAL>5V_S3</SIGNAL> is irrelevant. Why are you checking 3.3 and 5v rails when you don't have a green light? \n\nLet's start from the beginning.. History? Why is this in your shop? Liquid? If so where?\n\nVoltage on <SIGNAL>PPBUS_G3H</SIGNAL>? \n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> voltage?\n\nLook at the schematic at <CHIP>U6901</CHIP> and <CHIP>U6900</CHIP> and see if they are doing their job."
+        },
+        {
+            "post_id": 33041,
+            "thread_id": 33034,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> - no green/orange light.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-03-27 23:41:34",
+            "message": "[QUOTE=\"TCRScircuit, post: 33039\"]If it works of a charged battery <SIGNAL>3V3_S4</SIGNAL> and <SIGNAL>5V_S3</SIGNAL> is irrelevant. Why are you checking 3.3 and 5v rails when you don't have a green light?\n\nLet's start from the beginning.. History? Why is this in your shop? Liquid? If so where?\n\nVoltage on <SIGNAL>PPBUS_G3H</SIGNAL>?\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> voltage?\n\nLook at the schematic at <CHIP>U6901</CHIP> and <CHIP>U6900</CHIP> and see if they are doing their job. [/QUOTE]\n\nThanks TCRS, I've been focusing on programming this year and have forgotten the thought process for some reason.\n\nPPBus = 12.59v\n<SIGNAL>SMC_BC_ACOK</SIGNAL> = 3.490v\n<CHIP>U6901</CHIP> has <SIGNAL>3V42_G3H</SIGNAL> and 3.4v on ::1 and ::2\n\n<CHIP>U6900</CHIP>::1 = 3.4v\n::4 = 3.4v\n::5 = 15.879v"
+        },
+        {
+            "post_id": 33042,
+            "thread_id": 33034,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> - no green/orange light.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-03-27 23:43:48",
+            "message": "Actually, mark this one solved.\n\nWhen I saw the above measurements I swapped the DC Board and it worked fine.\n\nThanks again TCRS."
+        },
+        {
+            "post_id": 33050,
+            "thread_id": 33034,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> - no green/orange light.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-03-28 08:31:10",
+            "message": "[QUOTE=\"gcain, post: 33042\"]Actually, mark this one solved.\n\nWhen I saw the above measurements I swapped the DC Board and it worked fine.\n\nThanks again TCRS.[/QUOTE]\n\nExcellent!"
+        }
+    ]
+}

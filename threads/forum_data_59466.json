@@ -1,0 +1,182 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_SLP_SX_L": "What is PM_SLP_SX_L? a SIGNAL.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PPVCC_S0_CPU_PH1": "What is PPVCC_S0_CPU_PH1? a SIGNAL.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "C1301": "What is C1301? a CAPACITOR.",
+        "C1001": "What is C1001? a CAPACITOR.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "C1031": "What is C1031? a CAPACITOR.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U7200": "What is U7200? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 60611,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-08 03:18:22",
+            "message": "Little bit of history on this one - customer plugged an external hdd into this one - one of those cheap sata to usb converter box style ones but also plugged in a 5v dc psu to the hdd as well. After which machine is dead - i'm thinking the USB 5V S3 Rail has been back fed with the power from the drive and killed something. \n\nI've checked <SIGNAL>PP5V_S3</SIGNAL> for shorts and found none. I'm  not getting any S4 power rails but I am getting <SIGNAL>PP3V3_S5</SIGNAL> and <SIGNAL>PP5V_S5</SIGNAL>. <SIGNAL>PPBUS_G3H</SIGNAL> is present, green light is on the charger which changes to orange as I would expect. \n<SIGNAL>PM_SLP_S4_L</SIGNAL> is missing however the prerequisites for it are there. <SIGNAL>PPVRTC_G3H</SIGNAL>, <SIGNAL>RTC_RESET_L</SIGNAL>, <SIGNAL>PP3V3_SUS</SIGNAL> etc. \n\nAnyone know the likely problem given the history?"
+        },
+        {
+            "post_id": 60616,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-08 03:31:10",
+            "message": "Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\nIf yes, check for pulse at <SIGNAL>PM_SLP_S4_L</SIGNAL> too."
+        },
+        {
+            "post_id": 60622,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-08 09:01:51",
+            "message": "<SIGNAL>SMC_ONOFF_L</SIGNAL> is triggerin <SIGNAL>PM_PWRBTN_L</SIGNAL> yes. There is a tiny pulse on <SIGNAL>PM_SLP_S4_L</SIGNAL> - almost missed it with the meter goes up to 0.023v only that I can see then immediately off again."
+        },
+        {
+            "post_id": 60624,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-08 10:14:53",
+            "message": "That is also 0V, no pulse.\nYou should be able to catch higher peak (1-2V), if trigger it several times.\nAn o-scope can catch the peak of any fast pulse..."
+        },
+        {
+            "post_id": 60638,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-08 17:43:59",
+            "message": "Dont have a scope unfortunately, just a fluke meter. If we assume it is pulsing what is next?"
+        },
+        {
+            "post_id": 60665,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 06:59:11",
+            "message": "We cannot ASSUME; need confirmation to go ahead.\nPulse, or not at <SIGNAL>PM_SLP_S4_L</SIGNAL> is very important to know exactly.\nIf present, check the other <SIGNAL>PM_SLP_SX_L</SIGNAL> signals too.\n\nIf you trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> several times, should be able to catch a higher pulse, on DC voltmeter; if exists, of course."
+        },
+        {
+            "post_id": 60686,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-09 10:42:39",
+            "message": "Seems like this is another one of apple's idiot boards that won't even attempt to start without the battery plugged in.. \nWith a fully charged new battery the system is pulsing on the <SIGNAL>PM_SLP_SX_L</SIGNAL> signals and actually goes into S0 state. CPU doesn't appear to be heating up though but I do have <SIGNAL>PP5V_S0</SIGNAL> and <SIGNAL>PPVCC_S0_CPU_PH1</SIGNAL> is reading between 1v and 1.3v. not seeing anything on the display at all. I hope this information helps narrow this down a bit further and if you want me to measure anything else let me know!"
+        },
+        {
+            "post_id": 60693,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 12:55:23",
+            "message": "A recent thread about 4924 reports same issue about NO start w/o battery present.\nHowever, I didn't face with this problem yet myself...\n\nDo you get stable voltage at <CAPACITOR>C1301</CAPACITOR>?\n<SIGNAL>PLT_RESET_L</SIGNAL> comes high?\nDid you test for USB activity?"
+        },
+        {
+            "post_id": 60721,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-10 02:12:38",
+            "message": "No <CAPACITOR>C1301</CAPACITOR> on this board - if you mean <CAPACITOR>C1001</CAPACITOR> - getting a solid 0v from there. <SIGNAL>PLT_RESET_L</SIGNAL> is staying low 0v. USB Mouse lights up. Also appear to be getting some heat from <TRANSISTOR>Q7180</TRANSISTOR> and L7130 - they are not excessively hot but warmer than the rest of board."
+        },
+        {
+            "post_id": 60722,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 03:13:44",
+            "message": "\"No <CAPACITOR>C1301</CAPACITOR> on this board\"\nMy error, meant <CAPACITOR>C1031</CAPACITOR>; is on the same rail as <CAPACITOR>C1001</CAPACITOR> too.\nIf no VCORE, then board doesn't really boot.\n\nYou've said before to get 1-1.3V on VCORE..."
+        },
+        {
+            "post_id": 60743,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-10 07:12:15",
+            "message": "Was getting vcore yesterday yes - not today it seems!\nDouble checked it again no vcore!\nIt is still getting to S0 as getting <SIGNAL>PP5V_S0</SIGNAL> still at a stable 5V"
+        },
+        {
+            "post_id": 60745,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 08:43:00",
+            "message": "What about <SIGNAL>ALL_SYS_PWRGD</SIGNAL>, when NO VCORE present?"
+        },
+        {
+            "post_id": 60812,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-11 01:59:22",
+            "message": "With again no VCORE <SIGNAL>ALL_SYS_PWRGD</SIGNAL> is a stable 3.3V"
+        },
+        {
+            "post_id": 60819,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 02:18:21",
+            "message": "Check now voltage <CHIP>U1950</CHIP>, pins 5, 6, 7."
+        },
+        {
+            "post_id": 60834,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-11 04:05:57",
+            "message": "<CHIP>U1950</CHIP>:\npin 5 - 3.4v\npin 6 - 3.4v\npin 7 - 3.4v\n\nIs it possible dead <CHIP>U7200</CHIP>? I see it gets power from <SIGNAL>PP5V_S0</SIGNAL> which i'm sure has been backfed from the hard drive customer plugged in?\n\nEdit - I think dead CPU actually VCORE is reading 1ohm to Ground"
+        },
+        {
+            "post_id": 60865,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 11:18:59",
+            "message": "1 ohm is short; usually 10-15 normal for this board, depending by CPU type.\nJust in case, lift the coils and check if short is on the CPU side; 99% yes :("
+        },
+        {
+            "post_id": 60947,
+            "thread_id": 59466,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a No Power",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2020-06-12 17:45:18",
+            "message": "Coils removed - short still there, dead CPU it seems shame. Macbook's have to be the first laptops i've worked on where a dodgy USB device can kill the processor - very good circuit design there!"
+        }
+    ]
+}

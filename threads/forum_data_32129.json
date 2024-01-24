@@ -1,0 +1,109 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U8900": "What is U8900? This chip creates the GPU power rails on the 820-3332 board to the 2012 and early 2013 15” Retina Macbook Pros. It becomes desoldered and is the cause of no video and kernel panics/crashes in that model most of the time..",
+        "U9000": "What is U9000? a CHIP.",
+        "U9100": "What is U9100? a CHIP.",
+        "R9018": "What is R9018? a RESISTOR.",
+        "U9200": "What is U9200? a CHIP.",
+        "U9150": "What is U9150? a CHIP.",
+        "U9210": "What is U9210? a CHIP.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "LCD_MUX_SEL": "What is LCD_MUX_SEL? a SIGNAL.",
+        "LCD_MUX_EN": "What is LCD_MUX_EN? a SIGNAL.",
+        "DP_EXTB_MUX_EN": "What is DP_EXTB_MUX_EN? a SIGNAL.",
+        "DP_EXTA_MUX_EN": "What is DP_EXTA_MUX_EN? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 32129,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2018-02-28 19:09:48",
+            "message": "Hi.\n\nGot a board here that was liquid damaged.\n<CHIP>U9000</CHIP> was shorted, replaced <CHIP>U9000</CHIP> and caps.\nScreen-side eDP connector was totally fucked so replaced also (screen now works perfect on this and another machine).\nReplaced J9000\nReplaced <CHIP>U9100</CHIP>\nReplaced <RESISTOR>R9018</RESISTOR>\nTouched up <CHIP>U8900</CHIP> with the iron too.\n\nThis machine will boot to installer and black screen. Close the lid and re-open once fans no longer spin, the screen then displays.\nBoot into OS gives black screen. Close the lid and re-open, still no image.\nBoot into Linux Mint, all good, no issue.\n\n\nLiquid damage was also around the GPU and VRAM.\n\nMy guess is some crap got under the GPU or VRAM but I'm posting in hope."
+        },
+        {
+            "post_id": 32174,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-02 12:03:55",
+            "message": "In Linux mint which GPU is it using?"
+        },
+        {
+            "post_id": 32210,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2018-03-03 03:45:03",
+            "message": "[QUOTE=\"larossmann, post: 32174\"]In Linux mint which GPU is it using?[/QUOTE]\n\niGPU I guess but....\n\nHmm, now in OS X if I plug in a mini display cable the internal screen wakes up. Internal will stay working if external is removed.\nRestart with internal only and back to the no output until I plug external display again.\nStart the machine up with external plugged in and both int and ext screens work.\n\nAny ideas?"
+        },
+        {
+            "post_id": 32222,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2018-03-03 13:10:47",
+            "message": "So it's working from the iGPU once external is plugged and unplugged.\nIt's working from the GPU when monitor is plugged.\nIt does fuck all when booted with only internal screen is in use unless monitor is plugged and unplugged.\n\nSo what is telling the output to wake up?"
+        },
+        {
+            "post_id": 32234,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-03 22:46:50",
+            "message": "First obvious one is making sure <SIGNAL>SMC_LID</SIGNAL> is 3.4v throughout this process.\n\nNext, <CHIP>U9150</CHIP> deals with eDP MUX, and eDP is what matters since this is what is going to the screen. I would be curious what <SIGNAL>LCD_MUX_EN</SIGNAL> and <SIGNAL>LCD_MUX_SEL</SIGNAL> are going to <CHIP>U9150</CHIP> on your defective board vs. a known good.\n\nAn ancillary curiosity would be if <CHIP>U9210</CHIP> or <CHIP>U9200</CHIP> were damaged. <SIGNAL>DP_EXTB_MUX_EN</SIGNAL> and <SIGNAL>DP_EXTA_MUX_EN</SIGNAL> appear to exist to deal with external monitors. <CHIP>U9210</CHIP> seems responsible for getting LCD recognition data passed between either the external/internal GPU and thunderbolt port A/thunderbolt port B. <CHIP>U9200</CHIP> appears responsible for getting actual image signal from internal/external GPU to thunderbolt port A/thunderbolt port B. I am curious if these were damaged at all, if it could be causing screwiness with detection of the internal screen only when plugged/unplugged.\n\nI would be curious what the SBI, SAI, ENB, ENA signals for each of these chips are on a working known good 3332 with internal LCD attached, and yours. I would be curious what any number of the enables around those two are like on a normal board vs. your malfunctioning one.\n\nI don't know the ins and outs to how this circuit works so I can't give an exact answer."
+        },
+        {
+            "post_id": 32464,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2018-03-12 01:19:53",
+            "message": "Tried <SIGNAL>SMC_LID</SIGNAL> before posting.\nThis is now my machine. This could take me a while so I'll go for the lottery repair approach and start throwing replacement parts at it until it works and THEN figure out what made the difference. This is not a highly cerebral approach, bet it works though.\n\nI'll post back if you're at all interested in what it actually was."
+        },
+        {
+            "post_id": 32469,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-12 03:46:52",
+            "message": "Check HPD line from LCD connector."
+        },
+        {
+            "post_id": 32485,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2018-03-12 13:58:18",
+            "message": "[QUOTE=\"dukefawks, post: 32469\"]Check HPD line from LCD connector. [/QUOTE]\n\n:o.... Oh..... well this is embarrassing"
+        },
+        {
+            "post_id": 32496,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-12 15:43:51",
+            "message": "Uhm, is this fixed then?"
+        },
+        {
+            "post_id": 32499,
+            "thread_id": 32129,
+            "title": "[SOLVED]3332 black screen - Not <CHIP>U8900</CHIP>",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2018-03-12 16:46:24",
+            "message": "[QUOTE=\"dukefawks, post: 32496\"]Uhm, is this fixed then?[/QUOTE]\n\n:confused: Yes.\n\n[U]Thank you for your help [/U]and for reminding me I'm a dumbass!:)"
+        }
+    ]
+}

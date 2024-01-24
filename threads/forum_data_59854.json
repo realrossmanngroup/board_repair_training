@@ -1,0 +1,325 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2915": "What is 820-2915? a LOGIC BOARD PART NUMBER.",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "Q7080": "What is Q7080? a TRANSISTOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U5420": "What is U5420? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "R7085": "What is R7085? a RESISTOR.",
+        "R7080": "What is R7080? a RESISTOR.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "C7025": "What is C7025? a CAPACITOR.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "SMBUS_SMC_BSA_SDA": "What is SMBUS_SMC_BSA_SDA? SMBUS_SMC_BSA_SDA is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "D6950": "What is D6950? a DIODE.",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "C6952": "What is C6952? a CAPACITOR.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PM_BATLOW": "What is PM_BATLOW? PM_BATLOW is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on.",
+        "SYSCLK_CLK32K_RTC": "What is SYSCLK_CLK32K_RTC? a SIGNAL.",
+        "RTC_RESET": "What is RTC_RESET? a SIGNAL.",
+        "PM_DS_PWRGD": "What is PM_DS_PWRGD? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail."
+    },
+    "threads": [
+        {
+            "post_id": 63811,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-17 08:59:42",
+            "message": "Runs on battery not on charger only. Haven't been able to figure out what is going on with the charger circuit. Thought I had it but it died after booting up. NOw it seems it is shutting the charger off quicker. Tried changing dcin board. CHecked <SIGNAL>SYS_ONEWIRE</SIGNAL> for continuity.\n\nreplaced iSL a few times checked resitors around it had a high 20 ohm resistor at <RESISTOR>R7021</RESISTOR> and replaced it and caps around it thinking it was related to adapter sense at first. replaced <TRANSISTOR>Q7080</TRANSISTOR>. reflowed smc being at times I had smc bc acok. Doesn't seem I can get voltage off charger long enough to get consistent readings off of ISL.\n\nNot detecting a short on ppbus g3h ~.43V drop red probe to ground"
+        },
+        {
+            "post_id": 63813,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-17 11:57:42",
+            "message": "Post basic voltahes for <CHIP>U7000</CHIP> w/ charger only; pins 1, 2, 3, 6, 9, 12, 13, 14, 15, 17, 19, 20, 27."
+        },
+        {
+            "post_id": 63825,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-17 16:31:33",
+            "message": "its shutting the charger off too fast for me to get anything consistent around the ISL. my 3.42V and 16.5V is there for usually just a second. SOmetimes green light and fan spin but lately not getting that. Im not detecting short on ppbus g3h =.441V drop or 3.42V lines .358 voltage drop."
+        },
+        {
+            "post_id": 63826,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-17 17:01:22",
+            "message": "got some where. I was unsure placement of <TRANSISTOR>Q7080</TRANSISTOR> and went to adjust it and it broke. replaced that and now getting mostly consistent around <CHIP>U7000</CHIP>:\n\n1-0\n2-15V\n3-3.95V\n9-0\n12-3.48V\n13-3.48V\n14-3.32V\n15-0\n17-1.7-1.8V pulsing!\n19-5V\n20-5V\n27-1.7V-1.8V pulsing... \n\ndoes the matching/pulsing 17 & 27 voltage imply <CHIP>U5420</CHIP> issue? I know thats a problem but not sure what it means.\nresistance:\n\n17/18=2.7ohm\n27/28=20.3ohm"
+        },
+        {
+            "post_id": 63828,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-17 17:04:58",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> is 1.7V"
+        },
+        {
+            "post_id": 63839,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-18 01:53:37",
+            "message": "\"1-0\n-----------\n27-1.7V-1.8V pulsing\"\nLooks like a problem with <TRANSISTOR>Q7080</TRANSISTOR>; did you solder new one?\n\nPost exact resistance value for <RESISTOR>R7080</RESISTOR>/81 and <RESISTOR>R7085</RESISTOR>/86; measured onboard, ohm scale."
+        },
+        {
+            "post_id": 63884,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-18 14:26:50",
+            "message": "took <TRANSISTOR>Q7080</TRANSISTOR> from other board. I think 2nd one I tried but wondering if soldered good. is there good way to test if soldered well? I tested to make sure I didn't have continutiy between smaller pads where possible.\n\n7080- 99.3K ohm\n81- 61.8k ohm\n85- 444K ohm\n86- 327k ohm"
+        },
+        {
+            "post_id": 63886,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-18 14:58:15",
+            "message": "resoldered <TRANSISTOR>Q7080</TRANSISTOR>. pulsing stopped but pin 17 is still 1.7V and pin 27 is still 1.7V. I'll try replacing <TRANSISTOR>Q7080</TRANSISTOR> again."
+        },
+        {
+            "post_id": 63891,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-18 16:56:45",
+            "message": "Stop replacing <TRANSISTOR>Q7080</TRANSISTOR>, if you get correct voltage at <RESISTOR>R7020</RESISTOR>.\nReplace <CAPACITOR>C7025</CAPACITOR>, and <TRANSISTOR>Q7030</TRANSISTOR>/35."
+        },
+        {
+            "post_id": 63918,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-19 10:12:46",
+            "message": "measure at <RESISTOR>R7020</RESISTOR> is 1.096V.\nreplaced <CAPACITOR>C7025</CAPACITOR>, <TRANSISTOR>Q7030</TRANSISTOR>/5 \nno change"
+        },
+        {
+            "post_id": 63921,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-19 11:26:57",
+            "message": "Probably bad solders at <TRANSISTOR>Q7080</TRANSISTOR>, or bad MOSFET.\nWith 0V at pin 1/<CHIP>U7000</CHIP>, you MUST get normal voltage at <RESISTOR>R7020</RESISTOR>."
+        },
+        {
+            "post_id": 63933,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-08-19 15:47:34",
+            "message": "changed them all a couple times keep getting 1V at <RESISTOR>R7020</RESISTOR>!!! damn"
+        },
+        {
+            "post_id": 63936,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-19 16:20:21",
+            "message": "Remove <TRANSISTOR>Q7080</TRANSISTOR> and check continuity from its pads to other components.\nPay atention to Gate pads, go through holes on the other side."
+        },
+        {
+            "post_id": 65625,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-24 06:26:09",
+            "message": "Just got back to this one. You were right! I apparently didn't have a good solder job on <TRANSISTOR>Q7080</TRANSISTOR>. Being I'm new, I didn't realize importance of using good solder and have suffered some from thinking I had good solder joints and such, being this was from a bit ago, I think it was related to that. I now have 12.26V on <SIGNAL>PPBUS_G3H</SIGNAL> so looking at the SMC..."
+        },
+        {
+            "post_id": 65628,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-24 06:47:18",
+            "message": "exactly 3.48V on both <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>/SCL. Heating SMC brought <SIGNAL>PPBUS_G3H</SIGNAL> to 12.48V. See slight tick on fan spin when putting to power. So assuming SMC isn't boosting to 12.65V? I'll reheat one more time and then replace if I can... not sure I have template for this SMC?"
+        },
+        {
+            "post_id": 65629,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-24 06:53:58",
+            "message": "You should reball it first.\nDirect heat stencil and solder paste is the easiest way.\n\nNot too many balls, can be placed at hand too."
+        },
+        {
+            "post_id": 65640,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-24 08:44:49",
+            "message": "tried twice with same replacement chip and got 12.3V still. Try another? or...?\n2nd round attempt feeling pretty good about the placement and contacts. First try I reheated after setting and gave it a bit too big of a tap! but also had 12.25V prior and after."
+        },
+        {
+            "post_id": 65647,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-24 09:30:30",
+            "message": "Post voltage and diode mode at SCL/SDA lines of battery bus now."
+        },
+        {
+            "post_id": 65655,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-24 10:49:31",
+            "message": "3.48V at SCL/SDA both.\ndiode SDA .524V | SCL .509V\nToo big of a difference?"
+        },
+        {
+            "post_id": 65658,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-24 13:53:22",
+            "message": "Looks too big difference.\nDid you test the board alone, no battery, nor BIL connected?\nRemove <DIODE>D6950</DIODE> and check again, when board gets cold."
+        },
+        {
+            "post_id": 65661,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-24 14:47:48",
+            "message": "I did check out of case with nothing else connected. will do."
+        },
+        {
+            "post_id": 65662,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-24 14:54:33",
+            "message": "NOw .522V SDA & .505 SCL \n<RESISTOR>R5280</RESISTOR>/1 are both exactly 1.97K ohms"
+        },
+        {
+            "post_id": 65668,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-24 16:54:18",
+            "message": "Try removing each component connected on these lines.\nRemove <CHIP>ISL6259</CHIP> before SMC; let it at the end.\n<CAPACITOR>C6952</CAPACITOR>/53 and even corrosion under J6950/55 is possible."
+        },
+        {
+            "post_id": 65689,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-25 11:49:53",
+            "message": "Went throuth those one by one and was always about .18V difference SCL/SDA voltage drop.\nHad to replace SMC again. Solved the SCA/SDL issue. 12.62V PPBUS. No Fan spin."
+        },
+        {
+            "post_id": 65691,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-25 13:58:41",
+            "message": "Power rails I've checked. I don't have much experience checking through power rails but referred to prior case where it applied:\n\n<SIGNAL>S5_PWRGD</SIGNAL> is 3.4V\n\n\n<SIGNAL>PM_SLP_S4_L</SIGNAL> is 0V\n\n\n<SIGNAL>3V3_S5</SIGNAL> =3.3V\n\n\nSMC Adapter EN= 3.4V\n\n\n<SIGNAL>PM_BATLOW</SIGNAL> _L= 0V\n\n\n<SIGNAL>PM_DSW_PWRGD</SIGNAL>,= 0v\n\n\n<SIGNAL>PCH_DSWVRMEN</SIGNAL>,= 3.24V\n\n\n<SIGNAL>PM_RSMRST_L</SIGNAL>, = 0V\n\n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.4V\n\nSMC came from another 2915 board and using 85W charger."
+        },
+        {
+            "post_id": 65692,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-25 14:53:59",
+            "message": "<SIGNAL>PM_BATLOW</SIGNAL> _L shoulf be high with 85W charger.\nCheck power charger reported in System Report from working machine.\n\nCheck if your board starts with both charger and battery connected."
+        },
+        {
+            "post_id": 65702,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-25 15:20:15",
+            "message": "working machine recognizes charger as 85W. No start with battery and charger connected."
+        },
+        {
+            "post_id": 65704,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-25 15:26:08",
+            "message": "\" <SIGNAL>S5_PWRGD</SIGNAL> is 3.4V\n----------------------\n<SIGNAL>PM_DSW_PWRGD</SIGNAL>,= 0v \"\nThis could be SMC issue; check the Apple note ftom page 72.\nEven PCH can pull down this signal; if has an internal damage.\nCheck all RTC signals at page 16."
+        },
+        {
+            "post_id": 65718,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-26 08:49:35",
+            "message": "Reballed and did SMC again\nSDL/SCA lines still good.\nPM BATLOW L is still 0\nPM DSW PWRGD still 0\n\n<SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> = .4V\n<SIGNAL>RTC_RESET</SIGNAL> L = 3.47V\nPCH SRTCRST L = 3.47\nPCH INTRUDER L = 3V\nPCH INTVRMEN L = 3.35V"
+        },
+        {
+            "post_id": 65726,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-27 01:56:28",
+            "message": "If <SIGNAL>S5_PWRGD</SIGNAL> is high, SMC MUST release <SIGNAL>PM_DS_PWRGD</SIGNAL> signal; did you read the note???\n\nTry another SMC."
+        },
+        {
+            "post_id": 65747,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-09-27 18:14:10",
+            "message": "YEs I read the note but wasn't sure if the RTC readings you requested were relevant to a bad PCH. I don't understand how the RTC signals are related to the diagnosing or if they would infer a damaged PCH as you also mentioned.\n\nI'll try another SMC!"
+        },
+        {
+            "post_id": 65748,
+            "thread_id": 59854,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> reset charger and green light and fan spin but shutting charger off",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-28 00:39:19",
+            "message": "Old boards have 4 RTC DC signals for PCH.\nPCH can start power on sequence without RTC clock, but NOT if one of the other 4 DC signals is not correct.\nNothe that, new PCH generations do not require <SIGNAL>PCH_INTVRMEN</SIGNAL>, nor <SIGNAL>PCH_INTRUDER_L</SIGNAL> signals."
+        }
+    ]
+}

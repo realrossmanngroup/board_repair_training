@@ -1,0 +1,71 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2915": "What is 820-2915? a LOGIC BOARD PART NUMBER.",
+        "D7005": "What is D7005? a DIODE.",
+        "CHRGR_DCIN_D_R": "What is CHRGR_DCIN_D_R? a SIGNAL.",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "U6990": "What is U6990? a CHIP.",
+        "C6990": "What is C6990? Capacitor to ground on input to PP3V42_G3H power supply. PP3V42_G3H power supply turns 18.5v from charger or 8.5v-12.5v PPBUS_G3H from the battery into PP3V42_G3H. This capacitor can short to ground and keep PP3V42_G3H from turning on which would keep the machine from having a light on the magsafe charger.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "D6990": "What is D6990? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input, can die and cause PP3V42_G3H to be missing and have no input voltage. ."
+    },
+    "threads": [
+        {
+            "post_id": 55889,
+            "thread_id": 55889,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> no green light",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-18 03:28:24",
+            "message": "hi, this board doesnt work on original magsafe 85w adaptor, but when i plugged fake chinese magsafe, it can turn green one second, and then its gone, with fake chinese charger, <RESISTOR>R6990</RESISTOR> start smoking\n\nwith original magsafe, i don detect any voltage at all, no ppbus, no pp3v42 , no ppdcin and  <SIGNAL>CHRGR_DCIN_D_R</SIGNAL> ( measured at <DIODE>D7005</DIODE> )"
+        },
+        {
+            "post_id": 55895,
+            "thread_id": 55889,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-18 08:37:21",
+            "message": "Fake charger doesn't have embedded processor and is not able to detect leakage or any other short on the machine.\nIt will always deliver full voltage; that's the reason some boards get burnt!\n\nLooks like you have a problem with C/<CHIP>U6990</CHIP>\nCheck diode mode (red probe at ground) AT <CAPACITOR>C6990</CAPACITOR> and L6995.\nWhich is the actual value (onboard ohm scale) of <RESISTOR>R6990</RESISTOR>?"
+        },
+        {
+            "post_id": 55939,
+            "thread_id": 55889,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> no green light",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-19 22:43:40",
+            "message": "diode mode of L6995 is 0.319 on both side, compared to another board, same value\n<CAPACITOR>C6990</CAPACITOR> is not shorted but diode mode is 0.08, changed to new one, 0.4, board now have a green light and can turn on after 2 cycle of fan spin, i don think this is normal\nit can detect battery percentage, but if magsafe is unplugged, it instantly shut down."
+        },
+        {
+            "post_id": 55940,
+            "thread_id": 55889,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> no green light",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-20 01:00:03",
+            "message": "ppbus with battery : 11.39v\nppbus without battery only magsafe : 8.56 \nresistance 27/28 <CHIP>U7000</CHIP> : 21 ohm\nresistance 17/18 : originally 0.0 something ohm, so i changed the <RESISTOR>R7052</RESISTOR> and <RESISTOR>R7051</RESISTOR>, now 2.9 ohm\ni have changed <CHIP>U7000</CHIP> too"
+        },
+        {
+            "post_id": 55951,
+            "thread_id": 55889,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 03:50:32",
+            "message": "Probably bad <DIODE>D6990</DIODE>.\nDo you get 3V42 on battery only?"
+        },
+        {
+            "post_id": 55962,
+            "thread_id": 55889,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> no green light",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-20 06:11:38",
+            "message": "I don get pp3v42 without battery, <DIODE>D6990</DIODE> pin 2 and 3 is shorted, replaced and problem solved, thanks a lot 2informaticos!"
+        }
+    ]
+}

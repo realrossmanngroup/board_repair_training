@@ -1,0 +1,327 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PPVRTC_G3_OUT": "What is PPVRTC_G3_OUT? PPVRTC_G3_OUT is a 3.3v power line that comes out of the clock chip. .",
+        "HS_COMPUTING_P": "What is HS_COMPUTING_P? a SIGNAL.",
+        "HS_COMPUTING_N": "What is HS_COMPUTING_N? a SIGNAL.",
+        "Q7950": "What is Q7950? a TRANSISTOR.",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "SMC_BATLOW_L": "What is SMC_BATLOW_L? SMC_BATLOW_L refers to a power management signal that indicates a low battery condition. The \"_L\" suffix suggests that this is an active-low signal, meaning that it becomes low when the battery reaches a low voltage threshold..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PPVOUT_G3_PCH_DCPRTC": "What is PPVOUT_G3_PCH_DCPRTC? a SIGNAL.",
+        "PPVRTC_G3_PCH": "What is PPVRTC_G3_PCH? a SIGNAL.",
+        "PPVRTC_G3H_PCH": "What is PPVRTC_G3H_PCH? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "PCH_INTVRMEN_L": "What is PCH_INTVRMEN_L? PCH_INTVRMEN_L is a signal that stands for Internal Voltage Regulator Enable. When pulled high, this signal enables the internal 1.05 V regulators for the Suspend well in the PCH. This signal must be pulled-up to PPVRTC_G3H..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "U7941": "What is U7941? a CHIP.",
+        "3V_S5": "What is 3V_S5? a SIGNAL.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "P5V3V3_REG_EN": "What is P5V3V3_REG_EN? a SIGNAL.",
+        "PP3V3_S5_PWRCTL": "What is PP3V3_S5_PWRCTL? a SIGNAL.",
+        "PP3V42_G3H_PWRCTL": "What is PP3V42_G3H_PWRCTL? a SIGNAL.",
+        "P3V3S5_EN_L_R": "What is P3V3S5_EN_L_R? a SIGNAL.",
+        "S5PGOOD_DLY": "What is S5PGOOD_DLY? a SIGNAL.",
+        "PP5V_S3_REG": "What is PP5V_S3_REG? a SIGNAL.",
+        "PP5V_S5_LDO": "What is PP5V_S5_LDO? PP5V_S5_LDO is a 5v rail present when the machine is in a S5 soft off state. .",
+        "PP3V42_G3H_REG": "What is PP3V42_G3H_REG? PP3V42_G3H_REG is another way to say PP3V42_G3H. PP3V42_G3H_REG and PP3V42_G3H are a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "P5VS3_EN_L": "What is P5VS3_EN_L? P5VS3_EN_L is a signal that enables the PP5V_S3 power rail when it is low.  _L means whatever before the _L in the signal name is asserted when it is low voltage, such as 0.0v to 0.5v..",
+        "PP5V_SUS_FET": "What is PP5V_SUS_FET? a SIGNAL.",
+        "PP5V_S3_P5VS0FET": "What is PP5V_S3_P5VS0FET? a SIGNAL.",
+        "P3V3ENET_SS": "What is P3V3ENET_SS? a SIGNAL.",
+        "PP3V3_S5_REG": "What is PP3V3_S5_REG? PP3V3_S5_REG is a 3.3v power rail present when the machine is in an S5 soft off state. .",
+        "PPVIN_S5_5VS3": "What is PPVIN_S5_5VS3? a SIGNAL.",
+        "PP3V3_S0_P3V3S0FET": "What is PP3V3_S0_P3V3S0FET? a SIGNAL.",
+        "PP5V_S5_P5VSUSFET": "What is PP5V_S5_P5VSUSFET? a SIGNAL.",
+        "C7340": "What is C7340? a CAPACITOR.",
+        "P3V3S0_EN": "What is P3V3S0_EN? This signal enables the PP3V3_S0 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "C2210": "What is C2210? a CAPACITOR.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "CPUIMVP_VR_ON": "What is CPUIMVP_VR_ON? CPUIMVP_VR_ON is a signal that tells the buck converter responsible for PPVCORE_S0_CPU to turn on and create CPU vcore voltage. This comes from ALL_SYS_PWRGD – once ALL_SYS_PWRGD is present, CPUIMVP_VR_ON will be present. ."
+    },
+    "threads": [
+        {
+            "post_id": 84574,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-05 07:49:34",
+            "message": "hello,\nThere is a green light but it won't turn on. stays at 0.02 amps\n\n<SIGNAL>PPVRTC_G3_OUT</SIGNAL> = 3.3 voltage\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.57 Voltage\n<SIGNAL>HS_COMPUTING_P</SIGNAL> = 12.57 Voltage\n<SIGNAL>HS_COMPUTING_N</SIGNAL> = 12.57 Voltage\n<SIGNAL>SMC_RESET_L</SIGNAL> = 3.4 Voltage\n<SIGNAL>SMC_BC_ACOK</SIGNAL> = 3.4 Voltage\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.3 Voltage\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> = No voltage\n\n<TRANSISTOR>Q7950</TRANSISTOR> I removed it but it's the same\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> how much voltage should i read \nshould i inject voltage from outside?"
+        },
+        {
+            "post_id": 84576,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-05 08:20:11",
+            "message": "Do you get <SIGNAL>PM_SLP_S3_L</SIGNAL>?\nIf not, why to search for <SIGNAL>ALL_SYS_PWRGD</SIGNAL>?"
+        },
+        {
+            "post_id": 84580,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-05 08:39:25",
+            "message": "<SIGNAL>PM_SLP_S3_L</SIGNAL> NO VOLTAGE"
+        },
+        {
+            "post_id": 84585,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-05 09:31:27",
+            "message": "Do you get <SIGNAL>3V3_SUS</SIGNAL> at least?"
+        },
+        {
+            "post_id": 84595,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-05 22:39:05",
+            "message": "<SIGNAL>3V3_SUS</SIGNAL>  = no voltage\n\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> = No volt\n<SIGNAL>SMC_BATLOW_L</SIGNAL> = No volt"
+        },
+        {
+            "post_id": 84598,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-06 01:00:38",
+            "message": "Check all PCH's RTC signals.\n\nAre you using original 60/85W charger?"
+        },
+        {
+            "post_id": 84607,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-06 06:28:29",
+            "message": "<SIGNAL>PCH_SRTCRST_L</SIGNAL> : 3.3 VOLT\n<SIGNAL>PPVRTC_G3_PCH</SIGNAL>: 3.3 VOLT\n<SIGNAL>RTC_RESET_L</SIGNAL> :3.3 VOLT\n<SIGNAL>PPVOUT_G3_PCH_DCPRTC</SIGNAL> : NO VOLT\n<SIGNAL>PPVRTC_G3H</SIGNAL> : NO VOLT\n\n[B]i use the same charger i always use[/B]"
+        },
+        {
+            "post_id": 84609,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-06 06:45:48",
+            "message": "The strangest thing is getting two RTC signals, when no RTC power present.\nI bet you didn't make good contact, or didn't test in correct point.\n<SIGNAL>PPVRTC_G3H_PCH</SIGNAL> and <SIGNAL>PPVRTC_G3H</SIGNAL> are not the same in your schematic?\n\nTwo other RTC signals not posted yet."
+        },
+        {
+            "post_id": 84613,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-06 07:20:12",
+            "message": "<SIGNAL>PPVRTC_G3H</SIGNAL> =3.3 VOLT\n\n<SIGNAL>PCH_INTVRMEN_L</SIGNAL> :3.3 VOLT\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> : 3 VOLT\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> : 3.3 VOLT\n<SIGNAL>PPVOUT_G3_PCH_DCPRTC</SIGNAL> :NO VOLT\n\n\nI hope I read the right place. If wrong, can you write your full name please?\n🙈"
+        },
+        {
+            "post_id": 84614,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-06 07:52:42",
+            "message": "OK, is not RTC issue.\n\nNow check <SIGNAL>S5_PWRGD</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL> and <SIGNAL>PCH_DSWVRMEN</SIGNAL>."
+        },
+        {
+            "post_id": 84616,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-06 09:52:05",
+            "message": "<SIGNAL>S5_PWRGD</SIGNAL>, : 0.031 volt\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> : 0\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> : 0\n<SIGNAL>PCH_DSWVRMEN</SIGNAL>. : 3.3 VOLT"
+        },
+        {
+            "post_id": 84619,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-06 11:05:34",
+            "message": "You've said <SIGNAL>3V_S5</SIGNAL> present, so bad <SIGNAL>S5_PWRGD</SIGNAL>.\nCheck <CHIP>U7941</CHIP> voltages."
+        },
+        {
+            "post_id": 84620,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-06 11:21:14",
+            "message": "<CHIP>U7941</CHIP>\nPin 1 : 3.4 volt   <SIGNAL>PP3V42_G3H_PWRCTL</SIGNAL>\npin 2 : 3.4 volt  <SIGNAL>SMC_PM_G2_EN</SIGNAL>\npin 3 : 3.4 volt  <SIGNAL>P5V3V3_REG_EN</SIGNAL>\npin 4 : 0   <SIGNAL>P3V3S5_EN_L_R</SIGNAL>\npin 5: GND\npin 6: 3.3 volt    <SIGNAL>PP3V3_S5_PWRCTL</SIGNAL>\npin 7: 0.031 volt   <SIGNAL>S5PGOOD_DLY</SIGNAL>\npin 8: 0.031 volt <SIGNAL>S5_PWRGD</SIGNAL>"
+        },
+        {
+            "post_id": 84633,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-06 17:25:51",
+            "message": "Change <CHIP>U7941</CHIP>..."
+        },
+        {
+            "post_id": 84664,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-07 10:07:42",
+            "message": "Pin 1 : 3.4 volt <SIGNAL>PP3V42_G3H_PWRCTL</SIGNAL>\npin 2 : 3.4 volt <SIGNAL>SMC_PM_G2_EN</SIGNAL>\npin 3 : 3.4 volt <SIGNAL>P5V3V3_REG_EN</SIGNAL>\npin 4 : 0 <SIGNAL>P3V3S5_EN_L_R</SIGNAL>\npin 5: GND\npin 6: 3.3 volt <SIGNAL>PP3V3_S5_PWRCTL</SIGNAL>\npin 7: 0.031 volt <SIGNAL>S5PGOOD_DLY</SIGNAL>\n[FONT=arial][U]pin 8: 3.4 VOLT  <SIGNAL>S5_PWRGD</SIGNAL>    [/U][/FONT]\n\n\nthere is an orange light, the battery is charging. 1.57 amps, but the <SIGNAL>PP5V_S3_REG</SIGNAL> voltage comes and goes. After 5 volts, the zero fan turns and stops."
+        },
+        {
+            "post_id": 84671,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-07 10:38:43",
+            "message": "Try starting in SMC bypass mode.\n\nIs the board power cycling, or fan tries to spin one time only?"
+        },
+        {
+            "post_id": 84674,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-07 11:01:43",
+            "message": "Before bypassing the fan was spinning slowly and stopping. When bypassing, the fan keeps spinning at full speed and repeats the same thing over and over."
+        },
+        {
+            "post_id": 84677,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-07 11:59:48",
+            "message": "Check which voltages appear on the board, when fan spins."
+        },
+        {
+            "post_id": 84678,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-07 14:03:16",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> : 12.12 volt fixed\n<SIGNAL>PP3V42_G3H_REG</SIGNAL> :3.4 Volt fixed\n<SIGNAL>PPVRTC_G3_OUT</SIGNAL>: 3.3 volt fixed\n<SIGNAL>PP5V_S5_LDO</SIGNAL> : 4.9 volt fixed\n<SIGNAL>PP5V_SUS_FET</SIGNAL> : 4.9 volt fixed\n\n<SIGNAL>PP5V_S3_REG</SIGNAL>: 5 volt and no volt . 5 volt and no volt. repeats\n\n<SIGNAL>P5VS3_EN_L</SIGNAL> :  no volts when the fan turns 3.4 volts when stopped \n<SIGNAL>PP5V_S3_P5VS0FET</SIGNAL> :  no volt\n\nPP3V3_S3_P3V3ENETFET : 3.2 volt and zero repeats\n<SIGNAL>P3V3ENET_SS</SIGNAL> : 1 volt and zero  repeats"
+        },
+        {
+            "post_id": 84681,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-07 14:55:39",
+            "message": "Check for voltage on the big coils too.\nAlso check power rails from pages 71 & 72.\nCheck diode mode to ground att any rail which doesn't get voltage pulse."
+        },
+        {
+            "post_id": 84689,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-08 00:29:13",
+            "message": "L7100 : 1 volt and 0 repeats\nL7330 : 5volt and 0 \n\n<SIGNAL>PM_SLP_S3_L</SIGNAL> : 3 volt and 0 \n<SIGNAL>PP5V_S3_P5VS0FET</SIGNAL> : 5 volt and 0\n<SIGNAL>PP5V_S3_REG</SIGNAL> : 5 volt and 0\n\n<SIGNAL>PP3V3_S5_REG</SIGNAL> :3.3 Volt fixed  (L7220)\n<SIGNAL>PPVIN_S5_5VS3</SIGNAL> : 12.13 volt fixed\n<SIGNAL>PP3V3_S0_P3V3S0FET</SIGNAL> :  3.3 volt fixed\n<SIGNAL>PP5V_S5_P5VSUSFET</SIGNAL> : 5 volt fixed\n<SIGNAL>PP5V_SUS_FET</SIGNAL> : 5 volt fixed\n\n\nShould I inject 5 volts into the L7260 from outside?\n\nDiod mode\n<SIGNAL>PM_SLP_S3_L</SIGNAL> : 560 \nL7100 : 27 \nL7260 : 150   (<SIGNAL>PP5V_S3_P5VS0FET</SIGNAL>)"
+        },
+        {
+            "post_id": 84692,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-08 01:48:54",
+            "message": "\"L7330 : 5volt and 0\"\n5V is a really bad value there; did you check at <CAPACITOR>C7340</CAPACITOR>?\n\nWhat about L7630, L7760/70 and other power rails?"
+        },
+        {
+            "post_id": 84823,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-11 22:42:17",
+            "message": "sorry i spelled it wrong L7260 giving 5 volts.\n\nL7330 and  (<CAPACITOR>C7340</CAPACITOR>) comes 1.5 volts then 0 volts\nL7630 1 volts then 0 volt\nL7760  1.8 volts then 0 vols\nL7770 1.5 volt then 0 volts"
+        },
+        {
+            "post_id": 84826,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-12 00:41:06",
+            "message": "<SIGNAL>PPVOUT_G3_PCH_DCPRTC</SIGNAL>  still 0V?\nIf yes, may have bad PCH.\nIt should be 1.5V approx, generated inside PCH."
+        },
+        {
+            "post_id": 84837,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-12 01:47:41",
+            "message": "<CAPACITOR>C2210</CAPACITOR>  <SIGNAL>PPVOUT_G3_PCH_DCPRTC</SIGNAL>  1.5 Volt Fixed\n\n<SIGNAL>PP3V3_S0_P3V3S0FET</SIGNAL> 3.3 volt fixed\n<SIGNAL>P3V3S0_EN</SIGNAL> 3.3 volt and 0 volts"
+        },
+        {
+            "post_id": 84838,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-12 02:12:35",
+            "message": "Any voltage tries to appear at L7510/20?\nCheck <RESISTOR>R7402</RESISTOR>/03."
+        },
+        {
+            "post_id": 84840,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-12 02:38:58",
+            "message": "L7510/20 : 0.005 VOLT AND 0.000 VOLT\nCheck <RESISTOR>R7402</RESISTOR>/03. : 150K 182K noproblem\n<SIGNAL>PM_SLP_S3_L</SIGNAL>  3.3 VOLT AND 0 VOLTS"
+        },
+        {
+            "post_id": 84853,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-12 05:03:48",
+            "message": "Not even pulse at L7510/20?\n<SIGNAL>CPUIMVP_VR_ON</SIGNAL> tries to appear?"
+        },
+        {
+            "post_id": 84854,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-12 05:10:46",
+            "message": "I noticed that the bios IC is heated. I tried to write new bios but I couldn't. I inserted another integrated and the device turned on. but it stays at 0.89 amps"
+        },
+        {
+            "post_id": 84859,
+            "thread_id": 62161,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B NOT POWER",
+            "user_id": 29141,
+            "username": "tipoti",
+            "post_date": "2022-01-12 05:49:47",
+            "message": "pch is overheating i think it's faulty"
+        }
+    ]
+}

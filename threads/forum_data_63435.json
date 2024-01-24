@@ -1,0 +1,76 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A2337": "What is A2337? A2337 is a model number for a 13 inch size MacBook Air from years Late 2020 M1 with EMC 3598, that may contain one of these boards depending on the year & configuration: 820-02016..",
+        "820-02016": "What is 820-02016? a LOGIC BOARD PART NUMBER.",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "DP_INT_HPD_3V3_CONN": "What is DP_INT_HPD_3V3_CONN? a SIGNAL.",
+        "BKLT_SCL": "What is BKLT_SCL? BKLT_SCL is an I2C signal clock line between the LED driver that creates the LCD backlight power rail that powers the backlight in the screen and the screen. The screen needs to speak to the LED driver on this line before backlight voltage will be created.."
+    },
+    "threads": [
+        {
+            "post_id": 95268,
+            "thread_id": 63435,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> No Backlight",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2023-01-04 11:13:55",
+            "message": "Hey Everyone,\n\nHappy New Year!\n\nWe've got a <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> which has a backlight fault. No physical damage or liquid damage. Customer said after removing a charger the screen went dark.\n\nWe've assessed the board and the backlight circuit shows no short. Screen has been tested with known good board and is working fine.\n\nQP800 voltages below:\n\nPIN 4: 12V\nPIN 3: 12V\nPIN: 6/5/2/1: As soon as the board is connected to power these show 12V but within 30 seconds the voltage drops and eventually ends up at 0v\n\nChecked the components for <SIGNAL>LCDBKLT_EN_L</SIGNAL> and <SIGNAL>BKLT_SD</SIGNAL> and these all test fine (compared against known good) but SD isn't pulling the line to 0v.\n\nQP800 has then been replaced but no change.\n\nDespite the other input and output values of UP800 being ok, this has been replaced to rule out a bad backlight driver. Still no change.\n\nChecked the resistors, fb lines are all ok.\n\nWould really appreciate some direction of where else to check as I've cross compared the full circuit and I'm a bit stumped.\n\nThank you!"
+        },
+        {
+            "post_id": 95269,
+            "thread_id": 63435,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-04 14:51:24",
+            "message": "Can you confirm image present on internal LCD for sure?\nCheck <SIGNAL>DP_INT_HPD_3V3_CONN</SIGNAL> level.\n\nBe sure DP800 is not shorted A-K."
+        },
+        {
+            "post_id": 95271,
+            "thread_id": 63435,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> No Backlight",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2023-01-05 02:40:20",
+            "message": "100% image present.\n\n<SIGNAL>DP_INT_HPD_3V3_CONN</SIGNAL> value shows 1.16V\n\nDP800 shows normal diode value 0.873/1.1163 but no voltage"
+        },
+        {
+            "post_id": 95272,
+            "thread_id": 63435,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-05 03:15:05",
+            "message": "Check diode mode and voltage on <SIGNAL>BKLT_SCL</SIGNAL>/SDA lines.\nBe sure RP850-53 are all good.\n\nInspect UD050 and its related components and traces."
+        },
+        {
+            "post_id": 95278,
+            "thread_id": 63435,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> No Backlight",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2023-01-05 07:54:48",
+            "message": "<SIGNAL>BKLT_SCL</SIGNAL>/SDA both 5.1V\n\nRP850 - 0.512\nRP851 - 0.512\nRP852 - 0.239\nRP853 - 0.239\n\nUD050 and corresponding components all test good against the known working board"
+        },
+        {
+            "post_id": 95279,
+            "thread_id": 63435,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-05 08:02:15",
+            "message": "You should check if mentioned resistors have good ohm value; not just diode mode to ground.\n\nJust in case, try DFU revive; restore, if no data to save."
+        },
+        {
+            "post_id": 95370,
+            "thread_id": 63435,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> No Backlight",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2023-01-10 05:32:52",
+            "message": "Checked also in Ohms and value is good.\n\nWe will try the DFU revive"
+        }
+    ]
+}

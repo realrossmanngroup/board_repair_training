@@ -1,0 +1,71 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R5301": "What is R5301? a RESISTOR.",
+        "R3880": "What is R3880? a RESISTOR.",
+        "U6900": "What is U6900? a CHIP.",
+        "U6901": "What is U6901? a CHIP.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming.."
+    },
+    "threads": [
+        {
+            "post_id": 90262,
+            "thread_id": 62808,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Green LED flashes",
+            "user_id": 30363,
+            "username": "Palhano",
+            "post_date": "2022-06-18 09:15:27",
+            "message": "I repaired it a month ago. It had oxidations on <RESISTOR>R5301</RESISTOR>/02, <RESISTOR>R3880</RESISTOR>/81 and failed SMC. Now it's back, I connect magsafe, the board turns on, LED turns green and turns off. Board remains on.\n\nI've already tested it with another DC.\n\nPPBus - 12.56v\n\nI checked the <RESISTOR>R7051</RESISTOR>/52, <RESISTOR>R7021</RESISTOR>/22. They are OK. On <CHIP>U7000</CHIP>, pins 17/18 - 3.0ohm, 27/28 - 20ohm\n\nAny suggestion?"
+        },
+        {
+            "post_id": 90265,
+            "thread_id": 62808,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Green LED flashes",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-06-18 11:42:58",
+            "message": "Board stays on, with activity, only lost the Magsafe light?\n\nPost <CHIP>U6900</CHIP>/1 voltages.\nCheck continuity between <CHIP>U6900</CHIP> and central pin of charger board."
+        },
+        {
+            "post_id": 90305,
+            "thread_id": 62808,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Green LED flashes",
+            "user_id": 30363,
+            "username": "Palhano",
+            "post_date": "2022-06-20 04:58:31",
+            "message": "Yes, the card continues to function normally.\n\nContinuity of the normal <CHIP>U6900</CHIP>.\n\nIt seems to be the SMC again. <CHIP>U6900</CHIP> pins giving 0v. \n<CHIP>U6901</CHIP>, pins 1 and 2 with 0.7v, pin 5 - 3.42v, pin 4 - 0v"
+        },
+        {
+            "post_id": 90311,
+            "thread_id": 62808,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Green LED flashes",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-06-20 10:08:21",
+            "message": "Missing <SIGNAL>SMC_BC_ACOK</SIGNAL>?\nCheck continuity from <CHIP>U7000</CHIP> to <CHIP>U6901</CHIP>."
+        },
+        {
+            "post_id": 90374,
+            "thread_id": 62808,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Green LED flashes",
+            "user_id": 30363,
+            "username": "Palhano",
+            "post_date": "2022-06-22 12:26:43",
+            "message": "Yes, missing. The board is very complicated. I checked the continuity <CHIP>U7000</CHIP> and <CHIP>U6901</CHIP>, it's ok.\n\n<CHIP>U6901</CHIP>, pins 1 and 2, floating between 1.3v and 0.7v, pin 5 - 3.42v, pin 4 - 0v.\n\ntesting, it stopped working overall. <SIGNAL>SMC_PM_G2_EN</SIGNAL> 0v. I changed the SMC, it worked again for two days. Now it has stopped again.\n\nSomething burning the SMC?"
+        },
+        {
+            "post_id": 90375,
+            "thread_id": 62808,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Green LED flashes",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-06-22 12:48:18",
+            "message": "Change <CHIP>U7000</CHIP> and <CHIP>U6901</CHIP>."
+        }
+    ]
+}

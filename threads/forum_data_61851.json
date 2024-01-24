@@ -1,0 +1,174 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01521": "What is 820-01521? a LOGIC BOARD PART NUMBER.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U7800": "What is U7800? a CHIP.",
+        "U3100": "What is U3100? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "C7809": "What is C7809? a CAPACITOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R7816": "What is R7816? a RESISTOR.",
+        "A1398": "What is A1398? A1398 is a model number for a 15 inch size MacBook Pro Retina from years Mid 2015, Mid 2012, Early 2013, Late 2013, Mid 2014 with EMC 2909, that may contain one of these boards depending on the year & configuration: 820-00138, 820-00163, 820-00426, 820-3332, 820-3662, 820-3787..",
+        "A1708": "What is A1708? A1708 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2017, 2016 with EMC 3164, that may contain one of these boards depending on the year & configuration: 820-00840, 820-00875..",
+        "PP0V9_SSD": "What is PP0V9_SSD? PP0V9_SSD is a power rail that powers the soldered on NAND memory for the SSD on Macbooks with soldered on storage and must be present for the SSD to show up. .",
+        "PP1V8_SSD": "What is PP1V8_SSD? a SIGNAL.",
+        "PP2V7_NAND": "What is PP2V7_NAND? PP2V7_NAND is a power rail that powers the soldered on NAND memory for the SSD on Macbooks with soldered on storage and must be present for the SSD to show up. ."
+    },
+    "threads": [
+        {
+            "post_id": 81469,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-15 12:36:32",
+            "message": "Board on the bench. I found a short on <SIGNAL>PP3V3_G3H</SIGNAL> at <CAPACITOR>C7809</CAPACITOR> and PMIC <CHIP>U7800</CHIP>. Replaced both. then discovered only one of the <CHIP>CD3215</CHIP>'s had the 1.1V LDO when charger connected to it's corresponding port. Replaced <CHIP>U3100</CHIP> and now get all of the LDO's with charger connected to corresponding port. I was thinking that would be it and board would boot but it has the same symptoms it started with of 5V incoming with cycling up to 50mA and back to zero amps. Nothing in DFU mode. <SIGNAL>PPBUS_G3H</SIGNAL> is 12.3V. No shorts on big coils. CPU coils have good diode readings so I don't believe I'm wasting my time..."
+        },
+        {
+            "post_id": 81471,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-15 13:37:35",
+            "message": "12.3V is incorrect <SIGNAL>PPBUS_G3H</SIGNAL>; T2 doesn't properly communicate with <CHIP>U7000</CHIP>.\nDo you get all AWAKE and SLPS2R voltages?"
+        },
+        {
+            "post_id": 81484,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-16 10:05:00",
+            "message": "I get pulses at the slps2r. Discovered full short on P0v9SLPDDR. zero ohms resistance to ground. Guessing this means I have a dead T2? damnit I've wasted a lot of time on this board."
+        },
+        {
+            "post_id": 81487,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-16 11:04:13",
+            "message": "That is not SLPS2R voltage.\nHowever, short there points to bad T2.\nJust in case, remove L7816/17 and <RESISTOR>R7816</RESISTOR>; see if short is not on <CHIP>U7800</CHIP> side."
+        },
+        {
+            "post_id": 81488,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-16 12:35:40",
+            "message": "Thanks for help with that. NOt sure if I'd have figured out how to isolate that one. it actually is on the PMIC so looks like one I placed from other board had an issue as it at least doesn't appear that it was due to shorted balls and internal to chip (chcking it pin 10 is 0 ohms to pin 9) oye! this board is killing me. I'm going to diode test around my donor PMIC before pulling it this time haha"
+        },
+        {
+            "post_id": 81489,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-16 13:15:40",
+            "message": "Well making some progress anyway. Now it goes to 19.9V and up to eventually climbs to 1.8A and 36W but no chime no data activity. USB drive has solid light for a while and shuts off. Trackpad activity present. Still not registering DFU but seems like trackpad activity never goes away even after holding down the power button for a while. As soon as I release the power button it tries to start up again I believe. <SIGNAL>PPBUS_G3H</SIGNAL> is 12.7V no fan spin. Seems like it bounces to 13.1V briefly I believe that was with battery plugged in but typically with battery plugged in, the <SIGNAL>PPBUS_G3H</SIGNAL> is under 12V"
+        },
+        {
+            "post_id": 81496,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-16 17:23:54",
+            "message": "Do you get steady AWAKE and SLPS2R voltages now?"
+        },
+        {
+            "post_id": 81525,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-18 09:59:43",
+            "message": "yes. I have steady AWAKE and SLPS2R's related to 1V1, 1V8 and 3v3, PPVDDCPU"
+        },
+        {
+            "post_id": 81526,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-18 10:45:43",
+            "message": "This machine starts automatically if you press a key or make click on trackpad.\n\nIf all AWAKE and SLPS2R voltages are present, machine should be seen in DFU."
+        },
+        {
+            "post_id": 81623,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-20 09:56:11",
+            "message": "I guess Thunderbolt2 to thunderbolt3 doesn't work (both Apple brand) was trying with my 2015 <MACBOOK MODEL NUMBER>A1398</MACBOOK MODEL NUMBER>. No issues seeing its in DFU mode from <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER>. NO luck though. Tried Revive first, checked with customer and got the green light on restoring it but I get a: System cannot be restrored on this device: amrestoreerrordomain error 6 failed to handle messag type statusmsg. I tried multiple times with host OS and configurator updated from both Big Sur and Catalina. I tried from Mojave but I didn't already have configurator on that load and apparently Apple requires 10.15 or greater to download. I have to assume host OS isn't that relevant considering if the target has Mojave but yet Configurator2 is no longer available for new download to Mojave to attempt as host for DFU restore."
+        },
+        {
+            "post_id": 81624,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-20 12:46:29",
+            "message": "Check if SSD voltages are present too."
+        },
+        {
+            "post_id": 81629,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-20 13:11:14",
+            "message": "Yes. <SIGNAL>PP0V9_SSD</SIGNAL>, <SIGNAL>PP2V7_NAND</SIGNAL> and <SIGNAL>PP1V8_SSD</SIGNAL> all present"
+        },
+        {
+            "post_id": 81633,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-20 13:34:42",
+            "message": "Remove audio board and inspect for liquid sign, on both sides; also audio flex/connectors."
+        },
+        {
+            "post_id": 81636,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-20 14:33:40",
+            "message": "Good thoughts. I looked those over and not seeing anything out of the ordinary."
+        },
+        {
+            "post_id": 81640,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-20 16:19:38",
+            "message": "Check diode mode to ground on all T2 lines going to J6100.\nPay atention to pins 32 & 33."
+        },
+        {
+            "post_id": 81726,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-10-22 13:27:22",
+            "message": "Compared to another board. Not seeing anything unusual from diode check of J6100"
+        },
+        {
+            "post_id": 81727,
+            "thread_id": 61851,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> 5V on charger and cycle 0 to 50 mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-22 14:28:06",
+            "message": "Should be T2 internal problem, if above mentioned voltages are all present."
+        }
+    ]
+}

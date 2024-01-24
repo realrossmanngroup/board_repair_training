@@ -1,0 +1,86 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00045": "What is 820-00045? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U4700": "What is U4700? a CHIP.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP3V3R3V0_AON": "What is PP3V3R3V0_AON? PP3V3R3V0_AON is the first power rail you need to get a USB-C charger to go from 5v to 20v on an A1534 Macbook with an 820-00045 board..",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "SMC_RST_L": "What is SMC_RST_L? a SIGNAL.",
+        "R7160": "What is R7160? a RESISTOR.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_SLP_SX_L": "What is PM_SLP_SX_L? a SIGNAL.",
+        "PM_SLP_S5": "What is PM_SLP_S5? a SIGNAL.",
+        "SMC_BYPASS": "What is SMC_BYPASS? a SIGNAL.",
+        "R5170": "What is R5170? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 52400,
+            "thread_id": 52400,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - DCIN stuck at 5.21V 65mA",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-09-18 18:19:04",
+            "message": "This board has no liquid damage, usb meter shows that dcin is set to 5.2V at 0.065A witch means no negociation with SMC.\n\n<SIGNAL>PP3V3R3V0_AON</SIGNAL> is missing (0V), 0.306 in diode mode and resistance to ground is 600 kOhms\n\n<SIGNAL>PP3V3_G3H</SIGNAL> is missing (0V), 0.359 in diode mode and resistance to ground is 82kOhms\n\nSince I have no short on <SIGNAL>PP3V3R3V0_AON</SIGNAL> I don't think replacing yet <CHIP>U4700</CHIP>.\n\nI am tempted to replace <CHIP>U7100</CHIP> because it's creating <SIGNAL>PP3V3R3V0_AON</SIGNAL>.  However, I am not sure what other signal needs  to be present for <CHIP>U7100</CHIP> to  create <SIGNAL>PP3V3R3V0_AON</SIGNAL>. Also I don't know if <SIGNAL>PP3V3_G3H</SIGNAL> is my first concern or my second...\n\n\nBtw, I know how CPU will end up on this board:)"
+        },
+        {
+            "post_id": 52403,
+            "thread_id": 52400,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - DCIN stuck at 5.21V 65mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-19 01:50:01",
+            "message": "Do you get <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> (5V at least)?\nBe aware, <CHIP>U7100</CHIP> has firmware, so need donor board."
+        },
+        {
+            "post_id": 52413,
+            "thread_id": 52400,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - DCIN stuck at 5.21V 65mA",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-09-19 19:13:34",
+            "message": "Yes I do measure 5.22 V on <SIGNAL>PPDCIN_G3H</SIGNAL> and <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>.\n<SIGNAL>CHGR_ACIN</SIGNAL> voltage divider is working and I get 1,32V.\n\nI found out <SIGNAL>SMC_RESET_L</SIGNAL> at 0,22V.\n<RESISTOR>R7160</RESISTOR> is ok at 100kOhms and I get 0,22V on both sides of this resistor.\nNo short, in diode mode, I get 0,720 on <SIGNAL>SMC_RESET_L</SIGNAL> and 0,568 on <SIGNAL>SMC_RST_L</SIGNAL>.\n\nWaiting for donnour boards will try to replace <CHIP>U7100</CHIP>..."
+        },
+        {
+            "post_id": 52418,
+            "thread_id": 52400,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - DCIN stuck at 5.21V 65mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-20 04:03:05",
+            "message": "Looks like bad <CHIP>U7100</CHIP> in this case..."
+        },
+        {
+            "post_id": 52691,
+            "thread_id": 52400,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - DCIN stuck at 5.21V 65mA",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-09-28 09:38:08",
+            "message": "I received donnour boards and replaced <CHIP>U7100</CHIP>, now the board is power cycling.\n\nPPDCIN is spiking to 5.21V and PPBUS is spiking to 8.16V\n<SIGNAL>SMC_RESET_L</SIGNAL> is now spiking to 3.3V\n<SIGNAL>PP3V3_G3H</SIGNAL> is now spiking at 3,3V\n<SIGNAL>PP3V3R3V0_AON</SIGNAL> is also spiking to 3,3V\n\nI really have no other idea what to look next, if it's again a bad <CHIP>U7100</CHIP> or something else messed.\nI can still replace <CHIP>U7100</CHIP> with another one but power rails and signals changed compared with old <CHIP>U7100</CHIP> and want to make sure before wasting a lot of time.\n\nI noticed batch code are not the same but <CHIP>U7100</CHIP> come from same <LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> can this also matter?\n\nDefect board had this marking on <CHIP>U7100</CHIP>:\n95530\nB506BH\n\nDonnour board <CHIP>U7100</CHIP>\n95530\nB449AJ\n\nThank for any tips."
+        },
+        {
+            "post_id": 52692,
+            "thread_id": 52400,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - DCIN stuck at 5.21V 65mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-28 10:32:04",
+            "message": "Should be good if really comes from 00045 donor board.\nTry to start in SMC bypass.\nCheck if all <SIGNAL>PM_SLP_SX_L</SIGNAL> signals pulse.\nIf any pulses, check for the corresponding Sx volatges.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> signal for tests..."
+        },
+        {
+            "post_id": 52700,
+            "thread_id": 52400,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - DCIN stuck at 5.21V 65mA",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-09-28 19:37:46",
+            "message": "Tried smc bypass and nothing happens, it continues pulsing.\n<SIGNAL>PM_SLP_S5</SIGNAL> is missing 0V\nTried my second <CHIP>U7100</CHIP> and back to square one with only stable 5,2V at <SIGNAL>PPDCIN_G3H</SIGNAL>. Wanted to try <SIGNAL>SMC_BYPASS</SIGNAL> and still nothing happened, I checked at <SIGNAL>SMC_ONOFF_L</SIGNAL> and it was low 0,2V.\nSo I may have an SMC issue... but this doesn't explain to me why with two <CHIP>U7100</CHIP> replacement, result are not conistent...\nalso there is no short 0,650 diode mode on <SIGNAL>SMC_ONOFF_L</SIGNAL>, <RESISTOR>R5170</RESISTOR> is ok with 10kOhms."
+        }
+    ]
+}

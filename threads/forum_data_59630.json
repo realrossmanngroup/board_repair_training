@@ -1,0 +1,87 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "R7085": "What is R7085? a RESISTOR.",
+        "R7080": "What is R7080? a RESISTOR.",
+        "D6990": "What is D6990? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input, can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "PPCHGR_DCIN_D": "What is PPCHGR_DCIN_D? a SIGNAL.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "R7086": "What is R7086? a RESISTOR.",
+        "R7081": "What is R7081? a RESISTOR.",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7010": "What is R7010? a RESISTOR.",
+        "C7011": "What is C7011? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 62085,
+            "thread_id": 59630,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Macbook Pro no charger light",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-08 18:31:26",
+            "message": "Macbook Pro \n\nFirst look at the computer... Able to Power on the computer. No \"bong\", Red Charge Light (after about a minute) and full fan spin. \n\nNow .. well something else has gone wrong. Now no light on the charger and 11.2v at <SIGNAL>PPBUS_G3H</SIGNAL> (battery connected)  0v W/O battery.\n\nI don't think I \"did\" anything... but must have shorted something I guess ?\n\nSigh..\n\nWhere to  start oh wise ones?"
+        },
+        {
+            "post_id": 62097,
+            "thread_id": 59630,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Macbook Pro no charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-09 04:07:52",
+            "message": "Start disconnecting battery.\nDo not reconnect it until get correct <SIGNAL>PPBUS_G3H</SIGNAL> voltage.\n\nDo you get <SIGNAL>3V42_G3H</SIGNAL> at least?\nPost ohm values for <RESISTOR>R7080</RESISTOR>/81 and <RESISTOR>R7085</RESISTOR>/86, measured onboard."
+        },
+        {
+            "post_id": 62311,
+            "thread_id": 59630,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Macbook Pro no charger light",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-13 23:08:11",
+            "message": "HI, \nI got very little anywhere.\nI have replaced the DC in jack (820 - 2565) with a known good which seems to have helped a bit. \n\nI was working my way through power rails and related circuits (as I guess / assume they're related) so apologies if some of these are out of order or unnecessary. \n\n\nPPVIN _G3h_P3v42G3H (mesured at <DIODE>D6990</DIODE>) 18.09v\n<SIGNAL>3V42_G3H</SIGNAL> - 149.2 mv\n<SIGNAL>PPBUS_G3H</SIGNAL> 30.5mv\n<SIGNAL>PPCHGR_DCIN_D</SIGNAL> 18.5v\n<SIGNAL>CHGR_PHASE</SIGNAL> 10.5mv\n\nSo based on this I would conclude that there is something wrong with the circuit that is creating <SIGNAL>PPBUS_G3H</SIGNAL>\n\nAt this stage I believe I have power going INTO <CHIP>U7000</CHIP> via <SIGNAL>PPCHGR_DCIN_D</SIGNAL> (@<RESISTOR>R7005</RESISTOR>). but not OUT of <CHIP>U7000</CHIP>.\n\nI see on pin 24 of <CHIP>U7000</CHIP> there is CHGR UGATE but I am not sure if that functions as a enable or similar circuit. \n\nMy backtracking lead me to the schematic page which has <RESISTOR>R7080</RESISTOR>! So hopefully that means I am on the right track!\n\n<RESISTOR>R7080</RESISTOR> - 99.9k (good I think)\n<RESISTOR>R7081</RESISTOR> - 60.7 (good too)\n\n<RESISTOR>R7085</RESISTOR> - winner winner ? 0.577m Ohms\n<RESISTOR>R7086</RESISTOR> - 307K \n\n.......\n\n\nSo replace <RESISTOR>R7085</RESISTOR> which would fix <SIGNAL>CHGR_AGATE</SIGNAL> which makes <SIGNAL>CHGR_PHASE</SIGNAL> work?\n\nI shall await your response. \n\nCheers\n\nJames"
+        },
+        {
+            "post_id": 62313,
+            "thread_id": 59630,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Macbook Pro no charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-14 01:12:46",
+            "message": "\"<RESISTOR>R7085</RESISTOR> - winner winner ? 0.577m Ohms\"\nm stands from mili, but I bet you meant Mega; confirm please.\nReading should be closer to 470K (0.47M).\nHowever, doesn't look like Mosfet leakage.\n\nPost diode mode to ground at L6995 and F7040.\n\nWe need some voltages for <CHIP>U7000</CHIP> too; pins 1, 2, 3, 9, 15, 17, 19, 20, 27.\nAlso post exact resistance (ohm mode) between its pins 17/18 and 27/28."
+        },
+        {
+            "post_id": 62391,
+            "thread_id": 59630,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Macbook Pro no charger light",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-15 22:25:52",
+            "message": "Hi 2informatios \n\nDiode mode I get\nL6995 0.108 _G3H on one side and 0.0 on the other (_SW)\nF7040 0.413\n\n\n<CHIP>U7000</CHIP> \n\n17 / 18- 3.2 Ohms (measured at <RESISTOR>R7051</RESISTOR> and <RESISTOR>R7052</RESISTOR> because my micro multi meter probes are not here and they appear to be connected)\n27 / 28 - 20 Ohms (similar measurement style)\n\n<CHIP>U7000</CHIP> Voltages\n\n\n 1- 17.8v\n2 -  18 v\n3 - 8 mv\n9 - 32.3mv\n15 -  (negative 160mv) \n17 - 4.5mv\n19 - 5.08v\n20 - 5.08v\n27 - 2.7mv"
+        },
+        {
+            "post_id": 62402,
+            "thread_id": 59630,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Macbook Pro no charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-16 01:36:25",
+            "message": "\"3 - 8 mv\"\nBad enough.\n\nFirst post diode mode to ground there.\nIf low, remove <CAPACITOR>C7011</CAPACITOR> and check again.\nIf still low, change <CHIP>U7000</CHIP>.\nIf no short, replace <RESISTOR>R7010</RESISTOR>.\n\n\"L6995 0.108 _G3H on one side and 0.0 on the other (_SW)\"\nI'm not really sure about this; do you mean L6995 is broken/open and short to ground before it??"
+        },
+        {
+            "post_id": 62744,
+            "thread_id": 59630,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Macbook Pro no charger light",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-22 22:37:46",
+            "message": "7 - 7.68 M ohms\nreplaced suggested. Will repost after I US all the flux away"
+        }
+    ]
+}

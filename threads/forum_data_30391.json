@@ -1,0 +1,81 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00045": "What is 820-00045? a LOGIC BOARD PART NUMBER.",
+        "U7600": "What is U7600? a CHIP.",
+        "U4700": "What is U4700? a CHIP.",
+        "U4450": "What is U4450? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP3V3R3V0_AON": "What is PP3V3R3V0_AON? PP3V3R3V0_AON is the first power rail you need to get a USB-C charger to go from 5v to 20v on an A1534 Macbook with an 820-00045 board..",
+        "PPVBUS_E85": "What is PPVBUS_E85? a SIGNAL.",
+        "PP5V_G3H_LDO": "What is PP5V_G3H_LDO? a SIGNAL.",
+        "R5115": "What is R5115? a RESISTOR.",
+        "E85_CC1": "What is E85_CC1? a SIGNAL.",
+        "PP5V1_S4SW_CC1": "What is PP5V1_S4SW_CC1? a SIGNAL.",
+        "820-3662": "What is 820-3662? a LOGIC BOARD PART NUMBER.",
+        "PP5V1_S4SW": "What is PP5V1_S4SW? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 30391,
+            "thread_id": 30391,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - Not getting into S4",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2018-01-14 15:17:38",
+            "message": "Hey everyone\n\nThis device came in with the regular <SIGNAL>PP3V3R3V0_AON</SIGNAL> short to ground, I first suspected <CHIP>U7600</CHIP> so I removed it but the short did not go away.\nAfter lifting up and soldering back 2 other chips (I think around <CHIP>U4450</CHIP>) I finally found the suspect on the other side of the board: <CHIP>U4700</CHIP>.\n\nAfter replacing <CHIP>U4700</CHIP> and placing on a new <CHIP>U7600</CHIP> the board has AON and <SIGNAL>PPBUS_G3H</SIGNAL> as well as the other G3H voltages (<SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>PPVRTC_G3H</SIGNAL>, <SIGNAL>PP5V_G3H_LDO</SIGNAL>, <SIGNAL>PPVBUS_E85</SIGNAL>, <SIGNAL>PPDCIN_G3H</SIGNAL>).\nIt did not go further then S5. I tried powering on the device by shorting <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground as I was not sure if this device powers on by default. I used <RESISTOR>R5115</RESISTOR> which is a little pad almost underneath the battery connector (Thats the right one, right?)\n\nJust to confirm I was not just being dumb I placed the machine back together but with no luck, the power button didn't boot it ether.\nAfter taking the device apart again <SIGNAL>PP3V3R3V0_AON</SIGNAL> was shorted again, which I directly traced back to the replaced <CHIP>U4700</CHIP>. I replaced it once again (why do they die so easily?) with a new one and we're back at no S4. (But we do have S5)\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: OK\n<SIGNAL>PPVRTC_G3H</SIGNAL>: 3.28V\n<SIGNAL>PP5V_G3H_LDO</SIGNAL>: 4.98V\n<SIGNAL>PPVBUS_E85</SIGNAL>: OK\n<SIGNAL>PPDCIN_G3H</SIGNAL>: OK\n<SIGNAL>PP3V3_S5</SIGNAL>: 3.28V\n<SIGNAL>PP3V3_S4</SIGNAL>: 0V\n<SIGNAL>PP5V_S4</SIGNAL>: 0V\n\nOne weird thing I have to mention is that at some point <SIGNAL>PP5V_S0</SIGNAL> was steady at about 4.2V (not just stray capacitance as it did go to 0V when disconnecting the power) even though all the S0/S3/S4 voltages were not there. Not sure if its important but it was definitely odd.\n\nWhere to look? Thanks!"
+        },
+        {
+            "post_id": 30396,
+            "thread_id": 30391,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - Not getting into S4",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-01-14 17:10:20",
+            "message": "Check how <SIGNAL>PPVBUS_E85</SIGNAL> (15V) is right next to <SIGNAL>PP5V1_S4SW_CC1</SIGNAL> and thus <SIGNAL>E85_CC1</SIGNAL> on J4700. Want to guess what happened? Also want to guess how fried this board is? The whole pin layout on J4700 is a big fat failure with high voltage pins right next to low voltage ones, shitty engineering. Anything on 5V1 line is suspect at this point."
+        },
+        {
+            "post_id": 30410,
+            "thread_id": 30391,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - Not getting into S4",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2018-01-15 10:52:22",
+            "message": "Anything that's most suspect?\nI'm honestly not fully suspecting <SIGNAL>PP5V1_S4SW</SIGNAL> as this board did not have any water damage.\nIts not that we're only missing <SIGNAL>PP5V1_S4SW</SIGNAL> but all S4 voltages are not being created due them not receiving their proper enable signals.\n\nThe customer has data on here that was not backed up and they would love to recover it, I assume just moving over the two NAND chips is not enough and I would also need to move over the SSD controller?\n\nAnyways if this is close to being unsolvable other then with random luck replacing ICs I'll drop it, I don't charge enough for wasting my time on crap like this\n\n(Also dropping this would finally give me some time to work on that <LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> board!)"
+        },
+        {
+            "post_id": 30417,
+            "thread_id": 30391,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - Not getting into S4",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-01-15 12:40:25",
+            "message": "What is <SIGNAL>PPVBUS_E85</SIGNAL> currently?"
+        },
+        {
+            "post_id": 30567,
+            "thread_id": 30391,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - Not getting into S4",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2018-01-18 08:16:10",
+            "message": "<SIGNAL>PPVBUS_E85</SIGNAL> was 19.9V when I posted that response but it measures as 5.14V now.\n<SIGNAL>PP3V3R3V0_AON</SIGNAL> is at 3.14V which is a bit low, when I posted that response it was 3.31V\n\nNo idea why every time I fix it a couple of hours later something else dies again, what a crap. Especially <CHIP>U4700</CHIP> loves to die.\nI'm assuming that right now _AON is too low and the device is not communicating with the charger which is keeping it at 5V\n\nHonestly I feel like this board is a goner, probably some other chip is dying or some internal connection is going bad, but with everything being BGA and quite densely packaged I feel like this is just not worth the time.\n\nAny advice on getting data off it? Or is that also close to impossible?"
+        },
+        {
+            "post_id": 30575,
+            "thread_id": 30391,
+            "title": "<LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> - Not getting into S4",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-01-18 14:10:56",
+            "message": "<CHIP>U4700</CHIP> is normally killed by shit Chinese charger or shit USB cable. 3.14V is too low and probably the SMC is not starting as reset will be kept low because of under voltage. \nI don't know of a way to get the data off besides swapping over the NAND and possibly the controller."
+        }
+    ]
+}

@@ -1,0 +1,68 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1706": "What is A1706? A1706 is a model number for a 13 inch size MacBook Pro Retina from years 2016, Mid 2017 with EMC 3071, that may contain one of these boards depending on the year & configuration: 820-00239, 820-00923..",
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "U8510": "What is U8510? a CHIP.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PP5V_S0SW_LCD": "What is PP5V_S0SW_LCD? a SIGNAL.",
+        "PP3V3_S0SW_LCD": "What is PP3V3_S0SW_LCD? PP3V3_S0SW_LCD is a 3.3v power rail necessary to power the image circuitry on the screen. This is necessary to get a picture on the screen. .",
+        "EDP_PANEL_PWR_EN": "What is EDP_PANEL_PWR_EN? EDP_PANEL_PWR_EN is necessary to enable the power rail that powers the LCD screen image circuitry. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PP5V_S0_ALSCAM_F": "What is PP5V_S0_ALSCAM_F? PP5V_S0_ALSCAM is a power rail for the webcam and the ambient light sensor..",
+        "PANEL_P5V_EN": "What is PANEL_P5V_EN? a SIGNAL.",
+        "PANEL_FET_EN_DLY": "What is PANEL_FET_EN_DLY? a SIGNAL.",
+        "R5351": "What is R5351? a RESISTOR.",
+        "DP_INT_HPD": "What is DP_INT_HPD? a SIGNAL.",
+        "EDP_INT": "What is EDP_INT? a SIGNAL.",
+        "3V3_S0SW_LCD": "What is 3V3_S0SW_LCD? 3V3_S0SW_LCD is a 3.3v power rail present when the system is in an S0 working state that powers the LCD screen image circuitry. This is necessary to get an image on the screen.",
+        "EDP_INT_AUX_N": "What is EDP_INT_AUX_N? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 97038,
+            "thread_id": 63645,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> No picture via LCD but external works - Not Flexgate",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2023-02-27 01:15:23",
+            "message": "I got this <MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>, which had a screen issue. Probably one of my test screens is problematic as after connecting it I lost the internal picture, tested other screens still same.\nTorch shine through it, to check if its only BL but cant see anything.\n\nIt turns on and chimes, capslock is responding but no internal picture. External works with disconnected LCD.\n\nIt must be related to LVDS, as happened when testing screens. LVDS has no damage. Where to check first? Tried PRAM reset, SMC reset. LCD matrix usually turns black, this one doesn't seem to turn black at all.\n\n20V 0.345A with connected different test lcd\n\n<SIGNAL>PP5V_S0</SIGNAL> - 5.15V\n<SIGNAL>PP3V3_S0SW_LCD</SIGNAL> - 0V\n<SIGNAL>PP5V_S0_ALSCAM_F</SIGNAL> - 5.15V\n<SIGNAL>PP5V_S0SW_LCD</SIGNAL> - 0V\n<SIGNAL>PANEL_P5V_EN</SIGNAL> - 0V\n\n<CHIP>U8510</CHIP>\n<SIGNAL>PANEL_FET_EN_DLY</SIGNAL> - 0v\n<SIGNAL>EDP_PANEL_PWR_EN</SIGNAL> - 0V\n<SIGNAL>PM_SLP_S3_L</SIGNAL> - 3.3V\n\n[ATTACH type=\"full\" alt=\"1677489209886.png\"]61012[/ATTACH]\nThis U501, <RESISTOR>R5351</RESISTOR>, and CC728  area looks a bit weird, but I think it's flux. Dont see any liquid damage anywhere.\n[ATTACH type=\"full\" alt=\"1677489301410.png\"]61013[/ATTACH]\nThe only anomaly is this area on the backlight cover which seemed ripped off when fitting in the factory and perhaps introduced something through 8,9,0 keys."
+        },
+        {
+            "post_id": 97041,
+            "thread_id": 63645,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> No picture via LCD but external works - Not Flexgate",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-02-27 02:13:24",
+            "message": "<SIGNAL>3V3_S0SW_LCD</SIGNAL> is required for the image.\nIt must come on at least in the first few seconds (when machine chimes).\n<SIGNAL>DP_INT_HPD</SIGNAL> should come high at same time.\nCheck diode mode to ground on <SIGNAL>EDP_INT</SIGNAL> lines of J8500; pay atention at pins 1 & 3.\n\nBTW, there is EDP, not LVDS!"
+        },
+        {
+            "post_id": 97042,
+            "thread_id": 63645,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> No picture via LCD but external works - Not Flexgate",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2023-02-27 02:45:47",
+            "message": "j8500\nAll EDP_INT_* lines 0.234Vdc range except <SIGNAL>EDP_INT_AUX_N</SIGNAL> (pin 1) which is 0L"
+        },
+        {
+            "post_id": 97043,
+            "thread_id": 63645,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> No picture via LCD but external works - Not Flexgate",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-02-27 03:44:42",
+            "message": "That's a good reason for no video at all, on internal LCD.\nBroken trace, or CPU eDP output is fried.\n\nBTW, stop posting \"V\" after diode mode readings."
+        },
+        {
+            "post_id": 97044,
+            "thread_id": 63645,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> No picture via LCD but external works - Not Flexgate",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2023-02-27 03:49:11",
+            "message": "Thanks for your help"
+        }
+    ]
+}

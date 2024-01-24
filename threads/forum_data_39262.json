@@ -1,0 +1,85 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP5V_SUS": "What is PP5V_SUS? a SIGNAL.",
+        "PP5V_S0_HDD": "What is PP5V_S0_HDD? a SIGNAL.",
+        "U6900": "What is U6900? a CHIP.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD.."
+    },
+    "threads": [
+        {
+            "post_id": 39262,
+            "thread_id": 39262,
+            "title": "3115 B, some times green light some times not, not turning ON!",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-09-06 03:55:35",
+            "message": "hey, \n\nworking on board 820 3115, no signal water damage!! \n\nppbus = 12.56v\n\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.42v \n\n<SIGNAL>PPVRTC_G3H</SIGNAL> = 3.3V\n\n<SIGNAL>PP5V_S5</SIGNAL> = 5V \n\n<SIGNAL>PP5V_SUS</SIGNAL> = 5v Green light ON, 0V green light OFF\n\n<SIGNAL>PP5V_S3</SIGNAL> = 0V\n\n<SIGNAL>PP5V_S0</SIGNAL> = 0.228V\n\n<SIGNAL>PP5V_S0_HDD</SIGNAL> = 0.228V\n\nAlready replace 51125 and Same history! \n\nsuggestions??"
+        },
+        {
+            "post_id": 39265,
+            "thread_id": 39262,
+            "title": "3115 B, some times green light some times not, not turning ON!",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-06 05:32:26",
+            "message": "\"<SIGNAL>PP5V_SUS</SIGNAL> = 5v Green light ON, 0V green light OFF\"\nSeems that <SIGNAL>PM_SLP_SUS_L</SIGNAL> is not stable.\nCheck for basic signals:\n<SIGNAL>SMC_RESET_L</SIGNAL>, <SIGNAL>SMC_BC_ACOK</SIGNAL>, <SIGNAL>SMC_PM_G2_EN</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>.\nPost voltages for <CHIP>U6900</CHIP>/01.\nCheck continuity from <CHIP>U6900</CHIP> to central pin of magsafe card."
+        },
+        {
+            "post_id": 39268,
+            "thread_id": 39262,
+            "title": "3115 B, some times green light some times not, not turning ON!",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-09-06 06:41:38",
+            "message": "<SIGNAL>SMC_RESET_L</SIGNAL> - 3.4V\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> - Unstable 3.3V - 3.1V \n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> - 3.4V\n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> - 3.4V\n\n<CHIP>U6900</CHIP> - Pin1: 3.4v, pin4 and Pin5: unstable 2.8v - 2.9v \n\ncontinuity it's ok !!"
+        },
+        {
+            "post_id": 39286,
+            "thread_id": 39262,
+            "title": "3115 B, some times green light some times not, not turning ON!",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-06 12:27:53",
+            "message": "Stable <SIGNAL>3V3_S5</SIGNAL>?\n<SIGNAL>S5_PWRGD</SIGNAL> present?\nTry to reflow SMC..."
+        },
+        {
+            "post_id": 39319,
+            "thread_id": 39262,
+            "title": "3115 B, some times green light some times not, not turning ON!",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-09-07 01:27:34",
+            "message": "All voltages are present! SMC refowed and machine comes to the life!! which is more indicated reballing SMC or replace to another one??"
+        },
+        {
+            "post_id": 39321,
+            "thread_id": 39262,
+            "title": "3115 B, some times green light some times not, not turning ON!",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-07 01:38:58",
+            "message": "If no liquid sign, reflow should be good enough.\nReballing is better, in theory; if you don't fail in the process..."
+        },
+        {
+            "post_id": 39326,
+            "thread_id": 39262,
+            "title": "3115 B, some times green light some times not, not turning ON!",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-09-07 03:25:13",
+            "message": "Ty 2informaticos!!! ;)​​​​​​​"
+        }
+    ]
+}

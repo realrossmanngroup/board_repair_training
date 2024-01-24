@@ -1,0 +1,938 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "C6905": "What is C6905? Capacitor to ground on charger input, if this shorts to ground the charger will not put out any power. .",
+        "P3V3G3H_VBST": "What is P3V3G3H_VBST? a SIGNAL.",
+        "U6910": "What is U6910? a CHIP.",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "PM_EN_P3V3_G3H": "What is PM_EN_P3V3_G3H? PM_EN_P3V3_G3H is a signal that enables the PP3V3_G3H rail to turn on. This comes out of ISL9239 or ISL9240 chip; when missing, often is missing because of a bad ISL9239 or ISL9240 chip. .",
+        "P3V3G3H_FB": "What is P3V3G3H_FB? a SIGNAL.",
+        "P3V3G3H_LX": "What is P3V3G3H_LX? a SIGNAL.",
+        "P3V3G3H_AGND": "What is P3V3G3H_AGND? a SIGNAL.",
+        "P3V3G3H_BIAS": "What is P3V3G3H_BIAS? a SIGNAL.",
+        "R6910": "What is R6910? a RESISTOR.",
+        "C6906": "What is C6906? a CAPACITOR.",
+        "C6910": "What is C6910? a CAPACITOR.",
+        "D6902": "What is D6902? a DIODE.",
+        "R6902": "What is R6902? a RESISTOR.",
+        "PPBUS_G3H_R": "What is PPBUS_G3H_R? a SIGNAL.",
+        "PPDCIN_G3H_CHGR_R": "What is PPDCIN_G3H_CHGR_R? a SIGNAL.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "AUX_DET": "What is AUX_DET? a SIGNAL.",
+        "P_IN": "What is P_IN? a SIGNAL.",
+        "SMC_RST": "What is SMC_RST? a SIGNAL.",
+        "TBA_VDDA": "What is TBA_VDDA? a SIGNAL.",
+        "TBA_VDDP": "What is TBA_VDDP? a SIGNAL.",
+        "PPDCIN_3GH_CHGR": "What is PPDCIN_3GH_CHGR? a SIGNAL.",
+        "C7075": "What is C7075? a CAPACITOR.",
+        "SMC_RST_L": "What is SMC_RST_L? a SIGNAL.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "R7015": "What is R7015? a RESISTOR.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "R5225": "What is R5225? a RESISTOR.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "PPVBAT_G3H_CHRG_REG": "What is PPVBAT_G3H_CHRG_REG? a SIGNAL.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "BBPUS_G3H": "What is BBPUS_G3H? This is a typo of PPBUS_G3H When you see BBPUS_G3H, assume they meant to type PPBUS_G3H.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "STABLEO_O": "What is STABLEO_O? a SIGNAL.",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP3V3_UPC_XA_LDO": "What is PP3V3_UPC_XA_LDO? PP3V3_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XA_LDO_BMC": "What is PP1V1_UPC_XA_LDO_BMC? PP1V1_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "PP1V8_UPC_XA_LDOD": "What is PP1V8_UPC_XA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_XA_LDOA": "What is PP1V8_UPC_XA_LDOA? a SIGNAL.",
+        "PP3V3_UPC_TA_LDO": "What is PP3V3_UPC_TA_LDO? PP3V3_UPC_TA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_TA_LDO_BMC": "What is PP1V1_UPC_TA_LDO_BMC? a SIGNAL.",
+        "PP3V3_UPC_TB_LDO": "What is PP3V3_UPC_TB_LDO? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOD": "What is PP1V8_UPC_TB_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOA": "What is PP1V8_UPC_TA_LDOA? a SIGNAL.",
+        "PP1V1_UPC_TB_LDO_BMC": "What is PP1V1_UPC_TB_LDO_BMC? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOD": "What is PP1V8_UPC_TA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOA": "What is PP1V8_UPC_TB_LDOA? a SIGNAL.",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "PP5V_S4_T_USBC": "What is PP5V_S4_T_USBC? a SIGNAL.",
+        "C7023": "What is C7023? a CAPACITOR.",
+        "PPVBAT_G3H_CHGR_REG": "What is PPVBAT_G3H_CHGR_REG? This is battery power that flows to the system AFTER it has gone through a current sense resistor, before it goes through a fuse to become PPBUS_G3H power rail. .",
+        "O_O": "What is O_O? a SIGNAL.",
+        "D9602": "What is D9602? a DIODE.",
+        "PPDCIN_G3H_CHRG_R": "What is PPDCIN_G3H_CHRG_R? a SIGNAL.",
+        "EN_VR1": "What is EN_VR1? a SIGNAL.",
+        "3V0_G3H": "What is 3V0_G3H? a SIGNAL.",
+        "Q3200": "What is Q3200? a TRANSISTOR.",
+        "AND3V3_G3H": "What is AND3V3_G3H? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 79916,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-09 07:17:19",
+            "message": "water damage, someone make ultrasonic so i cant see the damage areas.\n5v on charger(just board and charger)\n<SIGNAL>PPBUS_G3H</SIGNAL> -0v no short (diode mode 450 on F7000) \nno voltage on all big coils  :rolleyes:"
+        },
+        {
+            "post_id": 79917,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-09 07:44:08",
+            "message": "Do you get <SIGNAL>3V3_G3H</SIGNAL> at least?"
+        },
+        {
+            "post_id": 79919,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-09 08:04:16",
+            "message": "no:("
+        },
+        {
+            "post_id": 79929,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-09 14:05:31",
+            "message": "Post <CHIP>U6903</CHIP> voltages.\nAlso diode mode to ground at <CAPACITOR>C6905</CAPACITOR>/12."
+        },
+        {
+            "post_id": 79946,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-09 23:39:15",
+            "message": "<SIGNAL>P3V3G3H_VBST</SIGNAL> 5V ALL THE REST 0.01/0.03V\n[QUOTE=\"2informaticos, post: 79929, member: 682\"]\nAlso diode mode to ground at <CAPACITOR>C6905</CAPACITOR>/12.\n[/QUOTE]\n515"
+        },
+        {
+            "post_id": 79947,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-10 00:33:31",
+            "message": "How do you get 5V without power on the chip???\nPlease post accurate information.\n\nUse surrounding components as test points.\nAvoid any possibly problem checking directly on the chip pins."
+        },
+        {
+            "post_id": 79950,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-10 01:14:49",
+            "message": "[QUOTE=\"2informaticos, post: 79947, member: 682\"]\nHow do you get 5V without power on the chip???\n[/QUOTE]\nI dont know :rolleyes: \n<CHIP>U6903</CHIP>:\n1.  <SIGNAL>P3V3G3H_VBST</SIGNAL> - 5V \n2. <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> 0V (<CAPACITOR>C6906</CAPACITOR>)\n3. <SIGNAL>P3V3G3H_LX</SIGNAL> 0V (L6900)\n5,7. <SIGNAL>P3V3G3H_AGND</SIGNAL> 0V (<CAPACITOR>C6910</CAPACITOR>) full short dido mode 001\n8. <SIGNAL>P3V3G3H_BIAS</SIGNAL> 0V (<CHIP>U6910</CHIP>)\n9. <SIGNAL>P3V3G3H_FB</SIGNAL> 0V (<RESISTOR>R6910</RESISTOR>/11)\n10. <SIGNAL>PM_EN_P3V3_G3H</SIGNAL> 0v (dot near)"
+        },
+        {
+            "post_id": 79951,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-10 01:37:13",
+            "message": "\"5,7. <SIGNAL>P3V3G3H_AGND</SIGNAL> 0V (<CAPACITOR>C6910</CAPACITOR>) full short dido mode 001\"\nReally measured there???\nWhat did you expect to get on grounded pins?\n\nCheck <RESISTOR>R6902</RESISTOR> and post <DIODE>D6902</DIODE> voltages."
+        },
+        {
+            "post_id": 79952,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-10 02:37:34",
+            "message": "[QUOTE=\"2informaticos, post: 79951, member: 682\"]\n\"5,7. <SIGNAL>P3V3G3H_AGND</SIGNAL> 0V (<CAPACITOR>C6910</CAPACITOR>) full short dido mode 001\"\n[/QUOTE]\ni thought maybe its not should be a full short\n[QUOTE=\"2informaticos, post: 79951, member: 682\"]\nCheck <RESISTOR>R6902</RESISTOR> and post <DIODE>D6902</DIODE> voltages.\n[/QUOTE]\n<RESISTOR>R6902</RESISTOR> 5v both side.\n<DIODE>D6902</DIODE>:\n1. <SIGNAL>PPBUS_G3H_R</SIGNAL> 0V\n2. <SIGNAL>PPDCIN_G3H_CHGR_R</SIGNAL> 5V\n3. <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> 5V\n\n.."
+        },
+        {
+            "post_id": 79953,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-10 02:45:36",
+            "message": "\"<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> 0V (<CAPACITOR>C6906</CAPACITOR>)\n-----------------\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> 5V\"\n???"
+        },
+        {
+            "post_id": 79954,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-10 02:50:25",
+            "message": "sorry  <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> is the only one that get voltage on <CHIP>U6903</CHIP> 5V.\n<SIGNAL>P3V3G3H_VBST</SIGNAL> -0V"
+        },
+        {
+            "post_id": 79955,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-10 02:51:57",
+            "message": "We should trust these readings now?"
+        },
+        {
+            "post_id": 79956,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-10 03:19:45",
+            "message": "YES YES FOR SURE!"
+        },
+        {
+            "post_id": 79957,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-10 03:21:37",
+            "message": "I was just mixed between  <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> to <SIGNAL>P3V3G3H_VBST</SIGNAL>.\nso..\n1. <SIGNAL>P3V3G3H_VBST</SIGNAL> 0v\n2.  <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> 5v"
+        },
+        {
+            "post_id": 79963,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-10 05:12:46",
+            "message": "In this case, you have a problem with <CHIP>U7000</CHIP>.\nPost its basic voltages; <SIGNAL>P_IN</SIGNAL>, <SIGNAL>AUX_DET</SIGNAL>, VDDA/P, <SIGNAL>SMC_RST</SIGNAL>*."
+        },
+        {
+            "post_id": 80049,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 00:59:32",
+            "message": "<SIGNAL>AUX_DET</SIGNAL> 1.4v\n<SIGNAL>TBA_VDDP</SIGNAL> 1.9V\n<SIGNAL>TBA_VDDA</SIGNAL> 2V\n<SIGNAL>P_IN</SIGNAL> - what is that?"
+        },
+        {
+            "post_id": 80050,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-12 03:01:59",
+            "message": "\"<SIGNAL>P_IN</SIGNAL> - what is that?\"\nPDF search shows it in my schematic; a bit above <SIGNAL>AUX_DET</SIGNAL> (B5 ball).\nIf is good, then change <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 80055,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 03:46:55",
+            "message": "look like it a <SIGNAL>PPDCIN_3GH_CHGR</SIGNAL> so its 5V\nreplaced <CHIP>U7000</CHIP> but the same"
+        },
+        {
+            "post_id": 80056,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-12 04:03:20",
+            "message": "\"<SIGNAL>TBA_VDDP</SIGNAL> 1.9V\n<SIGNAL>TBA_VDDA</SIGNAL> 2V\"\nSame like before?\nThen check <CAPACITOR>C7075</CAPACITOR>/7."
+        },
+        {
+            "post_id": 80057,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 04:23:09",
+            "message": "<CAPACITOR>C7075</CAPACITOR>/7 2.1v on both"
+        },
+        {
+            "post_id": 80058,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 06:44:03",
+            "message": "and <SIGNAL>SMC_RST_L</SIGNAL> 0V forgot this one."
+        },
+        {
+            "post_id": 80059,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-12 06:49:13",
+            "message": "I was expecting some diode mode readings there; eventually replacing these caps.\nIf <CHIP>U7000</CHIP> gets correct <SIGNAL>P_IN</SIGNAL> and <SIGNAL>AUX_DET</SIGNAL>, it MUST generate 5V on VDDA/P."
+        },
+        {
+            "post_id": 80060,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 07:32:01",
+            "message": "[QUOTE=\"2informaticos, post: 80059, member: 682\"]\nI was expecting some diode mode readings there; eventually replacing these caps.\n[/QUOTE]\n<CAPACITOR>C7075</CAPACITOR>/7. both 420 diode mode.\n<SIGNAL>AUX_DET</SIGNAL> 1.4v Get 5v from <SIGNAL>PPDCIN_G3H</SIGNAL> on <RESISTOR>R7015</RESISTOR> so it should be 5v or 1.4v?"
+        },
+        {
+            "post_id": 80062,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-12 07:52:53",
+            "message": "You can calculate it from the resistor divider which generates it.\nIts value depends if USB-C port provides 5V, or 20V."
+        },
+        {
+            "post_id": 80063,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 07:54:32",
+            "message": "replaced SMC again and VDDA/P get 5v"
+        },
+        {
+            "post_id": 80064,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 07:55:04",
+            "message": "<CHIP>U7000</CHIP> Sorry ISL"
+        },
+        {
+            "post_id": 80065,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 07:57:33",
+            "message": "<SIGNAL>SMC_RST_L</SIGNAL> 3.4V"
+        },
+        {
+            "post_id": 80067,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 08:13:38",
+            "message": "so <CHIP>U7000</CHIP>:\n<SIGNAL>AUX_DET</SIGNAL> 1.4v\n<SIGNAL>TBA_VDDP</SIGNAL> 5V\n<SIGNAL>TBA_VDDA</SIGNAL> 5V\n<SIGNAL>SMC_RST_L</SIGNAL> 3.4V"
+        },
+        {
+            "post_id": 80070,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-12 09:05:54",
+            "message": "Any voltage at <SIGNAL>PPBUS_G3H</SIGNAL> now?\nUSB ports still stuck in 5V?\n\nConnect battery and check <SIGNAL>3V3_S5</SIGNAL> reaction triggering <SIGNAL>SMC_ONOFF_L</SIGNAL> (at same time); use <RESISTOR>R5225</RESISTOR>/6 pads, instead of power button."
+        },
+        {
+            "post_id": 80072,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 09:22:34",
+            "message": "[QUOTE=\"2informaticos, post: 80070, member: 682\"]\nAny voltage at <SIGNAL>PPBUS_G3H</SIGNAL> now?\n[/QUOTE]\nno still 0v\n[QUOTE=\"2informaticos, post: 80070, member: 682\"]\nUSB ports still stuck in 5V?\n[/QUOTE]\nyes\n[QUOTE=\"2informaticos, post: 80070, member: 682\"]\nConnect battery and check <SIGNAL>3V3_S5</SIGNAL> reaction triggering <SIGNAL>SMC_ONOFF_L</SIGNAL> (at same time); use <RESISTOR>R5225</RESISTOR>/6 pads, instead of power button\n[/QUOTE]\nno reaction <SIGNAL>3V3_S5</SIGNAL> 0v"
+        },
+        {
+            "post_id": 80074,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-12 10:30:33",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> voltage with battery connected?\nDon't forget battery data cable."
+        },
+        {
+            "post_id": 80078,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-12 12:23:45",
+            "message": "[QUOTE=\"2informaticos, post: 80074, member: 682\"]\n<SIGNAL>PPBUS_G3H</SIGNAL> voltage with battery connected?\n[/QUOTE]\nNo still 0v\nWith cable data and battery connected"
+        },
+        {
+            "post_id": 80079,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-12 13:35:10",
+            "message": "Can you get a known good battery for test?\nBe aware, \"new chinese\" doesn't mean \"known good\"!\n\nRemove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage.\nIf nothing, post diode mode reading."
+        },
+        {
+            "post_id": 80087,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 01:36:50",
+            "message": "[QUOTE=\"2informaticos, post: 80079, member: 682\"]\nRemove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage.\nIf nothing, post diode mode reading.\n[/QUOTE]\n<CAPACITOR>C7050</CAPACITOR> 0v diode mode 777"
+        },
+        {
+            "post_id": 80089,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 01:48:34",
+            "message": "with battery it wa show 8.2v but suddenly the <SIGNAL>PPVBAT_G3H_CHRG_REG</SIGNAL> is full short"
+        },
+        {
+            "post_id": 80090,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 01:49:12",
+            "message": "[QUOTE=\"yair37, post: 80089, member: 19708\"]\nwith battery it wa show 8.2v but suddenly the <SIGNAL>PPVBAT_G3H_CHRG_REG</SIGNAL> is full short\n[/QUOTE]\nwith battery...without is o.k"
+        },
+        {
+            "post_id": 80092,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-13 01:51:46",
+            "message": "Did you check diode mode on <SIGNAL>PPBUS_G3H</SIGNAL> with battery connetced???\nI can't believed that..."
+        },
+        {
+            "post_id": 80094,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 01:57:10",
+            "message": "no but by mistake the battery screw fall there ant the battery was still touch :("
+        },
+        {
+            "post_id": 80095,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 02:02:02",
+            "message": "hoo yes because after the screw shi* the charger was short with battery and without it was o.k"
+        },
+        {
+            "post_id": 80096,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 02:04:22",
+            "message": "diode mode without battery of course:\n<SIGNAL>PPBUS_G3H</SIGNAL> 400\n <SIGNAL>PPVBAT_G3H_CHRG_REG</SIGNAL> 780\non F7000"
+        },
+        {
+            "post_id": 80097,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 02:21:42",
+            "message": "O.K we back to business!\nwith battery:\n<SIGNAL>PPBUS_G3H</SIGNAL> 11.5V but no display on voltmater adapter.\nwithout battery:\n<SIGNAL>PPBUS_G3H</SIGNAL> 1.5V and voltmater display on 5v."
+        },
+        {
+            "post_id": 80104,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 06:31:02",
+            "message": "with battery <SIGNAL>3V3_S5</SIGNAL> reaction to triggering <SIGNAL>SMC_ONOFF_L</SIGNAL>"
+        },
+        {
+            "post_id": 80107,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-13 06:49:45",
+            "message": "\"the charger was short with battery\"\nI don't really understand what this mean.\nBecause you can NOT check for short with any power applied; nor even battery!\n\nTriggering <SIGNAL>SMC_ONOFF_L</SIGNAL> get only pulse at <SIGNAL>3V3_S5</SIGNAL>, or it stays high?\nCheck for pulse at all other coils (at same time)."
+        },
+        {
+            "post_id": 80108,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 06:54:02",
+            "message": "its mean that when i connect the charger with the voltmeter adapter when the battery is connect the voltmeter is dead(no display) and when i disconnect the battery and put the charger with the voltmeter adapter its on and show 5v but no PPBUS"
+        },
+        {
+            "post_id": 80109,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 07:45:31",
+            "message": "[QUOTE=\"2informaticos, post: 80107, member: 682\"]\nTriggering <SIGNAL>SMC_ONOFF_L</SIGNAL> get only pulse at <SIGNAL>3V3_S5</SIGNAL>, or it stays high?\n[/QUOTE]\nwithout battery nothing! with only battery its different..: sometime it 0v  going high to 3.3v end then gown to 0v when trigger.\nand sometime is 3.3v go down to 0v for a second and then go high again and stay\n\n[QUOTE=\"2informaticos, post: 80107, member: 682\"]\nCheck for pulse at all other coils (at same time)\n[/QUOTE]\ni dont see any pulse"
+        },
+        {
+            "post_id": 80111,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 08:47:15",
+            "message": "i get <SIGNAL>PP3V3_G3H</SIGNAL> i get <SIGNAL>TBA_VDDA</SIGNAL>/P why i dont get <SIGNAL>BBPUS_G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 80112,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-13 09:48:13",
+            "message": "USB-meter going off with battery, doesn't mean charger is shorted!\nYou can create confusion if don't explain the symptoms correctly.\nIn your case, the charger get blocked, when battery is connected; we should find why.\n\nDo you have same behaviour on all USB-C ports?\nCheck them in both directions."
+        },
+        {
+            "post_id": 80114,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 10:02:36",
+            "message": "update:\ni was replaced 2 <CHIP>CD3215</CHIP>  at the same side, 20V 2A apper for few second and then back to 5v i was play again with this 2 but now 5b stable..do i need to replace to 2 others?"
+        },
+        {
+            "post_id": 80115,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-13 11:10:07",
+            "message": "o.k now i get 20v 0.03a on all 4 ports, <SIGNAL>PPBUS_G3H</SIGNAL> 0v when i put new <CHIP>CD3215</CHIP> i get ppus13v for few sec but then go down quickly to 1.5v then 0v"
+        },
+        {
+            "post_id": 80120,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-13 14:12:51",
+            "message": "Remove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage if steady.\nI suppose a problem on some secondary power supply.\nTry first to start in SMC bypass mode."
+        },
+        {
+            "post_id": 80129,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-14 01:50:36",
+            "message": "[QUOTE=\"2informaticos, post: 80120, member: 682\"]\nRemove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage if steady\n[/QUOTE]\n<CAPACITOR>C7050</CAPACITOR> 13.5v and every 5sec down to 9v and up again to 13.5v"
+        },
+        {
+            "post_id": 80130,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-14 02:22:49",
+            "message": "suddenly 5v on charge again and <CAPACITOR>C7050</CAPACITOR> 0v diode mode 500"
+        },
+        {
+            "post_id": 80131,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-14 02:25:17",
+            "message": "[QUOTE=\"yair37, post: 80130, member: 19708\"]\nsuddenly 5v on charge again and <CAPACITOR>C7050</CAPACITOR> 0v diode mode 500\n[/QUOTE]\nforget it!\n its 20v on charge  <CAPACITOR>C7050</CAPACITOR> 13.5v and every 5sec down to 9v and up again to 13.5v"
+        },
+        {
+            "post_id": 80132,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-14 02:28:59",
+            "message": "In this case, should have a problem on USB-C input, or <CHIP>U7000</CHIP> area.\nAll USB ports have the same behavior?\n<SIGNAL>3V3_G3H</SIGNAL> steady voltage?\n\nCheck what happens with battery and charger, both connected (F7000 still removed)."
+        },
+        {
+            "post_id": 80133,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-14 02:36:57",
+            "message": "[QUOTE=\"2informaticos, post: 80132, member: 682\"]\n<SIGNAL>3V3_G3H</SIGNAL> steady voltage?\n[/QUOTE]\nno its pulsing.\n[QUOTE=\"2informaticos, post: 80132, member: 682\"]\nAll USB ports have the same behavior?\n[/QUOTE]\nyes\n[QUOTE=\"2informaticos, post: 80132, member: 682\"]\nCheck what happens with battery and charger, both connected (F7000 still removed).\n[/QUOTE]\nthe type c voltmeter adapter on and off when connected"
+        },
+        {
+            "post_id": 80134,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-14 02:40:25",
+            "message": "i dont know what to say! after the battery testing <SIGNAL>3V3_G3H</SIGNAL> is 3.3v stable and also <CAPACITOR>C7050</CAPACITOR> is 13.6v <SIGNAL>STABLEO_O</SIGNAL>"
+        },
+        {
+            "post_id": 80135,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-14 03:05:39",
+            "message": "Steady 13V w/, or w/o battery connected?\nIf <SIGNAL>PPBUS_G3H</SIGNAL> is correct, then solder F7000 and check again; w/ and w/o battery."
+        },
+        {
+            "post_id": 80136,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-14 03:32:42",
+            "message": "[QUOTE=\"2informaticos, post: 80135, member: 682\"]\nSteady 13V w/, or w/o battery connected?\n[/QUOTE]\nwithout battery\n[QUOTE=\"2informaticos, post: 80135, member: 682\"]\nif <SIGNAL>PPBUS_G3H</SIGNAL> is correct, then solder F7000 and check again; w/ and w/o battery.\n[/QUOTE]\nppbus still 0v diode mode 413\n\nwith battery:\n<CAPACITOR>C7050</CAPACITOR> 11.5v stable \nppbus 0v\n\nwith battery and charger:\n<CAPACITOR>C7050</CAPACITOR> 11.5v stable \nppbus 0v\n\nalso check LDO:\n<SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> 444\n\n<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL>  466\n\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> 472\n\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> 481\n\n\n<SIGNAL>PP1V8_UPC_XA_LDOD</SIGNAL> 453\n\n<SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL>  474\n\n<SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL> 482\n\n<SIGNAL>PP1V8_UPC_XA_LDOA</SIGNAL> 491\n\n\n<SIGNAL>PP1V8_UPC_TA_LDOD</SIGNAL> 445\n\n<SIGNAL>PP3V3_UPC_TA_LDO</SIGNAL>  470\n\n<SIGNAL>PP1V1_UPC_TA_LDO_BMC</SIGNAL> 473\n\n<SIGNAL>PP1V8_UPC_TA_LDOA</SIGNAL> 481\n\n\n<SIGNAL>PP1V8_UPC_TB_LDOD</SIGNAL> 442\n\n<SIGNAL>PP3V3_UPC_TB_LDO</SIGNAL>  466\n\n<SIGNAL>PP1V1_UPC_TB_LDO_BMC</SIGNAL> 471\n\n<SIGNAL>PP1V8_UPC_TB_LDOA</SIGNAL> 475"
+        },
+        {
+            "post_id": 80155,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-14 13:41:01",
+            "message": "Check for short on all big coils.\nPost exact ohm resistance over <CAPACITOR>C7020</CAPACITOR>/23."
+        },
+        {
+            "post_id": 80176,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-15 01:01:46",
+            "message": "[QUOTE=\"2informaticos, post: 80155, member: 682\"]\nCheck for short on all big coils.\n[/QUOTE]\nno short found,  <SIGNAL>PP5V_S4_T_USBC</SIGNAL> diode mode 250(low?)\n\n[QUOTE=\"2informaticos, post: 80155, member: 682\"]\nPost exact ohm resistance over <CAPACITOR>C7020</CAPACITOR>/23.\n[/QUOTE]\n<CAPACITOR>C7020</CAPACITOR> 31.3\n<CAPACITOR>C7023</CAPACITOR> 2.6"
+        },
+        {
+            "post_id": 80181,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-15 04:17:33",
+            "message": "\"<SIGNAL>PP5V_S4_T_USBC</SIGNAL> diode mode 250(low?)\"\nCompare diode mode readings at L3500/B700."
+        },
+        {
+            "post_id": 80272,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-17 00:14:49",
+            "message": "[QUOTE=\"2informaticos, post: 80181, member: 682\"]\nCompare diode mode readings at L3500/B700.\n[/QUOTE]\nsame, diode mode on both 250"
+        },
+        {
+            "post_id": 80273,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-17 00:59:08",
+            "message": "Then should be correct value.\n\nActually <SIGNAL>PPBUS_G3H</SIGNAL> is present only with battery connected (F7000 soldered)?"
+        },
+        {
+            "post_id": 80278,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-17 04:43:16",
+            "message": "its crazy any few min its act different, the new act now. is..\nno battery: if I'm waiting 5min and plug the charger I get 19v 0.5A fans full spin but no screen or keyboard activity."
+        },
+        {
+            "post_id": 80279,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-17 04:44:06",
+            "message": "but if i disconnect the charger and connect again it back to 19v 0.04a"
+        },
+        {
+            "post_id": 80280,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-17 05:08:03",
+            "message": "suddenly bbpus diode mode 100 and <SIGNAL>PPVBAT_G3H_CHGR_REG</SIGNAL> diode mode 650"
+        },
+        {
+            "post_id": 80281,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-17 05:25:30",
+            "message": "Allow 15s after disconnect the charger/battery and check again diode mode on <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 80294,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-17 07:37:52",
+            "message": "I think I by mistake short the F7000 but it’s not from him I was take him out and still the same."
+        },
+        {
+            "post_id": 80297,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-17 08:11:22",
+            "message": "Still 0.100 diode mode at <SIGNAL>PPBUS_G3H</SIGNAL>?\nWhat side of F7000 (fuse removed)?"
+        },
+        {
+            "post_id": 80316,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-09-17 10:53:29",
+            "message": "The ppbus side 100, F7000 removed, ppvbat side is 650"
+        },
+        {
+            "post_id": 80325,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-17 13:37:38",
+            "message": "Check if any big coil gets the same reading to ground."
+        },
+        {
+            "post_id": 80912,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-04 06:58:36",
+            "message": "o.k back to this s*** board.\n\ncharging 5v 0.3a\n<SIGNAL>PPBUS_G3H</SIGNAL> -0.6V DIDE MODE 450\n<SIGNAL>PP3V3_G3H</SIGNAL>- 3.3V\n<SIGNAL>PPVBAT_G3H_CHRG_REG</SIGNAL> 0.6V DIDE MODE 450\ndont know how to continue from here..."
+        },
+        {
+            "post_id": 80917,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-04 07:20:20",
+            "message": "You don't get 0.100 in diode mode at pin 2 of F7000 anymore?\nThat's good, but what did you find as bad component there?\nAlso check diode mode reading in reverse way (black probe at ground); should get OL."
+        },
+        {
+            "post_id": 80921,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-04 07:49:26",
+            "message": "[QUOTE=\"2informaticos, post: 80917, member: 682\"]\nYou don't get 0.100 in diode mode at pin 2 of F7000 anymore?\n[/QUOTE]\nnow its 0.450\n\n[QUOTE=\"2informaticos, post: 80917, member: 682\"]\nThat's good, but what did you find as bad component there?\n[/QUOTE]\ni dont do nothing!! this board drive me crazy! sometimes is 20v ppbus is 13v and suddenly its 5v ppbus 0.5v <SIGNAL>O_O</SIGNAL>...now its look stable so i want to restart the work...\n\n[QUOTE=\"2informaticos, post: 80917, member: 682\"]\nAlso check diode mode reading in reverse way (black probe at ground); should get OL.\n[/QUOTE]\nyes F7000 is OL."
+        },
+        {
+            "post_id": 80937,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-04 10:00:04",
+            "message": "Do you get correct <SIGNAL>PPBUS_G3H</SIGNAL> voltage now?\nIs F7000 soldered back?\nIs the battery charging?"
+        },
+        {
+            "post_id": 80956,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-04 12:35:45",
+            "message": "No no…\nCharging 5v 0.3a\nPPBUS 0.5v\nF7000 is connected"
+        },
+        {
+            "post_id": 80957,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-04 13:01:08",
+            "message": "What voltages do you get, with good battery connected?\nDon't forget battery data cable..."
+        },
+        {
+            "post_id": 80985,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 00:53:25",
+            "message": "[QUOTE=\"2informaticos, post: 80957, member: 682\"]\nWhat voltages do you get, with good battery connected?\nDon't forget battery data cable...\n[/QUOTE]\nsame 0.6v"
+        },
+        {
+            "post_id": 80990,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-05 02:14:47",
+            "message": "I suppose that voltage with battery alone.\nI was expecting to get the voltage with both charger and battery connected too.\n\nBTW, really need to quote the previous post entire???"
+        },
+        {
+            "post_id": 80993,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 02:31:59",
+            "message": "Just charger ,  battery alone and with charger with battery connected the same voltage..\nF7000 0.6v"
+        },
+        {
+            "post_id": 81013,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 05:07:29",
+            "message": "?"
+        },
+        {
+            "post_id": 81017,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-05 05:28:48",
+            "message": "Looks like have a problem on <CHIP>U7000</CHIP> area too, or SMC; apart of USB inputs.\nThis board is a nightmare.\nSomething more affected by liquid..."
+        },
+        {
+            "post_id": 81021,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 05:59:42",
+            "message": "o.k i was replaced <CHIP>U7000</CHIP> now i get 13v on f7000 but the CPU getting very hot I'm afraid to make a damage.."
+        },
+        {
+            "post_id": 81023,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 06:12:14",
+            "message": "<DIODE>D6902</DIODE> getting very hot and the first that get hot.. any other(old) board that i can take one from?"
+        },
+        {
+            "post_id": 81024,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 06:26:29",
+            "message": "find one and replaced but the same <DIODE>D9602</DIODE> and CPU getting vey hot..\n<DIODE>D9602</DIODE> DIODE MODE:\n<SIGNAL>PPBUS_G3H_R</SIGNAL> 407\n<SIGNAL>PPDCIN_G3H_CHRG_R</SIGNAL> 510\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> 516"
+        },
+        {
+            "post_id": 81025,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 06:31:40",
+            "message": "i think <CHIP>U7000</CHIP> was burned again... i get 5v again and the CPU not getting hot now.."
+        },
+        {
+            "post_id": 81032,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-05 07:42:10",
+            "message": "I suppose you've reffered to <DIODE>D6902</DIODE>.\nCPU got hot because its embedded PCH was sinking too much current from <SIGNAL>3V3_G3H</SIGNAL>; probably through RTC power rail.\nThis also explains overheating <DIODE>D6902</DIODE>..."
+        },
+        {
+            "post_id": 81035,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 07:51:58",
+            "message": "Yes sorry it’s <DIODE>D6902</DIODE>.\nSo what can I do? And why <CHIP>U7000</CHIP> get burned?"
+        },
+        {
+            "post_id": 81036,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-05 08:34:13",
+            "message": "Are you sure isn't <CHIP>U6903</CHIP> the burnt one?\n<CHIP>U7000</CHIP> requires to communicate with SMC, which requires <SIGNAL>3V3_G3H</SIGNAL> to work.\nCheck <SIGNAL>EN_VR1</SIGNAL> output of <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 81038,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 08:43:47",
+            "message": "[QUOTE=\"2informaticos, post: 81036, member: 682\"]\nAre you sure isn't <CHIP>U6903</CHIP> the burnt one?\n[/QUOTE]\ni was replaced <CHIP>U7000</CHIP> and then i was get 13v on F7000 and also <DIODE>D6902</DIODE> getting hot and then charger back to 5v.\ni was replaced <CHIP>U7000</CHIP> again and again 20v on charger and 13v on F7000 so i guess <CHIP>U7000</CHIP> is burned.\n[QUOTE=\"2informaticos, post: 81036, member: 682\"]\nCheck <SIGNAL>EN_VR1</SIGNAL> output of <CHIP>U7000</CHIP>\n[/QUOTE]\ni dont see <SIGNAL>EN_VR1</SIGNAL> on the board/<CHIP>U7000</CHIP>"
+        },
+        {
+            "post_id": 81039,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-05 09:40:50",
+            "message": "Really???\nLook at ball F2, inside <CHIP>U7000</CHIP>...\n\nHowever, no need to check it, if now get correct <SIGNAL>PPBUS_G3H</SIGNAL>.\n<DIODE>D6902</DIODE> still hot?"
+        },
+        {
+            "post_id": 81044,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 10:59:44",
+            "message": "[QUOTE=\"2informaticos, post: 81039, member: 682\"]\nLook at ball F2, inside <CHIP>U7000</CHIP>...\n[/QUOTE]\ni sew...\n[QUOTE=\"2informaticos, post: 81039, member: 682\"]\nHowever, no need to check it, if now get correct <SIGNAL>PPBUS_G3H</SIGNAL>.\n<DIODE>D6902</DIODE> still hot?\n[/QUOTE]\nits get <SIGNAL>PPBUS_G3H</SIGNAL> because i put new <CHIP>U7000</CHIP> AND YES <DIODE>D6902</DIODE> GETTING HOT"
+        },
+        {
+            "post_id": 81048,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-05 11:20:33",
+            "message": "<CHIP>U6903</CHIP> also get hot replace but the same"
+        },
+        {
+            "post_id": 81050,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-05 11:25:34",
+            "message": "This denotes overcurrent on <SIGNAL>3V3_G3H</SIGNAL> power rail.\nIf CPU gets hot, is probably the culprit.\nJust in case, check <SIGNAL>3V0_G3H</SIGNAL> level."
+        },
+        {
+            "post_id": 81261,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2021-10-11 04:59:16",
+            "message": "update:\nthere was a big short on <SIGNAL>PPDCIN_G3H</SIGNAL> under <TRANSISTOR>Q3200</TRANSISTOR>.\ni was fix it, the mac is turn on, there is battery charging sign but when i take out the charger the mac shut off..\non one hand the Mac recognized the battery but it not hold with it and charging.\nany idea?"
+        },
+        {
+            "post_id": 81262,
+            "thread_id": 61687,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> water damage 5v no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-11 05:12:39",
+            "message": "Let the battery take some charge.\nThen remove charger and post <SIGNAL>PPBUS_G3H</SIGNAL> <SIGNAL>AND3V3_G3H</SIGNAL> voltage."
+        }
+    ]
+}

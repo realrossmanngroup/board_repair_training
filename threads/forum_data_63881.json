@@ -1,0 +1,49 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01521": "What is 820-01521? a LOGIC BOARD PART NUMBER.",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U2800": "What is U2800? a CHIP.",
+        "U7650": "What is U7650? a CHIP.",
+        "U2890": "What is U2890? a CHIP.",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "TBT_X_SPI_MISO": "What is TBT_X_SPI_MISO? a SIGNAL.",
+        "R2802": "What is R2802? a RESISTOR.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U3200": "What is U3200? a CHIP.",
+        "LDO_BMC": "What is LDO_BMC? a SIGNAL.",
+        "1V1_LDO": "What is 1V1_LDO? a SIGNAL.",
+        "R2892": "What is R2892? a RESISTOR.",
+        "C3204": "What is C3204? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 99076,
+            "thread_id": 63881,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 5V 0.236amp",
+            "user_id": 28726,
+            "username": "ronaldo",
+            "post_date": "2023-05-13 07:23:15",
+            "message": "I tough it may be useful for everyone with the same problem.\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> Missing.\nThis line is created by TB ROM (<CHIP>U2890</CHIP>) this IC has its own firmware.\n\nAll LDOs on the CD32 ON, except <SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL>\n\nI've replaced both USB-C controllers 2 times,\nISL9240HI (<CHIP>U7000</CHIP>), \nW25Q80DVUXIE (<CHIP>U2890</CHIP>), \n<RESISTOR>R2802</RESISTOR> resistor,\nTPS51980A (<CHIP>U7650</CHIP>).\nAll replaced and same results.\n\nResistor <RESISTOR>R2802</RESISTOR> had 3.29V on one side 1 - <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> and 0.62V on side 2 - <SIGNAL>TBT_X_SPI_MISO</SIGNAL>. The resistor is ok.\nSo, the other side of the resistor was missing <SIGNAL>TBT_X_SPI_MISO</SIGNAL> (3.29V) and this line is created by TBT Titan Ridge - Thunderbolt™ 3 Controllers (<CHIP>U2800</CHIP>).\n\nAfter replacing this big IC it started to get 20V and 2.2Amp, but cycling.\nIt was probably because I don't have the correct stencil to re-ball it and solder it properly. When removing it I heard a pop sound.\n\nI need the Stencil for this IC that I bought from China.\n\nI will come back later to post my findings."
+        },
+        {
+            "post_id": 99077,
+            "thread_id": 63881,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 5V 0.236amp",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-13 09:20:11",
+            "message": "\"This line is created by TB ROM (<CHIP>U2890</CHIP>) this IC has its own firmware.\"\nError, this LDO comes from <CHIP>U3200</CHIP>.\nIn fact, only connects with <CAPACITOR>C3204</CAPACITOR>; for stability purpose.\nIs only used internally by <CHIP>U3200</CHIP>, for BMC communication with charger.\n\nBTW, 1V1 <SIGNAL>LDO_BMC</SIGNAL> must appear only on the <CHIP>CD3215</CHIP> chip corresponding to the powered port.\nCorrupted TBT ROM (<CHIP>U2890</CHIP>) can impide <CHIP>CD3215</CHIP> chips to boot correctly.\nThen none of them generates <SIGNAL>1V1_LDO</SIGNAL>.\n\n<SIGNAL>TBT_X_SPI_MISO</SIGNAL> voltage comes from  <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL>, trough <RESISTOR>R2892</RESISTOR> (pull-up resistor).\nIs a SPI data line and can't be diagnosed only be a DC voltage.\nIf no activity on that SPI bus, it should stay high to 3V.\nDamaged chip connected to it, can drop the voltage; <CHIP>U2800</CHIP> in your case.\n\nMachine should boot without <CHIP>U2800</CHIP>, but may have problems with USB communication.\nTBT function will be lost, of course.\n\nYou've followed a good repair way, but try to avoid wrong assumptions..."
+        },
+        {
+            "post_id": 99118,
+            "thread_id": 63881,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 5V 0.236amp",
+            "user_id": 28726,
+            "username": "ronaldo",
+            "post_date": "2023-05-15 01:32:44",
+            "message": "Thanks for your correction of my assumption.\nI'm still a beginner and learning a lot with you.\nIt will improve my skills in future repairs and help more people with this issue."
+        }
+    ]
+}

@@ -1,0 +1,218 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "R1410": "What is R1410? a RESISTOR.",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_CLK32K_RTCX1": "What is PCH_CLK32K_RTCX1? a SIGNAL.",
+        "PPVOUT_S0_PCH_DCPRTC": "What is PPVOUT_S0_PCH_DCPRTC? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 60619,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-08 08:24:29",
+            "message": "hello friend, I have this mac that does not turn on and does not oxidize.\n\nvoltage: <SIGNAL>PPBUS_G3H</SIGNAL> 12.62v; <SIGNAL>PP5V_S0</SIGNAL> 0.02v; <SIGNAL>PP3V42_G3H</SIGNAL> 3.43v; <SIGNAL>SMC_ADAPTER_EN</SIGNAL> 3.4v; <SIGNAL>SMC_BC_ACOK</SIGNAL> 3.3v; <SIGNAL>ALL_SYS_PWRGD</SIGNAL> 0v;\n\nI hope these tensions help to understand the problem;)"
+        },
+        {
+            "post_id": 60627,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-08 10:26:01",
+            "message": "Do you have <SIGNAL>3V3_S5</SIGNAL>/SUS?\nPost <SIGNAL>PM_PWRBTN_L</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL>, <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL>.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>."
+        },
+        {
+            "post_id": 60628,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-08 11:04:12",
+            "message": "<SIGNAL>PP3V3_S5</SIGNAL> 3.35V; <SIGNAL>PP3V3_SUS</SIGNAL> 3.35V ;<SIGNAL>PM_PWRBTN_L</SIGNAL> 3.42V; <SIGNAL>PM_RSMRST_L</SIGNAL> 3.18V; <SIGNAL>PM_BATLOW_L</SIGNAL> 0.03V;  <SIGNAL>PM_DSW_PWRGD</SIGNAL>  3.43V; <SIGNAL>PCH_DSWVRMEN</SIGNAL> 2.9V;\nTHERE WAS NO VOLTAGE DROP IN <SIGNAL>PM_PWRBTN_L</SIGNAL> GIVING A PULSE IN <SIGNAL>SMC_ONOFF_L</SIGNAL>."
+        },
+        {
+            "post_id": 60629,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-08 11:11:44",
+            "message": "\"<SIGNAL>PM_BATLOW_L</SIGNAL> 0.03V\"\nDo you have original Magsafe 2 60/85W charger?\n\nPlease, do not use capital letters in excess..."
+        },
+        {
+            "post_id": 60630,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-08 11:53:28",
+            "message": "using original 85W chargers, test 3 chargers and continue the same voltage <SIGNAL>PM_BATLOW_L</SIGNAL> / <RESISTOR>R1410</RESISTOR> 0.03V"
+        },
+        {
+            "post_id": 60631,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-08 12:09:22",
+            "message": "Does it charge the battery?\nAlso trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> when battery connected.\n\nCheck all RTC signals..."
+        },
+        {
+            "post_id": 60632,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-08 12:30:39",
+            "message": "com a bateria conectada, havia tensão na malha <SIGNAL>PM_BATLOW_L</SIGNAL> 3.32V.\n\nRTC: <SIGNAL>RTC_RESET_L</SIGNAL> 3,34V; <SIGNAL>PPVOUT_S0_PCH_DCPRTC</SIGNAL> 1,69V; <SIGNAL>PPVRTC_G3H</SIGNAL> 3,35V; <SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> 0,50V; <SIGNAL>PCH_SRTCRST_L</SIGNAL> 3,34V;\nEu acho que esses são os sinais do RTC.\n\nthe machine turned on with the battery connected unexpectedly, but only with the battery plugged in."
+        },
+        {
+            "post_id": 60635,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-08 13:33:10",
+            "message": "Check the charger type reported by macOS in System Report..."
+        },
+        {
+            "post_id": 60666,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-09 06:59:56",
+            "message": "It takes time to climb the macOS, accelerated cooler and in the sistem report says that the charger is original. \nI used another battery to raise the macOS, because the client's doesn't do that."
+        },
+        {
+            "post_id": 60668,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 07:02:57",
+            "message": "Does it work correctly with battery connected?\nBattery is charging?"
+        },
+        {
+            "post_id": 60669,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-09 07:29:17",
+            "message": "charging, charging up, but the mac is very slow and with the cooler accelerated"
+        },
+        {
+            "post_id": 60679,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 09:28:57",
+            "message": "Try disconnecting webcam.\nAlso try another trackpad board/flex.\n\nRun HWMonitor and see the temps and current sensors."
+        },
+        {
+            "post_id": 60681,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-09 09:47:32",
+            "message": "sorry, I didn't understand how you do it \"Run HWMonitor and see the temperatures and current sensors.\""
+        },
+        {
+            "post_id": 60688,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-09 10:50:48",
+            "message": "you shouldn't connect without a battery ? the battery signal appears receiving charge."
+        },
+        {
+            "post_id": 60691,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 12:46:04",
+            "message": "Connect the battery, if the board doesn't start other way.\n\nOnce logged into macOS, dowsnload and install HWMonitor.\nThen run it and check temp values and current sensors."
+        },
+        {
+            "post_id": 60744,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-10 07:28:18",
+            "message": "friend, you would have the link to download this software because I only find DEMO and this one does not make available all the sensors, it follows in annex the image of the sensors."
+        },
+        {
+            "post_id": 60746,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 08:44:38",
+            "message": "Disconnect webcam and try again..."
+        },
+        {
+            "post_id": 60754,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-10 09:17:08",
+            "message": "solved the slowness of the machine with the webcam disconnected and with another battery. And the question of running without battery ?"
+        },
+        {
+            "post_id": 60756,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 09:23:38",
+            "message": "Maybe this board doesn't want to start without battery.\nI know some MacBooks have such behaviour...\n\nBoard still slow with battery and webcam connected?\nSame camera error reported in diagnistic start up?\nIn such case, cut off the traces from pins 8/9 of J4002 and try again.\nUsually is ALS failure; you could be able to use webcam..."
+        },
+        {
+            "post_id": 60757,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-06-10 09:45:47",
+            "message": "resolved with the camera disconnected, I normalize."
+        },
+        {
+            "post_id": 60759,
+            "thread_id": 59467,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 10:10:30",
+            "message": "You may be able to use webcam, disconnecting only ALS lines; not sure, but worth to try..."
+        }
+    ]
+}

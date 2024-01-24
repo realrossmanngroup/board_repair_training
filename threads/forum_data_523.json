@@ -1,0 +1,552 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7050": "What is R7050? Current sense shunt resistor for the battery, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 17/18 on ISL6259 should give you 2.02 ohms. .",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7022": "What is R7022? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "D_R": "What is D_R? a SIGNAL.",
+        "D7005": "What is D7005? a DIODE.",
+        "CHGR_BGATE": "What is CHGR_BGATE? a SIGNAL.",
+        "Q7055": "What is Q7055? a TRANSISTOR.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHRG_ACIN": "What is CHRG_ACIN? a SIGNAL.",
+        "CHRG_BGATE": "What is CHRG_BGATE? This is a typo of CHGR_BGATE When you see CHRG_BGATE, assume they meant to type CHGR_BGATE.",
+        "CHAR_BGATE": "What is CHAR_BGATE? a SIGNAL.",
+        "R7010": "What is R7010? a RESISTOR.",
+        "R7011": "What is R7011? a RESISTOR.",
+        "Q5490": "What is Q5490? a TRANSISTOR.",
+        "U6900": "What is U6900? a CHIP.",
+        "U7940": "What is U7940? a CHIP.",
+        "U2600": "What is U2600? a CHIP.",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "R2179": "What is R2179? a RESISTOR.",
+        "C7772": "What is C7772? a CAPACITOR.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "Q7950": "What is Q7950? a TRANSISTOR.",
+        "U5511": "What is U5511? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 523,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-27 13:23:51",
+            "message": "Hi, I nearly \"fixed\" a 820 3115b, It passed all ASD tests, EFI...hardware tests...with no errors, but I can see that when I plug an original apple charger, sometimes charge, sometimes not, even the light shows green but after a few seconds the led turns off, but in OS it says that is charging but it is not really.\nWhat could it be?smc?"
+        },
+        {
+            "post_id": 527,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-03-27 14:12:46",
+            "message": "If the green light turns off it is a one wire issue. Check magsafe board and also check sense resistor circuits around the 6259."
+        },
+        {
+            "post_id": 529,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 77,
+            "username": "leonattpcs",
+            "post_date": "2016-03-27 14:21:26",
+            "message": "So is the the 1 wire issue damage/fault to the connector or is it wear and tear on contacts causing lack of electrical contact?"
+        },
+        {
+            "post_id": 591,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-28 14:31:48",
+            "message": "Ok, I started checking continuity with some caps around <CHIP>U7000</CHIP> and resistors, the macbook pro wasn't connected to the charger, I tested the continuity only half second in <CAPACITOR>C7050</CAPACITOR> and <CHIP>U7000</CHIP> did a short and fried!! I had to replaced it and now it recognize when I plug the charger but it says that the battery is not charging :( I don't know what I did wrong"
+        },
+        {
+            "post_id": 595,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-28 14:45:27",
+            "message": "Measure resistance between pins 17/18, then measure resistance between pins 27/28. The resistance between the pins should be NO GREATER than the resistance of all the resistors in the circuit, so for example <RESISTOR>R7050</RESISTOR>/<RESISTOR>R7051</RESISTOR>/<RESISTOR>R7052</RESISTOR>, and <RESISTOR>R7020</RESISTOR>/<RESISTOR>R7021</RESISTOR>/<RESISTOR>R7022</RESISTOR>. If the resistance is greater than the total resistance of the current sensing resistors, then either a trace is blown, a via bad, or a resistor bad.\n\nThis may help put it into perspective as well.\n\n[url]https://www.youtube.com/watch?v=vgeVpYWkwBM[/url]"
+        },
+        {
+            "post_id": 596,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-28 14:45:55",
+            "message": "BTW, a fucked up <CHIP>ISL6259</CHIP> can short the current sensing section to ground and kill the sense resistors."
+        },
+        {
+            "post_id": 647,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 04:17:52",
+            "message": "Thanks for the hints :)\nOk I have measure them and pins in <CHIP>ISL6259</CHIP> 17-18 are: 141,1 Ohms pin 27-28 are: 0,20 Ohms, then <RESISTOR>R7050</RESISTOR> 0,001Ohms <RESISTOR>R7051</RESISTOR> 139,6 Ohms (probably fucked up <RESISTOR>R7052</RESISTOR> 0 Ohms\nR 7020 0 Ohms <RESISTOR>R7021</RESISTOR> 10 Ohms <RESISTOR>R7022</RESISTOR> 10Ohms I´ve been measuring others around the <CHIP>U7000</CHIP> area and they look good as the schematics says.\nSo I think I have to change the resistor <RESISTOR>R7051</RESISTOR>, or do you think could be a blown trace?"
+        },
+        {
+            "post_id": 649,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-03-29 05:06:30",
+            "message": "Obviously <RESISTOR>R7051</RESISTOR> is dead"
+        },
+        {
+            "post_id": 659,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 07:22:23",
+            "message": "I´ve replaced <RESISTOR>R7051</RESISTOR> but It keeps saying the same the OS: \"the battery is not charging\" :( bad <CHIP>U7000</CHIP>? ?bad trace?? stupid repair guy (me)? I think could be the last question :)\nAny more ideas?\n\nEdit: Ok now Im watching this video: [url]https://www.youtube.com/watch?v=PtEDoMV5oe8[/url] and Im going to check for bad traces around <CHIP>U7000</CHIP>"
+        },
+        {
+            "post_id": 666,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 08:12:55",
+            "message": "Ok Im going to explain myself better, so the computer switches on without charger and it recognizes the battery but it does not charge the battery itself.\nI already checked all traces around <CHIP>U7000</CHIP> and they are all good, so what can be?"
+        },
+        {
+            "post_id": 667,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-03-29 10:39:35",
+            "message": "Does it power on with charger only?????"
+        },
+        {
+            "post_id": 668,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 10:40:33",
+            "message": "[QUOTE=\"leonattpcs, post: 529\"]So is the the 1 wire issue damage/fault to the connector or is it wear and tear on contacts causing lack of electrical contact?[/QUOTE]\n\nNo, all contacts seems to be ok, I use the same charger for another macbook pro and it is fine, the connector from the battery is fine too, works well."
+        },
+        {
+            "post_id": 669,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 85,
+            "username": "D_R",
+            "post_date": "2016-03-29 10:42:02",
+            "message": "What's your current value of the Resistance between pin 17 and 18? And what voltage do you have on Pin 17 and 18? I would also suggest to remove the <CAPACITOR>C7050</CAPACITOR> for testing."
+        },
+        {
+            "post_id": 670,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 10:45:00",
+            "message": "[QUOTE=\"aprendiz, post: 667\"]Does it power on with charger only?????[/QUOTE]\nNo, without the battery being plugging in the magsafe led turns on green then switch off a few seconds on...off...like that."
+        },
+        {
+            "post_id": 671,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-03-29 10:47:51",
+            "message": "Voltage on pin 2 <CHIP>U7000</CHIP>??? only charger!!!!!!!"
+        },
+        {
+            "post_id": 676,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 11:31:25",
+            "message": "[QUOTE=\"aprendiz, post: 671\"]Voltage on pin 2 <CHIP>U7000</CHIP>??? only charger!!!!!!![/QUOTE]\n\nPin 2 <CHIP>U7000</CHIP> only charger = 16.61 V"
+        },
+        {
+            "post_id": 677,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 11:35:08",
+            "message": "[QUOTE=\"<SIGNAL>D_R</SIGNAL>, post: 669\"]What's your current value of the Resistance between pin 17 and 18? And what voltage do you have on Pin 17 and 18? I would also suggest to remove the <CAPACITOR>C7050</CAPACITOR> for testing. [/QUOTE]\n\ncurrent value resistance between pin 17 and 18 is 2.6 Ohms without plugin in. Voltage plugged in the charger is pin 17= 4.08 pin 18= 4.08"
+        },
+        {
+            "post_id": 678,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 85,
+            "username": "D_R",
+            "post_date": "2016-03-29 11:36:01",
+            "message": "It has to be 18.5V. <= I talk about Pin 2 on <CHIP>U7000</CHIP>\nHave you checked [FONT=Courier]F6905 and [/FONT][FONT=Courier]<DIODE>D7005</DIODE>? What Voltage do you have here?[/FONT]"
+        },
+        {
+            "post_id": 679,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 11:43:46",
+            "message": "[QUOTE=\"<SIGNAL>D_R</SIGNAL>, post: 678\"]It has to be 18.5V.  <= I talk about Pin 2 on <CHIP>U7000</CHIP>\nHave you checked [FONT=Courier]F6905 and [/FONT][FONT=Courier]<DIODE>D7005</DIODE>? What Voltage do you have here?[/FONT]\n[/QUOTE]\n\nf6905= 16.95 V <DIODE>D7005</DIODE> pin 3= 16,69V pin 1 & 2= 16.95V"
+        },
+        {
+            "post_id": 681,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-03-29 12:05:33",
+            "message": "with a 60W charger this voltage is ok, measure in diode mode F7040 red probe to ground.............check sense resistors <RESISTOR>R7020</RESISTOR>-<RESISTOR>R7021</RESISTOR> and ACIN"
+        },
+        {
+            "post_id": 687,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-29 12:35:39",
+            "message": "Anything else corroded, like <SIGNAL>CHGR_BGATE</SIGNAL> line to <TRANSISTOR>Q7055</TRANSISTOR> maybe? That line is right next to your destroyed resistor, and I have had it corrode once or twice before. \n\nI would remeasure pins 27/28 and pins 17/18 on the pins themselves, not on the cap(I know I cheat and measure on the cap sometimes as well but it's cheating!), and answer aprendiz' above question. This is becoming one of those things where it must be obvious but we are missing something silly."
+        },
+        {
+            "post_id": 709,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 15:02:54",
+            "message": "[QUOTE=\"aprendiz, post: 681\"]with a 60W charger this voltage is ok, measure in diode mode F7040 red probe to ground.............check sense resistors <RESISTOR>R7020</RESISTOR>-<RESISTOR>R7021</RESISTOR> and ACIN[/QUOTE]\n\nDIODE MODE ALL\nUnplugged F7040= 0,447V Plugged= OL :)\nUnplugged <RESISTOR>R7020</RESISTOR>= 0.609V Plugged= OL\nUnplugged <RESISTOR>R7021</RESISTOR>= 0.608V Plugged= OL\nUnplugged <CHIP>U7000</CHIP> pin 3 <SIGNAL>CHGR_ACIN</SIGNAL>= 0.491V Plugged: 0.127V"
+        },
+        {
+            "post_id": 710,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-29 15:11:06",
+            "message": "[QUOTE=\"larossmann, post: 687\"]Anything else corroded, like <SIGNAL>CHGR_BGATE</SIGNAL> line to <TRANSISTOR>Q7055</TRANSISTOR> maybe? That line is right next to your destroyed resistor, and I have had it corrode once or twice before.\n\nI would remeasure pins 27/28 and pins 17/18 on the pins themselves, not on the cap(I know I cheat and measure on the cap sometimes as well but it's cheating!), and answer aprendiz' above question. This is becoming one of those things where it must be obvious but we are missing something silly.[/QUOTE]\n\nNothing corroded on that area, checked <SIGNAL>CHRG_BGATE</SIGNAL> and is fine continuity in <SIGNAL>CHAR_BGATE</SIGNAL> to <TRANSISTOR>Q7055</TRANSISTOR> ok.\nProbably is a silly thing like you said, I think is the <SIGNAL>CHRG_ACIN</SIGNAL> the <CHIP>U7000</CHIP> but Im newbie and I don't know, just starting to understand things now, this is addictive :)\n\nEDIT: \nSorry I forgot to remeasure pins here we go:\n\nREMEASURED PINS  27/28= 20,2 Ohms\nREMEASURED PINS  17/18= 2,9 Ohms"
+        },
+        {
+            "post_id": 777,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-31 00:51:58",
+            "message": "Can anybody give me any clue?\nI think is because the acin that I don't have 4V so Im gonna change <RESISTOR>R7010</RESISTOR> <RESISTOR>R7011</RESISTOR>\ncould be that?"
+        },
+        {
+            "post_id": 778,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-31 05:10:35",
+            "message": "Ok I have remeasured <RESISTOR>R7010</RESISTOR>= 29,98 k (far enough) schematics= 30.1 k\nand <RESISTOR>R7011</RESISTOR>= 9,29 k (far enough as well) schematics= 9,31 k\nI have 0,399 V in ACIN and the resistors seems to be good.\nMagsafe board checked...is good."
+        },
+        {
+            "post_id": 791,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-03-31 09:08:45",
+            "message": "Voltage on pin 1 <RESISTOR>R7010</RESISTOR>"
+        },
+        {
+            "post_id": 805,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-31 12:12:44",
+            "message": "Do you mean 3.99v on <SIGNAL>CHGR_ACIN</SIGNAL> or 0.399v on <SIGNAL>CHGR_ACIN</SIGNAL> ?"
+        },
+        {
+            "post_id": 873,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-01 12:20:46",
+            "message": "No Title\n\nOk now it seems to be working but not 100% sure, I soldered again the <CHIP>U7000</CHIP> and it seems to be working well, the battery is charging, later I saw a corroded probe point and I thought to put some tin to avoid corrosion a little bit...so...\nI ripped one red probe point is this one:\nQuestion:  if I plug the board in will be working good? Not sure what a probe point does, does it connect with different lines in different layers of the motherboard? Is this line so important?\nWhat can I do to solve it?"
+        },
+        {
+            "post_id": 880,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-04-01 13:04:41",
+            "message": "If you mean Probe 1184 and it is the only ripped, then there is no problem, it is just a test point....."
+        },
+        {
+            "post_id": 883,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-01 13:47:45",
+            "message": "[QUOTE=\"aprendiz, post: 880\"]If you mean Probe 1184 and it is the only ripped, then there is no problem, it is just a test point.....[/QUOTE]\n\nGreat then!! thank you so much, Im going to assemble all and let you know if everything is working fine."
+        },
+        {
+            "post_id": 902,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-02 02:52:38",
+            "message": "Fuck!, this motherboard is driving me crazy, but Im learning a lot.\n\nOk now I plug the charger I got sometimes green light, sometimes not, when I have green light I get orange light telling me that is charging.\nBut...before, trackpad was perfect, keyboard, leds keyboards...image and backlight...Now it is not...\n\nOk here begins the journey:\n\nFirst I did a reset of smc: I have image, backlight, everything...trackpad is not working and fan spinning high.\nSecond I reboot, and I have trackpad (the fan is still spinning high) but when I click on the trackpad is not working!! before it was perfect!!\n\nThird I reboot with D (hardware test) everything is good.\nFourth I reboot again and I have no image, no backlight....\n\nSo I guess could be the smc but it is very strange...Could be something with the power lines?\n\nWhat do you recommend me to start with?\n\nEdit: When I reset the SMC and the PRAM the screen turns on, but the fan is spinning high, I have keyboard and trackpad in Efi test, but when I click the trackpad nothing,  then it switch off, I have no keyboard backlight as well and I had before."
+        },
+        {
+            "post_id": 903,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 46,
+            "username": "Crizz",
+            "post_date": "2016-04-02 04:31:58",
+            "message": "In my early days I had a board with similar behavior as yours... \nIt landed on ebay since I was pretty sure it has something to do with SCM\nMan I wish I could lay my hands on it again .... SORRY I was in thoughts\n\nBack to your issue:\nI've made the experience that such a behavior needs a new SMC"
+        },
+        {
+            "post_id": 905,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-02 05:03:00",
+            "message": "[QUOTE=\"Crizz, post: 903\"]In my early days I had a board with similar behavior as yours...\nIt landed on ebay since I was pretty sure it has something to do with SCM\nMan I wish I could lay my hands on it again .... SORRY I was in thoughts\n\nBack to your issue:\nI've made the experience that such a behavior needs a new SMC\n[/QUOTE]\nThank Crizz I have never done it before so first Im gonna try what Louis says in this video:\n[url]https://www.youtube.com/watch?v=uovnac9qYhI[/url]\n\nanyway I think like you ,could be the SMC but before it was working ok, so confusing :S"
+        },
+        {
+            "post_id": 907,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-02 05:41:14",
+            "message": "I changed <TRANSISTOR>Q5490</TRANSISTOR> it was corroded and these are the values:\n\n[COLOR=#454545][FONT=Helvetica]PIN 1 0V[/FONT][/COLOR]\n[COLOR=#454545][FONT=Helvetica]PIN 2 3,26 v[/FONT][/COLOR]\n[COLOR=#454545][FONT=Helvetica]PIN 3 16,63v[/FONT][/COLOR]\n[COLOR=#454545][FONT=Helvetica]PIN 4 16,62v[/FONT][/COLOR]\n[COLOR=#454545][FONT=Helvetica]PIN 5 8,24v[/FONT][/COLOR]\n[COLOR=#454545][FONT=Helvetica]PIN 6 1,1mv[/FONT][/COLOR]\n\nPin 6 should be 1,1mv?"
+        },
+        {
+            "post_id": 917,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-02 07:57:13",
+            "message": "is dcin voltage sense failing in ASD?"
+        },
+        {
+            "post_id": 920,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-02 08:32:10",
+            "message": "[QUOTE=\"larossmann, post: 917\"]is dcin voltage sense failing in ASD?[/QUOTE]\n\nI couldn't run the EFI ASD or OS ASD the mac shutdown automatically, anyway I´ve measured in diode mode the <TRANSISTOR>Q5490</TRANSISTOR> and was shorten in several pins...I remove it and it flew to the fifth dimension, I don't have another one so I need to wait until another donor board arrive 30 days or so :("
+        },
+        {
+            "post_id": 929,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-02 10:39:02",
+            "message": "The board should work without <TRANSISTOR>Q5490</TRANSISTOR>. It will just run slow and fail ASD."
+        },
+        {
+            "post_id": 965,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-03 08:02:27",
+            "message": "[QUOTE=\"dukefawks, post: 929\"]The board should work without <TRANSISTOR>Q5490</TRANSISTOR>. It will just run slow and fail ASD. [/QUOTE]\n\nOk I will try anyway I found a company that is selling the [FONT=Arial][SIZE=14px]Transistor MOSFET, NTUD3169CZT5G Dual N/P-Canal, 20 V, 6-Pin, SOT-963 \nSo probably in 2 or 3 days I will give it a try.\nDuke you told me that the one wire could be bad, I did the measures in diode mode of <CHIP>U6900</CHIP> but I don't know if they are ok, could you post the values of a good <CHIP>U6900</CHIP> pins here?\nThanks[/SIZE][/FONT]"
+        },
+        {
+            "post_id": 1064,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-05 07:48:24",
+            "message": "No Title\n\nOk I have received the <TRANSISTOR>Q5490</TRANSISTOR> but it is quite strange, I´ve soldered one and in diode mode the values are:\n\nPIN 1: 0.00\nPIN 2: 4.67\nPIN3: OL\nPIN 4: 4.15\nPIN 5: OL\nPIN 6: OL\n\nThere must be something wrong, did I put the mosfet in a wrong orientation?\n\nCould somebody give me the correct values of <TRANSISTOR>Q5490</TRANSISTOR> in a 820 - 3115b?"
+        },
+        {
+            "post_id": 1068,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-05 10:07:11",
+            "message": "No reason to measure diode mode. Do you have 12.6V on pin 3 with AC connected? Also why waste time on this circuit if the board is not even working right now? <TRANSISTOR>Q5490</TRANSISTOR> does not affect basic operation."
+        },
+        {
+            "post_id": 1083,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-05 15:12:20",
+            "message": "Sorry be patience with a newbie :o\nI have 16,78V on pin 3 with AC connected"
+        },
+        {
+            "post_id": 1090,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-05 17:23:39",
+            "message": "Also I had an issue with the <CHIP>U7940</CHIP> was shorted, I already replace it and it is not shorted now, I have green light and orange while charging but when I try to turn on....nothing!! no fan spinning...nothing\nShorted pads...nothing\nthe <CHIP>U7000</CHIP> gets a little bit warm and Im not sure if it is shorted in one pin.\nCould be because of that? Anyway Im gonna check all the power rails.\nAny advise?"
+        },
+        {
+            "post_id": 1093,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-05 17:41:28",
+            "message": "<TRANSISTOR>Q5490</TRANSISTOR> is all ok then. <CHIP>U7000</CHIP> is fine if battery is charging and there is 12.6V without the battery on F7040. \nI thought this thing worked before messing with <TRANSISTOR>Q5490</TRANSISTOR>?"
+        },
+        {
+            "post_id": 1108,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-06 02:48:19",
+            "message": "[QUOTE=\"dukefawks, post: 1093\"]<TRANSISTOR>Q5490</TRANSISTOR> is all ok then. <CHIP>U7000</CHIP> is fine if battery is charging and there is 12.6V without the battery on F7040.\nI thought this thing worked before messing with <TRANSISTOR>Q5490</TRANSISTOR>?[/QUOTE]\nYes it worked not very well... but now it is not :(\n\nI had to change <CHIP>U2600</CHIP> because it was corroded too, and probably is the problem\nIm gonna to try fix this mofo mobo, all help is welcome :D"
+        },
+        {
+            "post_id": 1109,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-06 03:52:54",
+            "message": "[QUOTE=\"dukefawks, post: 1093\"]<TRANSISTOR>Q5490</TRANSISTOR> is all ok then. <CHIP>U7000</CHIP> is fine if battery is charging and there is 12.6v without the battery on f7040.\nI thought this thing worked before messing with <TRANSISTOR>Q5490</TRANSISTOR>?[/quote]\n\nf7040 = 12.55v"
+        },
+        {
+            "post_id": 1111,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-06 04:09:58",
+            "message": "Ok I´ve measured in diode mode the <CHIP>U2600</CHIP> and in pin 11 I have nothing so I look the schematics and I look for the [FONT=Helvetica]=<SIGNAL>PP1V8_S0</SIGNAL> I have found that <RESISTOR>R2179</RESISTOR> is giving me a wrong value instead of 2.2k I got 0,005 Ohms Im going to replace it and check, that little resistor can cause the machine to doesn´t turn on?[/FONT]"
+        },
+        {
+            "post_id": 1114,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-06 05:42:30",
+            "message": "Ok this has no fucking end :( \nThe <RESISTOR>R2179</RESISTOR> I replaced it and it is giving me the same value as before, ok I checked a cap <CAPACITOR>C7772</CAPACITOR> was shorted, I replaced it and now the <RESISTOR>R2179</RESISTOR> is giving me 282.5 Ohms instead of 2.2k :mad:\nPin 11 is giving me in diode mode now 0.102 V better than before (0V)\nI need some light here please.\nIf you want we can start from the beginning but probably all is related to <CHIP>U2600</CHIP> now or am I wrong?"
+        },
+        {
+            "post_id": 1127,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-06 07:54:40",
+            "message": "At this point I have no idea anymore what you are doing. Need to start from scratch.\nIs <SIGNAL>3V3_S5</SIGNAL> present on L7220? Is 5V coming high on L7260, it may be pulsing or only come high for a fraction. Check carefully."
+        },
+        {
+            "post_id": 1132,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-06 09:40:25",
+            "message": "[QUOTE=\"dukefawks, post: 1127\"]At this point I have no idea anymore what you are doing. Need to start from scratch.\nIs <SIGNAL>3V3_S5</SIGNAL> present on L7220? Is 5V coming high on L7260, it may be pulsing or only come high for a fraction. Check carefully.[/QUOTE]\n\nOk, <SIGNAL>PP3V3_S5</SIGNAL> is present on L7220= 3.3V\nthere is 5v on l7260 but it is like pulsing.\nThe first time you take the measure it is 5v but later in 5 seconds it drops till 0,005 mv or something like that"
+        },
+        {
+            "post_id": 1142,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-06 13:55:26",
+            "message": "<SIGNAL>ALL_SYS_PWRGD</SIGNAL> also pulsing?\nIs CPU Vcore coming high for a fraction?"
+        },
+        {
+            "post_id": 1176,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-07 05:02:46",
+            "message": "Yes Pin 4 <TRANSISTOR>Q7950</TRANSISTOR> also pulsating 5 seconds then the V drops\n[FONT=Helvetica][SIZE=11px]<SIGNAL>PPVCORE_S0_CPU</SIGNAL> probe 1234 pulsating as well the V drops in 5 seconds like in L7260\n\nWhy is that?[/SIZE][/FONT]"
+        },
+        {
+            "post_id": 1178,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-07 07:16:42",
+            "message": "On/off can be caused by many things. But since you messed with <CHIP>U2600</CHIP> that would be a likely suspect to look at now."
+        },
+        {
+            "post_id": 1180,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-07 07:32:32",
+            "message": "Ok I´ll check again over <CHIP>U2600</CHIP> it was corroded it was because of that\nDo you think it could be anything else?"
+        },
+        {
+            "post_id": 1221,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-08 04:16:01",
+            "message": "OK Following the rabbit hole I´ve found that there is a short over <CHIP>U5511</CHIP> I think it i the <CHIP>U5511</CHIP> itself, my question is can I desolder and check if is still the short plugin in the charger? or could it be dangerous?"
+        },
+        {
+            "post_id": 1226,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-04-08 08:27:27",
+            "message": "<CHIP>U5511</CHIP> temp sensor so no problem.."
+        },
+        {
+            "post_id": 1229,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-08 10:16:41",
+            "message": "Ok now it is charging and was because of the <CHIP>U7000</CHIP> that was bad. You can close this thread and Im gonna open a new one because the same board have another issues.\nThank you everybody for helping me with this.\n\nDuke= Now everything is stable in Voltage is not pulsing anymore I changed the <CHIP>U2600</CHIP> and <CHIP>U5511</CHIP>"
+        },
+        {
+            "post_id": 1230,
+            "thread_id": 523,
+            "title": "Charging problems",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-08 10:41:46",
+            "message": "[QUOTE=\"aprendiz, post: 1226\"]<CHIP>U5511</CHIP> temp sensor so no problem..[/QUOTE]\n\nThanks aprendiz\nGracias"
+        }
+    ]
+}

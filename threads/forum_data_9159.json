@@ -1,0 +1,76 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7022": "What is R7022? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R4999": "What is R4999? a RESISTOR.",
+        "C5010": "What is C5010? a CAPACITOR.",
+        "C5011": "What is C5011? a CAPACITOR.",
+        "U7400": "What is U7400? a CHIP.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). ."
+    },
+    "threads": [
+        {
+            "post_id": 9159,
+            "thread_id": 9159,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-A quarter fan spin No liquid damage.",
+            "user_id": 468,
+            "username": "ALB-Repairs",
+            "post_date": "2016-11-04 04:10:40",
+            "message": "Hi\nIm usually pretty good with these issues. This one has caught me out. It has no signs of liquid damage.\n\nIts not the typical quarter fan spin issue that relates to PCH/EEPROM/Clock Gen\n\nThis is a little different, it seems to be related to SMC support circuitary.\n\nthe green light disappears frequently.\nPPBUS G3H bounces between 12v0 and 12v6 dependent on weather the fans spinning. \n\nprobing Y5010 can cause symptoms to change, anywhere from fast fan no v-core to being in a full S5 state, again, this seems completely random.\n\n<SIGNAL>SMC_RESET_L</SIGNAL> present and stable\n<RESISTOR>R4999</RESISTOR> good\nPP3v42 is stable\n<RESISTOR>R7021</RESISTOR> and <RESISTOR>R7022</RESISTOR> current sensing correct\n<RESISTOR>R7051</RESISTOR> and <RESISTOR>R7052</RESISTOR> current sensing correct\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> correct, green light present, sometimes loses communication with the SMC, and light goes out.\nChecked board with another EEPROM/Bios chip, no change in symptoms. \nFitted replacement SMC. No change in symptoms.\n\n<SIGNAL>SMC_ONOFF_L</SIGNAL> is present and stable. \n\nWhen ive managed to get it stuck in an S3 state i checked the main power rails and found everything present and correct. \n\nI replaced  Y5010. <CAPACITOR>C5010</CAPACITOR> and <CAPACITOR>C5011</CAPACITOR> with no change in symtoms\n\nany ideas?"
+        },
+        {
+            "post_id": 9161,
+            "thread_id": 9159,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-A quarter fan spin No liquid damage.",
+            "user_id": 468,
+            "username": "ALB-Repairs",
+            "post_date": "2016-11-04 04:44:12",
+            "message": "Quick update.\n\nYou all probably think my methodology is ass backwards. Ive narrowed it down to V-Core related issues or potentaily a bad cpu or PCH.\n\nIve done this by breaking a S0 rail so V-core is not enabled. The symtoms changed, the fan remains spinning, and there is no funny business around the SMC anymore. It just acts like a board stuck in S0 now.\n\nTo further this i put the component back to re-enable <SIGNAL>ALL_SYS_PWRGD</SIGNAL> and removed <CHIP>U7400</CHIP> and its associated V-core mosfets. Now the CPU V-core regulator is not present the board again simply acts like a board with no V-Core.\n\nSo thats managed to narrow it down with it likely being a bad CPU"
+        },
+        {
+            "post_id": 9165,
+            "thread_id": 9159,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-A quarter fan spin No liquid damage.",
+            "user_id": 468,
+            "username": "ALB-Repairs",
+            "post_date": "2016-11-04 04:57:48",
+            "message": "I dont believe it! What a strange set of symptoms for the issue. I replaced the <CHIP>U7400</CHIP> IC and the thing sprung back to life! thats made my day :)"
+        },
+        {
+            "post_id": 9167,
+            "thread_id": 9159,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-A quarter fan spin No liquid damage.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-11-04 05:00:40",
+            "message": "No way <CHIP>U7400</CHIP> just fails. Probably heated something up or it was liquid damage in <CHIP>U7400</CHIP> area. This board has a high chance of failing again I'm afraid."
+        },
+        {
+            "post_id": 9170,
+            "thread_id": 9159,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-A quarter fan spin No liquid damage.",
+            "user_id": 468,
+            "username": "ALB-Repairs",
+            "post_date": "2016-11-04 07:15:19",
+            "message": "There is a good chance you are correct, however there is a cause and effect relationship between V-core and the original fault. I removed <SIGNAL>PP5V_S0</SIGNAL>'s switch witch means no v-core either. Thats when the symptom changed from quarter fan spin to running without v-core.\n\nThe same occurred when i removed the <SIGNAL>PP3V3_S0</SIGNAL> switch. Both these components are miles away from <CHIP>U7400</CHIP> and wouldn't have heated anything enough to have a heat related effect. \n\nIll see how it runs, im fairly confident if it fails again it must be a ceramic capacitor around the <CHIP>U7400</CHIP> chip maybe."
+        },
+        {
+            "post_id": 9351,
+            "thread_id": 9159,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-A quarter fan spin No liquid damage.",
+            "user_id": 468,
+            "username": "ALB-Repairs",
+            "post_date": "2016-11-08 03:21:48",
+            "message": "Still running beautifully. The effectiveness off heat on ceramic surface mounted caps is short lived, so i feel like i can rule that out. The only other possibility is failing alu-electrolytic's for the V-core. I will update people if it comes back to me."
+        }
+    ]
+}

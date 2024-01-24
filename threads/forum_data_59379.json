@@ -1,0 +1,127 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2901": "What is 820-2901? a LOGIC BOARD PART NUMBER.",
+        "C9020": "What is C9020? a CAPACITOR.",
+        "VIDEO_ON": "What is VIDEO_ON? a SIGNAL.",
+        "Q9000": "What is Q9000? a TRANSISTOR.",
+        "Q9001": "What is Q9001? a TRANSISTOR.",
+        "DP_HPD_INT": "What is DP_HPD_INT? a SIGNAL.",
+        "R9050": "What is R9050? a RESISTOR.",
+        "DP_INT_HPD": "What is DP_INT_HPD? a SIGNAL.",
+        "PP12V_S0_LCD": "What is PP12V_S0_LCD? a SIGNAL.",
+        "3V3_S0_VIDEO": "What is 3V3_S0_VIDEO? a SIGNAL.",
+        "LCD_PANEL_PWR": "What is LCD_PANEL_PWR? a SIGNAL.",
+        "C9001": "What is C9001? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 59931,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 25140,
+            "username": "protocold",
+            "post_date": "2020-05-22 01:44:48",
+            "message": "internal LVDS was torn, along with L9000 and <CAPACITOR>C9020</CAPACITOR>. Someone else attempted a rebuild, but I removed these and rebuild again myself.\n\nMachine will chime, but the screen will be black screen. Sometime it will come up correctly.\n\nHooked to external monitor which display ok. \n\nwhat now?"
+        },
+        {
+            "post_id": 59932,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-22 03:06:36",
+            "message": "If still comes up sometime, you must have contact problems.\nCheck J9002 and all its traces.\nDo you get stable 12V at pins 27-30?\nAlso check levels at pins 22 & 31; when the problem appears."
+        },
+        {
+            "post_id": 59940,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 25140,
+            "username": "protocold",
+            "post_date": "2020-05-22 04:28:07",
+            "message": "I have verified that there is no continuity problem for J9002 pins. I verified this by measuring the other end of the lvds cable (that goes into the screen) with the pin on the J9002. nothing is short against others. Pin 23,24,25,26 are ground. Pin 27,28,29,30 are tied together to connect to L9000.\n\nIs there any easy way to mount the screen so i can measure this while everything is plugged in?\n\nIt is very hard to measure pins when the screen is mounted, but if i take out the panel, the measurement wont tell anything right?\n\nBut let me state the value when the panel is disconnected first anyway:\n<SIGNAL>VIDEO_ON</SIGNAL> = 0v\n<TRANSISTOR>Q9001</TRANSISTOR> pin 3 = 11.58v\n<TRANSISTOR>Q9000</TRANSISTOR> pin 4 = 11.81v\n<TRANSISTOR>Q9000</TRANSISTOR> pin 3 = 11.66v\n<TRANSISTOR>Q9000</TRANSISTOR> pin 1,2,5,6 = low.. 0.2v to sometimes 1.5v\n\nDoes the board communicate with the panel via pin 2,3 (i2c) before powering up the panel? Is that why <SIGNAL>VIDEO_ON</SIGNAL> is 0v when I have the screen disconnected?"
+        },
+        {
+            "post_id": 59942,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-22 05:41:58",
+            "message": "Sorry for misstyping, I just corrected now; read pins 27-30 instead.\n\nIf <RESISTOR>R9050</RESISTOR>/51 are not soldered, SCL/SDA no5t used too.\nThis is eDP display, so PCH monitors <SIGNAL>DP_HPD_INT</SIGNAL> level.\n12V required for display at least few seconds when machine boots.\n\nNo reason to check voltages with J9002 disconnected..."
+        },
+        {
+            "post_id": 59951,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 25140,
+            "username": "protocold",
+            "post_date": "2020-05-22 09:10:57",
+            "message": "you mean 12v required at Pin 27,28,29,30 for display at least few seconds? But it is generated from <TRANSISTOR>Q9000</TRANSISTOR> which is turned on by <SIGNAL>VIDEO_ON</SIGNAL> for the 12v?\n\nDoes <SIGNAL>VIDEO_ON</SIGNAL> come from the screen panel?"
+        },
+        {
+            "post_id": 59965,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-22 16:50:41",
+            "message": "This is display port; power must go to LCD first.\nIt will reply puting high <SIGNAL>DP_INT_HPD</SIGNAL> line.\nIf PCH doesn't detect it, 12V goes off..."
+        },
+        {
+            "post_id": 59975,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 25140,
+            "username": "protocold",
+            "post_date": "2020-05-22 20:25:58",
+            "message": "ah. ok.. so should I look for power to the LCD then? where should I look? does power come from the J9002 or the inverter?"
+        },
+        {
+            "post_id": 59981,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-23 03:27:08",
+            "message": "\"Do you get stable 12V at pins 27-30? \"\nAt least in the first seconds.\nThis voltage must pulse even without LCD connected; in such case, will rapidly disappears, of course.\nVoltage remains steady, only if <SIGNAL>DP_INT_HPD</SIGNAL> goes high at same time."
+        },
+        {
+            "post_id": 60079,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 25140,
+            "username": "protocold",
+            "post_date": "2020-05-25 04:33:44",
+            "message": "no, i didnt even get 12v at all on pin2 27-30, not even first seconds....I have the LCD off... no pulse... (measured with multimeter)\n\npin 31=3.3v\n<SIGNAL>PP12V_S0_LCD</SIGNAL> = 12V stable"
+        },
+        {
+            "post_id": 60085,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-25 08:18:29",
+            "message": "Mmmmh, maybe <SIGNAL>3V3_S0_VIDEO</SIGNAL> is the voltage required for detection.\nBut you didn't mention anything about <SIGNAL>DP_INT_HPD</SIGNAL> signal.\nAlso post <SIGNAL>VIDEO_ON</SIGNAL> and <SIGNAL>LCD_PANEL_PWR</SIGNAL>; screen connected, of course."
+        },
+        {
+            "post_id": 60384,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 25140,
+            "username": "protocold",
+            "post_date": "2020-06-03 10:18:42",
+            "message": "You are right about bad contacts. I removed J9002 and soldered a new one and it seems like i can get the screen on now.\n\nBut I also found out the pad of <CAPACITOR>C9001</CAPACITOR> was also damaged by whoever worked on this before. I fixed <CAPACITOR>C9020</CAPACITOR> and L9000. Why there is a <CAPACITOR>C9001</CAPACITOR> (0.001uF) when there is a much bigger <CAPACITOR>C9020</CAPACITOR> (10UF)? Can I just leave <CAPACITOR>C9001</CAPACITOR> off?"
+        },
+        {
+            "post_id": 60392,
+            "thread_id": 59379,
+            "title": "imac <LOGIC BOARD PART NUMBER>820-2901</LOGIC BOARD PART NUMBER>-A intermittent black screen",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-03 13:28:23",
+            "message": "Smaller capacitance filters better high frequencies; it has lower time to charge/discharge.\nAlso has lower internal resistance than the bigger one.\nBut you can leave it out..."
+        }
+    ]
+}

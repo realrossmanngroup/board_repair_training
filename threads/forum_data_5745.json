@@ -1,0 +1,56 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "CHGR_UGATE": "What is CHGR_UGATE? a SIGNAL.",
+        "CHGR_LGATE": "What is CHGR_LGATE? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H.",
+        "Q1730": "What is Q1730? a TRANSISTOR.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "R7105": "What is R7105? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "R7121": "What is R7121? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7122": "What is R7122? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "U1900": "What is U1900? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 5745,
+            "thread_id": 5745,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <CHIP>ISL6259</CHIP> <SIGNAL>CHGR_UGATE</SIGNAL>, <SIGNAL>CHGR_LGATE</SIGNAL> not driving switching MOSFET(s)",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-08-20 08:34:29",
+            "message": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No power on.\nGreen / Orange light.\n\n[B]Voltages around <CHIP>ISL6259</CHIP>:[/B]\n<SIGNAL>PPBUS_G3H</SIGNAL> (<SIGNAL>CHGR_PHASE</SIGNAL> pin 23) = 3.8V\n<SIGNAL>CHGR_UGATE</SIGNAL> pin 24 ~ 4V\n<SIGNAL>CHGR_LGATE</SIGNAL> pin 21 = 24mV\n<SIGNAL>CHGR_ACIN</SIGNAL> pin 3 ~ 5V\n\nAlready tried changing <TRANSISTOR>Q1730</TRANSISTOR> with no change.\nMy Googling skills seem to be lacking somewhat. Can't find any datasheet on the <CHIP>ISL6259</CHIP> so I will start measuring all values around the IC.\n\n\nWould someone clue me in on what I should be checking for please?"
+        },
+        {
+            "post_id": 5747,
+            "thread_id": 5745,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <CHIP>ISL6259</CHIP> <SIGNAL>CHGR_UGATE</SIGNAL>, <SIGNAL>CHGR_LGATE</SIGNAL> not driving switching MOSFET(s)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-20 09:13:40",
+            "message": "Provide resistance of <RESISTOR>R7105</RESISTOR>, resistance between pins 17/18 of <CHIP>U7100</CHIP>, resistance between pins 27/28 of <CHIP>U7100</CHIP>, voltage at pin 19 of <CHIP>U7100</CHIP>, voltage at pin 20 of <CHIP>U7100</CHIP>."
+        },
+        {
+            "post_id": 5753,
+            "thread_id": 5745,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <CHIP>ISL6259</CHIP> <SIGNAL>CHGR_UGATE</SIGNAL>, <SIGNAL>CHGR_LGATE</SIGNAL> not driving switching MOSFET(s)",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-08-20 09:55:45",
+            "message": "[QUOTE=\"larossmann, post: 5747\"]Provide resistance of <RESISTOR>R7105</RESISTOR>, resistance between pins 17/18 of <CHIP>U7100</CHIP>, resistance between pins 27/28 of <CHIP>U7100</CHIP>, voltage at pin 19 of <CHIP>U7100</CHIP>, voltage at pin 20 of <CHIP>U7100</CHIP>.[/QUOTE]\n\nThis is a board already worked on by lord knows who.\n\n[B]Measurements[/B]\n<RESISTOR>R7105</RESISTOR> to DCIN was 200ohms (so replaced with 20ohms). <RESISTOR>R7105</RESISTOR> = 20ohms.\nThis is power to the chip through series resistor maybe?\n\nPin 17 to 18 = 3.5ohms\n\npin 27 to 28 = Xkohms EDIT: it was 2k (replaced <RESISTOR>R7121</RESISTOR> & <RESISTOR>R7122</RESISTOR> with 10ohm). Pin 27 to 28 now 20ohms\nI'm guessing that these are coming off the current sensing resistor to a differential amplifier or comparitor on the 6259?\n\nVoltage at pin 20 = 5V\n\n[B]Additionaly[/B]\n\nJust checked gate volatges again after replacing resitors with correct values. Pin 24 = 8.6V and pin 21 = 0.5V\n<SIGNAL>PPBUS_G3H</SIGNAL> = 8.6V...... But err, no turn on.\n\nThank you, I'll keep digging into this board. The soldering was done rather well by whoever fucked this board with the wrong values in all the wrong places. This is kinda shitty as I can't see just by looking, what has been done.\n\nThanks again, I'll be posting again soon I expect"
+        },
+        {
+            "post_id": 5778,
+            "thread_id": 5745,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <CHIP>ISL6259</CHIP> <SIGNAL>CHGR_UGATE</SIGNAL>, <SIGNAL>CHGR_LGATE</SIGNAL> not driving switching MOSFET(s)",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-08-20 18:52:36",
+            "message": "Thanks to louis for the youtube and thanks to everyone giving thier time and knowladge.\n\nBoards a worker. There were no S0 enables so I injected S0 enable 3.3v but still no S0 rails turning on. Turns out the fault was <CHIP>U1900</CHIP> had been soldered to the board incorrectly!\nAll of these boards are from a company that buys from a company the \"refurbishes\" damaged Macbooks and laptops. This is not a small company so it begs the question of who are they employing to fuck shit up even further... 80% of the boards have been ruined by a moron and after 3 months of board repairs I am fixing 90% of what they can't, plus undoing thier stupidity. What's up with that.\n\nAgain, thank you"
+        }
+    ]
+}

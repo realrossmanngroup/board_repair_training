@@ -1,0 +1,95 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PP1V2_S5_SMC_VDDC": "What is PP1V2_S5_SMC_VDDC? a SIGNAL.",
+        "SMC_S4_WAKESRC_EN": "What is SMC_S4_WAKESRC_EN? a SIGNAL.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "Q8150": "What is Q8150? a TRANSISTOR.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. ."
+    },
+    "threads": [
+        {
+            "post_id": 88586,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 24772,
+            "username": "VinceLx",
+            "post_date": "2022-04-13 08:40:01",
+            "message": "The board looks ok, no fan, power supply gives 20-30mA with pulses at 120mA every 3-4 seconds as if it wanted to start but cannot\n\n<SIGNAL>PP3V42_G3H</SIGNAL>=3.44V\n<SIGNAL>PPBUS_G3H</SIGNAL>=8.6V\n\n<SIGNAL>PP5V_S5</SIGNAL>=5V\n<SIGNAL>PP3V3_S5</SIGNAL>=3.3V\n<SIGNAL>PP3V3_SUS</SIGNAL>=3.3V\n\n<SIGNAL>PP5V_S4</SIGNAL>=bursts every 3-4 seconds no readable\n<SIGNAL>PP3V3_S4</SIGNAL>=bursts every 3-4 seconds at 3.3V\n<SIGNAL>SMC_S4_WAKESRC_EN</SIGNAL>=0V\n\n<SIGNAL>PP1V2_S5_SMC_VDDC</SIGNAL>=1.2V\n<SIGNAL>SMC_BC_ACOK</SIGNAL>=3.4V\n<SIGNAL>SMC_RESET_L</SIGNAL>=3.4V\n\nWhat should I check next?"
+        },
+        {
+            "post_id": 88587,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-13 09:27:24",
+            "message": "Test in SMC bypass mode first.\n\nDo you get pulse at all big coils?"
+        },
+        {
+            "post_id": 88590,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 24772,
+            "username": "VinceLx",
+            "post_date": "2022-04-13 10:13:25",
+            "message": "In SMC bypass mode: <SIGNAL>PPBUS_G3H</SIGNAL>=8.2V, the fan is spinning half a second, then quarter fan spin, and it starts again half a second, then quarter fan spin... Sometimes the fan is just ticking.\n\nI have pulses on L7520, L7630, L7430, L7310, L7320\nNo pulses on L3095\n3.3V on L7560, 8.2V on L7130"
+        },
+        {
+            "post_id": 88596,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-13 17:01:39",
+            "message": "Check for pulse at pins 7 & 3 of <CHIP>U1950</CHIP>.\nAlso check <SIGNAL>PLT_RESET_L</SIGNAL>."
+        },
+        {
+            "post_id": 88609,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 24772,
+            "username": "VinceLx",
+            "post_date": "2022-04-14 09:24:16",
+            "message": "There are pulses of 3.4V at  pins 7 & 3 of <CHIP>U1950</CHIP>, also on <SIGNAL>PLT_RESET_L</SIGNAL>"
+        },
+        {
+            "post_id": 88614,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-14 12:54:30",
+            "message": "Remove <TRANSISTOR>Q8150</TRANSISTOR> and test again."
+        },
+        {
+            "post_id": 88630,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 24772,
+            "username": "VinceLx",
+            "post_date": "2022-04-15 03:19:41",
+            "message": "<TRANSISTOR>Q8150</TRANSISTOR> removed, pulse of 3.4V on <SIGNAL>ALL_SYS_PWRGD</SIGNAL>, exactly same behaviour in SMC bypass mode, fan is spinning half a second, then quarter fan spin, and repeat"
+        },
+        {
+            "post_id": 88633,
+            "thread_id": 62594,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-15 08:47:44",
+            "message": "Could be bad CPU, or just broken/corroded resistor.\n\nCheck all SPI Bus Series Termination resistors and their traces."
+        }
+    ]
+}

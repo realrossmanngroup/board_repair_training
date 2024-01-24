@@ -1,0 +1,100 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7400": "What is U7400? a CHIP.",
+        "U2650": "What is U2650? a CHIP.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "CPU_VCORE": "What is CPU_VCORE? Power rail for the CPU. If this is missing the machine will act braindead. .",
+        "PPVCORE_SO_AXG": "What is PPVCORE_SO_AXG? a SIGNAL.",
+        "PPVCORE_SO_CPU": "What is PPVCORE_SO_CPU? This is a typo of  When you see PP5V_S0_CPU_IMVP, assume they meant to type .",
+        "PP0V75_SO_DDRVTT": "What is PP0V75_SO_DDRVTT? a SIGNAL.",
+        "CPU_IMVP": "What is CPU_IMVP? a SIGNAL.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "R7403": "What is R7403? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 98831,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2023-05-05 14:57:33",
+            "message": "Hello,\nthis 3115 looks perfectly fine. Probably never disassembeled... It spins the fan if plugged in but thats it. No cime, No USB, no beep without ram. Its missing <SIGNAL>PPVCORE_SO_CPU</SIGNAL>, <SIGNAL>PP0V75_SO_DDRVTT</SIGNAL> and <SIGNAL>PPVCORE_SO_AXG</SIGNAL>. I followed that path and came to <SIGNAL>PLT_RESET_L</SIGNAL> missing. <SIGNAL>CPU_IMVP</SIGNAL> seems fine and <SIGNAL>CPU_VCORE</SIGNAL> has ~5 Ohms resistance to GND. Is that to low pointing to the CPU? I replaced <CHIP>U7400</CHIP> and <CHIP>U2650</CHIP> but no change. Any ideas what could cause this? Also i an not 100% sure how the power up sequence works here and what needs to be present first."
+        },
+        {
+            "post_id": 98836,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-05 16:58:54",
+            "message": "<SIGNAL>PLT_RESET_L</SIGNAL> is the last signal in power on sequence.\nDo you get <SIGNAL>ALL_SYS_PWRGD</SIGNAL>?\n\nIvy Bridge CPU has a very low resistance to ground on core power rail.\nAprox 1 ohm for an i7."
+        },
+        {
+            "post_id": 98845,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2023-05-06 10:56:01",
+            "message": "Thank you. <SIGNAL>ALL_SYS_PWRGD</SIGNAL> measures steady 3.308V at <CHIP>U2650</CHIP>."
+        },
+        {
+            "post_id": 98847,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-06 11:12:26",
+            "message": "Check basic voltages of <CHIP>U7400</CHIP>; pins 46, 19, 29, 47, 1, 48.\nBe sure <RESISTOR>R7402</RESISTOR>/03 have correct ohm values and good solders."
+        },
+        {
+            "post_id": 98861,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2023-05-07 04:40:18",
+            "message": "<CHIP>U7400</CHIP> (measured at IC pin):\nPin 1: 0.533V \nPin 19: 5.06V\nPin 29: 5.06V\nPin 46: 5.01V\nPin 47: 3.306V\nPin 48: 0.645V\n\n<RESISTOR>R7402</RESISTOR> 149,5 kOhm\n<RESISTOR>R7403</RESISTOR> 182 kOhm\nI resoldered both."
+        },
+        {
+            "post_id": 98864,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-07 06:02:56",
+            "message": "Just in case, try known good BIOS."
+        },
+        {
+            "post_id": 98878,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2023-05-08 12:09:26",
+            "message": "I took a Bios chip from another 3115, flashed a new File with a clean ME on it but still no change."
+        },
+        {
+            "post_id": 98879,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-08 12:16:16",
+            "message": "Probably bad CPU, or PCH.\nYou can try heating them, to burn eventually accumulated crap; use quality flux.\nUnless you find some bad resistor, or broken trace on CPU area."
+        },
+        {
+            "post_id": 98908,
+            "thread_id": 63856,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> fan spin but no boot",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2023-05-09 12:31:33",
+            "message": "Thank you. I inspected that area already closely and havent found any issues. Also i had it in the UC after i cant fix it on my own. Ill try heating both - nothing to loose here."
+        }
+    ]
+}

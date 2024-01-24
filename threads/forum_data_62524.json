@@ -1,0 +1,59 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U7800": "What is U7800? a CHIP.",
+        "820-01700": "What is 820-01700? a LOGIC BOARD PART NUMBER.",
+        "PP1V05_PRIM": "What is PP1V05_PRIM? a SIGNAL.",
+        "PP1V05_S3": "What is PP1V05_S3? a SIGNAL.",
+        "PPBUS_G3H_SSD": "What is PPBUS_G3H_SSD? a SIGNAL.",
+        "BUCK8_SW2": "What is BUCK8_SW2? a SIGNAL.",
+        "R7821": "What is R7821? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 87931,
+            "thread_id": 62524,
+            "title": "MBP 16in <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER> - No PPVCCPRIMCORE_PRIM_REG / <SIGNAL>PP1V05_PRIM</SIGNAL> voltage from <CHIP>U7800</CHIP>",
+            "user_id": 34271,
+            "username": "crumblenaut",
+            "post_date": "2022-03-25 17:59:47",
+            "message": "Hey folks! I have a no POST 16in MacBook Pro. Specifically, at the moment, I see the most obvious problem to be that I have no PPVCCPRIMCORE_PRIM_REG / <SIGNAL>PP1V05_PRIM</SIGNAL> voltage output from <CHIP>U7800</CHIP>.\n\nI'm reading 51.9 ohms to ground and have a diode mode reading of 0.051V L7821/L7822/<RESISTOR>R7821</RESISTOR>.\n\nAll other voltages surround <CHIP>U7800</CHIP> are present as expected.\n\nIs the PPVCCPRIMCORE_PRIM line generated exclusively from <CHIP>U7800</CHIP> without an enable or is there something I can backtrace to find out why that line isn't turning on?\n\nIf it SHOULD be giving output, should I just swap a PMIC from a donor?\n\nI see that <SIGNAL>BUCK8_SW2</SIGNAL> gets <SIGNAL>PP1V05_S3</SIGNAL>, but that's not present on my board, and I wouldn't expect it to be.  What is the function of the SW lines?  They're not functionally equivalent to enables, right?\n\n---------------------------------------------------------------------------------------\n\nMore background about the system in case the above is just a red herring - all written before I found that the main <SIGNAL>PP1V05_PRIM</SIGNAL> line that powers the PCH:\n\nThis is a 16in <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER> that I've been working on on and off for ages now.  I have it to a point where it's at 20V, 0.05a consistently with no battery connected.  It had a nasty liquid spill but is all cleaned up and lookin good IMO.  PPBUS is at 12.6V.\n\nPrimary goal is data recovery, secondary goal is full repair.  SSD0 and SSD1 <SIGNAL>PPBUS_G3H_SSD</SIGNAL>, 2.7V, 1.8V, and 0.9V rails are all solid. \n\nWhen the battery is connected, it charges its battery properly. when doing so.  \n\nNo obvious response from the power button apart from SMC resets which will drop the system out of AC2 briefly so I know it's registering.\n\nIf I give it USB power from an OEM 96W block to its rear left port and connect its front left port to my system running AC2 it defaults into Recovery mode, and revives will run successfully (or complete without notice or errors).  With the battery disconnected during these recovery mode revives, current draw goes to ~1.5-2A, the CPU heats up, and the fans spin hard - both of which I consider good signs - but it doesn't give any display or backlight and when the process completes it goes back to 20V @ 0.05A and, if still connected to AC2, shows up as in Recovery mode.\n\nThe board can load into DFU mode but revive attempts kick back AMRestoreErrorDomain - 0x6.\n\n---------------------------------------------------------------------------------------\n\nThank you for any insight you can offer!!!  :D"
+        },
+        {
+            "post_id": 87935,
+            "thread_id": 62524,
+            "title": "MBP 16in <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER> - No PPVCCPRIMCORE_PRIM_REG / <SIGNAL>PP1V05_PRIM</SIGNAL> voltage from <CHIP>U7800</CHIP>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-26 02:29:08",
+            "message": "PPVCCPRIMCORE_PRIM_REG  doesn't appear if Power On Sequence is broken.\nIt should be there when you get fans spin.\nCheck if L7211/21/31 get voltage at same time.\n\nLiquid spill on such board is very dangerous.\nLeakage could appear between power rails and data lines, damaging T2, CPU, or RAM.\nPossibly accumlated crap still exists under some BGA chips.\n\nTry to start in SMC bypass mode.\nJust in case, try Target Disk mode too."
+        },
+        {
+            "post_id": 88030,
+            "thread_id": 62524,
+            "title": "MBP 16in <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER> - No PPVCCPRIMCORE_PRIM_REG / <SIGNAL>PP1V05_PRIM</SIGNAL> voltage from <CHIP>U7800</CHIP>",
+            "user_id": 34271,
+            "username": "crumblenaut",
+            "post_date": "2022-03-28 11:33:24",
+            "message": "This is super shameful to ask, but could you please tell me how to start a USB-C era MacBook like this 16in unit in SMC bypass mode?    I promise that I've spent some time searching the forums and Googling."
+        },
+        {
+            "post_id": 88036,
+            "thread_id": 62524,
+            "title": "MBP 16in <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER> - No PPVCCPRIMCORE_PRIM_REG / <SIGNAL>PP1V05_PRIM</SIGNAL> voltage from <CHIP>U7800</CHIP>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-28 15:08:25",
+            "message": "[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]"
+        },
+        {
+            "post_id": 88045,
+            "thread_id": 62524,
+            "title": "MBP 16in <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER> - No PPVCCPRIMCORE_PRIM_REG / <SIGNAL>PP1V05_PRIM</SIGNAL> voltage from <CHIP>U7800</CHIP>",
+            "user_id": 34271,
+            "username": "crumblenaut",
+            "post_date": "2022-03-28 17:23:27",
+            "message": "Oh, so it's the same as pre-USB-C era models.  Gotcha.  I believe I tried that just in case the procedure was the same and it didn't work... but I will confirm tomorrow.  \n\nAfter that it's just a matter of tracing through the startup sequence, then?\n\nThank you!"
+        }
+    ]
+}

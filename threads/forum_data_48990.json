@@ -1,0 +1,114 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3023": "What is 820-3023? a LOGIC BOARD PART NUMBER.",
+        "U7300": "What is U7300? a CHIP.",
+        "820-3032": "What is 820-3032? a LOGIC BOARD PART NUMBER.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "PPVCCSA_S0_CPU": "What is PPVCCSA_S0_CPU? Main power rail for the CPU. If this is missing the machine will act braindead. This is NOT shorted to ground if it has a low resistance – this is a common mistake people make. A chip that requires high power at a low voltage like a CPU or GPU will have a low measured resistance to ground..",
+        "PP1V5_S3": "What is PP1V5_S3? a SIGNAL.",
+        "MEMVTT_EN": "What is MEMVTT_EN? a SIGNAL.",
+        "PP1V5_S3RS0": "What is PP1V5_S3RS0? PP1V5_S3RS0 is a 1.5v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PP1V8_S0_CPU_VCCPLL_R": "What is PP1V8_S0_CPU_VCCPLL_R? a SIGNAL.",
+        "DDRVTT_EN": "What is DDRVTT_EN? a SIGNAL.",
+        "VCORE_S0_CPU": "What is VCORE_S0_CPU? a SIGNAL.",
+        "ALL_SYS_PGOOD": "What is ALL_SYS_PGOOD? This is a typo of ALL_SYS_PWRGD. When you see ALL_SYS_PGOOD, assume they meant to type ALL_SYS_PWRGD.",
+        "VCORE_S0_AXG": "What is VCORE_S0_AXG? a SIGNAL.",
+        "Q2810": "What is Q2810? a TRANSISTOR.",
+        "U7801": "What is U7801? a CHIP.",
+        "P1V5CPU_EN": "What is P1V5CPU_EN? a SIGNAL.",
+        "PP1V5_S3_P1V5S3RS0": "What is PP1V5_S3_P1V5S3RS0? a SIGNAL.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "Q7801": "What is Q7801? a TRANSISTOR.",
+        "PP1V5_S3_P1V5S3RS0_FET": "What is PP1V5_S3_P1V5S3RS0_FET? a SIGNAL.",
+        "C7801": "What is C7801? a CAPACITOR.",
+        "C7205": "What is C7205? a CAPACITOR.",
+        "C7345": "What is C7345? a CAPACITOR.",
+        "5V_S5": "What is 5V_S5? 5V_S5 is an abbreviation for “PP5V_S5” which is a 5v power rail that is present when the machine is in an S5 state. .",
+        "PPDDR_S3_REG": "What is PPDDR_S3_REG? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 48990,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-08 10:34:46",
+            "message": "Hello,\nthis <LOGIC BOARD PART NUMBER>820-3032</LOGIC BOARD PART NUMBER> is dead. I noticet that the cpu is getting slightly warm after some time (i guess thats because <SIGNAL>PPVCCSA_S0_CPU</SIGNAL>, <SIGNAL>PP1V05_S0</SIGNAL> and <SIGNAL>PP1V8_S0_CPU_VCCPLL_R</SIGNAL> are there but <SIGNAL>VCORE_S0_CPU</SIGNAL>, <SIGNAL>VCORE_S0_AXG</SIGNAL> and <SIGNAL>PP1V5_S3RS0</SIGNAL> are missing). I checked powerrails and came to a point where i got stuck. <SIGNAL>PP1V5_S3</SIGNAL> is the first rail thats missing. So i followed it and as far as i understand it that is how it works: \n<SIGNAL>PP1V5_S3</SIGNAL> (missing) is created by <CHIP>U7300</CHIP>. It needs <SIGNAL>DDRVTT_EN</SIGNAL> as enable (that is missing too). <SIGNAL>DDRVTT_EN</SIGNAL> = <SIGNAL>MEMVTT_EN</SIGNAL> and <SIGNAL>MEMVTT_EN</SIGNAL> needs <SIGNAL>PLT_RESET_L</SIGNAL> to be present at <TRANSISTOR>Q2810</TRANSISTOR>. <SIGNAL>PLT_RESET_L</SIGNAL> is also missing.\nHere it confuses me. As far as i know VCORE comes up first and <SIGNAL>PLT_RESET_L</SIGNAL> after that as the CPU creates it. VCORE is missing on this board and <SIGNAL>ALL_SYS_PGOOD</SIGNAL> enables VCORE. But <SIGNAL>ALL_SYS_PGOOD</SIGNAL> needs <SIGNAL>PP1V5_S3</SIGNAL> (the missing rail from the beginning) and i am back where i startet.\nSo there is some point where i didn?t understand the power on sequence correctly..."
+        },
+        {
+            "post_id": 48996,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-08 14:51:21",
+            "message": "You made a wrong assumption.\n<SIGNAL>PP1V5_S3_P1V5S3RS0</SIGNAL> and <SIGNAL>PP1V5_S3</SIGNAL> is not the same thing!\nThe second one comes from the first one, through <TRANSISTOR>Q7801</TRANSISTOR> (controlled by <CHIP>U7801</CHIP>).\nAnd its enable signal is <SIGNAL>P1V5CPU_EN</SIGNAL>.\nDDRVTT voltage appears last, when CPU really need to read/write DDR.\n\nCheck if <RESISTOR>R7402</RESISTOR> is OK."
+        },
+        {
+            "post_id": 49001,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-09 00:18:37",
+            "message": "Thank you.\n<RESISTOR>R7402</RESISTOR> iscorrect 91.1 kOhm (should be 90.9 kOhm)\n<CHIP>U7801</CHIP> has no voltage at pin 1 (VIN) and pin 5.\n<CAPACITOR>C7205</CAPACITOR> pin 1 is not connected to <CAPACITOR>C7801</CAPACITOR> pin 1 as it should be (not beeping). So i think that that could be one problem here as these two should be directly connectet according to BV and schematic.\nSo i guess i need to run a wire there.\n<SIGNAL>PP1V5_S3_P1V5S3RS0_FET</SIGNAL> is missing completely and shorted to GND (<CAPACITOR>C7345</CAPACITOR> pin 1 beeping and just 4 Ohms to GND. And the resistance of my probes is already 3 Ohms...). Should i inject 1 V (max.1.3 V if nothing happens) there and pray that something heats up?"
+        },
+        {
+            "post_id": 49004,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-09 03:12:19",
+            "message": "So you have corroded <SIGNAL>5V_S5</SIGNAL> trace; fix that.\n\n<SIGNAL>PP1V5_S3_P1V5S3RS0_FET</SIGNAL> comes from L7330\nYou didn't mention it as missing before; also broken trace?\nShort on DDR voltage now???\nLift L7330 and see where the short remains."
+        },
+        {
+            "post_id": 49008,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-09 05:10:16",
+            "message": "I ran a wire and not the 5V make it to <CHIP>U7801</CHIP>. \nI am still a bit confused. Sorry for that dumb question but according to page 7 <SIGNAL>PP1V5_S3_P1V5S3RS0_FET</SIGNAL> = <SIGNAL>PPDDR_S3_REG</SIGNAL> = <SIGNAL>PP1V5_S3</SIGNAL>. And <SIGNAL>PP1V5_S3</SIGNAL> is the missing rail. So i still didn?t got that right...\nI lifted L7330 and the short is on pin 2. Pin 1 is ~ 160 Ohms so no short there..."
+        },
+        {
+            "post_id": 49026,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-09 10:00:26",
+            "message": "Looks like shorted CPU; less possible to be RAM, or a capacitor.\nYou can try injecting voltage (NO more than 2V).\nRemove heatsink, to detect if CPU heats.\nYou may need to give it time; as the injecting current will be low probably..."
+        },
+        {
+            "post_id": 49096,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-12 03:32:55",
+            "message": "I injected voltage but i cant find anything heating up except my power supply cables after some time. I set it to 1.5 V and 5.3 A (max) and if i turn it on voltage drops to 0.7 V  and current stays at 5.3 A cause its current limited. CPU and PCH stay cool as metal. Nothing really gets warm... Resistance is still as low as resistance of my multimeter probes. should i raise the voltage while power supply is on as is drops down to 0.7 V?"
+        },
+        {
+            "post_id": 49097,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-12 03:51:57",
+            "message": "In fact is not injecting, if A limit is reached.\nYou cannot set the current, it depends of voltage injected and load value; just let A limit at max.\nI use 0-24V/20A power supply, like this\n[url]https://www.ebay.es/itm/AC220V-DC-0-5-12-24-48V-Adjustable-Switch-Power-Supply-Driver-Adapter-Led-Lights/332516815749?ssPageName=STRK%3AMEBIDX%3AIT&_trksid=p2060353.m2749.l2649[/url]\nExist similar models with A monitor too, but  not really needed\n[url]https://www.ebay.es/itm/480W-power-supply-Adjustable-Current-limit-12V-24V-36V-48V-60V-80V-120V-220V-DC/264278771163?ssPageName=STRK%3AMEBIDX%3AIT&var=563854956982&_trksid=p2060353.m1438.l2649[/url]\n0-12V/40A should be better for MacBook repairs."
+        },
+        {
+            "post_id": 49101,
+            "thread_id": 48990,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-12 06:15:33",
+            "message": "Thank you. I?ll get a stronger power supply soon and will try again."
+        }
+    ]
+}

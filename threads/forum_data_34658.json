@@ -1,0 +1,140 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3330": "What is 820-3330? a LOGIC BOARD PART NUMBER.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "CHGR_BGATE": "What is CHGR_BGATE? a SIGNAL.",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H.",
+        "CHGR_UGATE": "What is CHGR_UGATE? a SIGNAL.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_RST_L": "What is CHGR_RST_L? a SIGNAL.",
+        "CHGR_LGATE": "What is CHGR_LGATE? a SIGNAL.",
+        "PP5V1_CHGR_VDD": "What is PP5V1_CHGR_VDD? a SIGNAL.",
+        "CHGR_CSO_N": "What is CHGR_CSO_N? CHGR_CSO_N is one of the current sense lines for the battery. Resistance between CHGR_CSO_N and CHGR_CSO_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 2.2 ohms.",
+        "PP5V1_CHGR_VDDP": "What is PP5V1_CHGR_VDDP? a SIGNAL.",
+        "CHGR_CSO_P": "What is CHGR_CSO_P? CHGR_CSO_P is one of the current sense lines for the battery. Resistance between CHGR_CSO_P and CHGR_CSO_N should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 2.2 ohms.",
+        "CHGR_CSI_N": "What is CHGR_CSI_N? CHGR_CSI_N is one of the current sense lines for the charger. Resistance between CHGR_CSI_N and CHGR_CSI_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_CSI_P": "What is CHGR_CSI_P? CHGR_CSI_P is one of the current sense lines for the charger. Resistance between CHGR_CSI_P and CHGR_CSI_N should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_SGATE": "What is CHGR_SGATE? a SIGNAL.",
+        "PPCHGR_DCIN": "What is PPCHGR_DCIN? a SIGNAL.",
+        "CHGR_ICOMP": "What is CHGR_ICOMP? a SIGNAL.",
+        "CHGR_CELL": "What is CHGR_CELL? CHGR_CELL is a signal going to the ISL6258, ISL6259, ISL9239, or ISL9240 battery charging chip that sets PPBUS_G3H voltage. Macbook Airs with 2 cells in series  in their batteries will have PPBUS_G3H voltages of 8.15v to 8.55v, Macbooks & Macbook Pros with 3 cells in series in their batteries will have PPBUS_G3H voltages of 12.23 to 12.56v..",
+        "CHGR_VCOMP": "What is CHGR_VCOMP? a SIGNAL.",
+        "CHGR_BOOT": "What is CHGR_BOOT? a SIGNAL.",
+        "CHGR_VFRQ": "What is CHGR_VFRQ? a SIGNAL.",
+        "CHGR_VNEG": "What is CHGR_VNEG? a SIGNAL.",
+        "GND_CHGR_AGND": "What is GND_CHGR_AGND? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PPVOUT_SW_LCDBKLT": "What is PPVOUT_SW_LCDBKLT? PPVOUT_SW_LCDBKLT is the voltage rail for the backlight of the LCD screen. ."
+    },
+    "threads": [
+        {
+            "post_id": 34658,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1340,
+            "username": "crea2k",
+            "post_date": "2018-05-10 13:11:58",
+            "message": "Hi, so I was brought this mac, its got a <LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b board inside. The customer said that it had no backlight, but when I try and turn it on its totally dead. Im presuming this model runs fine off the charger with a flat battery ?.\nThis thing is pretty much out of the ark, so its quite different to the newer boards I have been repairing so far.\nI see this model doesnt seem to have a ISL chip on it, does it just have the SMC that deals with all of the power etc ?"
+        },
+        {
+            "post_id": 34660,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-05-10 13:15:20",
+            "message": "It for sure has an <CHIP>ISL6259</CHIP>. Start by measuring the basic 3v42 PPBUS etc. Also does it turn on from just the charger no battery plugged in? If not, tried known good DC in board? MUST use 85 Watt Mag 1 btw 60 watt won't work."
+        },
+        {
+            "post_id": 34661,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1340,
+            "username": "crea2k",
+            "post_date": "2018-05-10 13:21:28",
+            "message": "Thanks, iv just found it on the power page of the schematic, so its not as alien as I thought, il try the usual steps and update this."
+        },
+        {
+            "post_id": 34662,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1340,
+            "username": "crea2k",
+            "post_date": "2018-05-10 13:59:53",
+            "message": "Ok so these were taken at <CHIP>U7000</CHIP> with just the charger plugged in and battery not plugged in:\n\n<SIGNAL>CHGR_AGATE</SIGNAL> - 0.003\n<SIGNAL>PPCHGR_DCIN</SIGNAL> - 16.75\n<SIGNAL>CHGR_ACIN</SIGNAL> - 4.01\n<SIGNAL>CHGR_VFRQ</SIGNAL> - 3.261\n<SIGNAL>CHGR_ICOMP</SIGNAL> -1.268\n<SIGNAL>CHGR_CELL</SIGNAL> -3.372\n<SIGNAL>CHGR_VCOMP</SIGNAL> - 0.982\n<SIGNAL>CHGR_VNEG</SIGNAL> - 1.7 - 2.08 jumping around\n<SIGNAL>CHGR_AMON</SIGNAL> - 0.029\n<SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL> - 3.370\n<SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> - 3.370\n<SIGNAL>PP3V42_G3H</SIGNAL> - 3.373\n<SIGNAL>CHGR_RST_L</SIGNAL> - 3.343\n<SIGNAL>SMC_BC_ACOK</SIGNAL>- 3.232\n<SIGNAL>CHGR_BMON</SIGNAL> - 0.068\n<SIGNAL>CHGR_BGATE</SIGNAL> - 12.41\n<SIGNAL>CHGR_CSO_N</SIGNAL> - 12.55\n<SIGNAL>CHGR_CSO_P</SIGNAL> - 12.55\n<SIGNAL>PP5V1_CHGR_VDD</SIGNAL> - 5.50\n<SIGNAL>PP5V1_CHGR_VDDP</SIGNAL> - 5.50\n<SIGNAL>CHGR_LGATE</SIGNAL> - 0.643\n<SIGNAL>CHGR_PHASE</SIGNAL> - 12.55 \n<SIGNAL>CHGR_UGATE</SIGNAL> - 13.43\n<SIGNAL>CHGR_BOOT</SIGNAL> - 17.31\n<SIGNAL>CHGR_SGATE</SIGNAL> - 15.42\n<SIGNAL>CHGR_CSI_N</SIGNAL> -16.47\n<SIGNAL>CHGR_CSI_P</SIGNAL> - 16.48\n<SIGNAL>GND_CHGR_AGND</SIGNAL> - 0"
+        },
+        {
+            "post_id": 34663,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-05-10 14:04:26",
+            "message": "Ok so I would assume you have a green light and 12.56 volts on <SIGNAL>PPBUS_G3H</SIGNAL>? If so, is it turning on with just the charger or is it dead? If dead, keep measuring your voltages to see what is missing."
+        },
+        {
+            "post_id": 34665,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1340,
+            "username": "crea2k",
+            "post_date": "2018-05-10 14:15:50",
+            "message": "Yes green light, but not turning on, no fan spin. Which other voltages should I be looking for ?, iv not come across a no power one before so not sure what should be there to boot.  <SIGNAL>PPBUS_G3H</SIGNAL> is 12.55"
+        },
+        {
+            "post_id": 34666,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-05-10 14:17:58",
+            "message": "Just making sure you have a known good 85 watt mag 1. Is PPBUS 12.56 volts? If so, check to see that <SIGNAL>PPVRTC_G3H</SIGNAL> is a steady 3.3 volts. Then go through your S5/4/3/0's"
+        },
+        {
+            "post_id": 34667,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1340,
+            "username": "crea2k",
+            "post_date": "2018-05-10 14:26:35",
+            "message": "Ok.......so  I left it plugged in with the battery plugged in and all of a sudden its suddenly turned on, even though it wasnt running off the power supply alone. So now im back on the no backlight problem. If I shine a torch through the apple I can see the screen, so going to look at that problem now."
+        },
+        {
+            "post_id": 34668,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-05-10 14:29:41",
+            "message": "Ok so does it start from both the charger and the battery? If so, then yeah next thing is to check backlight."
+        },
+        {
+            "post_id": 34669,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1340,
+            "username": "crea2k",
+            "post_date": "2018-05-10 14:34:09",
+            "message": "It doesnt start from the charger by itself, but that could be a crappy charger, but I only have one of the lower power ones for testing things (the one it came with is the 85w one), but I dont have another 85w one anyway."
+        },
+        {
+            "post_id": 34670,
+            "thread_id": 34658,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-b Dead to the world",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-05-10 14:35:30",
+            "message": "Ok definitely get another charger before you send it back to avoid any returns! ALWAYS use 85 watt chargers to test things. As far as the backlight goes, check voltage on <SIGNAL>PPVOUT_SW_LCDBKLT</SIGNAL> with the screen attached."
+        }
+    ]
+}

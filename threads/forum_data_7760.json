@@ -1,0 +1,295 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "U1900": "What is U1900? a CHIP.",
+        "U7090": "What is U7090? This chip is often responsible for creating PP3V42_G3H.",
+        "U8300": "What is U8300? a CHIP.",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP3V3RTC_G3H": "What is PP3V3RTC_G3H? a SIGNAL.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "Q8150": "What is Q8150? a TRANSISTOR.",
+        "Q7155": "What is Q7155? a TRANSISTOR.",
+        "5V_S4": "What is 5V_S4? This is an abbreviation of “PP5V_S4” – when you see this, assume the person typing it meant to type “PP5V_S4”.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "SLP_S4": "What is SLP_S4? a SIGNAL.",
+        "S0_CPU": "What is S0_CPU? a SIGNAL.",
+        "U6410": "What is U6410? a CHIP.",
+        "U8040": "What is U8040? a CHIP.",
+        "Q1920": "What is Q1920? a TRANSISTOR.",
+        "SPKRAMP_SHDN_L": "What is SPKRAMP_SHDN_L? a SIGNAL.",
+        "C9520": "What is C9520? a CAPACITOR.",
+        "AUD_PWR_EN": "What is AUD_PWR_EN? a SIGNAL.",
+        "R9501": "What is R9501? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 7760,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-06 16:28:36",
+            "message": "Machine was covered in coke.... The whole bottle I think.\nDamaged areas were:\n<CHIP>U6100</CHIP>, <CHIP>U1900</CHIP>, <TRANSISTOR>Q8150</TRANSISTOR>, <CHIP>U1950</CHIP>, <CHIP>U5000</CHIP>, <CHIP>U7100</CHIP>, <CHIP>U8300</CHIP>, J8300, <CHIP>U7090</CHIP>, J9500, <TRANSISTOR>Q7155</TRANSISTOR>, <TRANSISTOR>Q7706</TRANSISTOR>\n\nCleaned up all areas, and replaced all caps and resistors and ICs with corroded pins / pads that I could see, except the SMC (so far) as the outer balls look OK.\n \nVoltages tested are:\n<SIGNAL>PPBUS_G3H</SIGNAL> = 8.6\n<SIGNAL>PP5V_S5</SIGNAL> = 5V\n<SIGNAL>PP3V3_S5</SIGNAL> = 3V3\nPP3V42 = 3V42\n<SIGNAL>PP3V3RTC_G3H</SIGNAL> = 3V3\n\nAfter randomly stabbing the wrong pin (pin 3) on <CHIP>U1900</CHIP> (trying to test for <SIGNAL>PP3V3_S5</SIGNAL> on pin 2), found that SYSCLK is blipping on / off.\n\nStill very much in confusion and trying to figure out the order in which power rails turn on.\n\nWhere I should be looking first with this?"
+        },
+        {
+            "post_id": 7761,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-06 16:35:04",
+            "message": "First look at <SIGNAL>5V_S4</SIGNAL> at L7520, it is probably pulsing. Judging by your description this thing is a hell hole....."
+        },
+        {
+            "post_id": 7763,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-06 17:03:15",
+            "message": "[QUOTE=\"dukefawks, post: 7761\"]First look at <SIGNAL>5V_S4</SIGNAL> at L7520, it is probably pulsing. Judging by your description this thing is a hell hole.....[/QUOTE]\n\nNo pulsing at L7520.\nNo <SIGNAL>PM_SLP_S4_L</SIGNAL>"
+        },
+        {
+            "post_id": 7765,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-06 18:53:54",
+            "message": "OK, so now have fan spin and only green light. CPU gets hot. Fan is not doing the start / stop like it should. I'll throw on the heat sink, stop burning my finger and test some voltages again.\n\nI think there was an issue around <CHIP>U1950</CHIP>"
+        },
+        {
+            "post_id": 7766,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-10-06 18:55:53",
+            "message": "this may work after a 30 second 80 celsius cleaning in the UC. but it sounds like a fucked board with a bad CPU"
+        },
+        {
+            "post_id": 7769,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-06 19:20:18",
+            "message": "[QUOTE=\"larossmann, post: 7766\"]this may work after a 30 second 80 celsius cleaning in the UC. but it sounds like a fucked board with a bad CPU [/QUOTE]\n\nWhy bad CPU?"
+        },
+        {
+            "post_id": 7775,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-07 01:26:22",
+            "message": "00165 does not start/stop, only 3437 and 3435."
+        },
+        {
+            "post_id": 7786,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-07 04:15:15",
+            "message": "[QUOTE=\"dukefawks, post: 7775\"]00165 does not start/stop, only 3437 and 3435.[/QUOTE]\n\nOh OK.\nSince whenever I ask a question that requires a longer answer here, it's skipped, please would you provide a yes or no answer to this...\n\n<SIGNAL>5V_S4</SIGNAL> can only turn on with <SIGNAL>PM_SLP_S4</SIGNAL> right?\n\nAnd the signal for.....\n\nWhat tells the PCH to turn on <SIGNAL>PM_SLP_S4</SIGNAL>?\n\nThank you"
+        },
+        {
+            "post_id": 7788,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-07 04:57:35",
+            "message": "There is no answer for that that does not require reading and understanding the 500+ page datasheet on the Intel PCH, but here you go:\n\n[url]http://www.intel.com/content/dam/www/public/us/en/documents/datasheets/7-series-chipset-pch-datasheet.pdf[/url]\n\nRead that and you will understand why I cannot answer why your <SIGNAL>SLP_S4</SIGNAL> is not there.\nI did ask if it was pulsing, could pulse once or could cycle. Measure while plugging in power to not miss the one pulse. Use a scope as multimeter is too slow to catch a single pulse."
+        },
+        {
+            "post_id": 7792,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-07 05:47:24",
+            "message": "[QUOTE=\"dukefawks, post: 7788\"]There is no answer for that that does not require reading and understanding the 500+ page datasheet on the Intel PCH, but here you go:\n\n[URL=\"http://www.intel.com/content/dam/www/public/us/en/documents/datasheets/7-series-chipset-pch-datasheet.pdf\"]http://www.intel.com/content/dam/www...-datasheet.pdf[/URL]\n\nRead that and you will understand why I cannot answer why your <SIGNAL>SLP_S4</SIGNAL> is not there.\nI did ask if it was pulsing, could pulse once or could cycle. Measure while plugging in power to not miss the one pulse. Use a scope as multimeter is too slow to catch a single pulse.[/QUOTE]\n\nThank you. Page 69 power management interface may also be useful.\n\n<SIGNAL>5V_S4</SIGNAL> is now working.\nCPU turns on.\nNo chime.\nMagSafe only has green light."
+        },
+        {
+            "post_id": 7793,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-07 05:49:59",
+            "message": "Check CPU Core voltage and see if it drops in voltage after a second or if it comes on and off and on again."
+        },
+        {
+            "post_id": 7794,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-07 05:50:30",
+            "message": "Also magsafe being only green looks like SMC issue, probably crap under it."
+        },
+        {
+            "post_id": 7800,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-07 07:51:33",
+            "message": "[QUOTE=\"dukefawks, post: 7794\"]Also magsafe being only green looks like SMC issue, probably crap under it.[/QUOTE]\n\n\nThing is, when the boards was not powering on there was green / orange.\nI have already replaced SMC this morning.\nChecked PP3V42 getting to pull ups.\nChecked pull up resistor values.\n\n[QUOTE=\"dukefawks, post: 7794\"]  Check CPU Core voltage and see if it drops in voltage after a second or if it comes on and off and on again.\n \n [/QUOTE]\n\nI will check shortly.\n\nThanks"
+        },
+        {
+            "post_id": 7805,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-07 11:03:47",
+            "message": "PPVCC-<SIGNAL>S0_CPU</SIGNAL> = 1.08V constant"
+        },
+        {
+            "post_id": 7814,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-07 11:31:10",
+            "message": "Well, this could be anything at this point. The usual suspects is the clock chip or corrosion on SPI ROM data lines. Besides that this is just a rabbit hole board."
+        },
+        {
+            "post_id": 7816,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-07 11:48:25",
+            "message": "Yeah it was pretty fucked. I'll leave it here then and try SPI data lines and clock chip as both had corrosion.\nThank you for your help"
+        },
+        {
+            "post_id": 7826,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-07 14:14:12",
+            "message": "Yes!! It boots. No audio though."
+        },
+        {
+            "post_id": 7832,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-07 16:08:34",
+            "message": "Audio is on the IO board, so probably bad connector/cable/IO board."
+        },
+        {
+            "post_id": 7851,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-08 10:20:56",
+            "message": "[QUOTE=\"dukefawks, post: 7832\"]Audio is on the IO board, so probably bad connector/cable/IO board. [/QUOTE]\n\nSo I have tested 3 IO boards and cables. Bleeped out the board connector on J9500, checked all solder joints are OK.\nChecked the enables are good for audio around <CHIP>U8040</CHIP>, even replaced <CHIP>U6410</CHIP> and anything in it's path....\n\nI feel like I have come too far with this board to give up because of audio!\nI have pretty much rebuilt the entire board because there were little girl tears over this fucked MacBook which is why I did not just laugh and send it back.\n\nAny more clues or are we at the end?\n\nThanks for your efforts"
+        },
+        {
+            "post_id": 7853,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-08 10:24:55",
+            "message": "Check <TRANSISTOR>Q1920</TRANSISTOR> circuit and all other HDA data lines."
+        },
+        {
+            "post_id": 7859,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-08 13:49:26",
+            "message": "Where is the origin of the audio signal?... I mean before amplification or anything."
+        },
+        {
+            "post_id": 7860,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-08 14:16:54",
+            "message": "The OS does at least know there is an audio device it just does not output any audio.\nProbably put this board to one side for a day or so now."
+        },
+        {
+            "post_id": 7864,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-08 15:03:13",
+            "message": "<SIGNAL>SPKRAMP_SHDN_L</SIGNAL> high? Verify voltage on <CAPACITOR>C9520</CAPACITOR>.\nIf you can change volume in OSX data to audio chip is ok. Try with a headphone too."
+        },
+        {
+            "post_id": 7867,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-08 16:34:14",
+            "message": "<CAPACITOR>C9520</CAPACITOR> = 1.5V\n<SIGNAL>SPKRAMP_SHDN_L</SIGNAL> = low = 0V\nYes level shift on volume but no Headphones output or speaker. Get audio on BlueTooth."
+        },
+        {
+            "post_id": 7870,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-08 17:50:26",
+            "message": "Well SPKRAMP should be high! Is generated on the IO board. Did you check all HDA lines at J9500 on diode mode? <SIGNAL>AUD_PWR_EN</SIGNAL> high?"
+        },
+        {
+            "post_id": 7927,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-10 04:51:04",
+            "message": "[QUOTE=\"dukefawks, post: 7870\"]Well SPKRAMP should be high! Is generated on the IO board. Did you check all HDA lines at J9500 on diode mode? <SIGNAL>AUD_PWR_EN</SIGNAL> high?[/QUOTE]\n\nSPKRAMP: New IO on the way in case all my IO boards are fucked which is possible I guess.\nHDA lines on J9500 no shorts.... Are you asking exact drop across each?\n<SIGNAL>AUD_PWR_EN</SIGNAL> high.\n\nI live in hope that I am a complete numpty without a working OI as I may have swapped them all out. Get back in a couple of days. Actually amazed this board boots at all :)\nThanks for your help"
+        },
+        {
+            "post_id": 7928,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-10 04:58:31",
+            "message": "SPKRAMP not being pulled down by the board? bad <CHIP>U6410</CHIP>, measure diode mode."
+        },
+        {
+            "post_id": 7978,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2016-10-11 11:44:19",
+            "message": "[QUOTE=\"dukefawks, post: 7928\"]SPKRAMP not being pulled down by the board? bad <CHIP>U6410</CHIP>, measure diode mode.[/QUOTE]\n\nSHDN low\nJust found that a pads that \"looked\" there, are actually not there. SHDN and GAIN\nI will replace <CHIP>U6410</CHIP> and test diode mode etc.\n\nDouble checked continuity to all pins to J9500 back to anything audio and all good. Resistors OK, no shorts.\nNo headphones, is bluetooth, internal is recognised and volume shift.\n\nI wonder if tying SHDN to PVDD will work"
+        },
+        {
+            "post_id": 7984,
+            "thread_id": 7760,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No S0, SYSCLK(s) trying to turn on, corrosion all over",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-11 12:15:02",
+            "message": "Analog section of the audio chip must not be powered. Only power source I see for that is pin 9 or 28. See if <RESISTOR>R9501</RESISTOR> is really no stuff and check continuity of pin 9 through the connector/cable to the io board."
+        }
+    ]
+}

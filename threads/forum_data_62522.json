@@ -1,0 +1,267 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "D6905": "What is D6905? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input on very old Macbooks(before 2011), can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "PPBUS_G3H_R": "What is PPBUS_G3H_R? a SIGNAL.",
+        "PPDCIN_G3H_CHGR_R": "What is PPDCIN_G3H_CHGR_R? a SIGNAL.",
+        "R6999": "What is R6999? a RESISTOR.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "AUX_DET": "What is AUX_DET? a SIGNAL.",
+        "P_IN": "What is P_IN? a SIGNAL.",
+        "AUX_OK": "What is AUX_OK? a SIGNAL.",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "SMC_RST": "What is SMC_RST? a SIGNAL.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015."
+    },
+    "threads": [
+        {
+            "post_id": 87924,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-03-25 12:31:25",
+            "message": "this board no turn on, also doesn't turn fans,  can you help me with the initial measures for this type of board"
+        },
+        {
+            "post_id": 87925,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-25 14:55:05",
+            "message": "USB-C input voltage?\n<SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>3V3_G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 87927,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-03-25 16:23:48",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL>=12.8v\n<SIGNAL>3V3_G3H</SIGNAL>=0v"
+        },
+        {
+            "post_id": 87928,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-25 16:40:38",
+            "message": "Check diode mode to ground at L6995.\nPost <DIODE>D6905</DIODE> voltages."
+        },
+        {
+            "post_id": 87947,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-03-26 07:57:30",
+            "message": "L6995=mode diode=0.0\n<DIODE>D6905</DIODE>\n<SIGNAL>PPDCIN_G3H_CHGR_R</SIGNAL>=5.1\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>=4.9\n<SIGNAL>PPBUS_G3H_R</SIGNAL>=0V"
+        },
+        {
+            "post_id": 87958,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-26 10:36:39",
+            "message": "So you have short to ground at L6995?\nRemove <RESISTOR>R6999</RESISTOR> and check where the short remains."
+        },
+        {
+            "post_id": 88040,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-03-28 15:39:03",
+            "message": "short to ground <SIGNAL>PP3V3_G3H</SIGNAL>(pin 2 resistor <RESISTOR>R6999</RESISTOR>),inject voltage and disappear short, Now I have 3.3v l6995 but it still doesn't turn on the computer"
+        },
+        {
+            "post_id": 88041,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-28 16:11:07",
+            "message": "Which voltage did you inject?"
+        },
+        {
+            "post_id": 88042,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-03-28 16:21:33",
+            "message": "2v"
+        },
+        {
+            "post_id": 88050,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-29 01:09:30",
+            "message": "Inspect under microscope all caps connected to <SIGNAL>3V3_G3H</SIGNAL>.\nIf the short disappeared, shouldn't be an integrated circuit.\n\nWhat is actual <SIGNAL>PPBUS_G3H</SIGNAL> voltage?"
+        },
+        {
+            "post_id": 88225,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-01 16:30:19",
+            "message": "I did not find a caps faill to <SIGNAL>3V3_G3H</SIGNAL>\n<SIGNAL>3V3_G3H</SIGNAL>=3.3V\n<SIGNAL>PPBUS_G3H</SIGNAL>=0V Mode diode 0.44"
+        },
+        {
+            "post_id": 88228,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-01 16:40:07",
+            "message": "Post basic voltages for <CHIP>U7000</CHIP>; <SIGNAL>P_IN</SIGNAL>, <SIGNAL>AUX_DET</SIGNAL>, VDDA/P, <SIGNAL>SMC_RST</SIGNAL>*, <SIGNAL>AUX_OK</SIGNAL>, A/BMON.\nAlso check <SIGNAL>BUF_SMC_RESET_L</SIGNAL>."
+        },
+        {
+            "post_id": 88328,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-04 12:29:54",
+            "message": "<SIGNAL>P_IN</SIGNAL>=5.1v after seconds=<SIGNAL>P_IN</SIGNAL>=20.3V\n <SIGNAL>AUX_DET</SIGNAL>=5v\nVDDP=5V\nVDDA=5.1\n<SIGNAL>SMC_RST</SIGNAL>*=3.4V\n<SIGNAL>AUX_OK</SIGNAL>=3.3V\nAMON=0V\nBMON=0V\n<SIGNAL>BUF_SMC_RESET_L</SIGNAL>=3.3V"
+        },
+        {
+            "post_id": 88334,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-04 16:18:28",
+            "message": "Remove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage."
+        },
+        {
+            "post_id": 88358,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-05 10:14:35",
+            "message": "ok voltage is 0v in <CAPACITOR>C7050</CAPACITOR> ( remove f7000)"
+        },
+        {
+            "post_id": 88363,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-05 11:27:01",
+            "message": "Seems that no communication between SMC and <CHIP>U7000</CHIP>.\nYou can try changing <CHIP>U7000</CHIP>.\nIf the previous short on <SIGNAL>3V3_G3H</SIGNAL> was caused by SMC, is another explanation."
+        },
+        {
+            "post_id": 88365,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-05 12:12:11",
+            "message": "how do you know that there is no communication between <CHIP>U7000</CHIP> and smc?"
+        },
+        {
+            "post_id": 88369,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-05 14:47:10",
+            "message": "That is another option, I said.\nYou can try changing <CHIP>U7000</CHIP> first.\nAlso check all components, solders and traces around it."
+        },
+        {
+            "post_id": 88581,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-12 13:31:40",
+            "message": "A question about this type of board that are thinner at what temperature and air in the station do you remove the chips?"
+        },
+        {
+            "post_id": 88582,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-12 14:36:32",
+            "message": "You should practice with scrap boards..."
+        },
+        {
+            "post_id": 88757,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-21 13:41:51",
+            "message": "I already changed <CHIP>U7000</CHIP> and the problem persists"
+        },
+        {
+            "post_id": 88758,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-21 13:51:16",
+            "message": "I already changed <CHIP>U7000</CHIP> problem persists"
+        },
+        {
+            "post_id": 88764,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-21 14:41:23",
+            "message": "If all related resistors are good, then probably bad SMC."
+        },
+        {
+            "post_id": 88765,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-04-21 15:01:01",
+            "message": "which resistors?"
+        },
+        {
+            "post_id": 88769,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-21 16:14:51",
+            "message": "Resistors around <CHIP>U7000</CHIP>.\n\nAlso check voltage and signals for <CHIP>U5000</CHIP> (SYM 2 OF 2), at page 39."
+        },
+        {
+            "post_id": 89743,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 29940,
+            "username": "andrespi",
+            "post_date": "2022-06-01 07:11:31",
+            "message": "Where can I get smc, it has to be from another board the same, don't they sell it by itself? any story? I tested this board with a damaged battery and from there it did not turn on again."
+        },
+        {
+            "post_id": 89754,
+            "thread_id": 62522,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-06-01 12:05:54",
+            "message": "Must get SMC from donor board.\nNew SMC doesn't have the proper frimware loaded..."
+        }
+    ]
+}

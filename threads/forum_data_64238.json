@@ -1,0 +1,66 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1990": "What is A1990? A1990 is a model number for a 15 inch size MacBook Pro Retina from years Mid 2018, 2019 with EMC3215, that may contain one of these boards depending on the year & configuration: 820-01041, 820-01814..",
+        "820-01814": "What is 820-01814? a LOGIC BOARD PART NUMBER.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U3200": "What is U3200? a CHIP.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "PP20V_USBC_XB_VBUS": "What is PP20V_USBC_XB_VBUS? PP20V_USBC_XB_VBUS is 20v in from the USB-C charger on USB-C powered Macbook Pros..",
+        "C9080": "What is C9080? a CAPACITOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "U9080": "What is U9080? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 101830,
+            "thread_id": 64238,
+            "title": "<MACBOOK MODEL NUMBER>A1990</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-01814</LOGIC BOARD PART NUMBER> stuck at 5v no current draw",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2023-10-03 10:36:35",
+            "message": "Got an <MACBOOK MODEL NUMBER>A1990</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-01814</LOGIC BOARD PART NUMBER> which is stuck at 5V with no current draw. Occasionally it does switch to 20v and also with no current draw and no power but i havent seen it do that very often!\n\nIt was slightly liquid damaged around JB200 and <CAPACITOR>C9080</CAPACITOR> - i've cleaned up both areas and no issues there, have also run it through the ultrasonic just to catch anything I didn't see. \n\nPPBUS is not shorted to ground and is reading 0.8v when it's stuck at 5v. \n<SIGNAL>PP3V3_G3H</SIGNAL> is missing and also not shorted to ground.\n\nFollowing the <CHIP>CD3215</CHIP> bootup sequence at <CHIP>U3200</CHIP> I have:\n<SIGNAL>PP20V_USBC_XB_VBUS</SIGNAL>  5v\n<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> 3.3v\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> 1.8v\n<SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> 1.8v\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> 0.1v\n\nSo it seems to be getting stuck at reading the thunderbolt rom. All four ports on the macbook behave the same!\n\nWhat would the next step at this point be?"
+        },
+        {
+            "post_id": 101833,
+            "thread_id": 64238,
+            "title": "<MACBOOK MODEL NUMBER>A1990</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-01814</LOGIC BOARD PART NUMBER> stuck at 5v no current draw",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-10-03 11:56:47",
+            "message": "Did you check diode mode to ground at <SIGNAL>PPBUS_G3H</SIGNAL>?\nCompare with the readings on all big coils; don't forget L9080/580.\n\nRemove F7000/1 and check <CAPACITOR>C7050</CAPACITOR> voltage."
+        },
+        {
+            "post_id": 101837,
+            "thread_id": 64238,
+            "title": "<MACBOOK MODEL NUMBER>A1990</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-01814</LOGIC BOARD PART NUMBER> stuck at 5v no current draw",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2023-10-04 02:22:42",
+            "message": "Diode Mode to ground on \n<SIGNAL>PPBUS_G3H</SIGNAL> - 0.398\nL9080 - 0.371\nL9580 - not present on this board\nNone of the other coils read anywhere near the same reading and I did already check if any of them were shorted to <SIGNAL>PPBUS_G3H</SIGNAL> previously (Forgot to mention)\n\nAfter removing F7000 and F7001 and i'm getting <CAPACITOR>C7050</CAPACITOR> voltage at 12.3V"
+        },
+        {
+            "post_id": 101838,
+            "thread_id": 64238,
+            "title": "<MACBOOK MODEL NUMBER>A1990</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-01814</LOGIC BOARD PART NUMBER> stuck at 5v no current draw",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-10-04 03:58:12",
+            "message": "So you have problems with a secondary power supply.\n\nCorrosion near <CAPACITOR>C9080</CAPACITOR> may be sign of damaged SSD.\nWhat is resistance (ohm scale) between <SIGNAL>PPBUS_G3H</SIGNAL> and L9080?"
+        },
+        {
+            "post_id": 101839,
+            "thread_id": 64238,
+            "title": "<MACBOOK MODEL NUMBER>A1990</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-01814</LOGIC BOARD PART NUMBER> stuck at 5v no current draw",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2023-10-04 03:59:34",
+            "message": "Well we can put this one as solved - <CHIP>U9080</CHIP> had a tiny bit of corrosion underneath which after removing, cleaning and fitting a new IC has resolved the issue.\n\nThank you for the pointers in the right direction! Luckily the SSD has survived this stupid design by apple to put this controller so close to the edge of the board!"
+        }
+    ]
+}

@@ -1,0 +1,56 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01521": "What is 820-01521? a LOGIC BOARD PART NUMBER.",
+        "D6959": "What is D6959? a DIODE.",
+        "A1932": "What is A1932? A1932 is a model number for a 13 inch size MacBook Air from years Late 2018, 2019 with EMC 3184, that may contain one of these boards depending on the year & configuration: 820-01521..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "PP3V3_G3H_RTC": "What is PP3V3_G3H_RTC? PP3V3_G3H_RTC Is one of the first rails that has to come on in order for the USB-C mux chip to be powered in the T2 chip Macbook Pros..",
+        "PPVBAT_G3H_CONN": "What is PPVBAT_G3H_CONN? This is the where the battery’s power rail connects to the motherboard. .",
+        "SYS_DETECT_L": "What is SYS_DETECT_L? For detection of the battery.",
+        "SMBUS_3V3_BATT_SCL": "What is SMBUS_3V3_BATT_SCL? a SIGNAL.",
+        "SMBUS_3V3_BATT_SDA": "What is SMBUS_3V3_BATT_SDA? a SIGNAL.",
+        "Q7065": "What is Q7065? a TRANSISTOR.",
+        "ISL9240": "What is ISL9240? This is a charging chip for Macbook motherboards from 2018 through 2020."
+    },
+    "threads": [
+        {
+            "post_id": 69491,
+            "thread_id": 60533,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER>-A  charges battery, does not show that it's charging",
+            "user_id": 29048,
+            "username": "nrozinka",
+            "post_date": "2020-12-23 12:34:24",
+            "message": "Hello. I am very new to macbook logic board diagnosis and this one has me totally stumped.\n\nPresentation:\nI have a MacBook Air <MACBOOK MODEL NUMBER>A1932</MACBOOK MODEL NUMBER> that showed up to my shop with a lightning bolt charging symbol on all the time (when plugged in and when unplugged). The unit would sometimes restart on its own and was giving a different battery percent each time it was powered on. I disassembled the device and began testing. After the battery was unplugged, the device will no longer show that it is charging even when plugged in. When the charger is plugged in, the unit produces the charging ding, with no change to the battery icon.\n\nDiagnostics: \nWhen plugged in, the charger will successfully supply 20V without delay. With the battery plugged in, the unit draws ~1.5 A from the charger. The battery is at ~11.7V (is that overcharged?) and the voltage across <SIGNAL>PPVBAT_G3H_CONN</SIGNAL> is at 12.4 V when charging. <SIGNAL>SMBUS_3V3_BATT_SCL</SIGNAL> and <SIGNAL>SMBUS_3V3_BATT_SDA</SIGNAL> are both biased to 3.3V. <DIODE>D6959</DIODE> (DIM LED) is lit only after charger is plugged in and stays on when unplugged (The battery does not output anything until <SIGNAL>SYS_DETECT_L</SIGNAL> is brought low by <SIGNAL>PP3V3_G3H_RTC</SIGNAL>. I am assuming this is an intended safety feature as the pull down resistor on that line is missing from the board, and only <SIGNAL>PP3V3_G3H_RTC</SIGNAL> can bring it low). <SIGNAL>PPBUS_G3H</SIGNAL> is at 13.1 V when the charger is plugged in and 12.0 V when on battery power. <SIGNAL>PPDCIN_G3H</SIGNAL> is at a steady 20.0 V. No liquid damage indicators are tripped and no corrosion was found anywhere on the board.\n\nMy best guess: \nI'm not too familiar with how MacBook charging works, but I understand that ISL9240HI (<CHIP>U7000</CHIP>) is responsible for switching power between the battery, the charger, and <SIGNAL>PPBUS_G3H</SIGNAL>. There are two current sensing circuits on that page of the schematic, one for sensing current from the charger and one for sensing current to/from the battery. I tested all the resistors on both circuits and they all check out. I still think one of these circuits is causing a problem, and either a bad reading or no reading at all is causing either ISL9240HI or the SMC to miss out on the fact that the battery is indeed charging. If this were the case however, I would have expected to find a bad resistor in the circuit, and I would expect that ISL9240HI would close <TRANSISTOR>Q7065</TRANSISTOR>, preventing the battery from overcharging. Neither of these are the case. I am not an expert on current sensing circuits by any means, and I'm sure I'm not testing it thoroughly. Given what I know, I want to change out ISL9240HI but it doesn't look damaged or corroded, and it appears to be functioning normally otherwise. Plsbro help me figure out what I'm missing.\n\nThanks for the help and happy holidays!"
+        },
+        {
+            "post_id": 69492,
+            "thread_id": 60533,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER>-A  charges battery, does not show that it's charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-23 15:02:06",
+            "message": "First of all, welcome to the forum!\n\nWhen the battery is really charging, <SIGNAL>PPBUS_G3H</SIGNAL> MUST slowly increase, according with battery charge level.\nIf <DIODE>D6959</DIODE> lights on battery alone, you should press SW6955 until LED goes off, before disconnecting the battery.\n\nI recommend you to test first with a known good working battery.\nBe aware of chinese crappy battery.\n\nYou cannot buy new <CHIP>ISL9240</CHIP>, it does not exist.\nIs Apple proprietary chip and MUST be removed from scrap board."
+        },
+        {
+            "post_id": 84708,
+            "thread_id": 60533,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER>-A  charges battery, does not show that it's charging",
+            "user_id": 33082,
+            "username": "Baltaszar",
+            "post_date": "2022-01-08 15:03:51",
+            "message": "[QUOTE=\"2informaticos, post: 69492, member: 682\"]\nYou cannot buy new <CHIP>ISL9240</CHIP>, it does not exist.\nIs Apple proprietary chip and MUST be removed from scrap board.\n[/QUOTE]\n\nWhat about ali? they sell this..  in a kind of blister.. so even if its no from the factory.. its from scarp i think..\n\n[URL unfurl=\"true\"]https://es.aliexpress.com/item/1005001909037165.html[/URL]\n\nSorry i just see the date.. maybe now 2 years after.. we can buy it for real.. Thanks"
+        },
+        {
+            "post_id": 84709,
+            "thread_id": 60533,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER>-A  charges battery, does not show that it's charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-08 15:23:16",
+            "message": "Some people said it works from Aliexpress..."
+        }
+    ]
+}

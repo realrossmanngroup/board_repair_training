@@ -1,0 +1,210 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3435": "What is 820-3435? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "CHGR_RST_L": "What is CHGR_RST_L? a SIGNAL.",
+        "CHGR_VFRQ": "What is CHGR_VFRQ? a SIGNAL.",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "SMC_CPU_VSENSEOUT": "What is SMC_CPU_VSENSEOUT? a SIGNAL.",
+        "R5520": "What is R5520? a RESISTOR.",
+        "U8080": "What is U8080? a CHIP.",
+        "820-0064": "What is 820-0064? a LOGIC BOARD PART NUMBER.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "R7202": "What is R7202? a RESISTOR.",
+        "C7202": "What is C7202? a CAPACITOR.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "CHGR_BGATE": "What is CHGR_BGATE? a SIGNAL.",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H.",
+        "CHGR_UGATE": "What is CHGR_UGATE? a SIGNAL.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_LGATE": "What is CHGR_LGATE? a SIGNAL.",
+        "PP5V1_CHGR_VDD": "What is PP5V1_CHGR_VDD? a SIGNAL.",
+        "CHGR_CSO_N": "What is CHGR_CSO_N? CHGR_CSO_N is one of the current sense lines for the battery. Resistance between CHGR_CSO_N and CHGR_CSO_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 2.2 ohms.",
+        "CHGR_CSO_P": "What is CHGR_CSO_P? CHGR_CSO_P is one of the current sense lines for the battery. Resistance between CHGR_CSO_P and CHGR_CSO_N should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 2.2 ohms.",
+        "CHGR_CSI_N": "What is CHGR_CSI_N? CHGR_CSI_N is one of the current sense lines for the charger. Resistance between CHGR_CSI_N and CHGR_CSI_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_CSI_P": "What is CHGR_CSI_P? CHGR_CSI_P is one of the current sense lines for the charger. Resistance between CHGR_CSI_P and CHGR_CSI_N should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_SGATE": "What is CHGR_SGATE? a SIGNAL.",
+        "CHGR_ICOMP": "What is CHGR_ICOMP? a SIGNAL.",
+        "CHGR_CELL": "What is CHGR_CELL? CHGR_CELL is a signal going to the ISL6258, ISL6259, ISL9239, or ISL9240 battery charging chip that sets PPBUS_G3H voltage. Macbook Airs with 2 cells in series  in their batteries will have PPBUS_G3H voltages of 8.15v to 8.55v, Macbooks & Macbook Pros with 3 cells in series in their batteries will have PPBUS_G3H voltages of 12.23 to 12.56v..",
+        "CHGR_VCOMP": "What is CHGR_VCOMP? a SIGNAL.",
+        "CHGR_BOOT": "What is CHGR_BOOT? a SIGNAL.",
+        "CHGR_VNEG": "What is CHGR_VNEG? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7185": "What is R7185? a RESISTOR.",
+        "R7180": "What is R7180? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 49334,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-20 08:14:48",
+            "message": "Hey all :-)\n\nBeen struggling on for some time now watching videos etc. relieved to have signed up and apologies for any silly questions..\n\nHave an <LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> with Pulsing Rails. Green/Orange light, no fan\n\nPP3V42 [FONT=Helvetica Neue][COLOR=#000000]3.425-3.427[/COLOR][/FONT]\n<SIGNAL>PPBUS_G3H</SIGNAL> [FONT=Helvetica Neue][COLOR=#000000]8.58-8.65 then every say 3-5 seconds drops to 8.25 for a moment\n\nSome [/COLOR][/FONT][FONT=Courier][COLOR=#000000]<CHIP>U7100</CHIP> Measurements\n2 - <SIGNAL>CHGR_DCIN</SIGNAL> [/COLOR][/FONT][FONT=Helvetica Neue][COLOR=#000000]18-19.6 (using an 18.5v charger which is really 20v)[/COLOR][/FONT]\n[FONT=Courier][COLOR=#000000]3 - <SIGNAL>CHGR_ACIN</SIGNAL> [/COLOR][/FONT][FONT=Helvetica Neue][COLOR=#000000]5.29-5.35[/COLOR][/FONT]\n[FONT=Courier][COLOR=#000000]4 - <SIGNAL>CHGR_VFRQ</SIGNAL> [/COLOR][/FONT][FONT=Helvetica Neue][COLOR=#000000]3.1-3.3[/COLOR][/FONT]\n[FONT=Courier][COLOR=#000000]9 - <SIGNAL>CHGR_AMON</SIGNAL> [/COLOR][/FONT][FONT=Helvetica Neue][COLOR=#000000].052-.062[/COLOR][/FONT]\n[FONT=Courier][COLOR=#000000]13 - <SIGNAL>CHGR_RST_L</SIGNAL> [/COLOR][/FONT][FONT=Helvetica Neue][COLOR=#000000]3.381-3.387[/COLOR][/FONT]\n[FONT=Courier][COLOR=#000000]14 -<SIGNAL>SMC_BC_ACOK</SIGNAL> [/COLOR][/FONT][FONT=Helvetica Neue][COLOR=#000000]3.387-3.395[/COLOR][/FONT]\n\nSMC bypass no fan\n\nMultimeter batt should be fine and stable readings on other boards, also with same charger.\n\nBoard has a fair bit on moisture exposure, lots of tarnished pads but no actual spills.\n\nHelp appreciated!"
+        },
+        {
+            "post_id": 49335,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-20 08:28:19",
+            "message": "Does VCore pulse at least? Any corrosion spots or history?"
+        },
+        {
+            "post_id": 49336,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-20 08:49:18",
+            "message": "\"[FONT=Courier][COLOR=#000000]9 - <SIGNAL>CHGR_AMON</SIGNAL> [/COLOR][/FONT][FONT=Helvetica Neue][COLOR=#000000].52-.62\"\nToo high; measured on charger mode only?\nCheck exact resistance between pins 27/28 of <CHIP>U7100</CHIP>.[/COLOR][/FONT]"
+        },
+        {
+            "post_id": 49339,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-20 09:28:08",
+            "message": "Thanks for the quick replies :-) will check VCore tomorrow as home now.\nWhere best to measure?\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> pretty sure was 0v\n<SIGNAL>SMC_CPU_VSENSEOUT</SIGNAL> @ <RESISTOR>R5520</RESISTOR> also pretty sure was 0v\n\nMany test points are tarnished, nothing eaten through. No spills. The usual \" Its ever been wet\" from customer, seems about 70% honestly didn't see the splash :-)\nHigh humidity area and near the ocean here."
+        },
+        {
+            "post_id": 49340,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-20 09:30:32",
+            "message": "Oops.. Late night scribing there. Still higher that usual although much less so. Corrected original post.\n9 - <SIGNAL>CHGR_AMON</SIGNAL> .052-.062\nWill check resistance when back at work, Thanks :-)"
+        },
+        {
+            "post_id": 49346,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-20 20:12:58",
+            "message": "Definitely 0v at <RESISTOR>R5520</RESISTOR> :-("
+        },
+        {
+            "post_id": 49347,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-20 20:15:43",
+            "message": "27/28 20.4 ohm"
+        },
+        {
+            "post_id": 49389,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-21 18:21:36",
+            "message": "Any ideas appreciated :-)"
+        },
+        {
+            "post_id": 49391,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4779,
+            "username": "MexicoTV",
+            "post_date": "2019-05-21 21:49:00",
+            "message": "Hi friend, check out my thread titled <LOGIC BOARD PART NUMBER>820-0064</LOGIC BOARD PART NUMBER> need <CHIP>U8080</CHIP>. Your issues sound quite similar to mine. Esp the part about the pulsing <SIGNAL>PPBUS_G3H</SIGNAL>. On mine i thought it was <CHIP>U8080</CHIP> but have found other issues. I was wondering if you could help me too actually and seeing if too the right of your audio codec chip on the DC in/IO board (pin one indicator on the upper left corner) there are some black resistors that measure to ground on both sides. This is so far my closest clue as to what the issue is on mine. Id be happy to take comparison measurements on my board, which although dead have managed to get some life out of it so far."
+        },
+        {
+            "post_id": 49392,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-22 00:38:46",
+            "message": "Thanks for check in mate, will do what I can in regards to your post and report :-)"
+        },
+        {
+            "post_id": 49428,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-23 01:45:25",
+            "message": "Hey mexicoTV\nbeen working on another board as on a deadline to get sorted for customer.\nhave checked with another DC board (for a 13?, sits sideways although fine for powering on 11? if that?s the only other option.) and all still pulsing so definitely the main board that?s causing the issue.\nare you getting VCore at all? Where are you measuring for vcore?\ncheers and good luck!"
+        },
+        {
+            "post_id": 49434,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-23 08:25:59",
+            "message": "Replaced <RESISTOR>R7202</RESISTOR> as saw a burn dot on it. Burned out again. Replace again with <CAPACITOR>C7202</CAPACITOR> also, looks like they are both ok now. Still pulsing.\n\nReplaced <CHIP>U7100</CHIP>, no more Pulsing :-) <SIGNAL>PPBUS_G3H</SIGNAL> starts about 1.5v and drops from there.\n\nWent to another board as on a tight timeframe so quickest solution best. Changed <CHIP>U7100</CHIP> on that one too. Got same issue with <SIGNAL>PPBUS_G3H</SIGNAL> starting about 1.5v and dropping from there.\n\nFigured it may be a bad batch so tried last one from pervious good batch on second board. Stable but G3H 8.17v and no fan. <SIGNAL>SMC_RESET_L</SIGNAL> is 3.38v. Tried a SMC reflow no change, dead SMC on that one?\n\nSwapped good <CHIP>U7100</CHIP> to original board. No pulsing, <SIGNAL>PPBUS_G3H</SIGNAL> jumping around between 4 and 5v.\n\nAt this stage would love to have some help!\n\nIts 1:30am here in Australia, customer whats in back fixed or not tomorrow. If anyone with more brains and experience is awake out there and wants to lend a hand yay! if not see if I can get to bed before the kids wake up!\n\nCheers :-)"
+        },
+        {
+            "post_id": 49435,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-23 09:17:40",
+            "message": "Last cal for help on this one! Maybe I'm not posting the right stuff? Noob apologies..\n\n<CHIP>U7100</CHIP> Voltage list with new good ISL\n\nChanged fluke batteries in case that was giving my random readings and tried with bench power. very similar stull..\n\n[TABLE=\"cellpadding: 0, cellspacing: 0\"]\n[TR]\n[TD][FONT=Courier][COLOR=#000000][B]<CHIP>U7100</CHIP>[/B][/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]1 - <SIGNAL>CHGR_AGATE</SIGNAL> [/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0.0005[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]2 - <SIGNAL>CHGR_DCIN</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]19.67[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]3 - <SIGNAL>CHGR_ACIN</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]5.334[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]4 - <SIGNAL>CHGR_VFRQ</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.327[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]5 - <SIGNAL>CHGR_ICOMP</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0.214[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]6 - <SIGNAL>CHGR_CELL</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]7 - <SIGNAL>CHGR_VCOMP</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0.722[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]8 - <SIGNAL>CHGR_VNEG</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0.255[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]9 - <SIGNAL>CHGR_AMON</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.966[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]10 - <SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.425-3.427[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]11 <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.425-3.427[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]12 - <SIGNAL>PP3V42_G3H</SIGNAL> [/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.426[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]13 - <SIGNAL>CHGR_RST_L</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.390[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]14 -<SIGNAL>SMC_BC_ACOK</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.357[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]15 - <SIGNAL>CHGR_BMON</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0.063[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]16 - <SIGNAL>CHGR_BGATE</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]Random .4 to .8[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]17 - <SIGNAL>CHGR_CSO_N</SIGNAL> [/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.8 to 4.6 pulsing[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]18 - <SIGNAL>CHGR_CSO_P</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]3.9-4.1 Pulsing[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]19 - <SIGNAL>PP5V1_CHGR_VDD</SIGNAL> [/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]5.010[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]20 - <SIGNAL>PP5V1_CHGR_VDD</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]5.010[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]21 - <SIGNAL>CHGR_LGATE</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0.033[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]22 - PGND[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]0[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]23 - <SIGNAL>CHGR_PHASE</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]4.0-4.1 pulsing[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]24 - <SIGNAL>CHGR_UGATE</SIGNAL> [/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]4.2-4.8 pulsing[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]25 - <SIGNAL>CHGR_BOOT</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]6.4-6.45 pulse[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]26 - <SIGNAL>CHGR_SGATE</SIGNAL> [/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]19.49[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]27 - <SIGNAL>CHGR_CSI_N</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]19.77[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[TR]\n[TD][FONT=Courier][COLOR=#000000]28 - <SIGNAL>CHGR_CSI_P</SIGNAL>[/COLOR][/FONT][/TD]\n \t\t\t[TD] [/TD]\n \t\t\t[TD][FONT=Helvetica Neue][COLOR=#000000]19.51[/COLOR][/FONT][/TD]\n \t\t[/TR]\n[/TABLE]"
+        },
+        {
+            "post_id": 49436,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-23 09:21:55",
+            "message": "<SIGNAL>CHGR_AMON</SIGNAL> too high; check <RESISTOR>R7021</RESISTOR>/22 and their traces to <CHIP>U7100</CHIP> and <RESISTOR>R7020</RESISTOR>..."
+        },
+        {
+            "post_id": 49438,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-23 09:38:36",
+            "message": "Thanks for the reply 2informaticos\n\nI can't find those resistor numbers on the <LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> schematic?\n\nWill check traces around <CHIP>U7100</CHIP>."
+        },
+        {
+            "post_id": 49439,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-23 09:50:02",
+            "message": "Checked <SIGNAL>CHGR_AMON</SIGNAL> again and reading .030 Must have muted up that reading? Sorry.\n\nNoticed when using Bench power its only pulling .008 amps, orange light on."
+        },
+        {
+            "post_id": 49440,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 4780,
+            "username": "MLS",
+            "post_date": "2019-05-23 10:05:01",
+            "message": "PPBUS stable 7.23v with Battery connected. pulls a couple more mw with battery."
+        },
+        {
+            "post_id": 49445,
+            "thread_id": 49334,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Pulsing Rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-23 13:48:38",
+            "message": "Does the board start on battery only?\n\nPost exact value (ohm scale) for <RESISTOR>R7180</RESISTOR>/81 and <RESISTOR>R7185</RESISTOR>/86.\n\nMea culpa for above; read R712x instead of R702x..."
+        }
+    ]
+}

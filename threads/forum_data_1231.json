@@ -1,0 +1,461 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PUBS_G3H": "What is PUBS_G3H? This is a typo of PPBUS_G3H When you see PUBS_G3H, assume they meant to type PPBUS_G3H.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7022": "What is R7022? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "D6990": "What is D6990? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input, can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "U2600": "What is U2600? a CHIP.",
+        "PP18V5_DCIN_CONN": "What is PP18V5_DCIN_CONN? a SIGNAL.",
+        "PP18V15_DCIN_CONN": "What is PP18V15_DCIN_CONN? a SIGNAL.",
+        "SMC_DCIN_ISENSE": "What is SMC_DCIN_ISENSE? a SIGNAL.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "U6901": "What is U6901? a CHIP.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "R5087": "What is R5087? a RESISTOR.",
+        "U6900": "What is U6900? a CHIP.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "SMC_BC_ACOK_VCC": "What is SMC_BC_ACOK_VCC? SMC_BC_ACOK_VCC is a voltage that is created if SMC_BC_ACOK & PP3V42_G3H are both present that powers the chipset for the onewire circuit that allows the SMC to talk to the charger on the SYS_ONEWIRE line. This is necessary for the magsafe charger to have a light on it. .",
+        "PPVIN_SW_T29BST": "What is PPVIN_SW_T29BST? a SIGNAL.",
+        "CHGR_ACOK": "What is CHGR_ACOK? This is identical to SMC_BC_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PP18V5_DCIN_FUSE": "What is PP18V5_DCIN_FUSE? a SIGNAL.",
+        "U5010": "What is U5010? a CHIP.",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "Q7055": "What is Q7055? a TRANSISTOR.",
+        "U7200": "What is U7200? a CHIP.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V_S0": "What is PP3V_S0? a SIGNAL.",
+        "SMC_RESET": "What is SMC_RESET? SMC_RESET is not a signal, it is an abbreviation for “SMC_RESET_L”, which is the signal someone is referring to when they type “SMC_RESET”  \"SMC_RESET_L is a signal that resets the SMC when it is low(this is what the “_L” prefix means), and lets the SMC out of reset mode when it is high. .",
+        "CHGR_BGATE": "What is CHGR_BGATE? a SIGNAL.",
+        "Q7085": "What is Q7085? a TRANSISTOR.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). ."
+    },
+    "threads": [
+        {
+            "post_id": 1231,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-08 10:44:49",
+            "message": "Hi, I have another issue with the same board, now I have green light sometimes when I plug the AC charger, sometimes not and when it turns on then turns off.\nWhen I measure the f6905 sometimes I have 16,75V and sometimes only mV. The AC In adapter is working fine on several boards but not in this one.\nThe fan is spinning and it chimes, but no backlight, no image.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> is present but sometimes not, that is why I need help I don't know why this is happening.\n\nI will explain myself better:\n\nWhen I plug the charger green light: <SIGNAL>PPBUS_G3H</SIGNAL> is 16,78v for example, then I plug again the charger and I got only 1,6v on <SIGNAL>PUBS_G3H</SIGNAL>\n\nWhere can I start?"
+        },
+        {
+            "post_id": 1241,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-08 13:26:40",
+            "message": "No Title\n\nI know you are busy...but...any help is welcome"
+        },
+        {
+            "post_id": 1247,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-08 20:42:57",
+            "message": "Uhm <SIGNAL>PPBUS_G3H</SIGNAL> should never go over 12.6V! Check sense resistor circuit around <CHIP>U7000</CHIP>. <RESISTOR>R7021</RESISTOR>/22/51/52. First get this working then we will look at the video/BKL issue."
+        },
+        {
+            "post_id": 1260,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-09 03:36:03",
+            "message": "Ok thanks a lot"
+        },
+        {
+            "post_id": 1268,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-09 10:13:50",
+            "message": "What was the original issue on this, and where(if it was a spill)? 16v on <SIGNAL>PPBUS_G3H</SIGNAL> is f'd up!"
+        },
+        {
+            "post_id": 1336,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-10 13:29:23",
+            "message": "<RESISTOR>R7021</RESISTOR>: 10,2 Ohms \n<RESISTOR>R7022</RESISTOR>: 10,2 Ohms \n<RESISTOR>R7051</RESISTOR>: 2,5 Ohms \n<RESISTOR>R7052</RESISTOR>: 0,003 Ohms \n\nI think they are good, can a cap be causing that?"
+        },
+        {
+            "post_id": 1339,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-10 15:13:49",
+            "message": "[QUOTE=\"larossmann, post: 1268\"]What was the original issue on this, and where(if it was a spill)? 16v on <SIGNAL>PPBUS_G3H</SIGNAL> is f'd up![/QUOTE]\n\nNo, <SIGNAL>PPBUS_G3H</SIGNAL> is 12,5V\nWhat is at 16V is the F6905 fuse, and was fluctuating.\nOk I have reflow <CHIP>U7000</CHIP> and I soldered better (I think) also I replace <RESISTOR>R7052</RESISTOR> that I thought it was bad but good in appearance.\nNow green light is on most of the times when I plug the charger in. I´ve been following power lines <SIGNAL>PPBUS_G3H</SIGNAL> is 12,5V good <SIGNAL>PP3V42_G3H</SIGNAL> is present too, <SIGNAL>PPDCIN_G3H</SIGNAL> present but I have a question: must be <DIODE>D6990</DIODE> fluctuating in voltage? I mean pin 1 2 and 3\n\nit was spilt on these areas:"
+        },
+        {
+            "post_id": 1350,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-10 18:46:24",
+            "message": "<DIODE>D6990</DIODE> should not be fluctuating. Is <SIGNAL>PP18V5_DCIN_CONN</SIGNAL> moving up and down? \n\nAlso, when you plug the charger in, do you get 0 fan spin, or one tiny little flicker of a fan spin?\n\nDo the caps by the T29 boost circuit look like shit? \n\nDoes <CHIP>U2600</CHIP> area look like shit?\n\nDoes the SMC look like shit? \n\nMore hints please :)"
+        },
+        {
+            "post_id": 1361,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-11 05:28:12",
+            "message": "No Title\n\n[QUOTE=\"larossmann, post: 1350\"]<DIODE>D6990</DIODE> should not be fluctuating. Is <SIGNAL>PP18V5_DCIN_CONN</SIGNAL> moving up and down?\n\nAlso, when you plug the charger in, do you get 0 fan spin, or one tiny little flicker of a fan spin?\n\nDo the caps by the T29 boost circuit look like shit?\n\nDoes <CHIP>U2600</CHIP> area look like shit?\n\nDoes the SMC look like shit?\n\nMore hints please :)[/QUOTE]\n\nOk, next episode on this mofo mobo, yesterday night everything was good, green light...\nI was going to measure all the things you told me today and...no green light...now <SIGNAL>PPBUS_G3H</SIGNAL> 2V hmm, then <CHIP>U7000</CHIP> was shorting!! I quit the <CHIP>U7000</CHIP> check pins 27 28 and they are shorted!! (diode mode = beep) still shorted without <CHIP>U7000</CHIP>\n\nAnyway I´ll try to answer you as best as I can\n\n<DIODE>D6990</DIODE> should not be fluctuating. Is <SIGNAL>PP18V5_DCIN_CONN</SIGNAL> moving up and down?\n\n<SIGNAL>PP18V15_DCIN_CONN</SIGNAL> was not fluctuating when I measured before.\n\nAlso, when you plug the charger in, do you get 0 fan spin, or one tiny little flicker of a fan spin?\n0 fan spin, nothing at all\n\nDo the caps by the T29 boost circuit look like shit?\nA little bit shity, Im working on it\n\nDoes <CHIP>U2600</CHIP> area look like shit?\nKind of... Im working on it\n\nA little bit yes, Im gonna change caps and resistors\n\nDoes the SMC look like shit?\nNo, it is ok\n\nMore hints please\nSorry about the pics I don't have a camera for the trinocular port yet"
+        },
+        {
+            "post_id": 1393,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-11 13:45:09",
+            "message": "I think those pins must be like they are now, anyway I have measured <CHIP>U7000</CHIP> pins without the chip\n\nValues are:\n\npin 1:OL\npin2:OL\npin3:OL\npin4:0.563 V\npin:5:OL\npin6:0,663 V\npin7:OL\npin8:OL\npin9:OL\npin10:0.614 V\npin11:0,613 V\npin12:0,337 V\npin13:0,463 V\npin14:0,488 V\npin15:OL\npin:16:OL\npin17:0,447 V\npin18:0,447 V\npin19:OL\npin20:OL\npin21:OL\npin22: 0V (GROUND)\npin23:0,447 V\npin24:OL\npin25:OL\npin26:OL\npin27:0,903 V\npin28:0,903 V\n\nOk <CHIP>U7000</CHIP> was shorted and I don't have another one right now to test it\n<SIGNAL>PPBUS_G3H</SIGNAL> f7040: 2V so probably T29bst is responsible as Louis said in one or their videos?"
+        },
+        {
+            "post_id": 1394,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-11 13:51:41",
+            "message": "[TABLE=\"border: 0, cellspacing: 0\"]\n \t \t \t \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 1[/TD]\n \t\t\t[TD=\"align: right\"]0.578[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 2[/TD]\n \t\t\t[TD=\"align: right\"]0.568[/TD]\n \t\t\t[TD=\"align: right\"]16[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 3[/TD]\n \t\t\t[TD=\"align: right\"]0.473[/TD]\n \t\t\t[TD=\"align: right\"]3.9[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 4[/TD]\n \t\t\t[TD=\"align: right\"]0.478[/TD]\n \t\t\t[TD=\"align: right\"]3.4[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 5[/TD]\n \t\t\t[TD=\"align: right\"]0.684[/TD]\n \t\t\t[TD=\"align: right\"]1.3[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 6[/TD]\n \t\t\t[TD=\"align: right\"]0.563[/TD]\n \t\t\t[TD=\"align: right\"]3.4[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 7[/TD]\n \t\t\t[TD=\"align: right\"]0.681[/TD]\n \t\t\t[TD=\"align: right\"]0.98[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 8[/TD]\n \t\t\t[TD=\"align: right\"]0.478[/TD]\n \t\t\t[TD=\"align: right\"]2[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 9[/TD]\n \t\t\t[TD=\"align: right\"]0.66[/TD]\n \t\t\t[TD=\"align: right\"]0.032[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 10[/TD]\n \t\t\t[TD=\"align: right\"]0.443[/TD]\n \t\t\t[TD=\"align: right\"]3.4[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 11[/TD]\n \t\t\t[TD=\"align: right\"]0.444[/TD]\n \t\t\t[TD=\"align: right\"]3.4[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 12[/TD]\n \t\t\t[TD=\"align: right\"]0.308[/TD]\n \t\t\t[TD=\"align: right\"]3.4[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 13[/TD]\n \t\t\t[TD=\"align: right\"]0.406[/TD]\n \t\t\t[TD=\"align: right\"]3.4[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 14[/TD]\n \t\t\t[TD=\"align: right\"]0.45[/TD]\n \t\t\t[TD=\"align: right\"]3.3[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 15[/TD]\n \t\t\t[TD=\"align: right\"]0.682[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 16[/TD]\n \t\t\t[TD=\"align: right\"]0.605[/TD]\n \t\t\t[TD=\"align: right\"]5[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 17[/TD]\n \t\t\t[TD=\"align: right\"]0.405[/TD]\n \t\t\t[TD=\"align: right\"]12.5[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 18[/TD]\n \t\t\t[TD=\"align: right\"]0.406[/TD]\n \t\t\t[TD=\"align: right\"]12.5[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 19[/TD]\n \t\t\t[TD=\"align: right\"]0.419[/TD]\n \t\t\t[TD=\"align: right\"]5[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 20[/TD]\n \t\t\t[TD=\"align: right\"]0.42[/TD]\n \t\t\t[TD=\"align: right\"]5[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 21[/TD]\n \t\t\t[TD=\"align: right\"]0.416[/TD]\n \t\t\t[TD=\"align: right\"]0.5[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 22[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 23[/TD]\n \t\t\t[TD=\"align: right\"]0.406[/TD]\n \t\t\t[TD=\"align: right\"]12.5[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 24[/TD]\n \t\t\t[TD=\"align: right\"]0.794[/TD]\n \t\t\t[TD=\"align: right\"]13.3[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 25[/TD]\n \t\t\t[TD=\"align: right\"]0.543[/TD]\n \t\t\t[TD=\"align: right\"]16.81[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 26[/TD]\n \t\t\t[TD=\"align: right\"]0.575[/TD]\n \t\t\t[TD=\"align: right\"]15.93[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 27[/TD]\n \t\t\t[TD=\"align: right\"]0.573[/TD]\n \t\t\t[TD=\"align: right\"]16[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"]pin 28[/TD]\n \t\t\t[TD=\"align: right\"]0.569[/TD]\n \t\t\t[TD=\"align: right\"]16[/TD]\n \t\t[/TR]\n \t\t[TR]\n \t\t\t[TD=\"align: left\"] [/TD]\n \t\t\t[TD=\"align: left\"]diode mode red probe on ground[/TD]\n \t\t\t[TD=\"align: left\"]voltage[/TD]\n \t\t[/TR]\n \t [/TABLE]"
+        },
+        {
+            "post_id": 1395,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-11 13:52:30",
+            "message": "Those are my measurements from a good board a long time ago."
+        },
+        {
+            "post_id": 1396,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-11 13:57:30",
+            "message": "Ok thanks but if the pin 1 is OL where can I follow the white rabbit? [FONT=Helvetica][SIZE=10px]<SIGNAL>SMC_DCIN_ISENSE</SIGNAL>??[/SIZE][/FONT]"
+        },
+        {
+            "post_id": 1405,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-11 15:19:30",
+            "message": "Woah IGNORE THE FIRST PAGE DIAGRAM NUMBERS it DOES NOT correspond to actual pin numbers on the chip!\n\nCheck resistance between pins 27/28 and pins 17/18 on <CHIP>U7000</CHIP> and post values."
+        },
+        {
+            "post_id": 1407,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-11 15:28:22",
+            "message": "pins 27/28: 20,2 ohms \npins 17/18: 2,8 ohms"
+        },
+        {
+            "post_id": 1411,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-11 16:05:53",
+            "message": "My best guess at this point is that <CHIP>U7000</CHIP> is not soldered flatly on the board or is bad. Your measurements show no short on <SIGNAL>PPBUS_G3H</SIGNAL>"
+        },
+        {
+            "post_id": 1464,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-12 10:48:50",
+            "message": "AC IN <CHIP>U7000</CHIP> DIODE MODE 0,005 V Could be bad that <CHIP>U7000</CHIP>?\nBut when I measure <SIGNAL>PPBUS_G3H</SIGNAL> with no <CHIP>U7000</CHIP> in f7040 shows 1,8V- 2V"
+        },
+        {
+            "post_id": 1466,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-04-12 10:57:15",
+            "message": "did you measure AC IN in diode mode with charger pluged??"
+        },
+        {
+            "post_id": 1467,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-12 11:17:41",
+            "message": "[QUOTE=\"aprendiz, post: 1466\"]did you measure AC IN in diode mode with charger pluged??[/QUOTE]\n\nNo, without charger why?"
+        },
+        {
+            "post_id": 1468,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-12 11:17:59",
+            "message": "<SIGNAL>CHGR_ACIN</SIGNAL> should have high resistance to ground and be 3.7-4v with charger plugged in. If it is showing very low reading to ground then <CHIP>U7000</CHIP> is fucked."
+        },
+        {
+            "post_id": 1470,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-12 11:39:34",
+            "message": "68 mv on ac in and gets hot, so <CHIP>U7000</CHIP> is fucked!! More are coming but until then...we have to wait for it."
+        },
+        {
+            "post_id": 1703,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-18 11:01:06",
+            "message": "ok now i have received he <CHIP>U7000</CHIP> flat soldered these are the values in diode mode:\n\nPin1: 0,606v\npin2: 0,596v\npin3 0,490v\npin4 0,490v\npin5 0,705v\npin6 0,645v\npin7 0,703v\npin8 0,498v\npin9 0,690v\npin10 0,485v\npin11 0,487v\npin12 0,337v\npin13 0,443v\npin14 OL (<SIGNAL>SMC_BC_ACOK</SIGNAL>) Not present\npin15 0,704v\npin16 0,633v\npin17 0,440v\npin18 0,441v\npin19 0,432v\npin20 0,433v\npin21 0,429v\npin22 0,000v\npin23 0,441v\npin24 0,847v\npin25 0,568v\npin26 0,605v\npin27 0,602v\npin28 0,597v\n\npin 27/28 resistance: 20,2 Ohms\npin 17/18 resistance: 2,9 Ohms\n\n<SIGNAL>PPBUS_G3H</SIGNAL>\n\nf7040: 1 V and dropping\n\nF6905: 17 V pin 1 and 2\n\nGreen light still on and off (pulsating)\n<RESISTOR>R5087</RESISTOR>: 470K\nI have changed <CHIP>U6901</CHIP> cause the values were not very well I changed it green light but still pulsating...\nCould be a bad SMC?\n\nWhere can I start now?"
+        },
+        {
+            "post_id": 1708,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-18 13:26:53",
+            "message": "I replaced <CHIP>U6900</CHIP> too and some bad caps, I don't have green light yet\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12,5V\n<SIGNAL>PP3V42_G3H</SIGNAL>: 3,4V\n<SIGNAL>SMC_BC_ACOK</SIGNAL>: 2v fluctuating (<CHIP>U6901</CHIP> pin 1 and 2)\n<SIGNAL>SMC_BC_ACOK_VCC</SIGNAL>: 3,46V\nADAPTER SENSE: 3,46V\n<SIGNAL>SYS_ONEWIRE</SIGNAL>: 3,46V\n<SIGNAL>SMC_RESET_L</SIGNAL>: 3:46V\n<CHIP>U7000</CHIP>- <SIGNAL>CHGR_ACIN</SIGNAL>: 4V\nSo probably is the SMC isn't it?\nHow can I get rid of the SMC glue properly?\n\nEdit: I have measured [FONT=Helvetica]<SIGNAL>PPVIN_SW_T29BST</SIGNAL> and I got 0V\n<SIGNAL>PP5V_S5</SIGNAL>: I got 1,4V only[/FONT]\n[FONT=Helvetica][SIZE=12px]<SIGNAL>SMC_PM_G2_EN</SIGNAL>: 0V[/SIZE][/FONT]"
+        },
+        {
+            "post_id": 1717,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-18 19:52:47",
+            "message": "oven, 225f, then some hot air and tweezers. it should become more clear looking and very soft and easy to remove in one piece. slow heat."
+        },
+        {
+            "post_id": 1732,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-19 06:56:43",
+            "message": "I´ll try to explain myself better:\n\nNO GREEN LIGHT\nCharger 60W\n\n<SIGNAL>PP18V5_DCIN_FUSE</SIGNAL>: (F6905) 17V\n<SIGNAL>PPBUS_G3H</SIGNAL>: (F7040) 12,12V\n<SIGNAL>CHGR_ACIN</SIGNAL>: (U700 PIN3) 4V\n[FONT=Helvetica][SIZE=12px]<SIGNAL>CHGR_ACOK</SIGNAL>: (<CHIP>U7000</CHIP> pin 14) 0,607 fluctuating[/SIZE][/FONT]\n\nSo it is not sending nothing?\n\nWhy is that?\nCan anybody help me please? Im stuck"
+        },
+        {
+            "post_id": 1742,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-19 14:32:19",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> went from 12.5(good)  in your last post, to 12.12(not good) in this post. this indicates the SMC is off. is <SIGNAL>SMC_RESET_L</SIGNAL> high right now, or low?"
+        },
+        {
+            "post_id": 1747,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-19 14:44:59",
+            "message": "[QUOTE=\"larossmann, post: 1742\"]<SIGNAL>PPBUS_G3H</SIGNAL> went from 12.5(good) in your last post, to 12.12(not good) in this post. this indicates the SMC is off. is <SIGNAL>SMC_RESET_L</SIGNAL> high right now, or low?[/QUOTE]\n\nNow <SIGNAL>PPBUS_G3H</SIGNAL> is normal 12.55V\n<SIGNAL>SMC_RESET_L</SIGNAL> is 3,42V (pin 5 - <CHIP>U5010</CHIP>)"
+        },
+        {
+            "post_id": 1752,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-19 18:14:50",
+            "message": "This all points to bad SMC. Sometimes it works, sometimes it doesn't, but it never gives you a green light. Everything is there that you would need to have a green light."
+        },
+        {
+            "post_id": 1766,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-19 23:13:15",
+            "message": "Q: ok thanks, reflow here doesn't work? ( I answer to myself)\nA: No, I already did, it gave me green light for a few seconds,also I have almost all power rails, but it is like BGA reballing or reflow...is BS the chip is gone.\nWaiting for a new one.\n\nI have donors board but no smc stencils anyway I ordered reballed smc.\nQ: Do you work always with reballed smc nowadays or do you reball smc from donor boards sometimes?\nQ: Last question: I´ve read how to bypass the smc to test the board, how can I do that?"
+        },
+        {
+            "post_id": 1828,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-21 05:39:08",
+            "message": "This video: [URL=\"https://www.youtube.com/watch?v=YUPH7Vaama4&feature=em-uploademail\"]https://www.youtube.com/watch?v=YUPH...em-uploademail[/URL]\nis perfect for me thanks\n\nBut I´d like to know the temperature, 400-430 is it too much?\nI know you control the temperature moving the nozzle (sorry about my english) but I´d like to know when you approach to the smc"
+        },
+        {
+            "post_id": 1834,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-21 08:11:07",
+            "message": "when i set 400c on my jbc i get 530 on the temp measurer\n\nwhen i set 1000f on the weller i get 410c on the temp measurer.\n\ntemps are pointless on gear this cheap."
+        },
+        {
+            "post_id": 1940,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-04-24 04:51:16",
+            "message": "Hi, Im still waiting for the preballed smc that I bought, but I´ve been reflowing the smc because this board was with liquid damage around the smc. but not directly, now what I have is a green light for 12 seconds then turns off then 12 seconds later goes on...and keep doing it. Does the smc do that? Could be something related with the clock signal?\n\nI´ve checked that in [FONT=Helvetica]<SIGNAL>PP1V8_S0</SIGNAL> I got nothing but I have green light for few seconds. No fan spinning. Pads shorted nothing happens[/FONT]"
+        },
+        {
+            "post_id": 2554,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-13 12:24:00",
+            "message": "Ok so now I have the smc I already change the smc for a new one, reballed, and the board do the same. Goes on....and then off again green light.\nWhat I have seen is that when I plug the charger with the battery at the same time it doesn´t appears the green light only 3 seconds instead of 8 seconds with only the charger.\nI suspect must be something related with the <TRANSISTOR>Q7055</TRANSISTOR> the pin 4 with battery is steady 4.50V while when I plug the charger in is 12.50V the same pin in <TRANSISTOR>Q7055</TRANSISTOR>\nDo i have to replace it?"
+        },
+        {
+            "post_id": 2555,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-13 13:59:33",
+            "message": "Steady and present\n\n<SIGNAL>PP3V42_G3H</SIGNAL>\n<SIGNAL>PPBUS_G3H</SIGNAL>\n<SIGNAL>CHGR_ACIN</SIGNAL> <CHIP>U7000</CHIP> 4v\n\nfluctuating\n<SIGNAL>PP5V_S5</SIGNAL>\nPIN 16 <CHIP>U7200</CHIP> 12,5V\n\nSo strange\n\nnot present\n<SIGNAL>PP5V_S3</SIGNAL>\n<SIGNAL>PP5V_S0</SIGNAL>\n<SIGNAL>PP3V_S0</SIGNAL>\n<SIGNAL>PP1V8_S0</SIGNAL>"
+        },
+        {
+            "post_id": 2562,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-05-13 15:35:32",
+            "message": "You first need a steady green light. Use known good magsafe board, check <SIGNAL>SMC_RESET</SIGNAL> and <SIGNAL>SMC_BC_ACOK</SIGNAL>"
+        },
+        {
+            "post_id": 2580,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-14 09:40:38",
+            "message": "Hi, I´ve checked <SIGNAL>SMC_RESET</SIGNAL> on <CHIP>U5010</CHIP> pin 5 on diode mode and it is fluctuating like crazy but the other pins in <CHIP>U5010</CHIP> are not doing crazy things. Do I have to replace it?\n\n<SIGNAL>SMC_RESET_L</SIGNAL>: 2-3.40V then 0V....something fluctuating\n<SIGNAL>SMC_BC_ACOK</SIGNAL>: 3.29V (<CHIP>U6901</CHIP>)"
+        },
+        {
+            "post_id": 2614,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-15 10:34:29",
+            "message": "Any help please?"
+        },
+        {
+            "post_id": 2633,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 67,
+            "username": "bighead",
+            "post_date": "2016-05-15 13:51:41",
+            "message": "Try different charger and DC IN board."
+        },
+        {
+            "post_id": 2635,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-05-15 14:35:38",
+            "message": "<SIGNAL>SMC_RESET_L</SIGNAL> should be 3v  or more constantly. have you replaced <CHIP>U5010</CHIP> already?"
+        },
+        {
+            "post_id": 2641,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-15 17:59:30",
+            "message": "Done, and still remains the same problem."
+        },
+        {
+            "post_id": 2642,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-15 18:12:44",
+            "message": "[QUOTE=\"larossmann, post: 2635\"]<SIGNAL>SMC_RESET_L</SIGNAL> should be 3v or more constantly. have you replaced <CHIP>U5010</CHIP> already?[/QUOTE]\n\nI have replaced the <CHIP>U5010</CHIP> no luck still the same problem. Now it is steady on <SIGNAL>SMC_RESET</SIGNAL> 3.39V\nWhen I plug the battery + charger, green light only is 3 seconds on, only charger= 7 seconds on.\nCould be because of <TRANSISTOR>Q7085</TRANSISTOR>?\nI´ve seen that <TRANSISTOR>Q7055</TRANSISTOR> is fluctuating in pin 4 (<SIGNAL>CHGR_BGATE</SIGNAL>) from 12.52V to 5.01V is that normal?"
+        },
+        {
+            "post_id": 2772,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-18 04:36:42",
+            "message": "2 days and...no answer to my questions...I think the board is gonna repair by itself LOL"
+        },
+        {
+            "post_id": 2801,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-05-18 19:34:27",
+            "message": "this is confusing.\n\nlet's start over.\n\na) what is the resistance over <CAPACITOR>C7050</CAPACITOR>\nb) what is the resistance over <CAPACITOR>C7020</CAPACITOR>\n\nthe only thing that is going to cause the light to flicker on and off is either bad current sensing circuit, or the fact that you are using a knockoff charger. knockoff chargers turn green light on even when the light SHOULDN'T be on to begin with. so are you using an original or some knockoff charger?"
+        },
+        {
+            "post_id": 2805,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 6,
+            "username": "turbo",
+            "post_date": "2016-05-18 22:33:58",
+            "message": "some thing shoring around <CHIP>U7000</CHIP>, thats making green light on and off, not the smc issue... the key is around <CHIP>U7000</CHIP>.... ignore green light ....;).....change all Q.."
+        },
+        {
+            "post_id": 2820,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-05-19 07:07:03",
+            "message": "Well, i had steady green light before but when I checked <SIGNAL>PP3V42_G3H</SIGNAL> was 3,47 a little bit high, then I check with 3V on the power supply <SIGNAL>PP3V3_S0</SIGNAL> that it was missing, nothing got burned, then I had steady green light but <SIGNAL>PPBUS_G3H</SIGNAL> was 4.5V\nSo now my board is dead no green light no <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>PP3V42_G3H</SIGNAL> 3,47V\ni had to change probably the <CHIP>U7000</CHIP> isnt it?"
+        },
+        {
+            "post_id": 2928,
+            "thread_id": 1231,
+            "title": "820 3115B Green light sometimes, ON/OFF",
+            "user_id": 161,
+            "username": "Vinny",
+            "post_date": "2016-05-22 15:10:00",
+            "message": "Where did you inject 3V? \n\nSa matao paco jajaja"
+        }
+    ]
+}

@@ -1,0 +1,230 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00244": "What is 820-00244? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "PPBUS_S5_HS_COMPUTING_ISNS": "What is PPBUS_S5_HS_COMPUTING_ISNS? This power rail is PPBUS_G3H after going through a current sense resistor that sits between PPBUS_G3H & the input of PPBUS_G3H to circuitry that provides power for the CPU..",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "PP3V3R3V0_AON": "What is PP3V3R3V0_AON? PP3V3R3V0_AON is the first power rail you need to get a USB-C charger to go from 5v to 20v on an A1534 Macbook with an 820-00045 board..",
+        "PP5V_G3H": "What is PP5V_G3H? PP5V_G3H is a 5v rail present when the machine is in a G3H mechanical off state.",
+        "PPVBUS_LIO": "What is PPVBUS_LIO? a SIGNAL.",
+        "U7800": "What is U7800? a CHIP.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP3V3_PMICLDO": "What is PP3V3_PMICLDO? a SIGNAL.",
+        "5V_G3H": "What is 5V_G3H? a SIGNAL.",
+        "PMIC_SHUTDOWN_L": "What is PMIC_SHUTDOWN_L? a SIGNAL.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "A1534": "What is A1534? A1534 is a model number for a 12 inch size Macbook  from years 2015, 2016 with EMC 2746, that may contain one of these boards depending on the year & configuration: 820-00045, 820-00244..",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PP1V5_S0": "What is PP1V5_S0? PP1V5_S0 is a 1.5v power rail present when the machine is in an S0 working state.",
+        "PP1V2_S3": "What is PP1V2_S3? PP1V2_S3 is a 1.2v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PP1V8_S3": "What is PP1V8_S3? The PP1V8_S3 signal in the MacBook schematic is a power rail that provides a voltage of 1.8 volts during the S3 power state. The S3 state, often referred to as \"suspend to RAM,\" is a low-power mode where the computer saves the session's state to RAM, allowing for quicker wake-up times compared to a full shutdown..",
+        "PP1V8_SUS": "What is PP1V8_SUS? PP1V8_SUS is a 1.8v power rail active in a suspend state..",
+        "PP1V2_S0SW": "What is PP1V2_S0SW? a SIGNAL.",
+        "PP1V_S3": "What is PP1V_S3? a SIGNAL.",
+        "PP1V_S0SW": "What is PP1V_S0SW? a SIGNAL.",
+        "PPVCCSA_S0": "What is PPVCCSA_S0? a SIGNAL.",
+        "PP1V2_S5SW": "What is PP1V2_S5SW? a SIGNAL.",
+        "PPVCORE_SUS_PCH": "What is PPVCORE_SUS_PCH? a SIGNAL.",
+        "PPVCCIO_S0": "What is PPVCCIO_S0? a SIGNAL.",
+        "PP1V_SUS": "What is PP1V_SUS? a SIGNAL.",
+        "PP1V_SUSSW_HSIO": "What is PP1V_SUSSW_HSIO? a SIGNAL.",
+        "1V2_S3": "What is 1V2_S3? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 60513,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-05 09:27:43",
+            "message": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> here, doesn't boot. 20V from USB-C charger but no current.\n\nNo S5 through S0 power rails.\n\n[COLOR=rgb(65, 168, 95)]<SIGNAL>PPVBUS_LIO</SIGNAL>[/COLOR], [COLOR=rgb(65, 168, 95)]<SIGNAL>PPDCIN_G3H</SIGNAL>[/COLOR], [COLOR=rgb(65, 168, 95)]<SIGNAL>PP3V3_G3H</SIGNAL>[/COLOR] and [COLOR=rgb(65, 168, 95)]<SIGNAL>PP3V3R3V0_AON</SIGNAL>[/COLOR] all present and correct.\n\n[COLOR=rgb(243, 121, 52)]<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>[/COLOR] 20V but should be 8.6V according to schematic?\n\n[COLOR=rgb(184, 49, 47)]<SIGNAL>PPBUS_G3H</SIGNAL>[/COLOR] should be 8.6V but starts at around 8.2V for 1 second after power input before slowly dropping to ~0.7V. [COLOR=rgb(184, 49, 47)]<SIGNAL>PPBUS_S5_HS_COMPUTING_ISNS</SIGNAL>[/COLOR] looks similar.\n\n[COLOR=rgb(184, 49, 47)]<SIGNAL>PPVRTC_G3H</SIGNAL>[/COLOR] 0.5V then slowly drops, should be 3V.\n\n[COLOR=rgb(184, 49, 47)]<SIGNAL>PP5V_G3H</SIGNAL>[/COLOR] 0V, not present at all."
+        },
+        {
+            "post_id": 60515,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-05 10:07:23",
+            "message": "Looks like you have a problem with <CHIP>U7800</CHIP>; it generates both <SIGNAL>5V_G3H</SIGNAL> and RTC voltages.\nCheck first diode mode to ground at <SIGNAL>PPVRTC_G3H</SIGNAL> and <SIGNAL>PP5V_G3H</SIGNAL>.\nIf nothing low, then check <SIGNAL>SMC_PM_G2_EN</SIGNAL> and <SIGNAL>PP3V3_PMICLDO</SIGNAL>.\n\nAny history available, liquid signs?"
+        },
+        {
+            "post_id": 60531,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-05 12:12:05",
+            "message": "[COLOR=rgb(65, 168, 95)]<SIGNAL>PPVRTC_G3H</SIGNAL>[/COLOR] diode mode OL, good: OL.\n[COLOR=rgb(65, 168, 95)]<SIGNAL>PP5V_G3H</SIGNAL>[/COLOR] diode mode 1.94V, good: 1.93V\n[COLOR=rgb(65, 168, 95)]<SIGNAL>SMC_PM_G2_EN</SIGNAL>[/COLOR] is 3.3V.\n\n[COLOR=rgb(184, 49, 47)]<SIGNAL>PP3V3_PMICLDO</SIGNAL>[/COLOR] 0V, should be 3.3V.\n\nNo history known, no sign of corrosion but there was a thin layer of dust/fibres on the board when it was first received."
+        },
+        {
+            "post_id": 60538,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-05 14:31:57",
+            "message": "Looks like you measure in wrong way.\nALWAYS start measuring diode mode with red probe at ground.\nSometime (rarely) need to invert the probes, for the other reading.\n\nNow check diode mode at <SIGNAL>PP3V3_PMICLDO</SIGNAL> too.\n\nBTW, you MUST check <SIGNAL>PP5V_G3H</SIGNAL> and <SIGNAL>PP3V3_PMICLDO</SIGNAL> voltage at the moment when <SIGNAL>PPBUS_G3H</SIGNAL> is high (8.2V).\nSame for <SIGNAL>PMIC_SHUTDOWN_L</SIGNAL>..."
+        },
+        {
+            "post_id": 60545,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-05 15:15:13",
+            "message": "D'oh!\n\n[COLOR=rgb(65, 168, 95)]<SIGNAL>PPVRTC_G3H</SIGNAL>[/COLOR] diode mode 0.445V, good: 0.452V\n[COLOR=rgb(65, 168, 95)]<SIGNAL>PP5V_G3H</SIGNAL>[/COLOR] diode mode 0.458V, good: 0.457V\n[COLOR=rgb(65, 168, 95)]<SIGNAL>PP3V3_PMICLDO</SIGNAL>[/COLOR] diode mode 0.417V, good: 0.417V\n\nAnd good point re. checking those whilst <SIGNAL>PPBUS_G3H</SIGNAL> is still high, only had a couple seconds to do it but useful find:\n\n[COLOR=rgb(184, 49, 47)]<SIGNAL>PP5V_G3H</SIGNAL>[/COLOR] 5V then drops to 0V after 1-2 seconds\n[COLOR=rgb(184, 49, 47)]<SIGNAL>PP3V3_PMICLDO</SIGNAL>[/COLOR] 3.3V then drops to 0V after 1-2 seconds\n[COLOR=rgb(184, 49, 47)][S]<SIGNAL>PMIC_SHUTDOWN_L</SIGNAL>[/S][/COLOR][S] 0V then 3.3V after 1-2 seconds[/S]\n[COLOR=rgb(184, 49, 47)]<SIGNAL>PMIC_SHUTDOWN_L</SIGNAL>[/COLOR] 3.3V then 0V after 1-2 seconds\n\nSo I assume this suggests it's powering on very briefly but immediately shutting itself down. Trying to understand that. I see <SIGNAL>PMIC_SHUTDOWN_L</SIGNAL> is created from <SIGNAL>PP3V3_PMICLDO</SIGNAL>?"
+        },
+        {
+            "post_id": 60549,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-05 17:29:25",
+            "message": "\"<SIGNAL>PMIC_SHUTDOWN_L</SIGNAL> 0V then 3.3V after 1-2 seconds\"\nThat can be true, if <SIGNAL>PP3V3_PMICLDO</SIGNAL> disappears.\nBe sure to check in proper point.\n\nAlso <SIGNAL>PMIC_SHUTDOWN_L</SIGNAL> MUST be high, to enable the rest of <CHIP>U7800</CHIP>; at same moment when the other mentioned voltages are present."
+        },
+        {
+            "post_id": 60556,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-06 01:37:12",
+            "message": "Measured them all at the same moments after turning power on. \n\nAnd that's my bad, I typo'd that, <SIGNAL>PMIC_SHUTDOWN_L</SIGNAL> starts at 3.3V then drops to 0V after 1-2 seconds at around the same time as <SIGNAL>PP3V3_PMICLDO</SIGNAL> does."
+        },
+        {
+            "post_id": 60557,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-06 03:35:11",
+            "message": "OK, that make sense now.\nIf you get 20V on USB-C meter, SMC is running.\nBut seems that it doesn't properly communicate with <CHIP>U7000</CHIP>.\n<CHIP>U7000</CHIP> itself can have problems, or detects something wrong on the secondary rails.\n\nBut <SIGNAL>PPVRTC_G3H</SIGNAL> should get 3V at first moment and you only get 0.5V; that makes me doubt about <CHIP>U7800</CHIP> first."
+        },
+        {
+            "post_id": 60563,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-06 04:42:56",
+            "message": "I just re-checked [COLOR=rgb(184, 49, 47)]<SIGNAL>PPVRTC_G3H</SIGNAL>[/COLOR] and it does actually start at 3V then drop to ~0.5V after 1-2 seconds.\n\nHmm. I wonder then if <CHIP>U7000</CHIP> is detecting something wrong."
+        },
+        {
+            "post_id": 60564,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-06 04:49:30",
+            "message": "Checking some of the power rails connected to <CHIP>U7000</CHIP>.\n\n[COLOR=rgb(209, 72, 65)]<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>[/COLOR] starts at 8.2V then jumps to 20V after 1-2 seconds. This is meant to stay at 8.6V?\n\n<SIGNAL>PPDCIN_G3H</SIGNAL> starts at 5.2V then jumps to 20V, as expected, after 1-2 seconds."
+        },
+        {
+            "post_id": 60567,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-06 05:51:25",
+            "message": "See what happens starting in SMC bypass mode.\n\nBe aware, all <MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> machines end with dead CPU..."
+        },
+        {
+            "post_id": 60572,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-06 07:21:28",
+            "message": "No change in SMC bypass mode, still draws no current when it changes from 5V to 20V on the USB meter after releasing <SIGNAL>SMC_ONOFF_L</SIGNAL>."
+        },
+        {
+            "post_id": 60574,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-06 08:20:00",
+            "message": "Check for pulse at all secondary voltages, in the first seconds.\nWhat happens with <SIGNAL>PPBUS_G3H</SIGNAL> when connect both battery and charger?"
+        },
+        {
+            "post_id": 60578,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-06 09:17:48",
+            "message": "<SIGNAL>PP5V_S5</SIGNAL> 0V, pulses to 4/5V, drops and settles at 1.1V\n<SIGNAL>PP3V3_S5</SIGNAL> 0V, pulses to 1/2V, back to 0V\n<SIGNAL>PP5V_S4</SIGNAL> 0V\n\n<SIGNAL>S5_PWRGD</SIGNAL> 0V\n<SIGNAL>PM_SLP_S5_L</SIGNAL> 0V, pulses to 0.2V, returns to 0V\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> 0V, pulses to 0.2V, slow drop to 0V\n\nWith battery connected <SIGNAL>PPBUS_G3H</SIGNAL> behaviour is mostly the same but somewhat more staggered 8.2V -> 5V -> 3.6V then slow drop to 0.7V. Whereas disconnected it's just 8.2V then a slow drop (without jumps) to 0.7V."
+        },
+        {
+            "post_id": 60579,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-06 10:24:52",
+            "message": "Check for short on ALL secondary power rails; pages 43-45 and 47-50..."
+        },
+        {
+            "post_id": 60582,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-06 12:29:12",
+            "message": "Testing with diode mode, reading vs known-good(s)\n\n<SIGNAL>PP5V_S5</SIGNAL> 0.445V 0.45V\n<SIGNAL>PP5V_S4</SIGNAL> 0.160V 0.163V\n<SIGNAL>PP5V_S0</SIGNAL> 0.576V 0.576V\n<SIGNAL>PP3V3_S5</SIGNAL> 0.382V 0.380V \n<SIGNAL>PP3V3_SUS</SIGNAL> 0.366V 0.367V\n<SIGNAL>PP3V3_S4</SIGNAL> 0.443V 0.442V\n<SIGNAL>PP3V3_S0</SIGNAL> 0.370V 0.371V\n<SIGNAL>PP1V8_SUS</SIGNAL> 0.425V 0.422V\n<SIGNAL>PP1V8_S3</SIGNAL> 0.424V 0.454V\n<SIGNAL>PP1V5_S0</SIGNAL> 0.444V 0.446V\n[COLOR=rgb(209, 72, 65)]<SIGNAL>PP1V2_S3</SIGNAL> 0.160V 0.203V 0.289V\n<SIGNAL>PP1V2_S0SW</SIGNAL> 0.160V 0.203V 0.290V[/COLOR]\n<SIGNAL>PP1V2_S5SW</SIGNAL> 0.361V 0.361V\n<SIGNAL>PP1V_SUS</SIGNAL> 0.275V 0.247V\n<SIGNAL>PP1V_SUSSW_HSIO</SIGNAL> 0.275V 0.248V\n<SIGNAL>PP1V_S3</SIGNAL> 0.293V 0.249V 0.268V\n<SIGNAL>PP1V_S0SW</SIGNAL> 0.322V 0.296V\n<SIGNAL>PPVCCIO_S0</SIGNAL> 0.198V 0.185V\n<SIGNAL>PPVCCSA_S0</SIGNAL> 0.093V 0.097V\n<SIGNAL>PPVCORE_S0_CPU</SIGNAL> 0.03V 0.027V\n<SIGNAL>PPVCORE_SUS_PCH</SIGNAL> 0.348V 0.260V\n\n<SIGNAL>PP1V2_S3</SIGNAL> and <SIGNAL>PP1V2_S0SW</SIGNAL> are looking off. <SIGNAL>PP1V2_S0SW</SIGNAL> looks to be created from <SIGNAL>PP1V2_S3</SIGNAL> though so that makes sense."
+        },
+        {
+            "post_id": 60584,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-06 12:37:31",
+            "message": "\"<SIGNAL>PP1V2_S3</SIGNAL> 0.160V 0.203V 0.289V\n<SIGNAL>PP1V2_S0SW</SIGNAL> 0.160V 0.203V 0.290V\"\nPosted 3 values for each rail, why?"
+        },
+        {
+            "post_id": 60586,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-06 12:42:32",
+            "message": "First one is this problematic board. The other two are from two known good boards I double checked against."
+        },
+        {
+            "post_id": 60589,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-06 15:49:53",
+            "message": "You've got big difference even between working boards, so the readings on <SIGNAL>1V2_S3</SIGNAL>/0 may not help too much.\n\nMaybe need to chabge <CHIP>U7000</CHIP> first and <CHIP>U7800</CHIP> if still the same symptom.\nThink if this board worth the job.\nYou may finally have dead CPU, or SSD."
+        },
+        {
+            "post_id": 60600,
+            "thread_id": 59455,
+            "title": "<LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> No boot, <SIGNAL>PPBUS_G3H</SIGNAL> initially present, voltage slowly drops",
+            "user_id": 26252,
+            "username": "macdude101",
+            "post_date": "2020-06-07 14:53:34",
+            "message": "Yeah, not worth it I don’t think, always the risk of a dead CPU too. Thanks for your help."
+        }
+    ]
+}

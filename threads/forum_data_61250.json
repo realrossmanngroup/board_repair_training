@@ -1,0 +1,76 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3462": "What is 820-3462? a LOGIC BOARD PART NUMBER.",
+        "PPVOUT_S0_LCDBKLT": "What is PPVOUT_S0_LCDBKLT? PPVOUT_S0_LCDBKLT is a power rail that powers the LED light in the screen of the device that allows you to see what is on the screen. When this is low or missing, the screen will be dim..",
+        "D9701": "What is D9701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U9701": "What is U9701? a CHIP.",
+        "LCD_BKLT_PWM": "What is LCD_BKLT_PWM? LCD_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. ."
+    },
+    "threads": [
+        {
+            "post_id": 75948,
+            "thread_id": 61250,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER> unstable <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> /",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-05-28 13:19:58",
+            "message": "Tested on separate display/cable and same issue. Seems to get worse after power up. Liquid damage to board mostly near DCIN connector. I have steady 12.65 at pin 1 of <DIODE>D9701</DIODE> but voltage at pin 2 is sometimes 40V and usually shortly after power up unstable so backlight flickers sometimes is out. Bklt EN is steady 3V.  None of the caps looked bad on PPVOUT S0 LCDBKLT but I replaced them all anyway after replacing <DIODE>D9701</DIODE> and <CHIP>U9701</CHIP> caused no change. Also replace LDVS connector. I thought that if I had steady voltage at pin 1 of <DIODE>D9701</DIODE> and replacing it didn't fix than it must be something with caps or traces for PPVOUT S0 LCDBKLT but apparently I\"m wrong. Image never goes away regardless of fluctuation of backlight voltage.\n\nWhat am I missing?"
+        },
+        {
+            "post_id": 75954,
+            "thread_id": 61250,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER> unstable <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> /",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-29 03:34:46",
+            "message": "When no backlight present, which is the output voltage?\n12V will mean something wrong in the backlight circuitry.\nMore than 50V means open connection to LEDs strip; like bad connector, flex, or screen itself."
+        },
+        {
+            "post_id": 76025,
+            "thread_id": 61250,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER> unstable <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> /",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-06-01 06:27:26",
+            "message": "It usually starts out at 46V and then will occcasionally drop to 12.6V and then usually back up to 46V. Sometimes it stays at 12.6V for a long time."
+        },
+        {
+            "post_id": 76036,
+            "thread_id": 61250,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER> unstable <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> /",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-01 08:09:32",
+            "message": "What about <SIGNAL>LCD_BKLT_PWM</SIGNAL>?"
+        },
+        {
+            "post_id": 76059,
+            "thread_id": 61250,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER> unstable <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> /",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-06-02 03:22:25",
+            "message": "That appears to be the problem. Voltage is not stable at <SIGNAL>LCD_BKLT_PWM</SIGNAL> and is sometimes 3.3V but then drops and coordinates with the loss of actual backlight in the display.\n\nI see that line comes from PCH so guessing if not a poor trace then it is a PCH problem? How does the <SIGNAL>LCD_BKLT_PWM</SIGNAL> line function? I have not been able to understand what it's purpose is in the circuit.\n\n*Note I checked test point near PCH for <SIGNAL>LCD_BKLT_PWM</SIGNAL> and that is also unstable so it would appear problem is coming from PCH not the trace. <CHIP>U9701</CHIP> was already changed when trying to resolve this issue so unless there is something else that could pull that down, telling PCH to drop that output?"
+        },
+        {
+            "post_id": 76060,
+            "thread_id": 61250,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER> unstable <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> /",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-02 04:19:51",
+            "message": "If image is present and <SIGNAL>SMC_LID</SIGNAL> steady high, PCH should send out proper PWM for backlight.\nIn case of PCH issue, then you can force backlight to max, without any control.\nDo 2-3 times PRAM reset first."
+        },
+        {
+            "post_id": 76098,
+            "thread_id": 61250,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER> unstable <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> /",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-06-03 05:20:20",
+            "message": "THanks for your help on this. I didn't think it would be related to <SIGNAL>SMC_LID</SIGNAL> being that image was always there and only backlight was unstable but it is apparent that SMC LID hall sensor was the issue. On closer inspection there was corrosion under pin of the IC and the cap on the hall sensor. After reviving the pads and replacing the cap and IC there, all is well and this problem is solved!"
+        }
+    ]
+}

@@ -1,0 +1,81 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3787": "What is 820-3787? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP1V5_S0": "What is PP1V5_S0? PP1V5_S0 is a 1.5v power rail present when the machine is in an S0 working state.",
+        "PP1V35_S3": "What is PP1V35_S3? PP1V35_S3 is a 1.35v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PP1V05_S0_REG_R": "What is PP1V05_S0_REG_R? a SIGNAL.",
+        "P1V05_S0GPU_REG_R": "What is P1V05_S0GPU_REG_R? a SIGNAL.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PPVOUT_S0_LCDBKLT": "What is PPVOUT_S0_LCDBKLT? PPVOUT_S0_LCDBKLT is a power rail that powers the LED light in the screen of the device that allows you to see what is on the screen. When this is low or missing, the screen will be dim..",
+        "AVREF_SMC": "What is AVREF_SMC? AVREF_SMC is a reference voltage provided to the SMC so that its sensors have a reference to work from, this should be 3.3v."
+    },
+    "threads": [
+        {
+            "post_id": 97270,
+            "thread_id": 63673,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A mid 2015 DG power cycle",
+            "user_id": 46233,
+            "username": "eclipsevl",
+            "post_date": "2023-03-07 08:37:29",
+            "message": "Hi,\n\nI've got a <LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A board which is stuck in power cycle. <SIGNAL>PP3V3_S5</SIGNAL> is fine. Got orange led on the magsafe plug.\nWith multimeter I could see that <SIGNAL>PP1V5_S0</SIGNAL>, <SIGNAL>PPVCC_S0_CPU</SIGNAL>, PP1V5R1V35_GPU_REG_R, <SIGNAL>P1V05_S0GPU_REG_R</SIGNAL>, <SIGNAL>PP1V05_S0_REG_R</SIGNAL>, <SIGNAL>PP1V35_S3</SIGNAL>, <SIGNAL>PP5V_S4</SIGNAL> are trying to start up, there is a voltage for a fraction of a second. \n\nCouple of times after powering the board up, I saw PP1V5R1V35_GPU_REG_R at 1.5V and fans started to spin. It happened twice.\nAnother two suspicious things:\n1. There was a blown ceramic cap at PP1V5R1V35_GPU_REG_R line, however without making short circuit. After removal I found that pad connected to PP1V5R1V35_GPU_REG_R  was not making contact - pcb pad was ripped off. Cap itself was shorted. Didn't look like it was mechanical damage.\n2. SPI flash was soldered - there is residue of a flux. Not sure if it is relevant to problem with startup sequence.\n\nResistance at <SIGNAL>PPVCC_S0_CPU</SIGNAL> is ~35 Ohm, <SIGNAL>P1V05_S0GPU_REG_R</SIGNAL> ~200Ohm, PP1V5R1V35_GPU_REG_R ~150Ohm. Could not find any visually bad component/short circuit.\n\nNeed some help with further debug."
+        },
+        {
+            "post_id": 97275,
+            "thread_id": 63673,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A mid 2015 DG power cycle",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-07 09:41:10",
+            "message": "First of all, welcome to the forum!\n\nBe sure to correctly rebuild the broken trace; where you've found the shorted cap.\nTest if machine turns on in SMC bypass mode.\nCheck all SPI Bus Termination resistors and their traces.\n<SIGNAL>PLT_RESET_L</SIGNAL> pulsing too?\nJust in case, flash known good BIOS, clean ME."
+        },
+        {
+            "post_id": 97276,
+            "thread_id": 63673,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A mid 2015 DG power cycle",
+            "user_id": 46233,
+            "username": "eclipsevl",
+            "post_date": "2023-03-07 10:11:36",
+            "message": "Thank you! :)\n\n> Be sure to correctly rebuild the broken trace; where you've found the shorted cap. \nThere were no broken traces, looks like cap was connected only to via.\n\n> Check all SPI Bus Termination resistors and their traces. \nThere is 3.3k resistor at CS, no external resistors on other lines.\n\n> <SIGNAL>PLT_RESET_L</SIGNAL> pulsing too? \nYes, there is a pulse.\n\n> Just in case, flash known good BIOS, clean ME. \nOk, this is new to me. I will figure out how to program SPI flash, but have no idea where to get bios image. Hope it is possible to google it somewhere."
+        },
+        {
+            "post_id": 97277,
+            "thread_id": 63673,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A mid 2015 DG power cycle",
+            "user_id": 46233,
+            "username": "eclipsevl",
+            "post_date": "2023-03-07 10:48:05",
+            "message": "Ok, got weird results in SMC bypass.\n\n1. First attempt it started right away, fans spinning 100%\n2. Second attempt - It started at like after ~4-5 cycles (power up cycles).\n\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> = 1.8\nPP1V5R1V35_GPU_REG_R = 1.5\n<SIGNAL>P1V05_S0GPU_REG_R</SIGNAL> = 1.05\n<SIGNAL>PP1V05_S0_REG_R</SIGNAL> = 1.05\n<SIGNAL>PP1V35_S3</SIGNAL>, \n<SIGNAL>PP5V_S4</SIGNAL> = 5\n\n<SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> = 0 (should it be high in SMC bypass?)\n\nAfter that - it always need several cycles to start up. Feels like there is a bad cap somewhere."
+        },
+        {
+            "post_id": 97281,
+            "thread_id": 63673,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A mid 2015 DG power cycle",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-07 14:42:54",
+            "message": "You've said ripped off capacitor pad.\nNot sure if was in the middle of the via; was the reason I mentioned trace continuity checking.\n\nStarting in SMC bypass suppose a problem with a SMC sensor (pages 44-46); check <SIGNAL>AVREF_SMC</SIGNAL> first.\nWhen started, check for USB activity; don't waste time checking backlight yet.\n\n[URL unfurl=\"true\"]https://drive.google.com/file/d/1TiQAXEFpoDdoG5UwlT-WfHpudY_ajVBB/view?usp=share_link[/URL]"
+        },
+        {
+            "post_id": 97313,
+            "thread_id": 63673,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A mid 2015 DG power cycle",
+            "user_id": 46233,
+            "username": "eclipsevl",
+            "post_date": "2023-03-08 14:04:35",
+            "message": ">Starting in SMC bypass suppose a problem with a SMC sensor (pages 44-46); check <SIGNAL>AVREF_SMC</SIGNAL> first.\n <SIGNAL>AVREF_SMC</SIGNAL> = 3.3V\n\n>When started, check for USB activity; don't waste time checking backlight yet. \nDid not check USB activity yet; checked activity on SPI CS line - always high.\n\nNew observation: even without SMC bypass board eventually starts up for ~5 seconds (CPU, GPU voltages), shuts down. Then cycle repeats.\nThe only difference with SMC bypass: after startup it does not shuts down.\n\nNot sure if it says something.\n\nThank you so much for the bios!"
+        },
+        {
+            "post_id": 97316,
+            "thread_id": 63673,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A mid 2015 DG power cycle",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-08 15:39:26",
+            "message": "Did you try the BIOS file?"
+        }
+    ]
+}

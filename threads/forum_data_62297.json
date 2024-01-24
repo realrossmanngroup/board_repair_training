@@ -1,0 +1,72 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PLT_RST_L": "What is PLT_RST_L? This is an abbreviation of “PLT_RESET_L” – when you see “PLT_RST_L\", assume the person meant to type PLT_RESET_L.",
+        "PPVCCSA_S0_CPU": "What is PPVCCSA_S0_CPU? Main power rail for the CPU. If this is missing the machine will act braindead. This is NOT shorted to ground if it has a low resistance – this is a common mistake people make. A chip that requires high power at a low voltage like a CPU or GPU will have a low measured resistance to ground..",
+        "PPVCCGT_S0_CPU": "What is PPVCCGT_S0_CPU? a SIGNAL.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. ."
+    },
+    "threads": [
+        {
+            "post_id": 85935,
+            "thread_id": 62297,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> no voltage on l7410/20/30",
+            "user_id": 11271,
+            "username": "TBFix",
+            "post_date": "2022-02-03 09:39:20",
+            "message": "There was initially 1v on <SIGNAL>PPBUS_G3H</SIGNAL> swapped out <CHIP>U7000</CHIP> and getting s0 voltages except no voltage to l7410/20/30. \n\nI have \n<SIGNAL>PPVCC_S0_CPU</SIGNAL> 1.07v\n<SIGNAL>PPVCCSA_S0_CPU</SIGNAL> 1.94v\n<SIGNAL>PPVCCGT_S0_CPU</SIGNAL> 0v\n\n[TABLE]\n[TR]\n[TD]<SIGNAL>ALL_SYS_PWRGD</SIGNAL>[/TD]\n[/TR]\n[TR]\n[TD]<SIGNAL>PM_PCH_PWROK</SIGNAL>[/TD]\n[/TR]\n[TR]\n[TD]<SIGNAL>PM_PCH_SYS_PWROK</SIGNAL>[/TD]\n[/TR]\n[TR]\n[TD]<SIGNAL>PLT_RST_L</SIGNAL>\nall 3.3v.\nTried god bios, still same\nWhat else to check ?[/TD]\n[/TR]\n[/TABLE]"
+        },
+        {
+            "post_id": 85942,
+            "thread_id": 62297,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> no voltage on l7410/20/30",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-03 11:15:12",
+            "message": "iGPU core voltage will not appear until high graphics load is detected; is the normal behavior.\nCPU core should drop from 1.07V to aprox 0.6V, after 5-10s; when the board really boots.\n\nAny history available?"
+        },
+        {
+            "post_id": 85946,
+            "thread_id": 62297,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> no voltage on l7410/20/30",
+            "user_id": 11271,
+            "username": "TBFix",
+            "post_date": "2022-02-03 11:43:25",
+            "message": "Some small sign of spillage on the board .After changing <CHIP>U7000</CHIP> board then began to power up.  Currently draws .500ma 20v. no display. Cpu  gets warm."
+        },
+        {
+            "post_id": 85950,
+            "thread_id": 62297,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> no voltage on l7410/20/30",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-03 13:30:30",
+            "message": "Something else affected by liquid spill.\n\nDo you get <SIGNAL>PLT_RESET_L</SIGNAL>?\nCheck all SPI Bus Series Termination resistors and traces."
+        },
+        {
+            "post_id": 85964,
+            "thread_id": 62297,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> no voltage on l7410/20/30",
+            "user_id": 11271,
+            "username": "TBFix",
+            "post_date": "2022-02-04 05:39:54",
+            "message": "Hi yes I have <SIGNAL>PLT_RST_L</SIGNAL> all termination resistors/tracks look ok. No other obvious spillage. Any other signals to look for that would explain the 500ma 20v and no display?."
+        },
+        {
+            "post_id": 85972,
+            "thread_id": 62297,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> no voltage on l7410/20/30",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-04 08:50:01",
+            "message": "Maybe crap under some BGA chip..."
+        }
+    ]
+}

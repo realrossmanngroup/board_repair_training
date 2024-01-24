@@ -1,0 +1,116 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "DP_INT_HPD": "What is DP_INT_HPD? a SIGNAL.",
+        "EDP_PANEL_PWR": "What is EDP_PANEL_PWR? a SIGNAL.",
+        "SMBUS_SMC_0_S0_SCL": "What is SMBUS_SMC_0_S0_SCL? SMBUS_SMC_0_S0_SCL is a clock line on the data line between the system management controller(SMC), temperature sensors, GPU, and ALS(ambient light sensor). If this line is pulled down the machine may run slow or have the fans run fast all the time because the SMC can’t tell what the temperature of parts of the machine like fin stack are. Usual problem is bad webcam, unplug webcam to see if it fixes problem. .",
+        "SMBUS_SMC_0_S0_SDA": "What is SMBUS_SMC_0_S0_SDA? SMBUS_SMC_0_S0_SDA is a data line between the system management controller(SMC), temperature sensors, GPU, and ALS(ambient light sensor). If this line is pulled down the machine may run slow or have the fans run fast all the time because the SMC can’t tell what the temperature of parts of the machine like fin stack are. Usual problem is bad webcam, unplug webcam to see if it fixes problem. .",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "R5171": "What is R5171? a RESISTOR.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "U6900": "What is U6900? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 50603,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-10 19:04:35",
+            "message": "Hi 2Informaticos; team\n\nNo Backlight\nTested with another known good screen : same\nDisplay works fine on an external TV through a thunderbolt hdmi adapter\n\nLCD not detected\nBacklight flashes once when hearing chime\n\nSMC not talking to the LCD:\n<SIGNAL>SMBUS_SMC_0_S0_SDA</SIGNAL> and <SIGNAL>SMBUS_SMC_0_S0_SCL</SIGNAL> solid 3.3V\n\n[B]<SIGNAL>DP_INT_HPD</SIGNAL>: 2.67V[/B]  in diode mode 0.460V\n\nchecked all capacitors and resitances on the LCD path\n\n<SIGNAL>EDP_PANEL_PWR</SIGNAL>: 3.318V and solid just after the chime\n\n\n\nAs I've noticed that NO green light and NO keyboard\nSo  I've suspected the SMC\nReflowed the SMC: same\n\nChecked the bios with the Medusa, all the different parameters are looking fine and doesn't make me think about an SPI issue\n\nI was OUT of Idea; so I took the other issues under consideration first, then I decided to check and focus on the green light\nSo I've disconnected the flex LIO board:\nBacklight came back as well as the keyboard. CRAZY\n\nReplaced both flex and LIO board: same\n\nSo wondering about USB issue shooting down the others signals\nPlugged an USB mouse on the Motherboard USB port with the Flex disconnected : [B]NO Activity[/B]\n\nSo now should I focus more on the USB Level or more on J9500?\n\n\nBest Regards"
+        },
+        {
+            "post_id": 50604,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-10 22:00:58",
+            "message": "\"Replaced both flex and LIO board: same\"\nLooks like bad LIO connector (J9500) on the MLB.\nInspect it under microscope.\nCheck <SIGNAL>SMC_LID</SIGNAL> voltage w/ and w/o LIO flex connected.\nIf it goes down, TP/KB is disabled.\nBe sure <RESISTOR>R5171</RESISTOR> is OK.\n\nOf course, do NOT use Magsafe adaptor 1-->2!!!"
+        },
+        {
+            "post_id": 50612,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-11 03:35:38",
+            "message": "Of course, do NOT use Magsafe adaptor 1-->2!!!:\nYES SURE, I only une official 85W cables (magesafe 1 and 2 ) connected to Lab Power Supply\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL>: 3.387V\n[B]<SIGNAL>SYS_ONEWIRE</SIGNAL>[/B]: wave with peak to peak : [B]1.50V[/B]  it should be 3.3V no?\n[B]Adapter sense: 1.5V[/B] also\n\nStrange no? knowing that I already tried another Flex and LIO board.\nWhat could create that drop of half of voltage....hummmm?\n\nI'll try to run a wire directly from <SIGNAL>SYS_ONEWIRE</SIGNAL> of LIO to the test point near the SMC\n\nAdapter Sense\n[ATTACH type=\"full\" width=\"30%\"]50613._xfImport[/ATTACH]\n\n<SIGNAL>SYS_ONEWIRE</SIGNAL>:\n\n[ATTACH type=\"full\" width=\"30%\"]50614._xfImport[/ATTACH]"
+        },
+        {
+            "post_id": 50615,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-11 03:51:29",
+            "message": "If the signal (1-wire protocol) is the same on both lines, <CHIP>U6900</CHIP> (from LIO board) works.\nYou must get aprox 3V DC on multimeter.\n\n\"Check <SIGNAL>SMC_LID</SIGNAL> voltage w/ and w/o LIO flex connected.\nIf it goes down, TP/KB is disabled.\nBe sure <RESISTOR>R5171</RESISTOR> is OK.\""
+        },
+        {
+            "post_id": 50616,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-11 04:15:50",
+            "message": "<RESISTOR>R5171</RESISTOR> : 100KOhms  OK\n\nSMC LID with out flex: 3.38V\n\nSMC LID with flex connected strange wave form:\n\n\n[ATTACH type=\"full\" width=\"30%\"]50617._xfImport[/ATTACH]"
+        },
+        {
+            "post_id": 50619,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-07-11 06:11:06",
+            "message": "Sounds like broken traces from corrosion on J9500 or crap under it."
+        },
+        {
+            "post_id": 50622,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-11 06:42:12",
+            "message": "If you already tested known working LIO board/flex, then J9500 has something bad there..."
+        },
+        {
+            "post_id": 50625,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-11 08:28:56",
+            "message": "I've forgot to mention that I saw minor corrosion at J9500 between pin4 and 10, that of course I've cleaned and quickly re heated.\nMaybe invisible crap under it... Will pass it in the UC, if not successfull replace J9500. \nWhat do you think ?"
+        },
+        {
+            "post_id": 50630,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-07-11 09:55:42",
+            "message": "Replacing is not a bad idea. Those pins being corroded always causes issues make SURE the pins of the connector are soldered properly."
+        },
+        {
+            "post_id": 50634,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-11 11:05:59",
+            "message": "If is only one line problem (like <SIGNAL>SMC_LID</SIGNAL>), you can cut it off from J9500 and bypass with direct wire between MLB and LIO board."
+        },
+        {
+            "post_id": 50802,
+            "thread_id": 50603,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> CRAZY NO BACKLIGHT Issue",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-17 07:51:25",
+            "message": "Replaced LIO j9500 Connector: [B]Problem Fixed[/B]\n\nBacklight, Green/Orange Led, keyboard, Sound, USB Port ALL OK\n\nThanks 2Informaticos\nYou can set this topic as RESOLVED\n\nBest Regards"
+        }
+    ]
+}

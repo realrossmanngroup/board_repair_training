@@ -1,0 +1,470 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "AUX_DET": "What is AUX_DET? a SIGNAL.",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "TBA_VDDA": "What is TBA_VDDA? a SIGNAL.",
+        "CHGR_A": "What is CHGR_A? a SIGNAL.",
+        "SMC_RST_L": "What is SMC_RST_L? a SIGNAL.",
+        "TBA_BOOT": "What is TBA_BOOT? a SIGNAL.",
+        "PM_EN_P3V3_G3H1": "What is PM_EN_P3V3_G3H1? a SIGNAL.",
+        "SMC_4FINGERS_RST": "What is SMC_4FINGERS_RST? a SIGNAL.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "C7023": "What is C7023? a CAPACITOR.",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "R6910": "What is R6910? a RESISTOR.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "D6902": "What is D6902? a DIODE.",
+        "R6915": "What is R6915? a RESISTOR.",
+        "C6915": "What is C6915? a CAPACITOR.",
+        "R6912": "What is R6912? a RESISTOR.",
+        "R6911": "What is R6911? a RESISTOR.",
+        "R6913": "What is R6913? a RESISTOR.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "Q7065": "What is Q7065? a TRANSISTOR.",
+        "PPVBAT_G3H_CONN": "What is PPVBAT_G3H_CONN? This is the where the battery’s power rail connects to the motherboard. .",
+        "PPVBAT_G3H_CHGR_R": "What is PPVBAT_G3H_CHGR_R? This is a power rail between the battery and a current sense resistor before the battery power feeds current to the rest of the machine. .",
+        "TBA_BGATE": "What is TBA_BGATE? a SIGNAL.",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015.",
+        "R6051": "What is R6051? a RESISTOR.",
+        "Q6050": "What is Q6050? a TRANSISTOR.",
+        "U5255": "What is U5255? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 99758,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-07 03:19:25",
+            "message": "Draws 5volts 0A \n<SIGNAL>PPBUS_G3H</SIGNAL>=0v diode mode to ground is 0.436.\n<SIGNAL>PP3V3_G3H</SIGNAL>=0v diode mode to ground is 0.367.\nAll <CHIP>CD3215</CHIP> has the same reactions.. \n<CHIP>U7000</CHIP> voltages:\n<SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>=5v\n<SIGNAL>TBA_VDDA</SIGNAL>=5v\n<SIGNAL>TBA_BOOT</SIGNAL>=4.7v\n<SIGNAL>AUX_DET</SIGNAL>=1.2v\n<SIGNAL>PM_EN_P3V3_G3H1</SIGNAL>.889v\n<SIGNAL>SMC_RST_L</SIGNAL>=0V\n<SIGNAL>CHGR_A</SIGNAL>/BMON=0V"
+        },
+        {
+            "post_id": 99764,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-07 08:18:26",
+            "message": "Remove F7000 and check <CAPACITOR>C7050</CAPACITOR> and L6900 voltage.\n\nWhat about <SIGNAL>SMC_4FINGERS_RST</SIGNAL>?"
+        },
+        {
+            "post_id": 99790,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-08 05:54:45",
+            "message": "I have removed f7000 \n<CAPACITOR>C7050</CAPACITOR> voltage is 0.5v\nL6900 is 0V\n<SIGNAL>SMC_4FINGERS_RST</SIGNAL>? = 0V"
+        },
+        {
+            "post_id": 99796,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-08 12:44:04",
+            "message": "Try changing <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 99812,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-09 02:33:28",
+            "message": "Have changed <CHIP>U7000</CHIP> no changes\n<RESISTOR>R7021</RESISTOR> Has a hole in it. Have replaced it too no changes..\n<SIGNAL>SMC_RESET_L</SIGNAL> is 0v..\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> is 3.9v high voltage ⚡️"
+        },
+        {
+            "post_id": 99814,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-09 03:46:50",
+            "message": "<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> is 2.2v on all <CHIP>CD3215</CHIP> \n<SIGNAL>PP3V3_G3H</SIGNAL> is 2.2V"
+        },
+        {
+            "post_id": 99817,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-09 08:51:12",
+            "message": "Post exact ohm resistance over <CAPACITOR>C7020</CAPACITOR>/23."
+        },
+        {
+            "post_id": 99822,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-09 10:26:29",
+            "message": "<CAPACITOR>C7020</CAPACITOR>=0.430\n<CAPACITOR>C7023</CAPACITOR>=0.550"
+        },
+        {
+            "post_id": 99826,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-09 10:39:22",
+            "message": "Please check again (correctly).\nKeep in mind, I didn't ask to check in refference with ground.\n\nToo many times we talked about this checkings on the forum..."
+        },
+        {
+            "post_id": 99836,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-10 03:58:46",
+            "message": "<CAPACITOR>C7023</CAPACITOR>=1.9 ohm\n<CAPACITOR>C7020</CAPACITOR>=3.0 ohm"
+        },
+        {
+            "post_id": 99837,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-10 05:58:54",
+            "message": "Change <CHIP>U6903</CHIP> too.\nBe sure all <RESISTOR>R6910</RESISTOR>-13 have correct values."
+        },
+        {
+            "post_id": 99870,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-12 02:32:17",
+            "message": "I have changed <CHIP>U6903</CHIP>...no changes \n<RESISTOR>R6910</RESISTOR>/13 have correct values..\n\n<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> is 3.3v on all <CHIP>CD3215</CHIP>\n<SIGNAL>PP3V3_G3H</SIGNAL> is still 2.2V\n<SIGNAL>PPBUS_G3H</SIGNAL>=0V\n<SIGNAL>PPDCIN_G3H</SIGNAL>=5.1V"
+        },
+        {
+            "post_id": 99879,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-12 04:38:04",
+            "message": "\"<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> is 3.9v\"\nStill same?\nIf yes, change R/<DIODE>D6902</DIODE>.\n\nRemove <RESISTOR>R6915</RESISTOR> and check <CAPACITOR>C6915</CAPACITOR> voltage.\n\n\"<RESISTOR>R6910</RESISTOR>/13 have correct values\"\nI said <RESISTOR>R6910</RESISTOR>-13, 4 resistors!"
+        },
+        {
+            "post_id": 99882,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-12 11:14:12",
+            "message": "\"<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> is 5V\n\n<RESISTOR>R6910</RESISTOR> <RESISTOR>R6911</RESISTOR>\n<RESISTOR>R6912</RESISTOR> <RESISTOR>R6913</RESISTOR> all have correct values\n<CAPACITOR>C6915</CAPACITOR> is 3.4V after i remove <RESISTOR>R6915</RESISTOR>\nNo <SIGNAL>PPBUS_G3H</SIGNAL> still\n<SIGNAL>PP3V3_G3H</SIGNAL> is 3V\nI have replaced R and <DIODE>D6902</DIODE>"
+        },
+        {
+            "post_id": 99886,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-12 13:40:35",
+            "message": "You can't get <SIGNAL>PPBUS_G3H</SIGNAL> without <SIGNAL>3V3_G3H</SIGNAL>.\nSo you have a problem on the <SIGNAL>3V3_G3H</SIGNAL> power rail, after <RESISTOR>R6915</RESISTOR>.\n\nTry injecting 3.5-4V there and use IR camera.\nIt allows you to detect small temperature differences.\nRemove CPU heatsink first and disconnect any cable from the MLB."
+        },
+        {
+            "post_id": 99893,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-13 03:38:16",
+            "message": "Should i return or leave <RESISTOR>R6915</RESISTOR> and inject voltage to <SIGNAL>3V3_G3H</SIGNAL> power rail?"
+        },
+        {
+            "post_id": 99894,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-13 04:25:47",
+            "message": "No need to resolder <RESISTOR>R6915</RESISTOR> yet."
+        },
+        {
+            "post_id": 99896,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-13 05:16:57",
+            "message": "I didn't not detect any temperature changes after i inject 3.5v....\nNow board draws 20v and boots i dont know what have done or what happened🫤"
+        },
+        {
+            "post_id": 99897,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-13 05:25:27",
+            "message": "But system not detecting battery..\nI have tried testing with another battery the system doesn't display on screen and draws 20v and trackpad stops bouncing."
+        },
+        {
+            "post_id": 99898,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-13 05:30:03",
+            "message": "Machine boots now without battery?\n\nCheck diode mode to ground and voltage at SCL/SDA lines of battery bus."
+        },
+        {
+            "post_id": 99902,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-13 07:06:36",
+            "message": "Yes Machine boot's without battery."
+        },
+        {
+            "post_id": 99905,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-13 08:23:58",
+            "message": "Diode mode to ground \n<SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>=0.440/3.4V\n<SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>=0.4403.4V"
+        },
+        {
+            "post_id": 99908,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-13 10:35:25",
+            "message": "Values look good.\nDid you connect battery flex correctly?\nBe sure the battery power screw makes good contact also."
+        },
+        {
+            "post_id": 100045,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-19 04:05:23",
+            "message": "Machine doesn't turn in with charger+battery and battery only...\nOnly boots with charger"
+        },
+        {
+            "post_id": 100046,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-19 04:16:40",
+            "message": "Post <TRANSISTOR>Q7065</TRANSISTOR> voltages, with both charger and battery connected.\nYou may need to change it..."
+        },
+        {
+            "post_id": 100048,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-19 06:01:48",
+            "message": "<TRANSISTOR>Q7065</TRANSISTOR> voltages \n<SIGNAL>PPVBAT_G3H_CONN</SIGNAL>=12.60V\n<SIGNAL>PPVBAT_G3H_CHGR_R</SIGNAL>=12.73V\n<SIGNAL>TBA_BGATE</SIGNAL>=4.3V \nNo changes after replacing.."
+        },
+        {
+            "post_id": 100057,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-19 12:56:33",
+            "message": "What is F7000 voltage without battery (only charger)?"
+        },
+        {
+            "post_id": 100078,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-20 01:59:32",
+            "message": "13.08V charger only\n12.62V charger+battery\n12.27V battery only\nOnly one fan spins very fast.."
+        },
+        {
+            "post_id": 100079,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-20 02:20:37",
+            "message": "Any error pops up in diagnostic mode?"
+        },
+        {
+            "post_id": 100082,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-20 03:59:31",
+            "message": "[ATTACH type=\"full\"]61220[/ATTACH]"
+        },
+        {
+            "post_id": 100101,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-20 14:50:33",
+            "message": "Try changing SMC..."
+        },
+        {
+            "post_id": 100129,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-21 11:56:39",
+            "message": "no changes after changing <CHIP>U5000</CHIP>"
+        },
+        {
+            "post_id": 100130,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-21 12:00:38",
+            "message": "system detects battery only if charger is first plugged before putting battery flex"
+        },
+        {
+            "post_id": 100131,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-21 13:43:56",
+            "message": "And it works good after that?"
+        },
+        {
+            "post_id": 100139,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-21 23:28:42",
+            "message": "Yes it works fine even if you restart it....but when u shutdown the system it wont power on with battery untill u do the procedure again"
+        },
+        {
+            "post_id": 100142,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-22 01:02:35",
+            "message": "Do you still get fan error starting in diagnostic mode?\nBoth fans spin correctly?"
+        },
+        {
+            "post_id": 100147,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-22 02:31:07",
+            "message": "I found <TRANSISTOR>Q6050</TRANSISTOR> knocked off and <RESISTOR>R6051</RESISTOR> both fans now spin correctly"
+        },
+        {
+            "post_id": 100148,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-22 02:31:58",
+            "message": "No issues found on diagnostic mode again."
+        },
+        {
+            "post_id": 100149,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-22 02:35:25",
+            "message": "Battery error also disappeared from diagnostic screen?"
+        },
+        {
+            "post_id": 100150,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-22 03:33:08",
+            "message": "Yes"
+        },
+        {
+            "post_id": 100152,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-22 03:51:06",
+            "message": "Then machine works correctly now?"
+        },
+        {
+            "post_id": 100153,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-22 04:37:48",
+            "message": "Doesn't power with battery only"
+        },
+        {
+            "post_id": 100158,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-22 07:15:10",
+            "message": "Does it power with both charger and battery connected now?\nIs the battery charging?"
+        },
+        {
+            "post_id": 100159,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-22 07:17:11",
+            "message": "Battery is charging... \ndoesn't power with with both charger and battery connected"
+        },
+        {
+            "post_id": 100164,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-22 08:17:10",
+            "message": "Check ohm resistance over <CAPACITOR>C7020</CAPACITOR>/23.\nTry starting in SMC bypass, with charger and battery connected."
+        },
+        {
+            "post_id": 100183,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-22 23:04:34",
+            "message": "when the system power on if i close the lid I noticed it doesn't wake from sleep...i checked the both hall sensor i found the both capacitor on it is burnt, I replaced the both capacitors and still doesn't wake from sleep..\nUntill i did a bypass by joining pins 1&2 of <CHIP>U5255</CHIP>."
+        },
+        {
+            "post_id": 100184,
+            "thread_id": 63950,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> DEAD",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2023-06-22 23:05:25",
+            "message": "The system now work perfectly.😁\nNow power on with battery only"
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01521": "What is 820-01521? a LOGIC BOARD PART NUMBER.",
+        "PP5V_G3S": "What is PP5V_G3S? PP5V_G3S is a 5v power rail present when the system is in a G3S standby state.",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "R8452": "What is R8452? a RESISTOR.",
+        "R8442": "What is R8442? a RESISTOR.",
+        "R8453": "What is R8453? a RESISTOR.",
+        "Q7660": "What is Q7660? a TRANSISTOR.",
+        "EDP_BKLT_PWM": "What is EDP_BKLT_PWM? EDP_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKLT_SCL": "What is BKLT_SCL? BKLT_SCL is an I2C signal clock line between the LED driver that creates the LCD backlight power rail that powers the backlight in the screen and the screen. The screen needs to speak to the LED driver on this line before backlight voltage will be created..",
+        "C8512": "What is C8512? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 74941,
+            "thread_id": 61128,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - No backlight",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2021-05-01 23:54:48",
+            "message": "Hi,\n\nI have that bloody board that has no backlight.\nIt has image, I can confirm that and it works fine on an external screen.\nTest screen is working fine and has been tested with another board.\n\nI'm getting the <SIGNAL>EDP_BKLT_EN</SIGNAL> at 3.3V on both side of <RESISTOR>R8442</RESISTOR> and it goes to the backlight driver as well.\nI've checked around the backlight driver and no signs of liquid. The only signs of liquid damaged were found around <TRANSISTOR>Q7660</TRANSISTOR> but I am getting a stable 5.12V on <SIGNAL>PP5V_G3S</SIGNAL> (area has been cleaned)\nI've already replaced the driver 2 times as I am not getting it to switch. On my working board, <SIGNAL>BKLT_SD</SIGNAL> goes from 12.44V to 6V (multimeter used here) and backlight comes on.\nOn the faulty board, it stays at 12.44V.\n\nOne thing that I've noticed is the I2C signals stay at 5.12V all the time whereas with the working board, there's a drop to 4V at some point (which indicates no communication with the screen on the faulty board)\n\nI've checked continuity from the I2C signals testpads next to <RESISTOR>R8453</RESISTOR> and <RESISTOR>R8452</RESISTOR> to the screen connector and it's good.\nI'm banging my head against the wall on that one.\nShould be simple shouldn't it be?!"
+        },
+        {
+            "post_id": 74942,
+            "thread_id": 61128,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - No backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-02 00:30:07",
+            "message": "Not so simple for sure.\nApart of enable, I2C communication with display is required; PCH sends it first <SIGNAL>EDP_BKLT_PWM</SIGNAL>.\nCompare diode mode readings on these signals with good board.\n\nDo PRAM reset 2-3 times, just in case."
+        },
+        {
+            "post_id": 74946,
+            "thread_id": 61128,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - No backlight",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2021-05-02 01:58:18",
+            "message": "I already did the PRAM reset.\nI've measured that <SIGNAL>EDP_BKLT_PWM</SIGNAL> signal and I am getting 2.4V on the faulty board.\nI'm getting .75 on both good and faulty board in diode mode.\nThe I2C signals also compares same on both board, around .47 in diode mode."
+        },
+        {
+            "post_id": 74955,
+            "thread_id": 61128,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - No backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-02 14:15:38",
+            "message": "2.4V looks good, but you should check if there is PWM signal for sure (o-scope).\nYou may have bad contacts at LCD connector.\nCheck <SIGNAL>BKLT_SCL</SIGNAL>/SDA lines with o-scope."
+        },
+        {
+            "post_id": 75171,
+            "thread_id": 61128,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> - No backlight",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2021-05-07 03:33:41",
+            "message": "<CAPACITOR>C8512</CAPACITOR> was shorted. I should have tried the thermal camera right away.\nWould have saved me from redoing the LVDS connector.\nOh well... you live and learn.\nThanks for your help"
+        }
+    ]
+}

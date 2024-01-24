@@ -1,0 +1,564 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "ISL6529": "What is ISL6529? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "C7030": "What is C7030? a CAPACITOR.",
+        "C7031": "What is C7031? a CAPACITOR.",
+        "D6990": "What is D6990? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input, can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "P18V5_DCIN_CONN_R": "What is P18V5_DCIN_CONN_R? a SIGNAL.",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "U6990": "What is U6990? a CHIP.",
+        "PPVIN_G3H_P3V42G3H": "What is PPVIN_G3H_P3V42G3H? PPVIN_G3H_P3V42G3H is the input voltage to the PP3V42_G3H buck converter circuit, it can be either charger voltage or battery voltage depending on what the system power source is. This often shorts to ground when one of the input capacitors dies. .",
+        "C6990": "What is C6990? Capacitor to ground on input to PP3V42_G3H power supply. PP3V42_G3H power supply turns 18.5v from charger or 8.5v-12.5v PPBUS_G3H from the battery into PP3V42_G3H. This capacitor can short to ground and keep PP3V42_G3H from turning on which would keep the machine from having a light on the magsafe charger.",
+        "D6690": "What is D6690? a DIODE.",
+        "PPBUS_G3H_R": "What is PPBUS_G3H_R? a SIGNAL.",
+        "D7005": "What is D7005? a DIODE.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "C6999": "What is C6999? a CAPACITOR.",
+        "U6900": "What is U6900? a CHIP.",
+        "PP3V42_G3H_REG": "What is PP3V42_G3H_REG? PP3V42_G3H_REG is another way to say PP3V42_G3H. PP3V42_G3H_REG and PP3V42_G3H are a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "P3V42_G3H": "What is P3V42_G3H? P3V42_G3H is a typo of PP3V42_G3H.",
+        "U6901": "What is U6901? a CHIP.",
+        "PP5V1_CHGR_VDDP": "What is PP5V1_CHGR_VDDP? a SIGNAL.",
+        "C7001": "What is C7001? a CAPACITOR.",
+        "PPCHGR_DCIN": "What is PPCHGR_DCIN? a SIGNAL.",
+        "C7005": "What is C7005? a CAPACITOR.",
+        "R6900": "What is R6900? a RESISTOR.",
+        "C7000": "What is C7000? a CAPACITOR.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "U5010": "What is U5010? a CHIP.",
+        "R7000": "What is R7000? a RESISTOR.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "R5410": "What is R5410? a RESISTOR.",
+        "R5481": "What is R5481? a RESISTOR.",
+        "R4260": "What is R4260? a RESISTOR.",
+        "R3880": "What is R3880? a RESISTOR.",
+        "R4264": "What is R4264? a RESISTOR.",
+        "C4260": "What is C4260? a CAPACITOR.",
+        "C3338": "What is C3338? a CAPACITOR.",
+        "Q5480": "What is Q5480? a TRANSISTOR.",
+        "Q4262": "What is Q4262? a TRANSISTOR.",
+        "Q4260": "What is Q4260? a TRANSISTOR.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V_S5": "What is PP3V_S5? a SIGNAL.",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PM_BAT_LOW_L": "What is PM_BAT_LOW_L? a SIGNAL.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "SMC_TXX": "What is SMC_TXX? a SIGNAL.",
+        "1V2_S5_SMC": "What is 1V2_S5_SMC? a SIGNAL.",
+        "R4902": "What is R4902? a RESISTOR.",
+        "C5010": "What is C5010? a CAPACITOR.",
+        "C5011": "What is C5011? a CAPACITOR.",
+        "U7200": "What is U7200? a CHIP.",
+        "U7941": "What is U7941? a CHIP.",
+        "R5010": "What is R5010? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 60642,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-08 20:57:16",
+            "message": "Hi I have an <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> that had no water damage. It had no GREEN LIGHT\n\nPower Rails were:\n<SIGNAL>PP3V42_G3H</SIGNAL>  0.0V  - NO SHORT\n<SIGNAL>PPBUS_G3H</SIGNAL>   0.0V - NO SHORT\n\nFound SHORT on:\n<SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> @ <CAPACITOR>C7031</CAPACITOR> + <CAPACITOR>C7030</CAPACITOR> (22UF) -top of cap read: 22 1E24\n I have a donor board and replaced those caps and got rid of the SHORT\nThe DONOR CAPS read on top:  22 1E2N (ORIGINALS WERE 22 1E24)\nDoes that make a difference?\n\nI replaced <CHIP>ISL6529</CHIP> -<CHIP>U7000</CHIP> with new chip. I'm now reading and I think I might have needed to replace 2 or 3 other components at the same time before giving it power?\n\nTESTED VOLTAGE AFTER AND STILL:\n\n<SIGNAL>PP3V42_G3H</SIGNAL>  0.0V  - NO SHORT\n<SIGNAL>PPBUS_G3H</SIGNAL>   0.0V - NO SHORT\n<SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> 0.2V - NO SHORT\n\nAny advice going forward is much appreciated."
+        },
+        {
+            "post_id": 60663,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 06:54:04",
+            "message": "I didn't see the reason for changing <CHIP>U7000</CHIP> yet.\n\nYou may have an input leakage issue, as you don't get any voltage on the board.\nCheck first if F6905 is good and has voltage."
+        },
+        {
+            "post_id": 60683,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-09 10:01:12",
+            "message": "F6905 has continuity between PIN 1 & Pin 2\n\nVoltage with 85w charger connected\n\nPIN 1 = 0.0V\nPIN 2 = 0.0V\n\nDIODE MODE\n\nPIN1 = .OL\nPIN 2= .OL"
+        },
+        {
+            "post_id": 60684,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-09 10:14:52",
+            "message": "F6905 has continuity between PIN 1 & Pin 2\n\nVoltage with 85w charger connected\n\nPIN 1 = 0.0V\nPIN 2 = 0.0V\n\nDIODE MODE\n\nPIN1 = .OL\nPIN 2= .OL"
+        },
+        {
+            "post_id": 60687,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-09 10:46:24",
+            "message": "Well I just realized I was getting Trolled by my power strip.  It had disabled only one plug. My charger.\nWhen I connected it with \"POWER\" this time I saw a GREEN LIGHT but also smoke around <RESISTOR>R6990</RESISTOR>\nWith freeze spray <RESISTOR>R6990</RESISTOR> (PIN 1 =<SIGNAL>PPDCIN_G3H</SIGNAL>/ PIN 2=<SIGNAL>P18V5_DCIN_CONN_R</SIGNAL>)\nlooks hot right away.\n\nTook off <RESISTOR>R6990</RESISTOR> on the Pads I get:\nVoltage: PIN 1 = 16.77V PIN2= -0.05V\nDIODE MODE: PIN1= 1.97 PIN2= 0.0\n\nI just changed the DC in board as I think it was part of the culprit too and it was.  Facepalm.\nIf I replace <RESISTOR>R6990</RESISTOR> I'm worried that I'll \"Smoke Check\" something again.\nShould I be concerned with <DIODE>D6990</DIODE>?"
+        },
+        {
+            "post_id": 60692,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 12:52:24",
+            "message": "Really strange to get short in pin 2/<RESISTOR>R6990</RESISTOR>.\nIn such case, (at least) lower side of <DIODE>D6990</DIODE> is also shorted.\nYou must replace both R/<DIODE>D6990</DIODE>.\nDo not apply power yet; you will still have short on <SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL>.\nRemove <CAPACITOR>C6990</CAPACITOR> and check if short went off.\nIf still present, change <CHIP>U6990</CHIP>.\nAfter that check again for short at <CAPACITOR>C6990</CAPACITOR>/99; before applying power on the board."
+        },
+        {
+            "post_id": 60699,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-09 15:01:01",
+            "message": "Replaced R/<DIODE>D6990</DIODE>\nRemoved <CAPACITOR>C6990</CAPACITOR> (Diode Mode on PIN1= 0.377) \nDiode mode on <DIODE>D6990</DIODE> PIN 1=0.45 - PIN 2= 1.98 PIN 3= 0.34\n\nNot too sure if there was still a short so just replaced <CHIP>U6990</CHIP>\n\nAdded power no green light (no smoke either)\n\nNow <RESISTOR>R6990</RESISTOR> PIN 1=16.7 PIN 2= 16.7\n\n<CHIP>U6990</CHIP> VOLTAGE\n\nPIN 4= 16.45v  \nPIN 3= 15v\nPIN 2= 3.8v\nPIN 1=1.2v\n\nPIN 10= 3.2v\nPIN 9= 3.4v (<SIGNAL>PP3V42_G3H</SIGNAL>).\nPIN 8= 3.4v\nPIN 7= 16.45v\nPIN 6= 3.4v\n\n<DIODE>D6690</DIODE> Voltage\nPIN 1= 0.399v  (is this the problem?) <SIGNAL>PPBUS_G3H_R</SIGNAL>\nPIN 2 = 16.7v\nPIN 3= 16.45v\n\n\n<SIGNAL>PPBUS_G3H</SIGNAL> = 0.277v   @ F7040\nDiode Mode 0.477 @ F7040  \n\nThx again. this ones kicking my butt"
+        },
+        {
+            "post_id": 60701,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 15:16:00",
+            "message": "Post basic voltages for <CHIP>U7000</CHIP>; pins 1, 2, 3, 9, 12, 13, 15, 19, 20, 27.\nBe sure to have correct ohm resistance between pins 17/18 and 27/28."
+        },
+        {
+            "post_id": 60705,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-09 16:39:21",
+            "message": "<CHIP>U7000</CHIP>\n\n1=6.7v\n2=2.34v\n3=3.9v\n4=l.4v\n5=0.005v\n6=3.4v\n7=0.0v\n8=0.026v\n9=0.002v\n10=3.4v\n11=3.4v\n12=3.4v\n13=3.4v\n15=0.068v\n16=1.19v\n17=5.57v\n18=5.5v\n19=2.34v\n20=2.33v\n21=0.0v\n22=GND\n23=2.9v\n24=2.2v\n25=4.8v\n27=2.8v\n28=3.0v\n\nohm resistance 17/18= 3.7\n27/28 resistance started at 3.7 but kept going up and up and up past 7.0"
+        },
+        {
+            "post_id": 60707,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 16:42:36",
+            "message": "\"2=2.34v\"\nAt least one of R/<DIODE>D7005</DIODE> is bad (open), maybe both.\nCheck first diode mode at pin 2/<CHIP>U7000</CHIP>..."
+        },
+        {
+            "post_id": 60712,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-09 18:09:08",
+            "message": "Replaced <RESISTOR>R7005</RESISTOR>\n\nNow <CHIP>U7000</CHIP> PIN 2= 16.7\n\nDon't see the second Resistor. Can it come off of any PIN of <DIODE>D7005</DIODE>?\n\nStiil no green light.\n\nBravo for finding everything that's wrong though."
+        },
+        {
+            "post_id": 60729,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 03:39:13",
+            "message": "\"second Resistor\"\nNobody talks about such resistor.\n\nYou now have correct DCIN at <CHIP>U7000</CHIP>; didn't check <SIGNAL>PPBUS_G3H</SIGNAL> voltage?"
+        },
+        {
+            "post_id": 60749,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 08:57:21",
+            "message": "oh Sorry \"At least one of R/<DIODE>D7005</DIODE> is bad (open), maybe both.\" I thought meant there were two resistors to look at. What did you mean by both?  I know that <DIODE>D7005</DIODE> now has 16.7 on all PINS. Going to the shop now and will check <SIGNAL>PPBUS_G3H</SIGNAL>.  Thank you"
+        },
+        {
+            "post_id": 60755,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 09:18:21",
+            "message": "<DIODE>D7005</DIODE> is good then; you already got DCIN at <CHIP>U7000</CHIP>..."
+        },
+        {
+            "post_id": 60762,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 10:18:10",
+            "message": "Thank you. \n<SIGNAL>PPBUS_G3H</SIGNAL> is 12.7v @ F7040 @ <RESISTOR>R6905</RESISTOR>\n<SIGNAL>PP3V42_G3H</SIGNAL> is 3.4v @ <CAPACITOR>C6999</CAPACITOR>\n\nI'm new at where to test so sorry if there is no structure as to where I'm testing. \nNo Green light still."
+        },
+        {
+            "post_id": 60763,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 10:40:19",
+            "message": "Board doesn't turn on?\n\nFor green light issue, post <CHIP>U6900</CHIP> voltages.\nCheck continuity from pin 5 of <CHIP>U6900</CHIP> to central pin of Magsafe (DCIN board)."
+        },
+        {
+            "post_id": 60768,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 11:03:27",
+            "message": "Reading have changed on <CHIP>U7000</CHIP>\n\n1=6.7v      Now= 0.003v\n2=2.34v    Now=16.7v (obviously)\n3=3.9v\n4=l.4v        Now=3.4v\n5=0.005v  Now=1.18v\n6=3.4v\n7=0.0v       Now=0.85v\n8=0.026v  Now=2.0v\n9=0.002v  Now=\n\nOh wow I see <CHIP>U7000</CHIP> heating up real fast. Going to replace again and see if that's the issue."
+        },
+        {
+            "post_id": 60770,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 11:04:15",
+            "message": "Oh just saw your last post. Ok I'll do that first. Stay tuned"
+        },
+        {
+            "post_id": 60771,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 11:15:45",
+            "message": "Pin 1 = 1.2v\nPin 2= 3.8v\nPin 3=15.5v\nPin 4= 16.52\nPin 5= 0.0v\nPin 6= 0.010v\nPin 7= 16.54v\nPin 8 = 3.88v\nPin 9 = 0.010v\nPin 10 = 0.0v\n\nContinuity 1.8 and rising from Pin 5 of <CHIP>U6900</CHIP> to Central Pin DC IN board"
+        },
+        {
+            "post_id": 60772,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 11:19:32",
+            "message": "Just so I can wrap my head around this relationship between <CHIP>U7000</CHIP> and <CHIP>U6900</CHIP>.  <CHIP>U7000</CHIP> needs to work to Enable <CHIP>U6900</CHIP> to give out <SIGNAL>PP3V42_G3H_REG</SIGNAL> or is it the other way around? I think the first scenario. I know it's probably more complicated than that so No need to go into the whole one wire explanation I know I can look it up and watch your guys videos.  Thx"
+        },
+        {
+            "post_id": 60773,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 11:36:01",
+            "message": "<CHIP>U7000</CHIP> viewed with freeze spray heats up in less than 2 seconds.  Is that normal?"
+        },
+        {
+            "post_id": 60776,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 12:25:18",
+            "message": "<CHIP>U6900</CHIP> voltage:\n\nPIN 1 = 0.049v\nPIN 2 =  GND\nPIN 3 = 0.0v\nPIN 4 = -0.042v\nPIN 5 = -0.003v\n\nQuestion? What does it mean when you get a (-) negative voltage. Is it just that those pins 4 and 5 aren't power rails?\n\nJust in case here is:\n<CHIP>U6990</CHIP> voltage:\nPin 1 = 1.2v\nPin 2= 3.8v\nPin 3=15.5v\nPin 4= 16.52\nPin 5= 0.0v\nPin 6= 0.010v\nPin 7= 16.54v\nPin 8 = 3.88v\nPin 9 = 0.010v\nPin 10 = 0.0v\n\nContinuity good Pin 5 of <CHIP>U6900</CHIP> to Central Pin DC IN board\n\n<CHIP>U7000</CHIP> does heat up rather quickly under freeze spray like in 2 seconds. Just FYI\n\n(edited because I took readings from <CHIP>U6990</CHIP> instead of <CHIP>U6900</CHIP>)"
+        },
+        {
+            "post_id": 60780,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 16:13:28",
+            "message": "You cannot have green light, if no <SIGNAL>3V42_G3H</SIGNAL> present and also <SIGNAL>SMC_BC_ACOK</SIGNAL>.\n\nI don't understand how do you work.\n\"<SIGNAL>PPBUS_G3H</SIGNAL> is 12.7v @ F7040 @ <RESISTOR>R6905</RESISTOR>\n<SIGNAL>P3V42_G3H</SIGNAL> is 3.4v @ <CAPACITOR>C6999</CAPACITOR>\"\nWhat did you do, to lose these voltages???"
+        },
+        {
+            "post_id": 60784,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 16:46:40",
+            "message": "Hi forgive me: \n\n My <SIGNAL>PPBUS_G3H</SIGNAL> is now 2v.  I'm not messing around with the board. I'll measure <SIGNAL>PPBUS_G3H</SIGNAL> it will be one thing, disconnect the power supply and connect again and it's another.  It's weird I need to keep unplugging my charger and plugging it back in sometimes. It's like this board is messing with my charger. Once I plug and plug back in it starts to produce the right voltage? I'll try another charger or switch power strips. I'm not doing anything wierd to the board and my Soldering skills are good I would think. I've been successful with iPhone IC and Macbook SMC's just saying so that your not wondering if I'm a newb to SMD work, I'm not.   I just going off what I'm experiencing don't know if this is possible or not. Maybe my power strip is going bad.. So I get 0.048 PIN 14 of <CHIP>U7000</CHIP> and <CHIP>U6901</CHIP> has <SIGNAL>SMC_BC_ACOK</SIGNAL> if 0.045 is high.\n\nIt would seem I have the right voltages unless <SIGNAL>SMC_BC_ACOK</SIGNAL> is not high enough. Just have to figure out where my <SIGNAL>PPBUS_G3H</SIGNAL> went\n<CHIP>U6901</CHIP>\nPIN 5= 3.42v\nPIN 1= 0.045\nPIN 2= 0.045\n\n<CHIP>U7000</CHIP>\nPIN 12 = 3.7v\nPIN 2= 13.7v\nPIN 3 = 3.9v"
+        },
+        {
+            "post_id": 60785,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-10 16:53:44",
+            "message": "\"<CHIP>U6901</CHIP>\nPIN 5= 3.42v\"\nSo now you have correct <SIGNAL>3V42_G3H</SIGNAL>.\nIn the previous post you had 0V\n\"<CHIP>U6990</CHIP> voltage:\nPin 6= 0.010v\n------------\nPin 9 = 0.010v\"\nWe need accurate information, try to understand.\n\nIf <CHIP>U7000</CHIP> gets hot, is probably bad; or other surrounded component.\nPost diode mode and voltage at pins 19 & 20.\n\nThe strabge thing is that you had correct <SIGNAL>PPBUS_G3H</SIGNAL> too; no idea why is lost now..."
+        },
+        {
+            "post_id": 60787,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 17:11:23",
+            "message": "May I ask what makes <SIGNAL>PPBUS_G3H</SIGNAL> on this board.  That's what I need help understanding. I'm a newb on these schematics."
+        },
+        {
+            "post_id": 60788,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 17:22:56",
+            "message": "Yep Sorry about the incorrect posts. I got <CHIP>U6990</CHIP> mixed up with <CHIP>U6900</CHIP>. I'll be more careful. \nNot sure how you see them as an admin but I've been making edits after I see my mistake and maybe you're seeing that before I edit.  Correct info is key.\n\n<CHIP>U7000</CHIP>\nDiode mode 19/20 = 0.003 both\nVoltage Pin 19/20 =0.383v both\n\nNot too sure if a Capacitor can go to ground on both ends I know an iPhone CPU cap can but I thought I'd mention right around <CHIP>U7000</CHIP> that <CAPACITOR>C7001</CAPACITOR> Pin 1 (<SIGNAL>PP5V1_CHGR_VDDP</SIGNAL>) has path to ground."
+        },
+        {
+            "post_id": 60790,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 17:45:14",
+            "message": "Just more info under Thermal Camera <CAPACITOR>C7005</CAPACITOR> gets hot quick with <CHIP>U7000</CHIP>.  I would assume that's normal though as its <SIGNAL>PPCHGR_DCIN</SIGNAL>"
+        },
+        {
+            "post_id": 60791,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 17:51:47",
+            "message": "For the love of all holy I put <CHIP>U6990</CHIP> on wrong.  My bad."
+        },
+        {
+            "post_id": 60793,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 18:18:21",
+            "message": "Replaced <CHIP>U7000</CHIP>\n\nI have <SIGNAL>PPBUS_G3H</SIGNAL> BACK\n<RESISTOR>R6905</RESISTOR> = 16.7v\n<RESISTOR>R6900</RESISTOR> = 12.7v  \n\n<CHIP>U6901</CHIP> has\nPIN 1 = 3.3V\nPIN 2 = 3.36\nPIN 4 = 3.42V\nPIN 5= 3.43V\n\nNO GREEN."
+        },
+        {
+            "post_id": 60794,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-10 18:47:14",
+            "message": "<CHIP>U6990</CHIP>\nPin2 = 3.47v\nPin 3 = 14.42v\nPin4 = 16.5v\n\nPin 6 = 3.47v\nPin 7 =  16.5\nPin 8 = 3.47v\nPin 9 = 3.47\nPin 10 = 3.42\n\n<DIODE>D6990</DIODE>\nPIN 1 =  12.7\nPin2 = 16.7v\nPin3 = 16.4"
+        },
+        {
+            "post_id": 60818,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 02:17:13",
+            "message": "One post back you already got <SIGNAL>3V42_G3H</SIGNAL>\n\"<CHIP>U6901</CHIP> has\n---------------\nPIN 5= 3.43V\"\nwhy do you bother anymore with D/<CHIP>U6990</CHIP>???\n\n\"<CAPACITOR>C7005</CAPACITOR> gets hot quick\"\nDid you remove it, to see if short disappears?\nApart of <CAPACITOR>C7000</CAPACITOR>/01 remains <CHIP>U7000</CHIP> as suspect."
+        },
+        {
+            "post_id": 60839,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 07:03:39",
+            "message": "Just posting info because I had lost some rails and I'm a newb on diagnosis of Macbook boards...:cautious: So just wanted to give you the updated info after replacing <CHIP>U7000</CHIP>. Just wanted to be thorough.\nThe last post was after replacing <CHIP>U7000</CHIP>\nAnd the short on c700/1 went away. Also <CAPACITOR>C7005</CAPACITOR> is not getting hot quick. And all of the voltages in the last post are current."
+        },
+        {
+            "post_id": 60840,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 07:10:23",
+            "message": "I’ll post New <CHIP>U7000</CHIP> voltages"
+        },
+        {
+            "post_id": 60845,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 09:35:20",
+            "message": "Voltages @ <CHIP>U7000</CHIP>\n\n1 = 0.004\n2 = 16.7\n3 = 3.93\n4 = 3.46\n5 = 1.2\n6 = 3.47\n7 = 0.89\n8 = 2.06\n9 = 0.031\n10 = 3.46\n11 = 3.47\n12 = 3.44\n13 = 3.45\n14 = 3.42\n15 = .072\n16 = 12.2\n17 = 12.2\n18 = 12.2\n19 = 5.07\n20 = 5.05\n21 = 0.22\n22 = GND\n23 = 12.2\n24 = 12.5\n25 = 16.5\n26 = 16.5\n27 = 16.27\n28 = 16.28\n\n<CHIP>U7000</CHIP> Diode Mode\n\n1 = 0.622\n2 = 0.607\n3 = 0.508\n4 = 0.509\n5 = 0.702\n6 = 0.678\n7 = 0.718\n8 = 0.512\n9 = 0.707\n10 = 0.499\n11 = 0.499\n12 = 0.341\n13 = 0.463\n14 = 0.458\n15 = 0.719\n16 = 0.646\n17 = 0.425\n18 = 0.431\n19 = 0.444\n20 = 0.445\n21 = 0.443\n22 = GND\n23 = 0.430\n24 = 0.830\n25 = 0.576\n26 = 0.620\n27 = 0.613\n28 = 0.606\n\nThank you for the help. I've really learned so much."
+        },
+        {
+            "post_id": 60849,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 09:50:55",
+            "message": "So now you have 12.2V at <SIGNAL>PPBUS_G3H</SIGNAL>.\nCheck <SIGNAL>SMC_RESET_L</SIGNAL> and diode mode to ground at SCL/SDA lines of battery bus."
+        },
+        {
+            "post_id": 60850,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 10:12:31",
+            "message": "<SIGNAL>SMC_RESET_L</SIGNAL> =  0.043v  - Diode mode = 0.431\n\nJ6950 Diode mode\n\nPin 4 = 0.499 (<SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>)\nPin 5 = 0.499 (<SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>)"
+        },
+        {
+            "post_id": 60852,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 10:28:08",
+            "message": "J6950 Diode mode\n\nPin 4 = 0.499 (<SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>)\nPin 5 = 0.499 (<SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>) \n\nAcutually I'm not too sure where to measure <SIGNAL>SMC_RESET_L</SIGNAL>\n\nSo here goes:\n\n<CHIP>U5010</CHIP>\nPin 5 = 3.44v\n\n<RESISTOR>R7000</RESISTOR>\nPIN 1 = 3.44V\n\nThe test point in the attached picture = 0.0v"
+        },
+        {
+            "post_id": 60853,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 10:32:03",
+            "message": "This test point for <SIGNAL>SMC_RESET_L</SIGNAL>  = 3.44v"
+        },
+        {
+            "post_id": 60860,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 11:03:50",
+            "message": "Post again exact <SIGNAL>PPBUS_G3H</SIGNAL> voltage; 12.2V is not the same as 12.5V.\nDo you have green light now?\n<SIGNAL>3V3_S5</SIGNAL> present?"
+        },
+        {
+            "post_id": 60870,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 11:33:32",
+            "message": "I'll post a couple spots as I'm not confident where I should be testing but if you tell me once I'll remember.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> @\n<RESISTOR>R6905</RESISTOR> = 12.23v\n\nF7040 = 12.22 PIN 1/2\n\n<RESISTOR>R4264</RESISTOR> = 12.24\n<TRANSISTOR>Q4262</TRANSISTOR> = 12.24 Pin 4\nF9700 = 12.24\n\n<CAPACITOR>C3338</CAPACITOR> = 12.24\n<RESISTOR>R3880</RESISTOR> = 12.24\n<TRANSISTOR>Q5480</TRANSISTOR> = 12.23\n<RESISTOR>R5481</RESISTOR> = 12.23\n\n<TRANSISTOR>Q4260</TRANSISTOR> = 12.23\n<CAPACITOR>C4260</CAPACITOR> = 12.24\n<RESISTOR>R4260</RESISTOR> = 12.24\n\n<RESISTOR>R5410</RESISTOR> = 12.24\n\nI hope that's not too overkill."
+        },
+        {
+            "post_id": 60872,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 11:37:18",
+            "message": "Please...\nAny reason to repeat a measument???\n\nDo not waste the time, reply to questions instead..."
+        },
+        {
+            "post_id": 60874,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 11:46:12",
+            "message": "Ok sorry won't happen again.  Just didn't know if there might be some difference at different points and if that would help you out or not. I appreciate the schooling. Thx. oops forgot  <SIGNAL>3V3_S5</SIGNAL>   one sec."
+        },
+        {
+            "post_id": 60875,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 11:48:48",
+            "message": "<SIGNAL>3V3_S5</SIGNAL> = Not Present"
+        },
+        {
+            "post_id": 60876,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 11:50:58",
+            "message": "<SIGNAL>PP3V3_S5</SIGNAL> = 0.003V\n\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.24V\n\nSee I can follow directions! ;)"
+        },
+        {
+            "post_id": 60878,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 12:02:26",
+            "message": "<SIGNAL>PP3V3_S5</SIGNAL> Doide mode = 0.123  (that's a short yea?)"
+        },
+        {
+            "post_id": 60881,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 12:23:43",
+            "message": "Tested all Caps for shorts and all resistors for correct resistance on the <SIGNAL>PP3V_S5</SIGNAL> Rail and all are good if that helps."
+        },
+        {
+            "post_id": 60882,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 12:29:47",
+            "message": "Post <SIGNAL>PM_BATLOW_L</SIGNAL>.\nBe sure to use original Magsafe 60/85W charger."
+        },
+        {
+            "post_id": 60884,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 12:32:45",
+            "message": "Using Original 85w charger\n\n<SIGNAL>PM_BAT_LOW_L</SIGNAL> = 0.008V"
+        },
+        {
+            "post_id": 60888,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 12:42:28",
+            "message": "PCH will not start then.\n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> is low?\n\nCheck for corrosion around SMC.\nPay atention to L4901, <RESISTOR>R4902</RESISTOR>, Y/R/<CAPACITOR>C5010</CAPACITOR>, <CAPACITOR>C5011</CAPACITOR>.\n\nCheck voltage for <SIGNAL>1V2_S5_SMC</SIGNAL> and the 4 <SIGNAL>SMC_TXX</SIGNAL> lines."
+        },
+        {
+            "post_id": 60889,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 12:47:03",
+            "message": "Did a reading on <CHIP>U7200</CHIP> after looking though forum. Not sure if this will help.\n\nPins 1-12 = 0.0v\nPin 16 = 12.42v\n\nJust one more note. At some point during this repair the green light went on and then I saw smoke from <RESISTOR>R6990</RESISTOR>.  I replaced bad caps and <RESISTOR>R6990</RESISTOR> and everything else you helped me with. Not sure if that would burn out a trace but just thought I'd mention it."
+        },
+        {
+            "post_id": 60890,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 13:11:22",
+            "message": "[B]<SIGNAL>SMC_PM_G2_EN</SIGNAL>[/B]  =\n0.60v @ <CHIP>U7941</CHIP>\n\n\nNo corrosion around SMC or anywhere on board.\n\n[B]L4901[/B] = 3.4V\n[B]<CAPACITOR>C5011</CAPACITOR> [/B]= [COLOR=rgb(209, 72, 65)][B]-0.030  this reading just changed  to 0.0v[/B][/COLOR]\n[B]Y5010[/B] PIN 1 = 0.303V PINS 2-4 =  0.0V\n[B]<RESISTOR>R4902</RESISTOR>[/B] PIN 1 = 3.42V PIN 2 = 3.16V\n[B]<RESISTOR>R5010</RESISTOR>[/B] =  [COLOR=rgb(209, 72, 65)][B]-0.035 this reading just changed to 0.0v[/B][/COLOR]\n\n[B]<SIGNAL>1V2_S5_SMC</SIGNAL>  [/B]= 1.212v"
+        },
+        {
+            "post_id": 60891,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 13:15:54",
+            "message": "Looks like SMC issue.\nShould be good to reball it.\nChange it, if still the same..."
+        },
+        {
+            "post_id": 60893,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 19508,
+            "username": "goldminer76",
+            "post_date": "2020-06-11 13:25:43",
+            "message": "THANK YOU THANK YOU THANK YOU. I've learned so much. I promise to study this thread so that I can understand why you directed me in the order you did. Should I post SOLVED since you did find that is was the SMC?"
+        },
+        {
+            "post_id": 60898,
+            "thread_id": 59473,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No green light -short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 16:07:55",
+            "message": "You should test first if machine works..."
+        }
+    ]
+}

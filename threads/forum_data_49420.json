@@ -1,0 +1,164 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "U7650": "What is U7650? a CHIP.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "P3V3S5_EN": "What is P3V3S5_EN? P3V3S5_EN is a signal that enables the power chip responsible for creating PP3V3_S5 when it is high. Signals with _EN mean that whatever is mentioned before the _EN will be enabled or turned on when the signal is high. .",
+        "P3V3_S5": "What is P3V3_S5? a SIGNAL.",
+        "P5VP3V3_VREF2": "What is P5VP3V3_VREF2? a SIGNAL.",
+        "P5VP3V3_VREG3": "What is P5VP3V3_VREG3? a SIGNAL.",
+        "P5VS5_EN": "What is P5VS5_EN? P5VS5_EN is a signal that turns on the PP5V_S5 power rail. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "P3V3S5_VFB2": "What is P3V3S5_VFB2? a SIGNAL.",
+        "S5_PWRD": "What is S5_PWRD? a SIGNAL.",
+        "U7800": "What is U7800? a CHIP.",
+        "R7802": "What is R7802? a RESISTOR.",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U8000": "What is U8000? a CHIP.",
+        "U7220": "What is U7220? a CHIP.",
+        "U7900": "What is U7900? a CHIP.",
+        "U7420": "What is U7420? a CHIP.",
+        "U7960": "What is U7960? a CHIP.",
+        "U8050": "What is U8050? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 49420,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-05-22 13:09:13",
+            "message": "Hi guys,\n\nI'm having a strange issue with a liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>.\nCharger does switch to 20v with 0 current draw. PPBUS is 13v.\n<SIGNAL>P3V3_S5</SIGNAL> = 3.3v.\n<SIGNAL>PP5V_S5</SIGNAL> = 5v.\nNo S4 voltages.\nNo <SIGNAL>PM_SLP_S5_L</SIGNAL> and lower is not present.\nSo I checked <SIGNAL>S5_PWRD</SIGNAL> which is 0.07v.\n\nThan I started checking on <CHIP>U7650</CHIP>:\n- <SIGNAL>P5VP3V3_VREG3</SIGNAL> = 3.3v\n- <SIGNAL>PP5V_S5</SIGNAL> = 5v\n- <SIGNAL>P5VP3V3_VREF2</SIGNAL> = 2v\n- <SIGNAL>P3V3S5_EN</SIGNAL> = 3.4v\n- <SIGNAL>P5VS5_EN</SIGNAL> = 3.4v\n- <SIGNAL>S5_PWRGD</SIGNAL> = 0.074v\n- <SIGNAL>P3V3S5_VFB2</SIGNAL> = 1.003v\n\nDiode mode <SIGNAL>S5_PWRGD</SIGNAL> = 0.490\n\nReplaced <CHIP>U7650</CHIP> twice with exact same results...\nThat I don't have any PM_SLP_ and no s4 rails must be because <SIGNAL>S5_PWRGD</SIGNAL> needs to be present right? <SIGNAL>S5_PWRGD</SIGNAL> should be high when S4 rails aren't enabled yet?\nThere was no liquid damage around <CHIP>U7650</CHIP>. When it's outputting all voltages correct why isn't it saying that the S5 power is good?"
+        },
+        {
+            "post_id": 49422,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-22 13:50:08",
+            "message": "SMC and <CHIP>U7800</CHIP> require <SIGNAL>S5_PWRGD</SIGNAL> presence, before entering on S4 state.\nThis signal is pulled-up through <RESISTOR>R7802</RESISTOR>; check the resistor and traces.\nIf you suspect <CHIP>U7650</CHIP> issue, cut off the trace to pin 20..."
+        },
+        {
+            "post_id": 49425,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-05-22 14:28:30",
+            "message": "Hmm well there is no easy place to cut for pin 20.\nMeasured <RESISTOR>R7802</RESISTOR>. Has 3.3v on one side and is around 95kohm. So pullup should be working.\nAnyway <SIGNAL>S5_PWRGD</SIGNAL> is now definitely the problem to solve.\n\nThere is corrosion around <CHIP>U7800</CHIP>. Will reflow it tomorrow maybe it is pulling it down."
+        },
+        {
+            "post_id": 49427,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-05-23 00:29:37",
+            "message": "Reflow didn't help. Do you think injecting 3.3v with a low current is a good idea? If I need to replace <CHIP>U7800</CHIP> this chip doesn't have firmware like <CHIP>U5000</CHIP> right?"
+        },
+        {
+            "post_id": 49429,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-23 03:35:52",
+            "message": "<CHIP>U7800</CHIP> possibly to have firmware, I'm not sure however.\nYou cannot inject 3V when <CHIP>U7650</CHIP> pulls down that line.\nChange <CHIP>U7650</CHIP>, or reflow it at least..."
+        },
+        {
+            "post_id": 49431,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-05-23 04:14:08",
+            "message": "Well I said earlier that I've replaced <CHIP>U7650</CHIP> twice already with the exact same results. So I don't think <CHIP>U7650</CHIP> is pulling the line low. I've found a trace to cut <SIGNAL>S5_PWRGD</SIGNAL> from the smc. May take that approach first. Will check again for a <SIGNAL>S5_PWRGD</SIGNAL> trace by <CHIP>U7650</CHIP>"
+        },
+        {
+            "post_id": 49437,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-23 09:24:36",
+            "message": "Be aware, SMC, as <CHIP>U7800</CHIP>, needs to receive high signal on <SIGNAL>S5_PWRGD</SIGNAL>.\nSo do not cut the line between them and <RESISTOR>R7802</RESISTOR>!"
+        },
+        {
+            "post_id": 49441,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-05-23 10:52:39",
+            "message": "Well I've been able to cut the line between <CHIP>U7650</CHIP> and the rest.\n<CHIP>U7650</CHIP> <SIGNAL>S5_PWRGD</SIGNAL> slowely increase to about 2v which is normal because it is missing the pullup resistor.\nThe line that contain <CHIP>U7800</CHIP> <CHIP>U5000</CHIP> and the resistor <RESISTOR>R7802</RESISTOR> is still low @ 0.074v.\nThe resistor looks good and I don't see a short of something. So either <CHIP>U5000</CHIP> or <CHIP>U7800</CHIP> is pulling the line low. Not sure what to do now apart from injecting voltage on that line..."
+        },
+        {
+            "post_id": 49444,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-23 13:41:59",
+            "message": "Reflow SMC and <CHIP>U7800</CHIP>.\nYou may need to change one of them..."
+        },
+        {
+            "post_id": 50756,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-07-16 12:00:09",
+            "message": "Bumping an older thread. I removed <CHIP>U7800</CHIP> and applied USB-C power. Some smoke came from somewhere.\nThan I noticed <SIGNAL>PPBUS_G3H</SIGNAL> got shorted. <CHIP>U7800</CHIP> was still removed.\nI've injected 5v on <SIGNAL>PPBUS_G3H</SIGNAL> with 0.5a. Only thing that heats up is the PCH/CPU. Is the PCH now dead?\n\nI just read I shouldn't inject voltage on PPBUS before checking mosfets. What should I measure?"
+        },
+        {
+            "post_id": 50765,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-07-16 13:21:13",
+            "message": "You can NOT power this without <CHIP>U7800</CHIP>...your CPU is now dead game over"
+        },
+        {
+            "post_id": 50766,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-16 13:26:34",
+            "message": "At least one high-side MOSFET from various power supplies controlled by <CHIP>U7800</CHIP> was burnt.\nYour board is trash now..."
+        },
+        {
+            "post_id": 50774,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-07-16 14:18:07",
+            "message": "So powering the board without <CHIP>U7800</CHIP> will blow the CPU? Why? If the MOSFET isn't controlled it won't open right?\n\nWith high-side MOSFET you mean like <CHIP>U7900</CHIP>, <CHIP>U7960</CHIP>, <CHIP>U8050</CHIP>, <CHIP>U8000</CHIP>, <CHIP>U7220</CHIP>, <CHIP>U7420</CHIP> etc right? Any safe way to check before proceeding and making this mistake a second time?"
+        },
+        {
+            "post_id": 50783,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-16 16:40:49",
+            "message": "You should know MOSFET Gate is very sensitive to electrostatic tension.\nOnce triggered, nothing can turn it off, as Gate has been left floating on air..."
+        },
+        {
+            "post_id": 50876,
+            "thread_id": 49420,
+            "title": "Liquid damage <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-07-20 10:42:12",
+            "message": "A yes of course... Thanks will remember that for in the future."
+        }
+    ]
+}

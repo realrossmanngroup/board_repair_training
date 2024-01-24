@@ -1,0 +1,102 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "BC_ACOK": "What is BC_ACOK? This is a typo of SMC_BC_ACOK. When you see BC_ACOK, assume they meant to type SMC_BC_ACOK.",
+        "C5120": "What is C5120? a CAPACITOR.",
+        "SMC_RESET": "What is SMC_RESET? SMC_RESET is not a signal, it is an abbreviation for “SMC_RESET_L”, which is the signal someone is referring to when they type “SMC_RESET”  \"SMC_RESET_L is a signal that resets the SMC when it is low(this is what the “_L” prefix means), and lets the SMC out of reset mode when it is high. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "R7100": "What is R7100? a RESISTOR.",
+        "C5008": "What is C5008? a CAPACITOR.",
+        "PP5V_S4RS3": "What is PP5V_S4RS3? PP5V_S4RS3 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post.."
+    },
+    "threads": [
+        {
+            "post_id": 13077,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 338,
+            "username": "arnonabuurs",
+            "post_date": "2017-01-17 02:45:23",
+            "message": "I have a Air 13 inch with no red light on the charger, only green. I know it means it has no feedback from Sys Onewire, but how do I go about to test it on an Air? I know how it works on a pro. Got some values:\n\n<SIGNAL>PPBUS_G3H</SIGNAL> at F7140 - 8.17v\n<SIGNAL>PP3V42_G3H</SIGNAL> at <CAPACITOR>C5120</CAPACITOR> = 3.42v\n<SIGNAL>PP3V42_G3H</SIGNAL> at <SIGNAL>BC_ACOK</SIGNAL> Pin 14 <CHIP>U7100</CHIP> = 3.39v\n<SIGNAL>CHGR_ACIN</SIGNAL> Pin 3 <CHIP>U7100</CHIP> = 5.27v\n\nHow should i trouble shoot this?"
+        },
+        {
+            "post_id": 13081,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2017-01-17 07:36:08",
+            "message": "PPBUS is a bit low, seems SMC is not working properly, check sense resistors on ISL if everything is ok my next guess is SMC....."
+        },
+        {
+            "post_id": 13111,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-17 14:48:25",
+            "message": "PPBUS is too low so SMC is not running. <SIGNAL>SMC_RESET</SIGNAL> high? Corrosion under/around SMC?"
+        },
+        {
+            "post_id": 13134,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 338,
+            "username": "arnonabuurs",
+            "post_date": "2017-01-17 21:00:33",
+            "message": "There was indeed some corrosion, we have replaced <CAPACITOR>C5008</CAPACITOR> it looked like one drop on that IC but indeed might have leaked under the SMC, <SIGNAL>SMC_RESET_L</SIGNAL> = 3.417v and <RESISTOR>R7100</RESISTOR> = 0 ohm"
+        },
+        {
+            "post_id": 13135,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 338,
+            "username": "arnonabuurs",
+            "post_date": "2017-01-17 21:38:50",
+            "message": "Update: after an SMC reflow we got an orange light but next missing <SIGNAL>PP5V_S4RS3</SIGNAL> but we do have 3.3v"
+        },
+        {
+            "post_id": 13143,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-18 00:38:47",
+            "message": "The usual, check for a pulse after connecting power on <SIGNAL>PP5V_S4RS3</SIGNAL>. Is it power cycling? Check resistors/traces around <CHIP>U6100</CHIP>, could still be more crap under SMC."
+        },
+        {
+            "post_id": 13165,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-01-18 08:37:25",
+            "message": "Are you getting <SIGNAL>PM_DSW_PWRGD</SIGNAL> after the smc reflow?"
+        },
+        {
+            "post_id": 13240,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 338,
+            "username": "arnonabuurs",
+            "post_date": "2017-01-19 04:17:16",
+            "message": "Replaced the SMC completely and now it works thanks!"
+        },
+        {
+            "post_id": 13241,
+            "thread_id": 13077,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no red light",
+            "user_id": 338,
+            "username": "arnonabuurs",
+            "post_date": "2017-01-19 04:17:47",
+            "message": "In answer to lewis, no but after replace it yes"
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1466": "What is A1466? A1466 is a model number for a 13 inch size MacBook Air from years Early 2015, 2017, Mid 2012, Mid 2013, Early 2014 with EMC 2925, that may contain one of these boards depending on the year & configuration: 820-00165, 820-3209, 820-3437..",
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "U1930": "What is U1930? a CHIP.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "CPU_VCCST_PWRGD": "What is CPU_VCCST_PWRGD? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 103016,
+            "thread_id": 64374,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> Air Fan spin no power",
+            "user_id": 56827,
+            "username": "andersonamr",
+            "post_date": "2023-12-08 04:26:20",
+            "message": "Hi guys, costumer brought a macbook air <MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER>, board reference <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A.\n\nTesting the board outside the case we have the following pattern: Magsafe starts green, then turns orange. Fan spins at high rate and stays that way forever.\n\nPower supply draw: 0.315ma\n<SIGNAL>PPBUS_G3H</SIGNAL> 8.57v \n<SIGNAL>PP3V42_G3H</SIGNAL> 3.43v\n\nCPU gets mildly hot.\n\nNo signs of corrosion, board is super clean. When mounted on the case, the power supply draw goes to 0.450ma and <SIGNAL>PPBUS_G3H</SIGNAL> drops to 6.5v.\n\nThnaks guys!"
+        },
+        {
+            "post_id": 103017,
+            "thread_id": 64374,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> Air Fan spin no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-12-08 07:21:24",
+            "message": "First of all, welcome to the forum!\n\n\"<SIGNAL>PPBUS_G3H</SIGNAL> drops to 6.5v\"\nWas that with both charger and battery connected?\n\nWork with board alone on the desk, until you get USB activity.\nDo you get L7310/20 voltage?\nIf not, check L7430/60.\nIf yes, check <SIGNAL>PLT_RESET_L</SIGNAL>."
+        },
+        {
+            "post_id": 103026,
+            "thread_id": 64374,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> Air Fan spin no power",
+            "user_id": 56827,
+            "username": "andersonamr",
+            "post_date": "2023-12-08 08:37:11",
+            "message": "Hi 2in, how's going? After the post, i dig in and found <SIGNAL>PP3V3_S5</SIGNAL> was missing on PIN 6 of <CHIP>U1930</CHIP>.\nSo i replaced <CHIP>U1930</CHIP>, both the capacitor and resistor around him, and still no <SIGNAL>PP3V3_S5</SIGNAL>, had to make a jumper wire from another point where <SIGNAL>PP3V3_S5</SIGNAL> was present and boom, problem solved!\n\n<CHIP>U1930</CHIP> needs <SIGNAL>PP3V3_S5</SIGNAL>, <SIGNAL>ALL_SYS_PWRGD</SIGNAL> and <SIGNAL>PM_SLP_S3_L</SIGNAL> to output <SIGNAL>CPU_VCCST_PWRGD</SIGNAL>.\n\nThanks for your time my man! I'll be here often, out of nowhere i'm getting costumers with macbooks, i was just an iphone guy.\nI'll attach the picture with the jumper i've made."
+        },
+        {
+            "post_id": 103027,
+            "thread_id": 64374,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> Air Fan spin no power",
+            "user_id": 56827,
+            "username": "andersonamr",
+            "post_date": "2023-12-08 08:39:13",
+            "message": "Here's the jumper wire, kinda ugly but I was in the middle of making it, didn't got another pic because I was eager to mount it on the case to make sure I was right heheb"
+        }
+    ]
+}

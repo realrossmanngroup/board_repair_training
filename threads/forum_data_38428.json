@@ -1,0 +1,191 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "U7701": "What is U7701? a CHIP.",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "EDP_PANEL_PWR": "What is EDP_PANEL_PWR? a SIGNAL.",
+        "C8317": "What is C8317? a CAPACITOR.",
+        "R7731": "What is R7731? a RESISTOR.",
+        "C7712": "What is C7712? a CAPACITOR.",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "Q7707": "What is Q7707? a TRANSISTOR.",
+        "R7717": "What is R7717? a RESISTOR.",
+        "R7722": "What is R7722? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 38428,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-14 21:53:46",
+            "message": "Liquid damage all around <CHIP>U7701</CHIP> and pin 3 & 4 on J8300 was 8.6v. Made me think LED Driver was dead.\n\nSwapped it out and same behaviour.\n\n<SIGNAL>BKL_EN</SIGNAL> = 3.1\n<SIGNAL>BKL_PWM</SIGNAL> = 3.1"
+        },
+        {
+            "post_id": 38429,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-14 21:58:22",
+            "message": "Take that back. Batteries just died in DMM.\n\n<SIGNAL>EDP_PANEL_PWR</SIGNAL> = 3.3"
+        },
+        {
+            "post_id": 38459,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-08-15 08:00:50",
+            "message": "Diode mode on backlight output?"
+        },
+        {
+            "post_id": 38483,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-15 15:01:44",
+            "message": "[QUOTE=\"JohnB8812, post: 38459\"]Diode mode on backlight output? [/QUOTE]\n\n0.580v @ <CAPACITOR>C8317</CAPACITOR>::1"
+        },
+        {
+            "post_id": 38495,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-16 02:21:19",
+            "message": "Any voltage at J8300, pins 14, 18?\nCheck on the first seconds when board gets power..."
+        },
+        {
+            "post_id": 38506,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-08-16 07:17:31",
+            "message": "0.58 would indicate an issue near the LED driver for the switch trace. Inspect the LED driver for corrosion and make sure the A5 ball and the pads for balls 6 and 7 have continuity for feedback and switching."
+        },
+        {
+            "post_id": 38568,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-17 15:56:48",
+            "message": "[QUOTE=\"2informaticos, post: 38495\"]Any voltage at J8300, pins 14, 18?\nCheck on the first seconds when board gets power...[/QUOTE]\n\n::18 has 3.3v and ::14 sits at 2.6V (This is with a screen)\n\n\nWhat should <SIGNAL>BKL_EN</SIGNAL> @ <RESISTOR>R7731</RESISTOR> be?\nI'm getting 4mV and at <CAPACITOR>C7712</CAPACITOR> I get 8.59. (which becomes <SIGNAL>BKL_EN</SIGNAL> via <RESISTOR>R7731</RESISTOR> right?)\n\nI'll remove the LED driver and check all the traces if needed, but would prefer not to waste the chip if possible.\nServes me right for not measuring when it was off though, but the chip looked toast."
+        },
+        {
+            "post_id": 38570,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-17 17:03:57",
+            "message": "Did you try PRAM reset?\nCheck if there is image at least, as display should be detected (HPD signal is high).\n\n\"<SIGNAL>BKL_EN</SIGNAL> = 3.1\nWhat should <SIGNAL>BKL_EN</SIGNAL> @ <RESISTOR>R7731</RESISTOR> be?\nI'm getting 4mV\"\nSo???"
+        },
+        {
+            "post_id": 38717,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-22 17:17:30",
+            "message": "Just getting back to this job now.\n\nPRAM reset already done, there is definitely a picture on the screen, just no backlight.\n\nWill measure <SIGNAL>BKL_EN</SIGNAL> again from a few different places to see what it definitely is."
+        },
+        {
+            "post_id": 38743,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-08-23 14:19:58",
+            "message": "<SIGNAL>BKL_EN</SIGNAL> should be around 2.7v . You had 3.3v then 0.04v, that is confusing. There is something simple missing here, bad feedback or switch, I imagine it is the switch trace that is missing due to 0.580. \n\n0.511-0.546 is normal, 0.450-0.511 is bad feedback, over 0.556 is usually switch trace not making contact."
+        },
+        {
+            "post_id": 38848,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-26 23:06:20",
+            "message": "Thanks Louis, How can I check the switch trace?\n\nIs that pin 5 continuity to <DIODE>D7701</DIODE>?\n\nI pulled the LED Driver off again and pin5 has continuity to <DIODE>D7701</DIODE>."
+        },
+        {
+            "post_id": 38856,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-27 02:36:59",
+            "message": "Start from zero...\nIf <CHIP>U7701</CHIP> already ripped, check continuity from all its pads to other components.\nNext, aolder new chip and post voltages at <TRANSISTOR>Q7706</TRANSISTOR>/07 and <CHIP>U7701</CHIP>, power and controls."
+        },
+        {
+            "post_id": 38951,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-28 14:49:37",
+            "message": "Every pin on <CHIP>U7701</CHIP> beeped out okay.\n\nWill replace it and measure <TRANSISTOR>Q7706</TRANSISTOR>."
+        },
+        {
+            "post_id": 38958,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-28 15:49:11",
+            "message": "<TRANSISTOR>Q7706</TRANSISTOR>\n::1 = 8.59\n::2 = 8.59\n::3 = 2.86\n::4 = 8.59\n::5 = 8.59\n::6 = 8.59\n\n<TRANSISTOR>Q7707</TRANSISTOR>\n::1 = g\n::2 = 3.3\n::3 = 0\n::4 = 0\n::5 = 3.3\n::6 = 0"
+        },
+        {
+            "post_id": 38968,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-28 17:36:31",
+            "message": "So now PPBUS past over <TRANSISTOR>Q7706</TRANSISTOR>, L7701 gets power.\nHow much you get after <DIODE>D7701</DIODE>?\nAny sign of backlight?"
+        },
+        {
+            "post_id": 38973,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-28 17:43:09",
+            "message": "No sign of backlight, just a picture.\n\n<DIODE>D7701</DIODE>::1 = 8.59\n<DIODE>D7701</DIODE>::2 = 8.55"
+        },
+        {
+            "post_id": 38976,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-28 17:53:17",
+            "message": "Change/resolder <CHIP>U7701</CHIP>.\nCjeck again EN and PWM, as its power too.\nCheck every resistor from return lines.\nMeasure on diode mode all 6 lines; you must get almost same value, no open line permited.\nDon't forget XW7720.\nAnd test known good assembly screen+video cable..."
+        },
+        {
+            "post_id": 38977,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-28 17:56:41",
+            "message": "Return lines being <RESISTOR>R7717</RESISTOR> to <RESISTOR>R7722</RESISTOR>?\n\nThey're all OL.\nUnless I'm measuring wrong somehow."
+        },
+        {
+            "post_id": 38984,
+            "thread_id": 38428,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - No backlight.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2018-08-28 20:30:51",
+            "message": "Thanks 2informaticos, Turns out my soldering was crappy.\n\n:)\n\nThe feedback pins on <CHIP>U7701</CHIP> weren't touching properly.\n\nMark Solved please."
+        }
+    ]
+}

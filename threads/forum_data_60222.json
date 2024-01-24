@@ -1,0 +1,126 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "820-00928": "What is 820-00928? a LOGIC BOARD PART NUMBER.",
+        "U3100": "What is U3100? a CHIP.",
+        "PP3V3_UPC_TA_LDO": "What is PP3V3_UPC_TA_LDO? PP3V3_UPC_TA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP5V_S4_T_USBC": "What is PP5V_S4_T_USBC? a SIGNAL.",
+        "UPC_T_5V_EN": "What is UPC_T_5V_EN? a SIGNAL.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PLT_RST_L": "What is PLT_RST_L? This is an abbreviation of “PLT_RESET_L” – when you see “PLT_RST_L\", assume the person meant to type PLT_RESET_L.",
+        "PPVCCSA_S0_CPU": "What is PPVCCSA_S0_CPU? Main power rail for the CPU. If this is missing the machine will act braindead. This is NOT shorted to ground if it has a low resistance – this is a common mistake people make. A chip that requires high power at a low voltage like a CPU or GPU will have a low measured resistance to ground..",
+        "GPUVCORE_EN": "What is GPUVCORE_EN? GPUVCORE_EN enables GPU VCORE when it is high, a power rail necessary for the GPU to function so you can get an image on the screen. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PPVCCIO_S0_CPU": "What is PPVCCIO_S0_CPU? PPVCCIO_S0_CPU is a power rail responsible for powering the part of the CPU responsible for communicating with other portions of the machine prior to PPVCORE_S0_CPU being present and must be present before vcore, PPVCCIO_S0_CPU is present when the machine is in an on, RUNNING state. .",
+        "PPVCORE_S0_GPU": "What is PPVCORE_S0_GPU? a SIGNAL.",
+        "CPU_PWRGD": "What is CPU_PWRGD? a SIGNAL.",
+        "PP1V2_S3_CPUDDR": "What is PP1V2_S3_CPUDDR? a SIGNAL.",
+        "GPUVCORE_PGOOD": "What is GPUVCORE_PGOOD? a SIGNAL.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PM_SLP_S0_L": "What is PM_SLP_S0_L? a SIGNAL.",
+        "PM_SLP": "What is PM_SLP? a SIGNAL.",
+        "U4900": "What is U4900? This is the System Management Controller(SMC) in older(pre-2013) macbooks."
+    },
+    "threads": [
+        {
+            "post_id": 66975,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-10-22 15:23:12",
+            "message": "Hello. I got this <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> board in that was liquid damaged and has been worked on previously. UB300 and UB400 were replaced and there was still dried flux around them and UB300 was replaced with a CD3215B chip instead of a C00 version. I was getting 5v cycling on 2 ports, nothing on the port for UB300, and surprisingly I was getting 20v 1.5a from the port that corresponds to <CHIP>U3100</CHIP>. When it does take 20v, the fans start spinning on high immediately and the board does not seem to post. No USB activity or caps lock reaction. I found shorts on <SIGNAL>PP3V3_UPC_TA_LDO</SIGNAL>, <SIGNAL>PP5V_S4_T_USBC</SIGNAL>, and <SIGNAL>UPC_T_5V_EN</SIGNAL>. I removed both UB300 and UB400 and all those shorts were gone. Before replacing UB300 and 400, I connected the charger to <CHIP>U3100</CHIP> again and it was still giving me 20v even with 2 <CHIP>CD3215</CHIP>'s missing from the board, which I thought was impossible. I have since replaced UB300 and 400 with new chips but its still the same. Most of the time <CHIP>U3100</CHIP> will still give me 20v and the other 3 ports will only go to 5v and then cycle on off. Sometimes I will get 5v steady on all 4 ports now also. Do you think I should try and replace <CHIP>U3100</CHIP> or could this be a SMC issue?"
+        },
+        {
+            "post_id": 67057,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-10-23 20:44:59",
+            "message": "I replaced <CHIP>U3100</CHIP> but no change so I replaced the SMC and now I am getting 20v 1.4a on all 4 ports and the fans spin at normal speed now. However, the board is still not posting. I don't get any USB activity or image on screen, but have voltage on CPU vcore. \n\n<SIGNAL>PM_PCH_SYS_PWROK</SIGNAL> - 3.3v\n<SIGNAL>PM_PCH_PWROK</SIGNAL> - 3.3v\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> - 3.2v\n<SIGNAL>PM_RSMRST_L</SIGNAL> - 3.2v\n<SIGNAL>PLT_RST_L</SIGNAL> - 3.3v\n<SIGNAL>CPU_PWRGD</SIGNAL> - 0.975\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> - 1.059\n<SIGNAL>PPVCORE_S0_GPU</SIGNAL> - 0.9\n<SIGNAL>GPUVCORE_PGOOD</SIGNAL> - 3.26\n<SIGNAL>GPUVCORE_EN</SIGNAL> - 3.27\n<SIGNAL>PPVCCIO_S0_CPU</SIGNAL> - 0.986\n<SIGNAL>PPVCCSA_S0_CPU</SIGNAL> - 1.118\n<SIGNAL>PP1V2_S3_CPUDDR</SIGNAL> - 1.19"
+        },
+        {
+            "post_id": 67068,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-24 02:56:46",
+            "message": "Liquid spilled board and worked for someone else before, can be a nightmare.\n\nTry known good BIOS.\nCheck for knocked off components."
+        },
+        {
+            "post_id": 67093,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-10-25 06:54:46",
+            "message": "I tried to flash a new BIOS to this but it was failing to erase the chip for some reason. I tried to plug in the charger and now its only taking 20v 40ma, but jumps to 150ma for a second, then back to 40ma. <SIGNAL>PP3V3_S5</SIGNAL> and <SIGNAL>PP5V_S5</SIGNAL> are working and I have <SIGNAL>S5_PWRGD</SIGNAL>, but <SIGNAL>PM_SLP_S5_L</SIGNAL> is pulsing. All my S4, S3 and S0 rails seems to be pulsing also now. Also <SIGNAL>PM_SLP_S0_L</SIGNAL> is 3.3v stable, even though most of the other <SIGNAL>PM_SLP</SIGNAL> signals are pulsing. I might just try and solder another BIOS chip from the same model donor board and see what happens. \n\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> - 3.3v\n<SIGNAL>PM_SLP_S5_L</SIGNAL> - pulsing \n<SIGNAL>PM_SLP_S4_L</SIGNAL> - pulsing\n<SIGNAL>PM_SLP_S3_L</SIGNAL> - pulsing\n<SIGNAL>PM_SLP_S0_L</SIGNAL> - 3.3v"
+        },
+        {
+            "post_id": 67102,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-10-25 19:51:13",
+            "message": "I replaced the BIOS chip with a new one from the same model donor and tried it as-is and the board is back to where I was before now with 20v 1.4a on all ports and not posting. I tried flashing this chip with a known good BIOS from the same model with a clean me and still the same thing. I cannot find any knocked off components. Most of the visual damage to this board is around <CHIP>U4900</CHIP>, but I don't think anything in this area would be causing this issue."
+        },
+        {
+            "post_id": 67109,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-26 02:09:50",
+            "message": "Disconnect any device from MLB.\nUse macOS pendrive with Link LED for test.\n\nDo you note any fluctuation at  <SIGNAL>PPVCC_S0_CPU</SIGNAL>  in the first 10-15s?"
+        },
+        {
+            "post_id": 67128,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-10-26 07:41:03",
+            "message": "That is how I am currently testing the board. I do not have anything but the charger ports connected. There is no change in <SIGNAL>PPVCC_S0_CPU</SIGNAL>. It comes on at 1v and stays there the whole time and the CPU gets hot. I know the voltage should drop to like 0.6v or something like that, so what would cause the voltage to get stuck at 1v?"
+        },
+        {
+            "post_id": 67145,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-26 16:16:16",
+            "message": "So you get now all stable voltages?\nWhat about <SIGNAL>PLT_RST_L</SIGNAL>?"
+        },
+        {
+            "post_id": 67159,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-10-26 20:13:02",
+            "message": "Yes I am getting all the same voltages as I posted previously in post #2. <SIGNAL>PLT_RST_L</SIGNAL> is 3.3v"
+        },
+        {
+            "post_id": 67168,
+            "thread_id": 60222,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> Strange <CHIP>CD3215</CHIP> issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-27 02:53:22",
+            "message": "Pretty hopeless, if board was touching before."
+        }
+    ]
+}

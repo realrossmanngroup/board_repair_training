@@ -1,0 +1,78 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00850": "What is 820-00850? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP5V_G3S": "What is PP5V_G3S? PP5V_G3S is a 5v power rail present when the system is in a G3S standby state.",
+        "PP0V9_SSD0": "What is PP0V9_SSD0? This is a power rail for the soldered on SSD on newer Macbooks. .",
+        "PP1V8_SSD0": "What is PP1V8_SSD0? PP1V8_SSD0 is a power rail responsible for powering the soldered on NAND memory for the SSD on newer Macbook Pros.",
+        "CPUVR_SWSA": "What is CPUVR_SWSA? a SIGNAL.",
+        "PVCCIO_PHASE": "What is PVCCIO_PHASE? a SIGNAL.",
+        "P1V2_PHASE": "What is P1V2_PHASE? a SIGNAL.",
+        "PP2V7_NAND0": "What is PP2V7_NAND0? a SIGNAL.",
+        "U8100": "What is U8100? a CHIP.",
+        "PP1V2_S3": "What is PP1V2_S3? PP1V2_S3 is a 1.2v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PVDDQ_EN_R": "What is PVDDQ_EN_R? a SIGNAL.",
+        "P1V2REG_VREF": "What is P1V2REG_VREF? a SIGNAL.",
+        "PP5V_EDRAM_V5IN": "What is PP5V_EDRAM_V5IN? a SIGNAL.",
+        "MEMVTT_EN_R": "What is MEMVTT_EN_R? a SIGNAL.",
+        "U7800": "What is U7800? a CHIP.",
+        "PVDDQ_EN": "What is PVDDQ_EN? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 75688,
+            "thread_id": 61224,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 20v 0.04a",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-05-22 10:56:44",
+            "message": "No history available.\n\nTried restoring T2 firmware under catalina and big sur but same problem\n\nChecked for shorts on all rails and found nothing.\n\n<SIGNAL>PP3V3_G3H</SIGNAL>: 3.3V\n<SIGNAL>PP5V_G3S</SIGNAL>: 5V\nPPBUS: 12.62V\n<SIGNAL>PP0V9_SSD0</SIGNAL>: 0.9V\n<SIGNAL>PP1V8_SSD0</SIGNAL>: 1.8V\n<SIGNAL>PP2V7_NAND0</SIGNAL>: 2.5V* not sure if this is a problem\n\n<SIGNAL>CPUVR_SWSA</SIGNAL>: 0V\n<SIGNAL>PVCCIO_PHASE</SIGNAL>: 0V\n<SIGNAL>P1V2_PHASE</SIGNAL>: 0V"
+        },
+        {
+            "post_id": 75696,
+            "thread_id": 61224,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 20v 0.04a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-22 12:44:50",
+            "message": "So DFU completes correctly?\n\nI suppose you don't get VCORE and VCCSA, apart of VCCIO.\n1V2 for RAM must appear before.\nPost <CHIP>U8100</CHIP> basic voltages; pins 12, 16, 17, 6.\n\nBTW, STOP to check voltages in the AC side of a coil; ALWAYS check on its output (DC side), where the filter cap is placed."
+        },
+        {
+            "post_id": 75791,
+            "thread_id": 61224,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 20v 0.04a",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-05-25 11:45:31",
+            "message": "DFU fails, I tried on both Catalina and Big Sur.\n\n<CHIP>U8100</CHIP>:1 <SIGNAL>PP1V2_S3</SIGNAL> 0V Not shorted\n<CHIP>U8100</CHIP>:12 <SIGNAL>PP5V_EDRAM_V5IN</SIGNAL> 5V\n<CHIP>U8100</CHIP>:16 <SIGNAL>PVDDQ_EN_R</SIGNAL> 0V Not shorted\n<CHIP>U8100</CHIP>:17 <SIGNAL>MEMVTT_EN_R</SIGNAL> 0V Not shorted\n<CHIP>U8100</CHIP>:6 <SIGNAL>P1V2REG_VREF</SIGNAL> 0V Not shorted\n\nThanks for the heads up, I will do that from now on."
+        },
+        {
+            "post_id": 75799,
+            "thread_id": 61224,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 20v 0.04a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-25 12:59:05",
+            "message": "<CHIP>U7800</CHIP> doesn't send out <SIGNAL>PVDDQ_EN</SIGNAL> for some reason.\nMaybe missing previous voltage rail, or power good signal.\n\nMachine is recognized in DFU, but cannot complete restore, nor revive options?"
+        },
+        {
+            "post_id": 75918,
+            "thread_id": 61224,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 20v 0.04a",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-05-28 00:32:35",
+            "message": "Reballed and checked <CHIP>U7800</CHIP> but <SIGNAL>PVDDQ_EN</SIGNAL> is still 0V.\n\nMachine is recognized in DFU, but cannot restore nor revive in neither Catalina nor Big Sur."
+        },
+        {
+            "post_id": 75926,
+            "thread_id": 61224,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 20v 0.04a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-28 00:45:57",
+            "message": "Did you check if other previous voltages expected by <CHIP>U7800</CHIP> are present?\nWe have posted on the forum two power on diagrams for T2 machines.\nAre from different boards, but still help."
+        }
+    ]
+}

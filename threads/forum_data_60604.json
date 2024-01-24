@@ -1,0 +1,160 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_CLK32K_RTCX1": "What is PCH_CLK32K_RTCX1? a SIGNAL.",
+        "PM_SLP_S5": "What is PM_SLP_S5? a SIGNAL.",
+        "SMC_CLK32K": "What is SMC_CLK32K? a SIGNAL.",
+        "IS5_PWRGD": "What is IS5_PWRGD? a SIGNAL.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "SMC_ONOFF": "What is SMC_ONOFF? SMC_ONOFF is a signal that tells the machine that the power button has been pressed so it knows to turn on, or turn off. .",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "3_L": "What is 3_L? a SIGNAL.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP1V8_S3": "What is PP1V8_S3? The PP1V8_S3 signal in the MacBook schematic is a power rail that provides a voltage of 1.8 volts during the S3 power state. The S3 state, often referred to as \"suspend to RAM,\" is a low-power mode where the computer saves the session's state to RAM, allowing for quicker wake-up times compared to a full shutdown..",
+        "PP1V05_SUS": "What is PP1V05_SUS? The PP1V05_SUS signal in the MacBook schematic is a power rail that supplies 1.05 volts, typically used in a suspended (SUS) state of the laptop. This state is a low-power mode where essential system functions are maintained, but the majority of the system is powered down..",
+        "P1V8S3_EN": "What is P1V8S3_EN? P1V8S3_EN is a signal that enables the PP1V8_S3 line when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. ."
+    },
+    "threads": [
+        {
+            "post_id": 70156,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 1597,
+            "username": "baker_jeff",
+            "post_date": "2021-01-12 14:58:19",
+            "message": "I'm following the the map: [URL]https://logi.wiki/index.php/G3_to_S3_State_for_Ivy_Bridge_Haswell_and_Broadwell[/URL]\n\nEverything measures good up until <SIGNAL>PM_SLP_S5_L</SIGNAL>. Below is what I have recorded. According to the schem this <SIGNAL>PM_SLP_S5</SIGNAL> comes from the PCH? Or am I reading that wrong... thanks in advance :) \n\n\nItems\n---------------------------------------\n<SIGNAL>PP3V42_G3H</SIGNAL> Side:Bottom\nMEASURE 3.429v\n\n<SIGNAL>PPVRTC_G3H</SIGNAL> Side:Bottom\nMEASURE 3.333v\n\n<SIGNAL>SMC_ONOFF_L</SIGNAL> Side:Bottom\nMEASURE 3.4v\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> Side:Bottom\nMEASURE 3.398v\n\n<SIGNAL>PPBUS_G3H</SIGNAL> Side:Bottom\nMEASURE 8.6v\n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> Side:Bottom\nMEASURE 3.426v\n\n<SIGNAL>PP3V3_S5</SIGNAL> Side:Bottom\nMEASURE 3.334v\n\n<SIGNAL>IS5_PWRGD</SIGNAL> Side:Bottom\nMEASURE 3.398v\n\n<SIGNAL>SMC_CLK32K</SIGNAL> Side:Bottom\nMEASURE 1.77v\n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> Side:Bottom\nMEASURE 3.42v\n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> Side:Bottom\nMEASURE 3.4v\n\n<SIGNAL>PM_RSMRST_L</SIGNAL> Side:Bottom\nMEASURE 3.3v\n\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> Side:Bottom\nMEASURE 3.238v\n\n<SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> Side:Bottom\nMEASURE 0.403v\n\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> Side:Bottom\nMEASURE 3.3v"
+        },
+        {
+            "post_id": 70157,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-12 16:39:05",
+            "message": "Why did you block on <SIGNAL>PM_SLP_S5_L</SIGNAL>?\nDid you look at Power State Table from page 59?\n\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>."
+        },
+        {
+            "post_id": 70158,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 1597,
+            "username": "baker_jeff",
+            "post_date": "2021-01-12 17:58:41",
+            "message": "Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>: It does drop\n\nLooking at the power state table now... first time I've done it! :O \nHere comes the noob question... what am I looking for? I assume the \"1\" means that <SIGNAL>PM_SLP_S5_L</SIGNAL> will only be on in the S0 and sleep states. Should I be skipping this then and moving further on?"
+        },
+        {
+            "post_id": 70162,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-13 02:11:50",
+            "message": "Yes, no reason to fix on <SIGNAL>PM_SLP_S5_L</SIGNAL> yet.\n\nNow trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for pulse at <SIGNAL>PM_SLP_S4_L</SIGNAL>."
+        },
+        {
+            "post_id": 70196,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 1597,
+            "username": "baker_jeff",
+            "post_date": "2021-01-13 10:22:29",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> pulses to 3.3 when I connect power for a second, then remains 0v. When triggering <SIGNAL>SMC_ONOFF</SIGNAL>, it does jump up to 3.3v."
+        },
+        {
+            "post_id": 70197,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-13 10:35:09",
+            "message": "Check if <SIGNAL>PM_SLP_S3_L</SIGNAL> does the same.\nIf yes, all S3 and S0 voltages should pulse too.\nAlso check for pulse at pins 7 & 3 of <CHIP>U1950</CHIP>."
+        },
+        {
+            "post_id": 70435,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 1597,
+            "username": "baker_jeff",
+            "post_date": "2021-01-18 21:18:04",
+            "message": "<SIGNAL>PM_SLP_S3_L</SIGNAL> does the same.\n\nThere is pulse at pins 7 & 3 of <CHIP>U1950</CHIP>."
+        },
+        {
+            "post_id": 70436,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-19 01:37:57",
+            "message": "Then check for pulse at all big coils.\nAlso check output voltages from pages 57 & 58.\n\nTry to start the board in SMC bypass."
+        },
+        {
+            "post_id": 70445,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 1597,
+            "username": "baker_jeff",
+            "post_date": "2021-01-19 07:55:29",
+            "message": "Trying to start in SMC bypass: As soon as I let go of the power button the fan spins one cycle, stops. Spins again, stops. Doesn't continue/no other sign of life. \n\nSeems a bunch of the outputs on page 57 rely on <SIGNAL>PM_SLP_S4</SIGNAL>... which I'm missing."
+        },
+        {
+            "post_id": 70458,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-19 11:20:24",
+            "message": "\" <SIGNAL>PM_SLP_S4_L</SIGNAL> pulses to 3.3\n---------------------\n<SIGNAL>PM_SLP_S4</SIGNAL>... which I'm missing.\"\n???\nCheck at the same time when you get pulse at <SIGNAL>PM_SLP_S4</SIGNAL>/<SIGNAL>3_L</SIGNAL>..."
+        },
+        {
+            "post_id": 70586,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 1597,
+            "username": "baker_jeff",
+            "post_date": "2021-01-21 12:24:50",
+            "message": "Ok... am looking for an output that doesn't pulse with the rest of them?"
+        },
+        {
+            "post_id": 70591,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-21 15:26:19",
+            "message": "Yes, that is..."
+        },
+        {
+            "post_id": 70768,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 1597,
+            "username": "baker_jeff",
+            "post_date": "2021-01-26 15:46:50",
+            "message": "From Page 57: \n<SIGNAL>PP3V3_S5</SIGNAL>: 3.3v steady\n<SIGNAL>P1V8S3_EN</SIGNAL>: Pulses up to 3.2v when power is connected\n<SIGNAL>PP1V8_S3</SIGNAL>: Pulses up to 1.8v when power is connected\n<SIGNAL>PP3V3_SUS</SIGNAL>: 3.3v steady\n<SIGNAL>PP1V05_SUS</SIGNAL>: 1.05v steady\n\n\nSo... <SIGNAL>P1V8S3_EN</SIGNAL>: Pulses up to 3.2v when power is connected is obviously not good?"
+        },
+        {
+            "post_id": 70769,
+            "thread_id": 60604,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> - Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-26 15:49:58",
+            "message": "Looks good there.\nMore voltages to check on page 58."
+        }
+    ]
+}

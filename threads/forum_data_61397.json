@@ -1,0 +1,391 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3787": "What is 820-3787? a LOGIC BOARD PART NUMBER.",
+        "A1398": "What is A1398? A1398 is a model number for a 15 inch size MacBook Pro Retina from years Mid 2015, Mid 2012, Early 2013, Late 2013, Mid 2014 with EMC 2909, that may contain one of these boards depending on the year & configuration: 820-00138, 820-00163, 820-00426, 820-3332, 820-3662, 820-3787..",
+        "U7501": "What is U7501? This chip is often responsible for creating PP3V3_S5,  PP3V3_S3,  PP3V3_S0,  PP5V_S5,  PP5V_S4,  PP5V_S0.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "P5VS4_EN": "What is P5VS4_EN? a SIGNAL.",
+        "P3V3S5_EN": "What is P3V3S5_EN? P3V3S5_EN is a signal that enables the power chip responsible for creating PP3V3_S5 when it is high. Signals with _EN mean that whatever is mentioned before the _EN will be enabled or turned on when the signal is high. .",
+        "C8030": "What is C8030? a CAPACITOR.",
+        "C9321": "What is C9321? a CAPACITOR.",
+        "C9322": "What is C9322? a CAPACITOR.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "DCIN_G3H": "What is DCIN_G3H? a SIGNAL.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PPVIN_G3H_P3V42G3H": "What is PPVIN_G3H_P3V42G3H? PPVIN_G3H_P3V42G3H is the input voltage to the PP3V42_G3H buck converter circuit, it can be either charger voltage or battery voltage depending on what the system power source is. This often shorts to ground when one of the input capacitors dies. .",
+        "P3V42G3H_SW": "What is P3V42G3H_SW? a SIGNAL.",
+        "P3V42G3H_FB": "What is P3V42G3H_FB? a SIGNAL.",
+        "P3V42G3H_SHDN_L": "What is P3V42G3H_SHDN_L? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "PCH_SRTC_RST_L": "What is PCH_SRTC_RST_L? a SIGNAL.",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "P3V3S5_CSN2": "What is P3V3S5_CSN2? a SIGNAL.",
+        "P3V3S5_CSP2": "What is P3V3S5_CSP2? a SIGNAL.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "U5110": "What is U5110? This chip is responsible for SMC_RESET_L in many Macbook models..",
+        "U4850": "What is U4850? a CHIP.",
+        "R5115": "What is R5115? a RESISTOR.",
+        "R5116": "What is R5116? a RESISTOR.",
+        "PWR_BTN": "What is PWR_BTN? a SIGNAL.",
+        "SILK_PART": "What is SILK_PART? a SIGNAL.",
+        "R4810": "What is R4810? a RESISTOR.",
+        "C4810": "What is C4810? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 77362,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-03 19:24:04",
+            "message": "<MACBOOK MODEL NUMBER>A1398</MACBOOK MODEL NUMBER>-  Was working, and would randomly shutoff.  But I was able to turn it back on.  Went on like this for quite a while.  At 1st, I thought it was a software issue as it seemed to happen more when using Google Chrome, but one day it happened and it just wouldn't turn back on...\n- No liquid damage\n-No burnt or charred spots\n-I don't see any components where the smoke was let out, but that usually comes after I start working on it a bit. :)\n-I don't see any parts that look odd in my microscope either.  No cracks or chips missing or blown out centers and so on..\n-Green charge light turns to Orange right away.\n-Same from 4.25amp Magsafe2 and from Bench PSU with adapter for Magsafe2 purchased from Digikey. And Magsafe 2 cable from Ebay (i know, i know...)\n-Removed SSD, WIFI, Battery, and Board from Case.\n-Nothing gets hot when plugged in, checked by feel and by FLIR Thermal Camera.\n-I've been trying to check power rails, but I'm struggling with reading the schematics...\n-From what I can tell, <SIGNAL>PP3V42_G3H</SIGNAL> seems good at 3.3v\n-<CHIP>U7501</CHIP> Enable Pin4 <SIGNAL>P5VS4_EN</SIGNAL>=0.86v   ------ Pin12 <SIGNAL>SMC_PM_G2_EN</SIGNAL>=3.3v  ------  Pin21 <SIGNAL>P3V3S5_EN</SIGNAL>=3.3v  --------\n\n2 Issues I have right now that bug me the most -\n#1, I'm not sure how to figure out what voltages I should have and where...\n#2, I'm not sure how to read a schematic like this... lol\n\nI'm not sure if this is helpful, but i get 12.57 on all the caps at the top of the board. <CAPACITOR>C9321</CAPACITOR>,<CAPACITOR>C9322</CAPACITOR> and so on...\n<CAPACITOR>C8030</CAPACITOR> only gets 0.40v on pin1... IDK if thats right or not...\n\nThanks for your help.\nPlease let me know where i should probe and what voltages i'm looking for or resistance..\nAslo, attached is a picture of the adapter I purchased from DigiKey.. [ATTACH type=\"full\" alt=\"20210703_222652.jpg\"]59987[/ATTACH]\n\n[URL unfurl=\"true\"]https://www.digikey.com/en/products/detail/adafruit-industries-llc/3547/7566147?utm_adgroup=Between%20Series%20Adapters&utm_source=google&utm_medium=cpc&utm_campaign=Shopping_Product_Connectors%2C%20Interconnects_NEW&utm_term=&utm_content=Between%20Series%20Adapters&gclid=CjwKCAjwlYCHBhAQEiwA4K21m0Z7XmoFbmmbhXbYTVTEonwQq2yXPquLYu38Rgg1KfKVhxAAqdWsoRoCOTsQAvD_BwE[/URL]"
+        },
+        {
+            "post_id": 77364,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2021-07-03 20:47:13",
+            "message": "OK. First off, you need to use a OEM 85W MagSafe 2. If you use a lower wattage or shitty knockoff, <SIGNAL>PM_BATLOW_L</SIGNAL> will be held low and the board will not start. \n\nLook on the power aliases page of the schematic. You need all \"Always Present\" G3H or G3 Hot rails before S5 rails. You need all S5 rails before S4 rails. You need all S4 rails before S3, and all S3 before S0. You likely are missing <SIGNAL>PM_SLP_S4_L</SIGNAL>, which requires <SIGNAL>PM_BATLOW_L</SIGNAL> to be asserted to enable. \n\nThe random crashing is likely caused by failing CPU MOSFETs. Replace them with FDMF3030 chips after you solve the power issue. \n\nStop using that charger adapter and get a OEM Apple 85w MagSafe 2. You can cut the cord off and hook it to a DCPS if you want at a later time."
+        },
+        {
+            "post_id": 77368,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-04 01:33:57",
+            "message": "Forget such kind of adapters; never use it again.\nA technician need original chargers for service.\nHowever, spare cables (especially 85W Magsafe 1 AND 2) must be available.\nThis way can discard a leakage input issue, as the original charger will get in protection mode and will not deliver power in such case.\nOriginal Apple chargers have an embedded procesor, dedicated for tihis job.\n\nTest actual charger and spare cable with other MacBook and check the power in system report.\nHowever, this machine can boot with 45/60W charger, ONLY if battery is connected and holds some charge.\n\nDescribed symptoms denote FDMF6808N issue, which is classic for all the boards using this chip on CPU power supply.\nIf you get the board starting again, will need to change them; or run some script (software mod), which affects CPU power states.\n\nNow, focus on the power on sequence.\nDo you actually get <SIGNAL>3V3_SUS</SIGNAL>?\nIf <SIGNAL>PM_BATLOW_L</SIGNAL> doesn't get high with charger alone, be sure the battery is charging and let it connected.\nThen trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\nIf yes, check for pulse at <SIGNAL>PM_SLP_S4_L</SIGNAL> at same time.\nRead \"HOW TO collection\" thread, if needed."
+        },
+        {
+            "post_id": 77374,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-04 07:37:45",
+            "message": "Like I said, I have a Magsafe2 4.25amp APPLE brand charger (85w) and it still does that same.\nI'll check on the other stuff when I get home.\nAs for the \"always present\" part in the schematic, I just don't see that anywhere...\nIm attaching a link for the schematic i'm using, if you could please show me where it is, I'd be greatful.\nAnd could you post a link for the \"how to collection\" thread your referring to, as I'm unable to find it searching.\nThanks,\nJames\n[URL unfurl=\"true\"]https://drive.google.com/open?id=1Oq_xOqXfjtgR3AThQFodXiT4E5yHioIj[/URL]"
+        },
+        {
+            "post_id": 77381,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-04 12:12:44",
+            "message": "\"Always present\" is a generic reference, not a signal to search in schematic.\nAnd the other member clearly specified \"G3H\" for such signal class; like <SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>3V42_G3H</SIGNAL>, <SIGNAL>DCIN_G3H</SIGNAL>...\n\n[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]"
+        },
+        {
+            "post_id": 77386,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-04 14:18:01",
+            "message": "I know the \"always present\" isn't a signal or specific test point for any one thing, but I've seen in other schematics where there is a section that actually says \"always present\".... \nI wasn't sure if the schematic i was using just didn't have it labeled, called it something different, or just what. The other member did say to look on the power aliases page, and that I would need the \"always present\" G3H or G3 Hot rails...\nWith the risk of having my head bitten off for saying this, I'm going to anyways...\nI've already said I'm not sure how to read this schematic, and without a section specifically saying \"always present\" (which ive seen on other schematics) and I'm not sure if everything with \"G3H\" in its name needs to be on or not... And I don't know what voltages should be on what when I do test them, so I wouldn't know if they are out of spec or not... I'm still very much in the early stages of learning, so please understand that sometimes I may need additional information or something explained in a different way... I've always struggled, my entire life, when 1st starting to learn something new. I tend to start out learning really slow, and a lot of times I don't pickup on things when I read them. But once I'm going, I absorb information super fast, except for if I'm reading it.. (most of the time) I usually have to read something 4-5 times and very rarely can tell you what it was about or even recall parts of it. I'm an extreme example of a \"hands on\" type learner.. But enough about that.. Sorry for the side track there..\n\nThanks for the link to the \"How To Collection\", I'm going to review it now, then test around the board.  I'll report back once I'm done.  Happy 4th of July, and Have a great weekend!!"
+        },
+        {
+            "post_id": 77387,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-04 17:11:13",
+            "message": "I'm not sure about your reaction.\nI only know that I didn't criticized you in anyway.\nI was thinking you didn't exactly understand that message and tried to help you.\n\nI appreciate any people who takes his time and study by himself.\nFor more information about system power/sleep states:\n[URL unfurl=\"true\"]https://en.wikipedia.org/wiki/Advanced_Configuration_and_Power_Interface[/URL]\n[URL unfurl=\"true\"]https://www.google.com/search?q=g3+power+state&client=firefox-b-d&bih=559&biw=1280&hl=es&ei=sEriYJ6VG67ClwS0uKow&oq=g3+power+state&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEBMyCAgAEBYQHhATOgcIABBHELADOgoIABCxAxCDARBDOgUIABCxAzoECAAQQzoHCAAQsQMQQzoICAAQsQMQgwE6AggAOggILhDHARCvAToICAAQFhAKEB46BggAEBYQHjoNCC4QxwEQrwEQExCTAjoKCC4QxwEQrwEQEzoKCAAQFhAKEB4QE0oECEEYAFCv-R1YhY4eYLKQHmgBcAJ4AIABkAGIAawMkgEDNy44mAEAoAEBqgEHZ3dzLXdpesgBCMABAQ&sclient=gws-wiz&ved=0ahUKEwierauBz8rxAhUu4YUKHTScCgYQ4dUDCA0&uact=5[/URL]\n\nBTW, welcome to the forum!\nI forgot this in my first post..."
+        },
+        {
+            "post_id": 77390,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-04 21:05:57",
+            "message": "So I've tested some rails, and read through the How To guide.. (Do i really need a jumper wire from  <SIGNAL>SMC_ONOFF_L</SIGNAL>, to gnd to try and turn the system on while its outside the case?  It makes sense you'd need a power switch, but for some reason I don't think ive ever seen Louis use such a setup to get boards to power on in any of his video's i've watched...\nAnyways ... My readings:\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.3v\n<SIGNAL>P3V42G3H_SW</SIGNAL>=3.3v\n<SIGNAL>P3V42G3H_FB</SIGNAL>=1.39v\n<SIGNAL>P3V42G3H_SHDN_L</SIGNAL>=19.2\n<SIGNAL>PPBUS_G3H</SIGNAL>= 12.5v\n<SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL>=19.2v\n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 1.28v (drops to 0 when pressing pushbutton installed on <SIGNAL>SMC_ONOFF_L</SIGNAL>)\n<SIGNAL>PP3V3_SUS</SIGNAL> = 0.0v\n<SIGNAL>PM_BATLOW_L</SIGNAL> = 0.0v\n\"[I]Then trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>[/I]\"  Still shows 0.0v\nChecked at same time <SIGNAL>PM_SLP_S4_L</SIGNAL>= 0.0V\n\nThanks Again, and if you could please take a look at the info I posted and let me know if those voltages look good or which ones are not, and then please  provide me with the next test points so I may continue attempting my repairs.  \nThanks\nJames\nHappy 4th of July"
+        },
+        {
+            "post_id": 77393,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-05 01:58:41",
+            "message": "iCore boards should start automatically, when charger is connected.\n<SIGNAL>SMC_ONOFF_L</SIGNAL> trigger method is used for testing signals reaction, when the board doesn't turn on.\n\n\"If <SIGNAL>PM_BATLOW_L</SIGNAL> doesn't get high with charger alone, be sure the battery is charging and let it connected.\"\nDid that?\nNo reason to expect board turns on with charger alone, if no <SIGNAL>PM_BATLOW_L</SIGNAL> present; that was already explain.\nCheck now all PCH's RTC signals."
+        },
+        {
+            "post_id": 77399,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 06:30:54",
+            "message": "OK.  I, so I'm confused.... I don't have fan spin regardless.  That would be the board powering on.  I Thought with only an 85w charger this board would get fan spin when operating correctly?\nI'm lost on what you're trying to tell me to do with the battery... I can't really test the board if its in the laptop connected to the battery, and 99% of all the macboard repair videos i've seen on Rossmann's youtube, he doesn't have a battery connected...\nSo I'm really misunderstanding something here...\nAnd with the numbers I posted from last night, are they good, bad, don't matter?  I'd like to know which are testing as they should if you could please let me know that as well.  \nAnd after reconnecting the mainboard in the chassis, i get this with the battery connected...  Now I'm taking the board back out. lol\nWith battery connected and charger:\n<SIGNAL>PM_SLP_S4_L</SIGNAL>=0.0v\n<SIGNAL>PM_BATLOW_L</SIGNAL>=0.3v (with battery)\n<SIGNAL>PM_BATLOW_L</SIGNAL>=0.0v(without battery)\nI'll check the PCH's RTC signals today... (once i figure out what that is)\nI hope everyone had a good 4th, and if you're celebrating today.. Than happy 250th US anniversary."
+        },
+        {
+            "post_id": 77400,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 06:50:40",
+            "message": "I think this is what you're asking for, based on the How To guide.\n<SIGNAL>RTC_RESET_L</SIGNAL> = 3.3v\n<SIGNAL>PCH_SRTC_RST_L</SIGNAL> = 3.3\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> =3.3\n<SIGNAL>PCH_INTVRMEN</SIGNAL> =3.3"
+        },
+        {
+            "post_id": 77401,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-05 07:19:51",
+            "message": "\"I can't really test the board if its in the laptop connected to the battery\"\nAnd do not remove the battery?\nIf board tries to start with both charger and battery connected, that will help a lot; meaning the problem is on power input, not in the rest of board.\n\nYour board doesn't turn on, so I INSIST on the mentioned tests triggering <SIGNAL>SMC_ONOFF_L</SIGNAL> signal.\nI already know <SIGNAL>PM_SLP_S4_L</SIGNAL> is low, that's the reason of check its reaction AT SAME TIME OF TRIGGERING <SIGNAL>SMC_ONOFF_L</SIGNAL>!!!\nHowever, will not react, as <SIGNAL>PM_RSMRST_L</SIGNAL> and <SIGNAL>PM_PWRBTN_L</SIGNAL>, if <SIGNAL>3V3_SUS</SIGNAL> doesn't go high first.\n\nNow check <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL> and <SIGNAL>PCH_DSWVRMEN</SIGNAL>."
+        },
+        {
+            "post_id": 77402,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 07:24:38",
+            "message": "I think i found it.. Please let me know if this sounds right.. <CHIP>U7501</CHIP> is bad..\n3v3. going in on EN pin 21..\nGoing out on the follwoing below only has 0.4v\nPin 18 <SIGNAL>P3V3S5_CSP2</SIGNAL>\nPin17   <SIGNAL>P3V3S5_CSN2</SIGNAL> \n\n0.1v on :\npin 16\n\n2v on\npin 15\n\n\nAnd so on.... Does it sound like i'm in the right spot, or barking up thr wrong tree.\nI'm guessing they should be 3.3v since they are a p3v3 circuit?\nthanks"
+        },
+        {
+            "post_id": 77403,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-05 07:31:58",
+            "message": "Don't have 3.3V at L7560?"
+        },
+        {
+            "post_id": 77404,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 07:40:17",
+            "message": "<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 1.26V\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> =3.3V\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> = 3.3V"
+        },
+        {
+            "post_id": 77405,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 07:41:24",
+            "message": "L7560 = .40V"
+        },
+        {
+            "post_id": 77410,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-05 10:02:23",
+            "message": "So, no <SIGNAL>3V3_S5</SIGNAL> present.\nCheck diode mode to ground at L7520/60.\nIf no short, post <CHIP>U7501</CHIP> basic voltages; pins 23, 12, 13, 22, 29, 21."
+        },
+        {
+            "post_id": 77411,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 10:42:25",
+            "message": "what does the /60 mean?"
+        },
+        {
+            "post_id": 77414,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 10:55:48",
+            "message": "<CHIP>U7501</CHIP>- pins (im getting different number now, then when i first posted...\n12- 3.3\n13- 1.99\n21- 3.3\n22-  11.35\n23- 12.5\n29-  5"
+        },
+        {
+            "post_id": 77415,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 10:58:38",
+            "message": "L7560 is now 2.5v"
+        },
+        {
+            "post_id": 77416,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 11:00:57",
+            "message": "Im sure you think i'm probably nuts, or my test equipment isn't working or something like that, but I promise you, its all fine.  Ive been working on electronics for years, just not board repair like this....\nHave you ever heard of something like this?"
+        },
+        {
+            "post_id": 77422,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-05 13:06:06",
+            "message": "\"22-  11.35\"\nAre you really sure?\nPlease re-check.\nIf yes, change <CHIP>U7501</CHIP>.\n\nL7520/60 means L7520 AND L7560."
+        },
+        {
+            "post_id": 77424,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 15:42:53",
+            "message": "<CHIP>U7501</CHIP> PIN 22 - 11.42V"
+        },
+        {
+            "post_id": 77425,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-05 15:43:37",
+            "message": "I've ordered another. I'll try changing it out.  thx"
+        },
+        {
+            "post_id": 77536,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-10 08:10:37",
+            "message": "I replaced the chip with a brand new one.  System has fan spin.  Reconnected display and keyboard, SSD, Trackpad and so on, and System is Running.."
+        },
+        {
+            "post_id": 77573,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-12 09:10:29",
+            "message": "So I didn't realize this, but its developed a new issue..  It will only turn on if i disconnect the battery and charger.  Hit the power button.  Then reconnect the charger... Having the battery hooked up doesn't make a difference.  It doesn't appear the power button is doing much but draining something when the batt and charger are disconnected..\n\nAnyone seen this issue before?"
+        },
+        {
+            "post_id": 77579,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-12 10:16:54",
+            "message": "Fans start with max speed?\n\nDisconnect keyboard and test with <RESISTOR>R5115</RESISTOR>/16 pads, instead of power button.\nInspect <CHIP>U4850</CHIP> and <CHIP>U5110</CHIP> areas for corrosion."
+        },
+        {
+            "post_id": 77663,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-13 09:38:55",
+            "message": "How do I test with <RESISTOR>R5115</RESISTOR>/16?  or do you mean test the resistors themselves?\nAlso, I don't have <RESISTOR>R5115</RESISTOR> on this board.  Its not missing, it just doesn't exist at all.  no pads for it either."
+        },
+        {
+            "post_id": 77664,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-13 10:00:18",
+            "message": "[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]"
+        },
+        {
+            "post_id": 77679,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-13 18:40:11",
+            "message": "There is no <RESISTOR>R5116</RESISTOR> resistor.  There are pads tho. and Boardview <RESISTOR>R5116</RESISTOR> pin 1 to Ground will turn the laptop on/off..\nNo corrosion around <CHIP>U4850</CHIP> or <CHIP>U5110</CHIP>"
+        },
+        {
+            "post_id": 77682,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-14 00:40:36",
+            "message": "Of course, empty pads; only used to simulate power button.\nDid you read mentioned thread???\n\nSo machine always turn on correctly from these pads, without disconnecting power completely?"
+        },
+        {
+            "post_id": 77684,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-14 08:20:30",
+            "message": "Yes i read the thread, but didn't fully understand it.  With the R designation I assumed there was a resistor there, and it looks like there should be a 1/10th watt resistor on the Schematic. \nAnyways, Yes, it turns on/off correctly from the pads without disconnecting the power. As its located on the bottom or top of the board.. Hmm.. The side thats Down when you take the bottom of the laptop case off. So i guess its actually the top of the board? Anyway, IDK how it responds with the battery connected, but seems to work correctly with just the power connector."
+        },
+        {
+            "post_id": 77686,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-14 08:41:16",
+            "message": "<RESISTOR>R5115</RESISTOR>/16 are marked as \"OMIT\" in schematic.\nAlso \"<SIGNAL>SILK_PART</SIGNAL>=<SIGNAL>PWR_BTN</SIGNAL>\" is a direct reference with power button.\nAnd mentioned thread explains you how to use a simple wire to simulate power button.\n\"In fact, we don't really need to use these pads exactly.\nIs very easy to solder a tiny wire on the pad corresponding to the signal; just touch any metal plate with it, when you want to simulate power button.\"\nIs strange that you still expect to find the resistors soldered on the board.\n\nCheck for drop pulse at <SIGNAL>SMC_ONOFF_L</SIGNAL> when press power button.\nBe sure to have 3V in normal mode (keyboard connected)."
+        },
+        {
+            "post_id": 77742,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-15 08:24:41",
+            "message": "LOL why is that strange?\nSide question.. To test just the keyboard itself, should i be able to check pin 5 on the connector (<SIGNAL>SMC_ONOFF_L</SIGNAL>) and see 0 ohms between that and ground?\nAlso, I can turn it on/off using <RESISTOR>R5116</RESISTOR> pads to Ground, but not C/<RESISTOR>R4810</RESISTOR> pin 1, which I think i should, correct?"
+        },
+        {
+            "post_id": 77745,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-15 12:10:31",
+            "message": "Check continuity from <CAPACITOR>C4810</CAPACITOR> to <RESISTOR>R5116</RESISTOR>."
+        },
+        {
+            "post_id": 77776,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-15 18:07:33",
+            "message": "No continuity.  Upon closer inspection I found a bad trace at <RESISTOR>R4810</RESISTOR>.  So I'll run a jumper wire.  Thank you...\nAny recommendations on what gauge?"
+        },
+        {
+            "post_id": 77785,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-16 02:11:08",
+            "message": "Any tiny wire; there is no important current flowing."
+        },
+        {
+            "post_id": 77838,
+            "thread_id": 61397,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - Green Light - No Fan Spin - Pulls 28ma",
+            "user_id": 31464,
+            "username": "Jameswis",
+            "post_date": "2021-07-16 17:22:29",
+            "message": "I have some 32 and 40ga jumper wire i use on phones.  I use that."
+        }
+    ]
+}

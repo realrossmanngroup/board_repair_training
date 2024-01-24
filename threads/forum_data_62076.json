@@ -1,0 +1,157 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "U8400": "What is U8400? a CHIP.",
+        "C4811": "What is C4811? a CAPACITOR.",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "BKLT_EN": "What is BKLT_EN? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKLT” before “_EN”. “BKLT” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "BLKT_EN": "What is BLKT_EN? a SIGNAL.",
+        "Q8400": "What is Q8400? a TRANSISTOR.",
+        "R8400": "What is R8400? a RESISTOR.",
+        "EDP_BKLT_PWM": "What is EDP_BKLT_PWM? EDP_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKLT_SCL": "What is BKLT_SCL? BKLT_SCL is an I2C signal clock line between the LED driver that creates the LCD backlight power rail that powers the backlight in the screen and the screen. The screen needs to speak to the LED driver on this line before backlight voltage will be created..",
+        "I2C_BKLT": "What is I2C_BKLT? I2C_BKLT is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "BKLT_SDA": "What is BKLT_SDA? BKLT_SDA is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "U5450": "What is U5450? a CHIP.",
+        "C5459": "What is C5459? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 83644,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-11 11:10:11",
+            "message": "This 2017 MacBook Pro board came with a dark screen and liquid damage in the backlight circuity area. I found a shorted cap (<CAPACITOR>C4811</CAPACITOR>) which I replaced. The backlight came on for a few days, then died again. I've replaced <CHIP>U8400</CHIP> and checked all resistors and traces in that area. Machine boots and backlight enable signal is present. Still no backlight.\n\nThen I found that <SIGNAL>PP5V_S0</SIGNAL>, which supplies <CHIP>U8400</CHIP>, has a low resistance to ground (95 ohms; 0.09 V in diode mode); a good board shows 5+ kohms on this rail. I'm having a hard time figuring out where this partial short is located, since injecting 5 V only gets 0.1 A flowing and nothing heats up. Any way to pinpoint the culprit?"
+        },
+        {
+            "post_id": 83650,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-11 16:20:21",
+            "message": "If machine boots and have external video and USB activity, then must be a problem with internal video.\nIf gets image on internal LCD, then go straight to backlight circuit.\nCheck anything backlight related connected to <SIGNAL>5V_S0</SIGNAL> rail; remove one by one, until find the culprit."
+        },
+        {
+            "post_id": 83682,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-12 16:32:04",
+            "message": "Ok, I resolved the short on <SIGNAL>PP5V_S0</SIGNAL> by replacing <CHIP>U8400</CHIP> a second time (it now measures 0.43 V in diode mode. However, the backlight is still nonfunctional.\n\nI verified that the machine boots and gets an image on internal and external display. <SIGNAL>BLKT_EN</SIGNAL> is 3.3 V but there is no output from <CHIP>U8400</CHIP> at all. The only other observation is that the SCL and SDA data line voltages drop from 5.1 to 4.5 V as soon as <SIGNAL>BKLT_EN</SIGNAL> turns on."
+        },
+        {
+            "post_id": 83688,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-13 01:57:50",
+            "message": "That may be sign of I2C bus activity; better to check with o-scope.\nCheck all resistors and traces connected to <CHIP>U8400</CHIP>.\nPost <TRANSISTOR>Q8400</TRANSISTOR> voltages.\n\nDid you try known good LCD assembly?"
+        },
+        {
+            "post_id": 83730,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-13 20:24:53",
+            "message": "Yes, I'm using a known good display. There were burnt vias around <CHIP>U8400</CHIP> pins 9 and 10 and I had to run wires from those pins to <RESISTOR>R8400</RESISTOR>.\nBelow are the <TRANSISTOR>Q8400</TRANSISTOR> and <CHIP>U8400</CHIP> voltages. \n\n<TRANSISTOR>Q8400</TRANSISTOR>:\npin 3: 12.6V\npin 4: 13.1V\npin 1,2,5,6: <2V\n\n<CHIP>U8400</CHIP>:\npin 1,2: 0.3V \npin 4: 0.0V\npin 5: 5.1V\npin 9,10: 13.1V\npin 11: 12.4V\npin 12: 0.0V\npin 15,16: 4.5V\npin 17: 3.3V\npin 18: 5.1V\npin 19: 0.2V\npin 21: 0.0V"
+        },
+        {
+            "post_id": 83740,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-14 02:12:01",
+            "message": "Backlight adjust is done through I2C bus (<SIGNAL>BKLT_SCL</SIGNAL>/SDA lines); is not sufficient to get enable signal.\nThe information sends by PCH (PWM) passes through LCD T-CON before arriving to <CHIP>U8400</CHIP> (after conversion to I2C).\nYou may have other traces, or components damaged around <CHIP>U8400</CHIP>.\n\nCheck if <SIGNAL>EDP_BKLT_PWM</SIGNAL> is present at least."
+        },
+        {
+            "post_id": 83761,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-14 12:06:41",
+            "message": "<SIGNAL>EDP_BKLT_PWM</SIGNAL> is 2.5V. \n\nMy understanding of the PWM for these displays is limited. Can you explain the PCH - LCD - <CHIP>U8400</CHIP> connectivity some more? Is the LCD T-CON the board on the display itself? Does the PCH send info to the LCD via <SIGNAL>EDP_BKLT_PWM</SIGNAL> and the LCD then sends info to <CHIP>U8400</CHIP> on the <SIGNAL>I2C_BKLT</SIGNAL> data lines?"
+        },
+        {
+            "post_id": 83765,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-14 14:27:44",
+            "message": "Is exactly as you wrote."
+        },
+        {
+            "post_id": 83772,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-14 14:48:07",
+            "message": "I'm at a loss as to where else to look. Here's what I have:\n\nI verified that <SIGNAL>BKLT_SCL</SIGNAL> and <SIGNAL>BKLT_SDA</SIGNAL> are both connected to the T-CON board. \nBoth data lines are pulsing (although at a higher frequency than on a known good board). \nI verified that <SIGNAL>EDP_BKLT_PWM</SIGNAL> is between 2.5 and 3.3 V and connected to J8500.\nI have tried 3 displays and 2 different display cables."
+        },
+        {
+            "post_id": 83792,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-15 04:09:04",
+            "message": "Then must be some traces, or other components affected by liquid on the backlight circuitry.\nLeakage between backlight output to data lines is very dangerous."
+        },
+        {
+            "post_id": 83812,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-15 10:09:06",
+            "message": "How important is the sense resistor <RESISTOR>R8400</RESISTOR>? That's where I had burnt traces. Under what <RESISTOR>R8400</RESISTOR> conditions would <CHIP>U8400</CHIP> refuse to activate? How can I test it?"
+        },
+        {
+            "post_id": 83816,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-15 12:32:04",
+            "message": "Check continuity from <RESISTOR>R8400</RESISTOR> to <CHIP>U5450</CHIP>.\nPost <CAPACITOR>C5459</CAPACITOR> voltage."
+        },
+        {
+            "post_id": 83818,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-15 13:00:21",
+            "message": "<CHIP>U5450</CHIP> and <CAPACITOR>C5459</CAPACITOR> are NOSTUFF on this model."
+        },
+        {
+            "post_id": 83821,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-15 13:48:14",
+            "message": "<RESISTOR>R8400</RESISTOR> must be 0 ohm then; direct trace on the board, I suppose."
+        },
+        {
+            "post_id": 83832,
+            "thread_id": 62076,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> with backlight problem and low <SIGNAL>PP5V_S0</SIGNAL> resistance to ground",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-12-15 15:33:56",
+            "message": "Yup, it is. I also replaced <RESISTOR>R8400</RESISTOR> to no effect.\n\nI'm giving up on this board - sometime you just have to accept that a deep mystery remains."
+        }
+    ]
+}

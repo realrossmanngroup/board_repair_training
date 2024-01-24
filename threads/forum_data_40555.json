@@ -1,0 +1,495 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3208A": "What is 820-3208A? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U6990": "What is U6990? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "C6996": "What is C6996? a CAPACITOR.",
+        "C6997": "What is C6997? a CAPACITOR.",
+        "U9410": "What is U9410? a CHIP.",
+        "U6900": "What is U6900? a CHIP.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "R7956": "What is R7956? a RESISTOR.",
+        "C6100": "What is C6100? a CAPACITOR.",
+        "U4900": "What is U4900? This is the System Management Controller(SMC) in older(pre-2013) macbooks.",
+        "820-3213B": "What is 820-3213B? a LOGIC BOARD PART NUMBER.",
+        "C1802": "What is C1802? Capacitor to ground on PCH_SRTCRST_L on machines from 2009-2012, PCH_SRTCRST_L needs to be high for PCH to not be in RTC reset mode, this capacitor can become corroded or leaky and result in this signal being pulled low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PPVOUT_G3_PCH_DCPRTC": "What is PPVOUT_G3_PCH_DCPRTC? a SIGNAL.",
+        "C1803": "What is C1803? Capacitor to ground on RTC_RESET_L on machines from 2009-2012, RTC_RESET_L needs to be high for system to not be in RTC reset mode, this capacitor can become corroded or leaky and result in this signal being pulled low. .",
+        "PP3V3_S5_AVREF_SMC": "What is PP3V3_S5_AVREF_SMC? PP3V3_S5_AVREF_SMC Is a reference voltage for the SMC’s voltage sensors & other sensors..",
+        "PP3V3_S5_SMC_VDDA": "What is PP3V3_S5_SMC_VDDA? PP3V3_S5_SMC_VDDA is a 3.3v power rail present when the machine is in an S5 soft off state that powers the SMC that comes from PP3V3_S5. A blown or corroded L4901 inductor behind it can kepe it from working, inductor number will differ depending on your board. .",
+        "SMC_TCK": "What is SMC_TCK? SMC_TCK is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "SMC_TDI": "What is SMC_TDI? SMC_TDI is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "SMC_TMS": "What is SMC_TMS? SMC_TMS is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "SMC_WAKE_L": "What is SMC_WAKE_L? a SIGNAL.",
+        "SMC_TDO": "What is SMC_TDO? SMC_TDO is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "GND_SMC_AVSS": "What is GND_SMC_AVSS? a SIGNAL.",
+        "PP1V2_S5_SMC_VVDC": "What is PP1V2_S5_SMC_VVDC? a SIGNAL.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "U2700": "What is U2700? a CHIP.",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "R7917": "What is R7917? a RESISTOR.",
+        "R7930": "What is R7930? a RESISTOR.",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "PM_DSW_DWRGD": "What is PM_DSW_DWRGD? a SIGNAL.",
+        "PP1V05_SUS_LDO": "What is PP1V05_SUS_LDO? a SIGNAL.",
+        "U7740": "What is U7740? a CHIP.",
+        "PP1V05_SUS": "What is PP1V05_SUS? The PP1V05_SUS signal in the MacBook schematic is a power rail that supplies 1.05 volts, typically used in a suspended (SUS) state of the laptop. This state is a low-power mode where essential system functions are maintained, but the majority of the system is powered down..",
+        "SMC_BATLOW_L": "What is SMC_BATLOW_L? SMC_BATLOW_L refers to a power management signal that indicates a low battery condition. The \"_L\" suffix suggests that this is an active-low signal, meaning that it becomes low when the battery reaches a low voltage threshold..",
+        "C7740": "What is C7740? a CAPACITOR.",
+        "C7741": "What is C7741? a CAPACITOR.",
+        "Q5040": "What is Q5040? a TRANSISTOR.",
+        "1V05_SUS": "What is 1V05_SUS? a SIGNAL.",
+        "U1800": "What is U1800? a CHIP.",
+        "820-3209": "What is 820-3209? a LOGIC BOARD PART NUMBER.",
+        "SYSCLK_CLK32K_RTC": "What is SYSCLK_CLK32K_RTC? a SIGNAL.",
+        "SMC_CLK32K": "What is SMC_CLK32K? a SIGNAL.",
+        "PPVCORE_S0_AXG": "What is PPVCORE_S0_AXG? This is vcore going to the CPU’s integrated graphics processor for CPUs that have an integrated GPU. When this is missing on a device that has an integrated GPU and no discrete GPU, it usually means either no screen is detected, or the GPU integrated into the CPU is dead..",
+        "C4696": "What is C4696? a CAPACITOR.",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "U6210": "What is U6210? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 40555,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-11 14:32:52",
+            "message": "Having trouble with this board, cant figure out why it's not working.\nSo\n<SIGNAL>PP3V42_G3H</SIGNAL> - 3,42V (Working properly)\n<SIGNAL>PPBUS_G3H</SIGNAL> - 8,2V (As i understand this means <CHIP>U7000</CHIP> is not communicating with SMC?)\n<SIGNAL>SYS_ONEWIRE</SIGNAL> - 1V (Nothing is connected to LIO)\n<SIGNAL>SMC_BC_ACOK</SIGNAL> - 3,4V \n\nDone so far:\nReplaced <RESISTOR>R6905</RESISTOR> (It was 190ohm when i got the board)\nReplaced LCD connector (pins 3, 4 where corroded to oblivion)\nReplaced <CAPACITOR>C6996</CAPACITOR>, <CAPACITOR>C6997</CAPACITOR> (They were corroded)\n\nNotes:\n1) Charger is 100% working.\n2) When plugging in this charger to charge other working macbook air, green light lights up for 1-2 seconds, then it turns into orange light and macbook starts to charger. Now after this, when i plug this charger into my board, light actually lights up but after some time it just fades away, never to come back. And to get it to light up again, you have to plug it in the working macbook air again.\n3) Board looks very clean, only corrosion i found was near <CHIP>U6990</CHIP> i  properly cleaned it and replaced faulty components."
+        },
+        {
+            "post_id": 40556,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-11 14:39:43",
+            "message": "Ops forgot, there was just a teeny tiny amount of green junk near <CHIP>U9410</CHIP>\nAll contacts look clean, but i am gonna clean it tomorrow. No time left for today.\nThanks for your help ;)"
+        },
+        {
+            "post_id": 40558,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-11 15:08:03",
+            "message": "\"<SIGNAL>SYS_ONEWIRE</SIGNAL> - 1V (Nothing is connected to LIO)\"\nNormal, <SIGNAL>SYS_ONEWIRE</SIGNAL> is pulled-up on LIO board.\n\n\"2) When plugging in this charger to charge other working macbook air, green light lights up for 1-2 seconds, then it turns into orange light and macbook starts to charger. Now after this, when i plug this charger into my board, light actually lights up but after some time it just fades away, never to come back. And to get it to light up again, you have to plug it in the working macbook air again.\"\nThis is normal behavior too; just a memory effect...\n\n<SIGNAL>SYS_ONEWIRE</SIGNAL> circuit is entirely located on the LIO board.\nTake this schematic as example and check <CHIP>U6900</CHIP>/01.\n[url]https://drive.google.com/open?id=1b0wd4sOL4JmAQIDXma69914-LBxasJvx[/url]\n\nFirst of all check basic SMC power rails and signals (<SIGNAL>SMC_RESET_L</SIGNAL>, etc), <SIGNAL>3V3_SUS</SIGNAL>, <SIGNAL>3V3_S5</SIGNAL>..."
+        },
+        {
+            "post_id": 40561,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-11 21:41:29",
+            "message": "Here you go\n<SIGNAL>SMC_RESET_L</SIGNAL> - 3.16V\n<SIGNAL>PP3V3_SUS</SIGNAL> - 0V (Measured at <CAPACITOR>C6100</CAPACITOR>, no short to ground)\n<SIGNAL>PP3V3_S5</SIGNAL> - 0,26V (Measured ar <RESISTOR>R7956</RESISTOR>, 150kOhms)\n\nDid this very quickly before work, Will update this closer to evening. I am located in EUROPE,\nThanks!"
+        },
+        {
+            "post_id": 40567,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-12 03:49:08",
+            "message": "Yeah, and etc???\n<CHIP>U4900</CHIP> block (2 of 2), page 40..."
+        },
+        {
+            "post_id": 40587,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-12 08:49:04",
+            "message": "Sorry what do you mean etc? Like every other pin of <CHIP>U4900</CHIP>?"
+        },
+        {
+            "post_id": 40588,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-12 08:59:06",
+            "message": "LIO board SN is <LOGIC BOARD PART NUMBER>820-3213B</LOGIC BOARD PART NUMBER>\nTho cant find any schematics for this board (board view only)"
+        },
+        {
+            "post_id": 40590,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-12 11:01:34",
+            "message": "Okey...\nso from what I figured out line from <CHIP>U6900</CHIP> to charger was broken, I restored it but still no green light.\nvoltage on <SIGNAL>SYS_ONEWIRE</SIGNAL> and line to adapter from <CHIP>U6900</CHIP> (line that was broken) are both 3,4V\ni think it’s something deeper, tho have no idea"
+        },
+        {
+            "post_id": 40591,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-12 11:05:57",
+            "message": "\"<CHIP>U4900</CHIP> block (2 of 2), page 40\"\nThat SMC block has more pins for power and signals...\n\nCheck PCH's RTC signals too.\n<CAPACITOR>C1802</CAPACITOR>/3 fail a lot on this board..."
+        },
+        {
+            "post_id": 40592,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-12 11:30:12",
+            "message": "<SIGNAL>PPVOUT_G3_PCH_DCPRTC</SIGNAL> - 0V\n<SIGNAL>PPVRTC_G3H</SIGNAL> - 3,42V\n<SIGNAL>RTC_RESET_L</SIGNAL> - 3,41V\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> - 3,41V\n<CAPACITOR>C1802</CAPACITOR> - not shorted \n<CAPACITOR>C1803</CAPACITOR> - not shorted"
+        },
+        {
+            "post_id": 40593,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-12 11:50:49",
+            "message": "SMC (2 of 2)\n<SIGNAL>PP1V2_S5_SMC_VVDC</SIGNAL> - 1,2V\n<SIGNAL>SMC_RESET_L</SIGNAL> - jumping 3,26-3,28V\n<SIGNAL>SMC_WAKE_L</SIGNAL> - 2,92V\n<SIGNAL>SMC_TCK</SIGNAL> - 3,46V\n<SIGNAL>SMC_TMS</SIGNAL> - 3,46V\n<SIGNAL>SMC_TDO</SIGNAL> - 3,46V\n<SIGNAL>SMC_TDI</SIGNAL> - 3,46V\n<SIGNAL>PP3V3_S5_SMC_VDDA</SIGNAL> - 3,42V\n<SIGNAL>PP3V3_S5_AVREF_SMC</SIGNAL> - 3,3V\n<SIGNAL>GND_SMC_AVSS</SIGNAL> - shorted to ground"
+        },
+        {
+            "post_id": 40595,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-12 13:22:15",
+            "message": "<SIGNAL>SMC_PM_G2_EN</SIGNAL> is present?"
+        },
+        {
+            "post_id": 40599,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-12 13:57:01",
+            "message": "<SIGNAL>SMC_PM_G2_EN</SIGNAL> - 0V\nSo i guess its not present..."
+        },
+        {
+            "post_id": 40602,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-12 15:42:31",
+            "message": "Reball SMC, or change it directly..."
+        },
+        {
+            "post_id": 40613,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-13 01:36:45",
+            "message": "Reballed SMC\nGot orange light on charger, tho no fan spin -_-\n\nupdate:\ntried resetting SMC - didn’t help\n<SIGNAL>PP5V_S0</SIGNAL> - 0V"
+        },
+        {
+            "post_id": 40614,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-13 01:53:37",
+            "message": "So changes from green to orange?\n\n<SIGNAL>PPBUS_G3H</SIGNAL> voltage now is?\n<SIGNAL>3V3_SUS</SIGNAL>, <SIGNAL>3V3_S5</SIGNAL> appear?"
+        },
+        {
+            "post_id": 40619,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-13 04:15:10",
+            "message": "When I plug charger in, it first lights up green, then after 2-3 seconds turn orange.\n<SIGNAL>PPBUS_G3H</SIGNAL> - 8,4V\n<SIGNAL>PP3V3_SUS</SIGNAL> - 0V (not shorted to ground)\n<SIGNAL>PP3V3_S5</SIGNAL> - 3,3V"
+        },
+        {
+            "post_id": 40622,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-13 05:56:47",
+            "message": "OK, SMC runs now.\nDo you get <SIGNAL>PM_SLP_SUS_L</SIGNAL>?\n\nYou didn't check all RTC signals; still missing <SIGNAL>PCH_INTRUDER_L</SIGNAL> and <SIGNAL>PCH_INTVRMEN</SIGNAL>.\n32KHz comes out from <CHIP>U2700</CHIP>?"
+        },
+        {
+            "post_id": 40627,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-13 08:13:35",
+            "message": "<SIGNAL>PM_SLP_SUS_L</SIGNAL> - 0V (<RESISTOR>R7917</RESISTOR>, <RESISTOR>R7930</RESISTOR> are missing, is This Ok?)\n<SIGNAL>PP3V3_S5</SIGNAL> - 3,3V\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> - 2,9V\n<SIGNAL>PCH_INTVRMEN</SIGNAL> - 3V\n32khz comes from <CHIP>U2700</CHIP>"
+        },
+        {
+            "post_id": 40631,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-13 09:37:28",
+            "message": "All the components marked \"NO STUFF\", are not present...\n\nCheck PCH's block \"System Power Management\", at page 17.\nPost <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>."
+        },
+        {
+            "post_id": 40632,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-13 10:04:47",
+            "message": "<SIGNAL>SMC_ADAPTER_EN</SIGNAL> - 3,38v\n<SIGNAL>PM_BATLOW_L</SIGNAL> - 0,02v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> - 3,06v\n<SIGNAL>PM_DSW_DWRGD</SIGNAL> - 3,42v"
+        },
+        {
+            "post_id": 40633,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-13 10:20:41",
+            "message": "=<SIGNAL>PP1V05_SUS_LDO</SIGNAL>?\nIf <SIGNAL>PM_BATLOW_L</SIGNAL> is not high, PCH will not start Power On Sequence.\nLet see if board starts with both charger and battery connected.\nAlso try to start on SMC bypass mode..."
+        },
+        {
+            "post_id": 40634,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-13 10:47:57",
+            "message": "<SIGNAL>PP1V05_SUS</SIGNAL> - 0,1V (can’t be present since <CHIP>U7740</CHIP>, <CAPACITOR>C7740</CAPACITOR>, <CAPACITOR>C7741</CAPACITOR> are missing)\nNo fan spin with battery and charger, later I will leave battery and charger connected for a bit to see if charging is happening.\n\nsorry for stupid question, I am used to repairing iPhones, but now my son splilled something on my MacBook Air, just trying to repair it.\nHow do you “start on SMC by pass mode”? Couldn’t find anything on net...\n\nUpdate:\nif SMC bypass is achieved by pressing power button before plugging in the charger, then it didn’t work. Note that when I did this “bypass” methode when I plugged charger I saw no green light but only orange, but when I plug in JUST a charger there is green light for few second, and then orange.\n\n\nUpdate:\nSo I left battery charging with this board for a night, woke up and I see a green light on charger (with battery connected) tho still no fan spin.\nAlso found out:\n<SIGNAL>PP3V3_SUS</SIGNAL> is not present.... Thus on <TRANSISTOR>Q5040</TRANSISTOR>, <SIGNAL>PM_BATLOW_L</SIGNAL> not present (please correct me if I am wrong...),\n<SIGNAL>SMC_BATLOW_L</SIGNAL> - 3,2V"
+        },
+        {
+            "post_id": 40704,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-15 08:39:00",
+            "message": "Soo... any idea what’s wrong? Anything I need to look for?"
+        },
+        {
+            "post_id": 40707,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-15 10:18:03",
+            "message": "If <SIGNAL>PM_SLP_SUS_L</SIGNAL> is low, <SIGNAL>3V3_SUS</SIGNAL>, as <SIGNAL>1V05_SUS</SIGNAL> too, will be missing.\n<SIGNAL>PM_BATLOW_L</SIGNAL> still low if both charger and battery are connected?\nPCH requires high level.\nRemove <TRANSISTOR>Q5040</TRANSISTOR> and check it again..."
+        },
+        {
+            "post_id": 40712,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-15 11:22:37",
+            "message": "<SIGNAL>PM_BATLOW_L</SIGNAL> - 0,1V with charger + battery\nRemoved <TRANSISTOR>Q5040</TRANSISTOR> - no light on charger,\nEvery pin on <TRANSISTOR>Q5040</TRANSISTOR> - 0,1-0,3V\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> - 0V"
+        },
+        {
+            "post_id": 40715,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-15 12:46:11",
+            "message": "\"<SIGNAL>SMC_BATLOW_L</SIGNAL> - 3,2V\"\nYou had 3V before on pin3/<TRANSISTOR>Q5040</TRANSISTOR>...\nResolder <TRANSISTOR>Q5040</TRANSISTOR> and measure again.\n\nSeems to be PCH issue.\n<SIGNAL>PM_BATLOW_L</SIGNAL> is pulled-up inside PCH."
+        },
+        {
+            "post_id": 40720,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-15 13:17:31",
+            "message": "Soo only solution is to reball/replace <CHIP>U1800</CHIP>?\nOr there could be dead cap somewhere or something “minor”?\n\noh yes forgot to say, I put back <TRANSISTOR>Q5040</TRANSISTOR>, and everything is as it was before I removed it\n\nIf PCH replacement is needed, how much does it cost? It’s just I don’t have that high tech to do it my self :("
+        },
+        {
+            "post_id": 40730,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-15 20:23:02",
+            "message": "Oh also if PCH replacement is needed, do I need to find <CHIP>U1800</CHIP> exatly from <LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER>, or there are compatible chips...?"
+        },
+        {
+            "post_id": 40743,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-16 01:20:32",
+            "message": "I think buying another board is better in this case..."
+        },
+        {
+            "post_id": 40745,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-16 01:38:05",
+            "message": "Yes but in thoery if I replace PCH it has chance to work?"
+        },
+        {
+            "post_id": 40751,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-16 02:09:39",
+            "message": "In theory, board or new PCH can also be damaged, in the rework process...\n\nThe PCH is not expensive, but change it is not easy; requires some experience.\nIt also needs clean ME region."
+        },
+        {
+            "post_id": 40752,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-16 02:40:49",
+            "message": "I have friend who does GPU replacement quite often so I suppose there is no issue with “experience” part (he said boj cost ~25€)\nAnd I have some [URL=\"tel:<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER>\"]<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER>[/URL] I checked PCH SN and they match so I will try getting it from there.\n\nmaybe it’s worth first trying to reball PCH? Or there is no point and I should replace it right away?"
+        },
+        {
+            "post_id": 40753,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-16 02:48:13",
+            "message": "For the price of new PCH, I don't recommend reball it.\nAlso remove it from other board, having no idea about is good or not, could be even worst..."
+        },
+        {
+            "post_id": 40781,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-17 00:37:05",
+            "message": "Hi I messed up...\nI checked back everything and it appears 32k clock isn’t present... can it be cause nothing is working?"
+        },
+        {
+            "post_id": 40783,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-17 00:53:48",
+            "message": "Which 32KHZ is not present?\nPCH requires <SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL>.\nThe one for SMC (<SIGNAL>SMC_CLK32K</SIGNAL>) only appears if PCH is OK..."
+        },
+        {
+            "post_id": 40787,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-17 02:33:48",
+            "message": "Nah I don’t get anything on <SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> that comes from <CHIP>U2700</CHIP>.\nTried replacing <CHIP>U2700</CHIP> nothing changed.\n\nPrevious chip looked clean and all but I tried resoldering it, but as turned out it was literary welded to the board, cause heating it with heat gun @480C for few minutes didn’t do anything. But from donor board it came relatively easy"
+        },
+        {
+            "post_id": 40791,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-17 06:10:59",
+            "message": "<CHIP>U2700</CHIP> needs 3V at pins 2 & 13.\nIt will send out 3V at pin 1 and 32KHz (square wave) at pin 12.\nIf you don't have o-scope, DC multimeter should show aprox 0.45V DC..."
+        },
+        {
+            "post_id": 40933,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-19 09:20:40",
+            "message": "Sorry for late reply.\nSo I checked everything works on clock chip ?\ntho found shorted cap <CAPACITOR>C4696</CAPACITOR>, not sure if it’s relevant or not\nUpdate, found out that <SIGNAL>PPVCORE_S0_AXG</SIGNAL> is shorted to ground\nMore update:\njust removed that shorted cap, and what you know... a fucking fan spin ???\nonly thing is that... light on charger is still orange ?"
+        },
+        {
+            "post_id": 40935,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-19 09:33:06",
+            "message": "That means <SIGNAL>PP5V_S3</SIGNAL> power rail is shorted to ground.\nSolve that problem..."
+        },
+        {
+            "post_id": 40940,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-19 10:49:10",
+            "message": "Just checked <SIGNAL>PP5V_S3</SIGNAL> is not shorted to ground, and still orange light.\nalso I haven’t solder new <CAPACITOR>C4696</CAPACITOR>, since at the moment I don’t have any.\nAlso connected speakers and I can hear chime. But for now can’t test display cause don’t have any LCD connectors (they are coming) \ntried thunderbolt on tv but haven’t got any result. Tho I tried only 1 time."
+        },
+        {
+            "post_id": 40941,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-19 10:58:06",
+            "message": "Of course no short anymore if you already removed the bad cap; you didn't mention that in previous post...\nYou can now try for external video, if you have proper adapter."
+        },
+        {
+            "post_id": 40989,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-20 11:28:32",
+            "message": "Okey...\nso I managed to get adapter to connect MacBook to tv.\neverything works, tho sometimes, not consistently when I turn on MacBook it goes full bananas ramping fan to max speed and not seeing battery, tho working of a battery...\nAlso left speaker isn’t working, I tested speaker it self it’s 100% working, so must be something on a board:(\n\nSo fat tested everything around <CHIP>U6210</CHIP>, nothing is shorted  and resistors are okey. Tried resoldering <CHIP>U6210</CHIP>, but didn’t help.\nthat chip looks all messed up from bottom, but I want to replace it only as a last action. So what should I be checking?"
+        },
+        {
+            "post_id": 40994,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-20 12:41:16",
+            "message": "Did you try other LIO board and flex?"
+        },
+        {
+            "post_id": 41002,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-20 14:25:26",
+            "message": "Yes, if I connect left/right speaker to LIO’s speaker connector - everything works.\nBut if I connect left/right speaker to motherboard speaker connector - nothing works (sounds)\nAlso sometime during booting up I can hear some realy faith static coming from that speaker"
+        },
+        {
+            "post_id": 41012,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-20 16:44:42",
+            "message": "Audio codec is on the LIO board.\nSo right channel audio comes from LIO, only the audio amp is on the MLB.\nCheck continuity for that line.\nAlso measure corresponding audio amp...\nRamping fan can also be caused by LIO board, or bad contact between boards; could be trackpad issue to.\nRun ASD and see if any error pop out."
+        },
+        {
+            "post_id": 41060,
+            "thread_id": 40555,
+            "title": "<LOGIC BOARD PART NUMBER>820-3208A</LOGIC BOARD PART NUMBER> liquid damage, no light on charger.",
+            "user_id": 1956,
+            "username": "BigPersonalety",
+            "post_date": "2018-10-22 13:45:38",
+            "message": "Alright so probably last update.\nRestorted audio on that speaker I was talking about earlier, the fault was in <CHIP>U6210</CHIP>, took it of a donor board, now everything works as new ?\nNow when board has been fully restored, I have no more question.\nThank you very much for helping me fix this old piece of junk, I learned a lot of new things :)\nSee you in the future :)\nPS: \nI still haven’t solder LCD connector, so there is slight chance after 2-3 weeks I might comeback with some issue related to LCD, but I hope everything is fine in that department... ?"
+        }
+    ]
+}

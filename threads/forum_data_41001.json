@@ -1,0 +1,86 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. ."
+    },
+    "threads": [
+        {
+            "post_id": 41001,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-20 14:12:38",
+            "message": "I found this one a little tricky, no corrosion. I have no magsafe light at all.\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3,41V,\n<SIGNAL>PPBUS_G3H</SIGNAL>, = 8,6V,\n<SIGNAL>SMC_BC_ACOK</SIGNAL>=3.3V, present at I/O board J9500 connector\n<SIGNAL>SYS_ONEWIRE</SIGNAL>=3,4V present at I/O board J9500 connector..\n<CHIP>ISL6259</CHIP> pins 17,18= 5ohms, 27,28=22ohms. DCIN 16V and ACIN (4.xV) present\n\nIt powers fine with charger only. it powers fine with battery only.\nIf I plug in magsafe while laptop is powered wtth battery I can see the charging logo but it actually doesn't charge, and the source is ac adapter.\n\nWhen I check battery status everything is normal, battery is seen and percentage ans estimated time is correctty reported, however in the system report for the magsafe I see nothing but:\nConnected: YES\nIdentifier: 0x0000\nRevision: 0x0000\nFamily: 0x0000\nSerial: 0x000000000\nCharging: No\n\nUsing only original magsafe and known good tested i/o board i/o cable and battery.\n\nAny idea??? Maybe a stupid thing I overlooked or an smc issue?\nThanks in advance"
+        },
+        {
+            "post_id": 41003,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-20 14:35:03",
+            "message": "Oh wait a second, <SIGNAL>SMC_BC_ACOK</SIGNAL> is actually not present at pin 1 of J9500.\nI will report shortly."
+        },
+        {
+            "post_id": 41004,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-20 15:14:30",
+            "message": "It was really missing, now I have back <SIGNAL>SMC_BC_ACOK</SIGNAL> 3,3V at pin 1 of J9500, but still no magsafe light.\nI doubled checked the connector even in the internal pin#1 and I get 3.3V...\nStill investigating.."
+        },
+        {
+            "post_id": 41005,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-20 15:54:56",
+            "message": "Odd that the board powers on and still no green light. Seeing how you have bcacok... i would suspect smc being bad seeing how it wont charge battery reflow it or replace."
+        },
+        {
+            "post_id": 41010,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-20 16:38:03",
+            "message": "Thanks for the suggestion Gmorb. Yeah it was powering on both with only charger or only battery. But there was no syswire communication.\nIt's fixed, somebody had used brutal force on J9500, as <SIGNAL>SYS_ONEWIRE</SIGNAL> pin was moving, same thing for <SIGNAL>SMC_BC_ACOK</SIGNAL>.  No corrosion at all, clean board...\nDidn't want to reflow smc because it's alive with proper voltage, and passes EFI...\nNow in system report I can see the magsafe charger well identified.\n\nThe odd thing is that I just lost backlight, maybe this board is finishing the avalanche failure now that magsafe light is restored:)\nIt was faint backlight then screen shut off. strange behaviour backlight going to 19-24V and then 8,6V.\nI will check that more in details."
+        },
+        {
+            "post_id": 41015,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-20 16:59:17",
+            "message": "Check <SIGNAL>SMC_LID</SIGNAL> signal, it goes to J9500 too.\nDisconnect LIO flex and see if backlight comes back."
+        },
+        {
+            "post_id": 41018,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-20 20:38:36",
+            "message": "Thanks 2informaticos! that helped at least locate the issue, backlight was ok without the i/o cable.\nSMC LID was low because of...keeping my test speaker upside down with its magnet just beneath the sleep sensor. What a total troll...\nNow I don't have audio, I mean it's not disabled, i see the audio speaker logo in the menu but no sound emitted. I am sure something still related to J9500. It's something inttermitent, because when I was diagnosing the no magsafe light I heard from time to time the chime, probably another bad pin. I will inspect thoroughly the pins and let you know."
+        },
+        {
+            "post_id": 41019,
+            "thread_id": 41001,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no magsafe light",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-20 23:36:34",
+            "message": "Ok It is solved, done with that board. It turns out my 3 years old 2 pin speaker test died,\nThanks for everything."
+        }
+    ]
+}

@@ -1,0 +1,84 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3536": "What is 820-3536? a LOGIC BOARD PART NUMBER.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "C7120": "What is C7120? a CAPACITOR.",
+        "R7105": "What is R7105? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "R5187": "What is R5187? a RESISTOR.",
+        "U7090": "What is U7090? This chip is often responsible for creating PP3V42_G3H.",
+        "PPVIN_G3H_P3V42G3H": "What is PPVIN_G3H_P3V42G3H? PPVIN_G3H_P3V42G3H is the input voltage to the PP3V42_G3H buck converter circuit, it can be either charger voltage or battery voltage depending on what the system power source is. This often shorts to ground when one of the input capacitors dies. .",
+        "C7090": "What is C7090? a CAPACITOR.",
+        "C7092": "What is C7092? a CAPACITOR.",
+        "C7091": "What is C7091? a CAPACITOR.",
+        "D7005": "What is D7005? a DIODE.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. ."
+    },
+    "threads": [
+        {
+            "post_id": 13263,
+            "thread_id": 13263,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL>",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-01-19 08:37:59",
+            "message": "I have 4V on <SIGNAL>CHGR_ACIN</SIGNAL> and both <CHIP>U7100</CHIP> voltage sense circuits are measuring fine. <SIGNAL>SMC_BC_ACOK</SIGNAL> is measuring about 0.05V. I replaced a missing <CAPACITOR>C7120</CAPACITOR> and replaced <CHIP>U7100</CHIP>. I've measured all the resistors around <CHIP>U7100</CHIP> and they are measuring fine. Usually just taking care of the basics will get this solved. Not sure what else I need to get this going. Areas of minor corrosion can be seen in pics."
+        },
+        {
+            "post_id": 13273,
+            "thread_id": 13263,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-19 09:24:59",
+            "message": "Check voltage on <RESISTOR>R7105</RESISTOR> and resistance to GND on ACOK."
+        },
+        {
+            "post_id": 13282,
+            "thread_id": 13263,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL>",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-01-19 11:08:19",
+            "message": "Around 205kΩ (measured before turning it on). 0.521 drop to ground. Voltage on <RESISTOR>R7105</RESISTOR> is 16.5V on both sides."
+        },
+        {
+            "post_id": 13300,
+            "thread_id": 13263,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-19 18:35:56",
+            "message": "Check <RESISTOR>R5187</RESISTOR>, if that is ok then it is probably a bad <CHIP>U7100</CHIP> again."
+        },
+        {
+            "post_id": 13333,
+            "thread_id": 13263,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL>",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-01-20 12:23:22",
+            "message": "<RESISTOR>R5187</RESISTOR> measures fine. Replaced <CHIP>U7100</CHIP> again. No change. After the first replacement I noticed that <CAPACITOR>C7092</CAPACITOR> was shorted so I replaced <CAPACITOR>C7092</CAPACITOR>, <CAPACITOR>C7091</CAPACITOR>, <CAPACITOR>C7090</CAPACITOR> and <CHIP>U7090</CHIP>. I have 0.8V on <SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL>. Not sure how that interacts with <CHIP>U7100</CHIP> and ACOK, but I've been working under the assumption that I should be able to get ACOK with just a functional <CHIP>U7100</CHIP> circuit."
+        },
+        {
+            "post_id": 13337,
+            "thread_id": 13263,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-20 12:52:49",
+            "message": "Really, you did not check if there was 3V42 before asking about ACOK....?\nVoltages on <DIODE>D7005</DIODE>? Resistance to GND on 3V42 bus?"
+        },
+        {
+            "post_id": 13343,
+            "thread_id": 13263,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL>",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-01-20 14:22:03",
+            "message": "Ha, I was wondering when you were going to chew me out for one of the various holes in my knowledge. Yeah, I was thinking I could get ACOK going and then work on 3V42. Apparently not. Replaced <RESISTOR>R7020</RESISTOR> that was measuring correct resistance but not allowing voltage through. Done. Working. Thanks."
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "U9701": "What is U9701? a CHIP.",
+        "BKLT_EN": "What is BKLT_EN? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKLT” before “_EN”. “BKLT” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "PPVOUT_SW_LCDBKLT": "What is PPVOUT_SW_LCDBKLT? PPVOUT_SW_LCDBKLT is the voltage rail for the backlight of the LCD screen. .",
+        "R9704": "What is R9704? a RESISTOR.",
+        "Q9707": "What is Q9707? a TRANSISTOR.",
+        "D9701": "What is D9701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "LCD_BKLT_EN": "What is LCD_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “LCD_BKLT” which stands for “LCD screen backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "BKLT_PLT_RST_L": "What is BKLT_PLT_RST_L? a SIGNAL.",
+        "R9789": "What is R9789? a RESISTOR.",
+        "R9788": "What is R9788? a RESISTOR.",
+        "Q9706": "What is Q9706? Q9706 takes PPBUS_G3H's vltage and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q9706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R9788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q9706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "BLK_PWM": "What is BLK_PWM? BLK_PWM is a typo of BKL_PWM. When you see BLK_PWM assume the poster meant to type BKL_PWM. BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "R9731": "What is R9731? a RESISTOR.",
+        "R9715": "What is R9715? a RESISTOR.",
+        "BKLT_PWM": "What is BKLT_PWM? BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKLT_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "R9713": "What is R9713? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 14261,
+            "thread_id": 14261,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no bklt",
+            "user_id": 371,
+            "username": "nate8organic",
+            "post_date": "2017-02-03 19:20:02",
+            "message": "have an <LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> showing data but no bklt.  im getting 12.4v on <SIGNAL>PPVOUT_SW_LCDBKLT</SIGNAL> if i understand correctly i need 30v here?  either way im getting 3.2v on <SIGNAL>BKLT_EN</SIGNAL>,  i wired <TRANSISTOR>Q9707</TRANSISTOR> to <RESISTOR>R9704</RESISTOR> and no backlight so im assuming my troubles are after the <CHIP>U9701</CHIP>?. \n\nThanks \nnate"
+        },
+        {
+            "post_id": 14264,
+            "thread_id": 14261,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no bklt",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-02-03 21:05:59",
+            "message": "Let's start from scratch.\n\nBacklight is created when\n\n1) The LED driver is getting power(99% of the time this is fine, if not 100%).\n2) <SIGNAL>BKL_EN</SIGNAL> is 2.7v or more telling backlight to turn on.\n3) <SIGNAL>BKL_PWM</SIGNAL> has a PWM on it(check voltage here to make sure something is here) telling it what brightness to be\n4) Feedback is attached between backlight output at <DIODE>D9701</DIODE> and ball A5 of <CHIP>LP8550</CHIP>(<CHIP>U9701</CHIP>).\n5) The LED driver is not bad.\n6) <SIGNAL>SMC_LID</SIGNAL> is not below 3.3v.\n\nAs with other threads, provide history. Is this liquid damaged, dropped, or just a screen repair gone bad?\n\n<SIGNAL>SMC_LID</SIGNAL> is often drawn down due to a bad battery indicator/sleep sensor - that cable that plugs into the board next to the battery. This will cause <SIGNAL>BKL_PWM</SIGNAL> to be low and give you a flickering light. <SIGNAL>BKL_EN</SIGNAL> missing will also provide no boost. Feedback missing due to water corroding away ball A5 on <CHIP>LP8550</CHIP> will also do this.\n\nNow, with your wiring of <TRANSISTOR>Q9707</TRANSISTOR> to <RESISTOR>R9704</RESISTOR> - why?? Remove ALL of that!! These two have nothing to do with one another. Let's go over what <TRANSISTOR>Q9707</TRANSISTOR> and <TRANSISTOR>Q9706</TRANSISTOR> are for.\n\n<TRANSISTOR>Q9706</TRANSISTOR> takes <SIGNAL>PPBUS_G3H</SIGNAL>'s main 12.6v and sends it through to the backlight circuit. If <TRANSISTOR>Q9706</TRANSISTOR> is not opening, then you will get no voltage on the backlight circuit. <TRANSISTOR>Q9706</TRANSISTOR> is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. <RESISTOR>R9788</RESISTOR> takes the 12.6v that is on the source and places it right on pin 3. This will set <TRANSISTOR>Q9706</TRANSISTOR> to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical.\n\nHow would we lover the voltage on <TRANSISTOR>Q9706</TRANSISTOR>'s gate at pin 3 so that it will turn on? Look at <RESISTOR>R9789</RESISTOR>. If we take <RESISTOR>R9789</RESISTOR> and put it to ground right after <RESISTOR>R9788</RESISTOR> now we have a voltage divider. Voltage dividers lower voltage! A hah. So why isn't it lowering? <RESISTOR>R9789</RESISTOR> needs a path to ground in order for <RESISTOR>R9788</RESISTOR>/<RESISTOR>R9789</RESISTOR> to [I]be [/I]a voltage divider. What gives <RESISTOR>R9789</RESISTOR> a path to ground? <TRANSISTOR>Q9707</TRANSISTOR>.\n\n<TRANSISTOR>Q9707</TRANSISTOR> is the opposite of <TRANSISTOR>Q9706</TRANSISTOR>. It's an N channel MOSFET. It will turn \"on\" when the power on the gate is equal to or higher than the source. <SIGNAL>BKLT_PLT_RST_L</SIGNAL>, once it is 3.3v, ,will be higher than the 0v(ground) on pin 1, which will open the first transistor. <SIGNAL>LCD_BKLT_EN</SIGNAL>, when 3.3v, will be higher than the 0v on the source(ground pin 4) and open the second transistor. This will give <RESISTOR>R9789</RESISTOR> a path to ground, making <RESISTOR>R9788</RESISTOR>/<RESISTOR>R9789</RESISTOR> a voltage divider, which will lower the voltage on pin 3 of <TRANSISTOR>Q9706</TRANSISTOR> to around 5v, which will allow it to open.\n\n<TRANSISTOR>Q9707</TRANSISTOR>/<TRANSISTOR>Q9706</TRANSISTOR>'s purpose is to send power through to the circuit. If you have <SIGNAL>PPBUS_G3H</SIGNAL> voltage [I]un-attenuated [/I]at backlight output, then <TRANSISTOR>Q9706</TRANSISTOR>/<TRANSISTOR>Q9707</TRANSISTOR> are doing their job anad [B]not [/B]to be touched!"
+        },
+        {
+            "post_id": 14369,
+            "thread_id": 14261,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no bklt",
+            "user_id": 371,
+            "username": "nate8organic",
+            "post_date": "2017-02-06 12:37:59",
+            "message": "okay i clearly understand now. miss understanding there hahaha! sorry.  :o  \n\n tested <SIGNAL>BLK_PWM</SIGNAL> @  3.2v\n<SIGNAL>SMC_LID</SIGNAL> @3.4v\n\nPin 1 on the \n\ni also just pulled the lvdc cable wile still power in :eek:) not paying attention!   replaced the L9008. seems like no data still. what would i have fried doing this?  \nah just love fucking things up worse hahah:("
+        },
+        {
+            "post_id": 14374,
+            "thread_id": 14261,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no bklt",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-02-06 14:02:15",
+            "message": "You didn't tell me what <SIGNAL>BKL_EN</SIGNAL> is. If <SIGNAL>BKL_EN</SIGNAL> is 2.7v or greater, then bad LED driver or the feedback trace is gone on ball A5 of <CHIP>U9701</CHIP>. If <SIGNAL>BKL_EN</SIGNAL> is 0v or 0.02v or something low, then figure out why that is(bad <RESISTOR>R9715</RESISTOR>/<RESISTOR>R9731</RESISTOR>/trace to those resistors is blown)."
+        },
+        {
+            "post_id": 14386,
+            "thread_id": 14261,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no bklt",
+            "user_id": 371,
+            "username": "nate8organic",
+            "post_date": "2017-02-06 15:17:10",
+            "message": "okay so i mixed up 2 boards.  the last board i thought i messed up data but it was wrong board.  So i tested the board.  <SIGNAL>BKLT_PWM</SIGNAL> @3v\n<SIGNAL>SMC_LID</SIGNAL> @3.4v\n<SIGNAL>BKLT_EN</SIGNAL> @3.2v after i changed out the <RESISTOR>R9715</RESISTOR> & <RESISTOR>R9713</RESISTOR>  before i replaced them it was jumping around 300.  \n\nstill no backlight though.  where is the led driver? i search in the schematics but only found info on  it under battery.  sorry for my lack of knowledge/ understanding here. \nAnd thanks for taking the time to help me!"
+        }
+    ]
+}

@@ -1,0 +1,133 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "D6902": "What is D6902? a DIODE.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "PM_EN_P3V3_G3H": "What is PM_EN_P3V3_G3H? PM_EN_P3V3_G3H is a signal that enables the PP3V3_G3H rail to turn on. This comes out of ISL9239 or ISL9240 chip; when missing, often is missing because of a bad ISL9239 or ISL9240 chip. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "AUX_DET": "What is AUX_DET? a SIGNAL.",
+        "P_IN": "What is P_IN? a SIGNAL.",
+        "AUX_OK": "What is AUX_OK? a SIGNAL.",
+        "SMC_RST_IN": "What is SMC_RST_IN? a SIGNAL.",
+        "SMC_RST": "What is SMC_RST? a SIGNAL.",
+        "EN_VR1": "What is EN_VR1? a SIGNAL.",
+        "SMC_USB_INT_L": "What is SMC_USB_INT_L? a SIGNAL.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "PPBUS_G3H_R": "What is PPBUS_G3H_R? a SIGNAL.",
+        "P3V3G3H_VBST": "What is P3V3G3H_VBST? a SIGNAL.",
+        "PPDCIN_G3H_CHGR_R": "What is PPDCIN_G3H_CHGR_R? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "C7023": "What is C7023? a CAPACITOR.",
+        "R7061": "What is R7061? a RESISTOR.",
+        "R7962": "What is R7962? a RESISTOR.",
+        "R7961": "What is R7961? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 99663,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 44922,
+            "username": "Max7",
+            "post_date": "2023-06-03 12:01:27",
+            "message": "This one came as not turning on. The board is clean, with no signs of corrosion.\n\nThe power draw is steady at 5v 30mA. Although this is quite similar to Louis' TB Rom video I don't suspect that since the behaviour is steady on all four ports.\n\n<SIGNAL>PPDCIN_G3H</SIGNAL> = 5v\n<SIGNAL>PPBUS_G3H</SIGNAL> = 0v - not shorted\n<SIGNAL>PP3V3_G3H</SIGNAL> = 0v - not shorted\n\n<DIODE>D6902</DIODE> is fine and providing 5V\n<SIGNAL>PM_EN_P3V3_G3H</SIGNAL> is missing.\n\nI need a bit of help on what to check next. Many thanks."
+        },
+        {
+            "post_id": 99664,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-03 14:40:17",
+            "message": "Check <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V3_G3H</SIGNAL> voltage with both charger and battery connected.\n\nPost <CHIP>U7000</CHIP> basic voltages: <SIGNAL>P_IN</SIGNAL>, <SIGNAL>AUX_DET</SIGNAL>, <SIGNAL>SMC_RST_IN</SIGNAL>, VDDA/P, <SIGNAL>EN_VR1</SIGNAL>, <SIGNAL>SMC_RST</SIGNAL>*, <SIGNAL>AUX_OK</SIGNAL>, A/BMON.\nRemove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage.\n\nCheck <SIGNAL>SMC_USB_INT_L</SIGNAL> level."
+        },
+        {
+            "post_id": 99705,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 44922,
+            "username": "Max7",
+            "post_date": "2023-06-05 11:29:56",
+            "message": "Do I need to check <CHIP>U7000</CHIP> and <CAPACITOR>C7050</CAPACITOR> voltages with or without the battery connected ?"
+        },
+        {
+            "post_id": 99706,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-05 15:57:23",
+            "message": "You can check in both cases..."
+        },
+        {
+            "post_id": 99821,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 44922,
+            "username": "Max7",
+            "post_date": "2023-06-09 10:17:29",
+            "message": "<SIGNAL>P_IN</SIGNAL> = 5.2V\n<SIGNAL>AUX_DET</SIGNAL> = 1.27V\n<SIGNAL>SMC_RST</SIGNAL>* = 0.545V ??\nVDDP = 5.02V\nVDDA = 5.07V\n<SIGNAL>EN_VR1</SIGNAL> = 5.08V\n<SIGNAL>SMC_RST_IN</SIGNAL> = 3.3mV ??\n<SIGNAL>AUX_OK</SIGNAL> = 0.546V\nAMON=0.468V\nBMON=0.450V\n\nWhen I touch the red probe to BMON to measure voltage, the power draw goes up to 20.1V / 0.0A and stays there.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V3_G3H</SIGNAL> stayed 0 with or without the battery connected. Above voltages with no battery.\n\nMany thanks"
+        },
+        {
+            "post_id": 99823,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-09 10:30:23",
+            "message": "\"<SIGNAL>EN_VR1</SIGNAL> = 5.08V\"\nSo <SIGNAL>3V3_G3H</SIGNAL> is enabled; post <CHIP>U6903</CHIP> voltages.\n\nAlso check resistance over <CAPACITOR>C7020</CAPACITOR>/23."
+        },
+        {
+            "post_id": 99827,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 44922,
+            "username": "Max7",
+            "post_date": "2023-06-09 11:04:39",
+            "message": "<CAPACITOR>C7023</CAPACITOR> = <2.3 ohm, normal isn't it given that <RESISTOR>R7020</RESISTOR> is very low resistance ?\n<CAPACITOR>C7020</CAPACITOR> = 5.3 Mohm\n\n<CHIP>U6903</CHIP> voltages\nBST = 7.76V -> <SIGNAL>P3V3G3H_VBST</SIGNAL>\nSUP = 4.78V -> <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>\nLX = 3.43V\nBIAS = 4.76V\nFB = When I measure it it is 1V, then if I keep the multimeter, power draw goes up to 20.1V (0.0A) and FB pin goes down to 50mA or so.\nEN - 5.08V\n\n<DIODE>D6902</DIODE>\noutput: 4.78V\n<SIGNAL>PPBUS_G3H_R</SIGNAL>: 3.8V\n<SIGNAL>PPDCIN_G3H_CHGR_R</SIGNAL>: 5.09V\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 3.8V\n<SIGNAL>PP3V3_G3H</SIGNAL>: 3.34V\nsorry these two conflicts with the previous 0V measurement :( I have replaced ISL after the first post. Not sure if that made a change.\nNormal power draw also went up to 40-50mA from 30mA (all 5V)"
+        },
+        {
+            "post_id": 99830,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-09 12:40:37",
+            "message": "\"<CAPACITOR>C7020</CAPACITOR> = 5.3 Mohm\"\nCheck <RESISTOR>R7061</RESISTOR>/2; at least one is bad."
+        },
+        {
+            "post_id": 99832,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 44922,
+            "username": "Max7",
+            "post_date": "2023-06-09 13:24:38",
+            "message": "<RESISTOR>R7962</RESISTOR> is 1 ohm as expected \n<RESISTOR>R7961</RESISTOR> is measuring 44 ohms even after removing it from the circuit.\n\nReplaced <RESISTOR>R7961</RESISTOR> with a good resistor. Now power draw starts with 5V and switches to 20.1V, 0.0A.\n\nI will measure voltages further tomorrow, please let me know if this resembles a typical issue.\n\nThanks a lot for the help"
+        },
+        {
+            "post_id": 99833,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-09 13:48:53",
+            "message": "No need to put board back yet.\nYou can check if CPU core comes on with correct voltage.\nIt should drop to 0.65V after 10-15s."
+        },
+        {
+            "post_id": 99871,
+            "thread_id": 63941,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 44922,
+            "username": "Max7",
+            "post_date": "2023-06-12 02:33:44",
+            "message": "Just to conclude the thread, after fixing the resistor above, the ISL was overheating, perhaps a faulty one (after the replacement). I had to replace it again, everything started working as expected.\n\nThanks a lot for the help."
+        }
+    ]
+}

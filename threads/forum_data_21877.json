@@ -1,0 +1,126 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "BKLT_PLT_RST_L": "What is BKLT_PLT_RST_L? a SIGNAL.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing."
+    },
+    "threads": [
+        {
+            "post_id": 21877,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 136,
+            "username": "george-a",
+            "post_date": "2017-06-18 06:47:21",
+            "message": "Hi guys,\n\nThis one came in from another service shop dead. They already UCed with generic chinese bath.\n\nI did once more with Crest to clear their flux (which was all over the place) and also ensure a better bath and after that I jumped a corroded line and a missing resistor BOTH next to the SMC.\n\nNow when I connect the magsafe the fan starts, I get <SIGNAL>ALL_SYS_PWRGD</SIGNAL> but no green light..\n\n<SIGNAL>PPBUS_G3H</SIGNAL> at F7140 is 8.3 to 8.4V\n<SIGNAL>PP3V42_G3H</SIGNAL> at 3.45V\n<SIGNAL>SMC_BC_ACOK</SIGNAL> is also HIGH\n\nother voltages present too..\n\nAny ideas?\n\nbr,\ngeorge"
+        },
+        {
+            "post_id": 21878,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2017-06-18 07:51:16",
+            "message": "Could be corrosion on J9500, bad magsafe board or a bad flat cable....."
+        },
+        {
+            "post_id": 21879,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 136,
+            "username": "george-a",
+            "post_date": "2017-06-18 07:57:58",
+            "message": "ok I just had the guy bring me the LCD, there is also no backlight - are these related? or should I also find a new flat cable (tried DC board and magsafe is sound, original 85W)\n\n<SIGNAL>BKL_EN</SIGNAL>, <SIGNAL>EDP_BKLT_EN</SIGNAL>, <SIGNAL>BKLT_PLT_RST_L</SIGNAL> are missing.\n\nThere is 8.5V output at the backlight fuse which means its not boosting but the FB trace is ok and I also replaced the driver L8550 (before I checked the Enable since there was corrosion there too)."
+        },
+        {
+            "post_id": 21880,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 468,
+            "username": "ALB-Repairs",
+            "post_date": "2017-06-18 08:16:36",
+            "message": "Why are you measuring at the fuse? All that tells you is if the fuse is good or not, not that its not boosting. It sounds to me like the board may not be posting? Whats your LCD Enable voltage? Have you tried an external display?\n\nDid you jump the resistor? was it meant to be 0Ohm?\n\nAnyhow the way to tell if its not boosting is to check past the feedback, one of those big caps near the LVDS should show you your true backlight output voltage."
+        },
+        {
+            "post_id": 21881,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2017-06-18 08:49:57",
+            "message": "check <SIGNAL>SMC_LID</SIGNAL>...."
+        },
+        {
+            "post_id": 21907,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 136,
+            "username": "george-a",
+            "post_date": "2017-06-19 08:19:06",
+            "message": "[QUOTE=\"ALB-Repairs, post: 21880\"]Why are you measuring at the fuse? All that tells you is if the fuse is good or not, not that its not boosting. It sounds to me like the board may not be posting? Whats your LCD Enable voltage? Have you tried an external display?\n\nDid you jump the resistor? was it meant to be 0Ohm?\n\nAnyhow the way to tell if its not boosting is to check past the feedback, one of those big caps near the LVDS should show you your true backlight output voltage.\n[/QUOTE]\n\nsorry you are right at the fuse I measured the expected voltage, at <DIODE>D7701</DIODE> where I checked for continuity for the FB there is no output.\n\nalso the <SIGNAL>SMC_LID</SIGNAL> is HIGH.\nthe CPU although it gets 1V does not warm up.. it does but only a little..."
+        },
+        {
+            "post_id": 21909,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2017-06-19 09:24:41",
+            "message": "So, no external video????"
+        },
+        {
+            "post_id": 21944,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-06-19 15:43:43",
+            "message": "Is there even an image?"
+        },
+        {
+            "post_id": 21969,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 136,
+            "username": "george-a",
+            "post_date": "2017-06-20 02:44:02",
+            "message": "unfortunately no image from display port to HDMI adapter. CPU runs veeeerrrryyyy cool.. the wine was spilled in the middle of the laptop back so around the CPU area.. maybe the CPU is gone?"
+        },
+        {
+            "post_id": 22023,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 468,
+            "username": "ALB-Repairs",
+            "post_date": "2017-06-21 04:37:37",
+            "message": "<CHIP>U1950</CHIP> id guess."
+        },
+        {
+            "post_id": 22271,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 136,
+            "username": "george-a",
+            "post_date": "2017-06-27 10:52:34",
+            "message": "why you think that ALB? it is the \"PCH PWROK Generation\", IC ID: 74LVC2G08GT"
+        },
+        {
+            "post_id": 22289,
+            "thread_id": 21877,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> LD, after UC and jumpers OK(?) but no green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-06-27 18:24:53",
+            "message": "CPU Vcore present on L7310?"
+        }
+    ]
+}

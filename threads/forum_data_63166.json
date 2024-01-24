@@ -1,0 +1,84 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PM_EN_5VS4": "What is PM_EN_5VS4? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_PWRBTN": "What is PM_PWRBTN? PM_PWRBTN refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop..",
+        "SMC_ONFF_L": "What is SMC_ONFF_L? This is a typo of SMC_ONOFF_L When you see SMC_ONFF_L, assume they meant to type SMC_ONOFF_L.",
+        "U2800": "What is U2800? a CHIP.",
+        "PM_BATLOW": "What is PM_BATLOW? PM_BATLOW is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on.",
+        "PP3V3_TBT_X_S0": "What is PP3V3_TBT_X_S0? a SIGNAL.",
+        "U2890": "What is U2890? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 93165,
+            "thread_id": 63166,
+            "title": "00840 20V 0A PPBUS 13.1V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2022-10-10 15:31:30",
+            "message": "No signs of liquid. Machine died for no known reason according to customer. \n\n<SIGNAL>PP5V_S5</SIGNAL> and <SIGNAL>PP3V3_S5</SIGNAL> are present. Checked diode on all big coils and checked with IR for any heat on board. Tested on bench with only power cord plugged in. Doesn't start in SMC bypass. \n\n<SIGNAL>PM_EN_5VS4</SIGNAL> is not present. S5 Pwrgd is present. <SIGNAL>SMC_RESET_L</SIGNAL> is 3V.\n\nI'm unable to find what would trigger <SIGNAL>PM_EN_5VS4</SIGNAL> or if something is missing between that and <SIGNAL>S5_PWRGD</SIGNAL>. I also checked diode mode of both battery SCL/SDA and they match at .429"
+        },
+        {
+            "post_id": 93169,
+            "thread_id": 63166,
+            "title": "00840 20V 0A PPBUS 13.1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-10 17:02:23",
+            "message": "You've forgot to specify exact <SIGNAL>PPBUS_G3H</SIGNAL> voltage (without battery).\n\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>, at same time."
+        },
+        {
+            "post_id": 93173,
+            "thread_id": 63166,
+            "title": "00840 20V 0A PPBUS 13.1V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2022-10-10 17:18:51",
+            "message": "Was in the title: <SIGNAL>PPBUS_G3H</SIGNAL> is 13.1V without battery. I’ll report on the others tomorrow. Thanks!"
+        },
+        {
+            "post_id": 93179,
+            "thread_id": 63166,
+            "title": "00840 20V 0A PPBUS 13.1V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2022-10-11 07:16:03",
+            "message": "Yes. <SIGNAL>PM_PWRBTN</SIGNAL> drops from 3.3V to .3V when triggering <SIGNAL>SMC_ONFF_L</SIGNAL>"
+        },
+        {
+            "post_id": 93182,
+            "thread_id": 63166,
+            "title": "00840 20V 0A PPBUS 13.1V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2022-10-11 09:36:04",
+            "message": "<SIGNAL>PM_BATLOW</SIGNAL> was stuck low. Checked and near 0 in diode mode red to ground. When I pulled off shield on <CHIP>U2800</CHIP> a bunch of caps and diodes moved near DCIN ports. I put everything back pulling parts from different board and thought everything was good. Plugged in and board started to try to start and pulling amperage but <CHIP>U2800</CHIP> fried a hole near the center and dead short on <SIGNAL>PP3V3_TBT_X_S0</SIGNAL>. Don't know if it having heat to it finished it off or something else wrong. Not seeing anything out of sorts near the ports. short is gone after pulling <CHIP>U2800</CHIP>"
+        },
+        {
+            "post_id": 93185,
+            "thread_id": 63166,
+            "title": "00840 20V 0A PPBUS 13.1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-11 11:02:34",
+            "message": "Machine should boot without <CHIP>U2800</CHIP>, if <CHIP>U2890</CHIP> is OK."
+        },
+        {
+            "post_id": 93214,
+            "thread_id": 63166,
+            "title": "00840 20V 0A PPBUS 13.1V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2022-10-12 09:01:46",
+            "message": "Very much appreciate that tip. I wouldn't have guessed it would boot without <CHIP>U2800</CHIP> considering how Apple is tying everything together before booting. Yes it does in fact boot without the <CHIP>U2800</CHIP>. SO hopefully replacing it will get me back in business. Thanks again!"
+        }
+    ]
+}

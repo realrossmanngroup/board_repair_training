@@ -1,0 +1,151 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "U5600": "What is U5600? a CHIP.",
+        "SMC_TCK": "What is SMC_TCK? SMC_TCK is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "SMC_TDI": "What is SMC_TDI? SMC_TDI is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "SMC_TDO": "What is SMC_TDO? SMC_TDO is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "SMS_INT_L": "What is SMS_INT_L? a SIGNAL.",
+        "SMC_S4_WAKE_SRC_EN": "What is SMC_S4_WAKE_SRC_EN? a SIGNAL.",
+        "R5181": "What is R5181? a RESISTOR.",
+        "R5180": "What is R5180? a RESISTOR.",
+        "Q7155": "What is Q7155? a TRANSISTOR.",
+        "SMC_BMON_ISENSE": "What is SMC_BMON_ISENSE? a SIGNAL.",
+        "SMC_BMON_DISCRETE_ISENSE": "What is SMC_BMON_DISCRETE_ISENSE? a SIGNAL.",
+        "PPBIS_G3H": "What is PPBIS_G3H? a SIGNAL.",
+        "U5601": "What is U5601? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "R7012": "What is R7012? a RESISTOR.",
+        "Q7010": "What is Q7010? Q7010 controls whether or not PPDCIN_G3H will be let through to the PP3V42_G3H power supply, often this circuit area is not working because D7010 has died or corroded. .",
+        "D7012": "What is D7012? Diode between ground and gate of Q7010 on 2013-2015 year model macbook airs, necessary for Q7010 to allow PPDCIN_G3H to flow through to PP3V42_G3H power supply input. When this diode dies or corrodes, PP3V42_G3H input will not have any voltage, and chargers will not turn on. This can often be the problem if a system only works with a knockoff charger/bench power supply. .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "R7010": "What is R7010? a RESISTOR.",
+        "R7011": "What is R7011? a RESISTOR.",
+        "PPDCIN_G3H_ISOL": "What is PPDCIN_G3H_ISOL? This is the voltage coming directly from the charger after going through a transistor. .",
+        "DCIN_ISOL_GATE_R": "What is DCIN_ISOL_GATE_R? a SIGNAL.",
+        "DCIN_ISOL_GATE": "What is DCIN_ISOL_GATE? a SIGNAL.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. ."
+    },
+    "threads": [
+        {
+            "post_id": 49708,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-06-03 22:50:47",
+            "message": "This is a liquid damaged board\n\nIt had No backlight, charging forever and restarting when you shut down laptop from macos Apple menu.\n\nI am leaving Backlight issue at the end.\nI focused on the restart issue and fixed it by reworking theses signals: <SIGNAL>SMS_INT_L</SIGNAL> <SIGNAL>SMC_TCK</SIGNAL> <SIGNAL>SMC_TDI</SIGNAL> <SIGNAL>SMC_TDO</SIGNAL> <SIGNAL>SMC_S4_WAKE_SRC_EN</SIGNAL> (corrosion near SMC)\n\nNow I try to fix the charging forever:\n-Battery is detected, tested also known good battery.\n-Percentage increasing but very slow like 25 minutes for 1%\n-Estimated time untill full is always 20:00\n-<TRANSISTOR>Q7155</TRANSISTOR> has 7,43v on all its pins.\n\n-Sensing charging resistors are good 4ohms and 21ohms\n-SMC data and clk resistors <RESISTOR>R5180</RESISTOR>, <RESISTOR>R5181</RESISTOR> mesures 2kohms and have 0,499 in diode mode both of them\n-<CHIP>U5600</CHIP> Battery monitor ic was corroded and I replaced it with no change\n\nI really don't know what to do next for this charging issue."
+        },
+        {
+            "post_id": 49712,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-06-04 01:45:46",
+            "message": "Check <SIGNAL>SMC_BMON_DISCRETE_ISENSE</SIGNAL> level, as <SIGNAL>SMC_BMON_ISENSE</SIGNAL> too.\nTo charge the battery, <TRANSISTOR>Q7155</TRANSISTOR> requires 0V at pin 4; should need to change it.\nPost exact <SIGNAL>PPBIS_G3H</SIGNAL> voltage on charger mode (no battery connected)."
+        },
+        {
+            "post_id": 49744,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-06-05 00:38:51",
+            "message": "Without battery plugged in <SIGNAL>PPBUS_G3H</SIGNAL>= 8,56V\n\nWith battery and charger plugged\n<SIGNAL>SMC_BMON_DISCRETE_ISENSE</SIGNAL>: 0V\n<SIGNAL>SMC_BMON_ISENSE</SIGNAL>: 0,060V\n\nOn another working board with the same battery I got:\n<SIGNAL>SMC_BMON_DISCRETE_ISENSE</SIGNAL>: 0,152V\n<SIGNAL>SMC_BMON_ISENSE</SIGNAL>: 0,049V\n\nI replaced <TRANSISTOR>Q7155</TRANSISTOR> and <CHIP>U5601</CHIP> and that solved the issue. Don't know witch of them solved it but everything is good, Battery percentage is increasing normally from 12% to 21% and estimated time is 2:00 hours at 22%.\n\nNow will finish the backlight circuit.\n\nConsider it solved except if I end up with eaten pads in the middle of the backlight driver:o\n\nThanks for everything"
+        },
+        {
+            "post_id": 49745,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-06-05 01:11:08",
+            "message": "\"I replaced <TRANSISTOR>Q7155</TRANSISTOR> and <CHIP>U5601</CHIP> and that solved the issue. Don't know witch of them solved it\"\nYour previous measurments point to <TRANSISTOR>Q7155</TRANSISTOR>."
+        },
+        {
+            "post_id": 49903,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-06-11 23:00:01",
+            "message": "This board is driving me nut, it came back for no magsafe light.\nwhen I tested it it was working perfect until I discover that it won?t take 45W and 60W known good working chargers...\nit only work great with magsafe light with 85watts chargers.\n\nWith battery removed and 45 or 65 Watts charger i have 0v on <SIGNAL>PPBUS_G3H</SIGNAL> and 0 on <SIGNAL>PP3V42_G3H</SIGNAL> also 0v at <SIGNAL>PPDCIN_G3H</SIGNAL>.\nwith  battery removed and 85 Watts charger i have 8;56vv on <SIGNAL>PPBUS_G3H</SIGNAL> and 3,42von <SIGNAL>PP3V42_G3H</SIGNAL> also 16.5v at <SIGNAL>PPDCIN_G3H</SIGNAL>\n\nwhat should I  check from here.\nThanks!"
+        },
+        {
+            "post_id": 49907,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-06-12 02:19:45",
+            "message": "Check around <TRANSISTOR>Q7010</TRANSISTOR>, especially <RESISTOR>R7012</RESISTOR> value.\nSome corrosion on that area, I suppose..."
+        },
+        {
+            "post_id": 49935,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-06-12 14:28:12",
+            "message": "Hi 2informaticos,\n<RESISTOR>R7012</RESISTOR> is 64kOhms\n<RESISTOR>R7010</RESISTOR> and <RESISTOR>R7011</RESISTOR> are 100kOhms and 10kOhms\nWill replace <TRANSISTOR>Q7010</TRANSISTOR> and the nano <DIODE>D7012</DIODE> diode as corrosion may hit them in this area.\n\nBut what's confusing me is <SIGNAL>PPDCIN_G3H</SIGNAL> not showing up with 45watts charger... If it doesn't show up, I guess it means charger is not told to turn on considering there is no short and that it shows up with a 85 watts charger? weak <SIGNAL>SYS_ONEWIRE</SIGNAL>?"
+        },
+        {
+            "post_id": 49936,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-06-12 14:30:43",
+            "message": "Why don't you post some voltages on that area?\nOn both cases, 45/85W charger."
+        },
+        {
+            "post_id": 49943,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-06-12 16:07:28",
+            "message": "Yes sorry, sure here is the voltages:\n\nWith magsafe 45W - no magsafe light:\nPin 4 <TRANSISTOR>Q7010</TRANSISTOR> - <SIGNAL>DCIN_ISOL_GATE_R</SIGNAL>: 0,769V\n<SIGNAL>PPDCIN_G3H</SIGNAL> at pin 5 <TRANSISTOR>Q7010</TRANSISTOR> and pin 1 <RESISTOR>R7012</RESISTOR>: 0,769V\n<SIGNAL>DCIN_ISOL_GATE</SIGNAL> at the cathode of <DIODE>D7012</DIODE>:  0,769V\n<SIGNAL>PPDCIN_G3H_ISOL</SIGNAL> at the drain pin 1 of <TRANSISTOR>Q7010</TRANSISTOR>: 0,083V\n\nWith magsafe 85W magsafe light present:\nPin 4 <TRANSISTOR>Q7010</TRANSISTOR> - <SIGNAL>DCIN_ISOL_GATE_R</SIGNAL>: 6,75\n<SIGNAL>PPDCIN_G3H</SIGNAL> at pin 5 <TRANSISTOR>Q7010</TRANSISTOR> and pin 1 <RESISTOR>R7012</RESISTOR>: 16,45V\n<SIGNAL>DCIN_ISOL_GATE</SIGNAL> at the cathode of <DIODE>D7012</DIODE>: 6,75V\n<SIGNAL>PPDCIN_G3H_ISOL</SIGNAL> at the drain pin 1 of <TRANSISTOR>Q7010</TRANSISTOR>: 16,45V\nThanks"
+        },
+        {
+            "post_id": 49945,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-06-12 16:20:19",
+            "message": "Possibly leakage at <TRANSISTOR>Q7180</TRANSISTOR>; change it and try again 45/60W charger.\nHowever keep in mind, 45W charger is for 11\" Airs."
+        },
+        {
+            "post_id": 49953,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-06-12 16:52:38",
+            "message": "Hi 2informaticos will do as adviced and will report.\nFor the charger I am really not sureeI have a box for macbook air 13'' and the space for the charger in the box is only the small 45W... Anyways its having this behaviour with both 60w and 45w original magsafe...\nThanks again!"
+        },
+        {
+            "post_id": 49960,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-06-12 17:13:25",
+            "message": "45 watt is proper for Airs but best to use only 85 watt for testing. Sounds like <TRANSISTOR>Q7180</TRANSISTOR> issue tho might not be a bad idea to replace it and ISL at the same time"
+        },
+        {
+            "post_id": 49970,
+            "thread_id": 49708,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> charging slowly 20:00 until full",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-06-12 19:59:39",
+            "message": "Hi\nThanks both of you [USER=\"1153\"]JohnB8812[/USER]  and [USER=\"682\"]2informaticos[/USER]\n\n\nI replaced <TRANSISTOR>Q7180</TRANSISTOR> and what an amount of crap I found under the mosfet!! it was clean outside, somebody cleaned the board and it's an apple refurb board.\n\nSo maybe the voltage of the 85W charger was enough to drive the gate but not with 60W and 45W chargers.\n\nBy th way, I only use original 85w magsafe charger, this is how I've been tricked, gave back the laptop to customer because it was tested with 85W and he returned it back for no magsafe light, I asked him the 45W charger he was using, I tested again with my 85W it was good. Tested with his 45W and it was not working I stupidely told the dude his charger is not good. He told me nope it works with another machine:)\n\nAnd indeed his charger was working with other macbook air,\n\nI often have issues with <TRANSISTOR>Q7180</TRANSISTOR> or DC-in circuitry but never had this exact issue with <TRANSISTOR>Q7180</TRANSISTOR> trolling depending on the type of charger you use...\nSorry John didn't replaced  ISL, I cheated, I usually replace it when I have an issue with upper or lower buck converter mosfets.\n\nThanks again it's solved"
+        }
+    ]
+}

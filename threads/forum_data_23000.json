@@ -1,0 +1,87 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3024": "What is 820-3024? a LOGIC BOARD PART NUMBER.",
+        "SMBUS_SMC_BSA_SDA": "What is SMBUS_SMC_BSA_SDA? SMBUS_SMC_BSA_SDA is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R5281": "What is R5281? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SCL which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7400": "What is U7400? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 23000,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 893,
+            "username": "2andrewd",
+            "post_date": "2017-07-13 20:12:11",
+            "message": "I purchased this board, came fully functional aside from not recognizing battery.  Looks clean, no evidence of liquid.\n\n<CHIP>U7000</CHIP>\nPin 11  3.4v stable\nPin 10 <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL> moves between 3.4v - 0.15v\n\n\n<RESISTOR>R5280</RESISTOR> 2K\n<RESISTOR>R5281</RESISTOR> 2k \n<SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  is stable at 3.4v on pin 1 of <RESISTOR>R5280</RESISTOR> while pin 2 measurement behaves as stated above.\n\nData line troll fix suggestions?"
+        },
+        {
+            "post_id": 23002,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-07-13 20:15:49",
+            "message": "That is the point. The SMC, <CHIP>ISL6259</CHIP>, and battery communicate on that line by dropping it from 3.42v to 0v by shorting to ground to create pulses. Those pulses are the communication. The SCL and SDA line should have something like 0.441 diode mode measurement to ground on them with red probe on ground. \n\nCheck <SIGNAL>PPBUS_G3H</SIGNAL>, if it is 8.16v and the pullups & traces are fine, most likely bad SMC."
+        },
+        {
+            "post_id": 23003,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 893,
+            "username": "2andrewd",
+            "post_date": "2017-07-13 20:31:54",
+            "message": "Shiiioot. 8.26 on <SIGNAL>PPBUS_G3H</SIGNAL>.\nV to ground on both lines are good. Anything else to check before the bullet bite? And...  What are the odds that a reflow will bless this thing? There are a few red TP's around the SMC, I suppose it's worth trying. You may be selling an smc stencil soon."
+        },
+        {
+            "post_id": 23005,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-07-13 22:27:22",
+            "message": "You can always try reflowing it but I doubt it"
+        },
+        {
+            "post_id": 23007,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 893,
+            "username": "2andrewd",
+            "post_date": "2017-07-13 22:41:46",
+            "message": "Got it. Why do failed smc's pull down <SIGNAL>PPBUS_G3H</SIGNAL> and is that always an indication of it's state?"
+        },
+        {
+            "post_id": 23008,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 893,
+            "username": "2andrewd",
+            "post_date": "2017-07-13 23:37:58",
+            "message": "I forgot I borrowed some fb resistors from from <CHIP>U7400</CHIP>, replaced &. <SIGNAL>PPBUS_G3H</SIGNAL> back at 8.4. but no orange julius!\nRelowed smc..battery <---> smc now chatty cathy.\n\nthis one is a wrap. thanks louis!"
+        },
+        {
+            "post_id": 23009,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2017-07-14 01:59:46",
+            "message": "[QUOTE=\"2andrewd, post: 23008\"]I forgot I borrowed some fb resistors from from <CHIP>U7400</CHIP>, replaced &. <SIGNAL>PPBUS_G3H</SIGNAL> back at 8.4. but no orange julius!\nRelowed smc..battery <---> smc now chatty cathy.\n\nthis one is a wrap. thanks louis![/QUOTE]\n\nWhen I have reflowed SMC, the board comes back to haunt. I would replace SMC."
+        },
+        {
+            "post_id": 23037,
+            "thread_id": 23000,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3024</LOGIC BOARD PART NUMBER> (another) - <SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>  line droop",
+            "user_id": 893,
+            "username": "2andrewd",
+            "post_date": "2017-07-14 19:14:37",
+            "message": "Noted. I've never attempted any BGA rework before but looking like it's gonna be a cornerstone."
+        }
+    ]
+}

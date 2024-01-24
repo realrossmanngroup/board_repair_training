@@ -1,0 +1,243 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00928": "What is 820-00928? a LOGIC BOARD PART NUMBER.",
+        "U3100": "What is U3100? a CHIP.",
+        "U3200": "What is U3200? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP3V3_UPC_XA_LDO": "What is PP3V3_UPC_XA_LDO? PP3V3_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XA_LDO_BMC": "What is PP1V1_UPC_XA_LDO_BMC? PP1V1_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "PP1V8_UPC_XA_LDOD": "What is PP1V8_UPC_XA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_XA_LDOA": "What is PP1V8_UPC_XA_LDOA? a SIGNAL.",
+        "PP3V3_UPC_TA_LDO": "What is PP3V3_UPC_TA_LDO? PP3V3_UPC_TA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_TA_LDO_BMC": "What is PP1V1_UPC_TA_LDO_BMC? a SIGNAL.",
+        "PP3V3_UPC_TB_LDO": "What is PP3V3_UPC_TB_LDO? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOD": "What is PP1V8_UPC_TB_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOA": "What is PP1V8_UPC_TA_LDOA? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOD": "What is PP1V8_UPC_TA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOA": "What is PP1V8_UPC_TB_LDOA? a SIGNAL.",
+        "C3100": "What is C3100? a CAPACITOR.",
+        "C3208": "What is C3208? a CAPACITOR.",
+        "C3108": "What is C3108? a CAPACITOR.",
+        "C3200": "What is C3200? a CAPACITOR.",
+        "C3105": "What is C3105? a CAPACITOR.",
+        "C3204": "What is C3204? a CAPACITOR.",
+        "C3206": "What is C3206? a CAPACITOR.",
+        "C3104": "What is C3104? a CAPACITOR.",
+        "C3205": "What is C3205? a CAPACITOR.",
+        "C3106": "What is C3106? a CAPACITOR.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "R1212": "What is R1212? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 89195,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-10 03:55:51",
+            "message": "No liquid damage, board in perfect condition. According to customer, this MacBook suddenly died on him.\n<SIGNAL>PPBUS_G3H</SIGNAL> 12.59v\n<SIGNAL>PP3V3_SUS</SIGNAL> = 3.3v\n<SIGNAL>PM_BATLOW_L</SIGNAL> - 1.05v\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> - 3.31v\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> - 3.4v\n<SIGNAL>PM_RSMRST_L</SIGNAL> 3.3v\n<SIGNAL>PM_PWRBTN_L</SIGNAL> - 3,3v\n\nUB300\nCB300: <SIGNAL>3V3_G3H</SIGNAL>: Diode-Mode: 0.331\n<SIGNAL>3V3_G3H</SIGNAL>: 3.415V\nDiode Test on LDO Rails:\n<SIGNAL>PP3V3_UPC_TA_LDO</SIGNAL>: on CB308: 3.385v, diode-mode: 0,492\n<SIGNAL>PP1V8_UPC_TA_LDOA</SIGNAL>: on CB306: 1.805v, diode-mode: 0,502\n<SIGNAL>PP1V8_UPC_TA_LDOD</SIGNAL>: on CB305: 1.802v, diode-mode: 0,466\n<SIGNAL>PP1V1_UPC_TA_LDO_BMC</SIGNAL>: na CB304: 1,124v only in one USB port, diode-mode: 0,483\n\nUB400\nCB400: <SIGNAL>3V3_G3H</SIGNAL>: Diode-Mode: 0.331\n<SIGNAL>3V3_G3H</SIGNAL>: 3.416V\nDiode Test on LDO Rails:\n<SIGNAL>PP3V3_UPC_TB_LDO</SIGNAL>: on CB408: 3.383v, diode-mode: 0,486\n<SIGNAL>PP1V8_UPC_TB_LDOA</SIGNAL>: on CB406: 1.803v, diode-mode: 0,502\n<SIGNAL>PP1V8_UPC_TB_LDOD</SIGNAL>: on CB405: 1.792v, diode-mode: 0,467\n<SIGNAL>PP1V1_UPC_TA_LDO_BMC</SIGNAL>: na CB404: 0v always, diode-mode: 0,484\n\n<CHIP>U3100</CHIP>\n<CAPACITOR>C3100</CAPACITOR>: <SIGNAL>3V3_G3H</SIGNAL>: Diode-Mode: 0.332\n<SIGNAL>3V3_G3H</SIGNAL>: 3.415V\nDiode Test on LDO Rails:\n<SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL>: on <CAPACITOR>C3108</CAPACITOR>: 3.383v, diode-mode: 0,486\n<SIGNAL>PP1V8_UPC_XA_LDOA</SIGNAL>: on <CAPACITOR>C3106</CAPACITOR>: 1.815V, diode-mode: 0,504\n<SIGNAL>PP1V8_UPC_XA_LDOD</SIGNAL>: on <CAPACITOR>C3105</CAPACITOR>: 1.799v, diode-mode: 0,469\n<SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL>: on <CAPACITOR>C3104</CAPACITOR>: 1.118 only in one USB port, , diode-mode: 0,486\n\n<CHIP>U3200</CHIP>\n<CAPACITOR>C3200</CAPACITOR>: <SIGNAL>3V3_G3H</SIGNAL>: Diode-Mode: 0.331\n<SIGNAL>3V3_G3H</SIGNAL>: 3.414V\nDiode Test on LDO Rails:\n<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL>: on <CAPACITOR>C3208</CAPACITOR>: 3.377v, diode-mode: 0,489\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL>: on <CAPACITOR>C3206</CAPACITOR>: 1.802v, diode-mode: 0,502\n<SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL>: on <CAPACITOR>C3205</CAPACITOR>: 1.798V, diode-mode: 0,469\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL>: on <CAPACITOR>C3204</CAPACITOR>: 1.120 only in one USB port,, diode-mode: 0,485"
+        },
+        {
+            "post_id": 89208,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-10 08:40:42",
+            "message": "\"<SIGNAL>PM_BATLOW_L</SIGNAL> - 1.05v\"\nThere is a problem; signal is pulled-up to <SIGNAL>3V3_S5</SIGNAL> (<RESISTOR>R1212</RESISTOR>).\nTest again using 87/96W charger.\n\nUSB-C areas should be OK, if you get 20V on all ports."
+        },
+        {
+            "post_id": 89211,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-10 09:37:40",
+            "message": "I use a original 96W charger.\n<RESISTOR>R1212</RESISTOR> is 10K  pin 1 - 1.05v, pin - 3.3v."
+        },
+        {
+            "post_id": 89216,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-10 12:14:07",
+            "message": "Does it charges the battery?\nTry to start with both charger and battery connected.\nAlso try SMC bypass."
+        },
+        {
+            "post_id": 89230,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-11 03:37:19",
+            "message": "I tried . Does not charge the battery. \nSMC bypass without batteries - Holding down the power button the board Just stays at 5v until I let go to 20v"
+        },
+        {
+            "post_id": 89231,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-11 03:52:41",
+            "message": "I tried again. After the bypaaas it suddenly booted up and started charging. For a while.  Now it's not booting up again."
+        },
+        {
+            "post_id": 89232,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-11 05:54:47",
+            "message": "Try to turn it on with known good battery, which holds some charge.\n\nIn SMC bypass, battery should not charge and fans spin to max."
+        },
+        {
+            "post_id": 89233,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-11 06:11:49",
+            "message": "Now charging the battery. In my case, the fans did not spin. Maybe I'm doing a SMC reset wrong. I did this without a battery connected."
+        },
+        {
+            "post_id": 89236,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-11 06:51:58",
+            "message": "SMC reset and bypass is not the same thing..."
+        },
+        {
+            "post_id": 89237,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-11 07:20:38",
+            "message": "Sorry, I meant the bypass all along.\nWhen I release the power button, windmills don't move . Momentarily 3.3v on <SIGNAL>PM_BATLOW_L</SIGNAL>."
+        },
+        {
+            "post_id": 89253,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-12 10:44:46",
+            "message": "Is there anything that can be done in this case ?"
+        },
+        {
+            "post_id": 89256,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-12 15:00:03",
+            "message": "Did you try turning on with both battery and charger connected?"
+        },
+        {
+            "post_id": 89264,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-12 23:50:35",
+            "message": "yes, it does not start but is charging the batteries."
+        },
+        {
+            "post_id": 89265,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-13 00:50:22",
+            "message": "What is actual voltage of <SIGNAL>PM_BATLOW_L</SIGNAL> signal?"
+        },
+        {
+            "post_id": 89267,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-13 01:32:24",
+            "message": "With both battery and charger connected is steady voltage  1.05v.\nWithout batteries momentarily 3.3v on <SIGNAL>PM_BATLOW_L</SIGNAL> after a while 1.05v.\nWith battery alone is 1.05v when I press the power button.\nStarts when I connect pin 1 to pin 2 - <RESISTOR>R1212</RESISTOR>\nI replaced <RESISTOR>R1212</RESISTOR> and it started up for a while"
+        },
+        {
+            "post_id": 89275,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-13 04:54:33",
+            "message": "Looks like SMC problem; is the one which controls <SIGNAL>PM_BATLOW_L</SIGNAL>.\nYou can try reballing it; may need to change it.\n\nForcing the signal with 1k in place of <RESISTOR>R1212</RESISTOR>, is other option.\nGive it a try."
+        },
+        {
+            "post_id": 89297,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-14 02:42:43",
+            "message": "I put in 1k and it's 1.8v. Unfortunately it still does not start. \nHow best to do a reballing ?"
+        },
+        {
+            "post_id": 89298,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-14 03:04:16",
+            "message": "\"You can try reballing it; may need to change it.\""
+        },
+        {
+            "post_id": 89299,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-14 03:41:22",
+            "message": "Is there a future risk if 3.3v is applied directly to <SIGNAL>PM_BATLOW_L</SIGNAL> ?"
+        },
+        {
+            "post_id": 89306,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-14 09:44:08",
+            "message": "The SMC internal open-drain MOSFET, which controls <SIGNAL>PM_BATLOW_L</SIGNAL>, can get burnt.\nTry to force the signal with 100 ohms, instead of 1K."
+        },
+        {
+            "post_id": 89350,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 29740,
+            "username": "MarcinRdm",
+            "post_date": "2022-05-16 02:54:24",
+            "message": "100 ohms resistor helped. Is it good for SMC ?"
+        },
+        {
+            "post_id": 89353,
+            "thread_id": 62673,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v, 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-16 03:42:52",
+            "message": "In the worst case, will suppose 33mA through open-drain MOSFET; if SMC wants to pull down the signal for some reason.\nThat shouldn't be a problem..."
+        }
+    ]
+}

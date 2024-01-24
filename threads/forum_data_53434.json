@@ -1,0 +1,50 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U7800": "What is U7800? a CHIP.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "U3100": "What is U3100? a CHIP.",
+        "U3200": "What is U3200? a CHIP.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "USBC_XB_USB_TOP_N": "What is USBC_XB_USB_TOP_N? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 53434,
+            "thread_id": 53434,
+            "title": "What does it indicate when a USB-C model pulls 20V but 0 amps/watts?",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-10-15 10:16:10",
+            "message": "Have seen two Touchbar boards in the past few weeks, each with the same symptoms: Zero damage to the board, 20v on USB-C input, but 0a and 0w being drawn. Have not seen this prior to these 2 units, but now both are showing this symptom. Have confirmed it's not a charger issue (other boards work just fine with it).\n\nIs there some common issue that causes this symptom? If not, what does this specific power state indicate? The first one had an issue with missing <SIGNAL>SMC_PM_G2_EN</SIGNAL> that was being pulled low. Haven't even taken this most recent unit apart yet, but am not looking forward to another perfectly-clean board with no shorts or obvious damage, yet 0a/0w being drawn. I will create a new thread once I have some measurements available, but just wanted to get any information on this upfront. Has anyone had to replace a dead <CHIP>U7800</CHIP>? Suspecting a possible issue there. I've read and heard numerous times that having 20V on USB-C input generally indicates all <CHIP>CD3215</CHIP>'s are OK--is this always true?"
+        },
+        {
+            "post_id": 53436,
+            "thread_id": 53434,
+            "title": "What does it indicate when a USB-C model pulls 20V but 0 amps/watts?",
+            "user_id": 5210,
+            "username": "KC Micro Tronix",
+            "post_date": "2019-10-15 11:11:10",
+            "message": "What's the status of your PPBUS ?  Voltage?  If the machine has shutdown your PPBUS due to  short it will still show 20v on the charger but no power consumption."
+        },
+        {
+            "post_id": 53441,
+            "thread_id": 53434,
+            "title": "What does it indicate when a USB-C model pulls 20V but 0 amps/watts?",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-10-15 13:27:17",
+            "message": "That's the confusing part--no shorts and PPBUS is present, but board is still drawing no A/W. Was hoping someone may have seen this before. :("
+        },
+        {
+            "post_id": 53446,
+            "thread_id": 53434,
+            "title": "What does it indicate when a USB-C model pulls 20V but 0 amps/watts?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-15 14:19:17",
+            "message": "If <SIGNAL>SMC_PM_G2_EN</SIGNAL> is not present, <CHIP>U7800</CHIP> and also <SIGNAL>3V3_S5</SIGNAL> are disabled.\nIn such case, no current drawn from charger.\n\nI think saw few threads on the forum reporting 20V at DCIN and 13V at PPBUS even with a non-working USB-C port.\nWhat I can confirm myself is one 00840 with burnt <CHIP>U3200</CHIP> (hole on it, damaged <SIGNAL>USBC_XB_USB_TOP_N</SIGNAL> pad underneath) indicating 5V on its port and getting 20V on the port corresponding to <CHIP>U3100</CHIP>.\n\nAnd this is from another 00840 board...\n\"La placa funciona con un solo puerto USB-C (<CHIP>U3200</CHIP>).\n<CHIP>U3200</CHIP> cambiado, por encontrarlo quemado.\nEl otro puerto (<CHIP>U3100</CHIP>) tiene corto en la entrada, antes de L3300; causado por un quemazon fuerte en el circuito USB redriver de la otra cara.\nSe ha eliminado L3300 (pista cortada).\nAl llegar puerto <CHIP>U3200</CHIP> se quedaba en 5V.\n<CHIP>U3100</CHIP> generaba incluso tensiones en la placa, pero el redriver se calentaba muchisimo, indicando un consumo de aprox 4A.\""
+        }
+    ]
+}

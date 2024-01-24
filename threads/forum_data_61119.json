@@ -1,0 +1,67 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "SMC_PM_G2": "What is SMC_PM_G2? This is a typo of SMC_PM_G2_EN When you see SMC_PM_G2, assume they meant to type SMC_PM_G2_EN.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN_L": "What is PCH_INTVRMEN_L? PCH_INTVRMEN_L is a signal that stands for Internal Voltage Regulator Enable. When pulled high, this signal enables the internal 1.05 V regulators for the Suspend well in the PCH. This signal must be pulled-up to PPVRTC_G3H..",
+        "SMC_RST_L": "What is SMC_RST_L? a SIGNAL.",
+        "PCH_DSWVRMEN_L": "What is PCH_DSWVRMEN_L? a SIGNAL.",
+        "PCH_CLK32K": "What is PCH_CLK32K? a SIGNAL.",
+        "PP3V3_S5_AVREF_SMMC": "What is PP3V3_S5_AVREF_SMMC? a SIGNAL.",
+        "PP3V3_RTC": "What is PP3V3_RTC? a SIGNAL.",
+        "S_0": "What is S_0? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 74837,
+            "thread_id": 61119,
+            "title": "<SIGNAL>SMC_PM_G2</SIGNAL> PULSING - <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>",
+            "user_id": 1276,
+            "username": "lagadatorumea",
+            "post_date": "2021-04-29 06:56:20",
+            "message": "[LIST]\n[*]<SIGNAL>PPBUS_G3H</SIGNAL>                          12.6v\n[*]<SIGNAL>PPDCIN_G3H</SIGNAL>                         20v\n[*]<SIGNAL>PP3V42_G3H</SIGNAL>                         3.42v\n[*]<SIGNAL>SMC_RST_L</SIGNAL>                            3.3\n[*]<SIGNAL>PP3V3_S5_AVREF_SMMC</SIGNAL>     3.3\n[*]<SIGNAL>SMC_BC_ACOK</SIGNAL>                      3.3\n[*]<SIGNAL>PP3V3_RTC</SIGNAL>                            3.3\n[*]<SIGNAL>PCH_SRTCRST_L</SIGNAL>                   3.3\n[*]<SIGNAL>PCH_INTVRMEN_L</SIGNAL>                3.2\n[*]<SIGNAL>PCH_DSWVRMEN_L</SIGNAL>              3.2\n[*]<SIGNAL>PCH_CLK32K</SIGNAL>                         32.768\n[*]<SIGNAL>SMC_BC_ACOK</SIGNAL>                     3.3\n[/LIST]\niSSUE:\n[LIST]\n[*]<SIGNAL>SMC_PM_G2</SIGNAL>                         PULSING  (This is the issue)\n[*]<SIGNAL>PP3V3_S5</SIGNAL>                              PULSING (This is the issue)\n[/LIST]\n\nAny suggestions if its the SMC ?"
+        },
+        {
+            "post_id": 74838,
+            "thread_id": 61119,
+            "title": "<SIGNAL>SMC_PM_G2</SIGNAL> PULSING - <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-04-29 10:53:23",
+            "message": "Test what happens in SMC bypass.\nCheck diode mode to ground on all big coils and other secondary supplies."
+        },
+        {
+            "post_id": 74843,
+            "thread_id": 61119,
+            "title": "<SIGNAL>SMC_PM_G2</SIGNAL> PULSING - <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>",
+            "user_id": 1276,
+            "username": "lagadatorumea",
+            "post_date": "2021-04-29 11:06:03",
+            "message": "[QUOTE=\"2informaticos, post: 74838, member: 682\"]\nTest what happens in SMC bypass.\nCheck diode mode to the ground on all big coils and other secondary supplies.\n[/QUOTE]\n \nI manage to find the problem and the computer works now. by using the infrared camera. Strange the capacitor was shorted for Audio and pulsing for <SIGNAL>S_0</SIGNAL> state.  Then again, I might have missed checking what state the MacBook was in, I only checked the start-up circuit. see image for the shorted cap!"
+        },
+        {
+            "post_id": 74844,
+            "thread_id": 61119,
+            "title": "<SIGNAL>SMC_PM_G2</SIGNAL> PULSING - <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-04-29 11:12:36",
+            "message": "Good job!\n\nPlease, do NOT quote an entire post, visible few centimeters above."
+        },
+        {
+            "post_id": 74851,
+            "thread_id": 61119,
+            "title": "<SIGNAL>SMC_PM_G2</SIGNAL> PULSING - <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>",
+            "user_id": 1276,
+            "username": "lagadatorumea",
+            "post_date": "2021-04-29 11:58:10",
+            "message": "Ok... master.. Thank you.. Noted that down :)"
+        }
+    ]
+}

@@ -1,0 +1,396 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "R5015": "What is R5015? a RESISTOR.",
+        "R5016": "What is R5016? a RESISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PP5V_SUS": "What is PP5V_SUS? a SIGNAL.",
+        "SMC_S4_WAKESRC_EN": "What is SMC_S4_WAKESRC_EN? a SIGNAL.",
+        "PP3V3_S5_PWRCTL": "What is PP3V3_S5_PWRCTL? a SIGNAL.",
+        "P3V3S4_EN": "What is P3V3S4_EN? P3V3S4_EN is a signal that enables the PP3V3_S4 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PP3V3_S4_P3V3S4FET": "What is PP3V3_S4_P3V3S4FET? a SIGNAL.",
+        "R7510": "What is R7510? a RESISTOR.",
+        "C1683": "What is C1683? a CAPACITOR.",
+        "C1680": "What is C1680? a CAPACITOR.",
+        "C1681": "What is C1681? a CAPACITOR.",
+        "C1682": "What is C1682? a CAPACITOR.",
+        "C1657": "What is C1657? a CAPACITOR.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "R5123": "What is R5123? a RESISTOR.",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "CPU_VCORE": "What is CPU_VCORE? Power rail for the CPU. If this is missing the machine will act braindead. .",
+        "SMC_CPU_HI_ISENSE": "What is SMC_CPU_HI_ISENSE? a SIGNAL.",
+        "R5400": "What is R5400? a RESISTOR.",
+        "U6200": "What is U6200? a CHIP.",
+        "U7200": "What is U7200? a CHIP.",
+        "C6203": "What is C6203? a CAPACITOR.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "CHGR_BGATE": "What is CHGR_BGATE? a SIGNAL.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "U1800": "What is U1800? a CHIP.",
+        "PPVCORE_S0_AXG_R": "What is PPVCORE_S0_AXG_R? a SIGNAL.",
+        "PPVCORE_S0_CPU_PH1": "What is PPVCORE_S0_CPU_PH1? a SIGNAL.",
+        "PPVCORE_S0_CPU_PH2": "What is PPVCORE_S0_CPU_PH2? a SIGNAL.",
+        "PPVIN_S5_HS_COMPUTING_ISNS": "What is PPVIN_S5_HS_COMPUTING_ISNS? a SIGNAL.",
+        "C7540": "What is C7540? a CAPACITOR.",
+        "C7561": "What is C7561? a CAPACITOR.",
+        "Q7520": "What is Q7520? a TRANSISTOR.",
+        "Q7510": "What is Q7510? a TRANSISTOR.",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "Q5480": "What is Q5480? a TRANSISTOR.",
+        "R5788": "What is R5788? a RESISTOR.",
+        "R5488": "What is R5488? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 39595,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-14 17:26:29",
+            "message": "Hi Team,\n\nI have a 3115 board that missing S4 state, after following the schematic I've seen that <SIGNAL>PM_SLP_S5_L</SIGNAL> was missing, and this one is provided by the PCH.\nAt this point we now that it could be many things:\nI've mesured\n<SIGNAL>PM_BATLOW_L</SIGNAL>: 3.307V  OK\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 3.446\n<SIGNAL>PPVRTC_G3H</SIGNAL>: 3.31\nThen I checked <SIGNAL>SMC_ONOFF_L</SIGNAL> to be sure that it is NOT always low and keeps the SMC in reset mode:  solid 3.483V , never pulsing down.\nI decided to short the power pads at <RESISTOR>R5015</RESISTOR> or <RESISTOR>R5016</RESISTOR> and suddenly it starts.\n\nWHY? \ncould some one please explain me the sequence/ conditions for the SMC to start: does it only needs <SIGNAL>SMC_RESET_L</SIGNAL> to start or something else? (of course if all the PWR and SLP rails present).\nShould I try to put back the board in the MBP and try an SMC + PRAM Reset?"
+        },
+        {
+            "post_id": 39604,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-15 07:12:51",
+            "message": "After a full night rest , now the board doesn't boot when i short the power pads but only a quarter fan spin.\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.60V\n<SIGNAL>PP3V42_G3H</SIGNAL>: 3.485V\n<SIGNAL>PPVRTC_G3H</SIGNAL>: 3.313V\n<SIGNAL>PP5V_S5</SIGNAL> : 5.020V\n<SIGNAL>PP3V3_S5</SIGNAL> : 3.313V\n<SIGNAL>PP5V_SUS</SIGNAL> : 5.020V\n<SIGNAL>PP3V3_SUS</SIGNAL> : 3.311V\n<SIGNAL>PP3V3_S4</SIGNAL> : 0.40V\n<SIGNAL>PP5V_S3</SIGNAL> : 0V\n<SIGNAL>PP3V3_S3</SIGNAL> : 0.011V\n\n<SIGNAL>P3V3S4_EN</SIGNAL>: 0V\n<SIGNAL>PP3V3_S4_P3V3S4FET</SIGNAL> : 3.313V\n\n<SIGNAL>PP3V3_S5_PWRCTL</SIGNAL>: 3.313V\n<SIGNAL>PM_SLP_S5_L</SIGNAL>: 0V but pulsing when short power pads to gnd.\n<SIGNAL>SMC_S4_WAKESRC_EN</SIGNAL>: 0V but pulsing when short power pads to gnd.\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL>: pulsing\n\n<SIGNAL>PPVCORE_S0_CPU</SIGNAL>: 0V resistance to gnd: 1.5 Ohm\n\nthen I removed <RESISTOR>R7510</RESISTOR> and mesured the resistance to gnd on both sides:\nL7510 side: infinite\n<CAPACITOR>C1657</CAPACITOR> side: 0.8 Ohm\nWithout <RESISTOR>R7510</RESISTOR> it quarter fan spins in loop.....\nSo my short to ground is for sure on the CPU side, any clue where to start by as there's a bunch of critical condensators in parallel at he CPU VCORE DECOUPLING level.....\nI've removed the 4 easiest and checked : <CAPACITOR>C1680</CAPACITOR>, <CAPACITOR>C1681</CAPACITOR>, <CAPACITOR>C1682</CAPACITOR>, <CAPACITOR>C1683</CAPACITOR> .....not OK that would be too easy....\nMaybe the CPU ?\n\nI've also replaced the bios chip: NOK\nDumped the original one cleaned the ME Region and re writed in: NOK   ( Thanks for Duke for his quick tutorial here: [url]https://www.rossmanngroup.com/boards/forum/tools/26816-clean-me-region[/url] )\n\nSometimes it do 2 quarter fan spin, sometimes 1 and sometimes none.\n\nWaiting for your feebacks......thanks in advance....."
+        },
+        {
+            "post_id": 39605,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-15 08:09:36",
+            "message": "There is very low resistance to ground as normal value for i7-3xxx CPU...\n\nL7510 pulses too?\nCheck <RESISTOR>R7402</RESISTOR>/03."
+        },
+        {
+            "post_id": 39616,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-17 02:02:13",
+            "message": "OK\nat L7510 with <RESISTOR>R7510</RESISTOR> the DVM can barely see the pulse but without <RESISTOR>R7510</RESISTOR> it's 0.6V pulsing to 1.3V\nChecked <RESISTOR>R7402</RESISTOR>/03: OK"
+        },
+        {
+            "post_id": 40725,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-15 15:45:21",
+            "message": "Hi, I'm back with that board after several weeks......\n\nSo I took again the main voltages:\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.30V\n<SIGNAL>PP3V42_G3H</SIGNAL>: 3.479V\n<SIGNAL>PPVRTC_G3H</SIGNAL>: 3.313V\n<SIGNAL>PP5V_S5</SIGNAL> : 5.018V\n<SIGNAL>PP3V3_S5</SIGNAL>: 3.313V\n<SIGNAL>PP5V_SUS</SIGNAL>: 5.015V\n<SIGNAL>PP3V3_SUS</SIGNAL>: 3.312V\n\nI've found out that <RESISTOR>R5123</RESISTOR> was missing ( Directly attached to Pin 2 of of the <CHIP>U6100</CHIP>) so I've put a new one now the board still have a dimm green light but with <SIGNAL>PPBUS_G3H</SIGNAL> and PP3V42 OK\n\nAnd sometimes it starts with fan at full speed but delayed from the dimm green light from 5 sec, chime, load the OS at almost 75% then stops. The board is [B]NOT[/B] heating.\nWhen I mesured <SIGNAL>SMC_ONOFF_L</SIGNAL> this one is always 0.108 meaning for me ( correct me please ), that [B]MAYBE[/B] the board is always in SMC Bypass mode......\nAlso the BIL lights stays always off with charged battery, that's why all my suspicious is going to the SMC, please confirm.\nThanks in advance"
+        },
+        {
+            "post_id": 40731,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2018-10-15 20:46:08",
+            "message": "Seems that SMC is not running, is this water damage??"
+        },
+        {
+            "post_id": 40744,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-16 01:30:42",
+            "message": "\"<SIGNAL>PPBUS_G3H</SIGNAL>: 12.60V\n-------------\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.30V\"\nYou had correct <SIGNAL>PPBUS_G3H</SIGNAL>.\nNow you have problem with SM Battery Bus.\nSMC works, if board starts (even get image), but that bus can be damaged, or affected by external component.\n\n\"<SIGNAL>SMC_ONOFF_L</SIGNAL> to be sure that it is NOT always low and keeps the SMC in reset mode: solid 3.483V , never pulsing down\n-----------------------------------\n<SIGNAL>SMC_ONOFF_L</SIGNAL> this one is always 0.108\"\nYour values change drastically...\nIs the board liquid spilled?\nBoard cannot stay on more than 4s if <SIGNAL>SMC_ONOFF_L</SIGNAL> is low.\n\nYou alse have <SIGNAL>SYS_ONEWIRE</SIGNAL> circuit affected, possibly crap under SMC.\nReball it..."
+        },
+        {
+            "post_id": 52144,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-09 17:13:26",
+            "message": "<SIGNAL>SMC_ONOFF_L</SIGNAL> was shorted to gnd because of the SMC, I replaced it now the short is gone.\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.60V  green light present\n\nSometimes it's pulsing once up to <SIGNAL>CPU_VCORE</SIGNAL> and when it's not pulsing I have to short the power pads to make it pulse once in both cases after that pulse I'm loosing S5 state, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>\n\nIt turned ON once with only the battery to Fall full speed then stopped like V or I Sense issue, since then no way to turn it again from battery.\n\nAt the pulse <SIGNAL>SMC_CPU_HI_ISENSE</SIGNAL> pulses to 1.2V,\nThen I've removed <RESISTOR>R5400</RESISTOR>,  it's rising  to 3.3V\n\nIs the CPU dead?"
+        },
+        {
+            "post_id": 52149,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-10 01:51:02",
+            "message": "Did you try SMC bypass?\nCheck Power FETs output on page 72.\nAlso check <CHIP>U6200</CHIP>."
+        },
+        {
+            "post_id": 52188,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-11 17:50:30",
+            "message": "Yes of course I've already tried, I didn't post it because it's acting exactly the same : fan pulses at full speed once then stops.\nRegarding page 72, sorry but I didn't got you, because everything is pulsing there, and when it's not, it's because <SIGNAL>PM_SLP_S5_L</SIGNAL> is missing.\n[B]<CHIP>U6200</CHIP>????[/B] are you sure? you didn't meant <CHIP>U7200</CHIP>?\n\nthanks"
+        },
+        {
+            "post_id": 52194,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-12 01:35:15",
+            "message": "Yeah, do you get a pulse on <CHIP>U6200</CHIP> output too?\nA short there will block the power on sequence."
+        },
+        {
+            "post_id": 52218,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-13 03:03:58",
+            "message": "On Pin 1 of <CHIP>U6200</CHIP> it's also pulsing and there's no short there as in diode mode I'm mesuring 0.497V on pin 1 of <CAPACITOR>C6203</CAPACITOR>."
+        },
+        {
+            "post_id": 52219,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-13 03:46:30",
+            "message": "Reball/change SMC..."
+        },
+        {
+            "post_id": 52225,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-13 05:43:49",
+            "message": "ok, I will ........I was excatly supecting the SMC again....\nI will let you know\n\nThanks"
+        },
+        {
+            "post_id": 52229,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-13 07:30:25",
+            "message": "could you please confirm that those 4 pads are not connected any where.......if not that's the reason of my issue....\n\n[ATTACH type=\"full\" width=\"30%\"]52230._xfImport[/ATTACH]"
+        },
+        {
+            "post_id": 52232,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-13 07:45:35",
+            "message": "All of them appear unconnected in the boardview..."
+        },
+        {
+            "post_id": 52444,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-20 18:22:40",
+            "message": "reballed SMC same behaviour:\nsometimes quater fan spin and everything pulses or no quater fan spin but I have to short the pads to have the pulse and quarter fan spin after what I'm loosing S5 state because of No <SIGNAL>SMC_PM_G2_EN</SIGNAL>.\nIn that \"mode\" the battery is not charging because <SIGNAL>CHGR_BGATE</SIGNAL> is high.\nIf not it is charging and I have activity on SDA and SCL lines\nRe-writed EFI <CHIP>U6100</CHIP> SMC with a fresh clean dump in which I've injected the Serial into it and did a checksum CRC with the medusa: same issue.\n\nI have to admit that I'm out of idea ......any clue?"
+        },
+        {
+            "post_id": 52446,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-21 02:02:23",
+            "message": "<SIGNAL>SMC_PM_G2_EN</SIGNAL> signal lost after reballed SMC?\nChange SMC now and inspect traces and pads under SMC, ones removed.\nAlso check for knocked off components."
+        },
+        {
+            "post_id": 52449,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-21 02:36:42",
+            "message": "Hi 2 Informaticos,\n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> is present but it's disapearing after quarter fan spin or power pads being pressed....so I follwed the signal up to SMC and <SIGNAL>SMC_PM_G2_EN</SIGNAL>.\nQuestion: Is there any signal/rail upstream before SMC that triggers the <SIGNAL>SMC_PM_G2_EN</SIGNAL>?  in other words what signal, the SMC needs to generate <SIGNAL>SMC_PM_G2_EN</SIGNAL>?"
+        },
+        {
+            "post_id": 52450,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-21 03:26:52",
+            "message": "Looks like SMC detects a problem and pull down the signal, to block the <SIGNAL>3V3_S5</SIGNAL> power supply.\nTry starting in SMC bypass mode first."
+        },
+        {
+            "post_id": 52453,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-21 04:11:21",
+            "message": "already did it : fan at full speed but just like a pulse: same like in normal mode......I will reflow <CHIP>U1800</CHIP> in case of crap under it"
+        },
+        {
+            "post_id": 52454,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-21 04:18:53",
+            "message": "after <CHIP>U1800</CHIP> reflow , the board is now turning ON during 15 seconds then stops........\nI don't remember if I already passed it in the UC.......I think that it will take a bath in the UC......\nI'll let you know thanks"
+        },
+        {
+            "post_id": 52518,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-23 05:06:21",
+            "message": "Hi ,\nPassed that board in the UC, and the board started few times but without <SIGNAL>PPVCORE_S0_AXG_R</SIGNAL> but <SIGNAL>PPVCORE_S0_CPU_PH1</SIGNAL> and <SIGNAL>PPVCORE_S0_CPU_PH2</SIGNAL> were present.\n\nfinally the board started to act like before: quarter fan spin.....\nI will reflow <CHIP>U1800</CHIP> again and see"
+        },
+        {
+            "post_id": 52521,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-23 06:54:14",
+            "message": "AXG voltage appears if you open Youtube, or a graphic application.\nIf you get VCORE after UC, should be problem generated by crap under BGA chips.\nReflow SMC, PCH and CPU with good flux; or use IR oven for entire board.\nTest it and clean again on UC..."
+        },
+        {
+            "post_id": 52554,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-23 16:24:12",
+            "message": "That's exactly my idea: to bring it to someone who has an IR reflow machine for BGAs.....will see"
+        },
+        {
+            "post_id": 52592,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-25 10:12:49",
+            "message": "The board is starting after a PCH reflow but here are the issues I've noticed after reassembled everything together:\n\nVery slow to load OS even on external SSD\nSelf Shutting down if the wifi card is plugged in, or stays ON if 4 antenna cables disconnected but shuts down when connecting to network\nFan runs at full speed\nJ3100 Slot make the computer beeps 3 times if any ram memory inserted in it.\n\nDid SMC reset many times: NOK\nChecked wifi card: No corrosion and clean\ninstalled Mac Fan Control and checked Temps: PCH is at 50?C when PCU is at 33?C"
+        },
+        {
+            "post_id": 52598,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-25 12:22:51",
+            "message": "Did you run ASD EFI?\nIs the original BIOS of the board?"
+        },
+        {
+            "post_id": 52622,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-09-26 01:41:30",
+            "message": "[B]Did you run ASD EFI?[/B]\nNot Yet\n\n[B]Is the original BIOS of the board?[/B]\nNo, as the board was doing quarter fan spin those past weeks, I've decided to write another one and cleaned ME and rewrited the SN with the medusa......\nBut thta's right, as the board is now turning ON, I can piut back the original dumped bios......"
+        },
+        {
+            "post_id": 53063,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-10-06 13:58:11",
+            "message": "Hi 2Informaticos,\n\nI've run ASD, this one went alsmost to the end ( Memory 62 Test ) but the board turned OFF approximatively 15 mins running with Fan at full speed.\nIn the mean time ASD poped up with PBUS Voltage Sense & Enable (VP0R) in red claiming that the PBus voltage was under the lower limit.\nOnce it shuts itself down, the board pulls 0.030A, After what the board doesn't start itself when I plug the charger, I have to press the Power button, but unfortuantrly it stays ON only few seconds.\nbut If I let it for long time not connected ( like all caps are discharged ) and replug the charger, it will turn ON it self.\nI've noticed that the board is getting hot on the opposite side of <CAPACITOR>C7540</CAPACITOR> <CAPACITOR>C7561</CAPACITOR> area: which is <TRANSISTOR>Q7510</TRANSISTOR> <TRANSISTOR>Q7520</TRANSISTOR> area and related to CPU High Side Current Sense (IC0R) and <SIGNAL>PPVIN_S5_HS_COMPUTING_ISNS</SIGNAL>.\nWhat do you think?\n\n[ATTACH type=\"full\" width=\"30%\"]53064._xfImport[/ATTACH]"
+        },
+        {
+            "post_id": 53068,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-06 14:33:10",
+            "message": "Post <SIGNAL>SMC_PBUS_VSENSE</SIGNAL> level.\n\nIs normal that CPU power supply area gets hot when working."
+        },
+        {
+            "post_id": 53069,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-10-06 14:51:58",
+            "message": "<SIGNAL>SMC_PBUS_VSENSE</SIGNAL>: 2.104v"
+        },
+        {
+            "post_id": 53072,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-06 17:25:09",
+            "message": "Post all voltages for <TRANSISTOR>Q5480</TRANSISTOR>."
+        },
+        {
+            "post_id": 53093,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-10-07 12:47:30",
+            "message": "At  <TRANSISTOR>Q5480</TRANSISTOR> it looks like that all the voltages are OK, as well as both voltage dividers\n\n1: GND\n2: 3.307V\n3: 12.58V\n4: 12.58V\n5: 6.270V\n6: GND\n\nif you do the calculation of the output voltage divider it should give 2.099V and I'm mesuring 2.104V\n\nMy guess is that the trace may be broken between <RESISTOR>R5788</RESISTOR>/89 and SMC, or ball not melted/ not soldered properly and in wrost case that pad is missing under SMC\n\nWhat do you think?"
+        },
+        {
+            "post_id": 53095,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-07 12:50:16",
+            "message": "Try 85W charger and run again ASD.\nThe signal should increase a bit.\nIf OK, then adjust resistor divider to disable the error with 60W charger."
+        },
+        {
+            "post_id": 53097,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-10-07 14:17:30",
+            "message": "I've scratched the Vsense Pad shown with the arrow, and check for continuity to the <RESISTOR>R5488</RESISTOR>/89: NOK\nSo I decided to put some solder there for attaching a wire, after putting solder, I mesured the continuity again and was OK, but still shuting itself down.\nReflowed SMC, then I've lost PPBUS: 12.29V: SMC not talking to ISL + No green Light\nReflowed again: PPBUS 12.60V OK, Green Light OK\nAttached wire because after reflow, no continuity\n\nNow quarter fan spin once, like back to the beginning, but mesuring 2.105V at the pointing arrow"
+        },
+        {
+            "post_id": 53101,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-07 16:08:43",
+            "message": "Reball SMC now..."
+        },
+        {
+            "post_id": 53108,
+            "thread_id": 39595,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> must short power pads",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-10-07 23:14:43",
+            "message": "[ATTACH type=\"full\" width=\"30%\"]53109._xfImport[/ATTACH]"
+        }
+    ]
+}

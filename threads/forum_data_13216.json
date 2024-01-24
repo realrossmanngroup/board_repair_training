@@ -1,0 +1,88 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "SMC_RESET": "What is SMC_RESET? SMC_RESET is not a signal, it is an abbreviation for “SMC_RESET_L”, which is the signal someone is referring to when they type “SMC_RESET”  \"SMC_RESET_L is a signal that resets the SMC when it is low(this is what the “_L” prefix means), and lets the SMC out of reset mode when it is high. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running.."
+    },
+    "threads": [
+        {
+            "post_id": 13216,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2017-01-18 23:01:56",
+            "message": "When I got this MBPr 13 in it could not charge. It had been lying vertically in a bag together with a rotten banana (or another fruit). Damage was heavily corrosion inside both thunderbolt ports. As there was no green/orange light and it could not charge I cleaned the banana off lightly with a toothbrush and replaced the DC-in board. Now orange light came up and computer ran fine and was charging but it started to smell like fried bananas all over my workshop. So I cleaned it in ultrasonic but after this it is dead.\n\nI got:\n- Burned thunderbolt ports (both of them)\n- <SIGNAL>PPBUS_G3H</SIGNAL> 12.28V\n- <SIGNAL>SMC_ADAPTER_EN</SIGNAL> 0.2V\n- No S5 (3V and 5V)\n- <SIGNAL>SMC_BC_ACOK</SIGNAL> 3.11V\n- No green/orange light (obviously)\n- <SIGNAL>CHGR_DCIN</SIGNAL> 16.48V\n- <SIGNAL>CHGR_ACIN</SIGNAL> 3.96V\n\nDid I fry the SMC while burning the banana? It was on for a couple of of minutes before I noticed the smell and then I shut it down normally."
+        },
+        {
+            "post_id": 13229,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-19 03:20:43",
+            "message": "3V42 present? <SIGNAL>SMC_RESET</SIGNAL> high?"
+        },
+        {
+            "post_id": 13232,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2017-01-19 03:23:57",
+            "message": "Yes\n\n<SIGNAL>PP3V42_G3H</SIGNAL> 3.42V\n<SIGNAL>SMC_RESET_L</SIGNAL> 3.11V"
+        },
+        {
+            "post_id": 13233,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-19 03:32:01",
+            "message": "Seems like SMC is not running, check for corrosion there."
+        },
+        {
+            "post_id": 13234,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2017-01-19 03:46:14",
+            "message": "N corrosion there. Only place was where the banana was pushing itself inside the computer aka DC-in board and thunderbolt ports. The thunderbolt ports got really damaged but the rest of the board looks new. I heating the SMC a little with some flux. No dice. Still same..."
+        },
+        {
+            "post_id": 13235,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-19 03:47:51",
+            "message": "I have no other ideas besides that the SMC is dead somehow."
+        },
+        {
+            "post_id": 13236,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2017-01-19 03:51:14",
+            "message": "I will replace it then. Thanks"
+        },
+        {
+            "post_id": 13247,
+            "thread_id": 13216,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Liquid damage by a rotten fruit",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2017-01-19 06:01:49",
+            "message": "Working again. SMC got banana-fried. Replaced and all good. You can mark solved. Thanks again."
+        }
+    ]
+}

@@ -1,0 +1,316 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3208": "What is 820-3208? a LOGIC BOARD PART NUMBER.",
+        "U7960": "What is U7960? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "PP5V_SUS": "What is PP5V_SUS? a SIGNAL.",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "CPUIMVP_VR_ON": "What is CPUIMVP_VR_ON? CPUIMVP_VR_ON is a signal that tells the buck converter responsible for PPVCORE_S0_CPU to turn on and create CPU vcore voltage. This comes from ALL_SYS_PWRGD – once ALL_SYS_PWRGD is present, CPUIMVP_VR_ON will be present. .",
+        "P3V3S3_EN": "What is P3V3S3_EN? P3V3S3_EN is a signal that turns on the PP3V3_S3 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "P5V3V3_REG_EN": "What is P5V3V3_REG_EN? a SIGNAL.",
+        "CPUIMVP_AXG_PGOOD": "What is CPUIMVP_AXG_PGOOD? a SIGNAL.",
+        "PPV3_SUS": "What is PPV3_SUS? a SIGNAL.",
+        "R7962": "What is R7962? a RESISTOR.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "5V_S4": "What is 5V_S4? This is an abbreviation of “PP5V_S4” – when you see this, assume the person typing it meant to type “PP5V_S4”.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PPVCORE_S0_AXG": "What is PPVCORE_S0_AXG? This is vcore going to the CPU’s integrated graphics processor for CPUs that have an integrated GPU. When this is missing on a device that has an integrated GPU and no discrete GPU, it usually means either no screen is detected, or the GPU integrated into the CPU is dead..",
+        "Q5040": "What is Q5040? a TRANSISTOR.",
+        "U2750": "What is U2750? a CHIP.",
+        "U2760": "What is U2760? a CHIP.",
+        "PM_S0_PGOOD": "What is PM_S0_PGOOD?  PM_S0_PGOOD is created when CPUVR_PGOOD and ALL_SYS_PWRGD are present and branches off to become PM_PCH_PWROK. PM_S0_PGOOD and SMC_DELAYED_PWRGD are necessary to create SYS_PWROK_R and PM_PCH_SYS_PWROK .",
+        "CPUIMVP_TON": "What is CPUIMVP_TON? a SIGNAL.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "PPBUS_S5_HS_COMPUTING_ISNS": "What is PPBUS_S5_HS_COMPUTING_ISNS? This power rail is PPBUS_G3H after going through a current sense resistor that sits between PPBUS_G3H & the input of PPBUS_G3H to circuitry that provides power for the CPU..",
+        "U9410": "What is U9410? a CHIP.",
+        "U2700": "What is U2700? a CHIP.",
+        "U9420": "What is U9420? a CHIP.",
+        "SYSCLK_CLK25M_SB": "What is SYSCLK_CLK25M_SB? a SIGNAL.",
+        "DA_MUFFINMAN": "What is DA_MUFFINMAN? a SIGNAL.",
+        "SPI_MLB_MOSI": "What is SPI_MLB_MOSI? SPI_MLB_MOSI is a line between the SPI ROM BIOS chip and resistors that sit between it and the PCH. This often corrodes on Macbook Airs due to liquid damage and results in missing PM_SLP_S4_L and no bootup.."
+    },
+    "threads": [
+        {
+            "post_id": 39768,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 04:35:33",
+            "message": "This one is stuck in the perpetual boot loop (fan spins a few seconds, shuts off, rinse & repeat).  Charger light comes on / no chime / no damage I have discovered yet.\n\nI'm sorry I am a noobsicle :rolleyes:\n\npls see attached"
+        },
+        {
+            "post_id": 39771,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-21 07:04:24",
+            "message": "You make dificil to follow the usefull information.\nPlease don't post sheets like that, I will not be the only one doesn't read it...\n\nCPU core pulses?\nWhich voltages are steady there?\nAny SUS, S5, maybe S4 steady?"
+        },
+        {
+            "post_id": 39774,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 07:32:05",
+            "message": "My apologies. \n\nRails with stable voltages include but are not limited to:\n<SIGNAL>PP5V_S5</SIGNAL>\n<SIGNAL>PPBUS_G3H</SIGNAL>\n <SIGNAL>PP3V42_G3H</SIGNAL>\n <SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL>\n\nRails with fluctuating voltage include but are not limited to:\n <SIGNAL>PP3V3_S0</SIGNAL>\n <SIGNAL>CPUIMVP_VR_ON</SIGNAL>\n <SIGNAL>PP5V_S0</SIGNAL>\n <SIGNAL>PP5V_S3</SIGNAL>\n(<SIGNAL>ALL_SYS_PWRGD</SIGNAL>)\n\nRails reading 0 voltage include but are not limited to:\n <SIGNAL>PPV3_SUS</SIGNAL>\n <SIGNAL>PP3V3_S3</SIGNAL> through S5\n <SIGNAL>PP5V_SUS</SIGNAL>\n <SIGNAL>PPVCORE_S0_CPU</SIGNAL>\n <SIGNAL>P3V3S3_EN</SIGNAL>\n <SIGNAL>PP1V8_S0</SIGNAL>\n <SIGNAL>PP1V05_S0</SIGNAL>\n <SIGNAL>P5V3V3_REG_EN</SIGNAL>\n CPUVCCIOS0_PGOOD\n(<SIGNAL>ALL_SYS_PWRGD</SIGNAL>)\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> shows 0 to 3V fluctuation on pin2 of <RESISTOR>R7962</RESISTOR>, however that voltage does not continue to <CHIP>U7960</CHIP> or anywhere else on the board where I have measured <SIGNAL>ALL_SYS_PWRGD</SIGNAL>; instead, other <SIGNAL>ALL_SYS_PWRGD</SIGNAL> points read 0V."
+        },
+        {
+            "post_id": 39778,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-21 09:26:02",
+            "message": "\"<SIGNAL>ALL_SYS_PWRGD</SIGNAL> shows 0 to 3V fluctuation\nother <SIGNAL>ALL_SYS_PWRGD</SIGNAL> points read 0V\"\nYou MUST get same value on any point of the same line!!!\nCorroded trace?\nBTW, fluctuating <SIGNAL>ALL_SYS_PWRGD</SIGNAL> supposes all the secondary power supplies try to appear; at least the ones involved in this signal.\n\n\n\"<SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL>\"\nHow, if AXG VCORE is not even present?\n\nYou also mess many signals and voltages there.\nBoard will not try to start without <SIGNAL>3V3_SUS</SIGNAL>.\nAlso <SIGNAL>3V3_S5</SIGNAL> and <SIGNAL>5V_S4</SIGNAL> cannot appear without <SIGNAL>P5V3V3_REG_EN</SIGNAL>.\nAnd nothing on S3, or S0 states pulse on the board without these voltages...\n\nPlease pay more atention when you measure.\nIf <SIGNAL>ALL_SYS_PWRGD</SIGNAL> really pulses, check if all the big coils from the board pulse too; maybe not the two from CPU.\nO-scope can capture any short pulse, which a DC voltmeter can't."
+        },
+        {
+            "post_id": 39781,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 10:31:16",
+            "message": "[QUOTE=\"2informaticos, post: 39778\"]\"<SIGNAL>ALL_SYS_PWRGD</SIGNAL> shows 0 to 3V fluctuation\nother <SIGNAL>ALL_SYS_PWRGD</SIGNAL> points read 0V\"\nYou MUST get same value on any point of the same line!!![/QUOTE]\n\nThank you - due to the timing of the voltage pulses, it seems I did indeed mis-measure some points as 0V when they are in fact fluctuating.  The entire <SIGNAL>ALL_SYS_PWRGD</SIGNAL> rail that I have yet measured has the same fluctuation 0V-~3V every few seconds.\n\n[QUOTE=\"2informaticos, post: 39778\"]\"<SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL>\"\nHow, if AXG VCORE is not even present?[/QUOTE]\n\n<SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL> is actually fluctuating.  However, as opposed to every other yet-measured fluctuating rail, <SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL> \"sits\" at 1.22V for 2 seconds, then fluctuates down in voltage.  The other rails sit at 0V and fluctuate up in voltage.\n\n<SIGNAL>PPVCORE_S0_AXG</SIGNAL> is in fact missing.\n\n[QUOTE=\"2informaticos, post: 39778\"]\nBoard will not try to start without <SIGNAL>3V3_SUS</SIGNAL>.\nAlso <SIGNAL>3V3_S5</SIGNAL> and <SIGNAL>5V_S4</SIGNAL> cannot appear without <SIGNAL>P5V3V3_REG_EN</SIGNAL>.\nAnd nothing on S3, or S0 states pulse on the board without these voltages...[/QUOTE]\n\n<SIGNAL>PP3V3_SUS</SIGNAL> is a steady 3.25V at <TRANSISTOR>Q5040</TRANSISTOR> and <CHIP>U6100</CHIP>. \n<SIGNAL>P5V3V3_REG_EN</SIGNAL> is steady 3.35V.  I mistakenly had it at 0, sorry!  Idk how I mucked that one.\n\n[QUOTE=\"2informaticos, post: 39778\"]If <SIGNAL>ALL_SYS_PWRGD</SIGNAL> really pulses, check if all the big coils from the board pulse too; maybe not the two from CPU.\nO-scope can capture any short pulse, which a DC voltmeter can't.[/QUOTE]\n\nWhile I do not currently have access to an O-scope, I can get one if necessary.  I will measure the coils with my voltmeter in the meantime and report back,\n\nThank you thank you!"
+        },
+        {
+            "post_id": 39783,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-21 10:57:01",
+            "message": "Pin4 of <CHIP>U2750</CHIP>/60 pulse too?"
+        },
+        {
+            "post_id": 39785,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 11:50:36",
+            "message": "L7510\nPin1: 0V\nPin2: 0V\nL7550\nPin1: flux +/- 150mV\nPin2: 0V\nL7330\nPin1: flux 150mV - 1250mV\nPin2: flux 150mV - 1250mV\nL7630\nPin1: flux 0V - 1000mV\nPin2: flux 0V - 1000mV\nL7100\nPin1: flux 2mV - 1000mV\nPin2: flux 2mV - 1000mV\nL7030\nPin1: steady 8.44V\nPin2: steady 8.44V\nL7220\nPin1: flux 0V - 5V\nPin2: flux 0V - 5V\nL7260\nPin1: steady 3.32V\nPin2: steady 3.32V\nL9701\nPin1: steady 0V\nPin2: steady 0V\nL3895\nPin1: flux .9V - 2.5V\nPin2: flux .9V - 2.5V"
+        },
+        {
+            "post_id": 39786,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 11:56:38",
+            "message": "[QUOTE=\"2informaticos, post: 39783\"]Pin4 of <CHIP>U2750</CHIP>/60 pulse too?[/QUOTE]\n\n<SIGNAL>PM_S0_PGOOD</SIGNAL> on <CHIP>U2750</CHIP> (Pin4) & <CHIP>U2760</CHIP> (Pin1) is steady at 1 mV"
+        },
+        {
+            "post_id": 39787,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-21 11:58:29",
+            "message": "Please, stop to check voltages in both pins of a coil.\nDC voltmeter will practically show the same value; guess why?\nAn o-scope will show you that one pin has oscillation in fact; there is no DC tension!!!\n\nDon't forget about <CHIP>U2750</CHIP>/60.\nAlso check if <RESISTOR>R7402</RESISTOR> is OK.\nCan you catch a short drop 8V-0.5V-8V at <SIGNAL>CPUIMVP_TON</SIGNAL>?"
+        },
+        {
+            "post_id": 39788,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-21 12:01:01",
+            "message": "If pins 1 & 2 of <CHIP>U2750</CHIP> both pulse, then pin 4 must pulse too.\nCheck pins 1 & 2 now..."
+        },
+        {
+            "post_id": 39789,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 12:20:44",
+            "message": "[QUOTE=\"2informaticos, post: 39787\"]\nAlso check if <RESISTOR>R7402</RESISTOR> is OK.\nCan you catch a short drop 8V-0.5V-8V at <SIGNAL>CPUIMVP_TON</SIGNAL>?[/QUOTE]\nYes! <RESISTOR>R7402</RESISTOR> reads:\nPin1 (<SIGNAL>CPUIMVP_TON</SIGNAL>) reads 8.36V but abruptly drops every few seconds then rises and holds at 8.36V\nPin2 (<SIGNAL>PPBUS_S5_HS_COMPUTING_ISNS</SIGNAL>) is a steady 8.44V\n<RESISTOR>R7402</RESISTOR> measures .0911 MΩ\n\nPin2 on <RESISTOR>R7402</RESISTOR> has continuity to ground and Pin1 does not"
+        },
+        {
+            "post_id": 39791,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 12:32:20",
+            "message": "[QUOTE=\"2informaticos, post: 39788\"]If pins 1 & 2 of <CHIP>U2750</CHIP> both pulse, then pin 4 must pulse too.\nCheck pins 1 & 2 now...[/QUOTE]\n\n<CHIP>U2750</CHIP>\nPin5: 3.3V\nPin1: 0-3V flux\nPin2: 0.02-0.5V flux\nPin4: steady 1mV\n\nDoes this mean <CHIP>U2750</CHIP> is malfunctioning?"
+        },
+        {
+            "post_id": 39793,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-21 13:03:39",
+            "message": "\"Pin2 (<SIGNAL>PPBUS_S5_HS_COMPUTING_ISNS</SIGNAL>) is a steady 8.44V\nPin2 on <RESISTOR>R7402</RESISTOR> has continuity to ground\"\nWhat do you mean???\n\nAre you sure no pulse at L7510?\nKeep voltmeter connected there more time.\nSee if reaches 1V sometime. I recommend to use o-scope..."
+        },
+        {
+            "post_id": 39794,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 13:46:38",
+            "message": "[QUOTE=\"2informaticos, post: 39793\"] Pin2 on <RESISTOR>R7402</RESISTOR> has continuity to ground\"\nWhat do you mean???[/QUOTE]\nAs in there is a path of low resistance (short?) from that pin to ground, ie the multimeter beeps in diode mode...I wasn't sure if that was relevant when you mentioned a short relating to this circuit.\n\n[QUOTE=\"2informaticos, post: 39793\"]\nAre you sure no pulse at L7510?\nKeep voltmeter connected there more time.\nSee if reaches 1V sometime. I recommend to use o-scope...\n[/QUOTE]\n\nMy meter shows some voltage activity on this coil right when the connections are made and right when the connections are removed.  When the connections are held, it reads 0V, but it keeps switching the +/- sign as if it is trying to read something.  Probably my meter sucks."
+        },
+        {
+            "post_id": 39796,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 13:53:46",
+            "message": "Could I be affecting the current by measuring it, like with quantum mechanics?"
+        },
+        {
+            "post_id": 39798,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-21 14:10:04",
+            "message": "\"As in there is a path of low resistance (short?) from that pin to ground, ie the [URL=\"http://amzn.to/2jnkPIx\"]multimeter[/URL] beeps in diode mode...\"\nDon't tell me you are checking conitnuity on a powered board..."
+        },
+        {
+            "post_id": 39812,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-09-21 18:34:02",
+            "message": "[QUOTE=\"2informaticos, post: 39798\"]\"As in there is a path of low resistance (short?) from that pin to ground, ie the [URL=\"http://amzn.to/2jnkPIx\"]multimeter[/URL] beeps in diode mode...\"\nDon't tell me you are checking conitnuity on a powered board...[/QUOTE]\n\n:rolleyes: oops...it won't happen again! I'll chalk that L up to the cost of learning this trade...and me being an idiot...and this being my first board...let me just replace that meter...needed a better one anyway...nothing to see here..."
+        },
+        {
+            "post_id": 40098,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-10-02 12:04:08",
+            "message": "Ok I got my hands on a proper multimeter...no O-scope yet but I'm hoping we can make some progress using the MIN MAX recording function on this Fluke 87 III...the response time is 250 µs or100 ms...is that passable for now?\n\n[QUOTE=\"2informaticos, post: 39793\"]Are you sure no pulse at L7510?\nSee if reaches 1V sometime.[/QUOTE]\n\nI am reading minimal pulse at L7510: it fluctuates +/- 0.2V on 100ms detection and +/- upwards of 8V on 1ms detection\n\nWith these better readings, it is now evident that pin 4 of <CHIP>U2750</CHIP> and <CHIP>U2760</CHIP> is indeed pulsing\n\n<CHIP>U2750</CHIP> & <CHIP>U2760</CHIP> Pin 4 (100ms mode) +/- 0.4V \n1ms mode +/- 10V\n\nThey're not pulsing as much as most the other pulsing components.\n\n<CHIP>U9410</CHIP> and <CHIP>U9420</CHIP> are hot like temp-wise \n\nCould it be related to the clock chip <CHIP>U2700</CHIP>?\n\nSorry my skills are bad but I am learning lol I'm in it to win it - what should we do next?"
+        },
+        {
+            "post_id": 40099,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-10-02 12:08:14",
+            "message": "I should reiterate this is a quarter fan spin issue"
+        },
+        {
+            "post_id": 40173,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-10-03 16:31:42",
+            "message": "Should I go ahead and replace the clock chip just to see? Maybe I'll just set this one to the side for a bit and stays board? I know this problem in particular can be a challenge to diagnose I could just return to it when I'm more well versed but any suggestions welcome"
+        },
+        {
+            "post_id": 40174,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-03 16:36:39",
+            "message": "Do you get 25MHz at <SIGNAL>SYSCLK_CLK25M_SB</SIGNAL>?\nO-scope, or frequency meter needed to properly check it.\n\nChange it, if you are not sure..."
+        },
+        {
+            "post_id": 40755,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-10-16 08:00:12",
+            "message": "[QUOTE=\"2informaticos, post: 40174\"]Do you get 25MHz at <SIGNAL>SYSCLK_CLK25M_SB</SIGNAL>?\nO-scope, or frequency meter needed to properly check it.\n\nChange it, if you are not sure...[/QUOTE]\n\nWell I'm not sure...and I'm also inexperienced so I don't know - does testing or replacing the clock chip sound like a good idea to anyone else? I'm at a loss with this one.\n\nThe Fluke multimeter is able to measure frequency. <SIGNAL>SYSCLK_CLK25M_SB</SIGNAL> measures 0 Hz"
+        },
+        {
+            "post_id": 40758,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-16 09:07:11",
+            "message": "Change that chip is a 5min job; if you have it, from some scrap board...\nPCH will not run without that oscillation."
+        },
+        {
+            "post_id": 41311,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-10-28 02:09:58",
+            "message": "I replaced the clock chip <CHIP>U2700</CHIP> and unfortunately there is seemingly no change in voltage anywhere.  Any other ideas?"
+        },
+        {
+            "post_id": 41312,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-28 03:02:18",
+            "message": "When there exists oscillation, you can read 0.75, or 1.75V DC; I do not exactly remember the value.\nHowever, you can confirm its presence 100% only with o-scope or frequency meter.\nTo get it, <CHIP>U2700</CHIP> requires 1.8V at pin11, check that."
+        },
+        {
+            "post_id": 41313,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1309,
+            "username": "Inwerp",
+            "post_date": "2018-10-28 03:17:29",
+            "message": "[QUOTE=\"<SIGNAL>DA_MUFFINMAN</SIGNAL>, post: 40755\"]\n\nWell I'm not sure...and I'm also inexperienced so I don't know - does testing or replacing the clock chip sound like a good idea to anyone else? I'm at a loss with this one.\n\nThe Fluke multimeter is able to measure frequency. <SIGNAL>SYSCLK_CLK25M_SB</SIGNAL> measures 0 Hz[/QUOTE]no\n\nwell,  all the fluctuation you see is a sign of boot loop, your main problem. the common techniques are to try good-known BIOS, check for the shorts on all peripheral chips (like audio IC), try to start it in SMC bypass mode, and so on. If you see that board starts till the FAN spin, it is already enough to say that the higher logical level is present, this is not the chime but still it shuts down with the reset signal released by one of the main ICs which would not happen with the dead clock. MM Frequency meter is not something you could use to test clock chip, it is used primarily for mains in sub-Khz range. To check if BIOS is being actually read, you can use a LED (in series with ~100Ohm Resistance, of course!). Just connect it between ground and Data line on your bios chip, it will blink slow enough to see if you're getting any activity.\n\nYour question about current measuring and voltage change on clock chip shows that you might need some more theory. For example, if you're measuring \"Current\" by putting probes between ground and any point of the circuit, you're simply destroying the board since current measuring works only in series and your multimeter's resistance is close to zero in this mode. If done properly, it does not affect the circuit, if wrong - sure it burns the shit out of your board :)"
+        },
+        {
+            "post_id": 41315,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2018-10-28 04:39:01",
+            "message": "Old post but FYI the meter is probably 100% OK, it usually doesn't damage anything on the meter itself because they know people will at some point put it on a powered circuit by accident. Its readings will just be useless while the board is powered however though"
+        },
+        {
+            "post_id": 43164,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-12-10 13:36:53",
+            "message": "Thanks for your response.  I have implemented the LED test, connecting the light and resistor between ground and pin 5 of <CHIP>U6100</CHIP> (<SIGNAL>SPI_MLB_MOSI</SIGNAL>) which I believe according to the data sheet in the data line in.  The LED indeed lit up for a second, then turn off for a millisecond then back on for a second, etc.  So, this means the bios is being read.  I'm sorry this thread has taken so long to develop but I am still at a loss here.  Should I test the SPI data line resistors?"
+        },
+        {
+            "post_id": 43265,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 1901,
+            "username": "da_muffinman",
+            "post_date": "2018-12-11 20:58:36",
+            "message": "Bumpppppppp"
+        },
+        {
+            "post_id": 43266,
+            "thread_id": 39768,
+            "title": "2012 MB Air <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER>-A voltage fluctuations",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-12 01:12:01",
+            "message": "You must check all SPI termination resistors, traces and solders around <CHIP>U6100</CHIP>.\nAlso try new BIOS."
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "U7200": "What is U7200? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "5V_S5": "What is 5V_S5? 5V_S5 is an abbreviation for “PP5V_S5” which is a 5v power rail that is present when the machine is in an S5 state. .",
+        "Q7812": "What is Q7812? a TRANSISTOR.",
+        "Q7810": "What is Q7810? a TRANSISTOR.",
+        "Q7802": "What is Q7802? a TRANSISTOR.",
+        "U7941": "What is U7941? a CHIP.",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. ."
+    },
+    "threads": [
+        {
+            "post_id": 31948,
+            "thread_id": 31948,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>, <SIGNAL>SMC_PM_G2_EN</SIGNAL> Bouncing",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2018-02-22 16:15:30",
+            "message": "Normally I'm pretty good at tracking down bouncing voltages due to shorts, SMC issues, etc, but this one has me stumped. Any help is much appreciated:\n\n0. No liquid, board DID have a cracked <TRANSISTOR>Q7802</TRANSISTOR> when I got it...replaced that first thing, before applying power to the board. Inspected rest of board very, very closely for damaged/missing components after seeing this. No other physical issues found.\n1. <SIGNAL>PPBUS_G3H</SIGNAL> 12.58v\n2. <SIGNAL>PP3V42_G3H</SIGNAL> 3.43v\n3. <SIGNAL>PP3V3_S5</SIGNAL> bounces so quick multimeter can't catch it; initially found <SIGNAL>3V3_S5</SIGNAL> shorted (.000) which turned out to be <CHIP>U7200</CHIP>. Replaced <CHIP>U7200</CHIP> and diode back up to around .100; I'm wondering if there's still a small short present? Good board is .120...I attribute this to discharge/etc.\n4. <SIGNAL>SMC_PM_G2_EN</SIGNAL> bouncing as well, but my ppbus is 12.56 so I thought MAYBE damaged SMC, but replaced it and symptoms remain the exact same.\n5. No shorts found after resolving the one on <SIGNAL>3V3_S5</SIGNAL>; checked <SIGNAL>3V3_S5</SIGNAL>-s0, <SIGNAL>5V_S5</SIGNAL>-s0, vrtc, 1v5, 1v05, etc.\n\nUsually I make enough headway to figure it out, but this one has me confused. Where else should I be looking for the cause of <SIGNAL>SMC_PM_G2_EN</SIGNAL> to be bouncing? I thought this was a power cycle, but the SMC is not resetting as my <SIGNAL>PPBUS_G3H</SIGNAL> is stable, correct? My next steps were to see if <SIGNAL>3V3_S5</SIGNAL> killed any of the state switches (<TRANSISTOR>Q7810</TRANSISTOR>/30, etc), or <TRANSISTOR>Q7812</TRANSISTOR>? But if I'm going to blindly replace things, I'd much rather ask before doing so, to learn what to measure next, etc.\n\nAll help appreciated; not wanting to spend hours and hours on this one, so wanted to ask early. Thanks again! Really appreciate it."
+        },
+        {
+            "post_id": 31957,
+            "thread_id": 31948,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>, <SIGNAL>SMC_PM_G2_EN</SIGNAL> Bouncing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-02-22 18:55:56",
+            "message": "<SIGNAL>S5_PWRGD</SIGNAL> coming high? A dead <CHIP>U7200</CHIP> may have spiked the 3v3 line and killed a bunch of stuff, <CHIP>U7941</CHIP> is suspect then."
+        },
+        {
+            "post_id": 31969,
+            "thread_id": 31948,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>, <SIGNAL>SMC_PM_G2_EN</SIGNAL> Bouncing",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2018-02-23 06:39:18",
+            "message": "Hey Duke. <SIGNAL>S5_PWRGD</SIGNAL> is coming high for a split second (confirmed with osc.), as is <SIGNAL>3V3_S5</SIGNAL>. Replaced <CHIP>U7941</CHIP>, no dice; same behavior. Also, my diode reading for <SIGNAL>3V3_S5</SIGNAL> did go up after replacing <CHIP>U7941</CHIP>, from ~.99 - .100 (steady), to .110 (good board around .120). So I think you're right, there's something else damaged on <SIGNAL>3V3_S5</SIGNAL>. I'll look around the schematics a bit and try to find a culprit (knowing now that <CHIP>U7941</CHIP> and <CHIP>U7200</CHIP> were both damaged). If you have any ideas, I'd really appreciate it. This is a 2.8 board, so I'm more inclined to spend a bit more time on it. Thanks so much, duke.\n\nedit: <SIGNAL>3V3_SUS</SIGNAL> also comes high briefly, if that helps."
+        },
+        {
+            "post_id": 31974,
+            "thread_id": 31948,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>, <SIGNAL>SMC_PM_G2_EN</SIGNAL> Bouncing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-02-23 12:06:13",
+            "message": "There is soooo much stuff on the 3V rail. Damage is probably extensive and not worth the hassle."
+        },
+        {
+            "post_id": 31980,
+            "thread_id": 31948,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>, <SIGNAL>SMC_PM_G2_EN</SIGNAL> Bouncing",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2018-02-23 13:42:19",
+            "message": "Thanks, duke. I'll tell that to the customer, because I think you're right. Thanks so much for the help on this one."
+        }
+    ]
+}

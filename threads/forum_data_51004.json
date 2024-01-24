@@ -1,0 +1,214 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "PP20V_USBC": "What is PP20V_USBC? 20 volt power rail that comes directly from the charger.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPBUS_HS_CPU": "What is PPBUS_HS_CPU? a SIGNAL.",
+        "PPBUS_HS_OTH5V": "What is PPBUS_HS_OTH5V? a SIGNAL.",
+        "PP3V3_G3H_SMC": "What is PP3V3_G3H_SMC? a SIGNAL.",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7090": "What is R7090? a RESISTOR.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "D6902": "What is D6902? a DIODE.",
+        "U3100": "What is U3100? a CHIP.",
+        "U3200": "What is U3200? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 51004,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-07-24 12:57:13",
+            "message": "Hello gents. This board came in with no power. No sign of liquid spill or corrosion. All i'm getting is 5V on <SIGNAL>PP20V_USBC</SIGNAL> and the below measurements. \n\n<SIGNAL>PPBUS_G3H</SIGNAL> - 0.090\n<SIGNAL>PPBUS_HS_CPU</SIGNAL> - 0.090\n<SIGNAL>PPBUS_HS_OTH5V</SIGNAL> - 0.090\n\n<SIGNAL>PP3V3_G3H</SIGNAL> - 3.4 but pulses down to about 0.2v then back up to 3.4. same wit <SIGNAL>PP3V3_G3H_SMC</SIGNAL>.\n\nAny suggestions on where next to check. I'm still getting familiar with the 2016 up boards."
+        },
+        {
+            "post_id": 51006,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-24 13:05:40",
+            "message": "\"5V on <SIGNAL>PP20V_USBC</SIGNAL>\"\nStable 5V, not pulsing?\nSame on all USB-C ports?\n\n<RESISTOR>R7020</RESISTOR> voltage pulsing?\nDiode mode to ground at F7000?\nAnd what about <SIGNAL>BUF_SMC_RESET_L</SIGNAL>?"
+        },
+        {
+            "post_id": 51007,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-07-24 13:21:56",
+            "message": "<SIGNAL>PP20V_USBC</SIGNAL> is also pulsing down to 0.\nYes all USB-C ports, <RESISTOR>R7090</RESISTOR> are pulsing 5 to 0. \n\nDiode mode to ground at F7000 - 0.43\n<SIGNAL>BUF_SMC_RESET_L</SIGNAL> also pulsing 0 to 3.4"
+        },
+        {
+            "post_id": 51008,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-07-24 14:41:03",
+            "message": "Very very likely you have a bad <CHIP>CD3215</CHIP>. Diode mode all 3.3 1.8 inputs for each <CHIP>CD3215</CHIP>. A trick I like sometimes is injecting 3.3 volts into <SIGNAL>PP3V3_G3H</SIGNAL> to see if there is any current draw. If so, usually it?s one of the CD3215s"
+        },
+        {
+            "post_id": 51010,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-07-24 15:53:54",
+            "message": "<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> - 0.496\n<SIGNAL>PP3V3_G3H</SIGNAL> - 0.33\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 0.49\n<SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> - 0.47\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> - 0.5\n\nAbove values pretty much the same on all 4 chips.\n\nInjected 3.3 on <SIGNAL>PP3V3_G3H</SIGNAL>, resulted in a current draw of 44mA."
+        },
+        {
+            "post_id": 51011,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-07-25 13:14:25",
+            "message": "Yeah so realistically could be any of the CD3215s causing your issue."
+        },
+        {
+            "post_id": 51013,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-25 15:15:02",
+            "message": "Remove <RESISTOR>R7020</RESISTOR> and <DIODE>D6902</DIODE>; one by one.\nStill pulsing?"
+        },
+        {
+            "post_id": 51176,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-04 18:06:02",
+            "message": "Sorry for the late response. I've been out of town. \n\nSo i removed <RESISTOR>R7020</RESISTOR> and <DIODE>D6902</DIODE>. The pulsing on <SIGNAL>PP20V_USBC</SIGNAL> has stopped. \n\nI'm also still waiting on a couple <CHIP>CD3215</CHIP> chips to arrive."
+        },
+        {
+            "post_id": 51186,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-05 07:29:30",
+            "message": "If one USB-C still has 5V only, corresponding <CHIP>CD3215</CHIP> is the first suspect."
+        },
+        {
+            "post_id": 51188,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-05 07:52:40",
+            "message": "So i put all the components back in and noticed, F3000 is the only fuse that doesn't pulse and stay at 5v. So FB201, FB200 and F3001 all pulse when i power their usb-c ports.\n\nDoes this mean the 3 <CHIP>CD3215</CHIP> are all bad?"
+        },
+        {
+            "post_id": 51190,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-05 09:56:18",
+            "message": "\"If one USB-C still has 5V only\"\nI was thinking you check w/o <RESISTOR>R7020</RESISTOR> and <DIODE>D6902</DIODE>..."
+        },
+        {
+            "post_id": 51195,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-05 15:28:54",
+            "message": "Still 5v on F300 without <RESISTOR>R7020</RESISTOR> and <DIODE>D6902</DIODE>."
+        },
+        {
+            "post_id": 51196,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-05 17:47:29",
+            "message": "All USB-C same, or just one port?"
+        },
+        {
+            "post_id": 51199,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-05 18:42:01",
+            "message": "With <RESISTOR>R7020</RESISTOR> and <DIODE>D6902</DIODE> removes, all USB-C are steady 5v.  Once R70920 and <DIODE>D6902</DIODE> are reinstalled, only F3000 has a non-pulsing 5v."
+        },
+        {
+            "post_id": 51204,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-06 01:32:49",
+            "message": "Start changing <CHIP>CD3215</CHIP> from the port with different symptom."
+        },
+        {
+            "post_id": 51370,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-12 06:12:44",
+            "message": "After changing the <CHIP>CD3215</CHIP> from the port that was steady, the pulsing stopped. But still only getting steady 5v on all ports now. Wondering if these chips I got from China are any good. Thought I would save some money but I?m going to buy some locally to confirm that the chips are DOA."
+        },
+        {
+            "post_id": 51371,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-12 06:34:21",
+            "message": "<CHIP>CD3215</CHIP> chips have firmware.\nYou need the same termination code; i.e. B03, or C00..."
+        },
+        {
+            "post_id": 51374,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-12 07:00:21",
+            "message": "Yeah. I installed one identical to the one pulled; cd3215c00."
+        },
+        {
+            "post_id": 51636,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-25 22:37:09",
+            "message": "Replaced <CHIP>U3200</CHIP> and <CHIP>U3100</CHIP>. Board now powers up. This is now fixed. Thanks gents."
+        },
+        {
+            "post_id": 51653,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-26 05:13:03",
+            "message": "These new boards make us crazy.\nI saw people reporting working boards on 2 from 4 USB-C ports.\nSo we never can confirm 100% which should be the state of all 4 ports."
+        },
+        {
+            "post_id": 51661,
+            "thread_id": 51004,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> - Not Powering up. <SIGNAL>PP20V_USBC</SIGNAL> 5.19V",
+            "user_id": 1984,
+            "username": "macRepairAmb",
+            "post_date": "2019-08-26 06:43:33",
+            "message": "Yeah I relay do not like these boards."
+        }
+    ]
+}

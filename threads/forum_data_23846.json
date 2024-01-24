@@ -1,0 +1,72 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U5110": "What is U5110? This chip is responsible for SMC_RESET_L in many Macbook models..",
+        "U7090": "What is U7090? This chip is often responsible for creating PP3V42_G3H.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "R5100": "What is R5100? a RESISTOR.",
+        "R5501": "What is R5501? a RESISTOR.",
+        "R5511": "What is R5511? a RESISTOR.",
+        "C1950": "What is C1950? Capacitor between PP3V42_G3H & ground on pin 8 of U1950 on 2013-2015 Macbook Pros & Airs that often corrodes. When corroded, pin 8 on U1950 will be damaged, which will prevent machine from booting and cause PM_SLP_S4_L to pulse. .",
+        "C5120": "What is C5120? a CAPACITOR.",
+        "C7098": "What is C7098? a CAPACITOR.",
+        "C5020": "What is C5020? a CAPACITOR.",
+        "Q5500": "What is Q5500? a TRANSISTOR.",
+        "R7095": "What is R7095? a RESISTOR.",
+        "C7095": "What is C7095? a CAPACITOR.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_RST_L": "What is CHGR_RST_L? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 23846,
+            "thread_id": 23846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no green light/power or <SIGNAL>SMC_RESET_L</SIGNAL>",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-08-04 19:37:24",
+            "message": "This board was liquid damaged in many places including the SMC.\nHere are a list of the components I replaced:\n<CHIP>U5110</CHIP> - <CAPACITOR>C5120</CAPACITOR>\nRemoved JTAG (J6100)\n<CHIP>U7090</CHIP> - L7095 - <CAPACITOR>C7098</CAPACITOR>/99\n<RESISTOR>R5501</RESISTOR>/2 - <TRANSISTOR>Q5500</TRANSISTOR>/10 - <RESISTOR>R5511</RESISTOR>/12\n<CHIP>U1950</CHIP> + <CAPACITOR>C1950</CAPACITOR>\n<CAPACITOR>C5020</CAPACITOR> & <RESISTOR>R5100</RESISTOR> (Around SMC)\n\nI am getting 16.6V on <SIGNAL>PPDCIN_G3H</SIGNAL> and into the <CHIP>U7090</CHIP> chip. There was a short on Pin 2 of L7095(<SIGNAL>PP3V42_G3H</SIGNAL>) and I tracked it down to the <CHIP>U5110</CHIP> so I replaced it and the short was gone.\nFor some reason though when I measure <SIGNAL>PP3V42_G3H</SIGNAL> I only get around 0.9v but as soon as I touch Pin 1 of L7095 <SIGNAL>PP3V42_G3H</SIGNAL> goes to around 4.6v. When I initially plug the charger in Pin 1 of L7095 usually shows voltage anywhere from 4.3v to 4.6v and one time it showed 3.1v.\nPin 1 of L7095 is almost always around 4v when I measure after plugging in the charger. Pin 2 of L7095 usually fluctuates around 0.91v to 1v when I initially measure but as soon as I touch Pin 1 and measure again it jumps to around 4v. I have never seen this issue where Pin 2 is a certain voltage and it changes once Pin 1 is touched.\n\nI get 0v on <SIGNAL>SMC_RESET_L</SIGNAL> and I figure that is because <SIGNAL>PP3V42_G3H</SIGNAL> is not a steady 3.42v. Could it be that the <CHIP>U7090</CHIP> chip I replaced with is bad as well?\n\nDiode mode of L7095 - 0.35v\nDiode mode of <SIGNAL>SMC_RESET_L</SIGNAL> - 0.47v"
+        },
+        {
+            "post_id": 23849,
+            "thread_id": 23846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no green light/power or <SIGNAL>SMC_RESET_L</SIGNAL>",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-08-05 04:17:23",
+            "message": "UPDATE: I replaced <CAPACITOR>C7095</CAPACITOR>, <RESISTOR>R7095</RESISTOR>/6 and the <CHIP>U7090</CHIP> chip again and now I am no longer getting any voltage on L7095 and in diode mode L7095 is 0.295v\nHere are the voltages from the <CHIP>U7090</CHIP> chip:\nPins 1,2,4,5 -0v\nPin 3 - went from 0.21v slowly up to around 0.36v\nPin 6 - 16.4v\nPin 7 - starts around 7.4v and slowly goes down to around 7v\nPin 8 - 16.55v\n\nUpdate #2: I ultrasonic'd the board and afterwards I plugged the charger in and the light showed orange but it looked slightly dim and it never came green at any point. I unplugged the charger and plugged it back in and now there is no light when I plug the charger in.\nThe voltages are the same as above except Pin 7 is 0.6-0.8v and Pin 3 is 0v."
+        },
+        {
+            "post_id": 23859,
+            "thread_id": 23846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no green light/power or <SIGNAL>SMC_RESET_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-08-05 11:42:13",
+            "message": "Probably bad SMC to start with pulling down 3V42. You can inject 3V42 and see if anything gets warm and if green/orange light works."
+        },
+        {
+            "post_id": 23866,
+            "thread_id": 23846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no green light/power or <SIGNAL>SMC_RESET_L</SIGNAL>",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-08-05 12:50:59",
+            "message": "Okay I injected the voltage on Pin 2 of L7095 then plugged the charger in but still no light on the charger. I got 3.4v on <SIGNAL>SMC_RESET_L</SIGNAL> but on Pin 14 of <CHIP>U7100</CHIP>(<SIGNAL>SMC_BC_ACOK</SIGNAL>) it was 3.21v. Pins 13 of <CHIP>U7100</CHIP>(<SIGNAL>CHGR_RST_L</SIGNAL>) was around 3.4v also."
+        },
+        {
+            "post_id": 23889,
+            "thread_id": 23846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no green light/power or <SIGNAL>SMC_RESET_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-08-06 18:17:16",
+            "message": "SMC would be my first suspect now."
+        }
+    ]
+}

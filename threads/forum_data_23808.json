@@ -1,0 +1,84 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2838": "What is 820-2838? a LOGIC BOARD PART NUMBER.",
+        "U7400": "What is U7400? a CHIP.",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PPVCORE_S0_MCP": "What is PPVCORE_S0_MCP? a SIGNAL.",
+        "PP5V_S0_CPU_IMVP": "What is PP5V_S0_CPU_IMVP? a SIGNAL.",
+        "IMVP_VR_ON": "What is IMVP_VR_ON? a SIGNAL.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "U7500": "What is U7500? a CHIP.",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "MCPCORES0_EN": "What is MCPCORES0_EN? a SIGNAL.",
+        "VCORE_S0_MCP": "What is VCORE_S0_MCP? a SIGNAL.",
+        "C7576": "What is C7576? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 23808,
+            "thread_id": 23808,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2838</LOGIC BOARD PART NUMBER> no fan spin, no CPU VCORE",
+            "user_id": 820,
+            "username": "brrayne",
+            "post_date": "2017-08-04 00:17:53",
+            "message": "Hi there, I have an old MacBook Air that I'm using for practice (still very much a novice at this). Apparently it was water damaged, but I saw little evidence of that inside.\n\nI have most of the rails present, apart from <SIGNAL>PPVCORE_S0_CPU</SIGNAL> and <SIGNAL>PPVCORE_S0_MCP</SIGNAL>.\n\nLooking at <CHIP>U7400</CHIP>, <SIGNAL>PP5V_S0_CPU_IMVP</SIGNAL> is coming in on pin 21 okay, but nothing is coming out. I'm not sure if this is a fault with <CHIP>U7400</CHIP>, or if it's not being told to turn on. If I'm following the schematic correctly (and I may not be) <SIGNAL>IMVP_VR_ON</SIGNAL> should be coming from the SMC into pin 25, but I'm getting 0V at pin 25.\n\nI'm trying to figure out of this is an issue with <CHIP>U7400</CHIP> or the SMC, or perhaps something else that is preventing the VCORE from being created.\n\nI know this is very vague, and I apologise for that. Any suggestions as to what I might check next?\n\nThanks in advance,\nBruce"
+        },
+        {
+            "post_id": 23814,
+            "thread_id": 23808,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2838</LOGIC BOARD PART NUMBER> no fan spin, no CPU VCORE",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-08-04 04:24:15",
+            "message": "First fan spin, then CPU vcore. After hitting power do you get the other S0 rails? <SIGNAL>PP5V_S0</SIGNAL>, <SIGNAL>PP3V3_S0</SIGNAL>, etc. CPU vcore comes after all of that. I am guessing your problem is you are missing <SIGNAL>PP5V_S3</SIGNAL> and everything after."
+        },
+        {
+            "post_id": 23819,
+            "thread_id": 23808,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2838</LOGIC BOARD PART NUMBER> no fan spin, no CPU VCORE",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-08-04 05:12:16",
+            "message": "<SIGNAL>VCORE_S0_MCP</SIGNAL> needs to be there before the CPU Vcore will come on. As you have <SIGNAL>5V_S0</SIGNAL> <CHIP>U7500</CHIP> should also receive an enable signal. Check <SIGNAL>MCPCORES0_EN</SIGNAL> high. If it is high there should be voltage on L7560. If there is no voltage on L7560 check for short to GND and if that is ok then check around <CHIP>U7500</CHIP>."
+        },
+        {
+            "post_id": 23847,
+            "thread_id": 23808,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2838</LOGIC BOARD PART NUMBER> no fan spin, no CPU VCORE",
+            "user_id": 820,
+            "username": "brrayne",
+            "post_date": "2017-08-04 20:11:57",
+            "message": "Thanks Louis and Duke.\n\nLouis, all of the other S0 rails are present. I'm only missing the VCORE rails.\n\nDuke, <SIGNAL>MCPCORES0_EN</SIGNAL> is there, but there is no voltage on L7560. I don't think there's a short to ground, and the area around <CHIP>U7500</CHIP> looks pretty tidy.\n\nI'm still waiting for my donor board to arrive, but when it does, do you think I should try replacing <CHIP>U7500</CHIP>?\n\nThanks again,\nBruce"
+        },
+        {
+            "post_id": 23848,
+            "thread_id": 23808,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2838</LOGIC BOARD PART NUMBER> no fan spin, no CPU VCORE",
+            "user_id": 820,
+            "username": "brrayne",
+            "post_date": "2017-08-04 23:02:18",
+            "message": "Sorry guys, ignore that last comment.\n\nThe problem was just staring me in the face. <CAPACITOR>C7576</CAPACITOR> was missing off the board. Knocked off by the looks of it.\n\nThanks again for your help."
+        },
+        {
+            "post_id": 23858,
+            "thread_id": 23808,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2838</LOGIC BOARD PART NUMBER> no fan spin, no CPU VCORE",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-08-05 11:40:01",
+            "message": "So this is fixed?"
+        },
+        {
+            "post_id": 23871,
+            "thread_id": 23808,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2838</LOGIC BOARD PART NUMBER> no fan spin, no CPU VCORE",
+            "user_id": 820,
+            "username": "brrayne",
+            "post_date": "2017-08-05 17:04:45",
+            "message": "Sorry, yes. All fixed, tested and working perfectly now, thank you.\n\nThe tip about focusing on <SIGNAL>VCORE_S0_MCP</SIGNAL> before <SIGNAL>PPVCORE_S0_CPU</SIGNAL> was exactly what I needed.\n\nThanks again,\nBruce"
+        }
+    ]
+}

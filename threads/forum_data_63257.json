@@ -1,0 +1,155 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00928": "What is 820-00928? a LOGIC BOARD PART NUMBER.",
+        "A1707": "What is A1707? A1707 is a model number for a 15 inch size MacBook Pro Retina from years Late 2016, Mid 2017 with EMC 3072, that may contain one of these boards depending on the year & configuration: 820-00281, 820-00928..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "ISL9239": "What is ISL9239? This is a charging chip for Macbook motherboards from 2016-2018 responsible for charging the battery and creating the power rail PPBUS_G3H.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "SMC_USBC_INT_L": "What is SMC_USBC_INT_L? a SIGNAL.",
+        "U7800": "What is U7800? a CHIP.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "PM_EN_P3V3_G3H": "What is PM_EN_P3V3_G3H? PM_EN_P3V3_G3H is a signal that enables the PP3V3_G3H rail to turn on. This comes out of ISL9239 or ISL9240 chip; when missing, often is missing because of a bad ISL9239 or ISL9240 chip. .",
+        "TBA_VDDA": "What is TBA_VDDA? a SIGNAL.",
+        "PP3V3_PMICLDO": "What is PP3V3_PMICLDO? a SIGNAL.",
+        "SMC_RST_L": "What is SMC_RST_L? a SIGNAL.",
+        "PP5V_PMICLDO": "What is PP5V_PMICLDO? a SIGNAL.",
+        "SMC_CHGR_INT_L": "What is SMC_CHGR_INT_L? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "D6950": "What is D6950? a DIODE.",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "PP1V2_S3": "What is PP1V2_S3? PP1V2_S3 is a 1.2v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PP1V8_SUS": "What is PP1V8_SUS? PP1V8_SUS is a 1.8v power rail active in a suspend state..",
+        "PP1V0_SUS": "What is PP1V0_SUS? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 93788,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2022-11-08 11:14:34",
+            "message": "This board has me stumped. It came from an <MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> 15” machine with a battery issue (I believe it had the wrong battery connected to it, or its battery connector was shorted).\n\nThe board was stuck at 5V USB-C. I found a short on <SIGNAL>PP3V3_G3H</SIGNAL> which I traced to a shorted SMC. I replaced the SMC, which restored <SIGNAL>PP3V3_G3H</SIGNAL> to 3.3V and <SIGNAL>SMC_PM_G2_EN</SIGNAL> to 3.4V.\n\nNow when I plug in a charger cable, the USB-C port initially stays as 5V and after 10-15 seconds jumps to 20V. I’ve never seen a delay this long; I’m sure it means something.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> is not being generated, even with 20V on <SIGNAL>PPDCIN_G3H</SIGNAL>. I replaced <CHIP>U7000</CHIP> (<CHIP>ISL9239</CHIP>) with no change.\n\nCurrent sensing resistors <RESISTOR>R7021</RESISTOR>/22 are fine. <CHIP>CD3215</CHIP> LDOs are all fine."
+        },
+        {
+            "post_id": 93801,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-08 14:48:09",
+            "message": "Did you test now with good battery?\nBe sure to use original 87/96W charger.\n\nCheck <SIGNAL>SMC_USBC_INT_L</SIGNAL> level."
+        },
+        {
+            "post_id": 93835,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2022-11-09 09:43:12",
+            "message": "Yes, I use an original Apple 87W charger.\n\nWhen I connect a battery instead of charger, I get PPBUS = 11.7V. The SMC is off.\n\n<SIGNAL>SMC_USBC_INT_L</SIGNAL> is 3.4V with charger connected."
+        },
+        {
+            "post_id": 93836,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-09 10:51:38",
+            "message": "\"The SMC is off.\"\nNot sure what this means.\n\nWith battery connected, check <CHIP>U7800</CHIP> LDOs.\nWith charger only, check <SIGNAL>CHGR_AMON</SIGNAL>/BMON and <SIGNAL>SMC_BC_ACOK</SIGNAL>."
+        },
+        {
+            "post_id": 93842,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2022-11-09 11:23:47",
+            "message": "With battery connected:\n<SIGNAL>PP3V3_PMICLDO</SIGNAL>: 3.3\n<SIGNAL>PP5V_PMICLDO</SIGNAL>: 5.0\n\nWith charger connected, here are the output voltages for <CHIP>U7000</CHIP>:\n<SIGNAL>SMC_BC_ACOK</SIGNAL>: 3.4\n<SIGNAL>CHGR_AMON</SIGNAL>:  0\n<SIGNAL>CHGR_BMON</SIGNAL>: 0\n<SIGNAL>SMC_CHGR_INT_L</SIGNAL>:  0\n<SIGNAL>SMC_RST_L</SIGNAL>: 3.4\n<SIGNAL>PM_EN_P3V3_G3H</SIGNAL>: 5.2\n<SIGNAL>TBA_VDDA</SIGNAL>: 5.2"
+        },
+        {
+            "post_id": 93847,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-09 12:29:10",
+            "message": "With battery connected, trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\nAlso check for pulse at <SIGNAL>3V3_S5</SIGNAL>, at same time."
+        },
+        {
+            "post_id": 93862,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2022-11-09 15:13:59",
+            "message": "With just the battery connected, <SIGNAL>PP3V3_S5</SIGNAL> and <SIGNAL>PM_PWRBTN_L</SIGNAL> are 0V. Triggering <SIGNAL>SMC_ONOFF_L</SIGNAL> doesn't change that. When I additionally plug in the charger, I get 3.4V on <SIGNAL>PP3V3_S5</SIGNAL> and <SIGNAL>PM_PWRBTN_L</SIGNAL> but no pulse or drop when I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>."
+        },
+        {
+            "post_id": 93877,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-10 01:49:11",
+            "message": "You may try changing SMC and/or <CHIP>U7800</CHIP>."
+        },
+        {
+            "post_id": 94095,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2022-11-16 11:22:06",
+            "message": "Ok, I poked around on this board a bit more to find out why PPBUS was not created. I found the data lines <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> and <SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL> shorted to ground (3Ω and 22Ω). Obviously, the SMC could not communicate with <CHIP>U7000</CHIP>.\n\nI found diode <DIODE>D6950</DIODE> shorted to ground and replaced it. This restored the SMC data lines, PPBUS, and <SIGNAL>PP3V3_S5</SIGNAL>. Now I’m stuck in S5, still troubleshooting."
+        },
+        {
+            "post_id": 94096,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-16 12:34:50",
+            "message": "Did you try original 87/96W charger?"
+        },
+        {
+            "post_id": 94107,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2022-11-16 15:30:32",
+            "message": "Yes, Apple 87W."
+        },
+        {
+            "post_id": 94108,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-16 16:21:24",
+            "message": "Is the battery charging now?\n\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>, at same time."
+        },
+        {
+            "post_id": 94124,
+            "thread_id": 63257,
+            "title": "MacBook Pro 2017 board <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with missing PPBUS",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2022-11-17 09:18:06",
+            "message": "I checked all power rails that <CHIP>U7800</CHIP> (PMIC) produces and I was missing several (<SIGNAL>PP1V2_S3</SIGNAL>, <SIGNAL>PP1V8_SUS</SIGNAL>, <SIGNAL>PP1V0_SUS</SIGNAL>). So I replaced <CHIP>U7800</CHIP>, as you had suggested before. Now all power rails are back, the machine starts up and is fully functional. Thanks!"
+        }
+    ]
+}

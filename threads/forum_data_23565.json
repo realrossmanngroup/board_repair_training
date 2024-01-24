@@ -1,0 +1,43 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "U2800": "What is U2800? a CHIP.",
+        "U7300": "What is U7300? a CHIP.",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PP1V5_S0": "What is PP1V5_S0? PP1V5_S0 is a 1.5v power rail present when the machine is in an S0 working state.",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "PP1V5_S3": "What is PP1V5_S3? a SIGNAL.",
+        "PP0V75_S0_DDRVTT": "What is PP0V75_S0_DDRVTT? PP0V75_S0_DDRVTT is a 0.75v power rail present when the machine is in an S0 working state .",
+        "PPVTTDDR_S3": "What is PPVTTDDR_S3? PPVTTDDR_S3 is a 3.3v power rail that powers the DDR RAM when the machine is in an S3 suspend to RAM state. .",
+        "MEMVTT_EN": "What is MEMVTT_EN? a SIGNAL.",
+        "PP1V5_S3RS0": "What is PP1V5_S3RS0? PP1V5_S3RS0 is a 1.5v power rail present when the machine is in an S3 suspend to RAM state.",
+        "MEM_RESET_L": "What is MEM_RESET_L? a SIGNAL.",
+        "R3210": "What is R3210? a RESISTOR.",
+        "R2805": "What is R2805? a RESISTOR.",
+        "Q3210": "What is Q3210? a TRANSISTOR.",
+        "Q3250": "What is Q3250? a TRANSISTOR.",
+        "PLT_RESET": "What is PLT_RESET? PLT_RESET stands for platform reset. When this is asserted the machine will not POST. ."
+    },
+    "threads": [
+        {
+            "post_id": 23565,
+            "thread_id": 23565,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> <SIGNAL>PLT_RESET_L</SIGNAL> 0v",
+            "user_id": 235,
+            "username": "MUUK",
+            "post_date": "2017-07-28 01:37:19",
+            "message": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>\n\nOld liquid spill\nGreen light, fan spins no display, no chime, usb lights up\n\n<RESISTOR>R2805</RESISTOR> area has hole.\nReplaced <RESISTOR>R2805</RESISTOR>. replaced <CHIP>U2800</CHIP> & y2805\nRan wires to connect broken traces.\nStill does the same. Boo!\n\n\nCheck power rails\n<SIGNAL>PP1V8_S0</SIGNAL> 1,792\n<SIGNAL>PP1V5_S3</SIGNAL> 1.499\n<SIGNAL>PP1V5_S3RS0</SIGNAL> 1.499\n<SIGNAL>PP1V5_S0</SIGNAL> 1.503\n<SIGNAL>PPVTTDDR_S3</SIGNAL> 0.752\n\n<SIGNAL>PP0V75_S0_DDRVTT</SIGNAL> 0v Ah ha \n\nDiode mode to ground on <SIGNAL>PP0V75_S0_DDRVTT</SIGNAL> 0.213v on donor 0.318 (significant ?)\n\n<CHIP>U7300</CHIP>\n\npin1 0v\npin2 1.5v\npin3 0v\npin4 0v gnd\npin5 0.752\npin6 1.797\npin7 0v\npin8 1.495\npin 9 1.5\npin 11 1.9v\npin12  5v\npin13 1.5v\npin14 1.5v\npin15 6.4v (?)\npin16 3.2v\npin17 0v \npin18 0.9v\npin19 0.03v\npin20 4.2v (odd ?)\n\n\n<RESISTOR>R3210</RESISTOR>\npin1 <SIGNAL>PM_SLP_S3_L</SIGNAL> = 3.2v\npin2 <SIGNAL>MEMVTT_EN</SIGNAL>= 0v\n<SIGNAL>MEM_RESET_L</SIGNAL> high\n\n\nSo i'm missing <SIGNAL>MEMVTT_EN</SIGNAL> which should come from <SIGNAL>PM_SLP_S3_L</SIGNAL>\n\n<SIGNAL>PM_SLP_S3_L</SIGNAL> is high at pin 1 of <RESISTOR>R3210</RESISTOR> but 0v on the other side.\ndiode mode to ground on both side matches donor board (0.318 and 0.418v to gnd)\n\nReplaced <RESISTOR>R3210</RESISTOR> even though measured fine, no change.\nReplaced <TRANSISTOR>Q3250</TRANSISTOR> no change\n\n<TRANSISTOR>Q3210</TRANSISTOR>\n\npin1  gnd\npin2 4.9v\npin3 4.9v\npin4 gnd\npin5 0v\npin6 0v\n\nso <SIGNAL>PLT_RESET_L</SIGNAL> is low when should be high.\n<SIGNAL>PLT_RESET_L</SIGNAL> seems to come from the CPU/PCH - is this the end for this board ?"
+        },
+        {
+            "post_id": 23593,
+            "thread_id": 23565,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> <SIGNAL>PLT_RESET_L</SIGNAL> 0v",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-07-28 16:23:51",
+            "message": "<SIGNAL>PLT_RESET</SIGNAL> being low could have many causes. Corrosion under SMC/PCH, clock chip problems. It could be internal board damage if there really was a charred hole at <RESISTOR>R2805</RESISTOR> position."
+        }
+    ]
+}

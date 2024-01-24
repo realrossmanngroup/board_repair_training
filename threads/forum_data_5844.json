@@ -1,0 +1,177 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3330": "What is 820-3330? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PM_SYSRST_L": "What is PM_SYSRST_L? PM_SYSRST_L is a system reset signal present when it is low, _L means the signal asserts itself when the voltage is low. This signal needs to be high for the system to exit reset mode & turn on properly. .",
+        "SMC_DELAYED_PWRGD": "What is SMC_DELAYED_PWRGD? SMC_DELAYED_PWRGD is a signal that comes from the SMC that is a pre-requisite for SYS_PWROK_R and PM_PCH_SYS_PWROK..",
+        "PP1V2_S5_SMC_VDDC": "What is PP1V2_S5_SMC_VDDC? a SIGNAL.",
+        "PM_S0_PGOOD": "What is PM_S0_PGOOD?  PM_S0_PGOOD is created when CPUVR_PGOOD and ALL_SYS_PWRGD are present and branches off to become PM_PCH_PWROK. PM_S0_PGOOD and SMC_DELAYED_PWRGD are necessary to create SYS_PWROK_R and PM_PCH_SYS_PWROK .",
+        "CPUIMVP_PGOOD": "What is CPUIMVP_PGOOD? CPUIMVP_PGOOD is a signal from the CPU VCORE buck converter IC that indicates CPU power is good which is necessary to create PM_S0_PGOOD..",
+        "U7400": "What is U7400? a CHIP.",
+        "CPUIMVP_UGATE1": "What is CPUIMVP_UGATE1? a SIGNAL.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "PP3V3_ENET_FET": "What is PP3V3_ENET_FET? a SIGNAL.",
+        "C7737": "What is C7737? a CAPACITOR.",
+        "C7738": "What is C7738? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 5844,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-22 14:20:35",
+            "message": "So i have a <LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> board that will spin the fans for a second then turn off for a few seconds and repeat. I think it might be a dead SMC but not positive? Board has no liquid damage. Any help with thisi board would be great. Thanks\n\n<SIGNAL>PM_SLP_S4_L</SIGNAL> - 3.3V when fan spins. 0 when not\n\n<SIGNAL>PM_SYSRST_L</SIGNAL> - 3.3V when fan spins 0 when not - Comes from SMC\n<SIGNAL>PM_PCH_SYS_PWROK</SIGNAL> - 0V all the time = <SIGNAL>SMC_DELAYED_PWRGD</SIGNAL> - 3.3V when fan spins 0 when not - Also From SMC\n<SIGNAL>PM_S0_PGOOD</SIGNAL> = 0V all the time\n<SIGNAL>CPUIMVP_PGOOD</SIGNAL> = always 0V\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> - 3.3V when fan spins 0 when not\n<SIGNAL>PM_PCH_PWROK</SIGNAL> - 3.3V when fan spins 0 when not\n<SIGNAL>PM_RSMRST_L</SIGNAL> -Always 3.3v\n<SIGNAL>PM_PWRBTN_L</SIGNAL> - Always 3.3V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> - Always 3.3v\n\n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> - Always 3.3v - Comes from SMC\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> - Always 3.3v\n<SIGNAL>PP3V3_S5</SIGNAL> - Always 3.3\n<SIGNAL>PP5V_S5</SIGNAL> - Always 5v\n<SIGNAL>PP3V3_S4</SIGNAL> - 3.3 When fan spens .6 when not\n<SIGNAL>PP3V3_S3</SIGNAL> - 3.3 V when fan spins. 0 when not\n<SIGNAL>PP5V_S3</SIGNAL> - 5V when fan spins. 0 when not\n<SIGNAL>PP3V3_S3</SIGNAL> - 3.3 when fan spins 0 when not\n<SIGNAL>PP3V3_S0</SIGNAL> - 3.3V when fan spins 0 when not\n\nSMC Power - <SIGNAL>PP1V2_S5_SMC_VDDC</SIGNAL> - 1.2V when fan spins - .9 when fan off\n\nRTC Clock Seems fine"
+        },
+        {
+            "post_id": 5851,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-08-22 19:40:31",
+            "message": "85W original adapter???"
+        },
+        {
+            "post_id": 5854,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-22 19:50:17",
+            "message": "Yes. I have tried with 2 different adapter that both work on other machines."
+        },
+        {
+            "post_id": 5860,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-08-22 20:32:14",
+            "message": "Check with oscilloscope if <SIGNAL>PP5V_S3</SIGNAL> is coming high for a fraction of second"
+        },
+        {
+            "post_id": 5869,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-23 06:44:47",
+            "message": "Vcore present on L7510?"
+        },
+        {
+            "post_id": 5886,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-23 11:26:03",
+            "message": "Yes i do get <SIGNAL>PP5V_S3</SIGNAL> going high for a second. But no Vcore on L7510. VVC and enable are both at <CHIP>U7400</CHIP>, But no <SIGNAL>CPUIMVP_UGATE1</SIGNAL>. Also Between L7510 and ground im only getting 1ohm. Is that normal for this board or is that to low"
+        },
+        {
+            "post_id": 5892,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-23 14:22:23",
+            "message": "If this is not a BIOS issue this one is going to suck :(\nBack up your old BIOS and try this one: [URL=\"https://drive.google.com/open?id=0ByfhQ_x0v-tZQWJfQll3MktCMWs\"]https://drive.google.com/open?id=0By...WJfQll3MktCMWs[/URL]\nIf this works then upload your original here to have the ME transferred. If it does not help you can put back the original."
+        },
+        {
+            "post_id": 5895,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-23 15:19:38",
+            "message": "I saw that yesterday on another post and went ahead and tried it but sadly we have the same results. :("
+        },
+        {
+            "post_id": 5898,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-23 16:17:22",
+            "message": "Then we have a problem :(\nAsk owner for any history as how this could've happened.\nAre you sure there was no liquid? <RESISTOR>R7402</RESISTOR> and 7403 ok?"
+        },
+        {
+            "post_id": 5905,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-23 17:00:52",
+            "message": "No liquid at all computer is in great shape. Looks well cared for. I did some more digging and removed L7510 and found that the CPU side has a .001 voltage drop to ground and that seams way to low. :( Im thinking its a bad CPU now. Is it fine to inject 1V on the CPU line to see if its something else that may be shorted?"
+        },
+        {
+            "post_id": 5924,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-24 10:02:39",
+            "message": "These CPUS have very low resistance to GND so nothing strange there.\nAgain, ask the owner what happened, need some clues."
+        },
+        {
+            "post_id": 5934,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-24 12:08:53",
+            "message": "They claim it just died one day. No liquid or anything. from the looks of the board this looks to be true"
+        },
+        {
+            "post_id": 5939,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-24 13:00:05",
+            "message": "What voltages are you getting on Y2605? No spikes over 1.6V?"
+        },
+        {
+            "post_id": 6058,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-26 16:59:06",
+            "message": "No Title\n\nRemember as louis says \"The customer never lies\" Found these little fuckers after noticing the <SIGNAL>PP3V3_ENET_FET</SIGNAL> was shorted to ground preventing me from having a 25Mhz System clock. After removing them the board works. On the plus side i now have a nice oscilloscope."
+        },
+        {
+            "post_id": 6062,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-26 17:34:04",
+            "message": "Not seeing much in that pic. Was it liquid that shorted a cap?"
+        },
+        {
+            "post_id": 6064,
+            "thread_id": 5844,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> Fan spins for a second then dies and repeats. <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-26 18:06:03",
+            "message": "Yeah it was <CAPACITOR>C7737</CAPACITOR> and <CAPACITOR>C7738</CAPACITOR>. Not positive that it was liquid as it really didn't look to green but it was a shorted cap that killed it. But its all working now. Thanks for the help Duke!!"
+        }
+    ]
+}

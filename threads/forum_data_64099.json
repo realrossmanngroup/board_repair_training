@@ -1,0 +1,85 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "PM_BATLOW": "What is PM_BATLOW? PM_BATLOW is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. ."
+    },
+    "threads": [
+        {
+            "post_id": 100848,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-08-04 08:17:23",
+            "message": "Hi there, this board occassionallyy will briefly take some amperage and drop just below 20V like its going to boot but 95% of the time it just sits at 0A and 20V. PPBUS is at 13V. \n\nAll S5 rails are missing when in the 20V 0A state. I have detected voltage on CPU rails on occasions when it is drawing amps. \n\nChecked with infrared and not seeing anything get hot at any time.\n\nI checked the SMBUS SMC SCL/SDA lines related to the battery and those are good. SMC ONOFF is 3v3 and <SIGNAL>PM_BATLOW</SIGNAL> is not shorted. I'm uncertain as to the power up sequence for these boards. I feel like this is something simple."
+        },
+        {
+            "post_id": 100857,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-08-04 17:17:19",
+            "message": "Did you test with original 85W charger?"
+        },
+        {
+            "post_id": 100862,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-08-05 01:51:09",
+            "message": "Yes. 87w"
+        },
+        {
+            "post_id": 100863,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-08-05 02:27:43",
+            "message": "Do you get <SIGNAL>3V3_S5</SIGNAL>/SUS?\n\nCheck if turns on in SMC bypass mode."
+        },
+        {
+            "post_id": 100890,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-08-07 08:14:27",
+            "message": "It was booting then suddenly I have dead short on <SIGNAL>PP3V3_G3H</SIGNAL> I have zero idea. I put some heat to SMC prior and it was up at 20V 0A and I unplugged and plugged back in and suddenly 5V 0A. I tried BPS to drive voltage through that rail and only thing getting hot is the wire and the point of attachement of my power supply where it's jumpered on board. If I jumper different spot it gets hot there instead. I pulled both <CHIP>CD3215</CHIP>'s on the side where I was connected to charger when it stopped working and <SIGNAL>PP3V3_G3H</SIGNAL> is still shorted. \n\nIn summary I don't understand wtf happened, I don't understand why I'm not seeing whatever is shorted getting hot on the IR and I dont have a clue as to where to look next. haha\n\nI may just call this a no fix rather as I've managed to somehow spend way too much time on this one already"
+        },
+        {
+            "post_id": 100891,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-08-07 08:21:01",
+            "message": "So <SIGNAL>PPBUS_G3H</SIGNAL> is shorted now to ground?\nWhat is the exact ohm value?\nCompare with all big coils; don't forget L9400.\n\nWhy touched <CHIP>CD3215</CHIP> chips, if none is connected to <SIGNAL>PPBUS_G3H</SIGNAL>???"
+        },
+        {
+            "post_id": 100898,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-08-07 15:46:01",
+            "message": "No, <SIGNAL>PP3V3_G3H</SIGNAL> is shorted directly to ground"
+        },
+        {
+            "post_id": 100901,
+            "thread_id": 64099,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20V 0A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-08-08 00:58:03",
+            "message": "If is pure short (close to 0 ohm) shouldn't be a problem to find the culprit, with voltage injection.\nWhat is the exact value, in ohm scale?"
+        }
+    ]
+}

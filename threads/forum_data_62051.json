@@ -1,0 +1,83 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_RST_IN": "What is SMC_RST_IN? a SIGNAL.",
+        "SMC_RESET_R_L": "What is SMC_RESET_R_L? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "D6950": "What is D6950? a DIODE.",
+        "U7800": "What is U7800? a CHIP.",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015."
+    },
+    "threads": [
+        {
+            "post_id": 83405,
+            "thread_id": 62051,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0Amp No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2021-12-06 07:17:14",
+            "message": "Hi,\ni have this board, very clean no liquid spill, the board have 20V usb c but 0 amp.\nI havent <SIGNAL>PPBUS_G3H</SIGNAL> no short, I remove F7000 \n<SIGNAL>PPDCIN_G3H</SIGNAL> = 20V\n<RESISTOR>R7020</RESISTOR>/21=1\n<SIGNAL>SMC_RST_IN</SIGNAL>=0V\n<SIGNAL>SMC_RESET_R_L</SIGNAL>=3,3V\n<SIGNAL>PP3V3_G3H</SIGNAL>=3,3V\nI try to change <CHIP>U7000</CHIP> & <TRANSISTOR>Q7030</TRANSISTOR>/40 but same problem.\nhave you an idea please?\nthanks\nbest regards"
+        },
+        {
+            "post_id": 83406,
+            "thread_id": 62051,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0Amp No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-06 08:09:38",
+            "message": "Do you get any voltage at <CAPACITOR>C7050</CAPACITOR>, when F7000 is removed?\nCheck w/ and w/o battery connected.\n\nCheck voltage and diode mode to ground at SCL/SDA lines of battery bus."
+        },
+        {
+            "post_id": 83552,
+            "thread_id": 62051,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0Amp No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2021-12-09 03:58:19",
+            "message": "Hi 2informaticos,\nno I haven't any voltage on <CAPACITOR>C7050</CAPACITOR> when F7000 is removed without battery\nbut I have 10,99V with battery connected.\n\nI remove battery to check SDA/SCL\nSCL = 0,419V in diode mode = 0,300V in voltage mode\nSDA = 0,103V in diode mode = 0,200 in voltage mode"
+        },
+        {
+            "post_id": 83563,
+            "thread_id": 62051,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0Amp No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-09 08:17:00",
+            "message": "You have a problem with SDA line.\nRemove <DIODE>D6950</DIODE> and check again."
+        },
+        {
+            "post_id": 83597,
+            "thread_id": 62051,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0Amp No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2021-12-10 05:26:16",
+            "message": "ok i remove <DIODE>D6950</DIODE> the SDA line come back to 0,419V in diode mode.\nI change the diode, all is normal but when I charge the battery, the SDA line come back with the problem issue.\nif I stay without <DIODE>D6950</DIODE>, the Mac work well.\n\nedit:\nthe Mac stop to charge after 2min, the SDA line has a problem, maybe the SMC?"
+        },
+        {
+            "post_id": 83600,
+            "thread_id": 62051,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0Amp No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-12-10 07:26:52",
+            "message": "Battery may be bad and SMC may get damaged, if <DIODE>D6950</DIODE> is not in place."
+        },
+        {
+            "post_id": 83692,
+            "thread_id": 62051,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0Amp No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2021-12-13 02:17:19",
+            "message": "ok the battery is good, I test with another good part. I change <CHIP>U7800</CHIP> and <CHIP>U5000</CHIP>, now the board work well, I test few cycle of charge.\nthanks"
+        }
+    ]
+}

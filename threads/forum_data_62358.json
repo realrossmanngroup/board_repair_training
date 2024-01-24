@@ -1,0 +1,131 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00138": "What is 820-00138? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U7100S": "What is U7100S? a CHIP.",
+        "R7121": "What is R7121? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "C7125": "What is C7125? Capacitor between CHGR_BOOT and CHGR_PHASE important for bootstrapping creation of PPBUS_G3H on 2013-2015 macbook pros.",
+        "C7120": "What is C7120? a CAPACITOR.",
+        "C7122": "What is C7122? a CAPACITOR.",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "C7140": "What is C7140? a CAPACITOR.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_RST_L": "What is CHGR_RST_L? a SIGNAL.",
+        "CHGR_CSO_N": "What is CHGR_CSO_N? CHGR_CSO_N is one of the current sense lines for the battery. Resistance between CHGR_CSO_N and CHGR_CSO_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 2.2 ohms.",
+        "CHGR_CSI_N": "What is CHGR_CSI_N? CHGR_CSI_N is one of the current sense lines for the charger. Resistance between CHGR_CSI_N and CHGR_CSI_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_SGATE": "What is CHGR_SGATE? a SIGNAL.",
+        "PPDCIN_INRUSH": "What is PPDCIN_INRUSH? a SIGNAL.",
+        "R7110": "What is R7110? a RESISTOR.",
+        "C7111": "What is C7111? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 86475,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2022-02-18 09:05:29",
+            "message": "Board came in dead but I found corrosion over <CHIP>U7100S</CHIP> current sense components <CAPACITOR>C7122</CAPACITOR>, <CAPACITOR>C7120</CAPACITOR> and <CAPACITOR>C7125</CAPACITOR>.\nReplaced those caps and got fanspin.\nConnected screen but found during boot power would shut off half way as current draw rose and would then start boot again etc.\n\nSuspected <CAPACITOR>C7120</CAPACITOR> so removed and could now fully boot.\nAll well and good but then things get strange.\n\nThinking I should do the right thing and put a new 47nF cap in place for <CAPACITOR>C7120</CAPACITOR> and somehow resistance across sense was around 30ohms.\nConnected to charger with no fan spin. Then I discover <RESISTOR>R7121</RESISTOR>/2 measuring 3 kilohms instead of 10ohms. Burned out?\n\nReplaced <RESISTOR>R7121</RESISTOR>/2, resistance across  <CHIP>U7100</CHIP> pins 27,28 a healthy 21ohms or so.\nNo fan spin and <SIGNAL>PPBUS_G3H</SIGNAL> is only 5v\n\nWTF happened? Bamboozled"
+        },
+        {
+            "post_id": 86476,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-18 09:08:51",
+            "message": "<CAPACITOR>C7120</CAPACITOR> is not even critical; not really needed.\nBe sure to have correct resistance between pins 17/18 too."
+        },
+        {
+            "post_id": 86478,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2022-02-18 09:50:33",
+            "message": "I see 3.2 ohms between pins 17,18 so looks fine.\n<SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> is 20v and I can see 200khz waves applying then grounding inductor to produce 5v on rhs.\nIm seeing 5v on pin 3 from voltage divider although text on schematic suggests it should be 13.55v!   ???"
+        },
+        {
+            "post_id": 86479,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-18 12:01:49",
+            "message": "Remove F7140/41 and check <CAPACITOR>C7140</CAPACITOR> voltage.\nPost basic voltage for <CHIP>U7100</CHIP>; 1, 2, 3, 9, 12, 13, 14, 15, 17, 19, 20, 27."
+        },
+        {
+            "post_id": 86517,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2022-02-20 08:46:40",
+            "message": "<CAPACITOR>C7140</CAPACITOR> pin1 is 5.3v with fuses removed.\n<CHIP>U7100</CHIP>\n[TABLE]\n[TR]\n[TD]pin1[/TD]\n[TD]<SIGNAL>CHGR_AGATE</SIGNAL>[/TD]\n[TD]15.2[/TD]\n[/TR]\n[TR]\n[TD]2[/TD]\n[TD]<SIGNAL>CHGR_DCIN</SIGNAL>[/TD]\n[TD]16.2[/TD]\n[/TR]\n[TR]\n[TD]3[/TD]\n[TD]<SIGNAL>CHGR_ACIN</SIGNAL>[/TD]\n[TD]0[/TD]\n[/TR]\n[TR]\n[TD]9[/TD]\n[TD]<SIGNAL>CHGR_AMON</SIGNAL>[/TD]\n[TD]0[/TD]\n[/TR]\n[TR]\n[TD]12[/TD]\n[TD]<SIGNAL>PP3V42_G3H</SIGNAL>[/TD]\n[TD]3.4[/TD]\n[/TR]\n[TR]\n[TD]13[/TD]\n[TD]<SIGNAL>CHGR_RST_L</SIGNAL>[/TD]\n[TD]3.4[/TD]\n[/TR]\n[TR]\n[TD]14[/TD]\n[TD]<SIGNAL>SMC_BC_ACOK</SIGNAL>[/TD]\n[TD]0[/TD]\n[/TR]\n[TR]\n[TD]15[/TD]\n[TD]<SIGNAL>CHGR_BMON</SIGNAL>[/TD]\n[TD]0[/TD]\n[/TR]\n[TR]\n[TD]17[/TD]\n[TD]<SIGNAL>CHGR_CSO_N</SIGNAL>[/TD]\n[TD]5[/TD]\n[/TR]\n[TR]\n[TD]19[/TD]\n[TD]VDD[/TD]\n[TD]5.5[/TD]\n[/TR]\n[TR]\n[TD]20[/TD]\n[TD]VDDP[/TD]\n[TD]5.5[/TD]\n[/TR]\n[TR]\n[TD]26[/TD]\n[TD]<SIGNAL>CHGR_SGATE</SIGNAL>[/TD]\n[TD]4.2[/TD]\n[/TR]\n[TR]\n[TD]27[/TD]\n[TD]<SIGNAL>CHGR_CSI_N</SIGNAL>[/TD]\n[TD]4.6[/TD]\n[/TR]\n[/TABLE]\n\n\n<SIGNAL>PPDCIN_G3H</SIGNAL> 16.6\n<SIGNAL>PPDCIN_INRUSH</SIGNAL> 4.6\nand I am no longer getting a green light on charge plug"
+        },
+        {
+            "post_id": 86518,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-20 09:18:41",
+            "message": "Check <RESISTOR>R7110</RESISTOR> and <CAPACITOR>C7111</CAPACITOR>.\nYou may need to change <CHIP>U7100</CHIP>."
+        },
+        {
+            "post_id": 86520,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2022-02-20 09:32:32",
+            "message": "I just removed all 3 components attached to pin 3 and still seeing 1 ohm to ground so lifting <CHIP>U7100</CHIP> right now :)"
+        },
+        {
+            "post_id": 86522,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2022-02-20 10:34:14",
+            "message": "Well Ive got a green light and <SIGNAL>PPBUS_G3H</SIGNAL> back to 12.55v and <SIGNAL>CHGR_ACIN</SIGNAL> 3.8\n\nFuses back. Fanspin and drives the screen without shutoff!\n\nMany thanks"
+        },
+        {
+            "post_id": 86527,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2022-02-20 14:48:08",
+            "message": "Ooops spoke too soon.\nDuring every boot as it is increasing current gain it shuts off every time just as it goes through 2 amps draw.\nStill shuts off booting with battery disconnected.\nStill shuts off in SMC bypass mode."
+        },
+        {
+            "post_id": 86539,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-21 01:31:34",
+            "message": "Check resistance between pins 17/18 and 27/28 of <CHIP>U7100</CHIP>."
+        },
+        {
+            "post_id": 86769,
+            "thread_id": 62358,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> 5v after repair to current sense",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2022-02-28 07:02:01",
+            "message": "Hi, all solved after doing a better job of soldering on the <CHIP>U7100</CHIP>. Thanks for your help."
+        }
+    ]
+}

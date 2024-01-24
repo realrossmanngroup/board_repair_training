@@ -1,0 +1,273 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3536": "What is 820-3536? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "CHGR_UGATE": "What is CHGR_UGATE? a SIGNAL.",
+        "P3V42_G3H": "What is P3V42_G3H? P3V42_G3H is a typo of PP3V42_G3H.",
+        "CHR_PHASE": "What is CHR_PHASE? a SIGNAL.",
+        "C5007": "What is C5007? a CAPACITOR.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "R7050": "What is R7050? Current sense shunt resistor for the battery, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 17/18 on ISL6259 should give you 2.02 ohms. .",
+        "D7050": "What is D7050? Diodes between SMBUS_SMC_5_G3_SDA and SMBUS_SMC_5_G3_SCL and ground, these data lines allow the battery to communicate with the battery charging chip and the SMC..",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "R5380": "What is R5380? a RESISTOR.",
+        "Q7155": "What is Q7155? a TRANSISTOR.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "D7005": "What is D7005? a DIODE.",
+        "U7090": "What is U7090? This chip is often responsible for creating PP3V42_G3H.",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "C7090": "What is C7090? a CAPACITOR.",
+        "PPVBAT_G3H_CONN": "What is PPVBAT_G3H_CONN? This is the where the battery’s power rail connects to the motherboard. .",
+        "SYS_DETECT": "What is SYS_DETECT? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 93754,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-08 03:40:02",
+            "message": "Hi, \n\nI'm a newbie trying to repair my own laptop. \nThe laptop stop working (no green or orange light) and i detected a short on <SIGNAL>P3V42_G3H</SIGNAL> due to a short on <CAPACITOR>C5007</CAPACITOR>. Its repaired and the problem gone. \n\nDuring the debugging process of the  problem, accidentally (while trying to find the short) i  inverted the polarity of <SIGNAL>P3V42_G3H</SIGNAL> (2V only). \nNow the laptop is working and detecting the battery but is not charging the battery. It also turns off if i unplug the charger and won't boot without the charger. The battery is ok. \n\nI performed some measurements and i have:\n\n\n<SIGNAL>PP3V42_G3H</SIGNAL> is present on charger, but not on battery\n\nOn Battery only:\n\n\n<SIGNAL>PPBUS_G3H</SIGNAL> 1V\n<SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> 3V\n<SIGNAL>CHGR_UGATE</SIGNAL> 1 V\n<SIGNAL>CHR_PHASE</SIGNAL> 0V"
+        },
+        {
+            "post_id": 93757,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-08 06:22:10",
+            "message": "First of all, welcome to the forum!\n\nLooks like this battery is fully drained (maybe bad even).\nBe sure <RESISTOR>R7050</RESISTOR> is good and check diode mode to ground on SCL/SDA lines of battery bus; voltage also.\nJust in case, check <RESISTOR>R7005</RESISTOR> too.\n\nIn case like this the best option is\n[URL unfurl=\"true\"]https://www.laptopu.ro/[/URL]\nwhich can fully diagnose the battery and many times recovers it."
+        },
+        {
+            "post_id": 93758,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-08 06:47:34",
+            "message": "Hi,\n\n<RESISTOR>R7050</RESISTOR> - 10k \n<RESISTOR>R7005</RESISTOR> - 10 ohm\n\nSCL/SDA liines are <SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>?\n\n\nIf yes,\n\nMeasured at <DIODE>D7050</DIODE>:\n\n<SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>  -> OL\n<SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>  -> OL \n\nWith the battery connected 0V on each.\n\nThe battery is ok. (I tested in another mac)"
+        },
+        {
+            "post_id": 93759,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-08 06:57:39",
+            "message": "[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]\nRead how to properly check diode mode to ground.\nDisconnect charger and battery for this.\n\nCheck voltage on this bus w/ and w/o battery connected (charger always).\n\nIf battery is good for sure, <DIODE>D7050</DIODE> is suspect.\nDepending on your readings, still need to discard <RESISTOR>R5380</RESISTOR>/81, <CHIP>U7100</CHIP>, and SMC."
+        },
+        {
+            "post_id": 93760,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-08 07:12:57",
+            "message": "Again diode mode:\n\n<SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL> -> 0.512V\n<SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> -> 0.513V\n\nWith and Without Battery :\n\n3.46V both"
+        },
+        {
+            "post_id": 93781,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-08 10:02:50",
+            "message": "Values look good.\nMay have problems with <CHIP>U7100</CHIP>, or SMC.\nBe sure first, no broken pins/solders/traces on battery connector.\nJust in case, change <TRANSISTOR>Q7155</TRANSISTOR>."
+        },
+        {
+            "post_id": 93783,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-08 10:07:37",
+            "message": "Do you know in europe where i can buy these components?"
+        },
+        {
+            "post_id": 93785,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-08 10:19:17",
+            "message": "Use scrap boards; try on some repair shops.\nSMC must be picked up from same donor board model."
+        },
+        {
+            "post_id": 93865,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-09 17:30:46",
+            "message": "Today, after working normally with the computer (the battery charging problem is not solved yet as I'm waiting for the components) the computer stopped working (no green or orange light).\nI inspected the board and now i have found a new problem. The <RESISTOR>R7020</RESISTOR> failed. Can it be related with the charging problem? Is usual a <RESISTOR>R7020</RESISTOR> failure?"
+        },
+        {
+            "post_id": 93874,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-10 01:44:05",
+            "message": "<RESISTOR>R7020</RESISTOR> is in the way of <SIGNAL>3V42_G3H</SIGNAL> generation.\nNothing can move on the board without this voltage.\nUsually one of <CAPACITOR>C7090</CAPACITOR>-92 is bad, or <CHIP>U7090</CHIP>.\n<DIODE>D7005</DIODE> may be bad too.\nDon't forget to check diode mode to ground at L7095."
+        },
+        {
+            "post_id": 93883,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-10 02:55:56",
+            "message": "<CAPACITOR>C7090</CAPACITOR>-92- OK \nL7095 diode mode - 0.308 V"
+        },
+        {
+            "post_id": 93888,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-10 04:57:14",
+            "message": "\"<CAPACITOR>C7090</CAPACITOR>-92- OK\"\nDid you check diode mode there?\nCompare with good board.\nIf good, replace <RESISTOR>R7020</RESISTOR> and test the board."
+        },
+        {
+            "post_id": 93891,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-10 05:45:53",
+            "message": "<CAPACITOR>C7090</CAPACITOR> in diode mode mesured 0.362V.  I can't compare with a good board because i only have this board. \nI will try to replace <RESISTOR>R7020</RESISTOR>. \nThanks"
+        },
+        {
+            "post_id": 93896,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-10 07:13:41",
+            "message": "Looks too low for me.\nOut of board, these caps shouldn't show anything on ohm scale."
+        },
+        {
+            "post_id": 93898,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-10 07:46:23",
+            "message": "I replaced the resistor and the board is already booting. Do you suggest replace the caps? \nNow i'm facing the original problem (battery 78% but not charging)\n\n[QUOTE=\"2informaticos, post: 93781, member: 682\"]\nValues look good.\nMay have problems with <CHIP>U7100</CHIP>, or SMC.\nBe sure first, no broken pins/solders/traces on battery connector.\nJust in case, change <TRANSISTOR>Q7155</TRANSISTOR>.\n[/QUOTE]\n\nis possible to check if the problem is from <CHIP>U7100</CHIP> or <TRANSISTOR>Q7155</TRANSISTOR> without replace the component?  (i'm trying to find a scrap board)"
+        },
+        {
+            "post_id": 93908,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-10 09:55:20",
+            "message": "A chaman may help to find the culprit without measuring and changing anything on the board.\nWe try here to help based on measurements and changing suspect components.\n\nmacOS shows 78% and machine goes off if charger is unplugged?"
+        },
+        {
+            "post_id": 93912,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-10 10:10:27",
+            "message": "[QUOTE=\"2informaticos, post: 93908, member: 682\"]\nA chaman may help to find the culprit without measuring and changing anything on the board.\n[/QUOTE]\nDo you know any good chaman? :)\nI already ordered the replacement parts and should receive it in the next few days. My question as related with some additional measurements in order to detect the culprit!\n\n[QUOTE=\"2informaticos, post: 93908, member: 682\"]\nmacOS shows 78% and machine goes off if charger is unplugged?\n[/QUOTE]\nYes"
+        },
+        {
+            "post_id": 93916,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-10 12:08:48",
+            "message": "So, with battery alone, <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V42_G3H</SIGNAL> both stay at 0V?"
+        },
+        {
+            "post_id": 93917,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-10 12:12:35",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> ~ 1V\n3V42 0"
+        },
+        {
+            "post_id": 93923,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-10 16:47:39",
+            "message": "Check voltage at battery connector directly.\nAgain, be sure <RESISTOR>R7050</RESISTOR> is good and J7050 has good contacts and traces.\nI hope the battery is really good..."
+        },
+        {
+            "post_id": 93935,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-11 02:59:23",
+            "message": "<RESISTOR>R7050</RESISTOR> is good. \nI measured directly the battery <SIGNAL>PPVBAT_G3H_CONN</SIGNAL> with GND on battery cable (with the battery disconnected) and read 2.3V."
+        },
+        {
+            "post_id": 93938,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-11 04:01:18",
+            "message": "\"with the battery disconnected\"\nWhat do you expect to get, if battery is not enabled???\n\nPlease, don't waste time with irrelevant checkings.\n<RESISTOR>R7050</RESISTOR> is required to enable the battery."
+        },
+        {
+            "post_id": 93943,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-11 05:36:33",
+            "message": "<RESISTOR>R7050</RESISTOR> is ok with 10k. It is connected to the battery socket <SIGNAL>SYS_DETECT</SIGNAL> and GND.\nIn <SIGNAL>PPVBAT_G3H_CONN</SIGNAL> i  have 0V."
+        },
+        {
+            "post_id": 93944,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-11 06:00:11",
+            "message": "Are you sure this battery is really good?"
+        },
+        {
+            "post_id": 93946,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-11 06:38:23",
+            "message": "- My initial problem was a short on the <SIGNAL>P3V42_G3H</SIGNAL>.\n- I injected 2.V 500mA on <SIGNAL>P3V42_G3H</SIGNAL> and the short gone (very quickly).\n- I worked normally with the computer and the battery was charging normally. \n- After Some days  the short on <SIGNAL>P3V42_G3H</SIGNAL> returned.\n- I injected 2V 500mA on the <SIGNAL>P3V42_G3H</SIGNAL> (during the operation i accidentally inverted the polarity) and the short gone again. \n- After some visual inspection with a microscope i found some corrosion near <CAPACITOR>C5007</CAPACITOR> and replaced it. \n- The computer booted but without charging the battery. \n- I checked at the system information and i have information about the battery, cycles, percentage, etc.\n- I tested the battery in aonther computer and was ok. \n- Yesterday the <RESISTOR>R7020</RESISTOR> burned.\n- I replaced it and now its working again without charging the battery. \n\nRIght now i don't have another computer to test the battery again. Is there any other alternative (for example removing <TRANSISTOR>Q7155</TRANSISTOR>) to test the battery?"
+        },
+        {
+            "post_id": 93949,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-11 09:09:45",
+            "message": "If <RESISTOR>R7050</RESISTOR> makes good contact with battery, then you may get battery voltage at J7050; before <TRANSISTOR>Q7155</TRANSISTOR>.\nAs already explained, you should be sure the battery is good, or not.\n\nBattery alone, making short between SYSDETL and GND (pure short is OK, no 10K resistor needed), must give the actual voltage between pins PWR and GND."
+        },
+        {
+            "post_id": 94017,
+            "thread_id": 63254,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> detecting battery but not charging",
+            "user_id": 42042,
+            "username": "mskzo",
+            "post_date": "2022-11-14 03:04:52",
+            "message": "- Bad battery... I measured 0 V both methods. (making a short and directly on the J7050.)\n- On the Battery pcb circuit (under the sticker)  i measured 12V. it seems that the battery circuit is not ok. \n\nI will order a new battery today. \n\nCan a problem on logic board cause a battery failure?"
+        }
+    ]
+}

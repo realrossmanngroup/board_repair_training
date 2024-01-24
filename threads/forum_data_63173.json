@@ -1,0 +1,135 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A2141": "What is A2141? A2141 is a model number for a 16 inch size MacBook Pro Retina from years 2019 with EMC 3347, that may contain one of these boards depending on the year & configuration: 820-01700..",
+        "U9000": "What is U9000? a CHIP.",
+        "U8400": "What is U8400? a CHIP.",
+        "U9080": "What is U9080? a CHIP.",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "EG_BKLT_EN": "What is EG_BKLT_EN? a SIGNAL.",
+        "BKLT_ISET_KEYB": "What is BKLT_ISET_KEYB? a SIGNAL.",
+        "DP_INT_HPD": "What is DP_INT_HPD? a SIGNAL.",
+        "EDP_INT_AUX_N": "What is EDP_INT_AUX_N? a SIGNAL.",
+        "EDP_INT": "What is EDP_INT? a SIGNAL.",
+        "5V_S0SW_LCD": "What is 5V_S0SW_LCD? a SIGNAL.",
+        "EDP_INT_AUX_P": "What is EDP_INT_AUX_P? a SIGNAL.",
+        "PP5V_S0SW_LCD": "What is PP5V_S0SW_LCD? a SIGNAL.",
+        "PP3V3_S0SW_LCD": "What is PP3V3_S0SW_LCD? PP3V3_S0SW_LCD is a 3.3v power rail necessary to power the image circuitry on the screen. This is necessary to get a picture on the screen. .",
+        "U9801": "What is U9801? a CHIP.",
+        "U9850": "What is U9850? a CHIP.",
+        "R8551": "What is R8551? a RESISTOR.",
+        "DP_INT_HPD_R": "What is DP_INT_HPD_R? a SIGNAL.",
+        "DP_INT_IG_HPD": "What is DP_INT_IG_HPD? a SIGNAL.",
+        "DP_INT_EG_HPD": "What is DP_INT_EG_HPD? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 93218,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2022-10-12 13:49:53",
+            "message": "Hey everyone, first time posting and hoping you can help..\n\n<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> had a small amount of liquid damage originally. It was displaying 20V but not booting correctly. We found a small amount of liquid damage on the board near <CHIP>U9080</CHIP> & <CHIP>U9000</CHIP>. Both were removed and replaced. No shorts on the board before & after. \n\nWe booted the board and had no display but found we had heat on the board at UA900. This GPU power chip was replaced with all voltages showing after.\n\nWe found that we have the system now booting but no display. We checked the voltages at the connector (with a screen connected) and have our 3.3V & 5V for display but no voltage for backlight. We’ve plugged the machine into an external monitor and we do have a screen.\n\nAt the backlight driver (<CHIP>U8400</CHIP>), we have 5v input, and the other voltage inputs. We’ve confirmed the fuse has correct values. But have found we are missing the <SIGNAL>EDP_BKLT_EN</SIGNAL> signal from the GMUX. We’ve check to ensure it is not the driver pulling down the line or the resistor. \n\nTracing back to the GPU, we find that we are getting no <SIGNAL>EG_BKLT_EN</SIGNAL> into the GMUX. RA129 shows 0 at the GPU. We’ve tested against a known good board and should have 3.3v here.\n\nWe’ve tried to make this <SIGNAL>EDP_BKLT_EN</SIGNAL> signal by adding a wire and injecting voltage into the backlight driver but we still get no display and no output voltages from the driver (Sorry apart from <SIGNAL>BKLT_ISET_KEYB</SIGNAL>, which shows 1.2v. But no feedback voltages.\n\nWe are beyond the point of a economical repair, as it’s taken us a long time of diagnosing to get to this stage (we’re still new to MacBooks). But don’t wish to give up on this one. Is there anything we may have missed that would help?"
+        },
+        {
+            "post_id": 93221,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-12 15:33:26",
+            "message": "First of all, welcome to the forum!\n\nYou should confirm image on internal LCD, before searching for backlight.\nBe sure <SIGNAL>DP_INT_HPD</SIGNAL> stays high.\n\nCheck diode mode to groundt on <SIGNAL>EDP_INT</SIGNAL> lines, corresponding to J8500.\nPay atention to <SIGNAL>EDP_INT_AUX_N</SIGNAL>."
+        },
+        {
+            "post_id": 93266,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2022-10-14 03:00:56",
+            "message": "Thanks for your reply!\n\nI have 0V on  <SIGNAL>DP_INT_HPD</SIGNAL> and 0V on  <SIGNAL>EDP_INT_AUX_N</SIGNAL>\n\nI've checked diode mode of J8500 EDP lines and compared against known good board and they are giving good value."
+        },
+        {
+            "post_id": 93269,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-14 03:55:23",
+            "message": "Then the board cannot recognize the LCD; it expects <SIGNAL>DP_INT_HPD</SIGNAL> to go high.\nBe sure 3V3/<SIGNAL>5V_S0SW_LCD</SIGNAL> are present, at least in the first few seconds; <SIGNAL>DP_INT_HPD</SIGNAL> must rise at same time.\nTest with known good LCD assembly.\n\nSo diode mode to ground on <SIGNAL>EDP_INT_AUX_P</SIGNAL>/N are similar with good board?"
+        },
+        {
+            "post_id": 93280,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2022-10-14 07:03:59",
+            "message": "Tested with a known good screen assembly and we have <SIGNAL>PP3V3_S0SW_LCD</SIGNAL> and <SIGNAL>PP5V_S0SW_LCD</SIGNAL>\n\n<SIGNAL>DP_INT_HPD</SIGNAL> remains at 0V \n\n<SIGNAL>EDP_INT_AUX_P</SIGNAL> = 0.419\n<SIGNAL>EDP_INT_AUX_N</SIGNAL> = 0.421"
+        },
+        {
+            "post_id": 93284,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-14 08:14:28",
+            "message": "If you discarded LCD assembly and small video cable, then may have problems with <CHIP>U9801</CHIP>/50.\nCheck diode mode to ground on <SIGNAL>DP_INT_HPD</SIGNAL> line; w/ and w/o LCD connected."
+        },
+        {
+            "post_id": 93287,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2022-10-14 09:10:47",
+            "message": "Sorry would you mind explaining the first part of your reply about <CHIP>U9801</CHIP>/50?\n\nDiode mode to ground on  <SIGNAL>DP_INT_HPD</SIGNAL>  gives:\n0.491 w/ LCD connected\n0.547 w/o LCD connected"
+        },
+        {
+            "post_id": 93289,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-14 10:06:30",
+            "message": "<SIGNAL>DP_INT_HPD</SIGNAL> is controlled by LCD assembly.\nIf you tested with 100% good one, then something else pulls down this signal.\nOnly <CHIP>U9801</CHIP> and <CHIP>U9850</CHIP> are connected there, apart of J8500; of course, <RESISTOR>R8551</RESISTOR> can't be the culprit."
+        },
+        {
+            "post_id": 93622,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2022-11-02 08:41:18",
+            "message": "Sorry for the late reply. \nReplaced both <CHIP>U9801</CHIP> & <CHIP>U9850</CHIP> with known goods and still no internal display"
+        },
+        {
+            "post_id": 93641,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2022-11-03 09:39:51",
+            "message": "As we're still missing the <SIGNAL>DP_INT_HPD_R</SIGNAL>, <SIGNAL>DP_INT_EG_HPD</SIGNAL> & <SIGNAL>DP_INT_IG_HPD</SIGNAL> signal, in your experience would this now be deemed as unrepairable?"
+        },
+        {
+            "post_id": 93658,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-03 12:52:20",
+            "message": "I didn't face with such problem.\nProbably waste of time, if you can't find a corroded resistor.\nMay be a broken/corroded trace somewhere; even inside the board."
+        },
+        {
+            "post_id": 93725,
+            "thread_id": 63173,
+            "title": "<MACBOOK MODEL NUMBER>A2141</MACBOOK MODEL NUMBER> liquid damaged - no display",
+            "user_id": 40706,
+            "username": "Panrix Microelectronix",
+            "post_date": "2022-11-07 06:50:23",
+            "message": "Thank you, we really appreciate your help with this one. We have deemed it as a non repair. We will definitely apply your advice for the future no display repairs!"
+        }
+    ]
+}

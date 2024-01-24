@@ -1,0 +1,65 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1534": "What is A1534? A1534 is a model number for a 12 inch size Macbook  from years 2015, 2016 with EMC 2746, that may contain one of these boards depending on the year & configuration: 820-00045, 820-00244..",
+        "820-00045": "What is 820-00045? a LOGIC BOARD PART NUMBER.",
+        "U7701": "What is U7701? a CHIP.",
+        "PPVOUT_S0_LCDBKLT": "What is PPVOUT_S0_LCDBKLT? PPVOUT_S0_LCDBKLT is a power rail that powers the LED light in the screen of the device that allows you to see what is on the screen. When this is low or missing, the screen will be dim..",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "I2C_BKLT_SCL": "What is I2C_BKLT_SCL? a SIGNAL.",
+        "I2C_BKLT_SDA": "What is I2C_BKLT_SDA? I2C_BKLT_SDA is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "R7701": "What is R7701? a RESISTOR.",
+        "R7702": "What is R7702? a RESISTOR.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "R7710": "What is R7710? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 43576,
+            "thread_id": 43576,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER>, <LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1061,
+            "username": "Don Anton",
+            "post_date": "2018-12-18 14:18:33",
+            "message": "Hi Louis, Duke, and all the other great people,\n\nI have this <LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> board no back light. no liquid damaged but some one has lift  the lcd connector  and came as no backlight. How ever I replaced the LCD connector still no back light but I can see the background witha light.\n\nI check voltages and <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> is 0.4v but some times 0v\n\n<CHIP>U7701</CHIP> pin 9/10 get 8.66v and 8.67v from the current sense .\n\n<SIGNAL>EDP_BKLT_EN</SIGNAL> IS 3.4V\n\n<SIGNAL>I2C_BKLT_SCL</SIGNAL> 5V ON PIN 15\n\n<SIGNAL>I2C_BKLT_SDA</SIGNAL> 5V ON PIN 16.\n\n<TRANSISTOR>Q7706</TRANSISTOR> not opening the gate and send  power on pin 6,5,2,1 as <SIGNAL>BKLT_SD</SIGNAL> is 8.6v. I checked <RESISTOR>R7702</RESISTOR> AND <RESISTOR>R7701</RESISTOR> both accurate. \n\nIs this becoz of LCD connector? any  clue?"
+        },
+        {
+            "post_id": 43579,
+            "thread_id": 43576,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER>, <LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-18 14:31:24",
+            "message": "Any idea why the connector has been removed?\nShould be good idea to test known good LCD assembly.\nPRAM reset done?\n\nBe sure to have continuity between J8300 and all corresponding components...\nCheck <DIODE>D7701</DIODE> for short; also post resistance to ground on both pins.\n<RESISTOR>R7710</RESISTOR>/11 OK?\nTry other <CHIP>U7701</CHIP> too.\n\n\"<TRANSISTOR>Q7706</TRANSISTOR> not opening the gate and send power on pin 6,5,2,1 as <SIGNAL>BKLT_SD</SIGNAL> is 8.6v.\"\nThat means bad <TRANSISTOR>Q7706</TRANSISTOR>; start changing it.\nIt requires 0V at <SIGNAL>BKLT_SD</SIGNAL> to get open..."
+        },
+        {
+            "post_id": 43600,
+            "thread_id": 43576,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER>, <LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1061,
+            "username": "Don Anton",
+            "post_date": "2018-12-18 20:04:04",
+            "message": "Hi, Thank you for your quick reply.\n\nLCD connector removed as it was broken. some one tried to remove the cable wrong way.\n\nthere is no short on <DIODE>D7701</DIODE> . resistance to ground 0.566v\n<RESISTOR>R7710</RESISTOR>/11 BOTH ARE OK . replaced <CHIP>U7701</CHIP> still same. replaced <TRANSISTOR>Q7706</TRANSISTOR> no dice."
+        },
+        {
+            "post_id": 43601,
+            "thread_id": 43576,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER>, <LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1061,
+            "username": "Don Anton",
+            "post_date": "2018-12-18 20:06:34",
+            "message": "but I think <TRANSISTOR>Q7706</TRANSISTOR> is works the way it should be. it is not sending signals as the gate voltage is not lower than source. current sensing works and datat lines are fine. could this be the connector?"
+        },
+        {
+            "post_id": 43616,
+            "thread_id": 43576,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER>, <LOGIC BOARD PART NUMBER>820-00045</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-19 01:46:49",
+            "message": "\"<TRANSISTOR>Q7706</TRANSISTOR> not opening the gate and send power on pin 6,5,2,1\n--------------\nit is not sending signals\"\nPlease provide accurate information; you make opposed afirmations in two posts..,\nYou cannot get voltage at L7710 if <TRANSISTOR>Q7706</TRANSISTOR> is off."
+        }
+    ]
+}

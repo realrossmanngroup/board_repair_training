@@ -1,0 +1,111 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "PPBUS_S5_HS_COMPUTING_ISNS": "What is PPBUS_S5_HS_COMPUTING_ISNS? This power rail is PPBUS_G3H after going through a current sense resistor that sits between PPBUS_G3H & the input of PPBUS_G3H to circuitry that provides power for the CPU..",
+        "PPBUS_S5_HS_OTHER_ISNS": "What is PPBUS_S5_HS_OTHER_ISNS? This is PPBUS_G3H after passing through a current sense resistor that splits it off from the rest of PPBUS_G3H. The purpose of this is so that we can measure how much current is flowing to this part of the machine..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "U1900": "What is U1900? a CHIP.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PCH_CLK32K_RTCX1": "What is PCH_CLK32K_RTCX1? a SIGNAL.",
+        "P3V3SUS_EN": "What is P3V3SUS_EN? P3V3SUS_EN is a signal that turns on the PP3V3_SUS power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high..",
+        "U8020": "What is U8020? a CHIP.",
+        "U0500": "What is U0500? a CHIP.",
+        "R8190": "What is R8190? a RESISTOR.",
+        "HDA_BIT_CLK_R": "What is HDA_BIT_CLK_R? a SIGNAL.",
+        "NC_RTC_CLK32K_RTCX2": "What is NC_RTC_CLK32K_RTCX2? a SIGNAL.",
+        "TP_PCH_I2S1_SCLK": "What is TP_PCH_I2S1_SCLK? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail."
+    },
+    "threads": [
+        {
+            "post_id": 69419,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-12-21 18:11:19",
+            "message": "Hi again.\nI have a <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> that came in with a very small amount of water damage, but very little sign of corrosion.\n\nOriginally completely dead, but I found a tiny amount of corrosion on J9500, specifically around pin 19 <SIGNAL>SYS_ONEWIRE</SIGNAL>.\n\nI cleaned and reflowed, then added some enamel wire and successfully fixed the onewire break...\n\nI now have the Onewire LED on charger, but still no fan.\n\nSMC reset changes LED colour from orange to green, then back to orange, correctly.\n\n<SIGNAL>PPDCIN_G3H</SIGNAL> seems a bit low at 15.07, but is the same with two known good genuine chargers.\nI also tried with another power daughterboard and flex cable that connects to J9500, with no change.\n\n<SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>PPBUS_S5_HS_COMPUTING_ISNS</SIGNAL> and <SIGNAL>PPBUS_S5_HS_OTHER_ISNS</SIGNAL> all 8.61v\n<SIGNAL>PP3V42_G3H</SIGNAL> 3.42v\n<SIGNAL>PPVRTC_G3H</SIGNAL> 3.34v\n<SIGNAL>PP5V_S5</SIGNAL> 5.03v\n<SIGNAL>PP3V3_S5</SIGNAL> 3.35\n\n<SIGNAL>PM_BATLOW_L</SIGNAL> 3.3v\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> 3.43v\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> 3.43v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> 3.23v\n<SIGNAL>PM_RSMRST_L</SIGNAL> 0v\n<SIGNAL>PM_PWRBTN_L</SIGNAL> 1.01v\n\nAny suggestions greatly appreciated."
+        },
+        {
+            "post_id": 69427,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-22 03:02:11",
+            "message": "Test the board without LIO flex.\nMagsafe light is not needed to turn on the board.\nDo you get <SIGNAL>3V3_SUS</SIGNAL>?\nCheck the 4 PCH's RTC signals."
+        },
+        {
+            "post_id": 69464,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-12-22 16:26:39",
+            "message": "Hi again 2informaticos.\n\nI removed LIO flex.\n\nNo <SIGNAL>PP3V3_SUS</SIGNAL>. :(\nI checked <SIGNAL>P3V3SUS_EN</SIGNAL> = 0v\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> = 0v\n\nIn regards to checking the 4 PCH's RTC signals... what pins should I be reading with an oscilloscope?\nI can only see <SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> in the board view...which I should be able to get a probe on at <CHIP>U1900</CHIP>."
+        },
+        {
+            "post_id": 69467,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-12-22 21:37:53",
+            "message": "Is this correct?\n\n<SIGNAL>PP3V3_SUS</SIGNAL> is created by <CHIP>U8020</CHIP>.\n<CHIP>U8020</CHIP> will only create it if:\n<SIGNAL>PP3V3_S5</SIGNAL> is present AND if <SIGNAL>P3V3SUS_EN</SIGNAL> is present.\n\nHowever, <SIGNAL>P3V3SUS_EN</SIGNAL> is 0 Volts.\n\n<SIGNAL>P3V3SUS_EN</SIGNAL> requires <SIGNAL>PM_SLP_SUS_L</SIGNAL>, via <RESISTOR>R8190</RESISTOR>.\n<RESISTOR>R8190</RESISTOR> measures 98ohms, so is OK.\n\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> comes from the CPU <CHIP>U0500</CHIP>... and as there is no short to ground on <SIGNAL>PM_SLP_SUS_L</SIGNAL>, does this mean the CPU is not creating <SIGNAL>PM_SLP_SUS_L</SIGNAL>?\n\nWhat requirements are there for <CHIP>U0500</CHIP> to create <SIGNAL>PM_SLP_SUS_L</SIGNAL>?\n\nOr does this suggest a cooked CPU?\n\nThank you once again."
+        },
+        {
+            "post_id": 69470,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-23 01:47:17",
+            "message": "\"4 PCH's RTC signals.\"\nIf you look inside PCH schematic, I'm sure you will find the signals.\nRTC block is clearly marked (page 12).\nNo need of o-scope, these are DC signals."
+        },
+        {
+            "post_id": 69500,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-12-23 18:15:52",
+            "message": "There's so many CLK lines on there ahhhrrrrgggg...\nDo you mean these ones below?\n\n<SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> = 0.35v\n<SIGNAL>NC_RTC_CLK32K_RTCX2</SIGNAL> = CANNOT LOCATE ON BOARDVIEW!!!\n<SIGNAL>HDA_BIT_CLK_R</SIGNAL> = 0v\n<SIGNAL>TP_PCH_I2S1_SCLK</SIGNAL> = 0v\n\nFor some reason, <SIGNAL>NC_RTC_CLK32K_RTCX2</SIGNAL>, while it is listed in list of nets in the boardview, I cannot locate it on either side of the board?\n\n\nEither way, I'm rapidly running out of time, as work closes in 2 hours 15mins, lol... so I guess I'll have to leave this one to next year.\n\nThanks for your help, on this, and on numerous other occasions, 2informaticos, I really appreciate your advice.\nHave a good Christmas and New Years!"
+        },
+        {
+            "post_id": 69506,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-24 00:22:21",
+            "message": "To be more explicit:\n<SIGNAL>RTC_RESET_L</SIGNAL>, <SIGNAL>PCH_SRTCRST_L</SIGNAL>, <SIGNAL>PCH_INTRUDER_L</SIGNAL> and <SIGNAL>PCH_INTVRMEN</SIGNAL>.\nAll them are connected to a clearly delimited RTC block inside PCH."
+        },
+        {
+            "post_id": 69509,
+            "thread_id": 60521,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>. Onewire LED but no fan",
+            "user_id": 1057,
+            "username": "piernov",
+            "post_date": "2020-12-24 06:08:12",
+            "message": "."
+        }
+    ]
+}

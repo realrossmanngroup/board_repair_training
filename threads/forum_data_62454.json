@@ -1,0 +1,178 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01041": "What is 820-01041? a LOGIC BOARD PART NUMBER.",
+        "U8900": "What is U8900? This chip creates the GPU power rails on the 820-3332 board to the 2012 and early 2013 15” Retina Macbook Pros. It becomes desoldered and is the cause of no video and kernel panics/crashes in that model most of the time..",
+        "U8600": "What is U8600? a CHIP.",
+        "U8700": "What is U8700? a CHIP.",
+        "U8800": "What is U8800? a CHIP.",
+        "PPBUS_G3": "What is PPBUS_G3? This is a typo of PPBUS_G3H. When you see PPBUS_G3, assume they meant to type PPBUS_G3H.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "SMC_DCIN": "What is SMC_DCIN? a SIGNAL.",
+        "BMON_ISENSE": "What is BMON_ISENSE? a SIGNAL.",
+        "PBUS_VSENSE": "What is PBUS_VSENSE? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "Q6950": "What is Q6950? a TRANSISTOR.",
+        "I2C_PWR_SCL": "What is I2C_PWR_SCL? I2C_PWR_SCL is the clock line of the SMBUS data line between the system management controller(SMC), battery, ISL9240 battery charging chip, and power management unit(PMU). This line is necessary for the machine to communicate with the battery, see the battery, and use the battery. When this line is malfunctioning or shorted to ground, the machine will have an X icon over the battery and not run off the battery. .",
+        "SMBUS_3V3_BATT_SCL": "What is SMBUS_3V3_BATT_SCL? a SIGNAL.",
+        "SMBUS_3V3_BATT_SCA": "What is SMBUS_3V3_BATT_SCA? a SIGNAL.",
+        "I2C_PWR_SCA": "What is I2C_PWR_SCA? a SIGNAL.",
+        "U6950": "What is U6950? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 87267,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-12 02:30:21",
+            "message": "Hi there,\n\n[U][B]Historic :[/B][/U] it has been liquid damaged on the very right side, only the tests points near <CHIP>U8800</CHIP>, <CHIP>U8700</CHIP>, <CHIP>U8600</CHIP> and <CHIP>U8900</CHIP> were corroded, some of them are gone. Nothing more seems to be damaged, but liquid could have been through more components.\n\n[U][B]Behavior :[/B][/U] the board works fine when battery is not connected, I have been able to backup data. But when battery is connected, the fan start to spin for 20 seconds, no chime nor image, and out of the blue the fans go full speed for one second and the Mac shuts off. It does it in loop. \n\n[U][B]Tried so far : [/B][/U]I started with battery and battery cable swap with a known good one, same behavior. Removed J4801 that looked bad, don't know why I did that...\n\nDo you have any guess ? It's the first time I see something like this. Any help is welcome, thank you for your time."
+        },
+        {
+            "post_id": 87269,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-12 03:10:24",
+            "message": "You need to connect both J4800/01 to get correct lid signals.\nIf not, problem appears when you put machine in sleep state, closing the lid.\n\nWhat is exact <SIGNAL>PPBUS_G3</SIGNAL> voltage, when battery is connected?\nCheck w/ and w/o charger connected."
+        },
+        {
+            "post_id": 87492,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-16 05:56:02",
+            "message": "Ok It's understood for J4800, I'll fix this later.\n\nRegarding PPBUS voltage when battery is connected, here is the 2 different behaviors :\n\n[B][U]W/O charger :[/U][/B] start at 11V, stay at 11V until fans go full speed, and when it happens PPBUS jump to 11,45V for 2 sec, and go back to 11V\n\n[U][B]W charger :[/B][/U] start at 11,8V, ramp slowly to 12,1V, then fans go full speed, when it happens PPBUS jump to 12,4V, and go back to 11,8V"
+        },
+        {
+            "post_id": 87496,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-16 06:19:40",
+            "message": "Check resistance over <CAPACITOR>C7020</CAPACITOR>/23.\nInspect for corrosion around <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 87503,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-16 07:16:02",
+            "message": "Resistance over these caps are ok, around 3Ohms. I noticed <CHIP>U7000</CHIP> was a bit crooked, I reflowed it, it went back in place. After new test, problem remains."
+        },
+        {
+            "post_id": 87520,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-16 09:25:01",
+            "message": "Then change <CHIP>U7000</CHIP>.\nCheck <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>BMON_ISENSE</SIGNAL> and <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>PBUS_VSENSE</SIGNAL>; w/ and w/o battery connected (charger present, of course)."
+        },
+        {
+            "post_id": 87744,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-22 03:31:18",
+            "message": "Hi 2informaticos,\n\nI replaced <CHIP>U7000</CHIP>, it was clean underneath, and the Mac still has the same behavior. \n\nHere are the DCIN sensors values :\n\n[U]With battery :[/U]\n[LIST]\n[*]V sense = 1,05V\n[*]I sense = 0,45V at the beginning, ramp to 0,6V until it shut off, and back to 0,45V\n[/LIST]\n\n[U]Without battery :[/U]\n[LIST]\n[*]V sense = 1,05V\n[*]I sense = 0,21V\n[/LIST]"
+        },
+        {
+            "post_id": 87747,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-22 05:05:25",
+            "message": "What's the exact <SIGNAL>PPBUS_G3H</SIGNAL> with only adapter connected?\nCheck diode mode to ground at SCL/SDA lines of battery bus; before and after <TRANSISTOR>Q6950</TRANSISTOR>."
+        },
+        {
+            "post_id": 87764,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-22 10:44:23",
+            "message": "The exact <SIGNAL>PPBUS_G3H</SIGNAL> is 12.4V when there is only adapter connected.\n\nRegarding SCL/SDA lines :\n                                    \n<SIGNAL>SMBUS_3V3_BATT_SCL</SIGNAL> = 1.18\n<SIGNAL>SMBUS_3V3_BATT_SCA</SIGNAL> = 1.16\n                                      \n<SIGNAL>I2C_PWR_SCL</SIGNAL> = 0.47\n<SIGNAL>I2C_PWR_SCA</SIGNAL> = 0.47\n\nUsually, 12.4V means bad SMC or bad communication with it right ?"
+        },
+        {
+            "post_id": 87774,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-22 13:36:11",
+            "message": "Yeah, looks like no communication between T2 and <CHIP>U7000</CHIP>.\nTry changing <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 87803,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-23 02:38:42",
+            "message": "As I already changed <CHIP>U7000</CHIP> previously without any change, maybe the problem comes from the T2 Chip. Does a reflow worth the try ? Is there a tool to reflash these thing as we can do with BIOS and Medusa ?"
+        },
+        {
+            "post_id": 87808,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-23 04:26:21",
+            "message": "\"<SIGNAL>SMBUS_3V3_BATT_SCL</SIGNAL> = 1.18\n<SIGNAL>SMBUS_3V3_BATT_SCA</SIGNAL> = 1.16\"\nCheck them in proper way; red probe connetced to ground!"
+        },
+        {
+            "post_id": 87852,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-24 08:49:14",
+            "message": "These numbers have been rounded but they are correct. I give you the exact value : \n<SIGNAL>SMBUS_3V3_BATT_SCL</SIGNAL> = 1.181\n<SIGNAL>SMBUS_3V3_BATT_SCA</SIGNAL> = 1.155"
+        },
+        {
+            "post_id": 87853,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-24 09:01:11",
+            "message": "I never saw such high values in diode mode.\nDid you really check with black probe there and red on ground?\nBe sure to switch multimeter to diode, not ohm scale."
+        },
+        {
+            "post_id": 87854,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-24 09:39:09",
+            "message": "I am 100% sure, using the same multimeter for years now. But it is not the first time I see such high values in diode mode, isn't it supposed to be in a range from 0v to 2v ? Looks correct to me. Do you have a <LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A board to compare values with me ?"
+        },
+        {
+            "post_id": 87922,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-25 12:16:49",
+            "message": "I just checked schematic again; no board available here for comparison.\nHowever, high values should be good, being on the battery side; separated by the rest with <TRANSISTOR>Q6950</TRANSISTOR>.\nRemove <CHIP>U6950</CHIP> and test the board again (w/o battery)."
+        },
+        {
+            "post_id": 88010,
+            "thread_id": 62454,
+            "title": "<LOGIC BOARD PART NUMBER>820-01041</LOGIC BOARD PART NUMBER>-A - Works only when battery disconnected",
+            "user_id": 21454,
+            "username": "GoodguyFR",
+            "post_date": "2022-03-28 02:23:49",
+            "message": "Hi 2informaticos,\n\nThank you for your time, I had to give the MacBook back to the customer as I was not able to find the problem quick enough. We'll never no what was the problem on this one.\n\nWe can close this thread.\nSee you soon"
+        }
+    ]
+}

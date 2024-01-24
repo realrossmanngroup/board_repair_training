@@ -1,0 +1,164 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3787": "What is 820-3787? a LOGIC BOARD PART NUMBER.",
+        "D8174": "What is D8174? a DIODE.",
+        "U1900": "What is U1900? a CHIP.",
+        "U8170": "What is U8170? a CHIP.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "PP3V3_S5_REG": "What is PP3V3_S5_REG? PP3V3_S5_REG is a 3.3v power rail present when the machine is in an S5 soft off state. .",
+        "SMC_S4_WAKESRC_EN": "What is SMC_S4_WAKESRC_EN? a SIGNAL.",
+        "PP3V3_S5_PWRCTL": "What is PP3V3_S5_PWRCTL? a SIGNAL.",
+        "PPVRTC_G3_OUT": "What is PPVRTC_G3_OUT? PPVRTC_G3_OUT is a 3.3v power line that comes out of the clock chip. .",
+        "PP3V3_S5_SYSCLK": "What is PP3V3_S5_SYSCLK? a SIGNAL.",
+        "R1222": "What is R1222? a RESISTOR.",
+        "R5190": "What is R5190? a RESISTOR.",
+        "C1910": "What is C1910? a CAPACITOR.",
+        "C1902": "What is C1902? a CAPACITOR.",
+        "C8170": "What is C8170? a CAPACITOR.",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "C1531": "What is C1531? a CAPACITOR.",
+        "R1100": "What is R1100? a RESISTOR.",
+        "PPCRTC_G3H": "What is PPCRTC_G3H? a SIGNAL.",
+        "C1533": "What is C1533? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 42212,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 2060,
+            "username": "tentious",
+            "post_date": "2018-11-15 10:17:24",
+            "message": "Battery will charge when connected and when complete, I get green light. I get orange light with board out and fans connected, but no fans. There is no liquid damage, this is my personal laptop. I know.... but I promise there \"should\" be no liquid damage.\n\nS5 rail seems ok, but S4 is either shorted or not supplied.\n\nHere's some data, I thought <CHIP>U8170</CHIP> is interesting, possibly needing to be replaced?\n\n<SIGNAL>PP3V3_S5</SIGNAL> - <SIGNAL>PP3V3_S5_PWRCTL</SIGNAL> - <CAPACITOR>C8170</CAPACITOR> = 3.33v \n<SIGNAL>S4_PWR_EN</SIGNAL> - <DIODE>D8174</DIODE> = 0v\n<SIGNAL>PM_SLP_S5_L</SIGNAL> - <RESISTOR>R1222</RESISTOR> = 0v\n<SIGNAL>SMC_S4_WAKESRC_EN</SIGNAL> - <RESISTOR>R5190</RESISTOR> = 0v\n\n\nI thought that <CHIP>U1900</CHIP> was interesting too. It's particularly warm to the touch and shows up on the FLIR camera.\n<SIGNAL>PP3V3_S5_REG</SIGNAL> - L7560 = 3.33v\n<SIGNAL>PP3V3_S5_SYSCLK</SIGNAL> - <CAPACITOR>C1902</CAPACITOR> = 3.33v\n<SIGNAL>PPVRTC_G3_OUT</SIGNAL> - <CAPACITOR>C1910</CAPACITOR> = 0v"
+        },
+        {
+            "post_id": 42213,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-15 10:23:14",
+            "message": "Voltage on <SIGNAL>PPVRTC_G3H</SIGNAL>? If zero, check resistance to ground on <SIGNAL>PPVRTC_G3H</SIGNAL>. Sounds like probably a bad clock chip"
+        },
+        {
+            "post_id": 42216,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-15 10:57:06",
+            "message": "\"<SIGNAL>PPVRTC_G3_OUT</SIGNAL> - <CAPACITOR>C1910</CAPACITOR> = 0v\"\nPCH will not work whitout RTC voltage.\nThis is also the reason <CHIP>U1900</CHIP> gets hot; I bet short, or very low resistance to ground there.\n\nFirst remove <CAPACITOR>C1910</CAPACITOR>, next check <CAPACITOR>C1531</CAPACITOR>-33.\nIf still the same, change <CHIP>U1900</CHIP>.\nIf not good yet, bad PCH."
+        },
+        {
+            "post_id": 42217,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 2060,
+            "username": "tentious",
+            "post_date": "2018-11-15 10:57:57",
+            "message": "<SIGNAL>PPVRTC_G3H</SIGNAL> - <RESISTOR>R1100</RESISTOR> = 0v / 0 - ohms resistance to ground."
+        },
+        {
+            "post_id": 42218,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-15 11:08:11",
+            "message": "Remove <CHIP>U1900</CHIP>  to see if short goes away. If so, resistance will go back to many kilohms and you simply had a bad <CHIP>U1900</CHIP>. If not, remove <CAPACITOR>C1910</CAPACITOR> next."
+        },
+        {
+            "post_id": 42219,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 2060,
+            "username": "tentious",
+            "post_date": "2018-11-15 11:20:47",
+            "message": "Thanks for the help. It is possible to remove <CAPACITOR>C1910</CAPACITOR> first to see if this is the short? I can remove <CHIP>U1900</CHIP>, but this is more difficult for me. If <CAPACITOR>C1910</CAPACITOR> is the cause and is removed, I'm assuming I should see <SIGNAL>PPVRTC_G3H</SIGNAL> with higher resistance? If not and short still exists, I'm assuming <CHIP>U1900</CHIP> is the problem?\n\nI have a donor board coming for capacitors/resistors/etc, but it will be a week or so... china board with procs/memory chips removed. I've already ordered a <CHIP>U1900</CHIP> from here, should be here next week."
+        },
+        {
+            "post_id": 42221,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-15 11:31:23",
+            "message": "\"First remove <CAPACITOR>C1910</CAPACITOR>, next check <CAPACITOR>C1531</CAPACITOR>-33.\nIf still the same, change [URL=\"https://store.rossmanngroup.com/e1-slg3nb148cv.html\"]<CHIP>U1900</CHIP>[/URL].\""
+        },
+        {
+            "post_id": 42222,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 2060,
+            "username": "tentious",
+            "post_date": "2018-11-15 11:31:50",
+            "message": "[QUOTE=\"2informaticos, post: 42221\"]\"First remove <CAPACITOR>C1910</CAPACITOR>, next check <CAPACITOR>C1531</CAPACITOR>-33.\nIf still the same, change [URL=\"https://store.rossmanngroup.com/e1-slg3nb148cv.html\"]<CHIP>U1900</CHIP>[/URL].\"[/QUOTE]\n\nAwesome! Thanks! Sorry, I missed your post earlier. :)"
+        },
+        {
+            "post_id": 42224,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-15 11:45:17",
+            "message": "Yeah you can always remove the caps first. Remove <CAPACITOR>C1910</CAPACITOR> check. If nothing check caps like 2informaticos said. If still short remove <CHIP>U1900</CHIP>. If it's still shorted with all the caps and the chip off, then it's the CPU."
+        },
+        {
+            "post_id": 42225,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 2060,
+            "username": "tentious",
+            "post_date": "2018-11-15 11:56:57",
+            "message": "Yeah, so just removed <CAPACITOR>C1910</CAPACITOR>,<CAPACITOR>C1531</CAPACITOR>-<CAPACITOR>C1533</CAPACITOR> and <SIGNAL>PPCRTC_G3H</SIGNAL> is still shorted. :-/ I'll remove <CHIP>U1900</CHIP>."
+        },
+        {
+            "post_id": 42226,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-15 12:03:38",
+            "message": "All good! If it relieves the short then this is fixable! So keep confidence lol"
+        },
+        {
+            "post_id": 42233,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 2060,
+            "username": "tentious",
+            "post_date": "2018-11-15 15:02:14",
+            "message": "Bad news, I removed <CHIP>U1900</CHIP> and <SIGNAL>PPCRTC_G3H</SIGNAL> is still shorted to ground. Do I have a new donor board?"
+        },
+        {
+            "post_id": 42234,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-15 15:35:44",
+            "message": "If you have 000, pretty sure bad PCH.\nLow value, like 050-350, could be result of crap under PCH.\nPut good flux and heat to 180-200 degrees; you have nothing to lose..."
+        },
+        {
+            "post_id": 42235,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 2060,
+            "username": "tentious",
+            "post_date": "2018-11-15 15:50:32",
+            "message": "Yeah, PCH is toast. I just toasted it to see if it would reflow or burn up crap underneath... but no go. Best reading is .02 ohms :-/.\nSo besides eBay, which I'd rather avoid, where's a good place to locate a replacement logic board? I already tried eBay but got a board that had the random shutdown problem that a lot of the <LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> board have. Would you recommend sticking with the <LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> or something else that has a better track record?"
+        },
+        {
+            "post_id": 42243,
+            "thread_id": 42212,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> - No Boot - No Fans - No S4 Rail",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-15 17:36:09",
+            "message": "Yeah unfortunately dead PCH. I've seen that a few times now weird failure on some of the newer boards."
+        }
+    ]
+}

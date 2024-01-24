@@ -1,0 +1,252 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3332": "What is 820-3332? a LOGIC BOARD PART NUMBER.",
+        "U6901": "What is U6901? a CHIP.",
+        "R5087": "What is R5087? a RESISTOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "R7010": "What is R7010? a RESISTOR.",
+        "R7002": "What is R7002? a RESISTOR.",
+        "R5441": "What is R5441? a RESISTOR.",
+        "C7025": "What is C7025? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 61029,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-15 16:08:57",
+            "message": "Hi there,\n\nI'm very new to logic repair but have had some success and I've been watching the videos. I'm trying to troubleshoot the charger circuit on <LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER>. I was able to very 3.42 to SMC and I have 3.42 at <CHIP>U6901</CHIP> pin 5 but no SMC BC ACOK there (.42mV). Also at <RESISTOR>R5087</RESISTOR> I have 3.42 on pin 2 and .42mV on 1. Is the SMC toast? other things to verify?"
+        },
+        {
+            "post_id": 61030,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-15 16:49:06",
+            "message": "First of all, welcome to the forum!\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> is controlled by <CHIP>U7000</CHIP> (<CHIP>ISL6259</CHIP>), not by SMC.\nThere is very low chance that SMC (or <CHIP>U6901</CHIP>) input gets leakage and kills the signal; supposing <RESISTOR>R5087</RESISTOR> is good, of course.\n\nYou didn't say anything avout <SIGNAL>PPBUS_G3H</SIGNAL> (exact) voltage.\nHowever we need few voltage readings on <CHIP>U7000</CHIP> pins; 1, 2, 3, 9, 12, 13, 14, 15, 17, 19, 20, 27."
+        },
+        {
+            "post_id": 61031,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-15 17:30:08",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> = .201V at f7040\n<CHIP>U7000</CHIP> has a pit in the top of it I just discovered... :)\nHere are the readings:\n1-15.5v\n2-16.1v\n3-7.6v\n9-2.24v\n12-3.39v\n13-3.35v\n14-42mV\n15-.3mV\n17-.228V\n19-5.5V\n20-5.5V\n27-7.1mV"
+        },
+        {
+            "post_id": 61036,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-16 04:46:17",
+            "message": "\"3-7.6v\"\nAre you sure about this?\nThere should be 4V aprox.\nCheck <RESISTOR>R7010</RESISTOR>/11; can be <CHIP>U7000</CHIP> fault also.\n\nAlso check and post exact resistance between pins 27/28."
+        },
+        {
+            "post_id": 61037,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-16 05:05:46",
+            "message": "Thanks for your help. I replaced the ISL being that it had a hole in the top. I didnt notice anything at all on the board at first but after you pointed me to that chip I saw something on top and scraped it and apparently it was a blister that lead to me discovering the pit in the chip. Not sure if I blew off <RESISTOR>R7002</RESISTOR> when I removed the ISL but I just noticed it is not there which is definitely a problem... \nI'll check the others you pointed me to."
+        },
+        {
+            "post_id": 61041,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-16 06:15:30",
+            "message": "so after putting <RESISTOR>R7002</RESISTOR> on the board my readings on <CHIP>U7000</CHIP> are the same except the following:\npin 9 has dropped to 9.2mV??\n27 is at 4.5\n14 & 15 still about .5mV\n\nI checked <RESISTOR>R5441</RESISTOR> per the drop in voltage on pin 9 and it is reading 7.6k (schematic says 45.3k - so I assume this is bad but didnt know if there could be something on the circuit affecting the measurement besides the actual resistor)."
+        },
+        {
+            "post_id": 61042,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-16 06:45:11",
+            "message": "I said you to check the ACIN input resistors.\nAnd some resistors on the pins 27/28..."
+        },
+        {
+            "post_id": 61086,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-17 07:05:20",
+            "message": "Oh sorry wasn't sure if those were still needed w new isL and changes in voltages from that.\n7010 - 86.4k ohm\n7011 - 35.2k ohm\n21.2 ohms btween pin 27/28"
+        },
+        {
+            "post_id": 61087,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-17 07:46:08",
+            "message": "You cannot have 7.6V at ACIN pin with these values; unless <CHIP>U7000</CHIP> is bad..."
+        },
+        {
+            "post_id": 61090,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-17 07:51:41",
+            "message": "that is now reading 3.92V after changing the ISL"
+        },
+        {
+            "post_id": 61093,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-17 07:56:59",
+            "message": "Then post again voltage on all mentioned pins of <CHIP>U7000</CHIP>; actual and correct values, please.\n\nAlso check resistance between pins 17/18."
+        },
+        {
+            "post_id": 61111,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-17 14:17:42",
+            "message": "Ok...\n<CHIP>U7000</CHIP>\n1-15.5V\n2-14.83V\n3-3.92V\n9- 9.4mV\n12- 3.4V\n13 - 3.38V\n14-.6mV\n15 - 46.4 mV\n17 - 171.9 mV\n19 - 5.5V\n20 - 5.5V\n27- 3.6 V (drops while checking)\nresistance between 17&18= 3.8 ohms"
+        },
+        {
+            "post_id": 61113,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-17 15:47:08",
+            "message": "Change <CHIP>U7000</CHIP> again; pin 1 has incorrect voltage.\nPost first diode mode to ground at <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 61155,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-18 11:37:55",
+            "message": "diode <SIGNAL>PPBUS_G3H</SIGNAL> to ground = .436V w no isl. Is that what you meant?"
+        },
+        {
+            "post_id": 61170,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-18 12:45:31",
+            "message": "Is good, no short; check it again after resolder new chip.\nChange <CHIP>U7000</CHIP> and comment..."
+        },
+        {
+            "post_id": 61213,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-19 05:26:56",
+            "message": "after new <CHIP>U7000</CHIP> 0v drop diode <SIGNAL>PPBUS_G3H</SIGNAL>. I haven't put power to the board since changing <CHIP>U7000</CHIP>"
+        },
+        {
+            "post_id": 61216,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-19 06:49:31",
+            "message": "If you have short on <SIGNAL>PPBUS_G3H</SIGNAL> after changing <CHIP>U7000</CHIP>, remove it and check again."
+        },
+        {
+            "post_id": 61219,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-19 07:13:30",
+            "message": "ok i pulled, checked +no short. put back on and @.419V drop w diode check to ground on {<SIGNAL>PPBUS_G3H</SIGNAL>"
+        },
+        {
+            "post_id": 61225,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-19 10:25:03",
+            "message": "Did you check <SIGNAL>PPBUS_G3H</SIGNAL> voltage now?"
+        },
+        {
+            "post_id": 61227,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-19 10:42:50",
+            "message": "oy 18mV and rising..."
+        },
+        {
+            "post_id": 61237,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-19 16:19:47",
+            "message": "Please, post usefull information.\n1. 18mV is less than nothing, same as 0V.\n2. Rising to 20mV, 4V, 12.2V???"
+        },
+        {
+            "post_id": 61261,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-20 17:13:49",
+            "message": "Sorry I'm green to this.. it rises about .1 mv per second but I was mostly just saying still nothing there."
+        },
+        {
+            "post_id": 61264,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-21 03:25:38",
+            "message": "After resoldered <CHIP>U7000</CHIP> last time, post again the voltage on its pins above mentioned.\nReplace <CAPACITOR>C7025</CAPACITOR>, just in case..."
+        },
+        {
+            "post_id": 61265,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-21 04:36:47",
+            "message": "Replaced <CHIP>U7000</CHIP> again and <CAPACITOR>C7025</CAPACITOR>.\n\nMaking progress green to orange on charger. stays orange (no battery connected). No fan spin\n\n<SIGNAL>PPBUS_G3H</SIGNAL> is .3V\n\n<CHIP>U7000</CHIP> current readings:\n1-15.5v\n2-15.42v\n3-3.92v\n9-.5mv\n12-3.39v\n13-3.38v\n14-3.38V\n15-.3.32V\n17-.4V\n19-5.5V\n20-5.5V\n27-.3V"
+        },
+        {
+            "post_id": 61277,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-21 16:09:15",
+            "message": "\"15-.3.32V\"\nI don't understand this value...\n\nDidn't have 0V at pin 1 with other <CHIP>ISL6259</CHIP>, what happened now?\nResolder, or change again...\n\nPost exact ohm value between pins 17/18 and 27/28 after each change."
+        },
+        {
+            "post_id": 61298,
+            "thread_id": 59500,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No charger light",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-06-22 09:08:36",
+            "message": "Man, I dropped my hot air right on the board and did something that created a short. Ran current through it wo L6995and SMC was hot and blistered... Not sure I'm equipped to change that.\n\nThanks for your attempts to help me. I'm learning a lot!"
+        }
+    ]
+}

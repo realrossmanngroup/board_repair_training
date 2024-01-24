@@ -1,0 +1,54 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "A1466": "What is A1466? A1466 is a model number for a 13 inch size MacBook Air from years Early 2015, 2017, Mid 2012, Mid 2013, Early 2014 with EMC 2925, that may contain one of these boards depending on the year & configuration: 820-00165, 820-3209, 820-3437..",
+        "U7870": "What is U7870? a CHIP.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP5V_S4RS3": "What is PP5V_S4RS3? PP5V_S4RS3 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "C7870": "What is C7870? a CAPACITOR.",
+        "C7871": "What is C7871? a CAPACITOR.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PLT_RST_BUF_L": "What is PLT_RST_BUF_L? a SIGNAL.",
+        "R6119": "What is R6119? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 58786,
+            "thread_id": 58786,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> not booting ? dead cpu",
+            "user_id": 22195,
+            "username": "Neil250",
+            "post_date": "2020-04-25 21:23:12",
+            "message": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> MBA\n\nLiquid spill\nCorrosion around <CHIP>U7870</CHIP>, <CAPACITOR>C7870</CAPACITOR>,<CAPACITOR>C7871</CAPACITOR>\n\nNo fan spin\nReplaced a terrible looking <CAPACITOR>C7870</CAPACITOR>---> fan spin\nOrange light on charger\n\nCPU VCORE: 1.8V\nNo backlight\nNo image\nNo chime\nFan is spinning\nAll G3H power rails are good\n\nUSB Mouse does not light up\nUSB SATA drive adapter spins up an old 2.5\"HDD\n\nI'm thinking this board is not even starting\nWhere to start?\n\n<SIGNAL>PP5V_S4RS3</SIGNAL>: 5.15V\n<SIGNAL>PP5V_S5</SIGNAL>: 5.14V\n\n<TRANSISTOR>Q7706</TRANSISTOR>\n4: 8.58V\n3: 8.34V\n2,5,6: 0 V\n\nThats with the LCD connected and without\n\nOn <TRANSISTOR>Q7706</TRANSISTOR>: I thought since voltage on 4 > 3 <TRANSISTOR>Q7706</TRANSISTOR> should be open\n\nIn any case without real USB activity, the board is not turning on and thats the issue correct?"
+        },
+        {
+            "post_id": 58790,
+            "thread_id": 58786,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> not booting ? dead cpu",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-26 03:16:25",
+            "message": "\"I thought since voltage on 4 > 3 <TRANSISTOR>Q7706</TRANSISTOR> should be open\"\nDo you think Vgs=-0.24V is sufficient???\nHowever, no reason to check backlight, if no image, nor USB activity detected.\n\nPost <SIGNAL>PLT_RESET_L</SIGNAL> and <SIGNAL>PLT_RST_BUF_L</SIGNAL>.\nCheck all SPI Bus Series termination resistors (page 46) and their traces.\nAlso clean J6100; remove it, if you do not use Medusa programmer.\nBe sure to get all voltages from pages 57/58.\n\nTry known good BIOS."
+        },
+        {
+            "post_id": 58793,
+            "thread_id": 58786,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> not booting ? dead cpu",
+            "user_id": 22195,
+            "username": "Neil250",
+            "post_date": "2020-04-26 08:19:05",
+            "message": "OK that worked.\n\n<RESISTOR>R6119</RESISTOR> measured 200K\nChanged it out and boom!\nUSB now works\nMachine boots!\n\nCan you tell me why you went to the SPI termination resistors?\n\nTHANKS!!!"
+        },
+        {
+            "post_id": 58802,
+            "thread_id": 58786,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> not booting ? dead cpu",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-26 12:02:32",
+            "message": "<RESISTOR>R6119</RESISTOR> is placed between PCH and BIOS chip..."
+        }
+    ]
+}

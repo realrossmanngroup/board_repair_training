@@ -1,0 +1,66 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01949": "What is 820-01949? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U3100": "What is U3100? a CHIP.",
+        "SYS_DETECT_L": "What is SYS_DETECT_L? For detection of the battery.",
+        "SYS_DETECT": "What is SYS_DETECT? a SIGNAL.",
+        "R7061": "What is R7061? a RESISTOR.",
+        "Q7065": "What is Q7065? a TRANSISTOR.",
+        "Q6955": "What is Q6955? a TRANSISTOR.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U3060": "What is U3060? a CHIP.",
+        "820-01700": "What is 820-01700? a LOGIC BOARD PART NUMBER.",
+        "820-02020": "What is 820-02020? a LOGIC BOARD PART NUMBER.",
+        "U3100_R": "What is U3100_R? a SIGNAL.",
+        "U3100_W": "What is U3100_W? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 102033,
+            "thread_id": 64265,
+            "title": "<LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> not charging",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2023-10-17 08:21:06",
+            "message": "Board has slight liquid damage on <CHIP>U3100</CHIP> chip (photo). I’ve replaced the chip itself (CD3217B12) and other SMD components around, checked resistances and traces - all fine. Computer is turning on and working, but does not charge the battery (doesn’t even detect charger connected). With battery disconnected it takes 5V and ~ 0,30A, doesn't switch to 20V. With battery connected it swiches to 20V but takes constant ~0.024A. PPBUS without battery is 12,26V, with battery is 11,22V. I have replaced <CHIP>U3100</CHIP> again as well as <CHIP>U7000</CHIP>. <RESISTOR>R7061</RESISTOR>/2 are fine. <SIGNAL>SYS_DETECT</SIGNAL> is 3,3V but <SIGNAL>SYS_DETECT_L</SIGNAL> is 0V no matter if battery is connected ot not. I’ve replaced <TRANSISTOR>Q6955</TRANSISTOR>. I have also tried new battery, but with no results. I'm wondering, maybe UB260 got damaged? I've resoldered it, all traces were OK, but who knows...Or maybe <TRANSISTOR>Q7065</TRANSISTOR>?"
+        },
+        {
+            "post_id": 102051,
+            "thread_id": 64265,
+            "title": "<LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-10-18 07:57:50",
+            "message": "The machine turns on and works without battery connected?\n\nSeems that you have problems on USB-C areas.\nAll USB ports have the same behavior?\nCompare diode mode on LDOs of all <CHIP>CD3215</CHIP> chips."
+        },
+        {
+            "post_id": 102068,
+            "thread_id": 64265,
+            "title": "<LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> not charging",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2023-10-19 04:33:22",
+            "message": "No, it doesn't turn on without battery, but I think it's typical for these models - they need battery to turn on. \n\nAll USB-C ports behave the same and LDOs on all USB-C controllers are the same with good readings."
+        },
+        {
+            "post_id": 102072,
+            "thread_id": 64265,
+            "title": "<LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> not charging",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-10-19 14:12:51",
+            "message": "MLB must switch to 20V without battery; even not turning on.\nSo you have USB-C areas problem.\n\nDFU can correct such problem sometime."
+        },
+        {
+            "post_id": 102722,
+            "thread_id": 64265,
+            "title": "<LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> not charging",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2023-11-24 05:42:46",
+            "message": "Update for this board...\n\nSo I was working on another board - <LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> with very similar issue. After replacing one of the USB-C controllers board was not switching to 20V an not charging battery. Trying different controllers I found out, that [B]controller had to be pulled from M1 board[/B], in my case donor also was <LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER>. After that, board switched to 20V and was charging battery correctly.[B] I think they could be programmed for working on specific board[/B], as their output layout on difrent schematics are different (i.e. controllers on <LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> have diffrent output than <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER>). So I decied to go back to <LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> board and check my theory,\n\nI got fully working donor <LOGIC BOARD PART NUMBER>820-01949</LOGIC BOARD PART NUMBER> which I took one one controller from (<SIGNAL>U3100_R</SIGNAL>). Destination board still didn't switch to 20V. So I have replacend another one (<SIGNAL>U3100_W</SIGNAL>) - also nothing. But when I replaced UB260 it magically started switching to 20V. But funny part is, that this board doesn't charge or work off original battery which computer came with (though is detected in the system). It's charging and working from new battery. I have tested the original battery with another, fully functional board - it's charging the battery correctly. So I thought another USB-C controllers which I haven't replaced yet may cause this malfunction. I have replaced them  as well including <CHIP>U3060</CHIP> and another <CHIP>U7000</CHIP>. Sadly there are no changes - original battery won't charge and as soon as I disconnect charger computer shuts down. Another battery is charging fine. But again - original battery is being charged by another, untouched board. Could somebody explain this to me? I have tried DFU restore and another battery flex cable but it hasn't changed anything. The rest of the board looks really good, no damages or corrosion."
+        }
+    ]
+}

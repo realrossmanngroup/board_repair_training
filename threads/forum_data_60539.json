@@ -1,0 +1,95 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "BKLT_EN_R": "What is BKLT_EN_R? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. The “_R” suffix means that the signal is asserted when it is high, as in 3.3v, which is the opposite of the “_L”  suffix.",
+        "U7700": "What is U7700? a CHIP.",
+        "PPVOUT_S0_LCDBKLT": "What is PPVOUT_S0_LCDBKLT? PPVOUT_S0_LCDBKLT is a power rail that powers the LED light in the screen of the device that allows you to see what is on the screen. When this is low or missing, the screen will be dim..",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "LCD_PSR_EN": "What is LCD_PSR_EN? a SIGNAL.",
+        "U8330": "What is U8330? a CHIP.",
+        "EDP_PANEL_PWR": "What is EDP_PANEL_PWR? a SIGNAL.",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "Q7700": "What is Q7700? a TRANSISTOR.",
+        "R7750": "What is R7750? a RESISTOR.",
+        "BKLT_SCL": "What is BKLT_SCL? BKLT_SCL is an I2C signal clock line between the LED driver that creates the LCD backlight power rail that powers the backlight in the screen and the screen. The screen needs to speak to the LED driver on this line before backlight voltage will be created..",
+        "BKLT_SDA": "What is BKLT_SDA? BKLT_SDA is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "R7752": "What is R7752? a RESISTOR.",
+        "R7753": "What is R7753? a RESISTOR.",
+        "R7751": "What is R7751? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 69539,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 26921,
+            "username": "nickalith",
+            "post_date": "2020-12-26 18:51:37",
+            "message": "Hello!\n\nSomewhat new to this and just trying to get some direction.\n\nMacBook turns on, can use with external monitor, confirmed no backlight/can see an image when I use a flashlight.\n\nI have 0V on <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL>\n\nMissing the enable signal for <CHIP>U7700</CHIP>. I checked where it gets the signal from and it looks like it's an OR gate, and needs either: <SIGNAL>EDP_BKLT_EN</SIGNAL> or <SIGNAL>LCD_PSR_EN</SIGNAL> to generate the enable. Both are missing. Both signals come from the SMC (I think). Anything I can do?"
+        },
+        {
+            "post_id": 69549,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-27 03:42:42",
+            "message": "First of all, welcome to the forum!\n\nCheck diode mode to ground at  <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> , w/ and w/o LCD connected.\n\nIf image is present, display is correctly recognized and <SIGNAL>EDP_PANEL_PWR</SIGNAL> is present.\nThe other two input signals of <CHIP>U8330</CHIP> come from CPU.\nYou should check their level in the first seconds (for pulse at least), when hear the chime."
+        },
+        {
+            "post_id": 69569,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 26921,
+            "username": "nickalith",
+            "post_date": "2020-12-27 09:46:45",
+            "message": "Thanks!\n\nDiode mode showed an Open Line for <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> when the connector was connected and disconnected (tested with ONLY the connector inserted, no other cables or power was connected to the board when I tested). I should have mentioned I tested the same thing earlier with resistance mode and confirmed it was not a bad cable/display.\n\n<SIGNAL>EDP_BKLT_EN</SIGNAL> and <SIGNAL>LCD_PSR_EN</SIGNAL> both pulse at about 1 or 2 mV very briefly when I supply power before going down to 0V (had only the power supply connected, nothing else) You mention that I should check for the pulse when I hear the chime, I feel like that entails that I need to have more than just the power supply connected (like the speakers, at least) for this particular test, but I'm not sure so I figured I'd include that information"
+        },
+        {
+            "post_id": 69572,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-27 11:28:20",
+            "message": "No need to connect speakers.\nWas only a time pointer; need to check in the first 5-10s.\nOf course, internal LCD MUST be connected.\nDo not waste time searching for mV pulse; there is no pulse if you cannot catch more than 1V peak.\nAn o-scope can show you peak value for any fast pulse."
+        },
+        {
+            "post_id": 69580,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 26921,
+            "username": "nickalith",
+            "post_date": "2020-12-27 12:08:35",
+            "message": "After plugging in the display, I actually AM getting my 3.42V on <SIGNAL>EDP_BKLT_EN</SIGNAL>. <CHIP>U7700</CHIP> has its enable on pin 17, and is getting its required 5V on both pins 5 and 18. However, I am still getting 12V to <TRANSISTOR>Q7700</TRANSISTOR> on the <SIGNAL>LCDBKLT_EN_L</SIGNAL>. Replace <CHIP>U7700</CHIP>?"
+        },
+        {
+            "post_id": 69581,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-27 12:38:40",
+            "message": "So your first post was without LCD connected???\nVery strange, as you said to have image on internal LCD; at least is what I understood.\n\nEnable signal is not sufficient.\nBacklight level is controlled through I2C bus.\nCheck <RESISTOR>R7750</RESISTOR>-53 resistors.\nAlso post diode mode and voltage on SCL/SDA lines.\n\nI recommend you to test known good LCD assembly: as I2C bus comes from display."
+        },
+        {
+            "post_id": 69596,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 26921,
+            "username": "nickalith",
+            "post_date": "2020-12-27 14:53:06",
+            "message": "Yeah I explained it in a confusing way. I tested the computer for no backlight with everything connected, and confirmed the issue was no backlight. Then I took the board out of the macbook and started testing, not realizing the display needed to be connected (cuz I'm a dummy). Then I connected the display and found out I was getting the enable. I don't have an extra LCD assembly, if we can confirm its a bad LCD I'll probably just move on, no biggie.\n\n<RESISTOR>R7750</RESISTOR> = 0.2 Ohms\n<RESISTOR>R7751</RESISTOR> = 0.2 Ohms\n<RESISTOR>R7752</RESISTOR> = 0.801K\n<RESISTOR>R7753</RESISTOR> = 0.801K\n\nboth <RESISTOR>R7752</RESISTOR>/3 are supposed to be 2.4K per the schematic?\n\nDiode Mode (no power to board while testing these)\n<SIGNAL>BKLT_SCL</SIGNAL> = 1.63V\n<SIGNAL>BKLT_SDA</SIGNAL> = 1.63V \n\nVoltages\n<SIGNAL>BKLT_SCL</SIGNAL> = 5.039V\n<SIGNAL>BKLT_SDA</SIGNAL> = 5.039V"
+        },
+        {
+            "post_id": 69604,
+            "thread_id": 60539,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No backlight, missing <SIGNAL>BKLT_EN_R</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-28 02:40:11",
+            "message": "The resistors usually show lower values when measured onboard.\n\nCheck always diode mode with red probe at ground.\nAnd forget the \"V\" when post the values.\n\nDo PRAM reset 2-3 times, just in case.\nA known good LCD assembly is the best test.\nYou can waste time in a board without problems, just bad LCD."
+        }
+    ]
+}

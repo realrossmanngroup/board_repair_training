@@ -1,0 +1,79 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U9701": "What is U9701? a CHIP.",
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "PPVOUT_SW_LCDBKLT": "What is PPVOUT_SW_LCDBKLT? PPVOUT_SW_LCDBKLT is the voltage rail for the backlight of the LCD screen. .",
+        "LCD_BKLT_PWM": "What is LCD_BKLT_PWM? LCD_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "PPBUS_SW_LCDBKLT_PWR": "What is PPBUS_SW_LCDBKLT_PWR? PPBUS_SW_LCDBKLT_PWR is PPBUS_G3H after it has passed through a backlight fuse and a transistor that allows power through when BKLT_PLT_RST_L and LCD_BKLT_EN are present. .",
+        "PPBUS_SW_BKL": "What is PPBUS_SW_BKL? a SIGNAL.",
+        "PP3V3_S0_BKL_VDDIO": "What is PP3V3_S0_BKL_VDDIO? a SIGNAL.",
+        "PP5V_S0_BLK": "What is PP5V_S0_BLK? a SIGNAL.",
+        "R9704": "What is R9704? a RESISTOR.",
+        "R9731": "What is R9731? a RESISTOR.",
+        "R9715": "What is R9715? a RESISTOR.",
+        "U7701": "What is U7701? a CHIP.",
+        "CHECKBKL_EN": "What is CHECKBKL_EN? a SIGNAL.",
+        "BKL_FSET": "What is BKL_FSET? a SIGNAL.",
+        "BKL_FLTR": "What is BKL_FLTR? a SIGNAL.",
+        "BKL_VSYNC_R": "What is BKL_VSYNC_R? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 59473,
+            "thread_id": 59328,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Blown fuse, Replaced fuse and Display assembly and no backlight. Suspect <CHIP>U9701</CHIP>?",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-05-13 00:26:35",
+            "message": "Hi.\nMacbook came in originally with no backlight.\nConfirmed display worked - with torch from behind could see login screen.\nReplaced backlight, which blew again.\nTried with known good display assembly after replacing fuse - unit worked.\nReturned to customer.\n\nNow, customer returned it with the same issue.\nThe fan goes to maximum and stays there after a few seconds.\n\nReplaced backlight fuse - still no backlight.\nTried with another known working display assembly - same.\n\nChecked voltage at <SIGNAL>PPVOUT_SW_LCDBKLT</SIGNAL>: ONLY 12.46v\nWhich makes me suspect <CHIP>U9701</CHIP>.\n\nChecked inputs to <CHIP>U9701</CHIP>:\n\n<SIGNAL>PP5V_S0_BLK</SIGNAL>: 5v\n<SIGNAL>PPBUS_SW_BKL</SIGNAL>:12.6v\n<SIGNAL>PP3V3_S0_BKL_VDDIO</SIGNAL>:3.3v\n<SIGNAL>LCD_BKLT_PWM</SIGNAL>:2.63v (measured at pin2-<RESISTOR>R9704</RESISTOR>).\n\nThis last one is suspicious:\n<SIGNAL>PPBUS_SW_LCDBKLT_PWR</SIGNAL>:12.6v (measured at pin1-<RESISTOR>R9731</RESISTOR>)\nBUT pin2-<RESISTOR>R9731</RESISTOR> measures 0.05v!\n\nThe resistance across <RESISTOR>R9731</RESISTOR> reads 280K ohm.\nHowever across <RESISTOR>R9715</RESISTOR> showed only around 100 ohm, not the 100K it should.\nI desoldered <RESISTOR>R9715</RESISTOR>, and measured the two points under it and I get the same 100 ohm.\nPin2 on <RESISTOR>R9715</RESISTOR> shows 100 ohms to ground.\n\nGiven there is only 0.05v going to <SIGNAL>BKL_EN</SIGNAL> (A3 on <CHIP>U9701</CHIP>) measured from pin2 on either <RESISTOR>R9731</RESISTOR> or <RESISTOR>R9715</RESISTOR>, does this mean that <CHIP>U9701</CHIP> is internally shorted?\n\nBy the way, <SIGNAL>SMC_LID</SIGNAL> is 3.42v.\n\nI do not have any spare <CHIP>U9701</CHIP>, so I removed one from another unknown faulty same logic board.\nAfterwards, all the voltages are the same, and the same symptoms, although I cannot rule out that the board I took it from had the same issue.\n\nAny suggestions on what I may have missed, or what to test next.\nAny help greatly appreciated."
+        },
+        {
+            "post_id": 59476,
+            "thread_id": 59328,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Blown fuse, Replaced fuse and Display assembly and no backlight. Suspect <CHIP>U9701</CHIP>?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 01:16:58",
+            "message": "You have had the option to check diode mode to ground when <CHIP>U7701</CHIP> removed.\nWhy didn't do that?\nYou did lot of checkings, less the most important.\n\nNo other component connected to <SIGNAL>BKL_EN</SIGNAL>, apart of <CHIP>U9701</CHIP>.\nIf still low when removed, then you have a problem between traces on the board."
+        },
+        {
+            "post_id": 59540,
+            "thread_id": 59328,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Blown fuse, Replaced fuse and Display assembly and no backlight. Suspect <CHIP>U9701</CHIP>?",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-05-13 16:13:03",
+            "message": "Thanks 2informaticos.\nSorry, I'm still learning as I go.\nI did checks to provide more information in my question.\n\nYes, that makes sense to have checked it with <CHIP>U9701</CHIP> removed...hmm, yes, I should have thought of that.\nI'll take off <CHIP>U9701</CHIP> and <SIGNAL>CHECKBKL_EN</SIGNAL> to ground in diode mode and report back.\nThanks again."
+        },
+        {
+            "post_id": 59545,
+            "thread_id": 59328,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Blown fuse, Replaced fuse and Display assembly and no backlight. Suspect <CHIP>U9701</CHIP>?",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-05-13 17:16:42",
+            "message": "With <CHIP>U9701</CHIP> removed, pad 3 (A3)(<SIGNAL>BKL_EN</SIGNAL>) shows, in diode mode, to not be connected to ground, and is connected to pin2-<RESISTOR>R9731</RESISTOR> and pin2-<RESISTOR>R9715</RESISTOR>.\nAny other checks I should do while the chip is removed?\nThe only pads connected to ground are the ones that are meant to be connected to ground, i.e. A1, A2, B5, and E4.\n\n<SIGNAL>BKL_VSYNC_R</SIGNAL> (pad D2) and <SIGNAL>BKL_FLTR</SIGNAL> (Pad C2) both look correct at 10K ohms to ground, as does <SIGNAL>BKL_FSET</SIGNAL> (Pad B4) at 16.2K Ohms."
+        },
+        {
+            "post_id": 59561,
+            "thread_id": 59328,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Blown fuse, Replaced fuse and Display assembly and no backlight. Suspect <CHIP>U9701</CHIP>?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-14 04:20:54",
+            "message": "Change <CHIP>U9701</CHIP> and be sure to solder it correctly..."
+        },
+        {
+            "post_id": 59594,
+            "thread_id": 59328,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Blown fuse, Replaced fuse and Display assembly and no backlight. Suspect <CHIP>U9701</CHIP>?",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-05-14 16:38:09",
+            "message": "Thanks again 2informaticos. \nI've ordered a couple in. \nI'll update when they arrive. \nThanks."
+        }
+    ]
+}

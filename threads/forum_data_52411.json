@@ -1,0 +1,215 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3209": "What is 820-3209? a LOGIC BOARD PART NUMBER.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "CPUIMVP_VR_ON": "What is CPUIMVP_VR_ON? CPUIMVP_VR_ON is a signal that tells the buck converter responsible for PPVCORE_S0_CPU to turn on and create CPU vcore voltage. This comes from ALL_SYS_PWRGD – once ALL_SYS_PWRGD is present, CPUIMVP_VR_ON will be present. .",
+        "SYSCLK_CLK32K_RTC": "What is SYSCLK_CLK32K_RTC? a SIGNAL.",
+        "SYSCLK_CLK25M_SB": "What is SYSCLK_CLK25M_SB? a SIGNAL.",
+        "PP5V_SO": "What is PP5V_SO? PP5V_SO is a typo of PP5V_S0, which is a 5v power rail present when the machine is in an S0 working state. The person who typed PP5V_SO thought that the S0 in PP5V_S0 was SO, if you see PP5V_SO assume the user made a typo and meant to type PP5V_S0.",
+        "P1V5S0_PGOOD": "What is P1V5S0_PGOOD? P1V5S0_PGOOD is a signal that asserts itself when the PP1V5_S0 power rail turns on and works .",
+        "U7400": "What is U7400? a CHIP.",
+        "U2750": "What is U2750? a CHIP.",
+        "CPUIMVP_TON": "What is CPUIMVP_TON? a SIGNAL.",
+        "CPUIMVP_PGOOD": "What is CPUIMVP_PGOOD? CPUIMVP_PGOOD is a signal from the CPU VCORE buck converter IC that indicates CPU power is good which is necessary to create PM_S0_PGOOD..",
+        "CPUIMVP_AXG_PGOOD": "What is CPUIMVP_AXG_PGOOD? a SIGNAL.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "DDRREG_EN": "What is DDRREG_EN? DDRREG_EN is an enable signal that turns on power rails for DDR memory.",
+        "USB_PWR_EN": "What is USB_PWR_EN? a SIGNAL.",
+        "R7911": "What is R7911? a RESISTOR.",
+        "C7910": "What is C7910? a CAPACITOR.",
+        "U7300": "What is U7300? a CHIP.",
+        "MEMVTT_EN": "What is MEMVTT_EN? a SIGNAL.",
+        "DDRVTT_EN": "What is DDRVTT_EN? a SIGNAL.",
+        "R2810": "What is R2810? a RESISTOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "SMBUS_BATT_SCL": "What is SMBUS_BATT_SCL? SMBUS_BATT_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "SMBUS_BATT_SDA": "What is SMBUS_BATT_SDA? SMBUS_BATT_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R5281": "What is R5281? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SCL which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. ."
+    },
+    "threads": [
+        {
+            "post_id": 52411,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-19 18:30:57",
+            "message": "New details. The board is getting warm, but no booting. The board is in S0 state.\n\nHave so far many rails:\n\nSMPS = 19V, 0.198 AMP\n1. PPBUG3H = 8.20v\n2. PPVRTC = 3.3V\n3. <SIGNAL>PP5V_SO</SIGNAL> = 5V\n4. <SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> = 32.768 MHZ\n5. <SIGNAL>SYSCLK_CLK25M_SB</SIGNAL> = 25 MHZ\n6. <SIGNAL>CPUIMVP_VR_ON</SIGNAL> = 3.3V\n9. <SIGNAL>ALL_SYS_PWRGD</SIGNAL> = 3.3V\n10. <SIGNAL>P1V5S0_PGOOD</SIGNAL> = 3.3V\n\nSome voltages which should be 1.8v/1.05v has 3.3v. To high. What could cause it?"
+        },
+        {
+            "post_id": 52419,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-20 04:04:27",
+            "message": "??????????"
+        },
+        {
+            "post_id": 52426,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-20 10:25:40",
+            "message": "New details. The board is getting warm, but no booting. The board is in S0 state.\n\nHave so far many rails:\n\nSMPS = 19V, 0.198 AMP\n1. PPBUG3H = 8.20v\n2. PPVRTC = 3.3V\n3. <SIGNAL>PP5V_SO</SIGNAL> = 5V\n4. <SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> = 32.768 MHZ\n5. <SIGNAL>SYSCLK_CLK25M_SB</SIGNAL> = 25 MHZ\n6. <SIGNAL>CPUIMVP_VR_ON</SIGNAL> = 3.3V\n9. <SIGNAL>ALL_SYS_PWRGD</SIGNAL> = 3.3V\n10. <SIGNAL>P1V5S0_PGOOD</SIGNAL> = 3.3V\n\nSome voltages which should be 1.8v/1.05v has 3.3v. To high. What could cause it?"
+        },
+        {
+            "post_id": 52428,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-20 10:32:21",
+            "message": "\"Some voltages which should be 1.8v/1.05v has 3.3v.\"\nWhich ones?\nI bet you got confused between signals and power rails.\nDid you check USB activity?\nKnown good BIOS is an option to try."
+        },
+        {
+            "post_id": 52430,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-20 10:39:56",
+            "message": "Cool. i check now direct and post shortly..\n\nHavent checked USB circuit yet. anyhting special to look for on that line?\n\nyes, i meant signals. thx..\n\n[COLOR=#FF0000]Known good BIOS is an option to try. [/COLOR]You mean replcing the currrent one[COLOR=#FF0000]?[/COLOR]"
+        },
+        {
+            "post_id": 52467,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-21 15:57:18",
+            "message": "[B]<CHIP>U7400</CHIP>[/B]\nI have:\n1. <SIGNAL>CPUIMVP_VR_ON</SIGNAL>\n2. VIN\n\n\n[B]Missing these output voltage/signals from <CHIP>U7400</CHIP>:[/B]\n1. PGOOD (<SIGNAL>CPUIMVP_PGOOD</SIGNAL>)\n2. PGOODG (<SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL>)\n\n\n[B]<SIGNAL>CPUIMVP_TON</SIGNAL> = [/B]<RESISTOR>R7402</RESISTOR> = Pin1 8.2v, Pin 2 350mv. Its a 90k resistor and it measure ok.\n\n\n\n[B]<CHIP>U2750</CHIP> (AND GATE )[/B]\n1. I have <SIGNAL>ALL_SYS_PWRGD</SIGNAL> but missing the two above voltages PGOOD.\n\nSo could the problem be <CHIP>U7400</CHIP>? I have reflow <CHIP>U7400</CHIP> still nothing, still 0.125 amp on SMPS.\n\nanother question: Which of the nr on the schematic 25-1 and 25 comes first in the correct order?"
+        },
+        {
+            "post_id": 52471,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-21 20:23:08",
+            "message": "Missing:\n<SIGNAL>DDRREG_EN</SIGNAL> = 0v\n<SIGNAL>USB_PWR_EN</SIGNAL> = 0v\n\n<SIGNAL>PM_SLP_S4_L</SIGNAL> = 3v3."
+        },
+        {
+            "post_id": 52473,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-22 02:05:19",
+            "message": "You have a problem with <RESISTOR>R7911</RESISTOR>, or <CAPACITOR>C7910</CAPACITOR>.\nRemove <CAPACITOR>C7910</CAPACITOR> first."
+        },
+        {
+            "post_id": 52489,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-09-22 06:05:52",
+            "message": "Your PPBUS is 8.2 why do you think this is ok??!"
+        },
+        {
+            "post_id": 52495,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-22 13:14:57",
+            "message": "[USER=\"1153\"]JohnB8812[/USER] Macbook air only needs 8.0-8.20v from my understanding of PPBUS..?\n\n1. I removed <CAPACITOR>C7910</CAPACITOR> and I have now on <RESISTOR>R7911</RESISTOR> = 3.3V on both pins. <SIGNAL>DDRREG_EN</SIGNAL> and <SIGNAL>USB_PWR_EN</SIGNAL> both getting 3.3v.\n2. <CHIP>U7300</CHIP> I get all the input voltages except =<SIGNAL>DDRVTT_EN</SIGNAL>\n3. =<SIGNAL>DDRVTT_EN</SIGNAL> takes me to <SIGNAL>MEMVTT_EN</SIGNAL>. (here is it where it becomes cloudy because of all the MOSFETs /transistors). See image!\n4. <CHIP>U7300</CHIP>: outputs 1.5v but missing PGOOD because I need <SIGNAL>DDRVTT_EN</SIGNAL>. Correct?\n4. <RESISTOR>R2810</RESISTOR>, pin1=3v3, Pin2= 0v"
+        },
+        {
+            "post_id": 52498,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-22 13:19:15",
+            "message": "VTT appears later, after CPU gets VCORE.\n\n\"Macbook air only needs 8.0-8.20v from my understanding\"\nWrong assumption!\nBoard can work with this voltage, but will not charge the battery; maybe not recognized at all.\nThis issue remains to solve after, or you can do that first."
+        },
+        {
+            "post_id": 52499,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-22 13:46:26",
+            "message": "Ok, so need to get the PPBUS up to 8.6v first...?\n\nSo the board need to have the correct voltage for battery in order to power on? Basically [B][U]both[/U][/B] adapter and battery voltage needs to be present?\n\n1. I have intermittent green/yellow light on charger. (1. I changed the i/0 Board and the cable, still intermittent light. 2. I changed the <CHIP>ISL6259</CHIP> as well) still 8.2v on PPBUS.\n\n[USER=\"682\"]2informaticos[/USER] [COLOR=#FF0000]\"Board can work with this voltage, but will not charge the battery; maybe not recognized at all.\"[/COLOR] But I should not need the battery connected to get a fanspin, right?"
+        },
+        {
+            "post_id": 52512,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-23 02:49:19",
+            "message": "I reballed the SMC.. and now i have FAN SPIN with 0.500/600 amp and still 8.2v."
+        },
+        {
+            "post_id": 52515,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-23 03:17:56",
+            "message": "Board can work with 8.2V!\nBut is not the correct voltage, without battery.\nIs better to fix this issue first.\nIt could be SMC issue and you may get not working board for other SMC problems.\n\nBattery is not necesarry to boot.\n\nPost diode mode readings (red probe at ground) and voltage at SCL/SDA lines of battery bus."
+        },
+        {
+            "post_id": 52516,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-23 04:10:03",
+            "message": "[B]Diode mode[/B]\n<RESISTOR>R5281</RESISTOR> = Pin1: 0.800, Pin2: 1600\n<RESISTOR>R5280</RESISTOR> = PIN1: 1600, PIN2: 0.800\n\nI happen to miss the voltage lines:\n<SIGNAL>SMBUS_BATT_SCL</SIGNAL> (<RESISTOR>R5281</RESISTOR>) = 3.4v\n<SIGNAL>SMBUS_BATT_SDA</SIGNAL> (<RESISTOR>R5280</RESISTOR>) = 3.4v"
+        },
+        {
+            "post_id": 52522,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-23 06:56:58",
+            "message": "Pin 1 is common; your measurments are confused.\nIf you get same reading on pin 2, then post the exact voltage too.\nDon't forget to manually choose diode mode, if your DMM is autorange."
+        },
+        {
+            "post_id": 52526,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-09-23 10:26:10",
+            "message": "Your problem is likely a bad SMC causing you issues."
+        },
+        {
+            "post_id": 52654,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1748,
+            "username": "patrickribbsaeter",
+            "post_date": "2019-09-26 19:46:01",
+            "message": "I have 8.6 now on PPBUS after changing the SMC.\n\nWhen I connect the SMPS I get a short fan spin and then fan stops. Stuck on 0.020 amp."
+        },
+        {
+            "post_id": 52660,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-26 23:58:33",
+            "message": "Try first to start in SMC bypass.\nAlso check which voltages try to appear when fan spins.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> for test."
+        },
+        {
+            "post_id": 52671,
+            "thread_id": 52411,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> (8.2v on F7040)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-09-27 14:19:12",
+            "message": "Do as 2informaticos suggested. It is possible you have a bad SMC from the donor board. Did you pull it from an <LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> board?"
+        }
+    ]
+}

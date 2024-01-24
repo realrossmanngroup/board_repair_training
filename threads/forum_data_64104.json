@@ -1,0 +1,93 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3787": "What is 820-3787? a LOGIC BOARD PART NUMBER.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U7701": "What is U7701? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPVOUT_S0_LCDBKLT": "What is PPVOUT_S0_LCDBKLT? PPVOUT_S0_LCDBKLT is a power rail that powers the LED light in the screen of the device that allows you to see what is on the screen. When this is low or missing, the screen will be dim..",
+        "LCD_BKLT_EN": "What is LCD_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “LCD_BKLT” which stands for “LCD screen backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "PP5V_S0_BKLTCTRL": "What is PP5V_S0_BKLTCTRL? a SIGNAL.",
+        "PPVIN_SO_LCD_BKLT": "What is PPVIN_SO_LCD_BKLT? a SIGNAL.",
+        "PPBUS_SO_LCDBKLT_PWR_SW": "What is PPBUS_SO_LCDBKLT_PWR_SW? a SIGNAL.",
+        "R7742": "What is R7742? a RESISTOR.",
+        "C7710": "What is C7710? a CAPACITOR.",
+        "C7712": "What is C7712? a CAPACITOR.",
+        "C7717": "What is C7717? a CAPACITOR.",
+        "C7715": "What is C7715? a CAPACITOR.",
+        "C7718": "What is C7718? a CAPACITOR.",
+        "C7719": "What is C7719? a CAPACITOR.",
+        "C7716": "What is C7716? a CAPACITOR.",
+        "U9600": "What is U9600? a CHIP.",
+        "A1398": "What is A1398? A1398 is a model number for a 15 inch size MacBook Pro Retina from years Mid 2015, Mid 2012, Early 2013, Late 2013, Mid 2014 with EMC 2909, that may contain one of these boards depending on the year & configuration: 820-00138, 820-00163, 820-00426, 820-3332, 820-3662, 820-3787..",
+        "820-3662": "What is 820-3662? a LOGIC BOARD PART NUMBER.",
+        "LCD_HPD": "What is LCD_HPD? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 100881,
+            "thread_id": 64104,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A - no backlight - image on external monitor - defective <TRANSISTOR>Q7706</TRANSISTOR>? pin4 11.41V, pin3 11.32V, p1/2/5/6 at 16.4mV",
+            "user_id": 22065,
+            "username": "stef4n",
+            "post_date": "2023-08-06 09:27:35",
+            "message": "Hello,\n\nThe MBP is able to boot, load the OS, but the screen stays black.\nIf I plug an external monitor, I get an image. The keyboard and trackpad work properly.\n\nMeasurements on J8300 are:\n[LIST]\n[*]1.978V on pins 28-29-30.\nAs I get 5.00V on pin 1 of L8300, and 1.978V on pin 2 of L8300 & pins 28-29-30 of J8300, I assume that 1.978V is normal\n[*]0.7mV on pin 1 (<SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL>) which is not good at all\n[/LIST]\nI did a few more checks on:\n<CAPACITOR>C7719</CAPACITOR> pin 1: 0.0mV,\n<CAPACITOR>C7716</CAPACITOR> pin1: 0.0mV,\n<CAPACITOR>C7717</CAPACITOR> pin1: 0.1mV,\n<CAPACITOR>C7715</CAPACITOR> pin1: 0.1mV,\n<CAPACITOR>C7718</CAPACITOR> pin1: 0mV\n<DIODE>D7701</DIODE> pin1: 14.5mV, pin2: 0mV\n<CAPACITOR>C7710</CAPACITOR> pin1: 12mV\n<CAPACITOR>C7712</CAPACITOR> pin1: 13mV\n\nRegarding the fuse F7700, I do have 10.7V on both side, the schematics shows 12.6V. What is correct voltage of <SIGNAL>PPVIN_SO_LCD_BKLT</SIGNAL> ?\n\nI checked <TRANSISTOR>Q7706</TRANSISTOR>;\nOn pin 6,5,2,1 I read 19mV. It's too low.\nAfter the L7710, the <SIGNAL>PPBUS_SO_LCDBKLT_PWR_SW</SIGNAL> should be at 45V referring to the schematics;\nI would therefore expect something around 11V on pin1 of L7710 and pins 6/5/2/1 of <TRANSISTOR>Q7706</TRANSISTOR>\n\nOn the source of <TRANSISTOR>Q7706</TRANSISTOR>, pin 4, it reads 10.67V, and on the gate (pin 3) it reads 10.57V.\n<TRANSISTOR>Q7706</TRANSISTOR> being a type P, power should go through, (10.57 < 10.67), and I should have 10.67V on the pins that have 19mV\n\nI also checked <SIGNAL>LCD_BKLT_EN</SIGNAL> on pin 1 of <RESISTOR>R7742</RESISTOR>, it shows 1.4mV, and <SIGNAL>BKLT_SD</SIGNAL> is at 10.47V\n\n\nAbove measurements taken while the MBP runs on battery.\n\nIf plugged, then:\n<SIGNAL>PPBUS_G3H</SIGNAL> is at 11.67V,\nL7130 pin1: 12.05V, pin2 11.8V\nJ8300: pins 28-29-30 unchanged at 1.978V, pin 1 at 3mV (should be ~45-50V)\nF7700: both side at 11.4V\n<TRANSISTOR>Q7706</TRANSISTOR>: On pin 6,5,2,1: 16.4mV, pin4 at 11.41V, pin3 at 11.32V. <TRANSISTOR>Q7706</TRANSISTOR> is open\n<RESISTOR>R7742</RESISTOR> pin1/2: 2.5mV\n<SIGNAL>BKLT_SD</SIGNAL> on pin11 of <CHIP>U7701</CHIP> shows 11.32V\n\nAnyone to confirm that the <TRANSISTOR>Q7706</TRANSISTOR> should be replaced ?\n\n<SIGNAL>PP5V_S0_BKLTCTRL</SIGNAL> is at 5.00V"
+        },
+        {
+            "post_id": 100882,
+            "thread_id": 64104,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A - no backlight - image on external monitor - defective <TRANSISTOR>Q7706</TRANSISTOR>? pin4 11.41V, pin3 11.32V, p1/2/5/6 at 16.4mV",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-08-06 14:03:47",
+            "message": "\"Anyone to confirm that the <TRANSISTOR>Q7706</TRANSISTOR> should be replaced ?\"\nYeah, I confirm; do NOT replace it!\n\n\"<TRANSISTOR>Q7706</TRANSISTOR> being a type P, power should go through, (10.57 < 10.67), and I should have 10.67V on the pins that have 19mV\"\nSTOP making wrong assumptions; 0.1V less on Gate than Source, doesn't help.\n\n\"I also checked <SIGNAL>LCD_BKLT_EN</SIGNAL> on pin 1 of <RESISTOR>R7742</RESISTOR>, it shows 1.4mV\"\nWhy do you expect backlight, if is not even enabled?\n\n\"As I get 5.00V on pin 1 of L8300, and 1.978V on pin 2 of L8300 & pins 28-29-30 of J8300, I assume that 1.978V is normal\"\nDidn't think that L8300 is bad???\nStart there..."
+        },
+        {
+            "post_id": 100884,
+            "thread_id": 64104,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A - no backlight - image on external monitor - defective <TRANSISTOR>Q7706</TRANSISTOR>? pin4 11.41V, pin3 11.32V, p1/2/5/6 at 16.4mV",
+            "user_id": 22065,
+            "username": "stef4n",
+            "post_date": "2023-08-06 14:57:16",
+            "message": "Hi 2informaticos, thanks for your swift reply.\n\n[QUOTE=\"2informaticos, post: 100882, member: 682\"]\n\"<TRANSISTOR>Q7706</TRANSISTOR> being a type P, power should go through, (10.57 < 10.67), and I should have 10.67V on the pins that have 19mV\"\nSTOP making wrong assumptions; 0.1V less on Gate than Source, doesn't help.\n[/QUOTE]\n\nDo you mean that the difference of 0.1V is not significant and that 10.57V should be considered as equivalent to 10.67V, ie difference is 0 ?\nOtherwise, 10.57V is smaller than 10.67, and I do not get what is wrong in the assumption :unsure:\n\nRegarding the L8300, you're right, there should be 5V on both sides, I missed it :oops:\nI'm going to order a bunch of these inductors. Unless I can find a donor board.\n\nAbout the <SIGNAL>LCD_BKLT_EN</SIGNAL>, which is at 1.4mV, this signal comes from the <CHIP>U9600</CHIP>, whose datasheet is 1059 pages long:unsure:"
+        },
+        {
+            "post_id": 100885,
+            "thread_id": 64104,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A - no backlight - image on external monitor - defective <TRANSISTOR>Q7706</TRANSISTOR>? pin4 11.41V, pin3 11.32V, p1/2/5/6 at 16.4mV",
+            "user_id": 22065,
+            "username": "stef4n",
+            "post_date": "2023-08-06 15:19:15",
+            "message": "Re L8300, I read this post: [URL]https://boards.rossmanngroup.com/threads/solved-<MACBOOK MODEL NUMBER>A1398</MACBOOK MODEL NUMBER>-<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER>-no-image-after-screen-repair.19968/page-2[/URL]\nDoes the current rating max matter ? [ATTACH type=\"full\" alt=\"1691360348692.png\"]61264[/ATTACH]"
+        },
+        {
+            "post_id": 100886,
+            "thread_id": 64104,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A - no backlight - image on external monitor - defective <TRANSISTOR>Q7706</TRANSISTOR>? pin4 11.41V, pin3 11.32V, p1/2/5/6 at 16.4mV",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-08-06 16:20:52",
+            "message": "You can bypass L8300 with a wire; you will not be the first doing that.\n\n\"About the <SIGNAL>LCD_BKLT_EN</SIGNAL>, which is at 1.4mV, this signal comes from the <CHIP>U9600</CHIP>, whose datasheet is 1059 pages long\"\nWhy would you bother with such datasheet?\nNobody on the MLB knows the LCD is connected, untill <SIGNAL>LCD_HPD</SIGNAL> goes high (coming from LCD).\nSo LCD requires some previous power; 5V on pins 28-30.\n\n\"10.57V is smaller than 10.67, and I do not get what is wrong in the assumption\"\nIf you really like to check datasheets, that's a good point to start; checking MOSFETs specifications.\nSmall current MOSFETs accept 1.5-3V difference (G-S); even 100 ohm for internal resistance is good where they are used.\nHigh current MOSFETs must have very low internal resistance in working state, to avoid overheating; that requires higher difference (4.5-10V)."
+        },
+        {
+            "post_id": 100887,
+            "thread_id": 64104,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A - no backlight - image on external monitor - defective <TRANSISTOR>Q7706</TRANSISTOR>? pin4 11.41V, pin3 11.32V, p1/2/5/6 at 16.4mV",
+            "user_id": 22065,
+            "username": "stef4n",
+            "post_date": "2023-08-06 17:16:59",
+            "message": "I suddenly realized that I had ordered 12x MI0805M221R-10 a few month ago, to reach the minimum cart value with a previous order. That's quite fortunate because I was not that motivated by the \"wire option\". If an engineer put an inductor there, maybe he had a valid reason to do so. I'm not questionning your suggestion, but I prefer to remain careful.\n\nRegarding <SIGNAL>LCD_HPD</SIGNAL>, I had missed this one too (!), I was watching too closely on pin 1 and pins 28-29-30. Obviously, I lacked the global picture. Kind of obvious now that this LCD HPD goes to the <CHIP>U9600</CHIP> as an input for this chip, and that without a valid 5V on pins 28-29-30 there will be nothing on <SIGNAL>LCD_HPD</SIGNAL>, so, nothing on <SIGNAL>LCD_BKLT_EN</SIGNAL>, and nothing on pin 1....\n\nThanks for the enlightenment!\n\nI replaced the bad L8300 by a good one; the macbook now works like a charm.\n\nRegarding the MOSFETS specs, I'will have a closer look on the datasheets and on all these curves and differentials tomorrow. Time to get some sleep.\n\nThanks again for your help, very much appreciated.\n\nKR,\n\nS."
+        },
+        {
+            "post_id": 100888,
+            "thread_id": 64104,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A - no backlight - image on external monitor - defective <TRANSISTOR>Q7706</TRANSISTOR>? pin4 11.41V, pin3 11.32V, p1/2/5/6 at 16.4mV",
+            "user_id": 22065,
+            "username": "stef4n",
+            "post_date": "2023-08-06 17:18:36",
+            "message": "[QUOTE=\"stef4n, post: 100887, member: 22065\"]\nI suddenly realized that I had ordered 12x MI0805M221R-10 a few month ago, to reach the minimum cart value with a previous order. That's quite fortunate because I was not that motivated by the \"wire option\". If an engineer put an inductor there, maybe he had a valid reason to do so. I'm not questionning your suggestion, but I prefer to remain careful.\n\nRegarding <SIGNAL>LCD_HPD</SIGNAL>, I had missed this one too (!), I was watching too closely on pin 1 and pins 28-29-30. Obviously, I lacked the global picture. Kind of obvious now that this LCD HPD goes to the <CHIP>U9600</CHIP> as an input for this chip, and that without a valid 5V on pins 28-29-30 there will be nothing on <SIGNAL>LCD_HPD</SIGNAL>, so, nothing on <SIGNAL>LCD_BKLT_EN</SIGNAL>, and nothing on pin 1....\n\nThanks for the enlightenment!\n\nI replaced the bad L8300 by a good one; the macbook now works like a charm.\n\nRegarding the MOSFETS specs, I'will have a closer look on the datasheets and on all these curves and differentials tomorrow. Time to get some sleep.\n\nThanks again for your help, very much appreciated.\n\nKR,\n\nS.\n[/QUOTE]"
+        }
+    ]
+}

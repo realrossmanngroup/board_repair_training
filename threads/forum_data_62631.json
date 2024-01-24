@@ -1,0 +1,56 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3536": "What is 820-3536? a LOGIC BOARD PART NUMBER.",
+        "R7121": "What is R7121? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7151": "What is R7151? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7150": "What is R7150? a RESISTOR.",
+        "R5380": "What is R5380? a RESISTOR.",
+        "R5187": "What is R5187? a RESISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SYS_DETECT_L": "What is SYS_DETECT_L? For detection of the battery.",
+        "R7050": "What is R7050? Current sense shunt resistor for the battery, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 17/18 on ISL6259 should give you 2.02 ohms. .",
+        "Q7155": "What is Q7155? a TRANSISTOR.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. ."
+    },
+    "threads": [
+        {
+            "post_id": 88818,
+            "thread_id": 62631,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> Not Charging Battery",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2022-04-23 11:37:29",
+            "message": "Hello. This board came from another store and had been cleaned previously, so I don't know where original damage was. Board was liquid damaged but all traces of liquid had been erased by cleaning. Board turns on, works on battery and on charger, but does not charge battery. Magsafe light comes green and orange but system says battery is not charging. Tried with another known good battery, same thing. Tried reballing SMC, same thing. <RESISTOR>R5380</RESISTOR> and 5381 are ok, both reading 2k. <RESISTOR>R5187</RESISTOR> reads 100k. Battery sensing resistors from ISL both read ok(<RESISTOR>R7151</RESISTOR>/52) and so do <RESISTOR>R7121</RESISTOR>/22. <RESISTOR>R7150</RESISTOR> also good. Where else should I check?"
+        },
+        {
+            "post_id": 88819,
+            "thread_id": 62631,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> Not Charging Battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-23 11:46:48",
+            "message": "Exact <SIGNAL>PPBUS_G3H</SIGNAL> voltage, without battery connected?\nAlso post voltage and diode mode to ground readings at SCL/SDA lines of battery bus.\nBe sure <RESISTOR>R7050</RESISTOR> is good; <SIGNAL>SYS_DETECT_L</SIGNAL> must be 0V.\nCheck <TRANSISTOR>Q7155</TRANSISTOR> and its traces."
+        },
+        {
+            "post_id": 88821,
+            "thread_id": 62631,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> Not Charging Battery",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2022-04-23 12:32:44",
+            "message": "I confess I didn't check <SIGNAL>PPBUS_G3H</SIGNAL> before as machine was turning on. But after you asked I tried turning board on outside the case and it didn't, so I checked PPBUS and it's giving only 1.156V. I have no shorts there, so I replaced <CHIP>U7100</CHIP> and <TRANSISTOR>Q7130</TRANSISTOR>, but still same weird voltage on PPBUS."
+        },
+        {
+            "post_id": 88822,
+            "thread_id": 62631,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> Not Charging Battery",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2022-04-23 13:00:53",
+            "message": "<TRANSISTOR>Q7180</TRANSISTOR>(which I already replaced before) was bad and preventing PPBUS to get high. Replaced it and now everything is working again. Thanks!"
+        }
+    ]
+}

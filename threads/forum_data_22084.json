@@ -1,0 +1,179 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "CHRGR_DCIN": "What is CHRGR_DCIN? a SIGNAL.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "R1360": "What is R1360? a RESISTOR.",
+        "C7620": "What is C7620? a CAPACITOR.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state.."
+    },
+    "threads": [
+        {
+            "post_id": 22084,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 372,
+            "username": "Rford",
+            "post_date": "2017-06-22 07:14:24",
+            "message": "Have a 3332 that gives a green light, then switches over to a faint orange light. No fan.  <SIGNAL>PPBUS_G3H</SIGNAL> is reading at .7v at multiple points on the board. <CHIP>U7000</CHIP> is new, all components around it check out fine.  20.25v off the io board.  no blown fuses (of course). <SIGNAL>CHRGR_DCIN</SIGNAL> at <CHIP>U7000</CHIP> is 20.25 pin 3 of <CHIP>U7000</CHIP> is reading somewhere around 4.5v.  Then suddenly, the charger only goes green, and shorts out and shuts off (to where I have to unplug it to reset it.)... any thoughts?"
+        },
+        {
+            "post_id": 22088,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-06-22 08:36:38",
+            "message": "1) What was the original issue? Liquid, knockoff charger, drop?\n\n2) <SIGNAL>PP3V42_G3H</SIGNAL> present? \n\n3) <SIGNAL>SMC_BC_ACOK</SIGNAL> present?\n\n4) With no power applied, what is resistance between pins 17/18 and pins 27/28 of <CHIP>U7000</CHIP>?\n\n5) With no power applied, what is the resistance to ground on <SIGNAL>PPBUS_G3H</SIGNAL>?\n\n6) Is <SIGNAL>SMC_RESET_L</SIGNAL> present? \n\n7) Does this behavior persist when all components are unplugged from the board?(keyboard, etc.)"
+        },
+        {
+            "post_id": 22123,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 372,
+            "username": "Rford",
+            "post_date": "2017-06-22 16:42:21",
+            "message": "[QUOTE=\"larossmann, post: 22088\"]1) What was the original issue? Liquid, knockoff charger, drop?\n\n2) <SIGNAL>PP3V42_G3H</SIGNAL> present?\n\n3) <SIGNAL>SMC_BC_ACOK</SIGNAL> present?\n\n4) With no power applied, what is resistance between pins 17/18 and pins 27/28 of <CHIP>U7000</CHIP>?\n\n5) With no power applied, what is the resistance to ground on <SIGNAL>PPBUS_G3H</SIGNAL>?\n\n6) Is <SIGNAL>SMC_RESET_L</SIGNAL> present?\n\n7) Does this behavior persist when all components are unplugged from the board?(keyboard, etc.)[/QUOTE]\n\n1. I suspect an after market charger.\n2. present\n3. 3.1v\n4 4.1ohms and  21.2\n5 .4 ohms\n6. 3.3v\n7. Board is out of the machine\n\nThere is no corrosion or anything that would suggest liquid damage. Pretty safe bet that the MagSafe is in fact MagShit."
+        },
+        {
+            "post_id": 22128,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 372,
+            "username": "Rford",
+            "post_date": "2017-06-22 18:02:11",
+            "message": "Also the ohms between pins 17/18 doesn't seem right, but the componentry is reading correct."
+        },
+        {
+            "post_id": 22129,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-06-22 20:01:59",
+            "message": "You have a short to ground on <SIGNAL>PPBUS_G3H</SIGNAL>. Find it! Inject 1v and see if anything heats up. Measure for a short to ground between <SIGNAL>PPBUS_G3H</SIGNAL> and any of the <SIGNAL>PP3V3_S5</SIGNAL>/CPU VCORE output coils of course."
+        },
+        {
+            "post_id": 22139,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 372,
+            "username": "Rford",
+            "post_date": "2017-06-23 07:27:43",
+            "message": "[USER=\"1\"]larossmann[/USER] <CAPACITOR>C7620</CAPACITOR> was shorted. Restored <SIGNAL>PPBUS_G3H</SIGNAL> Now quarter fan spin. No vcore. Checked around on vcore found bad <RESISTOR>R1360</RESISTOR>, switched it out for a good one. Same. Ideas? Vcore has a ton of componentry. In diode mode, vcore is 0.000 (shorted)"
+        },
+        {
+            "post_id": 22159,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-06-23 12:18:33",
+            "message": "<CAPACITOR>C7620</CAPACITOR> was the only problem. Was this thing messed with before? Inspect for knocked off components."
+        },
+        {
+            "post_id": 22161,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-06-23 12:34:18",
+            "message": "vcore is not shorted, tell me why."
+        },
+        {
+            "post_id": 22174,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 372,
+            "username": "Rford",
+            "post_date": "2017-06-24 06:49:36",
+            "message": "[USER=\"1\"]larossmann[/USER] You'll have to bear with me, but would it be because of where it originates (<SIGNAL>PP5V_S0</SIGNAL>)? and i dont have a good S0 pulse?<SIGNAL>PP5V_S0</SIGNAL> Pulses from zero to between 1.5-3.3v every seven seconds. (It is the same as when each fan turns (though they never turn at the same time, or duration)."
+        },
+        {
+            "post_id": 22175,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 372,
+            "username": "Rford",
+            "post_date": "2017-06-24 06:51:08",
+            "message": "And the type of fet it comes through, drains to ground?"
+        },
+        {
+            "post_id": 24799,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-08-29 13:47:15",
+            "message": "vcore is not shorted, tell ME why."
+        },
+        {
+            "post_id": 24850,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-08-30 09:53:32",
+            "message": "I really would love to know the answer to this if anyone knows. I've tried to solve Louis' riddle, but I'm not getting there."
+        },
+        {
+            "post_id": 24883,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-08-30 16:40:31",
+            "message": "Duke or Louis, can you tell me why vcore wouldn't be shorted if it's measuring .000 in diode mode. i have enough shorted vcore boards to build a house."
+        },
+        {
+            "post_id": 24885,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 372,
+            "username": "Rford",
+            "post_date": "2017-08-30 16:44:51",
+            "message": "[USER=\"2\"]dukefawks[/USER] [USER=\"1\"]larossmann[/USER]"
+        },
+        {
+            "post_id": 24887,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-08-30 17:03:03",
+            "message": "It's not a short. \n\nThese aren't exact numbers, just guessing, but let's say a CPU uses 45w of power.\n\nLet's say a CPU runs on 1v of vcore.\n\nWhat resistance to ground do you need in the ohm's law calculator to get 45w out of 1v? [url]http://www.ohmslawcalculator.com/ohms-law-calculator[/url] Try it out. \n\nChips that use LOTS of wattage at low voltage will have a low resistance to ground, it is just natural. Same thing with a speaker. If you look at receivers where it says 100w into 8 ohm load, 175w into 4 ohm load. It is able to deliver more power/current at the same voltage if the resistance is lower. A 3 ohm speaker is essentially a 3 ohm \"short\" but that does not mean it is \"broken.\""
+        },
+        {
+            "post_id": 24937,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2017-09-01 13:58:27",
+            "message": "Ok, I hear you. He said .000 in diode so that's something in the range of 0 to 1Ω to ground. If were anything other than .000 I would see what you're saying, but this sounds like a dead short."
+        },
+        {
+            "post_id": 24957,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-09-01 16:29:08",
+            "message": "What is the short in Ohms, I don't care about diode mode. Many CPUs have 1-1.5 Ohms on Vcore."
+        },
+        {
+            "post_id": 24966,
+            "thread_id": 22084,
+            "title": "3332 <SIGNAL>PPBUS_G3H</SIGNAL> .7v",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-09-02 06:06:29",
+            "message": "You can also measure the ohm value you get when you short your multimeter leads: this is your dead short ohm value reference.\nNow check resistance to ground on vcore and compare with your dead short reference.\n\nYou can also inject 0,5v on vcore, and see if you measure 0,5v with multimeter."
+        }
+    ]
+}

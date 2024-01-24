@@ -1,0 +1,42 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "U5110": "What is U5110? This chip is responsible for SMC_RESET_L in many Macbook models..",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "R5100": "What is R5100? a RESISTOR.",
+        "R7100": "What is R7100? a RESISTOR.",
+        "R5116": "What is R5116? a RESISTOR.",
+        "R5115": "What is R5115? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 66188,
+            "thread_id": 60139,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> Power on issue",
+            "user_id": 5175,
+            "username": "tlough75",
+            "post_date": "2020-10-06 21:25:19",
+            "message": "I have on the bench an <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> with a power on issue. The customer told me that it would charge but not turn on so they replaced the battery. They said the owner used it for a bit but it started acting up so they replaced the battery again. I measured the G3H rails with only battery plugged in and it has those but when I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and measure voltage on pin 7 of <CHIP>U5110</CHIP>, the voltage drops then recovers when I release the power button as I think it should. <SIGNAL>SMC_RESET_L</SIGNAL> behaves the same way. sits at 3.3V until the power button is pressed, drops to .4V then recovers once I let the button go, but the computer will only turn on when I plug MS in. The laptop will shutdown with the power button pressed but will not come on. I attempted an SMC reset but no change. Is it safe to say I have an SMC issue? BTW there are no signs of liquid damage, no corrosion or anything. I will check <RESISTOR>R5116</RESISTOR> and <RESISTOR>R5100</RESISTOR>, as well as <RESISTOR>R7100</RESISTOR>. I see that <SIGNAL>SMC_RESET_L</SIGNAL> also goes to J6100 but. I didn't see anything there."
+        },
+        {
+            "post_id": 66201,
+            "thread_id": 60139,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> Power on issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-07 01:05:24",
+            "message": "Looks like power button acts as SMC reset in fact.\nDisconnect trackpad flex and try <RESISTOR>R5115</RESISTOR>/16 pads instead.\n\nWith trackpad connected, post all <CHIP>U5110</CHIP> voltages.\nI bet for low level at pin 6..."
+        },
+        {
+            "post_id": 66269,
+            "thread_id": 60139,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> Power on issue",
+            "user_id": 5175,
+            "username": "tlough75",
+            "post_date": "2020-10-07 15:26:17",
+            "message": "You were correct sir.\n\n             \n<CHIP>U5110</CHIP> (W/TPAD)\n1: 3.42V\n2: 0V\n3: 3.42V \n4: 2.8V\n5: 3.38V\n6: [COLOR=rgb(235, 107, 86)].567V[/COLOR]\n7: 3.41V\n8: 3.3Vv\n\n<CHIP>U5110</CHIP> (No TPAD)\n1: 3.42V\n2: 0V\n3: 3.42V \n4: 2.8V\n5: 3.38V\n6: [COLOR=rgb(65, 168, 95)]3.4V!!![/COLOR]\n7: 3.41V\n8: 3.3V\n\nSo it must be either the TPAD or the cable. Time to play a little \"process of elimination\". Thank you for your guidance."
+        }
+    ]
+}

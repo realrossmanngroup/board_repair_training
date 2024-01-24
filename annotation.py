@@ -100,10 +100,6 @@ def process_file(filename):
 		with open(file_path, 'w') as file:
 			json.dump(data, file, indent=4, ensure_ascii=False)
 			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
-			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
-			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
-			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
-			print(f"\nDEBUG OUTPUT - WE JUST WROTE {file_path}\n")
 
 	except Exception as e:
 		print(f"Error processing file '{filename}': {e}")

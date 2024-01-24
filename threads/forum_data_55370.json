@@ -1,0 +1,178 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00164": "What is 820-00164? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP3VRTC_G3H": "What is PP3VRTC_G3H? a SIGNAL.",
+        "R7121": "What is R7121? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "U8130": "What is U8130? a CHIP.",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_SLP_SX_L": "What is PM_SLP_SX_L? a SIGNAL.",
+        "R5115": "What is R5115? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 55370,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2019-12-17 09:30:50",
+            "message": "Board no power on green light and orange light present but after few seconde return to green light and orange light again \n\nTried good magsafe 45w, io board and cable good know\n\n<SIGNAL>PPBUS_G3H</SIGNAL> 8.53V\n<SIGNAL>PP3V42_G3H</SIGNAL> 3.42V\n<SIGNAL>PP3VRTC_G3H</SIGNAL> 3.29V\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> 0V\n\nreplaced <RESISTOR>R7121</RESISTOR>, 7122 of <CHIP>U7100</CHIP> because value too high\n\ncan you explain S0, S1, 2,3,4,5 state of power (how it's work, s0 started or state off for example)\n\nWhat check after in order"
+        },
+        {
+            "post_id": 55371,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-17 09:53:38",
+            "message": "Post exact ohm value between pins 17/18 and 27/28 of <CHIP>U7100</CHIP>.\nAlso need exact voltage for <SIGNAL>PPBUS_G3H</SIGNAL>.\nDo you get <SIGNAL>3V3_S5</SIGNAL>/SUS?\n<SIGNAL>SMC_RESET_L</SIGNAL> steady high?\nAny history available?\n\nForum goal is to help you in repair process.\nYou can also find many explanations about basic signals and voltages, as complete power on sequence too.\nHowever personal training is different thing..."
+        },
+        {
+            "post_id": 55379,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2019-12-18 00:10:40",
+            "message": "History no liquid damage, just stopped working\n\npins of <CHIP>U7100</CHIP> :\n17/18 : 3 Ohms\n27/28 : 20.7 Ohms\n<SIGNAL>PPBUS_G3H</SIGNAL> : 8.534V\n<SIGNAL>PP3V3_S5</SIGNAL> 3.295V and <SIGNAL>PP3V3_SUS</SIGNAL> 3.294V\n<SIGNAL>SMC_RESET_L</SIGNAL> steady high 3.387V"
+        },
+        {
+            "post_id": 55380,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-18 03:45:07",
+            "message": "Check all RTC signals and post also <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>S5_PWRGD</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL> and <SIGNAL>PM_RSMRST_L</SIGNAL>."
+        },
+        {
+            "post_id": 55382,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2019-12-18 05:03:18",
+            "message": "checked all RTC signals : 3.298V\n\n<SIGNAL>PM_BATLOW_L</SIGNAL> : 0.035V\n\n<SIGNAL>S5_PWRGD</SIGNAL> : 3.387V\n\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> : 3.415V\n\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> : 3.201V\n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> : 1.048V \n\n<SIGNAL>PM_RSMRST_L</SIGNAL> : 0V"
+        },
+        {
+            "post_id": 55383,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-18 09:26:25",
+            "message": "Really the 4 (four) RTC signals same 3.298V?\n\n\"<SIGNAL>PM_BATLOW_L</SIGNAL> : 0.035V\"\nOriginal and correct charger for sure?\n\n\"<SIGNAL>SMC_ADAPTER_EN</SIGNAL> : 1.048V\"\nThis is sign of SMC issue.\nBut PCH can pull it down too, less probable.\n\nPost <CHIP>U8130</CHIP> voltages."
+        },
+        {
+            "post_id": 55434,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2019-12-20 02:18:10",
+            "message": "for rtc signals i check all point of <SIGNAL>PPVRTC_G3H</SIGNAL> i've got 3.298V\n\nOriginal and correct charger sure \n\n<CHIP>U8130</CHIP> voltages : \n\n1: 3.295V\n2 : 3.295V\n3 : 0.243V\n4 : 3.269V\n5 : 0V\n6 : 3.265V"
+        },
+        {
+            "post_id": 55435,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-20 02:30:03",
+            "message": "\"i check all point of <SIGNAL>PPVRTC_G3H</SIGNAL>\"\nI said RTC \"SIGNALS\", not power rail!!!\nCheck page 12 (RTC block).\n\n\"<SIGNAL>PM_RSMRST_L</SIGNAL> : 0V\n------------\n6 : 3.265V\"\n???"
+        },
+        {
+            "post_id": 55443,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2019-12-20 05:19:34",
+            "message": "<SIGNAL>PM_RSMRST_L</SIGNAL> : 3.265V sorry\n\nfor check signals i don't have oscilloscope,\n\npage 12 i've PCH Decoupling"
+        },
+        {
+            "post_id": 55447,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-20 06:26:03",
+            "message": "There are 4 RTC signals to check in DC, with a simple DMM.\nTo be more explict, even if is the \"n\" time I mention these signals: <SIGNAL>RTC_RESET_L</SIGNAL>, <SIGNAL>PCH_SRTCRST_L</SIGNAL>, <SIGNAL>PCH_INTVRMEN</SIGNAL>, <SIGNAL>PCH_INTRUDER_L</SIGNAL>.\nNewest boards don't have the last two signals."
+        },
+        {
+            "post_id": 55451,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2019-12-20 07:34:40",
+            "message": "thank you for information \n\n<SIGNAL>RTC_RESET_L</SIGNAL> : 3.290V\n\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> : 3.290V\n\n <SIGNAL>PCH_INTVRMEN</SIGNAL> : 3.201V\n\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> : 3.017V"
+        },
+        {
+            "post_id": 55452,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-20 08:36:07",
+            "message": "Is <SIGNAL>PM_PWRBTN_L</SIGNAL> steady high?\nCheck it for drop pulse when trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> signal; use <RESISTOR>R5115</RESISTOR>/16 pads, instead od power button.\nIf yes, check for pulse at all <SIGNAL>PM_SLP_SX_L</SIGNAL> signals at same time.\n\nDid you try SMC bypass mode?"
+        },
+        {
+            "post_id": 55476,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2019-12-23 08:41:32",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> : 3.406V\n\n<SIGNAL>SMC_ONOFF_L</SIGNAL> : 3.415V no pulse stable \n\nHow use Bypass mode ? short <RESISTOR>R5115</RESISTOR> or plug keyboard on power button many seconds while plugging charger ? (if i remember)"
+        },
+        {
+            "post_id": 55477,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-23 11:40:31",
+            "message": "Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>."
+        },
+        {
+            "post_id": 55583,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 441,
+            "username": "aurel476",
+            "post_date": "2020-01-03 04:42:43",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> drop 3.402V to 0.300V no pulse when <SIGNAL>SMC_ONOFF_L</SIGNAL> pressed"
+        },
+        {
+            "post_id": 55584,
+            "thread_id": 55370,
+            "title": "<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> No power on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-03 04:52:47",
+            "message": "\"no pulse when <SIGNAL>SMC_ONOFF_L</SIGNAL> pressed\"\nNo pulse where???\n\nSMC seems to work.\nPCH should release (high pulse/level) all <SIGNAL>PM_SLP_SX_L</SIGNAL> signals at the same moment of drop pulse on <SIGNAL>PM_PWRBTN_L</SIGNAL>."
+        }
+    ]
+}

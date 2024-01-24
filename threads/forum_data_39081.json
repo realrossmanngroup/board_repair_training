@@ -1,0 +1,186 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2850": "What is 820-2850? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PP1V05_S5": "What is PP1V05_S5? PP1V05_S5 is a 1.05v power rail present when the machine is in an S5 soft off state. On 2008-2009 15” and 17” Macbook boards, this often gets stuck at 0.3v due to a bad C7771 capacitor. .",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7050": "What is R7050? Current sense shunt resistor for the battery, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 17/18 on ISL6259 should give you 2.02 ohms. .",
+        "PPVCORE_CPU_S0": "What is PPVCORE_CPU_S0? a SIGNAL.",
+        "C7040": "What is C7040? a CAPACITOR.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "TPS51125": "What is TPS51125? This is a power chip responsible for the PP3V3_S5,  PP5V_S5,  and PP5V_S3 power rails on many A1278 model Macbooks.",
+        "5V3V3_REG_EN": "What is 5V3V3_REG_EN? a SIGNAL.",
+        "P3V3S5_EN": "What is P3V3S5_EN? P3V3S5_EN is a signal that enables the power chip responsible for creating PP3V3_S5 when it is high. Signals with _EN mean that whatever is mentioned before the _EN will be enabled or turned on when the signal is high. .",
+        "P5V3V3_PGOOD": "What is P5V3V3_PGOOD? a SIGNAL.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "5V_S3": "What is 5V_S3? 5V_S3 is an abbreviation of “PP5V_S3” which is a 5 volt power rail present in an S3 state. S3 (Suspend to RAM) is a state where the system saves its context to RAM, a faster but more power-consuming method than S4. The system shuts down most components except for RAM, which remains powered to retain the system state. PM_SLP_S4_L is required for this rail to be present. .",
+        "C3618": "What is C3618? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 39081,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-08-30 07:52:49",
+            "message": "I'm having a hard time with this particular board. It's an <LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> with no power:\n\n1. <SIGNAL>PPBUS_G3H</SIGNAL> bounces from 12.6v down to 3,5v, then back up. <SIGNAL>SMC_PM_G2_EN</SIGNAL> is also pulsing, as are my S5 rails, fan move just a few.\n2. <SIGNAL>PP3V42_G3H</SIGNAL> stable at 3.42v. Green light solid.\n3. Resistance at [URL=\"https://store.rossmanngroup.com/isl6259ahrtz.html\"]<CHIP>U7000</CHIP>[/URL] (17/18, 27/28) is normal (~3ohm and ~20ohm). Pin 3 of [URL=\"https://store.rossmanngroup.com/isl6259ahrtz.html\"]<CHIP>U7000</CHIP>[/URL]=4V.\n4. No power from charger or battery, however, PPBUS does NOT pulse when a battery is connected only (i.e., with battery plugged in, ppbus stays steady), however, the board still will not power on with battery.\n5. I can't find a short anywhere; I've checked <SIGNAL>PP3V3_S5</SIGNAL>, <SIGNAL>PP5V_S5</SIGNAL>, <SIGNAL>PP3V3_S3</SIGNAL>, <SIGNAL>PP5V_S3</SIGNAL>, <SIGNAL>PP5V_S0</SIGNAL>, <SIGNAL>PP3V3_S0</SIGNAL>, <SIGNAL>PP1V05_S5</SIGNAL>, PPBUS, PP3v42, etc. Couldn't find a short anywhere that might be causing the board to cycle.\n6. <SIGNAL>SMC_RESET_L</SIGNAL> is stable at 3.4v, however, it drops to 3.3v for a split second every time the board cycles/rails fluctuate.\n7. <RESISTOR>R7020</RESISTOR>/<RESISTOR>R7050</RESISTOR> measure fine.\n8. no liquid or trace on the board.\n9. what can i do? do you have some idea?\nthanks"
+        },
+        {
+            "post_id": 39084,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-08-30 08:12:02",
+            "message": "Power cycling. Is CPU VCore pulsing too?"
+        },
+        {
+            "post_id": 39086,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-08-30 08:36:09",
+            "message": "<SIGNAL>PPVCORE_CPU_S0</SIGNAL> = 0v\nthanks for your help"
+        },
+        {
+            "post_id": 39088,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-30 10:09:29",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> fluctuates, is not a classic power cycling...\n\nStil the same if battery and charger both connected?\nRemove F7040 and see if get stable voltage at <CAPACITOR>C7040</CAPACITOR>.\n\nPost voltages at <CHIP>U7000</CHIP>, pins 9 & 15."
+        },
+        {
+            "post_id": 39094,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2018-08-30 10:51:10",
+            "message": "Try to power it on with SMC bypass, must be a sensor issue, look closely with microscope.....\nOnly charger what do you have on <SIGNAL>CHGR_DCIN</SIGNAL> and <SIGNAL>SMC_BC_ACOK</SIGNAL>?"
+        },
+        {
+            "post_id": 39108,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-08-30 23:44:31",
+            "message": "Battery & charger both fluctuate between 11,55V -> 12,46V\ni Remove F7040 & i measure on <CAPACITOR>C7040</CAPACITOR>, 12,59V and slow fall to 4V in 3 sec and cycling again.\n<CHIP>U7000</CHIP> 9=0V 15=0V\n<SIGNAL>CHGR_DCIN</SIGNAL> = 16,5V stable\n<SIGNAL>SMC_BC_ACOK</SIGNAL>=3,25->3,3V\nwhat is SMC bypass?"
+        },
+        {
+            "post_id": 39109,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-08-30 23:49:22",
+            "message": "I find smc bypass, i press power button and plug the magsafe, nothing on the mac (with or without the battery)."
+        },
+        {
+            "post_id": 39134,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-08-31 13:04:26",
+            "message": "Issue around the <CHIP>TPS51125</CHIP> possibly. If S5 power good is not coming on PPBUS will start to cycle."
+        },
+        {
+            "post_id": 39163,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-09-03 09:37:52",
+            "message": "i don't find anything near <CHIP>TPS51125</CHIP>, seems clean no liquid.\nS5 rise 5V and fall directly.\n<SIGNAL>PP5V_S3</SIGNAL> stay at 0V\n<SIGNAL>5V3V3_REG_EN</SIGNAL>=3,3V"
+        },
+        {
+            "post_id": 39164,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-03 10:13:02",
+            "message": "\"If S5 power good is not coming on PPBUS will start to cycle\"\nYou didn't post <SIGNAL>P5V3V3_PGOOD</SIGNAL> yet.\n<SIGNAL>PP3V3_S5</SIGNAL> should appear first at L7260; this requires <SIGNAL>P3V3S5_EN</SIGNAL>.\nDo you get any pulse on these places at least?"
+        },
+        {
+            "post_id": 39175,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-09-03 23:52:35",
+            "message": "<SIGNAL>P5V3V3_PGOOD</SIGNAL> = 0V\nL7260 pin 2 increase at 3V & fall to 0V\n<SIGNAL>P3V3S5_EN</SIGNAL> =3,4V fix"
+        },
+        {
+            "post_id": 39218,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-04 20:30:29",
+            "message": "Either bad <CHIP>TPS51125</CHIP> or an overload on the <SIGNAL>3V3_S5</SIGNAL> rails."
+        },
+        {
+            "post_id": 39238,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-09-05 06:05:21",
+            "message": "ok i try to change <CHIP>TPS51125</CHIP> but same problem.\n<SIGNAL>3V3_S5</SIGNAL> change between 0V to 3,3V but how can i find an overload on this rail? no short 4,2Kohm\nthanks"
+        },
+        {
+            "post_id": 39299,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-06 17:53:16",
+            "message": "Check all other rails for shorts again. <SIGNAL>5V_S3</SIGNAL> is the first suspect. \n\nWhat is <SIGNAL>3V3_S5</SIGNAL> doing with a battery and charger connected?"
+        },
+        {
+            "post_id": 39414,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-09-10 09:33:52",
+            "message": "<SIGNAL>PP3V3_S3</SIGNAL> is in short. i remove <CAPACITOR>C3618</CAPACITOR>, now work well.\nThanks for your helps"
+        },
+        {
+            "post_id": 39440,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-10 15:34:19",
+            "message": "5. I can't find a short anywhere; I've checked <SIGNAL>PP3V3_S5</SIGNAL>, <SIGNAL>PP5V_S5</SIGNAL>, <SIGNAL>PP3V3_S3</SIGNAL>, <SIGNAL>PP5V_S3</SIGNAL>, <SIGNAL>PP5V_S0</SIGNAL>, <SIGNAL>PP3V3_S0</SIGNAL>, <SIGNAL>PP1V05_S5</SIGNAL>, PPBUS, PP3v42, etc. Couldn't find a short anywhere that might be causing the board to cycle.\n\nHow did you miss this?"
+        },
+        {
+            "post_id": 39483,
+            "thread_id": 39081,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 621,
+            "username": "raainxx",
+            "post_date": "2018-09-11 08:28:19",
+            "message": "i make a mistake when i take the point <SIGNAL>PP3V3_S3</SIGNAL>.\ni'm here to learn how to repair the board, i can make mistake.\nthanks"
+        }
+    ]
+}

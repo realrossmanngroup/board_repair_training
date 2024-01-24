@@ -1,0 +1,55 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U3100": "What is U3100? a CHIP.",
+        "U3200": "What is U3200? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPDCIN_G3H_SNS": "What is PPDCIN_G3H_SNS? a SIGNAL.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. ."
+    },
+    "threads": [
+        {
+            "post_id": 57469,
+            "thread_id": 57469,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Not turning on. Different voltages depending on which USBC port is used.",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-03-12 16:49:28",
+            "message": "Hi All. \nFirst post....\nI've got a Macbook Pro in for repair that is not turning on, with no fans or other signs of life.\n\nNo signs of any water damage, or of any physical damage. \n\n\nI've tried it with a known good USBC charger. \n\n[B]<SIGNAL>PP3V3_S5</SIGNAL> appears shorted, with resistance to ground being 0.5 Ohms.[/B]\n\nThe unit gets differing voltages on some rails, depending on which USBC port has power connected. \n\neg, with power connected to the rear USBC port:\n\n<SIGNAL>PPBUS_G3H</SIGNAL> 1.67v\n<SIGNAL>PPDCIN_G3H_SNS</SIGNAL> 5.14v\n<SIGNAL>PP5V_S5</SIGNAL> 0v\n<SIGNAL>PP3V3_G3H</SIGNAL> 2.26v\n<SIGNAL>PP3V3_S5</SIGNAL> 0v\n\ncompared to when power is connected to the front USBC port:\n\n<SIGNAL>PPBUS_G3H</SIGNAL> 3.37v\n<SIGNAL>PPDCIN_G3H_SNS</SIGNAL> 3.50v\n<SIGNAL>PP5V_S5</SIGNAL> 0v\n<SIGNAL>PP3V3_G3H</SIGNAL> 0.03v\n<SIGNAL>PP3V3_S5</SIGNAL> 0v\n\nI'm not familiar with USBC charging, but from my understanding there should be 20V on both USBC ports?\n\nHaving a read and watching a few videos, including the video on this site titled \"5v instead of 20v on USB-C charger\"\nI was guessing the issue could be the <CHIP>U7000</CHIP> chip, or one of the two USBC chips - <CHIP>U3100</CHIP>/<CHIP>U3200</CHIP>, but am not experienced enough to tell for sure.\nHowever, given <SIGNAL>PP3V3_S5</SIGNAL> is shorted, and that line doesn't go to any of those 3 chips, I guess that may not be correct.\n\n\nResistance to ground:\n<SIGNAL>PPBUS_G3H</SIGNAL> 192.8 Ohms\n<SIGNAL>PPDCIN_G3H_SNS</SIGNAL> 125K Ohms\n<SIGNAL>PP5V_S5</SIGNAL> 73.8K Ohms\n<SIGNAL>PP3V3_G3H</SIGNAL> 17.2 Ohms\n<SIGNAL>PP3V3_S5</SIGNAL> [B]0.5 Ohms[/B]\n\n\nAny suggestions of likely causes/things to check first first?\nAny help greatly appreciated. \nThank you."
+        },
+        {
+            "post_id": 57472,
+            "thread_id": 57469,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Not turning on. Different voltages depending on which USBC port is used.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-12 17:38:41",
+            "message": "First of all, welcome to the forum!\n\n\"<SIGNAL>PP3V3_G3H</SIGNAL> 17.2 Ohms\"\nThis is very low too.\nThis could be caused by <CHIP>U3100</CHIP>/200.\n\nYou have problems in USB-C controllers area for sure.\nBecause you get different behaviour, depending which port is connected.\n\nThe big problem is the short on <SIGNAL>3V3_S5</SIGNAL>.\nSMC is connected on both mentioned voltages and could be bad too.\nEasy to find the culprit injecting voltage on <SIGNAL>3V3_S5</SIGNAL> power rail.\n\nDon't forget to take a look at USB-C redriver chip; not present in schematic, nor boardview.\nIf you don't know what I mean, do a forum search for \"redriver chip\", a recent post should pop up."
+        },
+        {
+            "post_id": 57477,
+            "thread_id": 57469,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Not turning on. Different voltages depending on which USBC port is used.",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2020-03-12 18:30:09",
+            "message": "Thanks 2informaticos.\nI appreciate the welcome, and the advice.\n\nI'm trying to locate the source of the <SIGNAL>3V3_S5</SIGNAL> short.- hoping its one of the caps on the line.\nI just got a variable bench power supply.\nWhats the max safe volt to inject on that line?"
+        },
+        {
+            "post_id": 57485,
+            "thread_id": 57469,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Not turning on. Different voltages depending on which USBC port is used.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-13 02:48:42",
+            "message": "Less than 4V in any case.\nBut not sure if something heats there, as not so low value for such voltage.\nRemove first the <CHIP>CD3215</CHIP> where <SIGNAL>3V3_G3H</SIGNAL> drops to 0.003V.\n\nAnd please use schematic names when you refer to a component.\nLeft/right and front/back doesn't help to find a component in schematic..."
+        }
+    ]
+}

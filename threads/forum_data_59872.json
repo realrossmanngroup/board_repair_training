@@ -1,0 +1,47 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00281": "What is 820-00281? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U7800": "What is U7800? a CHIP.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PPVCCGT_S0_CPU": "What is PPVCCGT_S0_CPU? a SIGNAL.",
+        "PM_SLP_S0_L": "What is PM_SLP_S0_L? a SIGNAL.",
+        "PP3V0_G3H": "What is PP3V0_G3H? PP3V0_G3H is a 3.0v power rail present when the machine is in a G3H global system hardware off state..",
+        "CPUVR_PGOOD": "What is CPUVR_PGOOD? CPU_VR_PGOOD Is a signal present when CPU_VR_EN is presenT. CPU_VR_PGOOD is a prerequisite along with ALL_SYS_PWRGD to create PM_S0_PGOOD and PM_PCH_PWROK and PM_PCH_SYS_PWROK which are necessary for the machine to turn on and boot..",
+        "PPVCORE_S0_GPU": "What is PPVCORE_S0_GPU? a SIGNAL.",
+        "PPVCCGT_CPU_PH1": "What is PPVCCGT_CPU_PH1? a SIGNAL.",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. ."
+    },
+    "threads": [
+        {
+            "post_id": 63974,
+            "thread_id": 59872,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> No CPU Vcore",
+            "user_id": 803,
+            "username": "SoloHarty",
+            "post_date": "2020-08-20 13:51:24",
+            "message": "Hi everyone, got an <LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-10 on my desk that has no signs of corrosion or liquid damahe and was told it just died one day.\n\nI started out getting 20v on the charger but not drawing anything.\nI then found that I had all S5 rails and <SIGNAL>S5_PWRGD</SIGNAL> but no <SIGNAL>PM_SLP_S5_L</SIGNAL>. I found that <SIGNAL>PP3V0_G3H</SIGNAL> was only running at 2.7V So I replaced <CHIP>U7800</CHIP> and this restored all my rails down to <SIGNAL>PM_SLP_S0_L</SIGNAL> and most of the S0 rails.\n\nAfter plugging in the charger though, the draw ramped up to 2-2.5A and the GPU was getting really hot.\n\nI measured and had 0.9V on <SIGNAL>PPVCORE_S0_GPU</SIGNAL> and on <SIGNAL>PPVCCGT_S0_CPU</SIGNAL> but no voltage on <SIGNAL>PPVCCGT_CPU_PH1</SIGNAL> or 2.\n\nsuddenly the board stopped pulling 2A and is now pulling 0.20-0.23A but no VCORE on CPU or GPU. Is the CPU dead or is there something I'm missing?\n\nSome measurements from around <CHIP>U7100</CHIP>:\nSDA - 1v\nSCLK - 1v\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> - 3.3v\n<SIGNAL>CPUVR_PGOOD</SIGNAL> - 3.3v\n\nI have no idea where to go from here. If I replace or reflow <CHIP>U7800</CHIP> it does the 2-2.5A thing again until it resets.\n\nDoes anyone have an idea of where I can go from here or is the board trash?\n\nThanks."
+        },
+        {
+            "post_id": 63977,
+            "thread_id": 59872,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> No CPU Vcore",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-20 14:10:32",
+            "message": "Looks like bad solders on <CHIP>U7800</CHIP>.\nStrange to get <SIGNAL>CPUVR_PGOOD</SIGNAL> high, if no voltage at <SIGNAL>PPVCC_S0_CPU</SIGNAL>; are you really sure?"
+        },
+        {
+            "post_id": 63982,
+            "thread_id": 59872,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> No CPU Vcore",
+            "user_id": 803,
+            "username": "SoloHarty",
+            "post_date": "2020-08-20 14:21:16",
+            "message": "definitely, I just checked again and actually measuring 3.262v on <CHIP>U7100</CHIP>. I will try replacing <CHIP>U7800</CHIP> again but this will be the 3rd one."
+        }
+    ]
+}

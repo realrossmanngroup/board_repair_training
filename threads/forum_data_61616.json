@@ -1,0 +1,80 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "A1706": "What is A1706? A1706 is a model number for a 13 inch size MacBook Pro Retina from years 2016, Mid 2017 with EMC 3071, that may contain one of these boards depending on the year & configuration: 820-00239, 820-00923..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "PPBUS_HS_CPU": "What is PPBUS_HS_CPU? a SIGNAL.",
+        "PPBUS_HS_OTH5V": "What is PPBUS_HS_OTH5V? a SIGNAL.",
+        "UPC_TA_UART_RX": "What is UPC_TA_UART_RX? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 79264,
+            "thread_id": 61616,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 5V 0 Amps",
+            "user_id": 3199,
+            "username": "JdYoda",
+            "post_date": "2021-08-25 03:04:53",
+            "message": "Hello.\n\nMac <MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> doesnt turns on.\n3 of 4 <CHIP>CD3215</CHIP> rebooting, LDO 1.1 present.\nUB400 steady 5V, 0Amps, no LDO 1.1v After changing UB400 no changes.\nFound out that all PPBUS lines are missing (<SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>PPBUS_HS_CPU</SIGNAL>, <SIGNAL>PPBUS_HS_OTH5V</SIGNAL> )\n<SIGNAL>PPDCIN_G3H</SIGNAL>  - 5v\n<SIGNAL>PP3V3_G3H</SIGNAL> - 3.3\nDiode mode for ppbus lines is 0.4\nDiode mode for all LDOs of UB400 matches other <CHIP>CD3215</CHIP>\nChanged <CHIP>U7000</CHIP> - no changes.\nSince there are no short on ppbus i've tried to inject 13 volts to <SIGNAL>PPBUS_G3H</SIGNAL>. With injected voltage - 3 <CHIP>CD3215</CHIP> switching to 20 volts and rebooting, UB400 is not reacting for charger at all. USB-C meter doesn't turns on.\nChecked the board with thermal cam - nothing gets hot. But looks like there is a short circuit somewhere...How can i find it?"
+        },
+        {
+            "post_id": 79267,
+            "thread_id": 61616,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 5V 0 Amps",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-25 04:12:47",
+            "message": "You have to fix the problem on UB400 area first.\nOther things around the chip affected; if the new chip is good 100%.\n\nI recommend to try another <CHIP>CD3215</CHIP> first.\nOnce removed, check the traces for its pads."
+        },
+        {
+            "post_id": 79270,
+            "thread_id": 61616,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 5V 0 Amps",
+            "user_id": 3199,
+            "username": "JdYoda",
+            "post_date": "2021-08-25 04:34:05",
+            "message": "<CHIP>CD3215</CHIP> is good 100%. Checked it on another board. Also traces is ok, checked each trace under UB400"
+        },
+        {
+            "post_id": 79274,
+            "thread_id": 61616,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 5V 0 Amps",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-25 04:56:10",
+            "message": "Change QB400.\nCheck all resistors and small coils related with UB400."
+        },
+        {
+            "post_id": 79275,
+            "thread_id": 61616,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 5V 0 Amps",
+            "user_id": 3199,
+            "username": "JdYoda",
+            "post_date": "2021-08-25 05:20:29",
+            "message": "I found the problem, but it's a little weird...\nI decided to check all the pins under UB400 in diode mode, and found out that pin 36 ( <SIGNAL>UPC_TA_UART_RX</SIGNAL> ) has very low resistance, just 26 Ohm. This pin goes to resistor RB305, and it should be 1 MOhm. I removed RB305, puted back UB400 and mac works.\n   What is weird - i thought when resistor goes bad - resistance can only get higher value, not less. Is it possible that 1M resistor became 26 Ohm?\nOr RB is not a resistor?\nAnd one more question: is it necessary to solder back new RB305, or i can just remove it and forget about it?"
+        },
+        {
+            "post_id": 79283,
+            "thread_id": 61616,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 5V 0 Amps",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-25 07:46:15",
+            "message": "Corrosion on a resistor can easy drop down its ohm value; especially for high ohm resistors.\nIs like connecting another (parasite) resistor in parallel with it.\n\nYou should put back new 1M resistor.\nI think UB400 boots from UB300, through <SIGNAL>UPC_TA_UART_RX</SIGNAL>/TX lines.\nUB300 boots first from UB090."
+        },
+        {
+            "post_id": 79311,
+            "thread_id": 61616,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 5V 0 Amps",
+            "user_id": 3199,
+            "username": "JdYoda",
+            "post_date": "2021-08-25 19:59:00",
+            "message": "Thanks for explanation"
+        }
+    ]
+}

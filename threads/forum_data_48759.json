@@ -1,0 +1,109 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H.",
+        "CHGR_LGATE": "What is CHGR_LGATE? a SIGNAL.",
+        "CHGR_SGATE": "What is CHGR_SGATE? a SIGNAL.",
+        "PP_BUS": "What is PP_BUS? This is a typo of PPBUS_G3H When you see PP_BUS, assume they meant to type PPBUS_G3H.",
+        "PP_DCIN_CHGR": "What is PP_DCIN_CHGR? a SIGNAL.",
+        "R7121": "What is R7121? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7151": "What is R7151? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7122": "What is R7122? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7185": "What is R7185? a RESISTOR.",
+        "R7150": "What is R7150? a RESISTOR.",
+        "R7152": "What is R7152? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7125": "What is R7125? a RESISTOR.",
+        "C7125": "What is C7125? Capacitor between CHGR_BOOT and CHGR_PHASE important for bootstrapping creation of PPBUS_G3H on 2013-2015 macbook pros.",
+        "C7185": "What is C7185? a CAPACITOR.",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "Q7155": "What is Q7155? a TRANSISTOR.",
+        "R5380": "What is R5380? a RESISTOR.",
+        "R5381": "What is R5381? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 48759,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2019-05-01 02:27:05",
+            "message": "Hope someone can help with this one as it's proving to be a complete pain. \nHistory: Macbook brought in with liquid damage and no power. Inspection revealed liquid damage around <TRANSISTOR>Q7130</TRANSISTOR> which had also burned <TRANSISTOR>Q7130</TRANSISTOR> and the <SIGNAL>CHGR_PHASE</SIGNAL> pad underneath. Smaller amount of liquid damage around <CHIP>U7100</CHIP>. \n\nWhat I have done so far:\nRun a jumper wire for <SIGNAL>CHGR_PHASE</SIGNAL> between <TRANSISTOR>Q7130</TRANSISTOR> and L7130\nChecked for any obvious shorts to ground on <SIGNAL>PP_BUS</SIGNAL>, <SIGNAL>CHGR_PHASE</SIGNAL>, <SIGNAL>CHGR_LGATE</SIGNAL>, <SIGNAL>CHGR_SGATE</SIGNAL> - found none\nReplaced <CHIP>U7100</CHIP> and <TRANSISTOR>Q7130</TRANSISTOR> - multiple times as a pair with new chips\nReplaced <RESISTOR>R7121</RESISTOR> and <RESISTOR>R7122</RESISTOR> and checked resistance between pins 27 and 28 of <CHIP>U7100</CHIP> to confirm 20ohms\nReplaced <RESISTOR>R7151</RESISTOR> and <RESISTOR>R7152</RESISTOR> and checked resistance between pins 17 and 18 - found even after replacement it wasnt 3ohms so traced the fault back and found no continuity between <RESISTOR>R7152</RESISTOR> and <RESISTOR>R7150</RESISTOR>\nRan a jumper wire between <RESISTOR>R7152</RESISTOR> and <RESISTOR>R7150</RESISTOR> and checked resistance between pins 17 and 18 - now reads 3ohms\nReplaced <RESISTOR>R7125</RESISTOR> and <CAPACITOR>C7125</CAPACITOR> as they didnt look nice - tested ok with the meter but replaced anyway\nFound <RESISTOR>R7185</RESISTOR> is only reading 1.2kohm instead of 470k as per spec - replaced it and <CAPACITOR>C7185</CAPACITOR> but it still reads 1.2kohm makes me suspect <TRANSISTOR>Q7180</TRANSISTOR> has an issue but I am getting <SIGNAL>PP_DCIN_CHGR</SIGNAL> at 19v with my 85w charger. \n\nCurrently the board will:\nRun fine off a charged battery - which points me squarely at an issue with the charger input side of the circuit. \nIt will also run off a charger but I believe <TRANSISTOR>Q7130</TRANSISTOR> to be partially burned now as it is allowing around 17V through it to make PPBUS 17v which obviously means the system won't charge the battery as the voltage is to high. \n\nJust for reference with a previous <TRANSISTOR>Q7130</TRANSISTOR> and <CHIP>U7100</CHIP> I was only getting 4V on PPBUS"
+        },
+        {
+            "post_id": 48765,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-01 06:19:35",
+            "message": "Replace the ISL, <TRANSISTOR>Q7130</TRANSISTOR>, and <TRANSISTOR>Q7155</TRANSISTOR> all at the same time. Also double check all traces under and around <TRANSISTOR>Q7130</TRANSISTOR>"
+        },
+        {
+            "post_id": 48766,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-05-01 07:11:34",
+            "message": "You can also check scl/sda lines diode mode, they should be really close one each other, usually around 0,489-0,500. \nCheck resistor values <RESISTOR>R5380</RESISTOR>, <RESISTOR>R5381</RESISTOR>.\nCheck for any short on both lines.\nMake sure <CHIP>U7100</CHIP> is well soldered."
+        },
+        {
+            "post_id": 48767,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-01 07:13:45",
+            "message": "\"<RESISTOR>R7185</RESISTOR> is only reading 1.2kohm instead of 470k\"\nChange <TRANSISTOR>Q7180</TRANSISTOR>, as bad; it has leakage at least.\n\n\"Run a jumper wire for <SIGNAL>CHGR_PHASE</SIGNAL> between <TRANSISTOR>Q7130</TRANSISTOR> and L7130\"\nHave <CHIP>U7100</CHIP> and <CAPACITOR>C7125</CAPACITOR> good connection to the same point?\nOpen trace for R/<CAPACITOR>C7125</CAPACITOR> will burn <TRANSISTOR>Q7130</TRANSISTOR> (its high-side)."
+        },
+        {
+            "post_id": 48822,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2019-05-02 10:13:12",
+            "message": "Thanks for your replies - can confirm after having replaced <TRANSISTOR>Q7180</TRANSISTOR>, <CHIP>U7100</CHIP> and <TRANSISTOR>Q7130</TRANSISTOR> again and also running a jumper wire for <SIGNAL>CHGR_PHASE</SIGNAL> from L7130 to <CAPACITOR>C7125</CAPACITOR> the macbook is now charging and producing 12.3v PPBUS from the charger as normal.\n\nthanks for your advice."
+        },
+        {
+            "post_id": 48823,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-02 10:30:32",
+            "message": "\"producing 12.3v PPBUS from the charger as normal.\"\nThat is not normal!\nUnless your multimeter doesn't read correct.\n\nBattery is charging?"
+        },
+        {
+            "post_id": 48834,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-02 11:39:49",
+            "message": "12.3 is a little low is this off battery power? If not, does it charge recognize and run off the battery?"
+        },
+        {
+            "post_id": 48863,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2019-05-03 02:51:56",
+            "message": "my meter does read a little low normally - yes the battery is charging as normal. Keep meaning to invest in a better meter!"
+        },
+        {
+            "post_id": 48876,
+            "thread_id": 48759,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A Won't Charge Battery/Run Off Charger",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-03 07:45:51",
+            "message": "Gotcha then yeah for SURE get a new meter! It could cause issues on future repairs but good job fixing it!"
+        }
+    ]
+}

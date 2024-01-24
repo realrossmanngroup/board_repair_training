@@ -1,0 +1,143 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00138": "What is 820-00138? a LOGIC BOARD PART NUMBER.",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "A1398": "What is A1398? A1398 is a model number for a 15 inch size MacBook Pro Retina from years Mid 2015, Mid 2012, Early 2013, Late 2013, Mid 2014 with EMC 2909, that may contain one of these boards depending on the year & configuration: 820-00138, 820-00163, 820-00426, 820-3332, 820-3662, 820-3787..",
+        "U7701": "What is U7701? a CHIP.",
+        "PPVOUT_S0_LCDBKLT": "What is PPVOUT_S0_LCDBKLT? PPVOUT_S0_LCDBKLT is a power rail that powers the LED light in the screen of the device that allows you to see what is on the screen. When this is low or missing, the screen will be dim..",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "R7708": "What is R7708? a RESISTOR.",
+        "R7723": "What is R7723? a RESISTOR.",
+        "2B_LP8549": "What is 2B_LP8549? a SIGNAL.",
+        "U7750": "What is U7750? a CHIP.",
+        "I2C_BKLT_SCL": "What is I2C_BKLT_SCL? a SIGNAL.",
+        "I2C_BKLT_SDA": "What is I2C_BKLT_SDA? I2C_BKLT_SDA is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "Q8032": "What is Q8032? a TRANSISTOR.",
+        "820-00426": "What is 820-00426? a LOGIC BOARD PART NUMBER.",
+        "820-00163": "What is 820-00163? a LOGIC BOARD PART NUMBER.",
+        "Q8302": "What is Q8302? a TRANSISTOR.",
+        "U8302": "What is U8302? a CHIP.",
+        "LCD_BKLT_PWM_R": "What is LCD_BKLT_PWM_R? a SIGNAL.",
+        "R7780": "What is R7780? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 92028,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-24 06:13:14",
+            "message": "So I got two <MACBOOK MODEL NUMBER>A1398</MACBOOK MODEL NUMBER> 2015\" with <LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> boards from different customers, but with exactly same issue -  no backlight (image is present). One of them is untouched, the other one has been worked on, but the other technician couldn't find the solution for backlight and gave up - he replaced LVDS connector, probably tried another <CHIP>U7701</CHIP> because it's missing, tried another screen (the original screen was working with another board).\n\nWhat I have done so far:\n\n- tried another known good display assembly (100% 2015 model)\n- tried another <CHIP>U7701</CHIP>\n- tried another <TRANSISTOR>Q7706</TRANSISTOR>\n- checked LVDS connectors on both boards - they look completely fine\n\n<CHIP>U7701</CHIP> measurements:\n\npin 5 = 5,07V\npin 18 = 5,06V\npin 11 = 5,84V\npin 17 = 3,33V\npin 15 = 5,01V\npin16 = 5,00V\n\n<SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> - 51,2V\n\n<DIODE>D7701</DIODE> is not shorted\n\nF7700 has continuity\n\n<TRANSISTOR>Q7706</TRANSISTOR> measurements\n\npins 1-6 - 12,58V\npin 3 - 8,78V\npin 4 - 12,58V\n\nI believe boards are fine, as they produce 51,2V output voltage which is present on LVDS connector but for some reason backlight is not turning on..."
+        },
+        {
+            "post_id": 92029,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-24 07:56:36",
+            "message": "\"<SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> - 51,2V\"\nSo backlight circuit works.\nThere is no continuity for this power rail to the LED strip, or back to the ground.\nDo you have the high tension present on pin 1 of J8300?\n\n\"pin 11 = 5,84V\"\nThis is strange, should be 0V.\n\"pin 3 - 8,78V\"\n5.84V should be correct here (5.5V in theory).\n\nBe sure all resistors around <CHIP>U7701</CHIP> are good; pay atention to <RESISTOR>R7708</RESISTOR>/09.\n\nJust in case, do PRAM reset 2-3 times."
+        },
+        {
+            "post_id": 92034,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-24 08:50:09",
+            "message": "Yes, I have 51,2V present on pin 1 of J8300 and even on LCD LVDS connector side. All resistors around <CHIP>U7701</CHIP> are measuring OK except two - <RESISTOR>R7723</RESISTOR>/4 by schematic should be 10,2 ohm, but on my two (and one donor) boards they are 0,005 ohm.  Anyway, they are not related to LCD but keyboard backlight. PRAM resets gives nothing..."
+        },
+        {
+            "post_id": 92042,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1057,
+            "username": "piernov",
+            "post_date": "2022-08-24 13:06:22",
+            "message": "[URL unfurl=\"true\"]https://logi.wiki/index.php/Backlight_Troubleshooting#LP8548_.<SIGNAL>2B_LP8549</SIGNAL>[/URL]"
+        },
+        {
+            "post_id": 92055,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-25 02:03:12",
+            "message": "[USER=1057]@piernov[/USER], I've seen this article, but it hasn't changed anything in my situation, or maybe I dont understand something? Actually my <SIGNAL>I2C_BKLT_SCL</SIGNAL> and <SIGNAL>I2C_BKLT_SDA</SIGNAL> are 5V, they have continuity from J8300 to <CHIP>U7701</CHIP>. I have already replaced connector just in case. I have tested 3 different displays (2015 model). According to article on LogiWiki there is no <CHIP>U7750</CHIP> on the board, whis is source of <SIGNAL>I2C_BKLT_SCL</SIGNAL> and <SIGNAL>I2C_BKLT_SDA</SIGNAL>. So it means it's present on LCD side?"
+        },
+        {
+            "post_id": 92061,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-25 05:16:15",
+            "message": "Check diode mode to ground on <SIGNAL>I2C_BKLT_SCL</SIGNAL>/SDA lines, w/ and w/o LCD connected.\nAlso check solders and traces continuity for pins 6, 7 & 8 of J8300.\nInspect <TRANSISTOR>Q8032</TRANSISTOR> and its related resistors and traces.\n\nDo you still have image present on internal LCD?"
+        },
+        {
+            "post_id": 92084,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-25 06:45:02",
+            "message": "Without LCD:\n\n<SIGNAL>I2C_BKLT_SCL</SIGNAL>  - 0,488v\n<SIGNAL>I2C_BKLT_SDA</SIGNAL> - 0,488v\n\nWith LCD:\n\n<SIGNAL>I2C_BKLT_SCL</SIGNAL>  - 0,463v\n<SIGNAL>I2C_BKLT_SDA</SIGNAL> - 0,462v\n\nAre you sure you meant <TRANSISTOR>Q8032</TRANSISTOR>? I can't find it on BV (<LOGIC BOARD PART NUMBER>820-00163</LOGIC BOARD PART NUMBER>/<LOGIC BOARD PART NUMBER>820-00426</LOGIC BOARD PART NUMBER>) nor schematic for <LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER>. Maybe <TRANSISTOR>Q8302</TRANSISTOR>?\n\nYes, I'm still getting image on the screen."
+        },
+        {
+            "post_id": 92087,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-25 06:53:45",
+            "message": "Sorry, it is <TRANSISTOR>Q8302</TRANSISTOR>."
+        },
+        {
+            "post_id": 92093,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-25 08:19:52",
+            "message": "Resistors and traces around <CHIP>U8302</CHIP> are OK. These are voltages on <CHIP>U8302</CHIP> (LCD connected):\n\npin 1 - 3,3V\npin 2 / 5 - 3,3V\npin 3 - 3,3V\npin 4 - 3,3V\npin 6 - 3,3V"
+        },
+        {
+            "post_id": 92118,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-26 04:38:02",
+            "message": "Ok, I have repaired one of the boards (the one which has been worked on). It turns out I made a mistake measuring J8300 and missed pin 8 <SIGNAL>LCD_BKLT_PWM_R</SIGNAL>. There was <RESISTOR>R7780</RESISTOR> missing on the board. Now this one works. The second one is still on process..."
+        },
+        {
+            "post_id": 92121,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-26 07:35:02",
+            "message": "Thanks for feedback.\nI was expecting missing backlight voltage in this case; good to note!"
+        },
+        {
+            "post_id": 92123,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-26 08:07:06",
+            "message": "Both boards have 51,2V on <SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL>, so that's not the case ;) I feel, that there is something small I'm missing again.."
+        },
+        {
+            "post_id": 92177,
+            "thread_id": 63019,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> no backlight though has 51,2V on output",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2022-08-29 08:13:40",
+            "message": "Second one fixed too - though J8300 looked perfect I decided to replace it and that was the trick, backlight is back again."
+        }
+    ]
+}

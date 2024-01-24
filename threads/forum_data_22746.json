@@ -1,0 +1,120 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3209": "What is 820-3209? a LOGIC BOARD PART NUMBER.",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "PPVCORE_S0_AXG": "What is PPVCORE_S0_AXG? This is vcore going to the CPU’s integrated graphics processor for CPUs that have an integrated GPU. When this is missing on a device that has an integrated GPU and no discrete GPU, it usually means either no screen is detected, or the GPU integrated into the CPU is dead..",
+        "CPUIMVP_TON": "What is CPUIMVP_TON? a SIGNAL.",
+        "CPUIMVP_PGOOD": "What is CPUIMVP_PGOOD? CPUIMVP_PGOOD is a signal from the CPU VCORE buck converter IC that indicates CPU power is good which is necessary to create PM_S0_PGOOD..",
+        "PPVCCAS_S0_CPU": "What is PPVCCAS_S0_CPU? a SIGNAL.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "ALL_SYS": "What is ALL_SYS? This is a typo of ALL_SYS_PWRGD When you see ALL_SYS, assume they meant to type ALL_SYS_PWRGD.",
+        "R2805": "What is R2805? a RESISTOR.",
+        "CPUIMVP_VR_ON": "What is CPUIMVP_VR_ON? CPUIMVP_VR_ON is a signal that tells the buck converter responsible for PPVCORE_S0_CPU to turn on and create CPU vcore voltage. This comes from ALL_SYS_PWRGD – once ALL_SYS_PWRGD is present, CPUIMVP_VR_ON will be present. .",
+        "CPUIMVP_BOOT1G": "What is CPUIMVP_BOOT1G? a SIGNAL.",
+        "CPIIMVP_BOOT1_RC": "What is CPIIMVP_BOOT1_RC? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 22746,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2017-07-09 04:15:47",
+            "message": "Board history: Liquid, attempted repair.\n\nAll the usual rails are fine.\n\nBeen all over testing this board am lost at this point.\n\n\nL7550 to ground 1.5 ohm\nL7510 to ground 2 ohm (get the same on donor boards but nothing working to reference)\n\n<SIGNAL>PPVCORE_S0_CPU</SIGNAL> = 0v\n<SIGNAL>PPVCORE_S0_AXG</SIGNAL> = 0v\n<SIGNAL>CPUIMVP_TON</SIGNAL> = 0.7v\n<SIGNAL>CPUIMVP_PGOOD</SIGNAL> = 0.5v\n\n\n<SIGNAL>PPVCCAS_S0_CPU</SIGNAL> = 0.9v\n<SIGNAL>PP1V05_S0</SIGNAL> = 1.5v\n<SIGNAL>PP1V8_S0</SIGNAL> = 1v8\n\n\n\nWhat do I need to be looking for please?"
+        },
+        {
+            "post_id": 22751,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 461,
+            "username": "Gurmon",
+            "post_date": "2017-07-09 10:02:30",
+            "message": "Whats the value of <SIGNAL>ALL_SYS_PWRGD</SIGNAL> ?"
+        },
+        {
+            "post_id": 22752,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2017-07-09 10:47:05",
+            "message": "[QUOTE=\"Gurmon, post: 22751\"]Whats the value of <SIGNAL>ALL_SYS_PWRGD</SIGNAL> ?[/QUOTE]\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> 0.07v"
+        },
+        {
+            "post_id": 22756,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-07-09 15:32:33",
+            "message": "<SIGNAL>ALL_SYS</SIGNAL> should of course be there. There is a rail missing....."
+        },
+        {
+            "post_id": 22773,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2017-07-10 03:58:50",
+            "message": "[QUOTE=\"dukefawks, post: 22756\"]<SIGNAL>ALL_SYS</SIGNAL> should of course be there. There is a rail missing.....[/QUOTE]\n\nSure, I did miss one. <RESISTOR>R2805</RESISTOR> was missing from the board (Not a no stuff right?) Fan spins now.\nNow there is no chime, no mouse LED, no PRAM reset.... Now to find the issue there."
+        },
+        {
+            "post_id": 22777,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2017-07-10 05:53:45",
+            "message": "<SIGNAL>ALL_SYS_PWRGD</SIGNAL> now 3v3. PP1V5 is now present.\n\nStill no vcore"
+        },
+        {
+            "post_id": 22802,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-07-10 18:58:09",
+            "message": "Yeah and how did that resistor end up missing? Inspect for more damage, there is more you missed."
+        },
+        {
+            "post_id": 22935,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2017-07-13 06:46:42",
+            "message": "[QUOTE=\"dukefawks, post: 22802\"]Yeah and how did that resistor end up missing? Inspect for more damage, there is more you missed.[/QUOTE]\n\neBay board. And yes clearly.\n\nThis board is really doing my nut.\n\nCould this be SPIROM? Missing PM signal? PCH? Fucked up trace / Resistor / cap?\n\nHere are few measurements but what do I need to be looking for please..... Any clues?\n\n<SIGNAL>ALL_SYS</SIGNAL> =3v3\n<SIGNAL>CPUIMVP_TON</SIGNAL> = 0.35v\n<SIGNAL>CPUIMVP_VR_ON</SIGNAL> =3.3v\n<SIGNAL>CPUIMVP_PGOOD</SIGNAL> = 0.06v\n\n<SIGNAL>CPUIMVP_BOOT1G</SIGNAL> is 4.8v\n<SIGNAL>CPIIMVP_BOOT1_RC</SIGNAL> is 4.8v"
+        },
+        {
+            "post_id": 22966,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-07-13 14:41:30",
+            "message": "Ebay garbage. Any missing/damaged resistor can cause this. Why do you pick up this garbage?"
+        },
+        {
+            "post_id": 22977,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 316,
+            "username": "G.Beard",
+            "post_date": "2017-07-13 15:10:15",
+            "message": "[QUOTE=\"dukefawks, post: 22966\"]Ebay garbage. Any missing/damaged resistor can cause this. Why do you pick up this garbage?[/QUOTE]\nI'll send it back for a refund."
+        },
+        {
+            "post_id": 22990,
+            "thread_id": 22746,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no vcore",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-07-13 17:23:49",
+            "message": "Uhm I assume you bought this as non-working?"
+        }
+    ]
+}

@@ -1,0 +1,295 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "PP1V2_S0SW": "What is PP1V2_S0SW? a SIGNAL.",
+        "PP5V5_S5": "What is PP5V5_S5? This is a typo of PP5V_S5 When you see PP5V_S5, assume they meant to type PP5V_S5.",
+        "PP5V_S0_VCORE1": "What is PP5V_S0_VCORE1? a SIGNAL.",
+        "PCH_HSIO_PWR_EN": "What is PCH_HSIO_PWR_EN? a SIGNAL.",
+        "PP5V_S0_FAN_CONN": "What is PP5V_S0_FAN_CONN? a SIGNAL.",
+        "PCH_INTRUDER": "What is PCH_INTRUDER? a SIGNAL.",
+        "PP5V_S0_VCORE2": "What is PP5V_S0_VCORE2? a SIGNAL.",
+        "PP1V8_S0_PCH_VCCHDA_F": "What is PP1V8_S0_PCH_VCCHDA_F? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "R1401": "What is R1401? a RESISTOR.",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PPVCCSA_S0_CPU": "What is PPVCCSA_S0_CPU? Main power rail for the CPU. If this is missing the machine will act braindead. This is NOT shorted to ground if it has a low resistance – this is a common mistake people make. A chip that requires high power at a low voltage like a CPU or GPU will have a low measured resistance to ground..",
+        "PPVCCGT_S0_CPU": "What is PPVCCGT_S0_CPU? a SIGNAL.",
+        "A1706": "What is A1706? A1706 is a model number for a 13 inch size MacBook Pro Retina from years 2016, Mid 2017 with EMC 3071, that may contain one of these boards depending on the year & configuration: 820-00239, 820-00923..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP1V2_S3": "What is PP1V2_S3? PP1V2_S3 is a 1.2v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PP1V8_S3": "What is PP1V8_S3? The PP1V8_S3 signal in the MacBook schematic is a power rail that provides a voltage of 1.8 volts during the S3 power state. The S3 state, often referred to as \"suspend to RAM,\" is a low-power mode where the computer saves the session's state to RAM, allowing for quicker wake-up times compared to a full shutdown..",
+        "PP3V3_S4SW_SNS": "What is PP3V3_S4SW_SNS? a SIGNAL.",
+        "PP1V0_SUS": "What is PP1V0_SUS? a SIGNAL.",
+        "PP5V_PMICLDO": "What is PP5V_PMICLDO? a SIGNAL.",
+        "PP1V0_S0SW": "What is PP1V0_S0SW? a SIGNAL.",
+        "PP1V8_S4": "What is PP1V8_S4? PP1V8_S4 is a 1.8v power rail when the machine is in an S4, suspend to disk state. .",
+        "PP1V0_S3": "What is PP1V0_S3? a SIGNAL.",
+        "PP1V0_SUSSW": "What is PP1V0_SUSSW? a SIGNAL.",
+        "P3V3_S0": "What is P3V3_S0? a SIGNAL.",
+        "PP1V0_SUSFUSE": "What is PP1V0_SUSFUSE? a SIGNAL.",
+        "U8286": "What is U8286? a CHIP.",
+        "U8280": "What is U8280? a CHIP.",
+        "U3500": "What is U3500? a CHIP.",
+        "1V0_S0SW": "What is 1V0_S0SW? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 82056,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-10-31 12:47:40",
+            "message": "No corrosion evident on board.\n\n<SIGNAL>PP3V3_G3H</SIGNAL> 3.4v\n<SIGNAL>PPBUS_G3H</SIGNAL> 13.07v\n<SIGNAL>PP5V5_S5</SIGNAL> 5.12v\n<SIGNAL>PP3V3_S5</SIGNAL> 3.35v\n<SIGNAL>PM_SLP_S4_L</SIGNAL> 3.3v\n<SIGNAL>SMC_RESET_L</SIGNAL> 3.4\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> 3.2v\n<SIGNAL>PP5V_S0_FAN_CONN</SIGNAL> 5.1v\n<SIGNAL>PP5V_S0_VCORE1</SIGNAL> 5.1v\n<SIGNAL>PP5V_S0_VCORE2</SIGNAL> 5.1v\n<SIGNAL>PM_SLP_S5_L</SIGNAL> 3.3v\n<SIGNAL>RTC_RESET_L</SIGNAL> 3.1v\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> 3.1\n[B]<SIGNAL>PCH_INTRUDER</SIGNAL> 0v[/B]\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> 3.3v\n<SIGNAL>PP1V8_S0</SIGNAL> 1.8v\n<SIGNAL>PP1V8_S0_PCH_VCCHDA_F</SIGNAL> 1.8v\n<SIGNAL>PP1V2_S0SW</SIGNAL> 1.2v\n<SIGNAL>PCH_HSIO_PWR_EN</SIGNAL> 3.3v\n\n\nsnow edition USB shows steady light till just after being delivered 20v\nStill get current draw mostly 0.45amps with occasional second at 0.7amps\n\nNo video.\n\nWondering where to go from here."
+        },
+        {
+            "post_id": 82063,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-31 15:08:02",
+            "message": "\"[B]<SIGNAL>PCH_INTRUDER</SIGNAL> 0v[/B]\"\nI suppose to be <SIGNAL>PCH_INTRUDER_L</SIGNAL> and must be high.\nCheck <RESISTOR>R1401</RESISTOR> pin 1 voltage.\nIf present, check diode mode to ground at pin 2."
+        },
+        {
+            "post_id": 82072,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-01 03:55:04",
+            "message": "I must have made a mistake in measuring originally as <RESISTOR>R1401</RESISTOR> pin 1 is 3.0v, pin2 is 2.8v\nDiode mode to ground at pin 2 is 0.75v"
+        },
+        {
+            "post_id": 82073,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-01 04:38:26",
+            "message": "What is the final CPU core voltage?"
+        },
+        {
+            "post_id": 82077,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-01 06:59:46",
+            "message": "<SIGNAL>PPVCC_S0_CPU</SIGNAL> 0.72v\n<SIGNAL>PPVCCSA_S0_CPU</SIGNAL> 0.78v\n<SIGNAL>PPVCCGT_S0_CPU</SIGNAL> 0v"
+        },
+        {
+            "post_id": 82078,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-01 08:33:40",
+            "message": "Check if there is external video present."
+        },
+        {
+            "post_id": 82085,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-01 10:20:56",
+            "message": "No external video. \nCPU 55centigrade"
+        },
+        {
+            "post_id": 82086,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-01 12:09:39",
+            "message": "What said the client about history fault?\n\nTry known good BIOS."
+        },
+        {
+            "post_id": 82092,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-01 12:54:56",
+            "message": "Client said simply stopped working.\nI haven't collected a BIOS for an [SIZE=3]<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> [/SIZE]<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>  as yet and can't find one on this forum. Is there anywhere else I can go?"
+        },
+        {
+            "post_id": 82100,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-01 14:38:10",
+            "message": "Try this one, as is.\n[URL unfurl=\"true\"]https://drive.google.com/file/d/1W-l9MXzQjDRcX3tIgWPRAMVhcYajjX8t/view?usp=sharing[/URL]"
+        },
+        {
+            "post_id": 82167,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-03 14:09:14",
+            "message": "Ive tried the BIOS above but still no usb activity, video or spinning of the fans via the keyboard ribbon cable in the case.\nCould it be lack of a clock signal or is that ruled out somehow? I have an oscilloscope"
+        },
+        {
+            "post_id": 82168,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-03 15:03:36",
+            "message": "Can you check CPU core voltage on other similar <MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> board?\n\nDo you get all voltages from page 78 on your board?\nBTW, test the board alone on the desk; nothing more than charger connected."
+        },
+        {
+            "post_id": 82170,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-03 15:08:03",
+            "message": "I have no other <MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> board.\nI will check page 78.\nYes Ive had the board alone on desk the whole time - just occasionally trying back in the case for benefit of fans but I suppose thats a bit optimistic!"
+        },
+        {
+            "post_id": 82171,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-03 15:32:16",
+            "message": "<SIGNAL>PP3V3_SUS</SIGNAL> 3.3v\n<SIGNAL>PP3V3_S4</SIGNAL> 3.3v\n<SIGNAL>P3V3_S0</SIGNAL> 3.3v\n<SIGNAL>PP5V_S0</SIGNAL> 5.1v\n<SIGNAL>PP3V3_S4SW_SNS</SIGNAL> 0.1v\n<SIGNAL>PP1V8_S4</SIGNAL> 1.8v\n<SIGNAL>PP1V8_S3</SIGNAL> 1.8v\n<SIGNAL>PP1V8_S0</SIGNAL> 1.8v\n<SIGNAL>PP1V2_S3</SIGNAL> 1.2v\n<SIGNAL>PP1V0_SUSFUSE</SIGNAL> 0.99\n<SIGNAL>PP1V0_SUSSW</SIGNAL> 0v and next time I look 5v\n<SIGNAL>PP1V0_S3</SIGNAL> 1v\n<SIGNAL>PP1V0_S0SW</SIGNAL> [B]0v[/B]\n<SIGNAL>PP5V_S4</SIGNAL> 0v and next time I look 5v\n\n<SIGNAL>PP1V0_SUS</SIGNAL> 0v and next time I look 1v\n\n<SIGNAL>PP5V_PMICLDO</SIGNAL> 5v"
+        },
+        {
+            "post_id": 82172,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-03 16:27:20",
+            "message": "<CHIP>U8280</CHIP> not mounted, normal missing <SIGNAL>PP1V0_SUSSW</SIGNAL>.\n\nIf <CHIP>U8286</CHIP> is mounted, then <SIGNAL>PP1V0_S0SW</SIGNAL> muste be there; check in diode mode to ground.\nPost <CHIP>U8286</CHIP> voltages."
+        },
+        {
+            "post_id": 82173,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-03 16:41:28",
+            "message": "<CHIP>U8280</CHIP> is not mounted.\n<CHIP>U8286</CHIP> is there, <SIGNAL>PP1V0_S0SW</SIGNAL> 1v with board powered ( but pretty sure read 0v before)\n\nDiode mode\npin1 0.3\npin2 0.47\npin3 0.15\npin4 0.15\npin5 0.1v\npin6 0.1v\npin7 0.5v\npin8 0v"
+        },
+        {
+            "post_id": 82174,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-03 17:49:24",
+            "message": "No need to check <CHIP>U8286</CHIP> anymore, if you get <SIGNAL>1V0_S0SW</SIGNAL>.\n\nJust in case, check pins 19/20 voltage, of <CHIP>U3500</CHIP> and UB700."
+        },
+        {
+            "post_id": 82178,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-04 05:00:16",
+            "message": "<CHIP>U3500</CHIP>\npin19 5.1v\npin20 5.1v\n\nUB700\npin19 5.1v\npin20 5.1v"
+        },
+        {
+            "post_id": 82179,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-04 05:17:10",
+            "message": "Try heat test on CPU and RAM..."
+        },
+        {
+            "post_id": 82181,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-04 05:27:40",
+            "message": "What? Take up to 100centigrade? or reflow temperature?\nFor the cpu should I heat the heatsink itself to keep it even?"
+        },
+        {
+            "post_id": 82186,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-04 06:16:21",
+            "message": "Remove heatsink!\nNo need to melt the balls.\nJust try to burn eventually accumulated crap underneath; or expect some internal reaction.\nNo more than 180-200 degrees, for 15-20s."
+        },
+        {
+            "post_id": 82193,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-04 07:53:09",
+            "message": "No luck, no image on test screen, no usb activity. Is all hope lost?\nStudent customer concerned about loss of data for university work so what percentage chance do you think [B][FONT=arial][SIZE=3]076-00236 hardware might pull data off? Ofcourse I would have to locate that hardware.[/SIZE][/FONT][/B]"
+        },
+        {
+            "post_id": 82194,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-04 08:06:12",
+            "message": "If no damage on SSD area, you should be able to recover data over Lifeboat connector."
+        },
+        {
+            "post_id": 82199,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-04 08:19:11",
+            "message": "Student client cant pay for data recovery so fixing the board is the only way.\n\nIs there any further hope for the logic board? (other than a much needed donor ;)\nShould the cause of the periodic increase in current draw be looked for or is it normal behaviour?\n\nSome further advice appreciated!"
+        },
+        {
+            "post_id": 82495,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-10 15:53:10",
+            "message": "6 days later. I was hoping for an opinion whether there was any future hope for this board. Customer has become disillusioned and wants the macbook returned."
+        },
+        {
+            "post_id": 82510,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-11 01:58:34",
+            "message": "This looks like lost cause, sorry.\nPeople who buy Apple machines, should understand how important is to make backup on external storage device, or Internet."
+        },
+        {
+            "post_id": 82548,
+            "thread_id": 61908,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> 20v 0.45 amps to 0.7 amps no video",
+            "user_id": 29109,
+            "username": "Outofwhack",
+            "post_date": "2021-11-11 14:09:33",
+            "message": "Sadly I wont even get a donor board out of it. Did you put down the [SIZE=4]0.45 amps to 0.7 amps as not worth investigating - is it normal or something trying to switch on but switching off?[/SIZE]"
+        }
+    ]
+}

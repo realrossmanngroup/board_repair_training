@@ -1,0 +1,124 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PLT_RST_L": "What is PLT_RST_L? This is an abbreviation of “PLT_RESET_L” – when you see “PLT_RST_L\", assume the person meant to type PLT_RESET_L.",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PPVCCIO_S0_CPU": "What is PPVCCIO_S0_CPU? PPVCCIO_S0_CPU is a power rail responsible for powering the part of the CPU responsible for communicating with other portions of the machine prior to PPVCORE_S0_CPU being present and must be present before vcore, PPVCCIO_S0_CPU is present when the machine is in an on, RUNNING state. ."
+    },
+    "threads": [
+        {
+            "post_id": 95724,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 1420,
+            "username": "Kyle93",
+            "post_date": "2023-01-19 13:44:51",
+            "message": "This board has no power and just randomly died according to customer. No liquid damage.\n\nMeter is at 20v 0.15 amps. PPBUS is 13v. Tried DFU but cannot get the machine into DFU mode.\n\nWhat should be checked next??"
+        },
+        {
+            "post_id": 95726,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-19 14:13:50",
+            "message": "This is not T2 machine.\n\nDo you get <SIGNAL>3V3_S5</SIGNAL>/SUS?\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL> (at same time)."
+        },
+        {
+            "post_id": 95728,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 1420,
+            "username": "Kyle93",
+            "post_date": "2023-01-19 14:26:43",
+            "message": "Yes 3.2v on  <SIGNAL>3V3_S5</SIGNAL>/SUS \n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> is  3.3v and has a drop pulse when  <SIGNAL>SMC_ONOFF_L</SIGNAL> is triggered.\n\nPCH side of CPU  is warm on thermal cam"
+        },
+        {
+            "post_id": 95732,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-19 16:22:37",
+            "message": "Can you catch a pulse at <SIGNAL>PM_SLP_S4_L</SIGNAL> at same time?\n\nIf board stays in S5, PCH shouldn't heat at all."
+        },
+        {
+            "post_id": 95758,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 1420,
+            "username": "Kyle93",
+            "post_date": "2023-01-20 12:49:04",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> 3.4 but does not pulse when  <SIGNAL>SMC_ONOFF_L</SIGNAL> is triggered\n\nBoard has constant S5 voltage and PCH is warm"
+        },
+        {
+            "post_id": 95759,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-20 12:56:51",
+            "message": "If <SIGNAL>PM_SLP_S4_L</SIGNAL> is steady high, then power on sequence is started.\nAll S3 voltages should be present, like 1.2V for RAM.\nIf also <SIGNAL>PM_SLP_S3_L</SIGNAL> is high, then check S0 voltages."
+        },
+        {
+            "post_id": 95829,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 1420,
+            "username": "Kyle93",
+            "post_date": "2023-01-24 10:38:42",
+            "message": "<SIGNAL>PM_SLP_S3_L</SIGNAL> is high and all S0 rails appear to be present"
+        },
+        {
+            "post_id": 95830,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-24 13:33:05",
+            "message": "Check for USB activity and external video.\n\nWhat is CPU core voltage, after 10-15s?\n<SIGNAL>PLT_RST_L</SIGNAL> goes high?"
+        },
+        {
+            "post_id": 95837,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 1420,
+            "username": "Kyle93",
+            "post_date": "2023-01-24 15:10:26",
+            "message": "No usb activity or external video. Board is at 20v and a consistent 0.14amps\n\n<SIGNAL>PLT_RST_L</SIGNAL> 0V\n\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> 0V\n\n<SIGNAL>PPVCCIO_S0_CPU</SIGNAL> 0.950V"
+        },
+        {
+            "post_id": 95838,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-24 16:27:48",
+            "message": "Also missing L7270 voltage?\nYou can try known good BIOS..."
+        },
+        {
+            "post_id": 95888,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 1420,
+            "username": "Kyle93",
+            "post_date": "2023-01-26 06:40:44",
+            "message": "0V  L7270 \n\nBios from donar board did not make any differences"
+        },
+        {
+            "post_id": 95900,
+            "thread_id": 63489,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-26 09:23:50",
+            "message": "Do you get voltages from pages 73, 75 and 76?"
+        }
+    ]
+}

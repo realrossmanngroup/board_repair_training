@@ -1,0 +1,87 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7200": "What is U7200? a CHIP.",
+        "U7941": "What is U7941? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP5V_S5_LDO": "What is PP5V_S5_LDO? PP5V_S5_LDO is a 5v rail present when the machine is in a S5 soft off state. .",
+        "PPVIN_S5_HS_OTHER_ISNS": "What is PPVIN_S5_HS_OTHER_ISNS? a SIGNAL.",
+        "5V3V3_REG_EN": "What is 5V3V3_REG_EN? a SIGNAL.",
+        "PPVIN_S5_5VS3": "What is PPVIN_S5_5VS3? a SIGNAL.",
+        "5V_S5": "What is 5V_S5? 5V_S5 is an abbreviation for “PP5V_S5” which is a 5v power rail that is present when the machine is in an S5 state. .",
+        "U5410": "What is U5410? a CHIP.",
+        "R5410": "What is R5410? a RESISTOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015."
+    },
+    "threads": [
+        {
+            "post_id": 47875,
+            "thread_id": 47875,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> smc troubleshoot",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-03-27 17:16:06",
+            "message": "This one was water damage, no magsafe light, with two shorts : first on <SIGNAL>PP3V42_G3H</SIGNAL> (<CHIP>U7941</CHIP>) and second one was an internal short on <SIGNAL>PPVIN_S5_HS_OTHER_ISNS</SIGNAL>.\n\nFixed these issues and we are back with green light but <SIGNAL>PPBUS_G3H</SIGNAL> was 8.22V :(\n\nBefore messing with smc, I checked <SIGNAL>SMC_RESET_L</SIGNAL> and it was present at 3.4V. \nI checked <SIGNAL>PP5V_S5_LDO</SIGNAL> and it was pulsing because  <SIGNAL>5V3V3_REG_EN</SIGNAL> was pulsing and <SIGNAL>SMC_PM_G2_EN</SIGNAL> was pulsing...\n\nFor ultimate testing I decided to cut the power (<SIGNAL>PPVIN_S5_5VS3</SIGNAL> 8.22v)  to <CHIP>U7200</CHIP> and at my big surprise <SIGNAL>SMC_PM_G2_EN</SIGNAL> <SIGNAL>5V3V3_REG_EN</SIGNAL> were steady at 3.4V but <SIGNAL>PPBUS_G3H</SIGNAL> is still 8.22V.\n\nSo my partial conclusion is that <CHIP>U7200</CHIP> will need to be replaced.\nMy question in the meantime is : does <SIGNAL>PP5V_S5_LDO</SIGNAL> missing causes also SMC to not fully turn on? I am still suspecting an smc issue...\nthanks"
+        },
+        {
+            "post_id": 47878,
+            "thread_id": 47875,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> smc troubleshoot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-27 18:20:25",
+            "message": "\"was an internal short on <SIGNAL>PPVIN_S5_HS_OTHER_ISNS</SIGNAL>\"\nWhat exactly did you find there?\n\n\"I decided to cut the power (<SIGNAL>PPVIN_S5_5VS3</SIGNAL> 8.22v)\"\nDid you get <SIGNAL>5V_S5</SIGNAL> then?\n\nRemove F7040 and test L7030 voltage.\nIf you get 12.5V, your problem is on the system side of <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 47882,
+            "thread_id": 47875,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> smc troubleshoot",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-03-27 18:52:32",
+            "message": "Hello 2informaticos, for the internal short, there was a burning hole right next to <RESISTOR>R5410</RESISTOR>, <SIGNAL>PPBUS_G3H</SIGNAL> was dead short to gnd. I gently scraped the burned hole and isloted the shorted track. This bring back normal diode mode 0,440 on <SIGNAL>PPBUS_G3H</SIGNAL>. I had to reroute 2 wires to <CHIP>U5410</CHIP> and of course to connect back with <SIGNAL>PPBUS_G3H</SIGNAL>.\n\nNo I didn?t get <SIGNAL>5V_S5</SIGNAL> because <CHIP>U7200</CHIP> wasn?t anymore powered on it?s VIN pin 16. But this test let me find out that <SIGNAL>SMC_PM_G2_EN</SIGNAL> was back steady and stable, this let me think that <CHIP>U7200</CHIP> when powered up is causing <SIGNAL>SMC_PM_G2_EN</SIGNAL> to pulse continually.\n\nYes easy and good idea, I removed F7040 and tested L7030 voltage but it still 12,28V."
+        },
+        {
+            "post_id": 47883,
+            "thread_id": 47875,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> smc troubleshoot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-27 19:04:33",
+            "message": "\"L7030 voltage but it still 12,28V\"\nDidn't have 8.22V with F7040 in place???\n\n12.28V usually means no communication between <CHIP>U7000</CHIP> and SMC.\nCheck diode mode (red probe to ground) and voltage for SCL/SDA lines of battery bus.\nKeep F7040 removed, untill get correct voltage at L7030."
+        },
+        {
+            "post_id": 47884,
+            "thread_id": 47875,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> smc troubleshoot",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-03-27 19:41:14",
+            "message": "Oh so sorry! with fuse in place it was 12.22V with F7049 removed it was same thing 12.28V I am confused with macbook air:) there seem no short on <SIGNAL>PPBUS_G3H</SIGNAL> with 0.424 on diode mode. Sorry about that.\n\nI just replaced <CHIP>U7200</CHIP> and the board turns on an chimes! One variable less! <CHIP>U7200</CHIP> was messing all <SIGNAL>PP5V_S5</SIGNAL> down up to <SIGNAL>SMC_PM_G2_EN</SIGNAL>.\n\nI still measure 12.25v on <SIGNAL>PPBUS_G3H</SIGNAL>, it works fine with a baterie but not charging and no orange light.\nDiode mode on SDA line shows ... a full short to ground... SCL is ok at 0,499.\n\nFinger crossed will start first with <CHIP>U7000</CHIP>, damn this board had a lot of bad chip + the burning hole most likely chinese charger not triping  with water..."
+        },
+        {
+            "post_id": 47886,
+            "thread_id": 47875,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> smc troubleshoot",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-03-27 20:46:59",
+            "message": "I am lucky on this one it was <CHIP>U7000</CHIP> ISL fully shorted on sda pin!\nDiode mode on SDA is back to  normal and exactly same as SCL line.\nI just have to put backa new <CHIP>ISL6259</CHIP>, test the board, sensors etc.\nYou can consider it solved! Thanks 2informaticos?"
+        },
+        {
+            "post_id": 47901,
+            "thread_id": 47875,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> smc troubleshoot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-28 05:31:48",
+            "message": "It should charge now.\nTwo days ago got one with similar short on SDA line..."
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00875": "What is 820-00875? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_DCIN": "What is SMC_DCIN? a SIGNAL.",
+        "BMON_ISENSE": "What is BMON_ISENSE? a SIGNAL.",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "SMC_DCIN_ISENSE": "What is SMC_DCIN_ISENSE? a SIGNAL.",
+        "SMC_BMON_ISENSE": "What is SMC_BMON_ISENSE? a SIGNAL.",
+        "C7023": "What is C7023? a CAPACITOR.",
+        "U6990": "What is U6990? a CHIP.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on.."
+    },
+    "threads": [
+        {
+            "post_id": 88076,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 34050,
+            "username": "Mac Tech",
+            "post_date": "2022-03-29 09:59:17",
+            "message": "Hello, greetings to all.\n\nThis plate got liquid on it.\n\nThe problem is that it does not recognize the battery, it only turns on with the charger.\n\nWhen connecting the battery the voltage on <SIGNAL>PPBUS_G3H</SIGNAL> is 12.28V.\n\nSDA line 0v\nSCL line 0v\n\nWhen only the charger is connected without the battery connected, the voltages return to 3.3v in both SDA and SCL.\n\nIt has already been tested with another battery and flex from another functional machine."
+        },
+        {
+            "post_id": 88077,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-29 10:52:19",
+            "message": "\"When connecting the battery the voltage on <SIGNAL>PPBUS_G3H</SIGNAL> is 12.28V.\"\nWhat about charger alone?\n\nCheck diode mode to ground at SCL/SDA lines of battery bus."
+        },
+        {
+            "post_id": 88081,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 34050,
+            "username": "Mac Tech",
+            "post_date": "2022-03-29 12:07:39",
+            "message": "that's right, 12.28V\n\ndiode mode\n\nSDA: 427\nSCL: 427\n\nWith charger <SIGNAL>PPBUS_G3H</SIGNAL> it is 13.04V\n\nSDA: 3.37V\nSCL: 3.37V\n\nWhen I connect the battery flex, the usb c meter restarts."
+        },
+        {
+            "post_id": 88082,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-29 13:39:56",
+            "message": "Check resistance over <CAPACITOR>C7020</CAPACITOR>/23 (ohm scale).\nAlso check <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>BMON_ISENSE</SIGNAL> levels."
+        },
+        {
+            "post_id": 88085,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 34050,
+            "username": "Mac Tech",
+            "post_date": "2022-03-29 14:15:08",
+            "message": "<CAPACITOR>C7020</CAPACITOR> 0.70M ohms on both sides\n\n<CAPACITOR>C7023</CAPACITOR> starts to drop from 02.23M ohms to 00.69M ohms then rises to 200K ohms.\n\n<SIGNAL>SMC_DCIN_ISENSE</SIGNAL> 07.10M ohms\n\n<SIGNAL>SMC_BMON_ISENSE</SIGNAL> 08.10 M ohms"
+        },
+        {
+            "post_id": 88088,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-29 17:26:45",
+            "message": "I asked about resistance over the caps; in other words, measuring BETWEEN their pins!\n\nChecking signal level, means its voltage..."
+        },
+        {
+            "post_id": 88127,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 34050,
+            "username": "Mac Tech",
+            "post_date": "2022-03-30 10:45:31",
+            "message": "there is continuity between its lines.\n\n<CAPACITOR>C7020</CAPACITOR> voltages is 13.04v on both sides.\n\n<CAPACITOR>C7023</CAPACITOR> voltage is 14.77 on both sides."
+        },
+        {
+            "post_id": 88129,
+            "thread_id": 62538,
+            "title": "<LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER>",
+            "user_id": 34050,
+            "username": "Mac Tech",
+            "post_date": "2022-03-30 11:33:35",
+            "message": "resolved. I noticed that <SIGNAL>PPBUS_G3H</SIGNAL> with the battery connected went to fuse F7000, that was fine.\n\nAnalyzing the i2c lines of the battery I see that they feed on <SIGNAL>PP3V3_G3H</SIGNAL>.\n\nThis voltage comes out of ic <CHIP>U6990</CHIP>.\n\nWhen I measure the input voltage which is <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> I see that there is no voltage.\n\nThis voltage comes from <SIGNAL>PPBUS_G3H</SIGNAL> which passes through a resistor <RESISTOR>R6905</RESISTOR>, which I measure and there is no <SIGNAL>PPBUS_G3H</SIGNAL> voltage, I see that the resistor is a little sulfated. I proceed to change it and find the solution.\n\nThnks!!! [USER=682]@2informaticos[/USER]"
+        }
+    ]
+}

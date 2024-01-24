@@ -1,0 +1,61 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "U7701": "What is U7701? a CHIP.",
+        "U8130": "What is U8130? a CHIP.",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "R8133": "What is R8133? a RESISTOR.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded.."
+    },
+    "threads": [
+        {
+            "post_id": 32376,
+            "thread_id": 32376,
+            "title": "[SOLVED]MBAir <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> -- no post",
+            "user_id": 1408,
+            "username": "jdwhatnot",
+            "post_date": "2018-03-08 15:24:31",
+            "message": "A machine came in, said the screen is dark. Confirmed no backlight, 7V on the BKLT supply after the diode. Checked <CHIP>U7701</CHIP> and there was slight off-white corrosion along the side of the IC. Brushed it away and fluxed the chip hoping for quick fix. It did not solve the issue. So I put it aside until I could get back to it. About a week later when I had more time I went to check it out again, but it's now decided to not post at all. I went ahead and just replaced <CHIP>U7701</CHIP> anyway.\n\nWe have orange light, fans don't stop spinning. Usually I just give up when I see this but I need to figure this problem out because it's not the first time I've seen it, plus it was actually booting to OSX when it came in. So....\n\nWe are in S0, all power rails present, chipset has proper signals. One weird thing is that sometimes if I measure <SIGNAL>PM_RSMRST_L</SIGNAL> on <RESISTOR>R8133</RESISTOR> it will appear to try post; fan will die, and it sometimes brings the fan back up for the next post cycle, but usually <SIGNAL>3V3_SUS</SIGNAL> dies and doesn't come back up. So I replaced <RESISTOR>R8133</RESISTOR>, same symptom, replaced <CHIP>U8130</CHIP>, same symptom. There was no other corrosion seen, and the board has been ultrasonicked.\n\nAny ideas? Unfortunately chipset replacement is out of the question and my hot air station doesn't throw out enough heat to desolder an SMC, but that's where I'm leaning. Also, on a whim with another board I swapped out the ROM with another of the same model and it did not fix the issue, so there's also that."
+        },
+        {
+            "post_id": 32377,
+            "thread_id": 32376,
+            "title": "[SOLVED]MBAir <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> -- no post",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-03-08 18:39:07",
+            "message": "This could be many things... Could be a random corroded resistor somewhere, could be spi resistors or traces, could be SMC, could even be the CPU but let's not go there yet --\n\nPlease measure the following -- \n\n <SIGNAL>PM_PCH_PWROK</SIGNAL>  -\n\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> Both voltage and Resistance to gnd\n\n<SIGNAL>PLT_RESET_L</SIGNAL>\n\nWhat exactly do you mean by it \"trys to post\" ?"
+        },
+        {
+            "post_id": 32392,
+            "thread_id": 32376,
+            "title": "[SOLVED]MBAir <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> -- no post",
+            "user_id": 1408,
+            "username": "jdwhatnot",
+            "post_date": "2018-03-09 12:00:11",
+            "message": "[QUOTE=\"TCRScircuit, post: 32377\"]This could be many things... Could be a random corroded resistor somewhere, could be spi resistors or traces, could be SMC, could even be the CPU but let's not go there yet --\n\nPlease measure the following --\n\n<SIGNAL>PM_PCH_PWROK</SIGNAL> -\n\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> Both voltage and Resistance to gnd\n\n<SIGNAL>PLT_RESET_L</SIGNAL>\n\nWhat exactly do you mean by it \"trys to post\" ?\n\n\n\n[/QUOTE]\n\nHigh\n1.8V on both rails\nHigh\n\n\"Trying to post\" being S0 state, power rails present, fan is spinning; the intended result being three complete posts and then a nice Mac chime.\n\n\nSo, for an update... it looks like I've leaned something new. So on all other boards I can recall having worked on over the past few years, Air boards have been unique in that when power is applied the board will do three complete posts and then chime and become operational. This board spins up the fans once, waits about 5 seconds, and then chimes. Never seen this behavior before, but I've not worked on a lot of 00165's with hardware issues yet.\n\nBut the new <CHIP>U7701</CHIP> works and backlight is operational. So yay for science!?\n\nEDIT: I need to mark as solved, how can I do this?"
+        },
+        {
+            "post_id": 32399,
+            "thread_id": 32376,
+            "title": "[SOLVED]MBAir <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> -- no post",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-09 13:10:08",
+            "message": "Only 3437/3435 will do 3 times on/off. 00165 will just power on. 2915/2914 will do 1 time on/off."
+        },
+        {
+            "post_id": 32400,
+            "thread_id": 32376,
+            "title": "[SOLVED]MBAir <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> -- no post",
+            "user_id": 1408,
+            "username": "jdwhatnot",
+            "post_date": "2018-03-09 13:25:02",
+            "message": "[QUOTE=\"dukefawks, post: 32399\"]Only 3437/3435 will do 3 times on/off. 00165 will just power on. 2915/2914 will do 1 time on/off. [/QUOTE]\n\nThank you for that clarification!"
+        }
+    ]
+}

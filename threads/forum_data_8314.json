@@ -1,0 +1,74 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3435": "What is 820-3435? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "U7840": "What is U7840? a CHIP.",
+        "820-3208": "What is 820-3208? a LOGIC BOARD PART NUMBER.",
+        "VRTC_G3H": "What is VRTC_G3H? a SIGNAL.",
+        "R8115": "What is R8115? a RESISTOR.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "R6110": "What is R6110? a RESISTOR.",
+        "R6111": "What is R6111? a RESISTOR.",
+        "R6112": "What is R6112? a RESISTOR.",
+        "R6113": "What is R6113? a RESISTOR.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U1900": "What is U1900? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 8314,
+            "thread_id": 8314,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>, Green light, No <SIGNAL>PM_SLP_S5_L</SIGNAL>.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2016-10-20 08:28:24",
+            "message": "Posting all of my \"tough\" boards here recently, and I'm fairly certain most of them have bad CPUs, but want to confirm before placing them into the parts pile. :)\n\nWorking on an <LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> that received power, gives a good light, and the fan \"twitches\", so I thought I had a quarter fan spin issue, but all current sensing looks and measures fine. Charger light does not blink or pulse between spins. Checked current sensing, all seems in order. Checked 6259, checks out fine. This board had visible signs of someone goofing with the SPI ROM chip, so I loaded my known-good dump to be sure, but no change. I have 3.3v on all pins for the SPI ROM (except pin 4 of course). I have all my S5 rails and <SIGNAL>VRTC_G3H</SIGNAL>. No shorts detected on any of the S5 or mains rails.\n\nFollowing the block diagram from the <LOGIC BOARD PART NUMBER>820-3208</LOGIC BOARD PART NUMBER> (and converting/tracing components and signals where necessary), I do get 1.05v on pin 1 of <CHIP>U7840</CHIP>, but I get no <SIGNAL>PM_SLP_S5_L</SIGNAL>, however <SIGNAL>PM_SLP_S5_L</SIGNAL> DOES spike when the fan twitches, but then immediately goes back to 0v. It spikes for a split second--too fast for my multimeter to even measure--and then back to 0v. Everything stops at <RESISTOR>R8115</RESISTOR>. No heat from CPU or SMC (or anywhere else on the board). Diode on pin 1 of <RESISTOR>R8115</RESISTOR> is .415.\n\nBad CPU?"
+        },
+        {
+            "post_id": 8317,
+            "thread_id": 8314,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>, Green light, No <SIGNAL>PM_SLP_S5_L</SIGNAL>.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-20 09:16:57",
+            "message": "Does CPU Vcore pulse when the fan goes?"
+        },
+        {
+            "post_id": 8319,
+            "thread_id": 8314,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>, Green light, No <SIGNAL>PM_SLP_S5_L</SIGNAL>.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2016-10-20 09:23:27",
+            "message": "It does, yes. Pulses up to ~1.56v then to 0v again. Consistent."
+        },
+        {
+            "post_id": 8324,
+            "thread_id": 8314,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>, Green light, No <SIGNAL>PM_SLP_S5_L</SIGNAL>.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-20 10:52:32",
+            "message": "Must be an issue with SPI data lines then. There are 12 resistors in total that need to be checked and also the traces! Check schematic around <CHIP>U6100</CHIP>"
+        },
+        {
+            "post_id": 8337,
+            "thread_id": 8314,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>, Green light, No <SIGNAL>PM_SLP_S5_L</SIGNAL>.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2016-10-20 11:43:52",
+            "message": "Just went through and checked all resistors (18 total) and continuity between all, and all is well. Could the issue be a damaged BIOS chip or corrupt file? I loaded a known-good/clean file (again, to get at least a delayed chime boot, just so I could force update the EFI later to resolve the inevitable ME region issues), but can't get the board to stay on.\n\nAlso worth noting: voltage at pin 1 of <RESISTOR>R6112</RESISTOR> and <RESISTOR>R6111</RESISTOR> DROPS to 0v when the fan cycles (along with the vcore drop), but voltage at pin 1 of <RESISTOR>R6110</RESISTOR> and <RESISTOR>R6113</RESISTOR> and stays at 3.3v--no drop."
+        },
+        {
+            "post_id": 8339,
+            "thread_id": 8314,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>, Green light, No <SIGNAL>PM_SLP_S5_L</SIGNAL>.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-20 11:51:26",
+            "message": "Could be clock chip <CHIP>U1900</CHIP> or <CHIP>U1950</CHIP> pin 8. Power cycling can be caused by anything really."
+        }
+    ]
+}

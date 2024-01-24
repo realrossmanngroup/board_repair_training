@@ -1,0 +1,47 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "D7050": "What is D7050? Diodes between SMBUS_SMC_5_G3_SDA and SMBUS_SMC_5_G3_SCL and ground, these data lines allow the battery to communicate with the battery charging chip and the SMC..",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "PP3V3_S4SW_SNS": "What is PP3V3_S4SW_SNS? a SIGNAL.",
+        "SMCBUS_2_S3_SCL": "What is SMCBUS_2_S3_SCL? a SIGNAL.",
+        "R5380": "What is R5380? a RESISTOR.",
+        "R5370": "What is R5370? a RESISTOR.",
+        "R5371": "What is R5371? a RESISTOR.",
+        "U8000": "What is U8000? a CHIP.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded.."
+    },
+    "threads": [
+        {
+            "post_id": 22270,
+            "thread_id": 22270,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A SMC issue? 3.3V S4 at 2.5V",
+            "user_id": 139,
+            "username": "jb23",
+            "post_date": "2017-06-27 10:21:55",
+            "message": "Had an <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A that wasn't detecting the battery and had loads of green crap around the J0705 area. Customer decided to buy a replacement battery and plug that in without cleaning any of the corrosion! Anyway I ultrasonically cleaned the board and still had no battery detection and would not run off battery. Let me tell you the story of where I am at the moment:\n\nBeing a repair monkey I replaced <CHIP>U7100</CHIP> - no change. <DIODE>D7050</DIODE> -no change. <RESISTOR>R5380</RESISTOR> and 5381 (which looked good and measured fine) - no change but I now had 3.4V on <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> which was at 2V before (should have checked for that!). Finally I was out of options and replaced the SMC - I now had battery detection, charges battery and ran off battery fine. But I had no trackpad or keyboard at all in OS mode!\n\nTried known good trackpad and keyboard - no change. Found <SIGNAL>SMCBUS_2_S3_SCL</SIGNAL> was at 1.5V. Replaced <RESISTOR>R5370</RESISTOR>, <RESISTOR>R5371</RESISTOR> (again they measured OK) and get 3.3V on <SIGNAL>SMCBUS_2_S3_SCL</SIGNAL> - but now I get no chime and video output.\n\nPut back original SMC which would POST originally- no change still no chime or video output.\n\nSpecifically the fan spins, then off, then on permanently. Before this happened the fan would remain on constantly then chime.\n\nThe CPU gets warm but not hot - in typing this out (always helps me think things through) I've realised I get 2.5V on <SIGNAL>PP3V3_S4</SIGNAL>. I get 3.3V on <SIGNAL>PP3V3_S4SW_SNS</SIGNAL>.\n\nMy next thought was to just replace any resistor or capacitor around the SMC that has <SIGNAL>PP3V3_S4</SIGNAL> running to it since the whole issue from the start seems to be SMC related. Is this a good plan or is there any common thing I should check for you would recommend?\n\nThanks\n\nJon"
+        },
+        {
+            "post_id": 22274,
+            "thread_id": 22270,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A SMC issue? 3.3V S4 at 2.5V",
+            "user_id": 139,
+            "username": "jb23",
+            "post_date": "2017-06-27 11:31:59",
+            "message": "Replaced <CHIP>U8000</CHIP> and have 3.3V on <SIGNAL>PP3V3_S4</SIGNAL> but still no video/chime."
+        },
+        {
+            "post_id": 22275,
+            "thread_id": 22270,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>-A SMC issue? 3.3V S4 at 2.5V",
+            "user_id": 139,
+            "username": "jb23",
+            "post_date": "2017-06-27 12:14:02",
+            "message": "TROLLED BY A <CHIP>U1950</CHIP> ISSUE AGAIN!!!!!!!! Replaced and got a chime this time :) If anyone is interested in my reasoning I had 1.3V on <SIGNAL>PM_PCH_PWROK</SIGNAL> instead of 3.4V. All should be good now thanks can mark this as solved. Again most of my posts are me just talking to myself but it forces me to think correctly and hopefully will help someone else out there having a similar issue"
+        }
+    ]
+}

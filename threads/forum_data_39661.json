@@ -1,0 +1,304 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3462": "What is 820-3462? a LOGIC BOARD PART NUMBER.",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "PPVCORE_S0_AXG": "What is PPVCORE_S0_AXG? This is vcore going to the CPU’s integrated graphics processor for CPUs that have an integrated GPU. When this is missing on a device that has an integrated GPU and no discrete GPU, it usually means either no screen is detected, or the GPU integrated into the CPU is dead..",
+        "SMC_CLK32K": "What is SMC_CLK32K? a SIGNAL.",
+        "P5VS3_EN": "What is P5VS3_EN? a SIGNAL.",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PM_SYSRST_L": "What is PM_SYSRST_L? PM_SYSRST_L is a system reset signal present when it is low, _L means the signal asserts itself when the voltage is low. This signal needs to be high for the system to exit reset mode & turn on properly. .",
+        "U7950": "What is U7950? a CHIP.",
+        "U7400": "What is U7400? a CHIP.",
+        "P5VS0_EN": "What is P5VS0_EN? This signal enables the PP5V_S0 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PM_SLP_S3_R_L": "What is PM_SLP_S3_R_L? a SIGNAL.",
+        "PP5V_S0_CPUIMVP": "What is PP5V_S0_CPUIMVP? a SIGNAL.",
+        "PP5V_S4_P5VS0FET": "What is PP5V_S4_P5VS0FET? a SIGNAL.",
+        "Q7860": "What is Q7860? a TRANSISTOR.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "U1800": "What is U1800? a CHIP.",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post.."
+    },
+    "threads": [
+        {
+            "post_id": 39661,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-18 06:32:33",
+            "message": "Hi Team,\n\nI have a 82-3462 board that Fans pulsing in loop\n\n<SIGNAL>PPVCORE_S0_CPU</SIGNAL>: 0V\n<SIGNAL>PPVCORE_S0_AXG</SIGNAL>: 0V\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.59V\n<SIGNAL>PP3V42_G3H</SIGNAL>: 3.431V\n<SIGNAL>PPVRTC_G3H</SIGNAL>: 3.336V\n<SIGNAL>PP5V_S5</SIGNAL>: 5.035V\n<SIGNAL>PP3V3_S5</SIGNAL>: 3.341V\n<SIGNAL>PP5V_S4</SIGNAL>: 5.035V\n\n<SIGNAL>PP3V3_S4</SIGNAL>: pulsing\n<SIGNAL>PP5V_S3</SIGNAL>: pulsing\n<SIGNAL>PP3V3_S3</SIGNAL>: pulsing\n\n<SIGNAL>P5VS3_EN</SIGNAL>: pulsing\n<SIGNAL>PM_SLP_S4</SIGNAL>: pulsing\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL>: 3.4V\n<SIGNAL>SMC_PM_G2_EN</SIGNAL>: 3.428V\n<SIGNAL>PM_BATLOW_L</SIGNAL>:0V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 0V\n<SIGNAL>PM_SLP_SUS_L</SIGNAL>: 0V\n\n<SIGNAL>SMC_ONOFF_L</SIGNAL>: 3.429V\n\nY5010: 12Mhz\n<SIGNAL>SMC_CLK32K</SIGNAL> : 32Khz\n3 25Mhz signal pulsing\n\n<SIGNAL>SMC_ONOFF_L</SIGNAL>: 3.429V"
+        },
+        {
+            "post_id": 39665,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-09-18 07:00:48",
+            "message": "Does CPU VCore pulse as well?"
+        },
+        {
+            "post_id": 39666,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-18 07:08:32",
+            "message": "No it's not pulsing,\nCpu vcore is missing"
+        },
+        {
+            "post_id": 39674,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-18 11:36:10",
+            "message": "\"<SIGNAL>PM_BATLOW_L</SIGNAL>:0V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 0V\n<SIGNAL>PM_SLP_SUS_L</SIGNAL>: 0V\"\nAre you sure?\nBoard should not even try to start...\n\nMaybe getting some pulses there too?"
+        },
+        {
+            "post_id": 39677,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-18 13:41:48",
+            "message": "ola amigos,\n\nI've re-mesured again, i had the same voltage for <SIGNAL>PM_BATLOW_L</SIGNAL> then suddenly it turned high.......maybe i'm too tired......sorry\nhere are the voltages......\n\n<SIGNAL>PM_BATLOW_L</SIGNAL>: 3.336V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 3.397V\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> : 3.340V\n\nok so let me going through the others PCH Inputs page 18, or if you have any suggestion.....\n\nthanks"
+        },
+        {
+            "post_id": 39678,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-18 13:49:27",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL>: 3.422V\n<SIGNAL>PM_RSMRST_L</SIGNAL>: 3.310V\n<SIGNAL>PM_PCH_PWROK</SIGNAL>: pulsing\n<SIGNAL>PM_PCH_SYS_PWROK</SIGNAL>: 0V\n<SIGNAL>PM_SYSRST_L</SIGNAL>: pulsing"
+        },
+        {
+            "post_id": 39680,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-18 13:59:51",
+            "message": "Any pulse at pin 7 of <CHIP>U7950</CHIP>?\nPins 1 & 2 should be high or pulsing at least."
+        },
+        {
+            "post_id": 39682,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-18 14:39:18",
+            "message": "at pin 7 of <CHIP>U7950</CHIP>: no pulse 0v\nPins 1 & 2 are pulsing\n\nAt <CHIP>U7400</CHIP>\n<SIGNAL>PP5V_S0_CPUIMVP</SIGNAL> is pulsing\n\nat <TRANSISTOR>Q7860</TRANSISTOR>\n<SIGNAL>PP5V_S4_P5VS0FET</SIGNAL>: pulsing\n<SIGNAL>PM_SLP_S3_R_L</SIGNAL> (<SIGNAL>P5VS0_EN</SIGNAL>): pulsing"
+        },
+        {
+            "post_id": 39685,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-18 15:16:20",
+            "message": "<SIGNAL>PM_SLP_S5_L</SIGNAL> pulsing......................back to PCH again......any suggestion?"
+        },
+        {
+            "post_id": 39686,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-18 15:36:47",
+            "message": "Around the PCH, I've found L3508 missing but this one only provides the 5V to the camera, and not sure that it is responsible of my issue, however I'll replace it tomorow as it's starting to be late here in France."
+        },
+        {
+            "post_id": 39687,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-18 15:46:48",
+            "message": "\"at pin 7 of <CHIP>U7950</CHIP>: no pulse 0v\nPins 1 & 2 are pulsing\"\nIf gets power on pin8, then pin7 should pulse too.\n\nCheck pin8 solder, change <CHIP>U7950</CHIP> if needed."
+        },
+        {
+            "post_id": 39714,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-19 11:22:22",
+            "message": "Ola 2Informaticos,\nque tal?\n\nI've repaced <CHIP>U7950</CHIP> from a donor board, now pin 7 is pulsing too......a good thing done gracias, but still in the same \"mode\" ( quarter fan spin in loop)\n\nwhen i plug the charger it rises to 2.3V then drops, then when the quarter fan start his cycle, it pulses from 0.085v to 0.150V"
+        },
+        {
+            "post_id": 43439,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-16 15:13:35",
+            "message": "<SIGNAL>PM_DSW_PWRGD</SIGNAL>: 3.428V\n<CHIP>U1800</CHIP> PCH an d SMC reflowed\nstill quarter fan in loop\n\nAny suggestion?"
+        },
+        {
+            "post_id": 43442,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-16 15:33:39",
+            "message": "Did you try SMC bypass mode?"
+        },
+        {
+            "post_id": 43444,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-16 15:41:07",
+            "message": "yes : full fan speed in loop like quarter fan spin but at max speed"
+        },
+        {
+            "post_id": 43449,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-17 01:24:51",
+            "message": "Try new BIOS..."
+        },
+        {
+            "post_id": 43518,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-18 00:21:16",
+            "message": "already  dumped, cleaned (ME, Pram and SSN area)  with the medusa and restored it back without success but i can try another chip you're right ..."
+        },
+        {
+            "post_id": 43519,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-18 00:42:44",
+            "message": "Did you try original 85w charger?"
+        },
+        {
+            "post_id": 43568,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-18 12:56:55",
+            "message": "Ola 2Informaticos,\n\nIm using a DC power supply with original 85W cable because of the tip, as you know it contains a chip that is talking with the machine with the one wire protocol.\n\nRegarding the chip , I've just replaced the bios chip from a donor board, of course I did all the dumping/cleaning tasks with the medusa 2 before soldering it.\n\nAnd you know what: It's working fine .......muchas gracias, that board was there for months now......;):D\n\nI'm so happy .\n\nAgain thanks a lot muchas gracias.."
+        },
+        {
+            "post_id": 43570,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-18 13:00:55",
+            "message": "Glad to hear that.\n;)"
+        },
+        {
+            "post_id": 43573,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-18 13:21:15",
+            "message": "And what do you think about working with a dc power supply with a original magsafe 1 85W cable and official magsafe 1-->2 adapter. ( I can monitor the power drained by the board )\nDoes that cover all the boards (except type C of course) ?"
+        },
+        {
+            "post_id": 43575,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-18 14:12:01",
+            "message": "The board is starting but the fans slowly run to full speed......wht the easiest way to diagnose?\nshould I installed it in the machine and run the ASD or is there another way to find out as the board is on my desk........\nI've connected  the LIO board and it's still the same."
+        },
+        {
+            "post_id": 43577,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-18 14:22:03",
+            "message": "That is RIO board, not LIO.\nConnect it and try ;)"
+        },
+        {
+            "post_id": 43578,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-18 14:26:39",
+            "message": "It was the trackpad, after i've connected it, fans run normally........there is a sensor in the trackpad.......ooops"
+        },
+        {
+            "post_id": 43580,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-18 14:32:54",
+            "message": "Palm Rest temp sensor is there; as its name is very \"indicative\"..."
+        },
+        {
+            "post_id": 43582,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-18 15:00:02",
+            "message": "\"what do you think about working with a dc power supply with a original magsafe 1 85W cable and official magsafe 1-->2 adapter.\"\nI do NOT recommend that.\nI just remember someone wasting 2 days with two boards repaired.\nHe tested them only with MagSafe 1->2 adapter and got problems; with backlight I think, don't exactly remember.\nAll fine when he tried with correct MagSafe..."
+        },
+        {
+            "post_id": 43839,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-21 10:07:29",
+            "message": "thanks for your confirmation, I've also already read somewhere in the forum that those adapter ( even official ) are not reliable .............\nSo my next step will be to try to found an official 85W magesafe 2 cable, to attach to my DC Power supply, like that I will have both"
+        },
+        {
+            "post_id": 43947,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-12-23 04:48:35",
+            "message": "regarding the magsafe 1 -->2 adapter here what I've found on the Apple official web site:\n\n[B]Compatibility[/B]\n\n24-inch Apple LED Cinema Display\n\n27-inch Apple LED Cinema Display\n\nApple Thunderbolt Display\n\nApple 45W MagSafe Power Adapter\n\nApple 85W MagSafe Power Adapter\n\nMacBook Pro with Retina display\n\nMacBook Air with MagSafe 2 power port\n\n\nSo now we know that this little adapter is not comptible with the 65W charger"
+        },
+        {
+            "post_id": 43948,
+            "thread_id": 39661,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>  Missing <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>,   <SIGNAL>PM_SLP_SUS_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-23 07:20:55",
+            "message": "Don't bother too much with compatibility.\nMagSafe original 85W charger is a MUST, both 1 and 2 style, for a service!\nYou can also need 85W cables to connect bench power supply.\nThis way you can discard an input leakage issue..."
+        }
+    ]
+}

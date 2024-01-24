@@ -1,0 +1,81 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3332": "What is 820-3332? a LOGIC BOARD PART NUMBER.",
+        "D6905": "What is D6905? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input on very old Macbooks(before 2011), can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U6990": "What is U6990? a CHIP.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "R6920": "What is R6920? a RESISTOR.",
+        "R5441": "What is R5441? a RESISTOR.",
+        "C5441": "What is C5441? a CAPACITOR.",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. ."
+    },
+    "threads": [
+        {
+            "post_id": 50576,
+            "thread_id": 50576,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> Fails on ID0R only on battery",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2019-07-09 05:45:19",
+            "message": "Been a while since i needed help, but here's one that's been bugging me for a couple of days.\n\n<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> that had some damage due to probably a knockoff charger, had to replace <RESISTOR>R6920</RESISTOR>,<RESISTOR>R6905</RESISTOR>,<DIODE>D6905</DIODE> and basically carpetreplaced a lot of things around <CHIP>U6990</CHIP>.\nGot it back to life, works perfectly, only to notice in final testing that the fan would occasionally run high out of the blue (when machine is just sitting idling).\n\nRan ASD, and noticed that when i run the sensor-tests while connected to AC (Genuine 85W Magsafe 2), all sensors pass, however, running the same tests off of the battery, the ID0R sensor fails.\nIt's reading 4,080A with charger connected, and reading 0.000A when only on battery (it should read between 0.65 and 4.671A according to hardwareprofile in ASD)\n\nI've searched here and found a couple things i've already tried so far:\nReplaced <RESISTOR>R5441</RESISTOR> and <CAPACITOR>C5441</CAPACITOR> together,\nChecked continuity from <RESISTOR>R5441</RESISTOR> pin 1 to <CHIP>U7000</CHIP> pin 9: checks out.\n<RESISTOR>R5441</RESISTOR> pin 1 reads 0,45V\nChecked currentsensing by the ISL and for the heck of it replaced the ISL twice.\n<RESISTOR>R7021</RESISTOR>/22 check out and their traces to both  <RESISTOR>R7020</RESISTOR> and ISL appear fine.\n\nJust finished replacing the SMC as a final check before asking here.. No difference.\n\nAny other ideas?\n\nThanks in advance!"
+        },
+        {
+            "post_id": 50578,
+            "thread_id": 50576,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> Fails on ID0R only on battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-09 10:15:54",
+            "message": "ID0R is not relevant on battery only.\n<SIGNAL>CHGR_AMON</SIGNAL> signal is about the current flowing from charger to the machine.\nObviously null in this case..."
+        },
+        {
+            "post_id": 50579,
+            "thread_id": 50576,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> Fails on ID0R only on battery",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2019-07-09 10:33:06",
+            "message": "FFS.. makes sense. \nso basically the EFI ASD is trolling me by giving this false error..? I?ve never seen the error pop up in other machines though.\ngoing to try and see what?s causing this thing to have an occasional high fan spin then. Fck me, I?ve been going over this for so long thinking that this is what?s causing the fans to ramp up.."
+        },
+        {
+            "post_id": 50580,
+            "thread_id": 50576,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> Fails on ID0R only on battery",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-07-09 10:44:30",
+            "message": "Run HWMonitor and see which sensor is high when the fans kick on. Probably the CPU or GPU which is normal it's a MacBook they are supposed to heat up"
+        },
+        {
+            "post_id": 50583,
+            "thread_id": 50576,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> Fails on ID0R only on battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-09 11:07:42",
+            "message": "Check if fan spins high only when GPU is enabled.\nHWMonitor should help you.\nBTW, 129 degrees indication on GPU is normal, when Intel graphics is used."
+        },
+        {
+            "post_id": 50586,
+            "thread_id": 50576,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> Fails on ID0R only on battery",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2019-07-09 12:37:45",
+            "message": "Alright thanks a lot both of you, will check tomorrow and report back here!"
+        },
+        {
+            "post_id": 50594,
+            "thread_id": 50576,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> Fails on ID0R only on battery",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2019-07-10 05:04:41",
+            "message": "Had it run for a couple of hours after reassembly today, and it hasnt done the sudden loud fan-spin anymore.. \nPasses ASD (besides the one error), runs pretty hot according to HWMonitor, under stress the CPU and GPU go up to about 106C, jesus, but ok, I'm calling this a fix and moving on to the next one! \n\nThanks both of you guys!"
+        }
+    ]
+}

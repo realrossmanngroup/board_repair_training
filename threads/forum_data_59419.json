@@ -1,0 +1,214 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2915": "What is 820-2915? a LOGIC BOARD PART NUMBER.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "U2800": "What is U2800? a CHIP.",
+        "U4900": "What is U4900? This is the System Management Controller(SMC) in older(pre-2013) macbooks.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PP3V3_S5_AVREF_SMC": "What is PP3V3_S5_AVREF_SMC? PP3V3_S5_AVREF_SMC Is a reference voltage for the SMC’s voltage sensors & other sensors..",
+        "SYSCLK_CLK32K_RTC": "What is SYSCLK_CLK32K_RTC? a SIGNAL.",
+        "SPI_MLB_CLK": "What is SPI_MLB_CLK? a SIGNAL.",
+        "SPIROM_USE_MLB": "What is SPIROM_USE_MLB? a SIGNAL.",
+        "SPI_MLB_MOSI": "What is SPI_MLB_MOSI? SPI_MLB_MOSI is a line between the SPI ROM BIOS chip and resistors that sit between it and the PCH. This often corrodes on Macbook Airs due to liquid damage and results in missing PM_SLP_S4_L and no bootup..",
+        "SYSCLK_CLK25M_X2_R": "What is SYSCLK_CLK25M_X2_R? a SIGNAL.",
+        "SLP_MLB_MISO": "What is SLP_MLB_MISO? a SIGNAL.",
+        "SOI_WP_L": "What is SOI_WP_L? a SIGNAL.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "U7940": "What is U7940? a CHIP.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "SMC_BATLOW_L": "What is SMC_BATLOW_L? SMC_BATLOW_L refers to a power management signal that indicates a low battery condition. The \"_L\" suffix suggests that this is an active-low signal, meaning that it becomes low when the battery reaches a low voltage threshold..",
+        "PM_SUS_EN": "What is PM_SUS_EN? a SIGNAL.",
+        "PP3V3SUS_SS": "What is PP3V3SUS_SS? a SIGNAL.",
+        "Q7820": "What is Q7820? a TRANSISTOR.",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN_L": "What is PCH_INTVRMEN_L? PCH_INTVRMEN_L is a signal that stands for Internal Voltage Regulator Enable. When pulled high, this signal enables the internal 1.05 V regulators for the Suspend well in the PCH. This signal must be pulled-up to PPVRTC_G3H..",
+        "PPVOUT_G3_PCH_DCPRTC": "What is PPVOUT_G3_PCH_DCPRTC? a SIGNAL.",
+        "PM_PWRBTN": "What is PM_PWRBTN? PM_PWRBTN refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop..",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "R5260": "What is R5260? a RESISTOR.",
+        "R5270": "What is R5270? a RESISTOR.",
+        "R5271": "What is R5271? a RESISTOR.",
+        "R5262": "What is R5262? a RESISTOR.",
+        "Q5501": "What is Q5501? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 60227,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-05-30 17:12:42",
+            "message": "So I received a board that’s missing <SIGNAL>PM_SLP_S4_L</SIGNAL> looks like someone had removed the bios. I checked the vias and\nThey seem good. I checked the spi bios Bi-directional Via as well. The hold signal <SIGNAL>SPIROM_USE_MLB</SIGNAL> 0v.\n<SIGNAL>PM_PCH_PWROK</SIGNAL>=3.42v\n\n<CHIP>U2800</CHIP>\n<SIGNAL>PPVRTC_G3H</SIGNAL> =3.27v\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.3v\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.42v\n<SIGNAL>SYSCLK_CLK25M_X2_R</SIGNAL> = 0v\n<SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> =0v\n\n<CHIP>U2800</CHIP> pin 12 has (32.6khz frequency measured with oscilloscope)\n\n<CHIP>U4900</CHIP>\n<SIGNAL>PP3V3_S5_AVREF_SMC</SIGNAL> = 3.42v\n<SIGNAL>SMC_ONOFF_L</SIGNAL> =3.42v\n<SIGNAL>SMC_RESET_L</SIGNAL> = 3.42v\n\n<CHIP>U6100</CHIP>\nPin 1 = 0\nPin 2 = 3.3v <SIGNAL>SLP_MLB_MISO</SIGNAL>\nPin 3 = 3.3v <SIGNAL>SOI_WP_L</SIGNAL>\nPin 4 = 0v vss\nPin 5 =3.3 <SIGNAL>SPI_MLB_MOSI</SIGNAL>\nPin 6 =3.3v <SIGNAL>SPI_MLB_CLK</SIGNAL>\nPin 7 =0v <SIGNAL>SPIROM_USE_MLB</SIGNAL>\nPin 8=3.3v vdd"
+        },
+        {
+            "post_id": 60236,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-31 04:09:34",
+            "message": "\"Pin 5 =3.3 <SIGNAL>SPI_MLB_MOSI</SIGNAL>\nPin 6 =3.3v <SIGNAL>SPI_MLB_CLK</SIGNAL> \"\nLooks like PCH doesn't access BIOS yet.\nCheck first <SIGNAL>PLT_RESET_L</SIGNAL> level.\nAlso check <SIGNAL>PM_PCH_SYS_PWROK</SIGNAL>."
+        },
+        {
+            "post_id": 60239,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-05-31 04:52:44",
+            "message": "<SIGNAL>PLT_RESET_L</SIGNAL> =0v\n<SIGNAL>PM_PCH_SYS_PWROK</SIGNAL> =0v\nWhat I don’t understand is if I’m missing <SIGNAL>PM_SLP_S4_L</SIGNAL>\nHow can I have s3 State and if I don’t have s3 how can I have <SIGNAL>PM_PCH_SYS_PWROK</SIGNAL> or <SIGNAL>PLT_RESET_L</SIGNAL> can you give me a hint to where I’m going wrong I’m my thought process?"
+        },
+        {
+            "post_id": 60242,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-31 05:51:22",
+            "message": "\"<SIGNAL>PM_PCH_PWROK</SIGNAL>=3.42v\"\nThis should appear in S0 state.\nSo where is your error, missing <SIGNAL>PM_SLP_S4_L</SIGNAL>, or missing <SIGNAL>PM_PCH_PWROK</SIGNAL>???"
+        },
+        {
+            "post_id": 60244,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-05-31 06:44:50",
+            "message": "I’m sorry it was <SIGNAL>PM_PCH_PWROK</SIGNAL> =0v \nI don’t have <SIGNAL>PM_SLP_S4_L</SIGNAL> \nI mistakenly wrote 3.42v on the first post."
+        },
+        {
+            "post_id": 60245,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-05-31 07:15:33",
+            "message": "Ok let me explain myself yesterday I was stuck around <TRANSISTOR>Q7820</TRANSISTOR> and\n<CHIP>U7940</CHIP>\npin 1 = 3.285v   <SIGNAL>SMC_BATLOW_L</SIGNAL>\nPin 2 = 0v   Ground\nPin 3 = 0v   <SIGNAL>PM_SUS_EN</SIGNAL>\nPin 4= 0v    <SIGNAL>PM_SUS_EN</SIGNAL>\nPin 5 = 3.3v <SIGNAL>PP3V3_S5</SIGNAL>\nPin 6 = 0 v   <SIGNAL>PM_SLP_SUS_L</SIGNAL>\n\n<TRANSISTOR>Q7820</TRANSISTOR>\nPin 1=0v      <SIGNAL>PP3V3_SUS</SIGNAL>\nPin 2 =0v     <SIGNAL>PP3V3SUS_SS</SIGNAL>\nPin 3 = 3.3v  <SIGNAL>PP3V3_S5</SIGNAL>\npin 4= 3.3v   <SIGNAL>PP3V3_S5</SIGNAL>\n\nI was thinking this <TRANSISTOR>Q7820</TRANSISTOR> (I have gate and source but no output) was bad but I wanted Ask your input on my problem before I changed this. I’m sorry if I misunderstand the circuit :("
+        },
+        {
+            "post_id": 60247,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-31 09:00:42",
+            "message": "Don't worry about <SIGNAL>PM_SLP_S4_L</SIGNAL>: you have missing <SIGNAL>PM_SLP_SUS_L</SIGNAL>!!!\nPost <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL>, <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL>, <SIGNAL>PM_PWRBTN_L</SIGNAL> and all 4 RTC signals."
+        },
+        {
+            "post_id": 60261,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-05-31 14:27:49",
+            "message": "<SIGNAL>PM_DSW_PWRGD</SIGNAL> =3.27v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> =3.15v\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>=3.36v\n<SIGNAL>PM_RSMRST_L</SIGNAL>=0v\n<SIGNAL>PM_PWRBTN</SIGNAL>=3.42v\n\nRTC signals\n\n<SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> =0v\n<SIGNAL>PPVRTC_G3H</SIGNAL>=3.26v\n<SIGNAL>RTC_RESET_L</SIGNAL>=3.24v\n<SIGNAL>PCH_SRTCRST_L</SIGNAL>=3.18v\n<SIGNAL>PCH_INTVRMEN_L</SIGNAL> =3.2v\n<SIGNAL>PCH_INTRUDER_L</SIGNAL>=2.8v\n<SIGNAL>PPVOUT_G3_PCH_DCPRTC</SIGNAL>=0v\nAre these the rtc signals you needed ?\n\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> = 79ohms resistance to ground"
+        },
+        {
+            "post_id": 60262,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-31 14:50:41",
+            "message": "\"Are these the rtc signals you needed ? \"\nMissing two, <SIGNAL>PCH_INTVRMEN</SIGNAL> and <SIGNAL>PCH_INTRUDER_L</SIGNAL>.\nI didn't ask about 32KHz oscillation, as requests o-scope to test it for sure.\n\n\"<SIGNAL>PM_RSMRST_L</SIGNAL>=0v \"\nNormal, I forgot about missing <SIGNAL>PM_SLP_SUS_L</SIGNAL>.\n\n\"<SIGNAL>PPVOUT_G3_PCH_DCPRTC</SIGNAL>=0v \"\nLooks like PCH issue; there should be 1.5V I think.\nPost the missing signals first..."
+        },
+        {
+            "post_id": 60268,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-05-31 16:22:12",
+            "message": "<SIGNAL>PCH_INTVRMEN_L</SIGNAL> =3.2v\n<SIGNAL>PCH_INTRUDER_L</SIGNAL>=2.8v\nI tested the <SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> signal yesterday it’s was 32.6khz tested with oscilloscope\nI’m still missing <SIGNAL>PP3V3_SUS</SIGNAL>"
+        },
+        {
+            "post_id": 60272,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-31 16:50:30",
+            "message": "\"I’m still missing <SIGNAL>PP3V3_SUS</SIGNAL>\"\nYou cannot get it without <SIGNAL>PM_SLP_SUS_L</SIGNAL>.\nAs above mentioned, looks like you have a problem with the PCH.\nPut quality flux and heat it; no more than 180-200 degress.\nYou don't need to melt the balls, just burn eventually accumulated crap underneath..."
+        },
+        {
+            "post_id": 60273,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-05-31 17:41:03",
+            "message": "Ok will try thanks :)"
+        },
+        {
+            "post_id": 60792,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-06-10 17:53:42",
+            "message": "Ok I’m gonna ask this I’m just lightly heating the cpu/pch at 180 degrees at a moderate air speed and don’t remove underfill and remove whatever crap is accumulated under it. Did I understand you correctly  ?"
+        },
+        {
+            "post_id": 60821,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-11 02:20:43",
+            "message": "Yes!\nRemoving the underfill from corners can help flux distribution..."
+        },
+        {
+            "post_id": 61063,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-06-16 17:40:12",
+            "message": "Ok so let me ask you this if I boot in to OS X and the fan spins high all the time with an erratic mouse, keyboard is a little laggy . Is it most likely a heat sensor issue? I was guessing maybe it can’t sense the temp and runs it at high to compensate?"
+        },
+        {
+            "post_id": 61064,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-06-16 18:06:11",
+            "message": "I’m checking <RESISTOR>R5271</RESISTOR>, <RESISTOR>R5270</RESISTOR> and <RESISTOR>R5260</RESISTOR>, <RESISTOR>R5262</RESISTOR>, and the Vias for continuity.\nit’s booting quickly and just buggy with trackpad and fan speed I’m gonna see if I find the asd efi for this board to help me narrow it down"
+        },
+        {
+            "post_id": 61076,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-17 03:59:33",
+            "message": "The board started after heating PCH?\nYou should run ASD to detect sensor errors.\n\nYou can also try disconnecting webcam and changing trackpad board/flex."
+        },
+        {
+            "post_id": 61117,
+            "thread_id": 59419,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER> missing s3 rails",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-06-17 16:01:02",
+            "message": "I got it :) <TRANSISTOR>Q5501</TRANSISTOR> and yes it’s all working now \nThank you so much for your help"
+        }
+    ]
+}

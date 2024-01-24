@@ -1,0 +1,234 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "SYS_DETECT_L": "What is SYS_DETECT_L? For detection of the battery.",
+        "PM_EN_P3V3_G3H": "What is PM_EN_P3V3_G3H? PM_EN_P3V3_G3H is a signal that enables the PP3V3_G3H rail to turn on. This comes out of ISL9239 or ISL9240 chip; when missing, often is missing because of a bad ISL9239 or ISL9240 chip. .",
+        "SMBUS_BATT_SCL": "What is SMBUS_BATT_SCL? SMBUS_BATT_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "SMBUS_BATT_SDA": "What is SMBUS_BATT_SDA? SMBUS_BATT_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "P3V3_G3H": "What is P3V3_G3H? a SIGNAL.",
+        "R6991": "What is R6991? a RESISTOR.",
+        "C6990": "What is C6990? Capacitor to ground on input to PP3V42_G3H power supply. PP3V42_G3H power supply turns 18.5v from charger or 8.5v-12.5v PPBUS_G3H from the battery into PP3V42_G3H. This capacitor can short to ground and keep PP3V42_G3H from turning on which would keep the machine from having a light on the magsafe charger.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "R7075": "What is R7075? a RESISTOR.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U6990": "What is U6990? a CHIP.",
+        "Q7040": "What is Q7040? a TRANSISTOR.",
+        "ISL9239": "What is ISL9239? This is a charging chip for Macbook motherboards from 2016-2018 responsible for charging the battery and creating the power rail PPBUS_G3H.",
+        "D6905": "What is D6905? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input on very old Macbooks(before 2011), can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "C7078": "What is C7078? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 59596,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-14 17:02:50",
+            "message": "I have the above which had mild liquid damage around the board which has now been fix and the logicboard is working but my problem is the battery.\n\nIt will work with both the power lead and battery connected or just the power lead but if I pull the power lead out with the battery connected it turns off. \n\nIn the OS it shows a percentage and say's it charging. If I go to system under power, it says that the battery is connected and charging. If I leave the power lead connected you can see the percentage going up. \n\nAt first, after measuring around the board, what seems to be missing are the <SIGNAL>SMBUS_BATT_SCL</SIGNAL>, <SIGNAL>SMBUS_BATT_SDA</SIGNAL> and <SIGNAL>SYS_DETECT_L</SIGNAL>. So I thought it was the SMC, but with the SMC showing the correct information when it's in the system profile then, I've ruled this out for the time being. After more digging around I found that I was missing <SIGNAL>PP3V3_G3H</SIGNAL> on the battery alone. and to be more specific <SIGNAL>PM_EN_P3V3_G3H</SIGNAL> which comes from <CHIP>U7000</CHIP>. I replaced this, but it made no difference.\n\nSo now i'm stuck, I know <SIGNAL>PM_EN_P3V3_G3H</SIGNAL> is created by <CHIP>U7000</CHIP> but there must be something else externally that switches that on.\n\nOne last thing I have noticed with just the battery connected <SIGNAL>PM_EN_P3V3_G3H</SIGNAL> if fluctuating between 0.3v-0.6v, PPBUS is showing 11.45v\n\nAny pointer in the right direction"
+        },
+        {
+            "post_id": 59601,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 02:18:16",
+            "message": "Replace <RESISTOR>R6905</RESISTOR>..."
+        },
+        {
+            "post_id": 59603,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 03:24:46",
+            "message": "Hi, tried that and no difference. initially after changing <RESISTOR>R6905</RESISTOR> I have 0v on <SIGNAL>P3V3_G3H</SIGNAL>.\nAfter connecting the power lead and then removing it with the battery still connected <SIGNAL>P3V3_G3H</SIGNAL> dropped to ~1.8v - ~1.7v fluctuating and slowly dropping to now after typing this to ~1.3v - ~1.2v."
+        },
+        {
+            "post_id": 59604,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 03:44:50",
+            "message": "Post <CAPACITOR>C6990</CAPACITOR> and <RESISTOR>R6991</RESISTOR> voltage on battery only."
+        },
+        {
+            "post_id": 59607,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 05:20:53",
+            "message": "Battery connected\n<CAPACITOR>C6990</CAPACITOR> is 11.51v\n<RESISTOR>R6991</RESISTOR> is 0v\n\nPower lead connected then disconnect (battery connected)\n\n<CAPACITOR>C6990</CAPACITOR> - 11.51v\n<RESISTOR>R6991</RESISTOR> - 0.54 - 0.32 fluctuating"
+        },
+        {
+            "post_id": 59610,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 06:19:55",
+            "message": "Change <CHIP>U7000</CHIP>, looks like doesn't want to enable <SIGNAL>3V3_G3H</SIGNAL> on battery only."
+        },
+        {
+            "post_id": 59613,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 06:55:41",
+            "message": "Sorry I forgot to mention that I've replaced the <CHIP>U7000</CHIP> twice. Not sure it these are reballed cheap Chinese or if they are genuine. Is there any other factors that are needed to enable <SIGNAL>PM_EN_P3V3_G3H</SIGNAL> voltage signal to come from the <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 59614,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 07:11:37",
+            "message": "Try another battery, even old.\nCheck voltage and diode mode to ground on SCL/SDA lines of battery bus.\nLooks like SMC communicates with battery and <CHIP>U7000</CHIP>, but check values.\n\nDo you have any voltage at <RESISTOR>R7075</RESISTOR> with battery only?"
+        },
+        {
+            "post_id": 59618,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 07:45:46",
+            "message": "Tried another battery still the same.\n\nThere is no comms on the SCL/SDA lines and I wouldn't have thought there would be as there's no <SIGNAL>P3V3_G3H</SIGNAL> so surly the SMC isn't even being powered.\n\nI just don't know if there is any communication between the <CHIP>CD3215</CHIP> and the <CHIP>U7000</CHIP> which then turns on the <SIGNAL>PM_EN_P3V3_G3H</SIGNAL> which then gives 3.3 volts that then turns on the SMC for comms with the battery. That's what in thinking but I could be wrong."
+        },
+        {
+            "post_id": 59620,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 08:19:10",
+            "message": "You don't need power on board to check diode mode to grounbd on signal lines.\nAnd wanted to know the voltage on SCL/SDA lines with charger connected, of course.\n\n<CHIP>U7000</CHIP> doesn't need to talk with <CHIP>CD3215</CHIP>, nor SMC, to enable <SIGNAL>3V3_G3H</SIGNAL>; valid thing for battery mode only.\nIn fact, SMC cannot wake up if <SIGNAL>3V3_G3H</SIGNAL> is not generated first."
+        },
+        {
+            "post_id": 59623,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 09:04:57",
+            "message": "<RESISTOR>R7075</RESISTOR> battery only - 11v\n\nvoltage with battery and power lead connected taken at SMC \n\nSCL - 3.4v - same at J6951\nSDA - 3.4v - same at J6951\n\nVoltage after taking power lead off with battery connected\n\nSCL - 1.9v - fluctuating\nSDA - 1.9v - fluctuating \n\nDiode mode reading\n\nSCL - 0.40\nSDA - 0.40"
+        },
+        {
+            "post_id": 59624,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 09:34:00",
+            "message": "\"<RESISTOR>R7075</RESISTOR> battery only - 11v \"\nPost voltage with charger only and also charger plus battery..."
+        },
+        {
+            "post_id": 59626,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 09:43:40",
+            "message": "<RESISTOR>R7075</RESISTOR> with charger and battery is 19.8v\n\n<RESISTOR>R7075</RESISTOR> charger only is same 19.8v"
+        },
+        {
+            "post_id": 59631,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 12:40:32",
+            "message": "Definitely not <CHIP>U7000</CHIP> or the SMC, ive just removed both from working board and reball them onto this piece of cr*p and the measurements are the same"
+        },
+        {
+            "post_id": 59632,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 13:42:52",
+            "message": "I don't know where you measure.\n<RESISTOR>R7075</RESISTOR> must have 5V on both sides...\nYour values points to bad <CHIP>U7000</CHIP>.\nWhich is the exact <SIGNAL>PPBUS_G3H</SIGNAL> voltage with charger only?"
+        },
+        {
+            "post_id": 59638,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 14:51:21",
+            "message": "Sorry wrong reading <RESISTOR>R7075</RESISTOR> gives 0v with battery and 5v with both"
+        },
+        {
+            "post_id": 59641,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 15:22:04",
+            "message": "OK, time to make a test.\nRemove <RESISTOR>R6991</RESISTOR> and inject 5V (externally) at its pad 1; going to <CHIP>U6990</CHIP>.\nCheck if then board works on battery alone."
+        },
+        {
+            "post_id": 59642,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 15:38:18",
+            "message": "Yes … both SCL/SDA lines are 3.4v and I've just installed back into the case and using the battery and applying 5v to <RESISTOR>R6991</RESISTOR> i'm able to make it work by pressing the power button."
+        },
+        {
+            "post_id": 59645,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 16:44:56",
+            "message": "So, for some reason <CHIP>U7000</CHIP> doesn't want to enable <SIGNAL>3V3_G3H</SIGNAL> power supply on battery only.\nBe sure <TRANSISTOR>Q7040</TRANSISTOR>/65 are good.\nCompare voltages around <CHIP>U7000</CHIP> in battery mode with a good board.\nAlso compare diode mode readings."
+        },
+        {
+            "post_id": 59647,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 17:27:36",
+            "message": "Already replaced both <TRANSISTOR>Q7040</TRANSISTOR>/65... \n\nI don't have any working boards as I've taken the SMC and <CHIP>U7000</CHIP> from it and the other <CHIP>U7000</CHIP> decided to play hide and seek :)\n\nSo do you think that there is another component that tells the <CHIP>U7000</CHIP> to switches between power lead and battery? I know on the older models it was automatic but with the <CHIP>U6990</CHIP> having the enable maybe there's another component involved.\n\nThanks for your help so far. Please don't give up yet :)"
+        },
+        {
+            "post_id": 59648,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 17:34:37",
+            "message": "You can compare with different board model, which also has <CHIP>ISL9239</CHIP>; is the same schematic.\n<CHIP>U7000</CHIP> is supposed to enable <SIGNAL>3V3_G3H</SIGNAL> directly.\nCheck all resistors around it.\nDirect comparison of diode mode and voltages with good board should help.\nDid you try to reflow it?"
+        },
+        {
+            "post_id": 59650,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-15 18:16:23",
+            "message": "Reflow ISL? I've replaced it 3 times now...\n\nI'll do that tomorrow, it's getting late.."
+        },
+        {
+            "post_id": 59662,
+            "thread_id": 59336,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not working from the battery [SOLVED]",
+            "user_id": 1509,
+            "username": "Kappy",
+            "post_date": "2020-05-16 04:56:31",
+            "message": "So I've now checked all voltages and diode modes around the <CHIP>U7000</CHIP> and I've found the problem. <CAPACITOR>C7078</CAPACITOR> was only showing 0.2v with the battery alone. After checking <DIODE>D6905</DIODE> and that having 11.2v I ran a wire between them both and HEY PRESTO battery now works!!!\n\nThank you for your help and support"
+        }
+    ]
+}

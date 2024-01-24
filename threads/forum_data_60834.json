@@ -1,0 +1,77 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01521": "What is 820-01521? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP1V8_SLPS2R": "What is PP1V8_SLPS2R? PP1V8_SLPS2R is a 1.8v power rail present when the system is in a SLPS2R state. .",
+        "PP1V8_SLP2R": "What is PP1V8_SLP2R? a SIGNAL.",
+        "R7075": "What is R7075? a RESISTOR.",
+        "ISL9240": "What is ISL9240? This is a charging chip for Macbook motherboards from 2018 through 2020.",
+        "AUX_DET": "What is AUX_DET? a SIGNAL.",
+        "AUX_OK": "What is AUX_OK? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "C7080": "What is C7080? a CAPACITOR.",
+        "C6960": "What is C6960? a CAPACITOR.",
+        "CHGR_RST_IN": "What is CHGR_RST_IN? a SIGNAL.",
+        "NC_CHGR_AUX_OK": "What is NC_CHGR_AUX_OK? a SIGNAL.",
+        "820-01700": "What is 820-01700? a LOGIC BOARD PART NUMBER."
+    },
+    "threads": [
+        {
+            "post_id": 72092,
+            "thread_id": 60834,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> air retina stuck at 5V 0A",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2021-02-23 09:50:48",
+            "message": "This one looks clean, I have 5V 0A.\n\n<SIGNAL>PP1V8_SLPS2R</SIGNAL> is missing and diode mode is 0.330 seems a little bit off from 0,390 so I am not sure... resistance to ground is high on both boards arounf 500kOhms.\n<SIGNAL>PPBUS_G3H</SIGNAL> is 0,42V with no short, diode mode is 0,455 same compared with other board.\n<SIGNAL>PP3V3_G3H</SIGNAL> is missing but I think it's normal with <SIGNAL>PPBUS_G3H</SIGNAL> missing/low\nPPDCIN is 5V and I get 5V on both sides of <RESISTOR>R7075</RESISTOR> (<CHIP>U7000</CHIP>'s VDDA and VDDP)\n\nI think <SIGNAL>PP1V8_SLP2R</SIGNAL> is needed for <CHIP>U7000</CHIP>. Any guidance would be appreciated.\nThanks!"
+        },
+        {
+            "post_id": 72093,
+            "thread_id": 60834,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> air retina stuck at 5V 0A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-23 10:12:26",
+            "message": "\"I think <SIGNAL>PP1V8_SLP2R</SIGNAL> is needed for <CHIP>U7000</CHIP>\"\nNot really; only needed to adjust final value.\n\nOn T2 boards, <SIGNAL>PPBUS_G3H</SIGNAL> is the mother of all voltages.\n<CHIP>ISL9240</CHIP> can generate <SIGNAL>PPBUS_G3H</SIGNAL> with only 5V at <RESISTOR>R7020</RESISTOR>.\n\nPost other <CHIP>U7000</CHIP> voltages; <SIGNAL>AUX_DET</SIGNAL>, <SIGNAL>AUX_OK</SIGNAL>.\nAlso check diode mode to ground at <CAPACITOR>C6960</CAPACITOR>/70 and <CAPACITOR>C7080</CAPACITOR>."
+        },
+        {
+            "post_id": 72133,
+            "thread_id": 60834,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> air retina stuck at 5V 0A",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2021-02-23 21:54:47",
+            "message": "Thanks for the info, very valuable!\n\nI do have 5V at <RESISTOR>R7020</RESISTOR>.\n<SIGNAL>AUX_DET</SIGNAL> is 1.3V witch seems ok according to the 5V going actually through the voltage divider.\n<SIGNAL>AUX_OK</SIGNAL> seems to be NC \"<SIGNAL>NC_CHGR_AUX_OK</SIGNAL>\"\n<SIGNAL>CHGR_RST_IN</SIGNAL> is 0V\nAt <CAPACITOR>C6960</CAPACITOR>/70 and <CAPACITOR>C7080</CAPACITOR>: I have 0,455 in diode mode."
+        },
+        {
+            "post_id": 72138,
+            "thread_id": 60834,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> air retina stuck at 5V 0A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-24 02:22:17",
+            "message": "Looks like bad <CHIP>ISL9240</CHIP>, change it."
+        },
+        {
+            "post_id": 72691,
+            "thread_id": 60834,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> air retina stuck at 5V 0A",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2021-03-05 23:10:45",
+            "message": "Hi 2informaticos, just to let you know that replacing <CHIP>ISL9240</CHIP> solved the problem. :)\nHad to wait until I found an <CHIP>ISL9240</CHIP> from a <LOGIC BOARD PART NUMBER>820-01700</LOGIC BOARD PART NUMBER>.\nThanks as always!"
+        },
+        {
+            "post_id": 72699,
+            "thread_id": 60834,
+            "title": "SOLVED - <LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> air retina stuck at 5V 0A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-06 03:42:49",
+            "message": "You're welcome!\n\nNowadays, a simple repair went very dificil, just because Apple doesn't allow the manufacturers to sell the chips to anybody else."
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "P3V3S0_EN": "What is P3V3S0_EN? This signal enables the PP3V3_S0 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PM_SLP_S3_R_L": "What is PM_SLP_S3_R_L? a SIGNAL.",
+        "R6700": "What is R6700? a RESISTOR.",
+        "R5492": "What is R5492? a RESISTOR.",
+        "R9401": "What is R9401? a RESISTOR.",
+        "R6801": "What is R6801? a RESISTOR.",
+        "R6701": "What is R6701? a RESISTOR.",
+        "C9401": "What is C9401? a CAPACITOR.",
+        "C3895": "What is C3895? a CAPACITOR.",
+        "Q7812": "What is Q7812? a TRANSISTOR.",
+        "Q7922": "What is Q7922? a TRANSISTOR.",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "LP8850": "What is LP8850? a CHIP.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "C9710": "What is C9710? a CAPACITOR.",
+        "C9714": "What is C9714? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 12109,
+            "thread_id": 12109,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan spins on and off cyclically",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2016-12-30 12:52:19",
+            "message": "This board looked first pretty clean. Fan was spinning on and off cyclically because of <SIGNAL>PM_SLP_S5_L</SIGNAL> and <SIGNAL>PM_SLP_S4_L</SIGNAL> were jumping from 0 to 3.3V.\n<SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>PP3V42_G3H</SIGNAL> stable at 12.6V and 3.42V respectively. RTC region looks and measured good.\n\nWhen I noticed one of the little springs completely bent I decided to take a deep look and found the following :\n\n<RESISTOR>R5492</RESISTOR> present but ripped on one side (VD0R)\n<TRANSISTOR>Q7812</TRANSISTOR> had pin 5 connected to bad looking test point pad with some kind of viscous shit (on schematic it is called <SIGNAL>P3V3S0_EN</SIGNAL>, on brdview it's called <SIGNAL>PM_SLP_S3_R_L</SIGNAL>)\n<TRANSISTOR>Q7922</TRANSISTOR> ripped missing (related to Ethernet)\n<CAPACITOR>C9401</CAPACITOR> present but ripped  (Display port) and bad trace between pin 1 <CAPACITOR>C9401</CAPACITOR> and pin 1 <RESISTOR>R9401</RESISTOR> (Display port)\n<CAPACITOR>C3895</CAPACITOR> ripped (thunderbolt)\n<RESISTOR>R6801</RESISTOR> present but ripped (audio jack)\n<RESISTOR>R6700</RESISTOR> <RESISTOR>R6701</RESISTOR> ripped missing (audio)\n\nI first repaired <RESISTOR>R5492</RESISTOR> circuit but nothing changed.\nI soldered the missing <TRANSISTOR>Q7922</TRANSISTOR>, scratched and touched up the test point <SIGNAL>PM_SLP_S3_R_L</SIGNAL> near <TRANSISTOR>Q7812</TRANSISTOR> and made sure there is continuity and the board turned on and I have 0.8V on cpuVcore.\n\nOf course I don't have yet audio so didn't hear a chime, but I know the board is alive.\nI bet this board had initially only one issue, the very localized red spot, then when removed from chassis they break the hell of it.\nI am not giving any warranty to customer if he brings me board that he trashes against the wall.\n\nMy questions so far is can <TRANSISTOR>Q7922</TRANSISTOR> be part of the culprit or most likely <TRANSISTOR>Q7812</TRANSISTOR> test point pad?\nIs VD0R sensor circuit can prevent the board from powering on when the voltage divider is broken?"
+        },
+        {
+            "post_id": 12114,
+            "thread_id": 12109,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan spins on and off cyclically",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-12-30 13:26:44",
+            "message": "None of the components you listed will affect the board from turning on and giving a display."
+        },
+        {
+            "post_id": 12148,
+            "thread_id": 12109,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan spins on and off cyclically",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2016-12-31 09:55:30",
+            "message": "You are right, I replaced all components listed and everything was working ethernet, audio and so on.\n\nInternal LCD didn't show backlight, and found out <CHIP>LP8550</CHIP> and <CAPACITOR>C9714</CAPACITOR> <CAPACITOR>C9710</CAPACITOR> burning hot. Unplugged power and found out 0.008 short on <SIGNAL>PP5V_S0</SIGNAL> rail.\nIt was <CHIP>LP8850</CHIP> internally shorted, when removed the chip I found out precisely VLDO input shorted to gnd, Vin was fine but they are tied together in apple designe. Replaced the chip and everything ok. This area was totally clean!\nPassed all EFI/OS.\n\nI think initial issue was PP5VS0 shorted by <CHIP>LP8850</CHIP>, maybe without lcd plugged in, <CHIP>LP8850</CHIP> didn't draw current that's why fan was able to spin and sometimes speed was dropping and even restarting cyclically.\n...\nBut since it was so clean I can't believe this happen just like that, I noticed the fan connector a little bit messed so maybe a short occured from the fan killing <CHIP>LP8850</CHIP>...\n\nYou can close this post since it is solved!"
+        }
+    ]
+}

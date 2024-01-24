@@ -1,0 +1,175 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U5511": "What is U5511? a CHIP.",
+        "CPUTHMSNS_ALERT_L": "What is CPUTHMSNS_ALERT_L? a SIGNAL.",
+        "R5260": "What is R5260? a RESISTOR.",
+        "R5261": "What is R5261? a RESISTOR.",
+        "R5510": "What is R5510? a RESISTOR.",
+        "R5512": "What is R5512? a RESISTOR.",
+        "Q5520": "What is Q5520? a TRANSISTOR.",
+        "R5112": "What is R5112? a RESISTOR.",
+        "R5511": "What is R5511? a RESISTOR.",
+        "C5511": "What is C5511? a CAPACITOR.",
+        "C5512": "What is C5512? a CAPACITOR.",
+        "C5513": "What is C5513? a CAPACITOR.",
+        "Q5515": "What is Q5515? a TRANSISTOR.",
+        "SMBUS_SMC_1": "What is SMBUS_SMC_1? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 16671,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-15 22:05:57",
+            "message": "I got this board sent in from another shop. They said their customer had this fixed by someone in Hong Kong about 18 Months ago. It turns on but runs slow, the fans spin high and the system is being used at 88%. I ran ASD for this and I got an error on the Th1h sensor and this is what the hardware profile page showed.\n\nTh1H Fin stack Error- SMC IO failed\nreaing -124C\nlow-limit: 10C\nHigh: 80C\nFin Stack Temp\n\nInspecting the board I see some very tiny spots of blue corrosion. I also saw a couple discolored points on the right side of the SMC but nothing much. I read through and followed this post from another similar issue but I still haven't been able to fix this. [URL=\"https://www.rossmanngroup.com/boards/forum/board-repair-troubleshooting/306-<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-running-slow\"]https://www.rossmanngroup.com/boards...5-running-slow[/URL]\n\n<RESISTOR>R5260</RESISTOR>-<RESISTOR>R5261</RESISTOR> Diode Mode - Pin 1: 0.325v - Pin 2 - 0.52v\n<RESISTOR>R5260</RESISTOR>-<RESISTOR>R5261</RESISTOR> Voltage Mode - 3.33v on both sides\nThere is continuity from <RESISTOR>R5260</RESISTOR>/1 to <CHIP>U5511</CHIP>\n<TRANSISTOR>Q5520</TRANSISTOR> looks fine and the traces are good.\n<RESISTOR>R5510</RESISTOR>/11/12 traces are good.\n<CHIP>U5511</CHIP> is getting the VDD power at 3.3v  and 3.33v on Pins 9/10\n\nThe only issue I found was <RESISTOR>R5510</RESISTOR>/11 both have 3.3v on both sides of the resistor but <RESISTOR>R5512</RESISTOR> has 3.3v on Pin 1 but Pin 2 is unstable. It will show close to 0v and every second or so it will very rapidly pulse and show something like 0.21v, 0.35v, 1.7v. I wasn't sure what could be pulling <SIGNAL>CPUTHMSNS_ALERT_L</SIGNAL> down so I replaced <CHIP>U5511</CHIP> but it still does the same thing.\n\nMy last resort was going to be to remove the edge bonding from the SMC and put some heat and flux under there."
+        },
+        {
+            "post_id": 16675,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2017-03-16 03:04:53",
+            "message": "Did you change <RESISTOR>R5112</RESISTOR>?\nMeasured on board, you must get same reading on <RESISTOR>R5511</RESISTOR>/12.\nAlso check continuity between <TRANSISTOR>Q5520</TRANSISTOR> and <CHIP>U5511</CHIP>."
+        },
+        {
+            "post_id": 16698,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 07:38:07",
+            "message": "I replaced <RESISTOR>R5112</RESISTOR> but still no change. \nI measured and found out that there was 0v on Pin 1 of <CAPACITOR>C5513</CAPACITOR> and Pin 1 of <CHIP>U5511</CHIP> even though there was 3.29v on <RESISTOR>R5510</RESISTOR> and there is continuity all the way to pin 1 of <CHIP>U5511</CHIP>. \nSo I ran a wire from Pin 2 of <RESISTOR>R5510</RESISTOR> to Pin 1 of <CAPACITOR>C5513</CAPACITOR> and again there was 0v on VDD of <CHIP>U5511</CHIP> so I ran another wire from <CAPACITOR>C5513</CAPACITOR> to Pin 1 of <CHIP>U5511</CHIP>. Now I get 3.3v on the VDD pin but when I tested in ASD it failed with the same reading.\n\nPin 1 of <CAPACITOR>C5511</CAPACITOR> is fluctuating rapidly from 2.5v to around 3v and Pin 2 goes from 0.37v to 0.64v. Pin 1 of <CAPACITOR>C5512</CAPACITOR> goes from 0.78v to 1.1v and Pin 2 is 0v. \n\nI have a working <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> board and it meaasured around 0.85v on Pin 2 so I'm not sure if there is an issue with <TRANSISTOR>Q5515</TRANSISTOR> or the donor board that I replaced <CHIP>U5511</CHIP> with was already bad."
+        },
+        {
+            "post_id": 16699,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-03-16 09:29:39",
+            "message": "Have you checked for a short to ground on <CHIP>U5511</CHIP>? was there liquid damage?"
+        },
+        {
+            "post_id": 16700,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 09:37:36",
+            "message": "There is no liquid damage in that area and no short to ground."
+        },
+        {
+            "post_id": 16701,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-03-16 09:50:56",
+            "message": "i would assume you've check the resistance of the resistors from <RESISTOR>R5510</RESISTOR> <RESISTOR>R5511</RESISTOR>, <RESISTOR>R5512</RESISTOR>. what is the voltage on pins 7 and 8 of <CHIP>U5511</CHIP>?"
+        },
+        {
+            "post_id": 16703,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 10:07:05",
+            "message": "The resistance of <RESISTOR>R5510</RESISTOR>/11/12 are all fine. Pin 7 is 3.3v and Pin 8 goes from around 0v to around 1.2v and quickly pulses every second or so."
+        },
+        {
+            "post_id": 16704,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-03-16 10:18:28",
+            "message": "Change <CHIP>U5511</CHIP>, while <CHIP>U5511</CHIP> is removed check for short to ground on pin8."
+        },
+        {
+            "post_id": 16705,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 10:54:03",
+            "message": "I removed <CHIP>U5511</CHIP> and measured pin 8 in diode mode and it showed OL. I put another <CHIP>U5511</CHIP> from a good looking donor board and now Pin 1(VDD) is present without me having to run a wire.\nPin 8 is still doing the same thing with the pulsing. I'm not sure what else could be causing this. I already replaced <RESISTOR>R5512</RESISTOR> so should I try replacing <CAPACITOR>C5513</CAPACITOR> even though it looks fine."
+        },
+        {
+            "post_id": 16708,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-03-16 11:39:02",
+            "message": "Does it still fail asd? and when you run asd EFI version check check hardware profile and post what the reading is. could be an issue on the data line."
+        },
+        {
+            "post_id": 16711,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 12:03:20",
+            "message": "Yes. It fails with the same reading.\nTh1H Fin stack Error- SMC IO failed\nreaing -124C\nlow-limit: 10C\nHigh: 80C\nFin Stack Temp\n\nI don't think it is the data line because all the measurements seem fine.\n<RESISTOR>R5260</RESISTOR>-<RESISTOR>R5261</RESISTOR> Diode Mode - Pin 1: 0.325v - Pin 2 - 0.52v\n<RESISTOR>R5260</RESISTOR>-<RESISTOR>R5261</RESISTOR> Voltage Mode - 3.33v on both sides\nThere is continuity from <RESISTOR>R5260</RESISTOR>/1 to <CHIP>U5511</CHIP>"
+        },
+        {
+            "post_id": 16715,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-03-16 12:40:03",
+            "message": "not sure if its the same thing but i just had same issue with a different sensor. I was told there is an issue with something in the line of <SIGNAL>SMBUS_SMC_1</SIGNAL> or the rail coming off pins 9 and 10 of <CHIP>U5511</CHIP>. looks like the go to  r5261and <RESISTOR>R5261</RESISTOR>. check for short to ground and continuity as well as voltage on those resistors. if all is well i would think this to be an smc issue."
+        },
+        {
+            "post_id": 16716,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 12:46:22",
+            "message": "<RESISTOR>R5260</RESISTOR>-<RESISTOR>R5261</RESISTOR> Diode Mode - Pin 1: 0.325v - Pin 2 - 0.52v\n<RESISTOR>R5260</RESISTOR>-<RESISTOR>R5261</RESISTOR> Voltage Mode - 3.33v on both sides\nThere is continuity from <RESISTOR>R5260</RESISTOR>/1 to <CHIP>U5511</CHIP>\n\nPins 9/10 of <CHIP>U5511</CHIP> are both 3.3v. \n\n[USER=\"2\"]dukefawks[/USER] [USER=\"1\"]larossmann[/USER]  Any ideas?"
+        },
+        {
+            "post_id": 16729,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-03-16 16:28:53",
+            "message": "Crap under SMC"
+        },
+        {
+            "post_id": 16735,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 16:54:13",
+            "message": "Okay so I decided to replace <TRANSISTOR>Q5520</TRANSISTOR> which should have been the first thing I tried but since it measured fine in diode mode to my working board I decided not.\n\nI just replaced it and everything is working fine and ASD passes. \n\nThanks for the help guys!"
+        },
+        {
+            "post_id": 16736,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-03-16 16:56:38",
+            "message": "Shouldn't affect anything as it is on the \"analog\" side and would just cause a wrong measurement. There was an SMC IO error so that is on the digital side."
+        },
+        {
+            "post_id": 16737,
+            "thread_id": 16671,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> runs slow (Th1h Fin Stack sensor failing)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-03-16 17:20:05",
+            "message": "Well when I read the datasheet for the <CHIP>U5511</CHIP> chip it said something like a failing diode would cause the Alert signal to be affected which I assume was the reason why <SIGNAL>CPUTHMSNS_ALERT_L</SIGNAL> was measuring so low."
+        }
+    ]
+}

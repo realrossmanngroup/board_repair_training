@@ -1,0 +1,50 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "PP3V3_G3H_RTC": "What is PP3V3_G3H_RTC? PP3V3_G3H_RTC Is one of the first rails that has to come on in order for the USB-C mux chip to be powered in the T2 chip Macbook Pros..",
+        "R6934": "What is R6934? a RESISTOR.",
+        "R9707": "What is R9707? a RESISTOR.",
+        "C6912": "What is C6912? a CAPACITOR.",
+        "U7800": "What is U7800? a CHIP.",
+        "PP3V3_G3H_VDDMAIN": "What is PP3V3_G3H_VDDMAIN? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 101731,
+            "thread_id": 64224,
+            "title": "01949 No Power",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2023-09-26 07:25:16",
+            "message": "Am struggling a little today with this board and need some clearheaded suggestions; had a couple in a row and can't think straight:)\n\nBoard might have had some work done on it, but i think i spotted all the mistakes (some coils of PMIC were taken off, but so far i don't know why, nothing else seemed missing.)\nall USBC ports draw 5V steady and seem to have all their LDOs out of the port controllers.\n\nPPBus was cycling quickly from 0 to 12.3V, along with <SIGNAL>PP3V3_G3H_RTC</SIGNAL> constantly trying to come up with some voltage (too quick to read)\nI first removed <RESISTOR>R9707</RESISTOR>: Enable for <CHIP>U6903</CHIP> was cycling as well, so i took it off and then PPBUS Stabilizes to 12.3V\nI then thought my <CHIP>U6903</CHIP> was bad (also because it looked to be cycling up to 2.7V and not to 3.3V, which is odd), diode-mode on <CAPACITOR>C6912</CAPACITOR> was reading just a little low as well so i replaced <CHIP>U6903</CHIP> (for the second time), and put back <RESISTOR>R9707</RESISTOR>:\nNow output at <CAPACITOR>C6912</CAPACITOR> is again cycling from 0 - 2.7V, as well as PPBUS cycling again.\n\ni took off <RESISTOR>R6934</RESISTOR>/35 to see if there was a difference, and when these fuses are off, i get steady 3.3V at <CAPACITOR>C6912</CAPACITOR>.\nI then thought, there must be a short after <RESISTOR>R6934</RESISTOR>/35 on <SIGNAL>PP3V3_G3H_RTC</SIGNAL>, but i cant find it, diode mode is OK at around .380\n\nany idea what is causing this, or am i missing some steps?\nThanks in advance!"
+        },
+        {
+            "post_id": 101732,
+            "thread_id": 64224,
+            "title": "01949 No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-09-26 10:13:51",
+            "message": "You may have short, or overcurrent on a secondary power supply.\nNeed to change all circuits from pages 54-64..."
+        },
+        {
+            "post_id": 101787,
+            "thread_id": 64224,
+            "title": "01949 No Power",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2023-09-29 07:41:15",
+            "message": "Found a short on <SIGNAL>PP3V3_G3H_VDDMAIN</SIGNAL> Inside the <CHIP>U7800</CHIP> chip (tested with multimeter on its pins)..\nI don't have a donor board for this unfortunately, are any other boards' calpe chips compatible?"
+        },
+        {
+            "post_id": 101788,
+            "thread_id": 64224,
+            "title": "01949 No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-09-29 08:58:53",
+            "message": "Yeah, the PMIC should from other model."
+        }
+    ]
+}

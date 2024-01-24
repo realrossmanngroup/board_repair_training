@@ -1,0 +1,120 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "U8000": "What is U8000? a CHIP.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "CPU_VCORE": "What is CPU_VCORE? Power rail for the CPU. If this is missing the machine will act braindead. .",
+        "PM_SYSRST_L": "What is PM_SYSRST_L? PM_SYSRST_L is a system reset signal present when it is low, _L means the signal asserts itself when the voltage is low. This signal needs to be high for the system to exit reset mode & turn on properly. .",
+        "PP3V_S4": "What is PP3V_S4? This is a typo of PP3V3_S4 When you see PP3V_S4, assume they meant to type PP3V3_S4.",
+        "PMSYSRST_L": "What is PMSYSRST_L? a SIGNAL.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "U6101": "What is U6101? a CHIP.",
+        "820-3435": "What is 820-3435? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER."
+    },
+    "threads": [
+        {
+            "post_id": 40341,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-06 12:40:26",
+            "message": "Hi all,\n\nThis is water damaged board.\nInitially no Magsafe light, shorted <SIGNAL>PP3V42_G3H</SIGNAL> in SMC.\nReplaced and we are back with green/orange light.\n\nAfter Magsafe light there was no fan spin and no <SIGNAL>PM_SLP_S4_L</SIGNAL>, <SIGNAL>PMSYSRST_L</SIGNAL> was stuck at 0.50V but no short.\nDecided it was time for a good bath, after ultrasonic fan spins once, it stops and then on again and stay on.\n\nIs that normal on these 2015+ boards? I know the usual 830-3437 with 3 fan rtc cycles before it boot but not aware for these newer model...\n\nAll rails were present except <SIGNAL>PP3V_S4</SIGNAL> witch is low (2,5V) but no short (4kohms to gnd, 0.355 in diode mode). I am not sur if this rail can prevent the board from booting, if I recall it used forr some peripheral wifi, bluetooth, Tbolt, trackpad...\nReplaced <CHIP>U8000</CHIP>, but <SIGNAL>PP3V_S4</SIGNAL> still low.\n\nHere are some measures:\n<SIGNAL>PP3V3_S4</SIGNAL>: 2,5V\n<SIGNAL>CPU_VCORE</SIGNAL> 1,8V\n\n<SIGNAL>PM_SYSRST_L</SIGNAL>: 3.3V\n<SIGNAL>PM_PCH_SYS_PWROK</SIGNAL>: 3.4V\n<SIGNAL>PM_PCH_PWROK</SIGNAL>: 3.3V\n<SIGNAL>PM_RSMRST_L</SIGNAL>: 3.3V\n<SIGNAL>PM_BATLOW_L</SIGNAL>: present 3.3v\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: present 3.3V\n<SIGNAL>PM_PWRBTN_L</SIGNAL>: present 3.3V\n<SIGNAL>PLT_RESET_L</SIGNAL>: 3.3V\n<SIGNAL>PPVRTC_G3H</SIGNAL> : 3,4v present at all places\nRTC ic clock 32kHz yes\n\nI have no red light on USB.\nI replaced just in case the bios but nothing changed.\n\nI am lost at this point about witch issue I should focus.\nThanks for any suggestion."
+        },
+        {
+            "post_id": 40342,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-06 13:42:17",
+            "message": "Ok I just tested with another <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> and in fact it doesn't rtc cycles like <LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>/37.\nSo my issue is:\n\n1)<SIGNAL>PP3V3_S4</SIGNAL> low 2,5V\n2)It cycles once (i mean fan is on then off then on and stay on).\n\nNot sure if 1) and 2) are related I am more concerned by 2).\nChecked all 22 resistors and traces for spi rom and all is ok.\n\nOut of desperation should I swap also <CHIP>U6101</CHIP> and again ultrasonic?\nNote I put back original <CHIP>U6100</CHIP> as nothing happen when swaped.\nthanks"
+        },
+        {
+            "post_id": 40347,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-06 15:02:29",
+            "message": "PP3V3_S4_ comes out from <CHIP>U8000</CHIP>.\nDoes it get correct level for <SIGNAL>PP3V3_S5</SIGNAL> and <SIGNAL>S4_PWR_EN</SIGNAL>?\nYou can bypass IN-OUT directly, just for test; see what happens.\n\nTo drop output from 3V3 to 2V5, <CHIP>U8000</CHIP> should overheat, in case of external issue.\nIf not, maybe bad inputs (power, enable).\n\nThis board doesn't cycle at all when starts; if is OK, of course..."
+        },
+        {
+            "post_id": 40350,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-06 16:13:10",
+            "message": "Yes, absolutely correct level at the inputs, <SIGNAL>PP3V3_S5</SIGNAL> and <SIGNAL>S4_PWR_EN</SIGNAL> are both 3,4V.\nThis is why I conclude for bad chip but when replaced same thing...\nI compared diode mode and it's the same with good board.\nThanks for the suggestion, iI will see what happen with bypassed 3v3 on in/out.\nI will report back."
+        },
+        {
+            "post_id": 40357,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-07 01:12:42",
+            "message": "So I tied together 3v3 from input to output, and the voltage doesn't drop.\nBut the board is still cycling once and then stay on.\nAny idea? Thanks"
+        },
+        {
+            "post_id": 40358,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-07 01:18:13",
+            "message": "Do you get all secondary voltages?\nAll S3, S0 (pages 57/58), not only in the big coils...\nVCORE tries to appear?"
+        },
+        {
+            "post_id": 40366,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-10-07 08:36:42",
+            "message": "This is one of those really shitty issues I’ve seen a few times and haven’t solved. I’m thinking it’s gotta be BIOS related, but I could be wrong. If VCore is definitely present, I’d say try another BIOS for testing"
+        },
+        {
+            "post_id": 40368,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-07 10:14:17",
+            "message": "Don't forget to save backup.\nI saw so many 00165 with corrupted BIOS..."
+        },
+        {
+            "post_id": 40375,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-07 15:48:17",
+            "message": "[USER=\"682\"]2informaticos[/USER]\n\nYes! all secondary voltages are present, will check them again in case something changed. The only tricky one was the <SIGNAL>PP3V3_S4</SIGNAL> being 2,5V instead of 3,3v..\nVcore is present at flat 1.8V no adaptation no red light on the mouse.\n\n\n[USER=\"1153\"]JohnB8812[/USER]\n\nThanks for the suggestion I've already tried another <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> bios to discard any bios issue. But no change so I put back original Bios. At this desperate point I will try maybe to replace <CHIP>U6101</CHIP> just to be 100% sure no bios issue.\n\nNext thing I will try to reflow replace again SMC, I've already had a similar issue with <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> macbook air was'nt cycling 3 times, instead it was doing the same: one cycle then stay on, reflowed smc corrected it.\n\nYep it's a shitty one...came back from far but probably not fixable, I will let you know thanks!"
+        },
+        {
+            "post_id": 40519,
+            "thread_id": 40341,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> dead brain?",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-10-10 22:43:20",
+            "message": "I stopped working on this board, first time I encounter this issue next time I will not spend that much time;(\nThanks for your help and sharing your experience."
+        }
+    ]
+}

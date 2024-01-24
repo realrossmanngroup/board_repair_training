@@ -1,0 +1,376 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1502": "What is A1502? A1502 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2014, Late 2013, Early 2015 with EMC 2875, that may contain one of these boards depending on the year & configuration: 820-3476, 820-3536, 820-4924..",
+        "820-3467": "What is 820-3467? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "D7010": "What is D7010? Diode between ground and gate of Q7010 on 2013-2015 year retina model macbook pros, necessary for Q7010 to allow PPDCIN_G3H to flow through to PP3V42_G3H power supply input. When this diode dies or corrodes, PP3V42_G3H input will not have any voltage, and chargers will not turn on. This can often be the problem if a system only works with a knockoff charger/bench power supply. .",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_AGATE_DIV": "What is CHGR_AGATE_DIV? a SIGNAL.",
+        "R7186": "What is R7186? a RESISTOR.",
+        "U7090": "What is U7090? This chip is often responsible for creating PP3V42_G3H.",
+        "C7090": "What is C7090? a CAPACITOR.",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015.",
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PPDCIN_G3H_ISOL": "What is PPDCIN_G3H_ISOL? This is the voltage coming directly from the charger after going through a transistor. .",
+        "PPBUS_S5_HS_COMPUTING": "What is PPBUS_S5_HS_COMPUTING? a SIGNAL.",
+        "PP1V35_S3": "What is PP1V35_S3? PP1V35_S3 is a 1.35v power rail present when the machine is in an S3 suspend to RAM state.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "R5115": "What is R5115? a RESISTOR.",
+        "Q5480": "What is Q5480? a TRANSISTOR.",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_CLK32K_RTCX1": "What is PCH_CLK32K_RTCX1? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "SMC_DCIN": "What is SMC_DCIN? a SIGNAL.",
+        "BMON_ISENSE": "What is BMON_ISENSE? a SIGNAL.",
+        "PBUS_VSENSE": "What is PBUS_VSENSE? a SIGNAL.",
+        "820-3536": "What is 820-3536? a LOGIC BOARD PART NUMBER.",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "SMC_SENSOR_PWR_EN": "What is SMC_SENSOR_PWR_EN? a SIGNAL.",
+        "R5481": "What is R5481? a RESISTOR.",
+        "R5488": "What is R5488? a RESISTOR.",
+        "DCIN_VSENSE": "What is DCIN_VSENSE? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 67953,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-11-16 06:29:41",
+            "message": "Hi,\n\nI have an <MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A that has no green light.\n\n<SIGNAL>PP3V42_G3H</SIGNAL> = 0.23V\n<SIGNAL>SMC_BC_ACOK</SIGNAL> = 0.19V\n<SIGNAL>PPBUS_G3H</SIGNAL> = 0V\n<SIGNAL>PPDCIN_G3H</SIGNAL> = 19.5V\n\nCouldn't find any short.\n\nCan you help?"
+        },
+        {
+            "post_id": 67968,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-16 11:27:14",
+            "message": "Could be <DIODE>D7010</DIODE> problem; post its voltage.\nAlso post <CHIP>U7100</CHIP> voltages; pins 1, 2, 3, 9, 12, 13, 14, 15, 17, 19, 20, 27."
+        },
+        {
+            "post_id": 67989,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-11-17 03:03:10",
+            "message": "Hi,\n<DIODE>D7010</DIODE> has 6.69V\n\n<CHIP>U7100</CHIP>:\nPIN1= 0v , (but on <RESISTOR>R7186</RESISTOR> <SIGNAL>CHGR_AGATE</SIGNAL> is 0V and <SIGNAL>CHGR_AGATE_DIV</SIGNAL> is 8V)\n2 = 19V\n3=4.7V\n9=0v\n12=0.2v\n13=0.1v\n14=0.1v\n15=0v\n17=0v\n19=5.4v\n20=5.4v\n27=19v"
+        },
+        {
+            "post_id": 67994,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-17 06:28:13",
+            "message": "Post <CHIP>U7090</CHIP> voltages.\nAlso need diode mode at L7095 and <CAPACITOR>C7090</CAPACITOR>."
+        },
+        {
+            "post_id": 68003,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-11-17 07:42:36",
+            "message": "<CHIP>U7090</CHIP>\n1= 0.58v\n2= 0.23v\n3= 1v\n4=0v\n5= 0v\n6= 17.5v\n7= 0v\n8= 17.5v\n\nohm to ground:\nL7095:\n1 = 1.3 ohm to ground\n2 = 0.59 ohm to ground\n\n<CAPACITOR>C7090</CAPACITOR> = 5.5 Kohm\n\nDiode:\nL7095:\n1 = 0.0018v\n2=0.0011v\n\n<CAPACITOR>C7090</CAPACITOR> =0.397V"
+        },
+        {
+            "post_id": 68020,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-17 15:27:01",
+            "message": "You have practically pure short at <SIGNAL>3V42_G3H</SIGNAL>.\nIs safe to inject voltage, no more than 4V.\nStart with 1V, increase slowly if needed.\nDon't forget to set PSU amp limit to max first."
+        },
+        {
+            "post_id": 68048,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-11-18 07:50:30",
+            "message": "It seams that what is shorted (it is what is geting hot)  is the <CHIP>U5000</CHIP>. Does it make sense to you? Should i replace it? \nI only have a <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A board. Can i use that SMC?"
+        },
+        {
+            "post_id": 68062,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-18 15:30:55",
+            "message": "Check if short disappears after <CHIP>U5000</CHIP> is removed.\nYou can use 3536 SMC, NOT 4924."
+        },
+        {
+            "post_id": 68100,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-11-19 04:21:13",
+            "message": "Hi, the short is gone from  <SIGNAL>3V42_G3H</SIGNAL> = 8.40 Kohm.\nMy problem is that i dont have that SMC to replace. Can you suggest any supplier in Europe?"
+        },
+        {
+            "post_id": 68105,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-19 05:25:09",
+            "message": "I have never bought from EU.\nGet scrap boards from China.\nMake stock for several models, if you deal with Apple stuff."
+        },
+        {
+            "post_id": 68114,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-11-19 07:17:19",
+            "message": "Thanks. i'll do that, but i have none for this smc. Already bought a few, but it will take too long to arrive.\n\nThanks again."
+        },
+        {
+            "post_id": 69686,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-30 04:44:03",
+            "message": "Hi, The SMC has arrived and i already replaced, but steel no power and no fan spin (already have greenlight).\n\n24 mA on PS\n\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.56V\n<SIGNAL>PPBUS_S5_HS_COMPUTING</SIGNAL> = 12.56 V\n<SIGNAL>PPDCIN_G3H_ISOL</SIGNAL> = 19v\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.4V\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.3V\n<SIGNAL>PP1V35_S3</SIGNAL>  = 0V\n\nWaht should i check from here?"
+        },
+        {
+            "post_id": 69687,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-30 05:13:11",
+            "message": "Do you get <SIGNAL>3V3_SUS</SIGNAL>?\n\nPost <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL>, <SIGNAL>PM_PWRBTN_L</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL> and <SIGNAL>SMC_ONOFF_L</SIGNAL>.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> (use <RESISTOR>R5115</RESISTOR>/16 pads) and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>, at same time."
+        },
+        {
+            "post_id": 69693,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-30 07:10:22",
+            "message": "Hi,\n\n<SIGNAL>3V3_SUS</SIGNAL>  = 0v\n\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> =3.4v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL>  =3.2v\n<SIGNAL>PM_PWRBTN_L</SIGNAL>  = 3.4v\n<SIGNAL>PM_RSMRST_L</SIGNAL>  = 0v\n<SIGNAL>SMC_ONOFF_L</SIGNAL>  = 3.4 v\n\nI just realise that the <TRANSISTOR>Q5480</TRANSISTOR> has burned up, and after removed the pads 3,4 and 5 are missing.\n\nIMG attch"
+        },
+        {
+            "post_id": 69695,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-30 07:40:25",
+            "message": "Made this jumpers. (img attach)\nDo you think its safe to power on?"
+        },
+        {
+            "post_id": 69698,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-30 08:50:34",
+            "message": "It should work, if you rebuilt the traces according to schematic/boardview."
+        },
+        {
+            "post_id": 69702,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-30 09:36:04",
+            "message": "Hi.\n\nI  Triggered <SIGNAL>SMC_ONOFF_L</SIGNAL> (use <RESISTOR>R5115</RESISTOR>/16 pads) and had a drop for pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>, at same time , but everything is the same"
+        },
+        {
+            "post_id": 69712,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-30 11:39:15",
+            "message": "<SIGNAL>PM_SLP_SUS_L</SIGNAL> still missing?\nIf yes, check the 4 PCH's RTC signals."
+        },
+        {
+            "post_id": 69748,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-31 02:55:12",
+            "message": "<SIGNAL>PM_SLP_SUS_L</SIGNAL>  is missing.\nI can't figure out where i can measure the 4 PCH RTC signsls. Can you, please, specify where to measure those?\n\n<SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> = 0.36v\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> = 3.3v\n<SIGNAL>RTC_RESET_L</SIGNAL> = 3.3v\n<SIGNAL>PPVRTC_G3H</SIGNAL>= 3.3v\n\nNote sure if this is what you want. Please advise."
+        },
+        {
+            "post_id": 69751,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-31 04:37:54",
+            "message": "Surely not, and we discussed so many times about RTC signals on the forum.\nRTC block is clearly delimited inside PCH schematic.\nWhy did you check ONLY 2 signals, if there appear 4?\nI waited to see DC signals, not clock; 2 RTC signals still missing."
+        },
+        {
+            "post_id": 69755,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-31 06:34:54",
+            "message": "I'm trying to follow...\n\nI think that's it:\n\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> = 3\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> = 3.3 \n<SIGNAL>RTC_RESET_L</SIGNAL> = 3.3\n<SIGNAL>PCH_INTVRMEN</SIGNAL> = 3.2"
+        },
+        {
+            "post_id": 69756,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-31 07:15:43",
+            "message": "All looks good.\n\nTry to start in SMC bypass mode.\nPost <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>PBUS_VSENSE</SIGNAL> levels.\nAlso check <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>BMON_ISENSE</SIGNAL>."
+        },
+        {
+            "post_id": 69758,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-31 07:39:39",
+            "message": "SMC bypass mode didn't do anything.\n\n<SIGNAL>SMC_DCIN</SIGNAL> = 0.03v - 15 M ohm\n<SIGNAL>PBUS_VSENSE</SIGNAL>  = 0v - 5.4 k ohm\n<SIGNAL>BMON_ISENSE</SIGNAL>  = 0.06v - 17 M ohm"
+        },
+        {
+            "post_id": 69767,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-31 08:54:34",
+            "message": "Did you get the SMC from 3476 board?\n3536 should work too."
+        },
+        {
+            "post_id": 69781,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-12-31 10:57:55",
+            "message": "No, i get it from an <LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER>-A. \nShould i replace it for another one?"
+        },
+        {
+            "post_id": 69787,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-31 13:32:22",
+            "message": "Should work, be sure to get good solders.\nYou can try 3476 one, just in case."
+        },
+        {
+            "post_id": 69801,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 1057,
+            "username": "piernov",
+            "post_date": "2021-01-01 05:27:39",
+            "message": "<SIGNAL>PM_BATLOW_L</SIGNAL>?"
+        },
+        {
+            "post_id": 69802,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-01 05:32:16",
+            "message": "Must be high, once correct charger is detected."
+        },
+        {
+            "post_id": 69827,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-01-02 06:28:37",
+            "message": "<SIGNAL>PM_BATLOW_L</SIGNAL> is 3.3V on PS.\n\nCan it be relate with <TRANSISTOR>Q5480</TRANSISTOR>? It burnt as well the test point. Can't the trace be lost somewhere and causing this?"
+        },
+        {
+            "post_id": 69849,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-02 12:28:14",
+            "message": "<SIGNAL>SMC_PBUS_VSENSE</SIGNAL> is an important signal for SMC.\nIf incorrect, machine can only start in SMC bypass."
+        },
+        {
+            "post_id": 69884,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-01-04 07:31:47",
+            "message": "HI, in this case, it doesn't power on in  SMC bypass.\n\nOn <TRANSISTOR>Q5480</TRANSISTOR> I don't have <SIGNAL>SMC_SENSOR_PWR_EN</SIGNAL> (0v), and on <SIGNAL>SMC_PBUS_VSENSE</SIGNAL> I also have 0V (<RESISTOR>R5488</RESISTOR>).\nOn <RESISTOR>R5481</RESISTOR>/2 i have 1V (0.96), and on <RESISTOR>R5488</RESISTOR>/9 I have 0V\n\nCan I assume that the problem is on <CHIP>U5000</CHIP>?"
+        },
+        {
+            "post_id": 69888,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-04 09:42:54",
+            "message": "The mentioned sensors are not availble in S5 state.\nAt least <SIGNAL>PM_SLP_SUS_L</SIGNAL> is required for <SIGNAL>DCIN_VSENSE</SIGNAL>.\n<SIGNAL>PBUS_VSENSE</SIGNAL> is available only in S0 state.\n\nTry another SMC..."
+        },
+        {
+            "post_id": 69968,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-01-06 08:12:15",
+            "message": "Hi,\nReplaced SMC but same result. What else can i check?"
+        },
+        {
+            "post_id": 70171,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-01-13 06:36:24",
+            "message": "Hi,\njust Replaced another SMC today, and it's the same.\nNo power (consumes 14mA on PSU).\n\n<SIGNAL>PM_BATLOW_L</SIGNAL>  = 3.3V\n<SIGNAL>PM_SLP_SUS_L</SIGNAL>  = 0.0V"
+        },
+        {
+            "post_id": 70174,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-13 07:16:03",
+            "message": "Looks like PCH issue then..."
+        },
+        {
+            "post_id": 70182,
+            "thread_id": 60338,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3467</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-01-13 07:46:03",
+            "message": "OK, thanks!"
+        }
+    ]
+}

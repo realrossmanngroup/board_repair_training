@@ -1,0 +1,458 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "U9701": "What is U9701? a CHIP.",
+        "R9704": "What is R9704? a RESISTOR.",
+        "R9715": "What is R9715? a RESISTOR.",
+        "C9704": "What is C9704? a CAPACITOR.",
+        "R9731": "What is R9731? a RESISTOR.",
+        "PPBUS_SW_LCDBKLT_PWR": "What is PPBUS_SW_LCDBKLT_PWR? PPBUS_SW_LCDBKLT_PWR is PPBUS_G3H after it has passed through a backlight fuse and a transistor that allows power through when BKLT_PLT_RST_L and LCD_BKLT_EN are present. .",
+        "PPBUS_SO_LCDBKLT_FUSED": "What is PPBUS_SO_LCDBKLT_FUSED? This is a typo of PPBUS_S0_LCDBKLT_FUSED When you see PPBUS_SO_LCDBKLT_FUSED, assume they meant to type PPBUS_S0_LCDBKLT_FUSED.",
+        "PPBUS_EN_DIV": "What is PPBUS_EN_DIV? a SIGNAL.",
+        "Q9706": "What is Q9706? Q9706 takes PPBUS_G3H's vltage and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q9706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R9788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q9706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "LCD_BKLT_EN": "What is LCD_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “LCD_BKLT” which stands for “LCD screen backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "BKLT_PLT_RST_L": "What is BKLT_PLT_RST_L? a SIGNAL.",
+        "R9789": "What is R9789? a RESISTOR.",
+        "R9788": "What is R9788? a RESISTOR.",
+        "C9782": "What is C9782? a CAPACITOR.",
+        "Q9707": "What is Q9707? a TRANSISTOR.",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "LCDBKLT_EN_DIV": "What is LCDBKLT_EN_DIV? LCDBKLT_EN_DIV must be low in order for the P channel MOSFET to have a lower voltage on the gate than is present on the source to allow backlight voltage to flow through the backlight circuit. .",
+        "LCDBKLT_EN": "What is LCDBKLT_EN? a SIGNAL.",
+        "LCDBKLT_DISABLE": "What is LCDBKLT_DISABLE? a SIGNAL.",
+        "U6990": "What is U6990? a CHIP.",
+        "D6990": "What is D6990? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input, can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "R6995": "What is R6995? a RESISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "D6995": "What is D6995? a DIODE."
+    },
+    "threads": [
+        {
+            "post_id": 6067,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-26 18:55:27",
+            "message": "Guys, I think this is super easy, but i cant figure out alone (beginner).\nI Get chime and everything with external monitor.\nJust screen, i get everything but, but i have back light..\n\nj9000:\n\npin 22 - 12.56v\npin 2,3,4 = 3.27v\npin 5 = 0v\n\nDo you guys have something like that? Let me know."
+        },
+        {
+            "post_id": 6068,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 7,
+            "username": "Therealkilometers",
+            "post_date": "2016-08-26 20:13:12",
+            "message": "So you have backlight but no image correct?"
+        },
+        {
+            "post_id": 6079,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-27 10:11:21",
+            "message": "You cannot have backlight with 12V on the output!\n\nDo a PRAM reset, then:\nFirst check <SIGNAL>SMC_LID</SIGNAL>, then check <SIGNAL>BKL_EN</SIGNAL> and <SIGNAL>BKL_PWM</SIGNAL> they should all be high. Check corrosion under/around the <CHIP>LP8550</CHIP>"
+        },
+        {
+            "post_id": 6099,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-27 14:48:59",
+            "message": "<SIGNAL>SMC_LID</SIGNAL> - 3.34\n<SIGNAL>BKL_EN</SIGNAL> - 0.34 (<RESISTOR>R9715</RESISTOR>)\n<SIGNAL>BKL_PWM</SIGNAL> - 0V ( <RESISTOR>R9704</RESISTOR> ) ( <CAPACITOR>C9704</CAPACITOR> )\n\n<CHIP>U9701</CHIP> Looks clean"
+        },
+        {
+            "post_id": 6100,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-27 14:49:37",
+            "message": "Yes. Like that."
+        },
+        {
+            "post_id": 6101,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-27 14:54:42",
+            "message": "<SIGNAL>BKL_EN</SIGNAL> should be at least 2.6V. It is a simple resistor divider, so either <RESISTOR>R9731</RESISTOR> is dead or the <CHIP>LP8550</CHIP> is pulling it down. First check resistance to GND on <SIGNAL>BKL_EN</SIGNAL>, if it is less than lets say 60K the <CHIP>LP8550</CHIP> is dead."
+        },
+        {
+            "post_id": 6104,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-27 15:44:21",
+            "message": "I just replaced 9731 and <CHIP>LP8550</CHIP> and still the same."
+        },
+        {
+            "post_id": 6108,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-27 16:01:16",
+            "message": "<TRANSISTOR>Q9706</TRANSISTOR>\n\nPin 1 : Start 3 and drop to 0 - <SIGNAL>PPBUS_SW_LCDBKLT_PWR</SIGNAL>\nPin 2 : Start 3 and drop To 0 - <SIGNAL>PPBUS_SW_LCDBKLT_PWR</SIGNAL>\nPin 3 : 12.22v - <SIGNAL>PPBUS_EN_DIV</SIGNAL>\nPin 4 : 12.60v - <SIGNAL>PPBUS_SO_LCDBKLT_FUSED</SIGNAL>\nPin 5 : 2.60 and drop - <SIGNAL>PPBUS_SW_LCDBKLT_PWR</SIGNAL>\nPin 6 : 0.64 - <SIGNAL>PPBUS_SW_LCDBKLT_PWR</SIGNAL>"
+        },
+        {
+            "post_id": 6112,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-27 16:44:01",
+            "message": "<TRANSISTOR>Q9706</TRANSISTOR> is a P channel MOSFET meaning it won't open unless the voltage on pin 3 is less than pin 4. \n\n<RESISTOR>R9788</RESISTOR>/<RESISTOR>R9789</RESISTOR> is a voltage divider designed to send 5v to pin 3 of <TRANSISTOR>Q9706</TRANSISTOR>, so that it can turn on. However, it can only function as a voltage divider if the bottom resistor, <RESISTOR>R9789</RESISTOR> has a path to ground, or else it will just send pin 4's 12.6v to pin 3 of <TRANSISTOR>Q9706</TRANSISTOR>. \n\n<TRANSISTOR>Q9707</TRANSISTOR> determines whether <RESISTOR>R9789</RESISTOR> gets to have a path to ground. This is a dual N channel MOSFET - it will allow power from source to drain when the voltage on the gate is higher or the same as the voltage on the source. Here the source is ground, which is 0, so anything on the gate will likely open it. \n\nSo one of four things is occuring here.\n\n1) <CAPACITOR>C9782</CAPACITOR> is shorted and fucked, causing 12v to always be on pin 3 of <TRANSISTOR>Q9706</TRANSISTOR>.\n\n2) <RESISTOR>R9789</RESISTOR> is corroded/burned/bad.\n\n3) <SIGNAL>LCD_BKLT_EN</SIGNAL> or <SIGNAL>BKLT_PLT_RST_L</SIGNAL> are missing <--- this is usually the case when the machine does not see the screen\n\n4) <TRANSISTOR>Q9707</TRANSISTOR> is fucked/bad.\n\n5) <TRANSISTOR>Q9706</TRANSISTOR> is fucked/bad shorting pins 3 and 4 together.\n\nSeeing as you claimed you had no image, we should be troubleshooting no image rather than no backlight I feel. However, since you said you had backlight with 12v on backlight, which is impossible, I have no idea what it is you are seeing at this point, as the light will not turn on without 26-27v on this model..."
+        },
+        {
+            "post_id": 6119,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-28 01:19:13",
+            "message": "You told in the first post you had 12.6V at pin 22 of LCD connector. Now you post values that <TRANSISTOR>Q9706</TRANSISTOR> is not even turning on. This all makes no sense....."
+        },
+        {
+            "post_id": 6144,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-29 09:48:27",
+            "message": "After i replaced <CHIP>U9701</CHIP> - <RESISTOR>R9715</RESISTOR> and i get that V in <TRANSISTOR>Q9706</TRANSISTOR> and pin 22.\nI just try do your advice. \n\n<CHIP>U9701</CHIP> is new."
+        },
+        {
+            "post_id": 6146,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-29 10:03:46",
+            "message": "<CAPACITOR>C9782</CAPACITOR> - <SIGNAL>PPBUS_SO_LCDBKLT_FUSED</SIGNAL> PIN 1 - 12.59V\n<CAPACITOR>C9782</CAPACITOR> - <SIGNAL>LCDBKLT_EN_DIV</SIGNAL> - PIN 2 - 11.60V\n<RESISTOR>R9789</RESISTOR> - 147K OK\n\n<TRANSISTOR>Q9707</TRANSISTOR>:\n- Pin 2:<SIGNAL>BKLT_PLT_RST_L</SIGNAL>: 3.30V \n- Pin 3:<SIGNAL>LCDBKLT_EN_L</SIGNAL> : 9.85V \n- Pin 4 <SIGNAL>LCDBKLT_DISABLE</SIGNAL>: 0v\n- Pin 5 <SIGNAL>LCDBKLT_EN</SIGNAL>: 0v\n- Pin 6:<SIGNAL>LCDBKLT_DISABLE</SIGNAL> 0v"
+        },
+        {
+            "post_id": 6147,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-29 10:19:27",
+            "message": "​[USER=\"2\"]dukefawks[/USER] [USER=\"1\"]larossmann[/USER] I get that:\n\n<CAPACITOR>C9782</CAPACITOR> - <SIGNAL>PPBUS_SO_LCDBKLT_FUSED</SIGNAL> PIN 1 - 12.59V\n<CAPACITOR>C9782</CAPACITOR> - <SIGNAL>LCDBKLT_EN_DIV</SIGNAL> - PIN 2 - 11.60V\n<RESISTOR>R9789</RESISTOR> - 147K OK\n<TRANSISTOR>Q9707</TRANSISTOR>:\n- Pin 2:<SIGNAL>BKLT_PLT_RST_L</SIGNAL>: 3.30V \n- Pin 3:<SIGNAL>LCDBKLT_EN_L</SIGNAL> : 9.85V \n- Pin 4 <SIGNAL>LCDBKLT_DISABLE</SIGNAL>: 0v\n- Pin 5 <SIGNAL>LCDBKLT_EN</SIGNAL>: 0v\n- Pin 6:<SIGNAL>LCDBKLT_DISABLE</SIGNAL> 0v"
+        },
+        {
+            "post_id": 6148,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-29 10:22:14",
+            "message": "Right now i get Pin 3: 12.28v Pin 4: 12.56v\nI don't understand why this happen."
+        },
+        {
+            "post_id": 6150,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-29 11:18:26",
+            "message": "Here is the video:\n[url]http://sendvid.com/gsb3bz4k[/url]"
+        },
+        {
+            "post_id": 6155,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-29 15:29:03",
+            "message": "<SIGNAL>LCDBKLT_EN</SIGNAL> should of course be high and has nothing to do with <CHIP>U9701</CHIP>. I bet the whole LCD is not recognized at this moment and there is no image at all."
+        },
+        {
+            "post_id": 6156,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-29 15:31:25",
+            "message": "WAIT WTF!!! I just watched the video and the backlight turns on! How else do you think the Apple logo lights up??? This means all your measurements are BULLSHIT.\nThe backlight works, the LCD is just not making an image. This is an LVDS issue. Measure all LVDS lines on diode mode. I bet L9080 is missing/damaged or the connector is fucked."
+        },
+        {
+            "post_id": 6172,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-30 09:28:31",
+            "message": "No Title"
+        },
+        {
+            "post_id": 6174,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-30 09:29:33",
+            "message": "[COLOR=#FF0000][SIZE=12px][FONT=arial]I thought you had noticed this in my post.[/FONT][/SIZE][/COLOR]"
+        },
+        {
+            "post_id": 6175,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-30 09:32:15",
+            "message": "Just Backlight, no video like i said before.\nThats why i try figure out with you. I'm not engineer, but i know how to measure things.\nI try 3 different LCD and nothing happen."
+        },
+        {
+            "post_id": 6180,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-30 13:18:34",
+            "message": "What you say you have and the actual measurements you have conflict with each other to the point where I don't believe any of your measurements. They are either mistyped, from the wrong point, or something. Are you removing the LCD to take your measurements or something?\n\nI would ask you to measure voltage at pins 2/3 of the LCD connector but if you are saying you have 12v with backlight at backlight output I Can't trust your measurements and this is pointless.\n\nFirst you need 3.3v at pins 2/3 of the LCD connector.\n\nThen you need a known working LCD & LCD cable\n\nThen you need L9080 to be good. Try a different L9080 and make sure it is soldered properly. \n\nI have no idea what to suggest for this case if you are providing wrong measurements. We really base our support on what you tell us, and if what you tell us is not physically/electrically possible, there's not much we can do to help you."
+        },
+        {
+            "post_id": 6182,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-30 13:38:03",
+            "message": "Your measurements do not reflect a working backlight, but whatever backlight is working.\n\nThe issue now is a black screen with backlight and that is usually an LVDS issue. As I asked before measure all LVDS lines on diode mode and post values. Pin 8,9,11,12,14,15,17,18. This is with the board OFF and LCD UNPLUGGED!"
+        },
+        {
+            "post_id": 6239,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-31 11:01:53",
+            "message": "I Inject 3.42v in L9995 and looks fine, i don't find any warm component.\nShort to ground in <CHIP>U6990</CHIP> Pin 9 i get 21.90 MΩ\n\nAny idea, [USER=\"2\"]dukefawks[/USER] [USER=\"1\"]larossmann[/USER]"
+        },
+        {
+            "post_id": 6242,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-31 12:50:34",
+            "message": "I'm sorry I give up."
+        },
+        {
+            "post_id": 6244,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-31 12:56:31",
+            "message": "With charger plugged in, measure voltage at these points:\n<RESISTOR>R6990</RESISTOR>, pin 1\n<RESISTOR>R6990</RESISTOR>, pin 2\n<DIODE>D6990</DIODE>, pin 3\n\nIt is VERY IMPORTANT that you figure out how to provide real measurements. When you were measuring 12v at pin 22 of the LCD connector, but saying it had backlight, do understand we are not trying to insult you by saying that measurement is bullshit. It is just fact - it is like saying I get 2v on my incandescent lightbulb socket but I see a light.. it is not possible.\n\nOnce you have sorted out taking voltage measurements with the mater, tell us what you get there."
+        },
+        {
+            "post_id": 6245,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-08-31 13:02:01",
+            "message": "<RESISTOR>R6990</RESISTOR>, pin 1 - 16.77v\n<RESISTOR>R6990</RESISTOR>, pin 2 - 16.77v\n<DIODE>D6990</DIODE>, pin 3 - 16.57v"
+        },
+        {
+            "post_id": 6264,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-01 09:07:59",
+            "message": "[USER=\"1\"]larossmann[/USER], Let me know if u need more information."
+        },
+        {
+            "post_id": 6271,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-01 11:19:58",
+            "message": "Do you get that 16v on pin 1 of <RESISTOR>R6995</RESISTOR>?\nIs <RESISTOR>R6995</RESISTOR> measuring 1 mohm?\nDo you have 16v on pin 4 of <CHIP>U6990</CHIP>?\n\nWhat is resistance to ground on pin 1 and pin 2 of L6995?"
+        },
+        {
+            "post_id": 6272,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-09-01 11:26:27",
+            "message": "Measurements don't make sense. You say you have 3.42V on battery but not on AC. You have voltage after <DIODE>D6990</DIODE> so this means you MUST have 3.42V on AC too."
+        },
+        {
+            "post_id": 6275,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-01 11:54:31",
+            "message": "<RESISTOR>R6995</RESISTOR> - Pin 1 = 16.54v\n<CHIP>U6990</CHIP> - Pin 4 = 16.54v\n\nResistence to ground:\nL6995 - Pin 1 = 15.87k[COLOR=#545454][FONT=arial]Ω[/FONT][/COLOR]\nL6995 - Pin 2 = 15.87k[COLOR=#545454][FONT=arial]Ω[/FONT][/COLOR]"
+        },
+        {
+            "post_id": 6276,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-01 11:56:52",
+            "message": "Never mind."
+        },
+        {
+            "post_id": 6300,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-09-01 21:14:29",
+            "message": "Quote:\nRight now i don't have 3.42v and green light from the charge.\nIf i plug the battery, i get 3.42v\n\nThe amount of contradictory information you provide makes diagnosis impossible."
+        },
+        {
+            "post_id": 6310,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-02 09:28:54",
+            "message": "Yes, you are right.\nForget about battery (wrong post) and try help me figure out the problem with my board, please.\n\nI get this for louis:\n\n<RESISTOR>R6995</RESISTOR> - Pin 1 = 16.54v\n<CHIP>U6990</CHIP> - Pin 4 = 16.54v\n\nResistence to ground:\nL6995 - Pin 1 = 15.87kΩ\nL6995 - Pin 2 = 15.87kΩ"
+        },
+        {
+            "post_id": 6447,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-07 10:38:51",
+            "message": "5 days ago\n<RESISTOR>R6995</RESISTOR> - Pin 1 = 16.54v\n<CHIP>U6990</CHIP> - Pin 4 = 16.54v\n\nResistence to ground:\nL6995 - Pin 1 = 15.87kΩ\nL6995 - Pin 2 = 15.87kΩ"
+        },
+        {
+            "post_id": 6448,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-07 10:39:48",
+            "message": "[USER=\"1\"]larossmann[/USER]"
+        },
+        {
+            "post_id": 6457,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-07 12:25:03",
+            "message": "Your measurements indicate you have <SIGNAL>PP3V42_G3H</SIGNAL>. What has happened inbetween you having no image and it being dead? \n\nIs <SIGNAL>PPBUS_G3H</SIGNAL> present and if so is it 12.55v or 12.22v? <SIGNAL>PP5V_S5</SIGNAL>? <SIGNAL>PPVRTC_G3H</SIGNAL>? <SIGNAL>PP5V_S3</SIGNAL>? <SIGNAL>PP3V3_S5</SIGNAL>? Is <SIGNAL>SMC_RESET_L</SIGNAL> present? Is <SIGNAL>SMC_BC_ACOK</SIGNAL> present? \n\nI honestly doubt this will be solvable from all the confusing measurements provided."
+        },
+        {
+            "post_id": 6500,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-08 13:03:07",
+            "message": "[USER=\"1\"]larossmann[/USER] Yes, before i get <SIGNAL>PP3V42_G3H</SIGNAL> and i just have problem with no image.\nSo i  decide to put the board on supersonic machine and after that i don't get more <SIGNAL>PP3V42_G3H</SIGNAL>.\n\nRight know i dont have <SIGNAL>PP3V42_G3H</SIGNAL> (no greenlight)"
+        },
+        {
+            "post_id": 6536,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-09 13:32:33",
+            "message": "You answered none of my questions. :("
+        },
+        {
+            "post_id": 6619,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-12 09:36:02",
+            "message": "[USER=\"1\"]larossmann[/USER] I just have 16v on this board.\nI don't have <SIGNAL>PPBUS_G3H</SIGNAL>"
+        },
+        {
+            "post_id": 6675,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-13 09:48:17",
+            "message": "Do you have more question, [USER=\"1\"]larossmann[/USER] ?"
+        },
+        {
+            "post_id": 6690,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-13 21:00:21",
+            "message": "I give up on this one since the measurements you provided make what you are saying is happening impossible."
+        },
+        {
+            "post_id": 6701,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-14 09:19:03",
+            "message": "[USER=\"1\"]larossmann[/USER], I don't wanna give up. What u think is impossible? I just get 16V what about 12-5-3-1 v?\nShort to ground in <SIGNAL>PPBUS_G3H</SIGNAL> :  - 0.88 m[COLOR=#666666][FONT=arial]Ω[/FONT][/COLOR]"
+        },
+        {
+            "post_id": 6711,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2016-09-14 11:33:22",
+            "message": "[USER=\"2\"]dukefawks[/USER] [USER=\"1\"]larossmann[/USER] If i plug the battery, i get <SIGNAL>PPBUS_G3H</SIGNAL> on F7040 Pin 2"
+        },
+        {
+            "post_id": 6728,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-14 16:08:14",
+            "message": "You can't have <SIGNAL>PP3V42_G3H</SIGNAL> on battery, but not have it on the charger, if <DIODE>D6995</DIODE> has 16v on it with the charger. That is just not possible."
+        },
+        {
+            "post_id": 6730,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-09-14 17:37:29",
+            "message": "There is a short to GND on PPBUS of 0.88 MILLI Ohm, yet with the battery plugged in PPBUS is there. Or is it MEGA Ohm, again your measurements are useless and do not make sense."
+        },
+        {
+            "post_id": 6747,
+            "thread_id": 6067,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> - Works but",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-14 21:51:44",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> isn't even the main issue here. the issue is he says he has <SIGNAL>PP3V42_G3H</SIGNAL> on the battery, but not on the charger, but there is 16v input to the PP3V42 regulator. that is impossible."
+        }
+    ]
+}

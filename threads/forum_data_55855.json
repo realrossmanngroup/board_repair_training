@@ -1,0 +1,756 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2850": "What is 820-2850? a LOGIC BOARD PART NUMBER.",
+        "ISL6295": "What is ISL6295? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPDCIN_G3H_INRUSH": "What is PPDCIN_G3H_INRUSH? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7022": "What is R7022? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "Q7085": "What is Q7085? a TRANSISTOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SMBUS_SMC_BSA_SCL": "What is SMBUS_SMC_BSA_SCL? SMBUS_SMC_BSA_SCL is another way to say SMBUS_SMC_5_G3_SCL, look at the definition provided for SMBUS_SMC_5_G3_SCL as it applies to .",
+        "CHRG_ACIN": "What is CHRG_ACIN? a SIGNAL.",
+        "CHRG_AGATE": "What is CHRG_AGATE? This is a typo of CHGR_AGATE When you see CHRG_AGATE, assume they meant to type CHGR_AGATE.",
+        "CHRG_BGATE": "What is CHRG_BGATE? This is a typo of CHGR_BGATE When you see CHRG_BGATE, assume they meant to type CHGR_BGATE.",
+        "CHRG_DCIN": "What is CHRG_DCIN? a SIGNAL.",
+        "CHRG_BMON": "What is CHRG_BMON? a SIGNAL.",
+        "PP5V1_CHRG_VDD": "What is PP5V1_CHRG_VDD? a SIGNAL.",
+        "CHRG_AMON": "What is CHRG_AMON? a SIGNAL.",
+        "PP5V1_CHRG_VDDP": "What is PP5V1_CHRG_VDDP? a SIGNAL.",
+        "CHRG_PHASE": "What is CHRG_PHASE? a SIGNAL.",
+        "CHRG_VFRQ": "What is CHRG_VFRQ? a SIGNAL.",
+        "CHRG_ICONP": "What is CHRG_ICONP? a SIGNAL.",
+        "CHRG_CELL": "What is CHRG_CELL? a SIGNAL.",
+        "CHRG_VCOMP": "What is CHRG_VCOMP? a SIGNAL.",
+        "CHRG_VNEG": "What is CHRG_VNEG? a SIGNAL.",
+        "SMBUSS_SMC_BSA_SDA": "What is SMBUSS_SMC_BSA_SDA? a SIGNAL.",
+        "CHRG_RST_L": "What is CHRG_RST_L? a SIGNAL.",
+        "CHRG_CSO_N": "What is CHRG_CSO_N? a SIGNAL.",
+        "CHRG_CSO_P": "What is CHRG_CSO_P? a SIGNAL.",
+        "CHRG_LGATE": "What is CHRG_LGATE? a SIGNAL.",
+        "CHRG_UGATE": "What is CHRG_UGATE? a SIGNAL.",
+        "CHRG_BOOT": "What is CHRG_BOOT? a SIGNAL.",
+        "CHRG_SGATE": "What is CHRG_SGATE? a SIGNAL.",
+        "CHRG_CSI_N": "What is CHRG_CSI_N? a SIGNAL.",
+        "CHRG_CSI_P": "What is CHRG_CSI_P? a SIGNAL.",
+        "R7010": "What is R7010? a RESISTOR.",
+        "R7011": "What is R7011? a RESISTOR.",
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "C7011": "What is C7011? a CAPACITOR.",
+        "820-3115B": "What is 820-3115B? a LOGIC BOARD PART NUMBER.",
+        "ISL6529": "What is ISL6529? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "R7086": "What is R7086? a RESISTOR.",
+        "CHRG_CSIP": "What is CHRG_CSIP? a SIGNAL.",
+        "C7042": "What is C7042? a CAPACITOR.",
+        "5V1_CHRG_VDD": "What is 5V1_CHRG_VDD? a SIGNAL.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "SMC_BATLOW_L": "What is SMC_BATLOW_L? SMC_BATLOW_L refers to a power management signal that indicates a low battery condition. The \"_L\" suffix suggests that this is an active-low signal, meaning that it becomes low when the battery reaches a low voltage threshold..",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "U5450": "What is U5450? a CHIP.",
+        "C5932": "What is C5932? a CAPACITOR.",
+        "C7921": "What is C7921? a CAPACITOR.",
+        "C9560": "What is C9560? Tantalum capacitor on 820-2850 logic board that often dies and causes intermittent power to framebuffer PP1V8R1V55_S0GPU_ISNS and PP1V8R1V55_S0GPU_ISNS_R rail, causing GPU kernel panics. Replace with non-tantalum if machine is having random black screen or kernel panics.",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PPV1V5_S3": "What is PPV1V5_S3? a SIGNAL.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "U7400": "What is U7400? a CHIP.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state.."
+    },
+    "threads": [
+        {
+            "post_id": 55855,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-17 01:03:13",
+            "message": "Ok so I got this with quarter fan spin and it went straight to dim green light after a few minutes of diode measurements. With just the charger plugged in. \npp3v42 = 3.42\n<SIGNAL>PPBUS_G3H</SIGNAL> = 0.3v\nDiode mode <SIGNAL>PPBUS_G3H</SIGNAL>=.489\n\n<RESISTOR>R7020</RESISTOR> pin1=2.4v [HR][/HR]<RESISTOR>R7021</RESISTOR> pins 1 & 2 in ohms = 1.965 k ohms\n<RESISTOR>R7022</RESISTOR> pins 1 & 2 in ohms = 1.975 k ohms\n<RESISTOR>R7022</RESISTOR> between pins 1 & 2 =0.1\n<CAPACITOR>C7020</CAPACITOR> resistance on 1&2 =20ohms \n\n<CHIP>ISL6295</CHIP> (pins)27/28 20ohms\n<CHIP>ISL6295</CHIP> (pins)17/18 2.9ohms\n<SIGNAL>SMC_RESET_L</SIGNAL> =3.3v\n\n<TRANSISTOR>Q7085</TRANSISTOR> Pins 1-4=16.24v\n<TRANSISTOR>Q7085</TRANSISTOR> <SIGNAL>PPDCIN_G3H_INRUSH</SIGNAL> =2.59v\n\nTried with battery g3h=12.5v at fuse f7040\n\nthank you for your time"
+        },
+        {
+            "post_id": 55858,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-17 04:11:07",
+            "message": "Post <CHIP>ISL6259</CHIP> basic voltages; charger only, no battery..."
+        },
+        {
+            "post_id": 55865,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-17 07:07:27",
+            "message": "Ok thanks. I?ll get back to you when I get home"
+        },
+        {
+            "post_id": 55892,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 05:28:12",
+            "message": "<CHIP>U7000</CHIP>\n1-<SIGNAL>CHRG_AGATE</SIGNAL>=14v\n2-<SIGNAL>CHRG_DCIN</SIGNAL>=16.7\n3-<SIGNAL>CHRG_ACIN</SIGNAL>=1.5mv\n4-<SIGNAL>CHRG_VFRQ</SIGNAL>=8.5mv\n5-<SIGNAL>CHRG_ICONP</SIGNAL>=8.4mv\n6-<SIGNAL>CHRG_CELL</SIGNAL>=.8mv\n7-<SIGNAL>CHRG_VCOMP</SIGNAL>=.6mv\n8-<SIGNAL>CHRG_VNEG</SIGNAL>=370mv\n9-<SIGNAL>CHRG_AMON</SIGNAL>=.1mv\n10-<SIGNAL>SMBUSS_SMC_BSA_SDA</SIGNAL>=3.38v\n11-<SIGNAL>SMBUS_SMC_BSA_SCL</SIGNAL>=3.32v\n12-<SIGNAL>PP3V42_G3H</SIGNAL>=3.42v\n13-<SIGNAL>CHRG_RST_L</SIGNAL>=3.1-3.9 fluctuating \n14-<SIGNAL>SMC_BC_ACOK</SIGNAL>=140mv\n15-<SIGNAL>CHRG_BMON</SIGNAL>=46mv\n16-<SIGNAL>CHRG_BGATE</SIGNAL>=77mv\n17-<SIGNAL>CHRG_CSO_N</SIGNAL>=380mv\n18-<SIGNAL>CHRG_CSO_P</SIGNAL>=380mv\n19-<SIGNAL>PP5V1_CHRG_VDD</SIGNAL>=6mv\n20-<SIGNAL>PP5V1_CHRG_VDDP</SIGNAL>=6mv\n21-<SIGNAL>CHRG_LGATE</SIGNAL>=220mv\n22-gnd\n23-<SIGNAL>CHRG_PHASE</SIGNAL>=380mv\n24-<SIGNAL>CHRG_UGATE</SIGNAL>=380mv\n24-<SIGNAL>CHRG_BOOT</SIGNAL>=500mv\n25-<SIGNAL>CHRG_SGATE</SIGNAL>=16.4v\n26-<SIGNAL>CHRG_CSI_N</SIGNAL>=.7mv\n27-<SIGNAL>CHRG_CSI_P</SIGNAL>=.7mv\n\nim sorry I just wanted to give all the info that I could :( thank you for your time and effort resolving this issue. I know the boards are old. I know they?re worth nothing but I?m taking this opportunity to add to my repair knowledge. Hopefully I will be able to return your kindness in the future thank you and the community:)"
+        },
+        {
+            "post_id": 55893,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-18 08:30:10",
+            "message": "\"3-<SIGNAL>CHRG_ACIN</SIGNAL>=1.5mv\"\nThere should be aprox 4V.\n\n\"19-<SIGNAL>PP5V1_CHRG_VDD</SIGNAL>=6mv\n20-<SIGNAL>PP5V1_CHRG_VDDP</SIGNAL>=6mv\"\nAnd 5V there.\n\nSo start checking diode mode (red probe at ground) on these points.\nIf nothing strange, then check <RESISTOR>R7010</RESISTOR>; could be open, because of corrosion."
+        },
+        {
+            "post_id": 55897,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 08:41:11",
+            "message": "May I ask you something? When <SIGNAL>CHRG_DCIN</SIGNAL>=16v shouldn?t it output 5v on vdd ? Or am I confused about the operation of this circuit"
+        },
+        {
+            "post_id": 55899,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-18 08:48:36",
+            "message": "No datasheet available for <CHIP>ISL6259</CHIP>.\nBut the other charger chips do not generate VDD untill ACIN is correct.\nIs supposed to be valid for this one too..."
+        },
+        {
+            "post_id": 55900,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 08:52:25",
+            "message": "Ok I?ll take the readings and check <RESISTOR>R7010</RESISTOR>"
+        },
+        {
+            "post_id": 55904,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 12:13:14",
+            "message": "<RESISTOR>R7010</RESISTOR> On pin 1 16.75v on pin 2-20mv\n<RESISTOR>R7011</RESISTOR> pin 1-20mv\ni removed Both resistors \n<RESISTOR>R7010</RESISTOR>=29.5k\n<RESISTOR>R7011</RESISTOR> =38ohms in circuit \n<RESISTOR>R7011</RESISTOR> =9.25 out of circuit"
+        },
+        {
+            "post_id": 55905,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 12:32:30",
+            "message": "I also did continuity test on a the v?as and all test good :/ I thought maybe the via where bad. Odd because I see no sign of water except near touch pad but even that was very little"
+        },
+        {
+            "post_id": 55906,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 14:36:42",
+            "message": "Oddly enough <CHIP>U7000</CHIP> pin 3 .042v diode mode even when I remove both <RESISTOR>R7010</RESISTOR>/<RESISTOR>R7011</RESISTOR> is this right? I have .549 on a <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> board at the same point. The dot being pin 1"
+        },
+        {
+            "post_id": 55907,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-18 16:50:42",
+            "message": "\"<RESISTOR>R7011</RESISTOR> =38ohms in circuit\"\nRemove <CAPACITOR>C7011</CAPACITOR>.\nIf works, you are lucky; not even need to change it.\nIf not, change <CHIP>ISL6259</CHIP>."
+        },
+        {
+            "post_id": 55910,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 17:16:46",
+            "message": "Ok so I remove <CAPACITOR>C7011</CAPACITOR> I get 16.6v on pin 2 of <RESISTOR>R7010</RESISTOR> to <CHIP>ISL6295</CHIP> :(  I?m guessing it?s not good any longer"
+        },
+        {
+            "post_id": 55911,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-18 17:17:18",
+            "message": "Can I use a similar one from <LOGIC BOARD PART NUMBER>820-3115B</LOGIC BOARD PART NUMBER> ?"
+        },
+        {
+            "post_id": 55914,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-19 01:50:44",
+            "message": "<CAPACITOR>C7011</CAPACITOR> is not critical, let it out.\nBut need to replace <RESISTOR>R7011</RESISTOR>, seems to be bad.\nOr maybe broken/corroded trace.\nYou should get aprox 4V there."
+        },
+        {
+            "post_id": 55919,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-19 05:33:07",
+            "message": "Good morning soo I replaced the <CHIP>ISL6529</CHIP> before I saw your comment. The isl was shorted on pin 3 now I have 3.9 at acin. The light was dim even after the change and now checking around the mosfet I heard a ?click? and the MagSafe light turned a normal green and <SIGNAL>PPBUS_G3H</SIGNAL> had 12.5v then died again. Bad solder joint ? Or MOSFET ?"
+        },
+        {
+            "post_id": 55923,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-19 08:24:03",
+            "message": "\"The isl was shorted on pin 3 now I have 3.9 at acin\"\nYou had just a bad <CAPACITOR>C7011</CAPACITOR>.\n\nBad solders, or knocked off components around <CHIP>ISL6259</CHIP> could now generated more damage on the board.\n\nDid you solder good <RESISTOR>R7011</RESISTOR>???"
+        },
+        {
+            "post_id": 55929,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-19 11:39:24",
+            "message": "Yes I did solder it well. I have 4v at the voltage divider. I tried without <CAPACITOR>C7011</CAPACITOR> it gave me 16v at pin3. I replaced it with another <CAPACITOR>C7011</CAPACITOR>. are you saying I switched isl 6529 for no good reason? :("
+        },
+        {
+            "post_id": 55930,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-19 11:41:29",
+            "message": "Now after I changed <CHIP>ISL6259</CHIP> I have 4v at pin 3 I looked around all the components are still in their place I?ve double checked."
+        },
+        {
+            "post_id": 55931,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-19 11:58:51",
+            "message": "I noticed <RESISTOR>R7086</RESISTOR> pin2 has 12v at <SIGNAL>CHRG_AGATE</SIGNAL> and Nothing on output <SIGNAL>PPDCIN_G3H_INRUSH</SIGNAL> at <TRANSISTOR>Q7085</TRANSISTOR>"
+        },
+        {
+            "post_id": 55936,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-19 16:23:58",
+            "message": "If ACIN went high removeing <CAPACITOR>C7011</CAPACITOR>, <CHIP>ISL6259</CHIP> was not the culprit.\n\n\"I have 4v at the voltage divider. I tried without <CAPACITOR>C7011</CAPACITOR> it gave me 16v at pin3\"\nThis is very confuse.\nYou can only get 16V there if <RESISTOR>R7011</RESISTOR> is open, or not soldered.\n<CAPACITOR>C7011</CAPACITOR> is not involved in voltage level; can only short to ground if bad."
+        },
+        {
+            "post_id": 55955,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 04:29:40",
+            "message": "I?m sorry for the confusion its me. I fixed some corrosion on the edge of the board that I hadn?t seen.  I have a solid green light on MagSafe  and I believe that isl is pulling <SIGNAL>CHRG_AGATE</SIGNAL> high to 15v because it might be seeing some over current at <SIGNAL>CHRG_CSIP</SIGNAL> and <SIGNAL>CHRG_CSIP</SIGNAL>.I noticed that at the mosfet upper mosfet by isl I have a weird fluctuation. So I removed f7040 put my power supply on 12v and placed it on pin 2 of f7040 so that should now rule out anything on isl as being an issue am I right? If not. I have still divided the system in half and know the issue is after pin2 on f7040\nthank you \n2informatico"
+        },
+        {
+            "post_id": 55958,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 05:29:00",
+            "message": "What voltage do you get at pin 1/F7040 when fuse removed?\n\nWhy did you inject voltage before measuring diode mode to ground???\nPost that value now on pin 2/F7040."
+        },
+        {
+            "post_id": 55959,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 05:33:30",
+            "message": "No I did a measurement it was .469v to ground before I put my power supply"
+        },
+        {
+            "post_id": 55960,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 05:35:21",
+            "message": "And I just checked it again it?s still around .459v"
+        },
+        {
+            "post_id": 55961,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 05:38:06",
+            "message": "The clipping of voltage only is present when the charger is applied. It is open when it?s not."
+        },
+        {
+            "post_id": 55968,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 06:57:52",
+            "message": "I asked you something which you didn't reply yet!\nI mentioned which pin voltage and diode mode needed.\n???"
+        },
+        {
+            "post_id": 55977,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 08:04:10",
+            "message": "Oh I apologize it?s 2.7v on pin 1"
+        },
+        {
+            "post_id": 55978,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 08:08:48",
+            "message": "Diode mode at pin 2 is .459v"
+        },
+        {
+            "post_id": 55979,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 08:11:59",
+            "message": "I didn?t do any diode mode on pin one as I wasn?t injecting voltage but I will when I get home"
+        },
+        {
+            "post_id": 55983,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 09:22:02",
+            "message": "With f7040 removed charger connected \n\nPin 1 voltage 2.7v \npin 1 diode mode .509v to ground (red probe on ground )\npin 2 0v \npin 2 diode mode .549v"
+        },
+        {
+            "post_id": 55984,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 09:52:32",
+            "message": "Post someU7000 voltages; pins 1, 2, 3, 9, 12, 13, 14, 15, 17, 19, 20, 27."
+        },
+        {
+            "post_id": 55990,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 11:08:58",
+            "message": "So you want me to put f7040 back then give you voltages or do it with f7040 off?"
+        },
+        {
+            "post_id": 55993,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 12:28:35",
+            "message": "Measure with F7040 removed."
+        },
+        {
+            "post_id": 55994,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 13:22:40",
+            "message": "1= 15v\n2=16.57\n3=3.9v\n9=0v\n12=3.39\n13=3.31-3.39v\n14=0\n15=0\n17=0\n19=1.7v \n20=1v\n27=448mv"
+        },
+        {
+            "post_id": 55995,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 13:23:36",
+            "message": "Also I lost <CAPACITOR>C7042</CAPACITOR> before I took measurements not sure if that affects them :/"
+        },
+        {
+            "post_id": 55999,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 13:59:50",
+            "message": "\"19=1.7v\n20=1v\"\nDiode mode to ground there?\n\n\"I lost <CAPACITOR>C7042</CAPACITOR>\"\nSolder proper capacitor; pick it from scrap board."
+        },
+        {
+            "post_id": 56001,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 14:53:35",
+            "message": "19=.453\n20=.454"
+        },
+        {
+            "post_id": 56002,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 15:09:48",
+            "message": "Change <CHIP>ISL6259</CHIP> again.\nWorth to resolder the original chip.\nBe sure to have all surrounding components in place."
+        },
+        {
+            "post_id": 56003,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-20 15:23:27",
+            "message": "The original fell apart as soon as I grabbed it with tweezer :( I didnt even get it hot :("
+        },
+        {
+            "post_id": 56017,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-21 06:03:13",
+            "message": "Ok I ordered some new ones"
+        },
+        {
+            "post_id": 56174,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-24 20:52:19",
+            "message": "ok so i received my new <CHIP>ISL6259</CHIP> today installed it and green light on magsafe and my voltage is 12.53 at the fuse.and i have a fan spin for like 10 seconds and turns off\nthen back on again. I'm gonna go over the power rails and see whats going on i will report back to you. tomorrow. Thank you"
+        },
+        {
+            "post_id": 56180,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-25 04:00:36",
+            "message": "Check voltage on all big coils.\nUse an USB mouse to see if gets steady light in the 10s..."
+        },
+        {
+            "post_id": 56185,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-01-25 06:56:14",
+            "message": "will do thanks"
+        },
+        {
+            "post_id": 56544,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-07 18:40:28",
+            "message": "Ok I?m back on this board so I?m no longer getting 12v. Charger light is green but no 12v it?s been 1.6-4v the few times I?ve checked. No short on either side of chip. I have 3.3v and 3.42 and isl has <SIGNAL>5V1_CHRG_VDD</SIGNAL>"
+        },
+        {
+            "post_id": 56556,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-08 02:28:14",
+            "message": "Post diode mode on <SIGNAL>PPBUS_G3H</SIGNAL> power rail.\nCheck all resistors around <CHIP>ISL6259</CHIP> for proper values.\nPost again the same voltages for <CHIP>U7000</CHIP> above mentioned.\nAlso exact ohm resistance between pins 17/18 and 27/28.\n\nBe sure to have good solders!"
+        },
+        {
+            "post_id": 56574,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-08 19:50:04",
+            "message": "Thank you your guidance help me find the culprit. I found the issue with fluctuations on g3h it was <RESISTOR>R7005</RESISTOR>.\n\nso now I?m back on the fan spinning for 20 sec and stopping the usb mouse and usb stick flash when the fan spins and stops when the fan stops. G3h is stable 12.53v  and 5v pulses with power on off"
+        },
+        {
+            "post_id": 56575,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2020-02-08 21:30:00",
+            "message": "If you hold the power button down when it is doing this, does it start up normally? \n\n\nMy very first board repair would do this, and you held the power button down, and it would start normally, ended up being a bad ISL. \n\nHad another machine that would do this, and power on normally if the power button was held, and it was a short on a trackpad subrail. \n\nTry it and report results. If the same, check for a short on S0 and S3 rails."
+        },
+        {
+            "post_id": 56576,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-09 05:10:12",
+            "message": "If the USB stick flashes, means the board is working in that time.\nCheck if board stays on if you start in SMC bypass mode.\nBe sure heatsink is properly fixed and CPU/GPU don't get overheat fast."
+        },
+        {
+            "post_id": 56579,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-09 05:29:35",
+            "message": "[QUOTE=\"TCRScircuit, post: 56575\"]If you hold the power button down when it is doing this, does it start up normally?\n\n\nMy very first board repair would do this, and you held the power button down, and it would start normally, ended up being a bad ISL.\n\nHad another machine that would do this, and power on normally if the power button was held, and it was a short on a trackpad subrail.\n\nTry it and report results. If the same, check for a short on S0 and S3 rails.\n[/QUOTE]\n\nOk I tried to hold the power button on power up it has no affect whatsoever :/ I will try to go over the power rails again"
+        },
+        {
+            "post_id": 56580,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-09 05:31:03",
+            "message": "[QUOTE=\"2informaticos, post: 56576\"]If the USB stick flashes, means the board is working in that time.\nCheck if board stays on if you start in SMC bypass mode.\nBe sure heatsink is properly fixed and CPU/GPU don't get overheat fast.[/QUOTE]\n\nIt does the same pulsing but with fan spinning at maximum or fast on then off. On then off\nthank you for your help"
+        },
+        {
+            "post_id": 56583,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2020-02-09 10:41:02",
+            "message": "This will likely suck. \n\nRecheck current sensing on pins 17/18 27/28 of the ISL should be 3-5 ohms / 20 ohms. \n\nAlso, resistance to ground on CPU and GPU VCORE."
+        },
+        {
+            "post_id": 56584,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-09 10:49:03",
+            "message": "[QUOTE=\"TCRScircuit, post: 56583\"]This will likely suck.\n\nRecheck current sensing on pins 17/18 27/28 of the ISL should be 3-5 ohms / 20 ohms.\n\nAlso, resistance to ground on CPU and GPU VCORE.\n\n\n[/QUOTE]\nYes 27/28 is 20 ohms 17/18 is 3.8 ohms I notice something strange looking around <CHIP>U6100</CHIP> I saw on a resistors <SIGNAL>SMC_BATLOW_L</SIGNAL> fluctuating with power on its goes up to 4.9 and off but I have no battery plugged in. To my understanding it only goes high when a battery is plugged \nthanks for your help"
+        },
+        {
+            "post_id": 56585,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-09 10:50:17",
+            "message": "[QUOTE=\"TCRScircuit, post: 56583\"]This will likely suck.\n\nRecheck current sensing on pins 17/18 27/28 of the ISL should be 3-5 ohms / 20 ohms.\n\nAlso, resistance to ground on CPU and GPU VCORE.\n\n\n[/QUOTE]\nGive me a few I check both cpu/gpu vcore"
+        },
+        {
+            "post_id": 56586,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-09 13:06:58",
+            "message": "Do NOT quote an entire post visible few centimeters above.\nPlease, maintain forum aesthetic!\n\nCheck if you get voltage on all big coils."
+        },
+        {
+            "post_id": 56588,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2020-02-09 13:40:19",
+            "message": "SMC batlow should go high with a battery or the use of a 85w charger. 4.9v isn't right. That is a 3.3v signal. Are your meter batteries low? \n\nThat reminds me. Are you using a real 85w charger with this? \n\nWhen the fan spins, does <SIGNAL>PLT_RESET_L</SIGNAL> go high?"
+        },
+        {
+            "post_id": 56590,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-09 14:04:00",
+            "message": "[QUOTE=\"TCRScircuit, post: 56588\"]SMC batlow should go high with a battery or the use of a 85w charger. 4.9v isn't right. That is a 3.3v signal. Are your meter batteries low?\n\nThat reminds me. Are you using a real 85w charger with this?\n\nWhen the fan spins, does <SIGNAL>PLT_RESET_L</SIGNAL> go high?\n\n[/QUOTE]\n\nYes <SIGNAL>PLT_RESET_L</SIGNAL> =3.3v\nyes it?s a real 85w charger"
+        },
+        {
+            "post_id": 56592,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-09 15:24:14",
+            "message": "I really don't understand why you still continue to quote entire previous posts :(.\n\nYour board starts on charger only.\nThat means <SIGNAL>PM_BATLOW_L</SIGNAL> was and is still high; no need to check that.\nBut you refuse to check what I asked two posts before..."
+        },
+        {
+            "post_id": 56594,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-09 16:08:22",
+            "message": "Sorry I didn?t see that reply. Ok,\nI?ll check all coils"
+        },
+        {
+            "post_id": 56596,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-09 17:13:23",
+            "message": "I?m sorry I only found 1 fluctuating L7330\nim sorry I never measured directly on the inductor before I alway look for a large cap near by for voltage. Maybe I haven?t learned enough yet. I also found pulsing on <CAPACITOR>C5932</CAPACITOR> pin 1 0v to 3.3v right next to <CHIP>U5450</CHIP> and <CAPACITOR>C7921</CAPACITOR> cap is OL"
+        },
+        {
+            "post_id": 56603,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-10 02:50:54",
+            "message": "\"the fan spinning for 20 sec\"\nWhy do you talk about pulsing now?\nI was waiting to get some voltages present in the 20s mentioned.\nYou cannot say pulsing when the board stays on 20s; unless you note some pulse in these 20s...\n\nBTW, <CAPACITOR>C9560</CAPACITOR> shouldn't be related with this symptom, but it must be changed in any case.\nSo change it now, to discard it completely.\nDo NOT use hot air for this!"
+        },
+        {
+            "post_id": 56609,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-10 04:22:33",
+            "message": "im sorry What I meant was that the pulsing coincides with fan on and off or at the same time\nthe coils as I mentioned only showed a voltage L7330\nit goes up to 3.3v then to zero. So when fan spins it at 3.3v when off it goes to zero the only other rail I found that does this is <SIGNAL>PPV1V5_S3</SIGNAL> and gets power from <SIGNAL>PP3V3_S3</SIGNAL> which isn?t pulsing on off it stays stable all the time."
+        },
+        {
+            "post_id": 56614,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-10 06:44:57",
+            "message": "If fan spins, <SIGNAL>5V_S0</SIGNAL> is needed.\nPLEASE post accurate information.\nThere are more voltages present for sure.\nTo get <SIGNAL>5V_S0</SIGNAL>, <SIGNAL>PPBUS_G3H</SIGNAL> is required, as <SIGNAL>3V3_S5</SIGNAL> too.\n\nBTW, ALWAYS check coils voltage on the pin connected to filter capacitor."
+        },
+        {
+            "post_id": 56631,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-10 15:33:00",
+            "message": "Fan on.         Fan off\nL7330.             1.5v.              0v\nL7530.               .8v.              0v\nL7630.              1.07v.           0v\nL7415.            Pulsing every second\nL7425                 .8v.             0v\nL7030.             12.52v         12.52v\nL7630.               1.07v.           0v\nL8920.                  .9v             0v"
+        },
+        {
+            "post_id": 56632,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-10 15:42:27",
+            "message": "Here are the coils voltages you asked for"
+        },
+        {
+            "post_id": 56636,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-10 17:00:08",
+            "message": "I don't understand how can you have different behaviour on L7415/25; as both are connected together.\nRemember to check voltage on the coil pin connected to the filter cap!!!\n\nPost again L7415/25 voltage.\nAlso post exact ohm voltage to ground; compare with good board.\nCheck traces and resistors around <CHIP>U7400</CHIP>."
+        },
+        {
+            "post_id": 56638,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-10 17:08:56",
+            "message": "Sorry my mistake         \nBoth L 7415, L7425 are 8v with fan spinning 0 v when off"
+        },
+        {
+            "post_id": 56639,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-10 17:26:16",
+            "message": "Do you mean steady 0.8V?\nI doubt you have 8V there...\n\nCan you note a drop from initial 1.15V to 0.8V in few seconds?\nOr you get 0.8V from the first moment?"
+        },
+        {
+            "post_id": 56641,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-10 17:34:43",
+            "message": "I notice a rise to immediately 1.15 and drops right to .8v  in a second"
+        },
+        {
+            "post_id": 56645,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-11 00:26:11",
+            "message": "Looks like CPU works in such case.\nCheck for USB activity in the 20s when board stays on.\nDon't forget about <CAPACITOR>C9560</CAPACITOR>..."
+        },
+        {
+            "post_id": 56656,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-11 05:56:35",
+            "message": "Yes I have usb activity and flashing usb and mouse. I will change <CAPACITOR>C9560</CAPACITOR> and report back \nthank you"
+        },
+        {
+            "post_id": 56661,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-11 10:03:06",
+            "message": "You can also try cleaning ME region..."
+        },
+        {
+            "post_id": 56748,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-13 17:36:34",
+            "message": "Ok I order the bios programmer. I have replaced the resistor and cap we spoke of now I have [B]<SIGNAL>PM_SLP_S4_L</SIGNAL>[/B]\nTurning on with fan spins then off when the fan stops. As i under stand this is the enable signal for <SIGNAL>PP5V_S3</SIGNAL>\nIt also acer power cycling for a minute or 2 the fans spin full speed. im gonna look around. I believe it comes from pch so maybe something in the circuit in between"
+        },
+        {
+            "post_id": 56757,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-14 06:29:43",
+            "message": "The board stays on now, or still turns off in 20s?"
+        },
+        {
+            "post_id": 56760,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 21617,
+            "username": "Chuck60",
+            "post_date": "2020-02-14 07:47:45",
+            "message": "Still turns off and it?s more like 8 seconds now. I?ve fixed many other boards this one just trolls me :/"
+        },
+        {
+            "post_id": 56770,
+            "thread_id": 55855,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> dim green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-02-14 10:38:20",
+            "message": "Report what happens after flashing clean ME BIOS..."
+        }
+    ]
+}

@@ -1,0 +1,54 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01598": "What is 820-01598? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPVBAT_G3H_CONN": "What is PPVBAT_G3H_CONN? This is the where the battery’s power rail connects to the motherboard. .",
+        "PPVIN_S4_TPAD_FUSE": "What is PPVIN_S4_TPAD_FUSE? a SIGNAL.",
+        "R6700": "What is R6700? a RESISTOR.",
+        "D6950": "What is D6950? a DIODE.",
+        "SYS_DETECT_L": "What is SYS_DETECT_L? For detection of the battery.",
+        "SYS_DETECT": "What is SYS_DETECT? a SIGNAL.",
+        "R6956": "What is R6956? a RESISTOR.",
+        "Q6950": "What is Q6950? a TRANSISTOR.",
+        "Q6955": "What is Q6955? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 100256,
+            "thread_id": 64009,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> not detecting or running on battery after liquid ingress.",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2023-06-26 19:22:02",
+            "message": "Hi all.\n\nI'm working on a <LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> that had water damage.\nIt originally came in not turning on.\n\nThe only signs of corrosion was on the bottom side of the board.\nThere was a small amount of corrosion on the battery PCB,\nOn the logic board, there was a small amount of corrosion near F7000.\n\nI'll attach an image of the logic board.\nThe other areas that had corrosion do not seem to be related to the battery charging.\n\nI cleaned off the logic board and battery PCB and tested it.\nThe unit powered on and booted OK, however the battery reported 1% and failed to charge at all.\nIf I disconnected the USBC, it would immediately turn off.\n\nI shut it down, and tested with a new battery.\nThe unit powered on and was charging the battery - the charge increased from 70-80% while charging.\nThe System information correctly detected the battery, and said the new battery had a charge count of zero.\n\nI left the job on the bench last Friday.\n[B]This morning I again powered it on, and it doesn't detect the battery at all.[/B]\n\nI tried PRAM/SMC reset.\nI re-seated the battery.\nI tried with another new battery.\nNone of the new batteries detect, charge, or will run on the battery alone.\n\nI tested with USBC connected, with the customers genuine 3A charger, and a workshop 4A charger as well.\n\nF7000 is not shorted, reads 12.61v with USBC connected.\nOn the battery BMU Flex Solder Pads, <SIGNAL>PPVBAT_G3H_CONN</SIGNAL> also reads 12.61v.\n\nI don't think it is related, but near F7000, a zero ohm resistor, <RESISTOR>R6700</RESISTOR>, reads open resistance.\nIt measures 12.61v on pin1, <SIGNAL>PPBUS_G3H</SIGNAL> and 0v on Pin2, <SIGNAL>PPVIN_S4_TPAD_FUSE</SIGNAL>.\nThe location on the board for F6700, the TPAD Fuse, is not populated.\n\nI'm not sure where to start diagnosing this.\nI've had little experience with batteries in these units, usually once I can get them working they've charged and worked on battery fine.\n\nAny help greatly appreciated."
+        },
+        {
+            "post_id": 100258,
+            "thread_id": 64009,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> not detecting or running on battery after liquid ingress.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-27 02:13:21",
+            "message": "<RESISTOR>R6700</RESISTOR> is not battery related.\nYou must resolder it anyway; <SIGNAL>PPBUS_G3H</SIGNAL> is needed by the trackpad actuator.\n\nFirst check <SIGNAL>SYS_DETECT</SIGNAL> and <SIGNAL>SYS_DETECT_L</SIGNAL> signals.\nWrong values may be caused by corroded <RESISTOR>R6956</RESISTOR>, or <TRANSISTOR>Q6955</TRANSISTOR>.\n\n<DIODE>D6950</DIODE> is another suspect.\nCheck diode mode on SCL/SDA lines before and after <TRANSISTOR>Q6950</TRANSISTOR>."
+        },
+        {
+            "post_id": 100287,
+            "thread_id": 64009,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> not detecting or running on battery after liquid ingress.",
+            "user_id": 22870,
+            "username": "joshAU",
+            "post_date": "2023-06-27 21:05:46",
+            "message": "Hi 2informaticos.\nLong time no speak. :)\nThanks for your suggestions.\n\n<SIGNAL>SYS_DETECT</SIGNAL> 3.29v\n<SIGNAL>SYS_DETECT_L</SIGNAL> 0v\n\n<RESISTOR>R6956</RESISTOR> is 10K ohm. 3.29v on both pins.\n<TRANSISTOR>Q6955</TRANSISTOR> 0v on pin3 (<SIGNAL>SYS_DETECT_L</SIGNAL>)\n<TRANSISTOR>Q6950</TRANSISTOR>:\nPin1 1.8v\nPin2 1.8v\nPin3 3.3v\nPin4 1.8v\nPin5 1.8v\nPin6 Fluctuates slightly between 3.24v and 3.29v\n\nDiode mode, red to ground:\nPin1 428\nPin2 -721 (beeps)\nPin3 431\nPin4 428\nPin5 -722 (beeps)\nPin6 431"
+        },
+        {
+            "post_id": 100288,
+            "thread_id": 64009,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> not detecting or running on battery after liquid ingress.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-28 00:33:33",
+            "message": "I suspect corrosion between J6951 pins."
+        }
+    ]
+}

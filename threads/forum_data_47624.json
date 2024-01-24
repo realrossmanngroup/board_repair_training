@@ -1,0 +1,371 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "SYSCLK_CLK12M_SMC": "What is SYSCLK_CLK12M_SMC? a SIGNAL.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U1900": "What is U1900? a CHIP.",
+        "U3900": "What is U3900? a CHIP.",
+        "U7650": "What is U7650? a CHIP.",
+        "U8400": "What is U8400? a CHIP.",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PP3V3_UPC_XA_LDO": "What is PP3V3_UPC_XA_LDO? PP3V3_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XA_LDO_BMC": "What is PP1V1_UPC_XA_LDO_BMC? PP1V1_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XA_LDOD": "What is PP1V8_UPC_XA_LDOD? a SIGNAL.",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "PP1V8_UPC_XA_LDOA": "What is PP1V8_UPC_XA_LDOA? a SIGNAL.",
+        "PP20V_USBC_XA_VBUS": "What is PP20V_USBC_XA_VBUS? This is .",
+        "PP3V3_S5_SMC": "What is PP3V3_S5_SMC? a SIGNAL.",
+        "TBT_X_SPI_MISO": "What is TBT_X_SPI_MISO? a SIGNAL.",
+        "UPC_XA_UART_TX": "What is UPC_XA_UART_TX? a SIGNAL.",
+        "SMC_CLK12M_EN": "What is SMC_CLK12M_EN? a SIGNAL.",
+        "UPC_XA_UART_RX": "What is UPC_XA_UART_RX? a SIGNAL.",
+        "SMC_CBC_ON": "What is SMC_CBC_ON? a SIGNAL.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_CLK32K": "What is SMC_CLK32K? a SIGNAL.",
+        "SYSCLK_CLK32K_PCH": "What is SYSCLK_CLK32K_PCH? a SIGNAL.",
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "OE_12M": "What is OE_12M? a SIGNAL.",
+        "R1900": "What is R1900? a RESISTOR.",
+        "C1907": "What is C1907? a CAPACITOR.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "PP20V_USBC_XB_VBUS": "What is PP20V_USBC_XB_VBUS? PP20V_USBC_XB_VBUS is 20v in from the USB-C charger on USB-C powered Macbook Pros..",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_4_G3_SCL": "What is SMBUS_SMC_4_G3_SCL? a SIGNAL.",
+        "SMC_USBC_INT_L": "What is SMC_USBC_INT_L? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "P3V3S5_EN": "What is P3V3S5_EN? P3V3S5_EN is a signal that enables the power chip responsible for creating PP3V3_S5 when it is high. Signals with _EN mean that whatever is mentioned before the _EN will be enabled or turned on when the signal is high. .",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "A1534": "What is A1534? A1534 is a model number for a 12 inch size Macbook  from years 2015, 2016 with EMC 2746, that may contain one of these boards depending on the year & configuration: 820-00045, 820-00244..",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7040": "What is Q7040? a TRANSISTOR.",
+        "U5274": "What is U5274? a CHIP.",
+        "R5275": "What is R5275? a RESISTOR.",
+        "SMC_RST_IN": "What is SMC_RST_IN? a SIGNAL.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "ISL9239": "What is ISL9239? This is a charging chip for Macbook motherboards from 2016-2018 responsible for charging the battery and creating the power rail PPBUS_G3H.",
+        "U8510": "What is U8510? a CHIP.",
+        "SMC_LSOC_RST": "What is SMC_LSOC_RST? a SIGNAL.",
+        "SMC_RESET": "What is SMC_RESET? SMC_RESET is not a signal, it is an abbreviation for “SMC_RESET_L”, which is the signal someone is referring to when they type “SMC_RESET”  \"SMC_RESET_L is a signal that resets the SMC when it is low(this is what the “_L” prefix means), and lets the SMC out of reset mode when it is high. ."
+    },
+    "threads": [
+        {
+            "post_id": 47624,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-19 13:41:48",
+            "message": "Hi all,\n\nI'm repairing a water damage <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> here. Visible liquid damage is around <CHIP>U3900</CHIP>, <CHIP>U8400</CHIP> and <CHIP>U7650</CHIP>. Has been cleaned.\nSo situation is as follow:\n-<SIGNAL>PPDCIN_G3H</SIGNAL> = 5.2v\n-<SIGNAL>PP3V3_G3H</SIGNAL> = 3.4v\n\nStarted by replacing both <CHIP>CD3215</CHIP> (might not have been needed after all):\n- <SIGNAL>PP20V_USBC_XA_VBUS</SIGNAL> = 3.4v\n- <SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL> = 3.3v\n- <SIGNAL>PP1V8_UPC_XA_LDOA</SIGNAL> = 1.8v\n- <SIGNAL>PP1V8_UPC_XA_LDOD</SIGNAL> = 1.8v\n- <SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL> = 1.1v\nSame with XB.\nAlso I see activity on <SIGNAL>UPC_XA_UART_RX</SIGNAL>, <SIGNAL>UPC_XA_UART_TX</SIGNAL> and <SIGNAL>TBT_X_SPI_MISO</SIGNAL>.\nThis indicates that the CD3215s are ok to me.\n\nI had a short on <SIGNAL>PP3V3_G3H</SIGNAL> and <CHIP>U1900</CHIP> (SLG3AP3444) got hot.\nReplaced <CHIP>U1900</CHIP> from a donor board but <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL> is still missing.\nI think the schematics say that <SIGNAL>SMC_CLK12M_EN</SIGNAL> should be high to enable the clock for the SMC.\nThe SMC is needed to communicate with i2c to the CD3215s right?\n<SIGNAL>SMC_CLK12M_EN</SIGNAL> is low and is generated from the SMC.\n\nSo SMC <CHIP>U5000</CHIP>:\n- <SIGNAL>PP3V3_S5_SMC</SIGNAL> = 3.4v\n- <SIGNAL>BUF_SMC_RESET_L</SIGNAL> = 3.4v\n- <SIGNAL>SMC_BC_ACOK</SIGNAL> = 3.4v\n- <SIGNAL>SMC_CBC_ON</SIGNAL> (not sure if needed I don't have a working board) = 0v\n\nSo questions are:\nSMC clock needs to work to communicate with the charger to get 20v right?\nDo you guys have any idea if the SMC is at fault here or do I need to measure more?\nIt could be that the old hot <CHIP>U1900</CHIP> had blown the SMC <SIGNAL>SMC_CLK12M_EN</SIGNAL> pin.\n\nThanks in advance :)"
+        },
+        {
+            "post_id": 47681,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-21 11:01:30",
+            "message": "Anyone?\nI've reflowed the SMC but no difference.\n<SIGNAL>SMC_CLK12M_EN</SIGNAL> isn't going high so the SMC won't get a clock signal.\nI do not know what the requirements are for the SMC to enable <SIGNAL>SMC_CLK12M_EN</SIGNAL>.\n<SIGNAL>SMC_RESET_L</SIGNAL> is high."
+        },
+        {
+            "post_id": 47687,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-21 13:15:10",
+            "message": "Do you get 24MHz oscillation at Y1900?\n\n\"-<SIGNAL>PPDCIN_G3H</SIGNAL> = 5.2v\n- <SIGNAL>PP20V_USBC_XA_VBUS</SIGNAL> = 3.4v\"\nCan you confirm that???\nFirst voltage is generated from the second one..."
+        },
+        {
+            "post_id": 47691,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-21 13:46:33",
+            "message": "Sorry made a little mistake in the post:\n-<SIGNAL>PPDCIN_G3H</SIGNAL> = 5.2v\n-<SIGNAL>PP20V_USBC_XA_VBUS</SIGNAL> = 5.2v\n\nI do not have oscillation at Y1900.\nHowever, I do have a nice <SIGNAL>SYSCLK_CLK32K_PCH</SIGNAL> going to the PCH.\nI do not have <SIGNAL>SMC_CLK32K</SIGNAL> from the PCH to the SMC..."
+        },
+        {
+            "post_id": 47692,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-21 14:33:43",
+            "message": "Well I've checked with a working <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> to check some clock signals.\nSMC doesn't need the 32khz clock for the green light so probably also not for the 20v line.\nSMC however does need the 12mhz clock.\n\nNot sure if needed but <SIGNAL>S5_PWRGD</SIGNAL> is NOT present.\nThis is because <SIGNAL>PP3V3_S5</SIGNAL> is only about 1.2v. Should <SIGNAL>PP3V3_S5</SIGNAL> be available for the charger to switch to 20v is the question?"
+        },
+        {
+            "post_id": 47699,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-21 19:00:31",
+            "message": "I suppose Y1900 should have 24MHz always.\n<SIGNAL>OE_12M</SIGNAL> input should enable x1/2 divider only.\nCheck <RESISTOR>R1900</RESISTOR> and traces.\nReplace <CAPACITOR>C1907</CAPACITOR>/08, Y1900 and <CHIP>U1900</CHIP> (again, just in case)."
+        },
+        {
+            "post_id": 47701,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-03-21 19:11:59",
+            "message": "You don't have 20 volts on DC in that is your first problem. If <SIGNAL>PP3V3_G3H</SIGNAL> is present, you likely have an issue with one of the <CHIP>CD3215</CHIP> chips. Do a diode mode reading of the LDO lines by both CD3215s to see if either measures low. My trick is usually to inject 3.3 volts into <SIGNAL>3V3_G3H</SIGNAL> and monitor for current draw. Usually, one of the CD3215s causes a slight amperage draw."
+        },
+        {
+            "post_id": 47708,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-22 01:12:27",
+            "message": "Checked all traces around y1900, resistors and caps. All seems fine.\n<CHIP>U1900</CHIP> generates the 32khz from itself somehow. The 24mhz clock is started when enabled through one of the VIOE lines (and probably <SIGNAL>SMC_CLK12M_EN</SIGNAL>) I think.\n\nMeasured both <CHIP>CD3215</CHIP> chips:\n- <SIGNAL>PP20V_USBC_XA_VBUS</SIGNAL> = .345\n- <SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL> = .494\n- <SIGNAL>PP1V8_UPC_XA_LDOA</SIGNAL> = .512\n- <SIGNAL>PP1V8_UPC_XA_LDOD</SIGNAL> = .474\n- <SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL> = .496\n\n- <SIGNAL>PP20V_USBC_XB_VBUS</SIGNAL> = .345\n- <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> = .495\n- <SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> = .499\n- <SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> = .467\n- <SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> = .484\n\nDoes injecting voltage have any advantage if the line works fine from the charger?"
+        },
+        {
+            "post_id": 47709,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-22 03:39:53",
+            "message": "32KHz is square wave, generated internally by <CHIP>U1900</CHIP>; no external crystal needed.\nIf you have working similar board, check if 24MHz oscillation is present on Y1900 when board is off."
+        },
+        {
+            "post_id": 47717,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-22 11:37:40",
+            "message": "I just checked with a 3476 board (with a magsafe2) that the 24mhz clock starts after power is applied to <SIGNAL>PPDCIN_G3H</SIGNAL>.\nSo the 24MHz crystal is not interesting anymore.\n\nAmazingly so isn't the 32KHz clock.\nWhat I did:\n- Probe 1 (yellow) on <SIGNAL>SMC_CLK32K</SIGNAL>\n- Probe 2 on <SIGNAL>SYS_ONEWIRE</SIGNAL>\n\n[ATTACH alt=\"NewFile1.png\" type=\"full\"]47718._xfImport[/ATTACH]\n<SIGNAL>SMC_CLK32K</SIGNAL> starts about 600ms after <SIGNAL>SYS_ONEWIRE</SIGNAL> communication is done.\n\nThan to go even further:\n- Probe 1 on <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>\n- Probe 2 on <SIGNAL>S5_PWRGD</SIGNAL>\nI'm looking to find what enables the SMC to start communicating with an bus.\n\nWhy <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>? Because I don't have a <SIGNAL>SMBUS_SMC_4_G3_SCL</SIGNAL> (that communicates with the <CHIP>CD3215</CHIP>) on the 3476 so I took <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> that's available on both the boards.\n[ATTACH alt=\"NewFile3.png\" type=\"full\"]47719._xfImport[/ATTACH]\nSo when <SIGNAL>S5_PWRGD</SIGNAL> is present <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> starts immediately (even when no clock is available yet).\nI've also checked that <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> and <SIGNAL>SYS_ONEWIRE</SIGNAL> starts at the same time.\n\nThis concludes the following:\n- The SMC doesn't need ANY clock source for it to work (probably also for communicating with the CD3215s)\n- Maybe <SIGNAL>S5_PWRGD</SIGNAL> is needed but need to check more"
+        },
+        {
+            "post_id": 47721,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-22 11:50:25",
+            "message": "When looking at the publicly available TM4C123x this makes totally sense.\n[URL]http://embedded-lab.com/blog/tiva-c-clock-system/[/URL]\nThe TM4C123 contains a Precision Internal Oscillator (PIOSC) so yeah...\n32khz is for MCU hibernation and the external for some pheriperals inside the MCU.\nGoing to look what might be needed for the SMC to start communication. It might be just <SIGNAL>PP3V3_S5</SIGNAL> is needed but I do not know."
+        },
+        {
+            "post_id": 47744,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-24 03:36:43",
+            "message": "Well I've replaced both CD3215s again. Same issue. Very frustrating.\nI know for sure the CD3215s communicate with the ROM chip so that's fine. Checked all traces all are OK.\n\nWe do need a working SMC right to communicate with the charger on these usb-c macbooks? Louis doesn't say anything about that in his vids.\nTo him it's all about <SIGNAL>PP3V3_G3H</SIGNAL> and the two <CHIP>CD3215</CHIP>. These are fine.\nThe CD3215s pull <SIGNAL>SMC_USBC_INT_L</SIGNAL> low after a very short time so they say an interrupt is available.\nThe <SIGNAL>SMBUS_SMC_4_G3_SCL</SIGNAL>/SDA both go high with a pullup resistor but there is no communication on that line.\n\nI don't have a working usb-c board to check with but I'm interested in the following:\n- Is there communication on the <SIGNAL>SMBUS_SMC_4_G3_SCL</SIGNAL>/SDA before 20v is reached? This verifies a working SMC is required.\n- Is <SIGNAL>PP3V3_S5</SIGNAL> present before 20v is reached? This verifies that <SIGNAL>S5_PWRGD</SIGNAL> needs to be present before the SMC starts to live. I don't have this line working."
+        },
+        {
+            "post_id": 47745,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-24 04:11:25",
+            "message": "\"<SIGNAL>PP3V3_S5</SIGNAL> is only about 1.2v.\"\nDo you still have 1.2V on L7690?\nPost some voltages for <CHIP>U7650</CHIP>; pins 23, 12, 13, 22, 29, 21."
+        },
+        {
+            "post_id": 47746,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-24 04:34:06",
+            "message": "There was corrosion around <CHIP>U7650</CHIP>.\npin 22 (VREG3) trace was broken due to corrosion.\nAfter fixing VREG3 I now get 0v on <SIGNAL>PP3V3_S5</SIGNAL> and <SIGNAL>P3V3S5_EN</SIGNAL> is low.\n- pin 23 is 0v because <SIGNAL>PPBUS_G3H</SIGNAL> is 0v\n- pin 12 0v\n- pin 13 0v\n- pin 22 0v\n- pin 29 0v - pin 21 0v"
+        },
+        {
+            "post_id": 47747,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-24 07:22:48",
+            "message": "Strange to get any voltage at <SIGNAL>3V3_S5</SIGNAL> (even low), if no <SIGNAL>PPBUS_G3H</SIGNAL> present.\nPost resistance to ground (diode mode) for <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 47748,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-24 07:31:53",
+            "message": "Yeah thats not possible. <SIGNAL>3V3_S5</SIGNAL> had a low voltage. Now it doesn't so doesn't <SIGNAL>PPBUS_G3H</SIGNAL>.\n<SIGNAL>PPBUS_G3H</SIGNAL> diode mode when doing the red wire on ground:\n- 0.422\n\nShould <SIGNAL>PPBUS_G3H</SIGNAL> be at 5v from <SIGNAL>PPDCIN_G3H</SIGNAL> when there is no 20v?"
+        },
+        {
+            "post_id": 47761,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-24 18:14:26",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> could be even 13V when <SIGNAL>PPDCIN_G3H</SIGNAL> is 5.2V.\nBut SMC decides that, in base of power supply detected.\nIt needs to talk with the power device attached to USB-C port.\nSeems that it can't in your case."
+        },
+        {
+            "post_id": 47762,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-25 01:42:49",
+            "message": "Even without battery? I thought <CHIP>U7000</CHIP> is a buck converter that can't do boost or can it?\nThe SMC is already reflowed so either the SMC is dead or SMC is missing something I guess (like maybe <SIGNAL>S5_PWRGD</SIGNAL>). \nI think the best way for me would be to buy a working board and compare. Than I can always use that board to compare if no 20v is given."
+        },
+        {
+            "post_id": 47763,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-25 03:22:11",
+            "message": "<CHIP>U7000</CHIP> can work as buck-converter (with <TRANSISTOR>Q7030</TRANSISTOR>) when receives 20V at <RESISTOR>R7020</RESISTOR>.\nBut it can work as boost-converter too (with <TRANSISTOR>Q7040</TRANSISTOR>) from 5V at <RESISTOR>R7020</RESISTOR>.\nHigh-side MOSFET of \"unused\" <TRANSISTOR>Q7030</TRANSISTOR>/40 will stay always ON (short) and low-side one in OFF (open) state.\nOnly one of <TRANSISTOR>Q7030</TRANSISTOR>/40 works in PWM mode.\nTo enable fast battery charging, 20V required for buck-converter mode.\n\nI don't have similar board to play with now, but I'm pending for more tests when available.\nRecently got one <MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER>/00045 where I can confirm 8.6V at <SIGNAL>PPBUS_G3H</SIGNAL>, even 3V3 and 5V at the coils; with only 5.2V from charger (no battery connected)."
+        },
+        {
+            "post_id": 47765,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-25 03:37:20",
+            "message": "Interesting.\nBut <CHIP>U7000</CHIP> is enabled from SMC I think. Unless it always tries to add voltage to PPBUS in that case <CHIP>U7000</CHIP> is faulty.\nSo two scenarios:\n- <CHIP>U7000</CHIP> always add voltage to PPBUS which results in <CHIP>U7650</CHIP> maybe enabling P3V3S5 which results in <SIGNAL>S5_PWRGD</SIGNAL> which enables SMC.\n- <CHIP>U7000</CHIP> waiting for SMC which just simply doesn't start and doesn't require <SIGNAL>S5_PWRGD</SIGNAL>.\nIt al comes back to <SIGNAL>S5_PWRGD</SIGNAL>. If that is not needed for the SMC to start communicating on any i2c line like <CHIP>CD3215</CHIP> or <CHIP>U7000</CHIP> than the SMC is bad."
+        },
+        {
+            "post_id": 47766,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-25 03:59:28",
+            "message": "SMC is the master, the one which set <SIGNAL>PPBUS_G3H</SIGNAL> level.\nSo communication through corresponding I2C bus is required.\n\nRemove <CHIP>U5274</CHIP>/<RESISTOR>R5275</RESISTOR> (as per case) and check if any voltage appears at <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 47787,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-25 14:30:08",
+            "message": "No difference.\n<SIGNAL>SMC_RST_IN</SIGNAL> is also around 90k.\n<SIGNAL>SMC_RST_IN</SIGNAL> stays LOW which seems fine.."
+        },
+        {
+            "post_id": 47790,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-25 18:43:05",
+            "message": "Yeah, on old boards is active low; its name ends in _L.\n<CHIP>ISL6259</CHIP> will deliver 12.25V (3 cells battery case) with 0V at reset pin (reset enabled).\nIn such case no communication is possible through I2C with SMC.\nYou can force now 3V at <CHIP>ISL9239</CHIP> reset pin (<SIGNAL>SMC_RST_IN</SIGNAL>); it will enable reset in this case.\nDon't forget to isolate <SIGNAL>SMC_RST_IN</SIGNAL> for the rest of board.\n<CHIP>U7000</CHIP> should enable reset for SMC too (0V at <SIGNAL>SMC_RESET_L</SIGNAL>) and you can check if some voltage appears at <SIGNAL>PPBUS_G3H</SIGNAL>.\nI don't know untill which point has similar behaviour with old boards..."
+        },
+        {
+            "post_id": 47797,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-26 00:46:46",
+            "message": "Well nothing interesting is connected to <SIGNAL>SMC_RST_IN</SIGNAL> or <SIGNAL>SMC_LSOC_RST</SIGNAL> so i've applied 3v to them (no keyboard connected).\nResult is <SIGNAL>SMC_RST_IN</SIGNAL> low, <SIGNAL>SMC_RESET_L</SIGNAL> low and <SIGNAL>BUF_SMC_RESET_L</SIGNAL> low.\nNo voltage at <SIGNAL>PPBUS_G3H</SIGNAL>.\n\nVery interesting things happen though when I disconnect the 3v.\n<SIGNAL>SMC_RESET_L</SIGNAL> gets high again (3.41v) but <SIGNAL>BUF_SMC_RESET_L</SIGNAL> gets to only 1v.\nAfter disconnecting charger and reconnecting same thing happens. Than waited some time reconnect charger and <SIGNAL>BUF_SMC_RESET_L</SIGNAL> is 3.41v again.\nI do have <CHIP>U8510</CHIP> (SLG4AP4998). \nI though you may have found the issue but after waiting and reconnecting charger it's 3.41v again. So either the SMC is doeing weird things or <CHIP>U8510</CHIP> may be bad."
+        },
+        {
+            "post_id": 47808,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-26 04:10:27",
+            "message": "Discard <CHIP>U8510</CHIP> first.\n\n\"Result is <SIGNAL>SMC_RST_IN</SIGNAL> low\"\nYou are injecting 3V there, no?"
+        },
+        {
+            "post_id": 47819,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-26 06:50:35",
+            "message": "Sorry damn I'm making mistakes in documenting it here. \n<SIGNAL>SMC_RST_IN</SIGNAL> high to 3v\n<SIGNAL>SMC_RESET_L</SIGNAL> than goes low.\n<SIGNAL>BUF_SMC_RESET_L</SIGNAL> also goes low.\n\nWhen <SIGNAL>SMC_RST_IN</SIGNAL> power is removed:\n<SIGNAL>SMC_RESET_L</SIGNAL> goes to 3v\n<SIGNAL>BUF_SMC_RESET_L</SIGNAL> sometimes stops at 1v\n\nWhat do you mean with discard <CHIP>U8510</CHIP>? What does it do? In the schematics there is a bypass version which just has a 0 ohm resistor between <SIGNAL>SMC_RESET_L</SIGNAL> and <SIGNAL>BUF_SMC_RESET_L</SIGNAL>."
+        },
+        {
+            "post_id": 47820,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-26 07:33:11",
+            "message": "Change <CHIP>U8510</CHIP>, if possible.\nOr try the bypass at least (chip removed); just to see what happens with <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 47827,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-26 13:51:42",
+            "message": "Ok I've removed <CHIP>U8510</CHIP> and replaced it with a bypass resistor just for the <SIGNAL>SMC_RESET</SIGNAL> circuit. When the 20v works I'll place a <CHIP>U8510</CHIP> from a donor board.\nAnyway the 1v issue is gone. Still no difference on the other rails. Still nothing on <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 47838,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-26 19:13:49",
+            "message": "Can you change <CHIP>U7000</CHIP>?"
+        },
+        {
+            "post_id": 47841,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-27 02:10:46",
+            "message": "I don't have them available but can order them. Will take two week though.\nSo at this point I think that would be the best option.\nAlso If that doesn't work I'm thinking of replacing the SMC.\nI have a china donor board with the same <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>.\nAlso on ebay there are SMC chips for sale. TM4EA23IH6ZXRI which matches exactly.\nUnsure if that might be an option.\nThe serial number and manufacturing date are burned in the SMC right? So changing SMC would change serial number?"
+        },
+        {
+            "post_id": 47842,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-27 03:24:38",
+            "message": "New SMC is useless; must be removed from donor board, same model...\n\nWe suspect <CHIP>U7000</CHIP> and/or SMC, assuming good USB-C communication; cross the fingers.\nCan you detect any activity (with o-scope) at UART lines of USB-C controllers?\nAlso look at any data lines between them and SMC."
+        },
+        {
+            "post_id": 47846,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-27 04:02:00",
+            "message": "I'm not at location at the moment so I can't double check but I've previous measured the following:\n- On UART TX line was activity\n- On UART RX line was activity (so they both communicate. Was unable to see at what baud rate though)\n- On the SPI lines to the ROM chip was also activity\n\nWill verify when I'm at home.\ni2c lines between SMC and <CHIP>CD3215</CHIP> are not there. They're just high the entire time.\nHaven't verified any lines between charger and <CHIP>CD3215</CHIP> because I need to remove the metal cap around the USB-C controller which I haven't done yet."
+        },
+        {
+            "post_id": 47866,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 2848,
+            "username": "melvinvdb",
+            "post_date": "2019-03-27 13:30:02",
+            "message": "So I've done some digging.\n\nUART:\n[ATTACH alt=\"NewFile4.png\" type=\"full\"]47867._xfImport[/ATTACH]\n1.2us for one bit means a UART baud rate of 833333. High but not impossible. This would make sense because connected to my computer I was getting different data transfers on every baudrate. So 833333 seems possible.\n\n[ATTACH alt=\"NewFile5.png\" type=\"full\"]47868._xfImport[/ATTACH]\nTransfers are send as pairs with some fixed delay in between.\n\n[ATTACH alt=\"NewFile6.png\" type=\"full\"]47869._xfImport[/ATTACH]\nZoomed out.\n\n[ATTACH alt=\"NewFile7.png\" type=\"full\"]47870._xfImport[/ATTACH]\nThen you can see that there are some long delays between each 'packet'. A total of 10 are send when power is applied. This is the same for TX and RX.\n\nThen SPI:\n[ATTACH alt=\"NewFile8.png\" type=\"full\"]47871._xfImport[/ATTACH]\nThis is the CLK signal. As you can see the period is 42ns which relates to a SPI clock speed of 23.81MHz. At first I thought that's impossible that's really high. \nThan a quote from the SPI ROM chip (W25Q80DVUXIE):\n\"The W25Q80DV/DL (8M-bit) Serial Flash memory provides a storage solution for systems with limited\nspace, pins and power. The 25Q series offers flexibility and performance well beyond ordinary Serial\nFlash devices. They are ideal for code shadowing to RAM, executing code directly from Dual/Quad\nSPI (XIP) and storing voice, text and data. The W25Q80DV operates on a single 2.7V to 3.6V and the\nW25Q80DL operateds on a single 2.3V to 3.6V power supply with current consumption as low as 1?A\nfor power-down.\"\n\n\"The W25Q80DV supports the standard Serial Peripheral Interface (SPI), and a high performance\nDual/Quad output as well as Dual/Quad I/O SPI: Serial Clock, Chip Select, Serial Data I/O0 (DI), I/O1\n(DO), I/O2 (/WP), and I/O3 (/HOLD). SPI clock frequencies of up to 104MHz are supported allowing\nequivalent clock rates of 208MHz (104MHz x 2) for Dual I/O and 416MHz (104MHz x 4) for Quad I/O\nwhen using the Fast Read Dual/Quad I/O instructions.\"\nSo the 23.81MHz now seems pretty realistic.\n\nThe SPI ROM size is 8mbit. With a speed of 23.81mbit/s that would explain the very short data transfer on power on. It's really fast.\nI'm guessing the entire firmware is in the ROM and is transferred through UART to the other <CHIP>CD3215</CHIP>. There is always one <CHIP>CD3215</CHIP> connected to the ROM and the other is connected through UART.\nWhen 4 CD3215s are on logic board then there are two ROMS.\n\nChanging CD3215C to CD3215B may be possible when also changing ROM. This may only be valid when the I2C communication with the SMC is the same with the B and C revisions.  \n\nAnyway SPI and UART definitely work :)\nUSB-C communication still unsure."
+        },
+        {
+            "post_id": 47881,
+            "thread_id": 47624,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> no <SIGNAL>SYSCLK_CLK12M_SMC</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-27 18:42:25",
+            "message": "<CHIP>CD3215</CHIP> chips boot in master/slave pairs.\nThe second one (slave) boots from UART lines of first one (master).\n\nThese new boards require lot of work to collect necessary information for repairs.\nI appreciate the time you take on this one.\nShould be good to check an working board and see what happens with <SIGNAL>PPBUS_G3H</SIGNAL> when <SIGNAL>SMC_RST_IN</SIGNAL> is forced high.\nYou can see then if <CHIP>U7000</CHIP> requires communication with SMC, in order to generate <SIGNAL>PPBUS_G3H</SIGNAL>."
+        }
+    ]
+}

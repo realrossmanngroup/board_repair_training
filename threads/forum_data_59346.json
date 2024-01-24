@@ -1,0 +1,92 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PM_RSNRST_L": "What is PM_RSNRST_L? a SIGNAL.",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "U7890": "What is U7890? a CHIP.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state."
+    },
+    "threads": [
+        {
+            "post_id": 59668,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-16 06:39:12",
+            "message": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> again..\nthis one had power problems initially, but after replacing both CD3215s i got it to go to 20v\nit draws 0 amps\nppbus is present at 13V\nS5 both 3.3v and 5v are there, i get <SIGNAL>S5_PWRGD</SIGNAL>\nS4 isn't (no shorts found)\nmissing enables for S4\nmissing <SIGNAL>PM_BATLOW_L</SIGNAL>\n\nI'm having a bad day and could use some guidance\nby the way i have RTC and CLK at 32KHz"
+        },
+        {
+            "post_id": 59669,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-16 06:44:01",
+            "message": "<SIGNAL>PM_BATLOW_L</SIGNAL> should be high.\nAre you using 61/87W original charger?\nDoes it charge the battery?\nTest if starts with both charger and battery connected."
+        },
+        {
+            "post_id": 59672,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-16 07:04:37",
+            "message": "yeah this is an original 87W charger\n\nwith battery connected its drawing around 1.1A and 12,5V is going into the battery. still no S4 though"
+        },
+        {
+            "post_id": 59677,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-16 08:15:42",
+            "message": "Check <SIGNAL>PM_SLP_SUS_L</SIGNAL>, <SIGNAL>PM_RSNRST_L</SIGNAL> and <SIGNAL>PM_PWRBTN_L</SIGNAL>.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>."
+        },
+        {
+            "post_id": 59748,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-18 04:19:53",
+            "message": "<SIGNAL>PM_SLP_SUS_L</SIGNAL> = 3.32V\n<SIGNAL>PM_RSMRST_L</SIGNAL> = 3.32V\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.32V\n\ntriggered <SIGNAL>SMC_ONOFF_L</SIGNAL> gives drop pulse on <SIGNAL>PM_PWRBTN_L</SIGNAL> (drops to around 0,4V says multimeter)"
+        },
+        {
+            "post_id": 59752,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-18 05:58:21",
+            "message": "ok. just continued testing, all above voltages are gone now, as is <SIGNAL>PP5V_S5</SIGNAL>.. \nin my understanding the enable for the <SIGNAL>PP5V_S5</SIGNAL> comes from the PMIC through <CHIP>U7890</CHIP>, right?\nIf I dont have this, am i looking at a bad PMIC?"
+        },
+        {
+            "post_id": 59756,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-18 06:11:31",
+            "message": "You must check LDO outputs of PMIC.\nDo you have stable <SIGNAL>3V3_G3H</SIGNAL> and <SIGNAL>PPBUS_G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 60113,
+            "thread_id": 59346,
+            "title": "00840 no s4",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-26 03:42:08",
+            "message": "this one had a shorted PMIC. <SIGNAL>PP3V3_S5</SIGNAL> was shorted under it.\nthanks for the help!"
+        }
+    ]
+}

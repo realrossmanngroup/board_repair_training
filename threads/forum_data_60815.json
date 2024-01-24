@@ -1,0 +1,300 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00850": "What is 820-00850? a LOGIC BOARD PART NUMBER.",
+        "C7895": "What is C7895? a CAPACITOR.",
+        "U3100": "What is U3100? a CHIP.",
+        "U3200": "What is U3200? a CHIP.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP3V3_UPC_XA_LDO": "What is PP3V3_UPC_XA_LDO? PP3V3_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XA_LDO_BMC": "What is PP1V1_UPC_XA_LDO_BMC? PP1V1_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "PP1V8_UPC_XA_LDOD": "What is PP1V8_UPC_XA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_XA_LDOA": "What is PP1V8_UPC_XA_LDOA? a SIGNAL.",
+        "PP3V3_UPC_TA_LDO": "What is PP3V3_UPC_TA_LDO? PP3V3_UPC_TA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_TA_LDO_BMC": "What is PP1V1_UPC_TA_LDO_BMC? a SIGNAL.",
+        "PP3V3_UPC_TB_LDO": "What is PP3V3_UPC_TB_LDO? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOD": "What is PP1V8_UPC_TB_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOA": "What is PP1V8_UPC_TA_LDOA? a SIGNAL.",
+        "PP1V1_UPC_TB_LDO_BMC": "What is PP1V1_UPC_TB_LDO_BMC? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOD": "What is PP1V8_UPC_TA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOA": "What is PP1V8_UPC_TB_LDOA? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP1V8_SLPS2R": "What is PP1V8_SLPS2R? PP1V8_SLPS2R is a 1.8v power rail present when the system is in a SLPS2R state. .",
+        "PP1V8_AWAKE": "What is PP1V8_AWAKE? The PP1V8_AWAKE signal in the MacBook schematic is indicative of a power rail that delivers 1.8 volts when the machine is in an \"awake\" state. This is not a traditional power state defined in the older Intel PCH documentation; it seems to be specific to newer MacBook architectures. The \"awake\" designation likely refers to a state where the MacBook is on and ready for user interaction, but it is not necessarily at full operational capacity (which would be denoted by an S0 state).",
+        "PP1V1_SLPS2R": "What is PP1V1_SLPS2R? The PP1V1_SLPS2R power rail in the MacBook schematic provides a 1.1-volt supply in a specific low-power state indicated by the \"_SLPS2R\" suffix and is used for powering the T2 chip..",
+        "PP1V2_AWAKE": "What is PP1V2_AWAKE? The PP1V2_AWAKE signal in the MacBook schematic is a power rail that provides 1.2 volts and is associated with the machine's awake state and is used for powering the T2 chip..",
+        "PP3V3_AWAKE": "What is PP3V3_AWAKE? a SIGNAL.",
+        "PP1V25_SLPS2R_SMC_REF": "What is PP1V25_SLPS2R_SMC_REF? a SIGNAL.",
+        "U7800": "What is U7800? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 71940,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-20 08:36:40",
+            "message": "hello dudes! got an interesting board here. <LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> board. had short to GND on L7660. injected 1V there and found a shorted cap <CAPACITOR>C7895</CAPACITOR>. removed and short gone. board still does not power on. some ports take 20V, some 5V, no other shorts. no liquid damage. when 20V on charger, I get around 2V on F7000 and 0.01A power draw, when 5V on charger I get 12.24V on F7000(?!?!?!) and 0A draw. I found that PPVRTC is not being generated. Any hints on what to look? The board is absolutely clean, no corrosion anywhere nor any signs of liquid, it was almost even dust free. I'm lost now! Thanks in advance"
+        },
+        {
+            "post_id": 71941,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-20 11:53:17",
+            "message": "You should get same behavior on all USB-C ports first.\nSpecify how each port reacts.\nDo not connect battery, nor other device, apart of charger.\nRemove USB-C ports from the shell and clean their pins."
+        },
+        {
+            "post_id": 71943,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-20 12:17:35",
+            "message": "Here we go:\n\nRight Side Closer to LCD: 5V, 0A\nRight Side Closer to Keyboard: 19.5V 0.01A\n\nLeft Side Closer to LCD: 5V, 0A\nLeft Side Closer to Keyboard: 19.5V 0.01A"
+        },
+        {
+            "post_id": 71944,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-20 12:47:20",
+            "message": "Please, use schematic/boardview notations.\nLocate <CHIP>U3100</CHIP>/200 and UB300/400 chips."
+        },
+        {
+            "post_id": 71945,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-20 12:55:51",
+            "message": "Ok, here we go again:\n\n<CHIP>U3100</CHIP>: 5V, 0A\n<CHIP>U3200</CHIP>: 19.5V, 0.01A\nUB300: 19.5V, 0.02A\nUB400: 5V, 0A"
+        },
+        {
+            "post_id": 71946,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-20 13:12:53",
+            "message": "Check diode mode to ground on LDO rails of all <CHIP>CD3215</CHIP> chips."
+        },
+        {
+            "post_id": 71947,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-20 13:29:27",
+            "message": "<CHIP>U3200</CHIP>:\n\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 0.466\n<SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> - 0.450\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> - 0.484\n<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> - 0.474\n\n<CHIP>U3100</CHIP>:\n<SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL> - 0.463\n<SIGNAL>PP1V8_UPC_XA_LDOD</SIGNAL> - 0.445\n<SIGNAL>PP1V8_UPC_XA_LDOA</SIGNAL> - 0.480\n<SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL> - 0.472\n\nUB300:\n<SIGNAL>PP1V1_UPC_TA_LDO_BMC</SIGNAL> - 0.470\n<SIGNAL>PP1V8_UPC_TA_LDOD</SIGNAL> - 0.454\n<SIGNAL>PP1V8_UPC_TA_LDOA</SIGNAL> - 0.488\n<SIGNAL>PP3V3_UPC_TA_LDO</SIGNAL> - 0.474\n\nUB400:\n<SIGNAL>PP1V1_UPC_TB_LDO_BMC</SIGNAL> - 0.470\n<SIGNAL>PP1V8_UPC_TB_LDOD</SIGNAL> - 0.452\n<SIGNAL>PP1V8_UPC_TB_LDOA</SIGNAL> - 0.487\n<SIGNAL>PP3V3_UPC_TB_LDO</SIGNAL> - 0.476"
+        },
+        {
+            "post_id": 71948,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-20 15:03:15",
+            "message": "Check if any <CHIP>CD3215</CHIP> chip has 1V1 LDO present: when connect the charger to corresponding port."
+        },
+        {
+            "post_id": 71951,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-21 05:33:33",
+            "message": "Here we go:\n\n<CHIP>U3100</CHIP>:\n\n<SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL> - 1.115V\n\n<CHIP>U3200</CHIP>:\n\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 0V\n\nUB300:\n\n<SIGNAL>PP1V1_UPC_TA_LDO_BMC</SIGNAL> - 0V\n\nUB400:\n\n<SIGNAL>PP1V1_UPC_TB_LDO_BMC</SIGNAL> - 1.116V\n\n\nThis board is acting very strange! I left it sitting in my bench yesterday when I went home and today the ports start behaving differently, now sometimes ports that would not negotiate 19.5V negotiate and sometimes not and the ports that would negotiate 19.5V started to intermittently not negotiate... Strange!"
+        },
+        {
+            "post_id": 71952,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-21 05:42:32",
+            "message": "CB304 was shorted to GND, removed it, short cleared, still no power!"
+        },
+        {
+            "post_id": 71959,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-21 11:27:58",
+            "message": "Very strange values.\nLooks like the board switches to 20V only on the ports where you do NOT get 1V1 LDO; are you sure about the measurments?\nPlease check again and post accurate information.\nTo switch at 20V, SMC must work and communicate with corresponding <CHIP>CD3215</CHIP> chip.\nThat is impossible without <SIGNAL>PPBUS_G3H</SIGNAL>, needed to generate <SIGNAL>3V3_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 72101,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-23 10:58:22",
+            "message": "This board is REALLY strange.... Sometimes the same port that was negotiating 20V suddenly starts negotiating 5V and vice-versa... I cannot get it to stabilize."
+        },
+        {
+            "post_id": 72102,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-23 11:03:26",
+            "message": "Post actual voltage at F7000 and <RESISTOR>R7020</RESISTOR>."
+        },
+        {
+            "post_id": 72390,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-27 07:54:11",
+            "message": "It's very weird here! Got back working on this board and now it's even more bizarre than before. When any port gives me 20V, F7000 gives me around 2.1V dropping and <RESISTOR>R7020</RESISTOR> gives me 0V, when it negotiates 5V with charger I have 12.26V on F7000 and <RESISTOR>R7020</RESISTOR> gives 5.18V..."
+        },
+        {
+            "post_id": 72393,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-27 08:17:38",
+            "message": "Be sure to make good contacts when you measure on the board.\nTo switch to 20V, corresponding <CHIP>CD3215</CHIP> chip MUST talk with T2.\nThis imply <SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>3V3_G3H</SIGNAL> and more T2 voltages (SLPS2R, AWAKE).\nBe sure to use original Apple charger."
+        },
+        {
+            "post_id": 72399,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-02-27 12:43:16",
+            "message": "Yes, I know those things, that's why I'm telling it's really weird! Original Apple charger and cable. I don't know what to think anymore..."
+        },
+        {
+            "post_id": 73318,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-19 12:15:47",
+            "message": "Well. Got back to this one now as the pile went down. I decided to replace both USB-C ports and screw them to the board. Now I get 5V on all ports. At least it stopped giving strange readings. Where should I start now?"
+        },
+        {
+            "post_id": 73319,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-19 12:19:16",
+            "message": "Do you get now <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V3_G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 73324,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-19 12:55:53",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> - 12.24V\n<SIGNAL>PP3V3_G3H</SIGNAL> - 0.983V (measured on L7660, STRANGE) There's no short on L7660"
+        },
+        {
+            "post_id": 73329,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-19 14:36:49",
+            "message": "My error, I should mention <SIGNAL>3V3_G3H</SIGNAL>[U][B]_RTC[/B][/U]...\n\nLooks like T2 doesn't work properly; <SIGNAL>PPBUS_G3H</SIGNAL> voltage is not adjusted.\nIf you get all AWAKE and SLPS2R voltages, see if machine is recognized in DFU mode."
+        },
+        {
+            "post_id": 73331,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-19 14:59:05",
+            "message": "<SIGNAL>3V3_G3H</SIGNAL>[U]_RTC - This is 3.3V[/U]"
+        },
+        {
+            "post_id": 73435,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-24 12:01:17",
+            "message": "It's not being recognized in DFU. Still no power"
+        },
+        {
+            "post_id": 73436,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-24 12:10:17",
+            "message": "<SIGNAL>PP1V8_SLPS2R</SIGNAL> - 1.15V\n<SIGNAL>PP1V1_SLPS2R</SIGNAL> - 0V\n<SIGNAL>PP1V25_SLPS2R_SMC_REF</SIGNAL> - 1.15V\n<SIGNAL>PP1V2_AWAKE</SIGNAL> - 0V\n<SIGNAL>PP1V8_AWAKE</SIGNAL> - 0V\n<SIGNAL>PP3V3_AWAKE</SIGNAL> - 0V"
+        },
+        {
+            "post_id": 73437,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-24 12:13:57",
+            "message": "Check diode mode to ground on the 0V rails from above."
+        },
+        {
+            "post_id": 73441,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-24 13:00:23",
+            "message": "<SIGNAL>PP1V1_SLPS2R</SIGNAL> - 0.296\n<SIGNAL>PP1V2_AWAKE</SIGNAL> - 0.481\n<SIGNAL>PP1V8_AWAKE</SIGNAL> - 0.358\n<SIGNAL>PP3V3_AWAKE</SIGNAL> - 0.600"
+        },
+        {
+            "post_id": 73442,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-24 13:23:36",
+            "message": "I bet for bad <CHIP>U7800</CHIP>.\nEven the both present voltages are wrong."
+        },
+        {
+            "post_id": 73443,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-24 13:37:32",
+            "message": "RIP board then. No donor boards to get this one and won't take the risk of buying it from ali express and not being the defect. Thanks for all the help anyway."
+        },
+        {
+            "post_id": 73487,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 4543,
+            "username": "brunomotter",
+            "post_date": "2021-03-25 07:10:48",
+            "message": "The client is willing to take the risk of buying the chip and it not being the problem. So my question is if this chip is programmable or not. If not, I can buy a new one from China and solder it to the board. If it's programmable it means I will have to search for a donor board with identical PN. Do you know if it's programmable?"
+        },
+        {
+            "post_id": 73490,
+            "thread_id": 60815,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-25 07:53:06",
+            "message": "Get it from donor board..."
+        }
+    ]
+}

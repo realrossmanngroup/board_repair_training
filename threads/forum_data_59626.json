@@ -1,0 +1,97 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U3900": "What is U3900? a CHIP.",
+        "820-00281": "What is 820-00281? a LOGIC BOARD PART NUMBER.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "R5226": "What is R5226? a RESISTOR.",
+        "U4200": "What is U4200? a CHIP.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "DFR_TOUCH_LID": "What is DFR_TOUCH_LID? a SIGNAL.",
+        "PP1V8_S0SW_DFR": "What is PP1V8_S0SW_DFR? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 62040,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2020-07-08 04:58:41",
+            "message": "Hi,\n\nCustomer brought a machine that started to have issues with the Touchbar.\nHe told me that it would not light up but if you press on it it would do the action.\n\nHe didn't bother and carried on using the Mac.\n\nThen one day the Mac started to act up with the screen shutting off, touchbar too, even thought you could see the laptop was on.\nIt would sometimes work, sometimes not.\n\nMy tests:\nI can confirm that sometimes I am getting a picture and the touchbar to work just fine.\nOnce I turn off the Mac, I won't be able to turn it back with the power button.\nSometimes, the Mac will turn on with no screen detected but external will work fine (as if you would close the lid)\n\nSo I thought it could be a hall sensor issue and did investigate that but my measurements were fine.\nI re-did the solder joint on both sensor and it seemed to work for a while and then I wouldn't be able to turn the machine back on with the power button.\n\nChecking the diode mode measurements on J4900 (Power button) and J4401, J4402, it seems that all the readings going to <CHIP>U3900</CHIP> are off slightly.\nThere is minor corrosion on the edge of the board (left and right) but nothing crazy which I did clean and rework in some areas with no improvement.\n\nI believe <CHIP>U3900</CHIP> went bad but I can'ttell if I am right.\nWhat else could I check before going the rabbit hole route and replacing <CHIP>U3900</CHIP>?\nCan the hall sensor would mess up with the power button for example? (thinking the lid is down so it is disabled)\n\nIs that going to be nightmare to replace <CHIP>U3900</CHIP>? Underfilled and bigger than the <CHIP>CD3215</CHIP> chips.\nI guess I know the answer for my 2nd question... ;-)"
+        },
+        {
+            "post_id": 62048,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-08 07:09:09",
+            "message": "Disconnect Touch ID and see if <RESISTOR>R5226</RESISTOR> pads turn on/off the board.\nIf not, check for 3V presence and drop pulse at <SIGNAL>SMC_ONOFF_L</SIGNAL>."
+        },
+        {
+            "post_id": 62571,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2020-07-19 21:10:49",
+            "message": "EDIT: Actually, it did work once and after that it didn't. I unplugged the battery and try again and could not turn on the board anymore shorting <SIGNAL>SMC_ONOFF_L</SIGNAL>.\n\nIf the machine goes to sleep, it won't wake up by opening the screen or pressing any keys on the keyboard."
+        },
+        {
+            "post_id": 62578,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-20 02:16:49",
+            "message": "You should be sure the LID signals are good."
+        },
+        {
+            "post_id": 62583,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2020-07-20 04:12:44",
+            "message": "Are you talking about  making sure those 2 signals, <SIGNAL>SMC_LID</SIGNAL> and <SIGNAL>DFR_TOUCH_LID</SIGNAL> are good?\n\nWith the Mac off, battery plugged in and screen in open position, <SIGNAL>SMC_LID</SIGNAL> is high and <SIGNAL>DFR_TOUCH_LID</SIGNAL> is low.\nWhen trying to press the power button, nothing happens as well as if I try to short <SIGNAL>SMC_ONOFF_L</SIGNAL>.\n\n<SIGNAL>PP1V8_S0SW_DFR</SIGNAL> is low at all time unless I plug the charger in and then the Mac starts bringing to 1.8V that signal + turning on the screen.\n<SIGNAL>DFR_TOUCH_LID</SIGNAL> stays low all the time.\n\nWhen putting the Mac to sleep, MacBook will never come back to life if pressing power button, some keys or opening the LID.\n<SIGNAL>DFR_TOUCH_LID</SIGNAL> stays low whereas <SIGNAL>SMC_LID</SIGNAL> is high with the screen in opened position.\nTrackpad click works\n\nIs <CHIP>U4200</CHIP> a possible fault?"
+        },
+        {
+            "post_id": 62584,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2020-07-20 04:22:24",
+            "message": "<SIGNAL>DFR_TOUCH_LID</SIGNAL> seems to get high when the LID is closed.\nSo when <SIGNAL>SMC_LID</SIGNAL> is high, <SIGNAL>DFR_TOUCH_LID</SIGNAL> is low and vice versa.\n\nWhen the screen won't turn on, I am able to get an external display though. But at some point, screen will go black and later, I'll get the message that \"your computer was restarted because of a problem\"..."
+        },
+        {
+            "post_id": 62585,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2020-07-20 05:04:29",
+            "message": "The confusing part is that sometimes the MacBook will work just fine.\nPower button,  touchbar, sleep, screen sleep... it will work as normal.\n\nRight now, I am running it, put it to sleep, woke it up, restarting, etc... no issues whatsoever."
+        },
+        {
+            "post_id": 62588,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-20 05:30:21",
+            "message": "The behviour changes if you disconnect touchbar?"
+        },
+        {
+            "post_id": 62607,
+            "thread_id": 59626,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> with a possibly faulty <CHIP>U3900</CHIP> (T1)",
+            "user_id": 427,
+            "username": "overshoot",
+            "post_date": "2020-07-20 09:48:33",
+            "message": "Not really but since it's happening randomly I am unsure...\nI am currently trying the mainboard in a complete different enclosure and touchbar has always been working fine with the good known motherboard.\n\nI did transfer the power button to the enclosure to test though.\n\nI think I will start replacing <CHIP>U4200</CHIP> first and if it doesn't change anything I will blame <CHIP>U3900</CHIP>.\nI believe resetting the SMC helps for a while and then the Mac will misbehave at some point.\nThat leads me to think <CHIP>U3900</CHIP> is the culprit."
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "U4600": "What is U4600? a CHIP.",
+        "U4650": "What is U4650? a CHIP.",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "R7803": "What is R7803? a RESISTOR.",
+        "USB_HUB_RESET_L": "What is USB_HUB_RESET_L? a SIGNAL.",
+        "USB_HUB_SOFT_RESET_L": "What is USB_HUB_SOFT_RESET_L? a SIGNAL.",
+        "PCH_USB_RBIAS": "What is PCH_USB_RBIAS? a SIGNAL.",
+        "R2070": "What is R2070? a RESISTOR.",
+        "U5701": "What is U5701? this is the keyboard controller chip that takes the keyboard and trackpad input and turns it into a USB device signal for the machine to process. If replacing a keyboard doesn’t fix an issue with keys not typing, check all traces between keyboard connector and this IC. This chip has programming so it must be replaced from a similar, ideally identical board. .",
+        "Z2_SCLK": "What is Z2_SCLK? a SIGNAL.",
+        "Z2_CS_L": "What is Z2_CS_L? a SIGNAL.",
+        "Z2_MOSI": "What is Z2_MOSI? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 12202,
+            "thread_id": 12202,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B water damaged USB ports A&B running slow",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-01-02 13:56:34",
+            "message": "This board is water damaged at spots like USB A and B circuitry including <CHIP>U4650</CHIP> <CHIP>U4600</CHIP>. And top side near edges and battery connector. There is no rust, it seems something like coffee...\nKeyboard lever connector is gone and Pin 1 <SIGNAL>PP3V3_S4</SIGNAL> and Pin 2 GND of keyboard connector were physically touching each others, plastic melted...\n\nIt booted fine with internal HDD but keyboard and trackpad were not working.\n\nBefore replacing keyboard connector I just cleaned it and made sure pins 1 and 2 are not touching anymore, removed the short but it was still low 0.7V and found out the zero ohm <RESISTOR>R7803</RESISTOR> on <SIGNAL>PP3V3_S4</SIGNAL> blown up to 500kohm.\nReplaced <RESISTOR>R7803</RESISTOR>, made sure same diode mode reading compared with other board and board powered up fine with trackpad working fluently but keyboard had some keys not working (arrows, caps lock and some others) shift keys and alt are working.\n\nUSB data filter L4610 was blown, I replaced it and now both usb ports are working.\n\nMy issues:\n\n-Keyboard is missing some keys no caps lock (no green light on caps key :) ) no arrows and some others...\n-USB A & B are working slow. It boots slowly from external HDD, partitions appear very slowly, ASD EFI take much more time to load but passes all sensors and boot rom tests. This behaviour is with keyboard plugged and unplugged.\n\nDidn't ultrasonic yet the board, I am affraid something wrong with USB portion of PCH. I don't see something else common to USB A and B besides PCH.\n\nBefore starting to replace <CHIP>U4650</CHIP> and <CHIP>U4600</CHIP> or ultrasonic the board, is there something I can check before? Could keyboard connector cause this slowliness on USB port?\n\nThanks"
+        },
+        {
+            "post_id": 12207,
+            "thread_id": 12202,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B water damaged USB ports A&B running slow",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-02 16:27:16",
+            "message": "Measure all pins of KBC connector on diode mode. Could be corroded trace. The running slow I have no idea, first see if it will do a PRAM reset and boot into OSX"
+        },
+        {
+            "post_id": 12597,
+            "thread_id": 12202,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B water damaged USB ports A&B running slow",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-01-09 13:38:39",
+            "message": "Back to this board. Yes I already did PRAM reset and it booted well into OSX. Tested with other keyboard and all keys worked fine. Sorry my old good testing kbd ended up with a bad flex cable.\nPlease find attached diode mode readings for kbd connector unplugged, they match the ones on a good board. I still have to replace the broken kbd connector.\n\nNow my concern is slow data transfer on both usb ports...\nNot sure what I am doing now but I checked if <SIGNAL>USB_HUB_SOFT_RESET_L</SIGNAL>, <SIGNAL>USB_HUB_RESET_L</SIGNAL> were not partially messed, they were 3.3V. <RESISTOR>R2070</RESISTOR> <SIGNAL>PCH_USB_RBIAS</SIGNAL> measured good also.\n\nWill check for corroded traces and ultrasonic the board, maybe some crap under PCH."
+        },
+        {
+            "post_id": 12605,
+            "thread_id": 12202,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B water damaged USB ports A&B running slow",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-09 16:27:14",
+            "message": "I would fix all the KBD issues then boot into OSX and see how USB transfer rates are to a USB stick/HDD. I doubt there really is a USB issue. If there really is then check if all USB devices are working. IR/BT/CAM/KBD/TP"
+        },
+        {
+            "post_id": 12614,
+            "thread_id": 12202,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B water damaged USB ports A&B running slow",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-01-09 17:38:03",
+            "message": "Ok will do as adviced and will report back.\n\nJust before leaving I noticed some bad looking \"through holes?\"\nThey are <SIGNAL>Z2_CS_L</SIGNAL>, <SIGNAL>Z2_MOSI</SIGNAL> and <SIGNAL>Z2_SCLK</SIGNAL>. SPI host to Z2. They are located just under kbd connector and connect to trackpad connector and <CHIP>U5701</CHIP>.\n\nI will check all and report."
+        },
+        {
+            "post_id": 13047,
+            "thread_id": 12202,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B water damaged USB ports A&B running slow",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-01-16 12:59:46",
+            "message": "Keyboard connector replaced and worked ok. Did some transfer tests, compared with known good board and I got same thing on both board:\n\n8.48GB from external usb hdd to internal (sata) hdd 4min08sec vs 4min09sec on known good board\n8.48GB from internal (sata) hdd to external usb hdd 5min02sec vs 5min07sec on known good board\n\nI guess I forgot the difference between usb 2 and 3 :)\nWhat trolled me mostly was EFI 3S144. When launched, it took time (almost 1 minute) in ''searching for hardware to run tests...'' but it was exactly same on the other board.\n\nBy the way IR/BT/CAM/KBD/TP tested ok and worked fluently.\n\nMaybe normal with this particular board or partition issue. Now board is 100% ok.\n\nI call it ''solved'', you can please close the post."
+        }
+    ]
+}

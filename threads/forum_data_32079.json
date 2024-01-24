@@ -1,0 +1,618 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015.",
+        "R5380": "What is R5380? a RESISTOR.",
+        "R5381": "What is R5381? a RESISTOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "U5110": "What is U5110? This chip is responsible for SMC_RESET_L in many Macbook models..",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "Q7630": "What is Q7630? a TRANSISTOR.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "R7110": "What is R7110? a RESISTOR.",
+        "R7010": "What is R7010? a RESISTOR.",
+        "D7010": "What is D7010? Diode between ground and gate of Q7010 on 2013-2015 year retina model macbook pros, necessary for Q7010 to allow PPDCIN_G3H to flow through to PP3V42_G3H power supply input. When this diode dies or corrodes, PP3V42_G3H input will not have any voltage, and chargers will not turn on. This can often be the problem if a system only works with a knockoff charger/bench power supply. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "U7001": "What is U7001? a CHIP.",
+        "U7090": "What is U7090? This chip is often responsible for creating PP3V42_G3H.",
+        "D7005": "What is D7005? a DIODE.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "R5187": "What is R5187? a RESISTOR.",
+        "R7120": "What is R7120? a RESISTOR.",
+        "U4820": "What is U4820? a CHIP.",
+        "U4830": "What is U4830? a CHIP.",
+        "R4902": "What is R4902? a RESISTOR.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. ."
+    },
+    "threads": [
+        {
+            "post_id": 32079,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-02-27 19:30:28",
+            "message": "I have an <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> that was liquid damaged the computer will run both off the charger and the battery just fine. When you plug in the charger with the battery plugged in it will never give a green light. with the battery unplugged it will randomly get a green light after a few times of unplugging and re-plugging. with the battery in dc in is at 2.2 volts on the fuse. with the battery out dc in ranges from 3v to .3v then will just spike to 16.5 after the green light comes on. if the battery is connected after the green light is on the charger the battery will charge just fine till full and will stay charging unless unplugged. then after re-plugging it in it will again fail to get a green light. I have no clue where to start with this because of the seemingly complete randomness."
+        },
+        {
+            "post_id": 32080,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-02-27 19:43:10",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> is created by <TRANSISTOR>Q7130</TRANSISTOR> sending pulses of the charger voltage through. Some 16v, some 0v. Some 16v, some 0v. It is supposed to average out to 12.56v through L7130.\n\nIf <TRANSISTOR>Q7130</TRANSISTOR>'s top transistor shorts and gets stuck, it will not switch. <SIGNAL>PPBUS_G3H</SIGNAL> will permanently be 16v. The battery does not like 16v. Sending 16v to the battery will cause it to go poof. To prevent this from happening, the system shuts down the charger when it senses the battery plugged in and being given 16v. \n\nSo,\n\n1) What voltage is <SIGNAL>PPBUS_G3H</SIGNAL> when battery is not connected? \n\n2) IF and only IF <SIGNAL>PPBUS_G3H</SIGNAL> is 12.56v or 12.23v, does it work with a KNOWN GOOD battery?"
+        },
+        {
+            "post_id": 32116,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-02-28 14:14:38",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> is 12.56v with battery disconnected. 12.23v connected. I believe i replaced the battery in this machine at one point about 5-6 months ago."
+        },
+        {
+            "post_id": 32118,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-02-28 14:19:22",
+            "message": "My best guess there is the battery is pulling down the SMC data line or is bad. Try another battery. <CHIP>U7100</CHIP> communicates with <CHIP>U5000</CHIP> on the same data line it uses to communicate with the battery. If it is pulled down, <CHIP>U5000</CHIP> will not be able to tell <CHIP>U7100</CHIP> to up the <SIGNAL>PPBUS_G3H</SIGNAL> voltage to 12.56v from 12.23v."
+        },
+        {
+            "post_id": 32119,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-02-28 15:54:21",
+            "message": "tried with known good battery, same exact result"
+        },
+        {
+            "post_id": 32173,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-02 12:01:46",
+            "message": "USe diode mode on the meter and measure both <RESISTOR>R5381</RESISTOR> and <RESISTOR>R5380</RESISTOR> with red probe on ground, black probe on pin 2 of the resistor. What do you get for each? 12.23v at any time means something going on with this data line."
+        },
+        {
+            "post_id": 32195,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-02 14:36:39",
+            "message": "<RESISTOR>R5380</RESISTOR> i get .528 and <RESISTOR>R5381</RESISTOR> i get .531"
+        },
+        {
+            "post_id": 32196,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-02 14:57:53",
+            "message": "i also should say i replaced <CHIP>ISL6259</CHIP> and now i get 12.23v on <SIGNAL>PPBUS_G3H</SIGNAL> weather the battery is connected or not."
+        },
+        {
+            "post_id": 32204,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2018-03-02 16:53:04",
+            "message": "Well, where was the liquid? If it was to the SMC or ISL or <TRANSISTOR>Q7180</TRANSISTOR> (7080? can't remember on 4924) area, or was it to the battery/<TRANSISTOR>Q7130</TRANSISTOR> area? No sense in troubleshooting the battery right now if your SMC (or <CHIP>U5110</CHIP>, etc) is visibly covered in crap, etc."
+        },
+        {
+            "post_id": 32205,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-02 17:11:01",
+            "message": "the board is actually 100% clean. the only visible corrosion left is around <TRANSISTOR>Q7630</TRANSISTOR> and its barely visable"
+        },
+        {
+            "post_id": 32208,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-02 19:47:23",
+            "message": "okay so i was getting a direct short to ground on <SIGNAL>CHGR_ACIN</SIGNAL>. removed isl that removed the short. i replaced it with a new chip now im getting 16.5v up to <RESISTOR>R7110</RESISTOR> then drops to 4v on the other side. diode mode gives me .530 to ground after that resistor. another bad isl?"
+        },
+        {
+            "post_id": 32233,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-03 22:29:42",
+            "message": "That sounds fine. Are you getting 12.56v on <SIGNAL>PPBUS_G3H</SIGNAL> after replacing the <CHIP>ISL6259</CHIP>?"
+        },
+        {
+            "post_id": 32237,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-04 07:28:46",
+            "message": "im now getting half a volt on <SIGNAL>PPBUS_G3H</SIGNAL>"
+        },
+        {
+            "post_id": 32238,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-04 07:37:57",
+            "message": "getting .141 in diode mode to ground on <SIGNAL>PPBUS_G3H</SIGNAL> removed f7140 to see which side the short is on, its on pin 1 side"
+        },
+        {
+            "post_id": 32244,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-04 15:05:20",
+            "message": "<RESISTOR>R7010</RESISTOR> is getting very very hot, like hot enough to burn me"
+        },
+        {
+            "post_id": 32255,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-05 13:26:40",
+            "message": "If <RESISTOR>R7010</RESISTOR> is hot enough to burn you then the most likely case is that <SIGNAL>PP3V42_G3H</SIGNAL> is missing as this is part of the circuit for the <SIGNAL>PP3V42_G3H</SIGNAL> power supply. <SIGNAL>PP3V42_G3H</SIGNAL> is the first rail that must show up [I]before[/I] <SIGNAL>PPBUS_G3H</SIGNAL> is present. So my first question would be, do you have a short to ground where <DIODE>D7010</DIODE> is? Our focus should shift to solving a potential <SIGNAL>PP3V42_G3H</SIGNAL> issue before going back to the <SIGNAL>PPBUS_G3H</SIGNAL> issue. \n\n.141 in diode mode is not a short on <SIGNAL>PPBUS_G3H</SIGNAL>, but rather exactly as it should be."
+        },
+        {
+            "post_id": 32257,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-05 13:53:08",
+            "message": "no short to ground on <DIODE>D7010</DIODE> open line in diode mode and 168.5k ohms to ground"
+        },
+        {
+            "post_id": 32258,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-05 13:55:47",
+            "message": "i am getting 3v on pp3v42"
+        },
+        {
+            "post_id": 32292,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-06 17:49:05",
+            "message": "If you had 12.23v before replacing the ISL and have half a volt after then it is clear that something happened there. Either bad ISL or bad soldering. The original issue was bad communication between the SMC and the battery. This is caused by bad pullup resistors, bad SMC, or something on the line shorting that data line to ground.\n\nNow there are an entire whole host of other issues that I can't begin to imagine over text vs. seeing it. \n\n<SIGNAL>PP3V42_G3H</SIGNAL> should be 3.42v, not 3v.\n\nFrom what you have said the second time you soldered the <CHIP>ISL6259</CHIP> something had to have gone wrong enough to pull down <SIGNAL>PP3V42_G3H</SIGNAL> and cause <SIGNAL>PPBUS_G3H</SIGNAL> to disappear entirely."
+        },
+        {
+            "post_id": 32304,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-06 18:30:02",
+            "message": "okay so i put a new isl on. Im getting 12.3v on ppbus again but im still only getting 3.2v on the coil on pp3v42 also no green light on the charger 3v on acok"
+        },
+        {
+            "post_id": 32318,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-03-07 16:43:42",
+            "message": "Something is obviously pulling down PP3v42... Look at <CHIP>U7001</CHIP>. Do you have ACOK on pins 1 and 2 and do you have ACOK VCC on pin 4? See if something is messed up there. Maybe <CHIP>U7001</CHIP> is pulling down 3v42 and causing your no green light issue. Don't know how that would be related to your battery issue though but worth checking."
+        },
+        {
+            "post_id": 32321,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-07 17:07:09",
+            "message": "so i went back to the computer after i saw your message and plugged in the charger to measure what you suggested, and what do you know i get a green light??? this thing is weird. i still dont get the green light with the battery in so i suppose ill move on to that for now"
+        },
+        {
+            "post_id": 32323,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-07 17:37:16",
+            "message": "annddd i lost the green light again from nothing more than cleaning the <CHIP>U7090</CHIP> <CHIP>U7001</CHIP>  isl area"
+        },
+        {
+            "post_id": 32324,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-07 17:40:42",
+            "message": "so i noticed that when green lights working, i get 7.2v on pp3v42boost. but when its not i only get 6.7v possibly something wrong with boost/sense curcuit?"
+        },
+        {
+            "post_id": 32327,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-03-07 18:05:23",
+            "message": "Could be something wrong in the boost/sense circuit, but now sense you lost green light did you loose 3.42? While the green light is not working, what is resistance to gnd compared to when the green light is working. Basically what I mean is catch the system when the light isn't on, unplug it, take a resistance measurement on pp3v42 and then catch it while the light is different and measure again. Compare the measurements. I have had these issues like this from a SMC acting funny and if the SMC was bad that could explain why 3v42 is being pulled down but DON\"T touch the SMC yet."
+        },
+        {
+            "post_id": 32338,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-07 18:32:17",
+            "message": "when the green light is off, 3v42 sits around 3v when its on its right where its supposed to be 3.42. resistance to ground with light off is 25.8k with light on it is the same as far as i can tell im not 100% sure though."
+        },
+        {
+            "post_id": 32339,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-07 18:43:23",
+            "message": "this board is acting up something crazy. with no green light sometimes i get 3v on dcin sometimes i get the right 16.5 but then the 16.5 doesnt make it between <DIODE>D7005</DIODE> and <CHIP>U7090</CHIP>. but then other times still the voltage will make it but ill only get 3v on 3v42 then sometimes it will give a green light and everything will be fine. it makes it hard to even explain whats happening because almost every time i post something, something else will happen differently."
+        },
+        {
+            "post_id": 32344,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-03-07 19:48:57",
+            "message": "I don't know.. Intermittent faults like this are never fun. Maybe corrosion under the SMC.. Look under it with the scope.. If it looks like something got under it give it a reflow."
+        },
+        {
+            "post_id": 32373,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-08 14:38:27",
+            "message": "the balls i can see look fine, but i gave it a reflow anyway. no change."
+        },
+        {
+            "post_id": 32452,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-11 08:48:53",
+            "message": "are we thinking bad smc with this board?"
+        },
+        {
+            "post_id": 32454,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-11 08:53:43",
+            "message": "I doubt the SMC is bad, there is a partial short on 3V42. This can pretty much be any cap on this line. It could be crap under the SMC too of course. In any case this one is going to suck."
+        },
+        {
+            "post_id": 32788,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-20 18:44:42",
+            "message": "I replaced the smc, there was a bunch of junk under the old one. I now get a green light whenever the battery is unplugged. if its plugged in i wont get a green light. and dc in will drop to 8.6v. im still getting 3.4v on pp3v42 though. nothing on <SIGNAL>SMC_BC_ACOK</SIGNAL>"
+        },
+        {
+            "post_id": 32791,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-20 19:41:34",
+            "message": "<SIGNAL>SMC_BC_ACOK</SIGNAL> is needed to get a light on the charger. <RESISTOR>R5187</RESISTOR> checked? Resistance to GND on this line?"
+        },
+        {
+            "post_id": 32798,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-21 04:40:57",
+            "message": "260k ohms to ground on acok"
+        },
+        {
+            "post_id": 32811,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-21 14:17:28",
+            "message": "shouldnt be an issue on the acok line. i get a green light if the battery isnt connected to the board. its when it is connected i dont get the green light. dc in voltage is only 8.5v with the battery in."
+        },
+        {
+            "post_id": 32818,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-21 18:51:38",
+            "message": "so for some reason ive discovered that if i put my meter in diode mode and touch the top of <TRANSISTOR>Q7180</TRANSISTOR> with red and put black on ground itll spike up to 16.5v and ill get a green light, the battery will start charging. dc in will stay at 16v where its supposed to be, but <SIGNAL>PPBUS_G3H</SIGNAL> will be at ~12v. not sure if this helps determine the problem at all"
+        },
+        {
+            "post_id": 32830,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-21 20:12:06",
+            "message": "I ask again: <RESISTOR>R5187</RESISTOR> checked? ACOK should be present when the charger is plugged in with or without battery connected.\nWhat is voltage on <RESISTOR>R7120</RESISTOR> with and without battery? Charger connected of course."
+        },
+        {
+            "post_id": 32839,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-22 04:39:39",
+            "message": "<RESISTOR>R5187</RESISTOR> good. <RESISTOR>R7120</RESISTOR> is 16.5v without battery 10v or below with battery"
+        },
+        {
+            "post_id": 32844,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-22 05:27:28",
+            "message": "So adapter shuts down when battery is connected. <TRANSISTOR>Q7180</TRANSISTOR> and <TRANSISTOR>Q7130</TRANSISTOR> are suspect as is the <CHIP>ISL6259</CHIP>."
+        },
+        {
+            "post_id": 32866,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-22 16:39:36",
+            "message": "replaced <TRANSISTOR>Q7180</TRANSISTOR> solved the charging issue. but now the keyboard and trackpad dont work... wth..... im getting 3v3s4 and 3v42 on both <CHIP>U4830</CHIP> and <CHIP>U4820</CHIP>"
+        },
+        {
+            "post_id": 32872,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-22 16:50:29",
+            "message": "Bad trackpad cable is first suspect then the trackpad itself."
+        },
+        {
+            "post_id": 32958,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-26 14:45:34",
+            "message": "wasnt the cable, trackpad coming tomorrow. also i noticed that the battery reads 0% all the time in energy saver. i tried a new battery but still the same thing. but im getting 3.42v on both data line resistors to the smc. 1 line pulses the other doesnt. the computer runs off the battery but i cant tell if it charges it or not. the light never goes to green even after being left in for hours. <SIGNAL>PPBUS_G3H</SIGNAL> is 12.1v with battery in 12.5 without"
+        },
+        {
+            "post_id": 32959,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-03-26 15:08:39",
+            "message": "Sounds like bad battery or really REALLY dead battery."
+        },
+        {
+            "post_id": 32960,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-26 15:13:43",
+            "message": "it cant be dead because the computer runs off of it, had it on for over 20 mins. also a new battery didnt make a difference."
+        },
+        {
+            "post_id": 32961,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-26 16:08:19",
+            "message": "okay scratch the battery issue resolved now"
+        },
+        {
+            "post_id": 32995,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-27 14:17:29",
+            "message": "wasnt the trackpad either. anymore ideas? SMC Reset works"
+        },
+        {
+            "post_id": 32996,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-27 14:50:25",
+            "message": "i get all power rails everywhere im supposed to on the trackpad connector and the keyboard connector also both 4830 and <CHIP>U4820</CHIP>"
+        },
+        {
+            "post_id": 33011,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-27 15:39:40",
+            "message": "Diode mode on all trackpad connector pins? It is also common for \"new\" trackpad cables to be DOA. I had a bunch of garbage cables from China last time I ordered  them."
+        },
+        {
+            "post_id": 33018,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-27 16:18:01",
+            "message": "1,3,5,7,9,11,13: Ol\n2,4,6,8,10,12,14: 0\n15,16,17,18,24,30,31,32,33,34,39,40,47,51,52: 0\n19:.840\n20: .750\n21: .731\n22: .755\n23: .733\n25: .567\n26: .493\n27,29: .420\n28: .468\n35: .444\n36: .482\n37: .443\n38: .750\n41: .707\n42: .551\n43: .653\n44: Ol\n45: .678\n46: .809\n48: .552"
+        },
+        {
+            "post_id": 33019,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-27 16:37:37",
+            "message": "<RESISTOR>R4902</RESISTOR> was ripped off the board. i now have trackpad"
+        },
+        {
+            "post_id": 33020,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-27 16:56:34",
+            "message": "1 last issue. computer now turns on keyboard and trackpad works, but the fan goes to max and its kinda sluggish. Im guessing sensor issue but i have no idea where to start. 2015 model so no way to run sensor check software\n\nEdit: when i hold down the d key for diagnositic. it says \"no issues found\"."
+        },
+        {
+            "post_id": 33028,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-27 19:43:15",
+            "message": "If the fan is running on max. ASD should at least report a fan issue. Not sure but was the SMC replaced?"
+        },
+        {
+            "post_id": 33048,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-28 07:12:39",
+            "message": "Yes smc was replaced, but according to the customer it was running fan on max before they brought it in. Asd said no issues found when i ran it last. Ill try again though just to be sure"
+        },
+        {
+            "post_id": 33138,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-03-30 16:08:28",
+            "message": "yeah still says no issues found but fan still goes to max and it takes like 3 seconds before the volume will go up or down and show up on the screen"
+        },
+        {
+            "post_id": 33186,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-03 12:15:16",
+            "message": "Install iStat and see if it sees any sensors that read weird."
+        },
+        {
+            "post_id": 33220,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-04-03 18:54:03",
+            "message": "all sensors reading except palm rest is blank and right fin stack is blank aswell. everything else is reading normal temps"
+        },
+        {
+            "post_id": 33221,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-04-03 18:57:46",
+            "message": "says ppbus is 7.2v also says dcin is drawing 6.14 amps"
+        },
+        {
+            "post_id": 33232,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-04 02:43:10",
+            "message": "6 amp seems too high. The missing temp is probably iStat being stupid as that would give an ASD error for sure.  6 amps is possible on the lower voltage rails so it could also be a mistake in iStat. I'm at a loss with this one. Was the SMC replaced with the correct one? Got access to an AASP that can do an MRI for you?"
+        },
+        {
+            "post_id": 33241,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-04-04 06:28:37",
+            "message": "No idea what either of those acronyms mean so ill say no. Im pretty sure the smc was correct but they were bought from aliexpress. I also noticed that closing the lid wont put it to sleep either. This could very well be a bad smc. I can try another after work"
+        },
+        {
+            "post_id": 33256,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-04-04 19:27:11",
+            "message": "the smc is confirmed as the correct one, ill try another one that i have and hope that does the trick"
+        },
+        {
+            "post_id": 33279,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-05 11:37:19",
+            "message": "Apple Service Provider and Mac Resource Inspector. The software Apple uses to check all the sensors only available to ASP."
+        },
+        {
+            "post_id": 33297,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-04-05 15:53:16",
+            "message": "unfortunately i dont have access to that at all. i live in small town iowa so nothing for hours away. i replaced the smc with another and im gettting the exact same problem"
+        },
+        {
+            "post_id": 33307,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-05 18:25:29",
+            "message": "I'm really out of ideas. I have no clue how the fan can be running on full and diagnostics not giving an error."
+        },
+        {
+            "post_id": 33370,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 401,
+            "username": "Gannons3",
+            "post_date": "2018-04-06 16:33:25",
+            "message": "im thinking this has got to be an smc issue. even if i short <SIGNAL>SMC_LID</SIGNAL> to ground on the resistor before the smc the screen still fails to turn off. thinking i got screwed on these smcs. i got reballed ones just to make it easier on myself since i dont have anything to hold the chip as i reball but in any case, things that are smc related that were working before arent now."
+        },
+        {
+            "post_id": 33373,
+            "thread_id": 32079,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> wont charge battery intermittent green light",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-06 17:55:51",
+            "message": "Uhm, you got reballed SMCs.....yeah that is a good way to never know which board they came from. Go take one from a donor board."
+        }
+    ]
+}

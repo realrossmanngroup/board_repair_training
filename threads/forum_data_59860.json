@@ -1,0 +1,195 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "TPS51980": "What is TPS51980? This is a power chip responsible for the PP3V3_S5,  PP5V_S5,  and PP5V_S3 power rails on many A1286 Macbook Pros,  A1297 Macbook Pros,  A1369 Macbook Airs,  A1466 Macbook Airs,  A1370 Macbook Airs,  and A1465 Macbook Airs.",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4RS3": "What is PP5V_S4RS3? PP5V_S4RS3 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP3V3_S4SW_SNS": "What is PP3V3_S4SW_SNS? a SIGNAL.",
+        "PP3V3_S4_TBTAPWR": "What is PP3V3_S4_TBTAPWR? a SIGNAL.",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "R5115": "What is R5115? a RESISTOR.",
+        "R1921": "What is R1921? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 63863,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-18 12:08:53",
+            "message": "Macbook came in with the costumer not naming one clear cause. The fan spins for 1 second then turns off,  it's taking 25mA not entering S4 state. Here I have some measurements.\n\n<SIGNAL>PP5V_S4RS3</SIGNAL> = 0V\n<SIGNAL>PP3V3_S4</SIGNAL> = 0.31V\n<SIGNAL>PP3V3_S4SW_SNS</SIGNAL> = 0.01V\n<SIGNAL>PP3V3_S4_TBTAPWR</SIGNAL> = lowering to 0V\n\nThinking about replacing <CHIP>TPS51980</CHIP> but since the fan does spin for a short second I think it is an active short somewhere which makes it get to S0 and then stop.\n\nIs replacing <CHIP>TPS51980</CHIP> then still my best bet or does this fan activity point to something I overlooked?"
+        },
+        {
+            "post_id": 63864,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-18 12:16:19",
+            "message": "No short on <SIGNAL>PP3V3_S4</SIGNAL> pin on the <CHIP>TPS51980</CHIP> EN present and VIN present. Maybe short on <SIGNAL>PP3V3_S4</SIGNAL> since the voltage is 0.31V instead of 3.3V?"
+        },
+        {
+            "post_id": 63872,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-18 12:58:09",
+            "message": "Fan is powered from <SIGNAL>5V_S0</SIGNAL>, so more S0 voltages should pulse at least (in that second).\nCheck for pulse at all big coils.\nAlso check all power rails from pages 57/58.\nWhere is no pulse, check diode mode to ground..."
+        },
+        {
+            "post_id": 63875,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-18 13:33:01",
+            "message": "Checked around, all big diodes had pulses and when I came acros <SIGNAL>PP3V3_S4</SIGNAL> it turned on. Now pulling 300-500 mA. Something around DCIN board not connected properly?"
+        },
+        {
+            "post_id": 63882,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-18 14:12:03",
+            "message": "Board should turn on without LIO flex connected; did you try?"
+        },
+        {
+            "post_id": 64051,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-23 05:24:15",
+            "message": "It turns on after I first pressed the power button, then release then press again for long enough to make the backlight come on (releasing when hearing the chime makes the mac shutdown directly)\n\nit is also very slow, will try to install new os via pendrive today, but the above behaviour looks like an SMC issue. Already tried SMC reset, is checking a sensor a good idea? (no high fan though)"
+        },
+        {
+            "post_id": 64052,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-23 06:19:08",
+            "message": "Did you try PRAM reset?\nAre you using original Magsafe 2 charger?\n\nDisconnect trackpad and see if starts normal using <RESISTOR>R5115</RESISTOR>/16 pads instead of power button.\n\nYou can try clean ME BIOS, just in case."
+        },
+        {
+            "post_id": 64075,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-24 08:52:05",
+            "message": "Tried Pram reset, got a big white flash, this is something I have not experienced before so maybe it's not what it is supposed to do\nOriginal magsafe 2 charger with power brick attatched and one connected to power supply with 19.5V 2A\n\nDisconnecting trackpad and using the pads gives the same behaviour\n\nCleaned the ME no result, will flash new bios today"
+        },
+        {
+            "post_id": 64080,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-24 10:42:29",
+            "message": "new BIOS and still the Mac is very slow and has weird startup issues as mentioned before. It also looks to shutdown when it should go to sleep"
+        },
+        {
+            "post_id": 64087,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-24 11:47:34",
+            "message": "Try another LIO board/flex and trackpad board/flex.\nAlso remove internal SSD and try USB macOS."
+        },
+        {
+            "post_id": 64279,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-27 10:31:58",
+            "message": "replacing all 4 boards/flexes does not change anything. Now trying to use USB macOS, but it has had a full loading bar for 4+ hours now. Also the slowness is noticable before entering any os. Also in the Catalina Installer for instance"
+        },
+        {
+            "post_id": 64281,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-27 10:46:27",
+            "message": "Did you clean ME region correctly for sure?\nCan you load Linux, or Windows Live USB?"
+        },
+        {
+            "post_id": 64282,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-27 10:47:07",
+            "message": "Cleaned after flashing your BIOS clean ME\n\nwill try now!"
+        },
+        {
+            "post_id": 64284,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-27 10:52:21",
+            "message": "Ubuntu live USB looks normal, not slow or anything"
+        },
+        {
+            "post_id": 64285,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-27 10:54:12",
+            "message": "Closing the lid still makes it shutdown. Powering on takes one normal press till the fan stops spinning, then one long ~5second press until the chime comes and the backlight turns on. I can only release the power key after the backlight turns on, releasing on chime makes it shutdown again."
+        },
+        {
+            "post_id": 64420,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-08-30 08:43:14",
+            "message": "Since USB and SSD are both equally slow, is it possible that the SMC is the culprit here?"
+        },
+        {
+            "post_id": 64427,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-30 10:56:32",
+            "message": "Try first removing <RESISTOR>R1921</RESISTOR>.\nIf still low, change SMC..."
+        },
+        {
+            "post_id": 64564,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-09-03 02:42:47",
+            "message": "after removing <RESISTOR>R1921</RESISTOR> is gives 0.05V, something to worry about? its not low as in 0 but also not 0.9 or 3.3"
+        },
+        {
+            "post_id": 64573,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-03 03:53:37",
+            "message": "Did you try to start Apple Diagnostics at boot?"
+        },
+        {
+            "post_id": 64579,
+            "thread_id": 59860,
+            "title": "820 00165 fan spins for 1 second then turns off, taking 25mA not entering S4 state",
+            "user_id": 945,
+            "username": "Roan",
+            "post_date": "2020-09-03 04:05:30",
+            "message": "Have not tried it after removing the resistor. Before removing the resistor it gave no issues"
+        }
+    ]
+}

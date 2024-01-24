@@ -1,0 +1,607 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PPBUS_3GH": "What is PPBUS_3GH? PPBUS_3GH is a typo of PPBUS_G3H. If you see someone type PPBUS_3GH assume they meant to type PPBUS_G3H.",
+        "PP3V42_3GH": "What is PP3V42_3GH? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "R1410": "What is R1410? a RESISTOR.",
+        "R5115": "What is R5115? a RESISTOR.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_AGATE_DIV": "What is CHGR_AGATE_DIV? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "C7125": "What is C7125? Capacitor between CHGR_BOOT and CHGR_PHASE important for bootstrapping creation of PPBUS_G3H on 2013-2015 macbook pros.",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "U8010": "What is U8010? a CHIP.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "P3V3S3_EN": "What is P3V3S3_EN? P3V3S3_EN is a signal that turns on the PP3V3_S3 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PPVCOMP_S0_CPU": "What is PPVCOMP_S0_CPU? a SIGNAL.",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "P1V8S3_PGOOD": "What is P1V8S3_PGOOD? P1V8S3_PGOOD is a signal that denotes that the PP1V8_S3 power rail is working..",
+        "P5VS3_COMP": "What is P5VS3_COMP? a SIGNAL.",
+        "P1V8S3_FB": "What is P1V8S3_FB? a SIGNAL.",
+        "PPV5_S5": "What is PPV5_S5? a SIGNAL.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP1V2_S3": "What is PP1V2_S3? PP1V2_S3 is a 1.2v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PPVIN_G3H_P3V42G3H": "What is PPVIN_G3H_P3V42G3H? PPVIN_G3H_P3V42G3H is the input voltage to the PP3V42_G3H buck converter circuit, it can be either charger voltage or battery voltage depending on what the system power source is. This often shorts to ground when one of the input capacitors dies. .",
+        "P5VS3_EN": "What is P5VS3_EN? a SIGNAL.",
+        "PPVTTDDR_S3": "What is PPVTTDDR_S3? PPVTTDDR_S3 is a 3.3v power rail that powers the DDR RAM when the machine is in an S3 suspend to RAM state. .",
+        "PPV5_S3": "What is PPV5_S3? This is a typo of PP5V_S3 When you see PPV5_S3, assume they meant to type PP5V_S3.",
+        "P5VS3_DRVH": "What is P5VS3_DRVH? a SIGNAL.",
+        "PPV5_S3_LTUSB_A_ILIM": "What is PPV5_S3_LTUSB_A_ILIM? a SIGNAL.",
+        "P5VS3_TG": "What is P5VS3_TG? a SIGNAL.",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "P1V05S0_DRVH": "What is P1V05S0_DRVH? a SIGNAL.",
+        "P1V05S0_VBST": "What is P1V05S0_VBST? a SIGNAL.",
+        "P1V05_S0": "What is P1V05_S0? a SIGNAL.",
+        "P1V05S0_VVTREF": "What is P1V05S0_VVTREF? a SIGNAL.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PM_SLP_S3": "What is PM_SLP_S3? a SIGNAL.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "R7105": "What is R7105? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "D7105": "What is D7105? Diodes between PPDCIN_G3H charger voltage and CHGR_DCIN pin of ISL6259, when CHGR_DCIN Is low(less than charger voltage) and PPBUS_G3H is missing this is a critical point to troubleshoot.",
+        "C7105": "What is C7105? a CAPACITOR.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. ."
+    },
+    "threads": [
+        {
+            "post_id": 58066,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-07 04:57:40",
+            "message": "hello, i have Macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a that come dead..no water damage, its said that after he connect the mac to projector with HDMI its start to make problem, and after few days it was dead..\ni was notice that <SIGNAL>PP5V_S3</SIGNAL> 5V sometimes have and sometimes disappear...i was replace also the charging connector and the same...any idea?"
+        },
+        {
+            "post_id": 58067,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-07 05:01:41",
+            "message": "Which voltages appear on the board?"
+        },
+        {
+            "post_id": 58068,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-07 05:16:04",
+            "message": "<SIGNAL>PPBUS_3GH</SIGNAL> - 12.5v\n<SIGNAL>PP5V_S5</SIGNAL> - 5v\n<SIGNAL>PP3V42_3GH</SIGNAL> -3.4v\n<SIGNAL>PP3V3_S4</SIGNAL> -0V\n<SIGNAL>PP5V_S4</SIGNAL> - 0V"
+        },
+        {
+            "post_id": 58069,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-07 05:24:48",
+            "message": "Do you get <SIGNAL>3V3_SUS</SIGNAL>?\nPost <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL> and <SIGNAL>PM_DSW_PWRGD</SIGNAL> and <SIGNAL>PCH_DSWVRMEN</SIGNAL>.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\nDid you try to start in SMC bypass mode?"
+        },
+        {
+            "post_id": 58070,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-07 05:44:25",
+            "message": "<SIGNAL>3V3_SUS</SIGNAL> - 3.2V\n<SIGNAL>PM_BATLOW_L</SIGNAL> - 0V( <RESISTOR>R1410</RESISTOR>- ONE SIDE 3.4V FROM <SIGNAL>3V3_S5</SIGNAL>)\n<SIGNAL>PM_RSMRST_L</SIGNAL> - 3V\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> - 3.4V\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> - 2.4V\n<SIGNAL>SMC_ONOFF_L</SIGNAL> - 3.4V\n<SIGNAL>PM_PWRBTN_L</SIGNAL> - 3.4V stable \n\ni was try SMC baypass dont do nothing.."
+        },
+        {
+            "post_id": 58071,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-07 05:48:28",
+            "message": "\"<SIGNAL>PM_BATLOW_L</SIGNAL> - 0V\"\nPCH cannot start power on sequence in this mode.\nDo you have original Magsafe 2 60/85W charger???"
+        },
+        {
+            "post_id": 58072,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-07 06:19:36",
+            "message": "you right....it was 45w i didnt notice...now is 3.3v"
+        },
+        {
+            "post_id": 58074,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-07 07:28:17",
+            "message": "small update.. i was try SMC Baypass again, it didn't succeed, but suddenly the fan start working full speed for 5 second and stop until i push the power button again...i was doing that just if i play with the battery and the charger with the power button on and off..."
+        },
+        {
+            "post_id": 58077,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-07 09:48:11",
+            "message": "\"Post <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL> and <SIGNAL>PM_DSW_PWRGD</SIGNAL> and <SIGNAL>PCH_DSWVRMEN</SIGNAL>.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\"\n???"
+        },
+        {
+            "post_id": 58079,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-07 10:42:59",
+            "message": "I dont have scope to check pulses...any other way? \ni was post the rest results..."
+        },
+        {
+            "post_id": 58080,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-07 10:50:22",
+            "message": "O-scope helps to catch fast pulses, not needed here.\nMultimeter is good enough to see pulsing, or not..."
+        },
+        {
+            "post_id": 58138,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-11 02:48:16",
+            "message": "can you please tell me how do i trigger and how to check pulsing?\nthanks"
+        },
+        {
+            "post_id": 58139,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-11 03:01:57",
+            "message": "Use <RESISTOR>R5115</RESISTOR>/16 power pads, instead of power button.\nA simple wire to pull <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground; just a temporary contact, of course.\nCheck signals reaction at same time..."
+        },
+        {
+            "post_id": 58211,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-14 02:12:59",
+            "message": "update...when i was try to check pulses after short the <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground, the voltage of <SIGNAL>PM_PWRBTN_L</SIGNAL> was 0v without the pulses...after i was disconnect the wire, the fan start , i was put the board back and its turn on,with just charger there is the chaim sound turn on but no fan, just after few min', with battery the fan start immediately,  i was connect all the wires and i was notice that the Touchpad is short, and it didnt turn on again, i was play with reset smc and wait for few min' and it was turn on again with different Touchpad wire...no its stop to turn on again...and dont respond to nothing...i know that if i will play with the board again it will turn on again....i really dont know why...any idea? with reset SMC the fan full speed for 5 sec and dead. can the TouchPad do it?"
+        },
+        {
+            "post_id": 58212,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-14 02:18:02",
+            "message": "suddenly its turn on, and after restart i need to wait few min until it turn on again"
+        },
+        {
+            "post_id": 58213,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-14 02:45:03",
+            "message": "Fan only starts when the CPU gets very hot, as normal behaviour for this board..."
+        },
+        {
+            "post_id": 58247,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-15 01:12:24",
+            "message": "And what can be the reason that it sometimes working and sometimes not? And if i do restart it doesn't turn in, its sound like something from the on/off command"
+        },
+        {
+            "post_id": 58250,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-15 01:51:58",
+            "message": "Machine always turns on, but not always boot into OSX?\nDid you try another TP/KB?"
+        },
+        {
+            "post_id": 58257,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-15 04:24:04",
+            "message": "No yet, but can it be the solution? I can work with it fine...restart and on/off but if its off for more then 10 min +- its hard to turn it on...need few minutes trying until it turns on"
+        },
+        {
+            "post_id": 58260,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-15 06:07:27",
+            "message": "Always happens that?\nCheck if starts in SMC bypass mode."
+        },
+        {
+            "post_id": 58518,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-21 05:39:40",
+            "message": "update, after few days that it work fine and even charge the battery, now after the battery run off it dont charging and turn on...with battery just green light stable, without batter, green the orange but not turn on. i was check with used good original battery but the same, bypass SMC just fan on full speed. any idea? <SIGNAL>PPBUS_3GH</SIGNAL> 13v."
+        },
+        {
+            "post_id": 58524,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-21 08:51:16",
+            "message": "<SIGNAL>CHGR_AGATE_DIV</SIGNAL> - 6v\n<SIGNAL>CHGR_AGATE</SIGNAL> - 0v"
+        },
+        {
+            "post_id": 58529,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-21 09:48:38",
+            "message": "13V at <SIGNAL>PPBUS_G3H</SIGNAL>???\nChange <TRANSISTOR>Q7130</TRANSISTOR>.\nBe sure <CAPACITOR>C7125</CAPACITOR> is good."
+        },
+        {
+            "post_id": 58556,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-21 11:56:25",
+            "message": "i was change..now is 12.5v , i was try to turn on just after few trying it suddenly turn on, i was play with it 2-3 min then turn in off to see if its will turn on again, but nothing! not turn on again!\ni was try before with working full body but the same...its drive me crazy!"
+        },
+        {
+            "post_id": 58564,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-21 13:30:26",
+            "message": "Post basic voltages for power on sequence..."
+        },
+        {
+            "post_id": 58585,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 01:15:02",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> = 12.58v\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.433v\n<SIGNAL>PP5V_S5</SIGNAL> = 5.02v\n<SIGNAL>PP5V_S0</SIGNAL> = 0v\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.344v\n<SIGNAL>PP3V3_S4</SIGNAL> = 0v\n<SIGNAL>PP3V3_S3</SIGNAL> = 0v\n\n<SIGNAL>P3V3S3_EN</SIGNAL> on <CHIP>U8010</CHIP> missing\n\n<SIGNAL>PM_SLP_S4</SIGNAL> L 3.4v for few second then 0v\n\n<SIGNAL>PPVCOMP_S0_CPU</SIGNAL> = 0v"
+        },
+        {
+            "post_id": 58590,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-22 02:47:40",
+            "message": "\"<SIGNAL>PM_SLP_S4</SIGNAL> L 3.4v for few second\"\nCheck all S3 voltages at same time.\n\nAlso check if <SIGNAL>PM_SLP_S3_L</SIGNAL> pulses too."
+        },
+        {
+            "post_id": 58602,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 04:47:19",
+            "message": "<SIGNAL>PM_SLP_S3_L</SIGNAL>  pulses 0v -3.4v.\n<SIGNAL>P5VS3_COMP</SIGNAL> - 2v\n<SIGNAL>P1V8S3_PGOOD</SIGNAL> sometimes 3.4v sometimes 0v \n<SIGNAL>P1V8S3_FB</SIGNAL> - 0.8v"
+        },
+        {
+            "post_id": 58605,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 05:47:05",
+            "message": "the ssd is getting little bit hot(50c)"
+        },
+        {
+            "post_id": 58613,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-22 08:04:04",
+            "message": "If you get all S3 voltages and <SIGNAL>PM_SLP_S3_L</SIGNAL> also goes high (few seconds), check S0 voltages at same time.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> repeatedly and check the reaction on the voltages."
+        },
+        {
+            "post_id": 58619,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 09:28:49",
+            "message": "all s0 in missing...can be?"
+        },
+        {
+            "post_id": 58621,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 09:55:37",
+            "message": "<SIGNAL>PM_SLP_S4</SIGNAL> L - voltage was looped 3.4v-0v...now its stop to apper...\n<SIGNAL>PPV5_S5</SIGNAL> ALSO 5.0V LOOP"
+        },
+        {
+            "post_id": 58622,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-22 10:24:29",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> was pulsing before...\n\nCheck all signals and voltages mentioned in the first page of the thread."
+        },
+        {
+            "post_id": 58629,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 10:55:47",
+            "message": "now its work again(cpu getting hot) for few secounds.\ndead again but <SIGNAL>PM_SLP_S4_L</SIGNAL>  back to life..3.4v stable....i really dont know what to do....it can be some clock that getting crazy?"
+        },
+        {
+            "post_id": 58638,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-22 14:12:05",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> remains high, but board has no video, nor USB activity?\nCheck <SIGNAL>PM_SLP_S3_L</SIGNAL> and all S3/0 voltages..."
+        },
+        {
+            "post_id": 58653,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 23:02:52",
+            "message": "\"<SIGNAL>PM_SLP_S4_L</SIGNAL> remains high, but board has no video, nor USB activity\"\n\nWhen its finally on all work, but he has is own life, every time react different.\nI will check and post.\nThanks"
+        },
+        {
+            "post_id": 58667,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-23 05:36:45",
+            "message": "update...just start work on it again.\n<SIGNAL>PM_SLP_S4_L</SIGNAL> missing again!\n[B]<SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL> - 16.5v looping....?????[/B]\n<SIGNAL>PP5V_S5</SIGNAL> 5v looping.\ns0 all missing\ns3:\n<SIGNAL>PM_SLP_S3_L</SIGNAL> - 3.4v\n<SIGNAL>P5VS3_COMP</SIGNAL>/1 2.0v stable\n<SIGNAL>PPV5_S3_LTUSB_A_ILIM</SIGNAL> - 5v at the bigining and going down\n<SIGNAL>PPV5_S3</SIGNAL> - 5V not stable\n<SIGNAL>P5VS3_EN</SIGNAL> 3.4v\n<SIGNAL>P5VS3_TG</SIGNAL> 5.2v\n<SIGNAL>P5VS3_DRVH</SIGNAL> - 5.2v\n<SIGNAL>PP1V2_S3</SIGNAL> -1.2v\n<SIGNAL>PPVTTDDR_S3</SIGNAL> - 0.6v\n<SIGNAL>P3V3S3_EN</SIGNAL> 3.4v"
+        },
+        {
+            "post_id": 58668,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-23 05:49:25",
+            "message": "\"<SIGNAL>PM_SLP_S3_L</SIGNAL> - 3.4v\"\nAs already said, S0 voltages (controlled by this signal) must appear at same time.\n\nStable <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V42_G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 58671,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-23 06:06:40",
+            "message": "suddenly <SIGNAL>PM_SLP_S4_L</SIGNAL> apper again 3.4v stable\n<SIGNAL>PPBUS_3GH</SIGNAL> - 12.5V stable\n<SIGNAL>3V42_G3H</SIGNAL> - 3.4V stable\nS0:\n<SIGNAL>PP3V3_S0</SIGNAL> 3.4V\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> 1.1V\n[B]<SIGNAL>P1V05S0_VBST</SIGNAL> 6.1V[/B]\n<SIGNAL>P1V05S0_DRVH</SIGNAL> 1.0V\n<SIGNAL>P1V05_S0</SIGNAL> 1.1V\n<SIGNAL>P1V05S0_VVTREF</SIGNAL> 0.5V\n\ntake out the charger and connect it again \n<SIGNAL>PM_SLP_S4_L</SIGNAL> 0v \n<SIGNAL>PM_SLP_S3_L</SIGNAL> - 0v"
+        },
+        {
+            "post_id": 58682,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-23 07:43:20",
+            "message": "if i play with connect and disconnect the charger the <SIGNAL>PM_SLP_S4_L</SIGNAL> apper not apper, or if its connecting after few min its appear...\n<SIGNAL>PPBUS_3GH</SIGNAL> and <SIGNAL>3V42_G3H</SIGNAL> appear every time."
+        },
+        {
+            "post_id": 58684,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-23 08:20:12",
+            "message": "You have correct 1V05 voltage.\nWhy are you surprised for its boost voltage???\nShould be 5v higher, exactly what you've got.\n\nDo you use original Magsafe 2 60/85W charger for sure?\nIs <SIGNAL>PM_BATLOW_L</SIGNAL> steady high?"
+        },
+        {
+            "post_id": 58689,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-23 09:34:17",
+            "message": "<SIGNAL>PM_BATLOW_L</SIGNAL>:\nwhen <SIGNAL>PM_SLP_S4_L</SIGNAL> 3.4v  its 1.1v \n0v when <SIGNAL>PM_SLP_S4_L</SIGNAL> is missing\n\nDo you use original Magsafe 2 60/85W charger for sure?\nyes"
+        },
+        {
+            "post_id": 58690,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-23 09:51:57",
+            "message": "<SIGNAL>PM_BATLOW_L</SIGNAL> should be steady high.\nReball SMC.\n\nAlso check <SIGNAL>SMC_BC_ACOK</SIGNAL>.\nFirst, see if board starts with both battery and charger connected."
+        },
+        {
+            "post_id": 58723,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-24 03:46:02",
+            "message": "update..i was reball SMC after i was connect just the charger the fan start immediately (maybe the reball heat) i then connect it to the board but nothing! still dead..\nagain <SIGNAL>PM_SLP_S3</SIGNAL> sometime 3.4v and sometime missing...\n<SIGNAL>SMC_BC_ACOK</SIGNAL> 0v when <SIGNAL>PM_SLP_S3</SIGNAL> IS 0V and when its 3.4v the <SIGNAL>SMC_BC_ACOK</SIGNAL> is 5.2v"
+        },
+        {
+            "post_id": 58725,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-24 04:48:17",
+            "message": "\"<SIGNAL>SMC_BC_ACOK</SIGNAL> is 5.2v\"\nAre you sure???\n\n<SIGNAL>CHGR_ACIN</SIGNAL> stable 4V aprox?\nIf yes, change <CHIP>U7100</CHIP>.\nIf not, check if <SIGNAL>CHGR_DCIN</SIGNAL> is stable."
+        },
+        {
+            "post_id": 58735,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-24 05:47:23",
+            "message": "my mistake: \n <SIGNAL>PM_SLP_S3</SIGNAL>  0v - <SIGNAL>SMC_BC_ACOK</SIGNAL> 3.4v\n<SIGNAL>PM_SLP_S3</SIGNAL> 3.4v - <SIGNAL>SMC_BC_ACOK</SIGNAL> 3.4v\n<SIGNAL>CHGR_ACIN</SIGNAL> 3.9v when <SIGNAL>PM_SLP_S3</SIGNAL> is 3.4v\nchange <CHIP>U7100</CHIP>?\n\n???????"
+        },
+        {
+            "post_id": 58736,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-24 06:02:26",
+            "message": "i didnt do nothing but now board dead...no green/orang light..ppbus 3gh 0.5v"
+        },
+        {
+            "post_id": 58743,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-24 08:31:42",
+            "message": "\"<SIGNAL>CHGR_ACIN</SIGNAL> 3.9v\"\nAlways???\nShould be if, <SIGNAL>SMC_BC_ACOK</SIGNAL> is always high (3.4V).\n\n\"ppbus 3gh 0.5v\"\nNow post diode mode to ground at <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V42_G3H</SIGNAL>.\n\nDid you make some short between <CHIP>U7100</CHIP> pins?\nAlways try to use pins of surrounding components, when you want to measure voltage on a QFN chip..."
+        },
+        {
+            "post_id": 58810,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-27 00:40:49",
+            "message": "\"Now post diode mode to ground at..\" no charger connected\n<SIGNAL>PPBUS_G3H</SIGNAL> - 1900+\n<SIGNAL>3V42_G3H</SIGNAL> - 1900+\nchange <CHIP>U7100</CHIP> with new one...\nstill PPBUS 0.5V"
+        },
+        {
+            "post_id": 58811,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-27 02:47:31",
+            "message": "Do you get 3V42 at least?\n\nPost basic <CHIP>U7100</CHIP> voltages; pins 1, 2, 3, 9, 12, 13, 14, 15, 19, 20, 28."
+        },
+        {
+            "post_id": 58833,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-27 09:10:20",
+            "message": "3v42 3.4v\npins:\n1. 15v up and down\n2. 0.5v\n3. 0v\n9. 1.8v\n12. 3.4v\n13. 3.4v\n14. 0v\n15. 0v\n19. 0v\n20. 0v\n28. 15.4v"
+        },
+        {
+            "post_id": 58834,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-27 11:13:19",
+            "message": "\"2. 0.5v\"\nCheck diode mode too.\n\nPost D/<RESISTOR>R7105</RESISTOR> voltages."
+        },
+        {
+            "post_id": 58861,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-28 05:26:46",
+            "message": "<DIODE>D7105</DIODE> DIDN'T SIT WELL SO NOW...\n<DIODE>D7105</DIODE> 16.5V\n<RESISTOR>R7105</RESISTOR> 1-16.5V 2-2.1V\n1. 15v up and down\n[B]2.2.1v diode mode no charge (600)[/B]\n3. 0v\n9. 0v\n12. 3.4v\n13. 3.4v\n14. 0v\n15. 0v\n19. 0.9v\n20. 1.2v\n28. 15.4v"
+        },
+        {
+            "post_id": 58863,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-28 06:23:45",
+            "message": "\"<RESISTOR>R7105</RESISTOR> 1-16.5V 2-2.1V\"\nBurnt, change it.\n\nDon't forget to check diode mode to ground at pin 2/<CHIP>U7100</CHIP>; BEFORE applying power to the board.\nIf too low (as supposed), change <CHIP>U7100</CHIP>.\nJust in case, remove and check <CAPACITOR>C7105</CAPACITOR> first."
+        },
+        {
+            "post_id": 58936,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-30 03:20:33",
+            "message": "we back to business..orange light back ppbus is on!\nchack again:\n<SIGNAL>PM_SLP_S3</SIGNAL> 3.3v - <SIGNAL>SMC_BC_ACOK</SIGNAL> 3.4v\n<SIGNAL>CHGR_ACIN</SIGNAL> 3.9v \ni was just changed <CHIP>U7100</CHIP>/<RESISTOR>R7105</RESISTOR>/<CAPACITOR>C7105</CAPACITOR>"
+        },
+        {
+            "post_id": 58942,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-30 03:36:58",
+            "message": "Which is the state of board now?"
+        },
+        {
+            "post_id": 58948,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-30 03:54:59",
+            "message": "orange light and dead...(i hope i was understand your question)"
+        },
+        {
+            "post_id": 58951,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-30 04:01:08",
+            "message": "\"<SIGNAL>PM_SLP_S3</SIGNAL> 3.3v\"\nThat means the board turns on, but not working.\nPost now voltages on all big coils."
+        },
+        {
+            "post_id": 58952,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-30 04:12:32",
+            "message": "PP15V__TBT missing \nall other is fine"
+        },
+        {
+            "post_id": 58980,
+            "thread_id": 58066,
+            "title": "macbook pro <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-a dead green and orange light on,no fan.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-30 10:04:51",
+            "message": "TBT volyage not interesting, unless you connect aThunderbolt device.\n\nSo you get VCORE and all voltages from pages 61/63?\n<SIGNAL>PLT_RESET_L</SIGNAL> is high?"
+        }
+    ]
+}

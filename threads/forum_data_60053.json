@@ -1,0 +1,98 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PPVOUT_S0_LCDBKLT": "What is PPVOUT_S0_LCDBKLT? PPVOUT_S0_LCDBKLT is a power rail that powers the LED light in the screen of the device that allows you to see what is on the screen. When this is low or missing, the screen will be dim..",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "PPBUS_SW_LCDBKLT_PWR": "What is PPBUS_SW_LCDBKLT_PWR? PPBUS_SW_LCDBKLT_PWR is PPBUS_G3H after it has passed through a backlight fuse and a transistor that allows power through when BKLT_PLT_RST_L and LCD_BKLT_EN are present. .",
+        "PPBUS_S0_LCDBKLT_FUSED": "What is PPBUS_S0_LCDBKLT_FUSED? a SIGNAL.",
+        "PPBUS_SW_BKL": "What is PPBUS_SW_BKL? a SIGNAL.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "LCD_BKLT_EN": "What is LCD_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “LCD_BKLT” which stands for “LCD screen backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "R7701": "What is R7701? a RESISTOR.",
+        "BKLT_SDA": "What is BKLT_SDA? BKLT_SDA is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground."
+    },
+    "threads": [
+        {
+            "post_id": 65510,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-09-23 00:33:13",
+            "message": "HI All\n\n<SIGNAL>PPVOUT_S0_LCDBKLT</SIGNAL> - 1.3mv\n<SIGNAL>PPBUS_S0_LCDBKLT_FUSED</SIGNAL> - 12.86v\n<SIGNAL>LCDBKLT_EN_L</SIGNAL> - 12.72v\n<SIGNAL>PPBUS_SW_LCDBKLT_PWR</SIGNAL> - 12.87v\n<SIGNAL>PPBUS_SW_BKL</SIGNAL> - 12.6mv\n\nIs my <TRANSISTOR>Q7706</TRANSISTOR> bad or should <SIGNAL>LCDBKLT_EN_L</SIGNAL>  be a low / 0 voltage?\n\nCheers,\n\nJames"
+        },
+        {
+            "post_id": 65522,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-23 01:47:12",
+            "message": "The \"_L\" denotes an active low signal.\nSo yes, should be low value there; created by <RESISTOR>R7701</RESISTOR>/02 divider.\nIn fact, you should test <SIGNAL>LCD_BKLT_EN</SIGNAL> first.\nIf OK, then check voltage and diode mode at SCL/SDA kines.\n\nDo you get image at least?\nDid you try another (compatible) screen?"
+        },
+        {
+            "post_id": 65578,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-09-23 20:11:18",
+            "message": "As far as I know the screen works. \n\n<SIGNAL>LCD_BKLT_EN</SIGNAL>  3.5v\nSCL - 4.5 - 3.2v pulsing around ?? \n<SIGNAL>BKLT_SDA</SIGNAL> - 4.5 - 3.2v pulsing around ?? \n\nI may be doing it wrong but I get a value of 0 for diode mode to ground on both SCL and SDA"
+        },
+        {
+            "post_id": 65591,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-24 02:00:14",
+            "message": "I hope you didn't check diode mode with power applied.\nYou cannot get voltage on SCL/SDA lines if really have short on diode mode..."
+        },
+        {
+            "post_id": 65607,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-09-24 03:12:13",
+            "message": "Power and battery both disconnected before I changed mode. \n\nRed on the Component End, Black on Ground...\n\nI will have another go tomorrow."
+        },
+        {
+            "post_id": 65613,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-24 03:42:27",
+            "message": "Check always diode mode with red probe connected to ground; sometime need to read viceversa too.\nAnd wait 10-15s after power is removed..."
+        },
+        {
+            "post_id": 65746,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-09-27 18:12:14",
+            "message": "HI,\n\nThanks for the info. Red to ground!\n\n0.466 on both SCL and SDA."
+        },
+        {
+            "post_id": 65749,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-28 00:44:09",
+            "message": "As <SIGNAL>LCD_BKLT_EN</SIGNAL> is good, you should have a bad communication through I2C bus; directly connected to LCD.\nIs the only reason for high level at <SIGNAL>BKLT_SD</SIGNAL>.\n\nI still recommend to try another compatible LCD assembly..."
+        },
+        {
+            "post_id": 65754,
+            "thread_id": 60053,
+            "title": "820-000426 - no backlight",
+            "user_id": 1057,
+            "username": "piernov",
+            "post_date": "2020-09-28 01:37:01",
+            "message": "Confirm no short to ground on backlight output and resistance between pins 9&10 of LED driver is (close to) 0.025 as well."
+        }
+    ]
+}

@@ -1,0 +1,145 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00687": "What is 820-00687? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PP3V3R3V0_AON": "What is PP3V3R3V0_AON? PP3V3R3V0_AON is the first power rail you need to get a USB-C charger to go from 5v to 20v on an A1534 Macbook with an 820-00045 board..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "P_IN": "What is P_IN? a SIGNAL.",
+        "VR_AON": "What is VR_AON? a SIGNAL.",
+        "POWER_GATE_EN": "What is POWER_GATE_EN? a SIGNAL.",
+        "XA_LDO": "What is XA_LDO? a SIGNAL.",
+        "3VXA_LDO": "What is 3VXA_LDO? a SIGNAL.",
+        "LDO_BMC": "What is LDO_BMC? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 97060,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 40599,
+            "username": "tech-fix",
+            "post_date": "2023-02-27 10:02:48",
+            "message": "Hi.\n\nso short story, battery health was @ 55% capacity. before strip down the macbook would work, charge at 20v and didn't really appear to have any other issues. swapped battery and now taking no charge. was originally 5v 120 ma. after NVram and PRAM reset it went down to 38ma @ 5v. iv tried the original battery and same issue. i've checked all connections and all looks to be fine.\n\nNot sure what else to do. there is no damage or liquid anywhere on the board so a little lost as to why now after a battery change it no longer works.\n\nthanks"
+        },
+        {
+            "post_id": 97061,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-02-27 12:06:06",
+            "message": "What is actual <SIGNAL>PPBUS_G3H</SIGNAL> voltage?\nAlso check <SIGNAL>3V3_G3H</SIGNAL> (L6995)."
+        },
+        {
+            "post_id": 97072,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 40599,
+            "username": "tech-fix",
+            "post_date": "2023-02-27 16:17:23",
+            "message": "On further investigation found <SIGNAL>PP3V3R3V0_AON</SIGNAL> to be shorted to ground @4 ohms. removed <CHIP>CD3215</CHIP> and short has gone. Will order another and fit. Would a loose fitting usb port cause this? every cable seems slightly loose when fitting. Just weird why its failed for no apparent reason. \n\n\ncheers"
+        },
+        {
+            "post_id": 97078,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-02-28 00:23:52",
+            "message": "Not sure if caused by that, but must be sure to avoid such issue in the future.\nIf VBUS pins touch another pins on the connector, <CHIP>CD3215</CHIP>, or CPU can be fried."
+        },
+        {
+            "post_id": 97084,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 40599,
+            "username": "tech-fix",
+            "post_date": "2023-02-28 01:34:16",
+            "message": "which connector are we talking about to be careful of?"
+        },
+        {
+            "post_id": 97087,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-02-28 03:22:47",
+            "message": "ANY, and especially USB-C which have mentioned VBUS pins!"
+        },
+        {
+            "post_id": 97110,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 40599,
+            "username": "tech-fix",
+            "post_date": "2023-03-01 04:06:53",
+            "message": "ok thanks. ive replaced the <CHIP>CD3215</CHIP> and short is no longer there. am getting 3v3 on  <SIGNAL>PP3V3R3V0_AON</SIGNAL> however charger is still stuck at 5v 22ma this time.\nChecking <SIGNAL>PPBUS_G3H</SIGNAL> im getting -0.134v, on diode mode im getting 0.405v. resistance to ground is ~265kohms. checked <SIGNAL>3V3_G3H</SIGNAL> (L6995) and no shorts and getting 0v.\nWhat else am i missing? or possibly a faulty <CHIP>CD3215</CHIP>? Thanks"
+        },
+        {
+            "post_id": 97112,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-01 04:51:03",
+            "message": "Post <CHIP>U7000</CHIP> basic voltages; <SIGNAL>P_IN</SIGNAL>, <SIGNAL>VR_AON</SIGNAL>, VDDA/P, <SIGNAL>POWER_GATE_EN</SIGNAL>, ACIN, ACOK.\nBe sure to get all LDOs on <CHIP>CD3215</CHIP> chip."
+        },
+        {
+            "post_id": 97114,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 40599,
+            "username": "tech-fix",
+            "post_date": "2023-03-01 07:45:38",
+            "message": "Hi. here are  voltages.\n<CHIP>U7000</CHIP>:\n<SIGNAL>P_IN</SIGNAL> = 5V\n<SIGNAL>VR_AON</SIGNAL> = 3.31V\nVDDA = 4.82V\nVDDP = 4.89V\n<SIGNAL>POWER_GATE_EN</SIGNAL> = 3.27V\nACIN = 1.26\nACOK = 0V\n\n<CHIP>CD3215</CHIP> LDO's\n\nBOTH <SIGNAL>XA_LDO</SIGNAL> = 1.8V\n3.<SIGNAL>3VXA_LDO</SIGNAL> = 3.27V"
+        },
+        {
+            "post_id": 97120,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-01 11:43:13",
+            "message": "What about 1V1 LDO (<SIGNAL>LDO_BMC</SIGNAL>)?\nIt is very important..."
+        },
+        {
+            "post_id": 97126,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 40599,
+            "username": "tech-fix",
+            "post_date": "2023-03-02 01:24:04",
+            "message": "Sorry missed that one. thats reading 1.13v"
+        },
+        {
+            "post_id": 97137,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-02 05:02:34",
+            "message": "Then change <CHIP>U7000</CHIP>..."
+        },
+        {
+            "post_id": 97140,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 40599,
+            "username": "tech-fix",
+            "post_date": "2023-03-02 06:09:40",
+            "message": "guessing it will have to be a pulled one due to them being programmed? Thanks"
+        },
+        {
+            "post_id": 97148,
+            "thread_id": 63646,
+            "title": "<LOGIC BOARD PART NUMBER>820-00687</LOGIC BOARD PART NUMBER> doesn't do anything after battery change.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-02 12:54:46",
+            "message": "You can't find it as new.\nGet a scrap board..."
+        }
+    ]
+}

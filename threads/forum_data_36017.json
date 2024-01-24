@@ -1,0 +1,315 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "ADDAPTER_SENSE": "What is ADDAPTER_SENSE? This is a typo of ADAPTER_SENSE When you see ADDAPTER_SENSE, assume they meant to type ADAPTER_SENSE.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U7001": "What is U7001? a CHIP.",
+        "R5187": "What is R5187? a RESISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "A1502": "What is A1502? A1502 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2014, Late 2013, Early 2015 with EMC 2875, that may contain one of these boards depending on the year & configuration: 820-3476, 820-3536, 820-4924.."
+    },
+    "threads": [
+        {
+            "post_id": 36017,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-21 07:23:30",
+            "message": "Hello all,\nReceived this one and it would not boot past the apple logo. Well, it seemed like it would loose power or reset just a second after the apple showed up. So, with no physical damage on the motherboard, i took a stab at the bios. Pulled it off and stuck another on. It ended up booting up, so I copied the original bios to another and stuck it on there.\n\nBoots up fine ever time, but - now it believes there is a magsafe always connecetd\n- with magsafe conneced\n- without magsafe connected\n- with dcin board unplugged from the board\n\n<SIGNAL>ADDAPTER_SENSE</SIGNAL> always has 3.4v on it when the battery is connected.\n\nI have preformed a SMC reset, PRAM reset, and replaced <CHIP>U7000</CHIP> with no change.\n\nWould the SMC be the next step?\n\nThanks all and have a great day!"
+        },
+        {
+            "post_id": 36036,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-21 13:44:08",
+            "message": "That means ACOK is being held high by something. Check if that really is the case and check J6100 for corrosion."
+        },
+        {
+            "post_id": 36048,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-21 17:12:48",
+            "message": "Ahhh, that makes more sense... So, Ill check that out tomorrow when I get into the shop. J6100 looked good from what I remember. I didn't see any sorts of liquid damage and I did go over the board 3 times or so, because I was at a loss. Jtag or similar looking connectors are normally ones i investigate first.\n\nSo, if not J6100. I should check out\n<RESISTOR>R5187</RESISTOR>\nReplace <CHIP>U7100</CHIP>\n<CHIP>U7001</CHIP>\nand if i get that far and still no luck it would be the SMC?"
+        },
+        {
+            "post_id": 36058,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-22 09:20:01",
+            "message": "So, seems I have a 20ohm short between <SIGNAL>PPBUS_G3H</SIGNAL> and acok. That was with <RESISTOR>R5187</RESISTOR> removed. I replaced <CHIP>U7001</CHIP> and its still there.\nCauses could be could be\n<CHIP>U7100</CHIP> or the SMC at this point, Correct? As they both have a path to g3h. Most likely though, it would be <CHIP>U7100</CHIP>?"
+        },
+        {
+            "post_id": 36059,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-22 09:39:50",
+            "message": "Update. I have now removed <CHIP>U7100</CHIP>, <CHIP>U7001</CHIP> and <RESISTOR>R5187</RESISTOR> and the 20ohm short is still there.\nBefore I pull the SMC i want to see if you have any ideas. Also, yes, J6100 has no corrosion. ACOK is being held high."
+        },
+        {
+            "post_id": 36065,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-22 13:42:45",
+            "message": "A pull up to PPBUS would cause 12V on ACOK...weird. As the SMC has no connection to PPBUS I suspect the short will be inside the board. But SMC is the last component so pull it."
+        },
+        {
+            "post_id": 36068,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-22 15:04:07",
+            "message": "well, i sure messed that one up. I guess before my coffee. I said <SIGNAL>PPBUS_G3H</SIGNAL> but i meant <SIGNAL>PP3V42_G3H</SIGNAL>. I have a 20ohm short between <SIGNAL>PP3V42_G3H</SIGNAL> and <SIGNAL>SMC_BC_ACOK</SIGNAL>. Still pull the smc?"
+        },
+        {
+            "post_id": 36076,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-23 05:53:15",
+            "message": "Well yeah that could very well be the SMC then. There is nothing else left on this line."
+        },
+        {
+            "post_id": 36325,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-28 11:18:47",
+            "message": "SMC swapped out and now the ACOK is working fine. How odd.\n\nAnother random thing, The system reports that its SN is Not Available. What is that related to? It is running High Sierra"
+        },
+        {
+            "post_id": 36336,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-28 14:29:00",
+            "message": "Was <CHIP>U6100</CHIP> messed with? Read the dump, upload it, give serial if you want it fixed."
+        },
+        {
+            "post_id": 36365,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-28 19:47:44",
+            "message": "I did replace <CHIP>U6100</CHIP> - but I copied the old one to the new one. I'll upload it tomorrow - or I guess I could stick the original one back on?\nNow my question would be, why did my copy and verify not go how it was supposed to?"
+        },
+        {
+            "post_id": 36373,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-29 07:09:42",
+            "message": "Here is the original dump I got. The system Serial is C02N55EYG3QH.\n\nAs a side note, why can I not upload the .bin using the Upload Attachments?"
+        },
+        {
+            "post_id": 36392,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-29 18:25:48",
+            "message": "I'll do a BIOS tomorrow, poke me if I forget."
+        },
+        {
+            "post_id": 36400,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-29 19:13:24",
+            "message": "Alright! Thanks. If there is a good PM system here, could you point me in the right direction to modify certain parameters in the bios for the future? I have migrated the ME region before, if that's what it's correctly called, and this is the 2nd MacBook pro hat I've come across with no serial number in the os"
+        },
+        {
+            "post_id": 36416,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-30 10:11:11",
+            "message": "Fixed file:\n\n[url]https://drive.google.com/open?id=1Bu7XXyAwmo8YRTQoessO48JMvPhx7f5S[/url]"
+        },
+        {
+            "post_id": 36431,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-30 13:51:18",
+            "message": "Thanks Duke!\nSo, i wrote this bios, installed it and am getting a problem detecting the ssd (blinking folder icon)\n\nI just installed the original bios chip with its programming (the dump i sent) and it boots up fine.\n\nCan a bad bios value cause no ssd recognition? (i did not try a bootable disk to see if under disk manager it was recognized)"
+        },
+        {
+            "post_id": 36443,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-30 17:01:51",
+            "message": "Probably APFS problem only with 10.12/13. My BIOS is not APFS updated yet. Reinstall 10.13 over the existing install and it will update the EFI. Or if you don't want to take any risks install 10.11 on another SSD and then update that to 10.13. The old SSD should then work again."
+        },
+        {
+            "post_id": 36455,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-06-30 21:00:47",
+            "message": "Would installing to an external USB ssd work for this?"
+        },
+        {
+            "post_id": 36466,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-01 09:03:17",
+            "message": "Dunno if it will run the EFI update from USB."
+        },
+        {
+            "post_id": 36479,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-07-01 18:24:29",
+            "message": "I just I could make a time machine backup - they need their data data on this one, and it's already made me nervous a few times. Then try the reinstall"
+        },
+        {
+            "post_id": 36536,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-03 14:36:43",
+            "message": "That would work too of course. As long as you start out with 10.11 and update to the latest it will work. Maybe you can do it directly if you boot it from the internet recovery, never tried that."
+        },
+        {
+            "post_id": 36581,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2018-07-04 03:43:09",
+            "message": "You can also force flash the EFI update. That way you save a lot of time with installations, updates and backups"
+        },
+        {
+            "post_id": 36585,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-04 03:49:19",
+            "message": "There is no separate EFI updates for APFS support unless you have spent the time digging them out of a 10.12/13 installation package. Please link me to the update if you have it."
+        },
+        {
+            "post_id": 36588,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2018-07-04 04:47:02",
+            "message": "I spent the time already. Here are 10.13.5 EFI payloads. I am also using these for cleaning ME etc.\n\nJust put them on a USB installer and run from Terminal:\n\nbless -mount / -firmware \"/EFIPayloads/\" --recovery -verbose\nshutdown -r now\n\n[URL=\"https://drive.google.com/file/d/1GBFxzeiy_Dw5R4GhreUGyjFBQkkabFER/view?usp=sharing\"]https://drive.google.com/file/d/1GBF...ew?usp=sharing[/URL]\n\nDo you also want the SMC Payloads and JSONs ??"
+        },
+        {
+            "post_id": 36591,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-04 05:12:29",
+            "message": "Thanks for that! Saves some times installing 10.13 after board swaps and BIOS fixes."
+        },
+        {
+            "post_id": 36594,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2018-07-04 05:50:44",
+            "message": "Your welcome. Saves a lot of time in the long run :-)\n\nEspecially in cases like this particular one that only need APFS support activated.\n\nI know Duke (and several others in here) knows what to do. But to other people that want to play around with these files - be aware! Use the correct file for the specific machine or else you're going to waste the time which was meant to be saved :-)"
+        },
+        {
+            "post_id": 36598,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2018-07-04 08:16:29",
+            "message": "I just updated the archive to include a newer MacPro5.1 ROM. Can also be used on 2009 Mac Pro to enable High Sierra and APFS support\n\n[url]https://drive.google.com/file/d/1smJIFatFgHetb9BUoRnF7hd-1EQmm5AC/view?usp=sharing[/url]"
+        },
+        {
+            "post_id": 36599,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2018-07-04 08:25:51",
+            "message": "Thank you for this! This will help save a lot of time...getting tired of constantly wiping SSDs and re-downloading stress tests and whatnot. Thank you so much!"
+        },
+        {
+            "post_id": 36600,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2018-07-04 08:33:54",
+            "message": "Just happy to help...\n\nRemember you can also use this command to clean the ME :-)"
+        },
+        {
+            "post_id": 36601,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2018-07-04 08:45:04",
+            "message": "Yeah I've been doing forced-updates for years (you may have even been the one that showed me how several years back on AR forums!), but didn't have files for the 2015+ models, so only for <2014. This will help with the newer stuff, too, and also really aid in cleaning some of those pesky ME regions. Starting in 2015, they seem to be much more finicky, and even good files from one board sometimes don't work on another (I mean, no chime, nothing). Helps to have the actual file and then force-update like this; so thank you again! This is also key to fixing a lot of the iSight issues on 3435/3437 boards that get killed from cleaning ME, etc.\n\nThis reminds me of a question, actually, and you might be able to help! On boards that have a new (newest?) version of EFI update, you get an error when trying to force-update just to clean ME region, which I imagine is because you can't force an update if it detects the newest version (or same version as the one you're trying to force). You also can't force-update to an older version; usually I have to pull the chip, manually write an older version, then force update to current version again. My question is: Is there a way around this? Is there any way to force it to update regardless if the present EFI version is current? In the event of a suspected damaged ME region, etc. Would sure save time in those cases.\n\nSo for this situation, for example: 2015 <MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> with confirmed damaged ME, but also most-current firmware version; either clean ME or load from another board to allow boot, but might cause ME-related issues as expected sometimes, so need to update to \"fix\", just in case; load up USB with scap folder, force-update via terminal, but get error because the current version matches the one you're attempting to force-update to board. Now what? Take hours trying to find an older version that will actually work, then proceed to update (current procedure), or some terminal command that will force the update regardless of the version present? Does this make sense?"
+        },
+        {
+            "post_id": 36602,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 145,
+            "username": "Sykulski",
+            "post_date": "2018-07-04 08:48:45",
+            "message": "sjword I assume :-)\n\nAlways suspected it was you... or am I wrong ??"
+        },
+        {
+            "post_id": 36603,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2018-07-04 08:55:26",
+            "message": "It's me! You have saved me so much time the past few years; can you send me a PM? I want to get your contact for some specific questions I've had. I just edited my previous post (page 2) to address one I've been curious about. :)"
+        },
+        {
+            "post_id": 36857,
+            "thread_id": 36017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> - Always thinks magsafe adapter is connected",
+            "user_id": 906,
+            "username": "Joesipaq",
+            "post_date": "2018-07-10 06:27:07",
+            "message": "HA! i just came back here. Finally go the new bios to work, wiped the ssd, installed el capitan, and went through the update to high sierra... guess email notifications for post arn't working that well for me...."
+        }
+    ]
+}

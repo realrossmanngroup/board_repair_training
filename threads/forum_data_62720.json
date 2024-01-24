@@ -1,0 +1,94 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00928": "What is 820-00928? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U6500": "What is U6500? a CHIP.",
+        "U6550": "What is U6550? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMBUS_SMC_5_G3H_SCL": "What is SMBUS_SMC_5_G3H_SCL? a SIGNAL.",
+        "SMBUS_SMC_5_G3H_SDA": "What is SMBUS_SMC_5_G3H_SDA? a SIGNAL.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7040": "What is Q7040? a TRANSISTOR.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "U3100": "What is U3100? a CHIP.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "C7023": "What is C7023? a CAPACITOR.",
+        "R7022": "What is R7022? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging.."
+    },
+    "threads": [
+        {
+            "post_id": 89532,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 31847,
+            "username": "MacByte_Repair_",
+            "post_date": "2022-05-24 13:22:13",
+            "message": "Hello, I have an <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>. Board came in initially with corrosion on <CHIP>U6500</CHIP> and <CHIP>U6550</CHIP>. Replaced those, have replaced <CHIP>U7000</CHIP> and <TRANSISTOR>Q7030</TRANSISTOR>, and <TRANSISTOR>Q7040</TRANSISTOR> (due to <SIGNAL>PPBUS_G3H</SIGNAL> low). No shorts on <SIGNAL>PPBUS_G3H</SIGNAL>.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> is 0.75 V and slowly increases. It's weird because it will keep increasing if I leave the probes on the board.\n\n<SIGNAL>SMBUS_SMC_5_G3H_SDA</SIGNAL>-3.29V\n\n<SIGNAL>SMBUS_SMC_5_G3H_SCL</SIGNAL> - 3.27V\n\nI have measured all inputs to <CHIP>U7000</CHIP> and they all seem to be the correct voltages. I'm running out of ideas."
+        },
+        {
+            "post_id": 89536,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-24 14:53:42",
+            "message": "Post <SIGNAL>3V3_G3H</SIGNAL> (L6900) and <RESISTOR>R7020</RESISTOR> voltage."
+        },
+        {
+            "post_id": 89552,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 31847,
+            "username": "MacByte_Repair_",
+            "post_date": "2022-05-25 21:59:11",
+            "message": "Board was 20v 0A but like an idiot I accidentally shorted to a nearby cap by pin 1 of L6900(I believe it was PPDCIN) Board is now 5V 0.145A, so I guess back to the boardview tomorrow. Just posting what you asked.\n\nL6900 on both sides 0V( was 0 as well before shorting)\n\n<RESISTOR>R7020</RESISTOR> 0.08V after short, which is probably my current problem. Unsure of value before short."
+        },
+        {
+            "post_id": 89554,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-26 01:01:04",
+            "message": "You couldn't get 20V on USB-C input, without <SIGNAL>3V3_G3H</SIGNAL> (L6900); unless use a fake charger."
+        },
+        {
+            "post_id": 89576,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 31847,
+            "username": "MacByte_Repair_",
+            "post_date": "2022-05-26 14:22:45",
+            "message": "I had 1.3 Ohms to ground on <SIGNAL>PP3V3_G3H</SIGNAL>. I ended up replacing UB300, UB400, and <CHIP>U3100</CHIP>. I now have 3.41V on L6900 with each port. I am currently stuck at 5V 0A, not looping on all four ports. I measure resistance as 11 kilohms to ground on <SIGNAL>PP3V3_G3H</SIGNAL>. I believe this is normal?"
+        },
+        {
+            "post_id": 89577,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 31847,
+            "username": "MacByte_Repair_",
+            "post_date": "2022-05-26 14:25:19",
+            "message": "<RESISTOR>R7020</RESISTOR> I have 5V on Pins 1, 2, and 4. Pin 3 is 1.13V. Going to investigate there."
+        },
+        {
+            "post_id": 89578,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-05-26 15:05:45",
+            "message": "Exact ohm resistance over <CAPACITOR>C7023</CAPACITOR>?"
+        },
+        {
+            "post_id": 89579,
+            "thread_id": 62720,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER>, 20V 0a",
+            "user_id": 31847,
+            "username": "MacByte_Repair_",
+            "post_date": "2022-05-26 15:30:54",
+            "message": "2.4 Ohms, replaced <RESISTOR>R7022</RESISTOR> as it was OL."
+        }
+    ]
+}

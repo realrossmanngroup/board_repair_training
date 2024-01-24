@@ -1,0 +1,650 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2879": "What is 820-2879? a LOGIC BOARD PART NUMBER.",
+        "U6901": "What is U6901? a CHIP.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "C6908": "What is C6908? a CAPACITOR.",
+        "ADAPTER_SENSE": "What is ADAPTER_SENSE? This is a line between the onewire circuit and the magsafe charger where the magsafe charger can talk to the SMC(system management controller) on the SYS_ONEWIRE line..",
+        "U6900": "What is U6900? a CHIP.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACOK": "What is CHGR_ACOK? This is identical to SMC_BC_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "C7021": "What is C7021? a CAPACITOR.",
+        "C7022": "What is C7022? a CAPACITOR.",
+        "Q7085": "What is Q7085? a TRANSISTOR.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_CSI_N": "What is CHGR_CSI_N? CHGR_CSI_N is one of the current sense lines for the charger. Resistance between CHGR_CSI_N and CHGR_CSI_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_CSI_P": "What is CHGR_CSI_P? CHGR_CSI_P is one of the current sense lines for the charger. Resistance between CHGR_CSI_P and CHGR_CSI_N should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "PP3V3_S5_REG": "What is PP3V3_S5_REG? PP3V3_S5_REG is a 3.3v power rail present when the machine is in an S5 soft off state. .",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7035": "What is Q7035? a TRANSISTOR.",
+        "U7200": "What is U7200? a CHIP.",
+        "U7840": "What is U7840? a CHIP.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "Q7221": "What is Q7221? a TRANSISTOR.",
+        "PP5V_S5_LDO": "What is PP5V_S5_LDO? PP5V_S5_LDO is a 5v rail present when the machine is in a S5 soft off state. ."
+    },
+    "threads": [
+        {
+            "post_id": 448,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-26 13:26:06",
+            "message": "So I have <SIGNAL>PP3V42_G3H</SIGNAL> on the one wire circuit coming through pin 1 of <CAPACITOR>C6908</CAPACITOR> and other areas. How do I know if i have a bad <CHIP>U6901</CHIP> vs a bad via?"
+        },
+        {
+            "post_id": 451,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-03-26 13:35:56",
+            "message": "Got 3v on <SIGNAL>ADAPTER_SENSE</SIGNAL>? Have you tried another magsafe board?"
+        },
+        {
+            "post_id": 458,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-26 15:34:08",
+            "message": "No 3v on adapter sense, tried a known good magsafe"
+        },
+        {
+            "post_id": 461,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-26 16:22:27",
+            "message": "In diode mode i have .545v on pin 4 of <CHIP>U6901</CHIP>"
+        },
+        {
+            "post_id": 469,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-03-26 17:35:54",
+            "message": "Is there 3V on pin 1 and 4 of <CHIP>U6900</CHIP>?"
+        },
+        {
+            "post_id": 480,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-26 21:30:21",
+            "message": "No, its not getting through"
+        },
+        {
+            "post_id": 481,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-03-26 21:40:08",
+            "message": "<CHIP>U6901</CHIP> Pin 1 and 2 should have 3.3v from <SIGNAL>SMC_BC_ACOK</SIGNAL>, this voltage cames from <SIGNAL>CHGR_ACOK</SIGNAL> pin 14 of <CHIP>U7000</CHIP>"
+        },
+        {
+            "post_id": 493,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-27 07:28:07",
+            "message": "I uploaded a few pictures from a diagram to try and make this make more sense. This was hastily put together at 2 AM in MS paint while half asleep, so try not to make fun too badly..\n\nedit, pievce of shit cut out half of my pdf. let me fix this"
+        },
+        {
+            "post_id": 495,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-27 07:40:14",
+            "message": "I uploaded a few pictures from a diagram to try and make this more obvious. This was hastily put together at 2 AM in MS paint, so try not to make fun too badly.."
+        },
+        {
+            "post_id": 500,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-27 07:40:42",
+            "message": "and here's the rest"
+        },
+        {
+            "post_id": 510,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 80,
+            "username": "rany",
+            "post_date": "2016-03-27 09:05:02",
+            "message": "I love this ^...."
+        },
+        {
+            "post_id": 526,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 55,
+            "username": "JorgePayar",
+            "post_date": "2016-03-27 13:51:31",
+            "message": "[QUOTE=\"larossmann, post: 500\"]and here's the rest[/QUOTE]\n\nWow, this is gold!! thank you Louis"
+        },
+        {
+            "post_id": 532,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-27 15:07:09",
+            "message": "Ok, I have 3.9v <SIGNAL>CHGR_ACIN</SIGNAL> BUT AM NOT GETTING PIN 14 <SIGNAL>CHGR_ACOK</SIGNAL>. Had some bad capacitors <CAPACITOR>C7020</CAPACITOR>,<CAPACITOR>C7021</CAPACITOR>,<CAPACITOR>C7022</CAPACITOR> also bad <TRANSISTOR>Q7085</TRANSISTOR>. replaced all of them. Still have no 3.3v on pin 14 of <CHIP>U7000</CHIP>. Looks like other voltages are correct. could it be a blown <CHIP>U7000</CHIP>?\nHave not replaced it yet."
+        },
+        {
+            "post_id": 533,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-27 15:22:40",
+            "message": "By the way, thank you so much for describing the path. that helps a lot. I was working on the <TRANSISTOR>Q7085</TRANSISTOR> side not the other one. I couldn't get voltage through the <TRANSISTOR>Q7085</TRANSISTOR> so I replaced it, then I was able to track voltage down to resistors, to the <CHIP>U7000</CHIP> pin 27/28 <SIGNAL>CHGR_CSI_P</SIGNAL>, <SIGNAL>CHGR_CSI_N</SIGNAL>, <SIGNAL>CHGR_AGATE</SIGNAL>\nPIN 1 = 14.8V, PIN 2 = 16.65V, PIN 26,27,28 15.95V\n\n​I still don't have the right voltage on pin 14"
+        },
+        {
+            "post_id": 535,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-27 15:30:38",
+            "message": "Where was the original damage on this board?Dead <CHIP>U7000</CHIP> is possible but we need some better history here."
+        },
+        {
+            "post_id": 551,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-27 19:02:30",
+            "message": "No Title"
+        },
+        {
+            "post_id": 554,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-27 19:22:14",
+            "message": "No Title\n\nAppears to be soda on the bottom of board. Other side had very little if any."
+        },
+        {
+            "post_id": 557,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-27 20:55:13",
+            "message": "If <SIGNAL>CHGR_ACIN</SIGNAL> is present and <SIGNAL>CHGR_DCIN</SIGNAL> is present and the resistance between pins 27/28 and pins 17/18 adds up to what the sense resistors' sum is, I would say time to replace <CHIP>U7000</CHIP>. Stay away from SI7149DP that thing is always fine, you can dip it in battery acid coca cola cat piss and beer and light it on fire and it will still work!"
+        },
+        {
+            "post_id": 563,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 80,
+            "username": "rany",
+            "post_date": "2016-03-27 23:50:49",
+            "message": "Am I wrong or is ISL a bit prissy?"
+        },
+        {
+            "post_id": 588,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-28 14:14:28",
+            "message": "the chip has more load on it than anything else since <SIGNAL>PPBUS_G3H</SIGNAL> powers the entire machine, and it also has to deal with knockoff chargers and ripple on <SIGNAL>PP3V42_G3H</SIGNAL> as well as its own issues when there's water."
+        },
+        {
+            "post_id": 599,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-28 15:03:38",
+            "message": "ok, i replaced the <CHIP>U7000</CHIP>(ugh that was hard) you make it look so easy. I am jealous. I now have 3.18v on pin 14 and up on pin 1 and 2 of <CHIP>U6901</CHIP> but no 3.42v on pin 4. Is my pin 14 too low or my <CHIP>U6901</CHIP> garbage?"
+        },
+        {
+            "post_id": 602,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-03-28 15:13:08",
+            "message": "I still say there is no 3V42 on pin 5 of <CHIP>U6901</CHIP>! If pin 5 is ok then <CHIP>U6901</CHIP> is the next suspect."
+        },
+        {
+            "post_id": 607,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-28 15:18:07",
+            "message": "you are correct there is no 3.42v on pin 5, what am i missing here"
+        },
+        {
+            "post_id": 616,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-03-28 16:29:13",
+            "message": "[QUOTE=\"Mac-N-Sauce, post: 448\"]So I have <SIGNAL>PP3V42_G3H</SIGNAL> on the one wire circuit coming through pin 1 of <CAPACITOR>C6908</CAPACITOR> and other areas. How do I know if i have a bad <CHIP>U6901</CHIP> vs a bad via?\n\n\n\n[/QUOTE]\n\n3V on <CAPACITOR>C6908</CAPACITOR> and nothing on pin5 of <CHIP>U6901</CHIP>. I hope you can figure out the rest."
+        },
+        {
+            "post_id": 623,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-28 17:13:06",
+            "message": "you fix the ONE WIRE circuit by running........ ? \n\nFinish my sentence. :)\n\nHere's a hint \n\n[url]https://www.youtube.com/watch?v=f1TKQwsWaOY[/url]"
+        },
+        {
+            "post_id": 722,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-29 19:41:32",
+            "message": "No Title\n\nok, first i have attached some photos for you guys to have a good laugh! Louis you have nothing on me when it comes to bad soldering!\nSecond, I now have 3.36v on <CHIP>U6901</CHIP> pin 5. i followed the path on the diagrams you sent, still no green light. i have 4v on pins 17,18 for <CHIP>U7000</CHIP> \nI need the 12v <SIGNAL>PPBUS_G3H</SIGNAL>"
+        },
+        {
+            "post_id": 729,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-29 21:14:44",
+            "message": "Dude that is fucking scary. You need one strand of wire for this!!! Why do you think they call it the onewire circuit :p \n\nYou have 3.36v on pin 5, but what about pin 4? Is it outputting voltage now?\n\n<CHIP>U6901</CHIP> is a logic gate that, when <SIGNAL>SMC_BC_ACOK</SIGNAL> is present, will allow <SIGNAL>PP3V42_G3H</SIGNAL> to pass to output. The idea here is that it will power <CHIP>U6900</CHIP> which allows the charger to talk to the SMC if the <CHIP>ISL6259</CHIP>/<CHIP>U7000</CHIP> says that it is ok for it to. So follow to the next logical step - is <CHIP>U6900</CHIP> getting 3.4v? Is <CHIP>U6901</CHIP> shooting out 3.4v for <CHIP>U6900</CHIP>? If not, why?"
+        },
+        {
+            "post_id": 742,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 46,
+            "username": "Crizz",
+            "post_date": "2016-03-30 02:49:18",
+            "message": "You use a coax-cable from a mic or webcam for the jumper... try to use a wire from a dead battery!"
+        },
+        {
+            "post_id": 757,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-30 13:58:22",
+            "message": "I have 3.36 v on pin 4 and 5 of <CHIP>U6901</CHIP> and pin 1 of <CHIP>U6900</CHIP> and on pin 4and 5 of <CHIP>U6900</CHIP> its 3.36v as well. I guess thats why i am confused.  I jumped a wire to the <CHIP>U6901</CHIP>(although poorly done) to get my 3.4v to pin 5 and it appears to be getting to <CHIP>U6900</CHIP>"
+        },
+        {
+            "post_id": 762,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-30 19:06:51",
+            "message": "No Title\n\nJust wanted to show a better job of adding the wire. What is the product you use to insulate the wire? Green light on charger in picture 3! So we now have one wire, but no orange with battery connected.\nSo off I go to this one. I only have 4v on the charging circuit. Also can not power on with power pads"
+        },
+        {
+            "post_id": 766,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-03-30 19:23:27",
+            "message": "circuitworks cw3300g is good for me. it looks like you have a green light, or is that just the flash?"
+        },
+        {
+            "post_id": 769,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-03-30 19:43:22",
+            "message": "12.6V on F7040? <SIGNAL>PP3V3_S5_REG</SIGNAL> on L7220?"
+        },
+        {
+            "post_id": 842,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-31 18:47:09",
+            "message": "it is green light but i only have 4.57v on charging circuit f7040,"
+        },
+        {
+            "post_id": 843,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-03-31 18:48:01",
+            "message": "if i understand correctly, something is pulling down the power to much form the 18.5v"
+        },
+        {
+            "post_id": 846,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 46,
+            "username": "Crizz",
+            "post_date": "2016-03-31 21:52:53",
+            "message": "If your PPDCIN is 18.5V but <SIGNAL>PPBUS_G3H</SIGNAL> is only 4.57V there is maybe something pulling it down! YES\nProbe with your fingers if something is getting hot.\nDesolder F7040 and measure the voltage on pad1 of F7040\nAre you able to inject 12V to <SIGNAL>PPBUS_G3H</SIGNAL> with an external power source?"
+        },
+        {
+            "post_id": 932,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-02 10:45:47",
+            "message": "I bet the 6259 is not soldered correctly or died in the process."
+        },
+        {
+            "post_id": 944,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-02 13:48:59",
+            "message": "i pulled the fuse and had same 4.57v on pin 1, changed the 6259, now i have 15.5v at the fuse, <TRANSISTOR>Q7030</TRANSISTOR> pin 5 is 16v and pin 4 is 18.4v\nso i have gone from too low, to too high"
+        },
+        {
+            "post_id": 949,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-02 19:14:58",
+            "message": "<TRANSISTOR>Q7030</TRANSISTOR>/<TRANSISTOR>Q7035</TRANSISTOR> killed the isl which then killed the <TRANSISTOR>Q7030</TRANSISTOR>/<TRANSISTOR>Q7035</TRANSISTOR>. replace them all in one foul swoop and make sure your soldering is correct. This video sucks, but gets the point across. [url]https://www.youtube.com/watch?v=JTS0rkx_JAQ[/url]"
+        },
+        {
+            "post_id": 950,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-02 19:44:49",
+            "message": "Ok, I am having a hard time with the isl, lack of experience. The components are so close around it making it difficult to clean up pins. I just watched one of your videos where you had a large solder ball on the center pad of the isl. then you pressed it down to squeeze it out. I am using the curve tip. Should I switch to a straight point to clean it up after?"
+        },
+        {
+            "post_id": 951,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-02 19:46:14",
+            "message": "I know I am getting close to the fix so I am excited. My daughter keeps making fun of me!?"
+        },
+        {
+            "post_id": 955,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 46,
+            "username": "Crizz",
+            "post_date": "2016-04-03 02:34:41",
+            "message": "No Title\n\nIf you don't have a powerful hot air station it is a good idea to preheat the board.\nYou can build yourself a Teppan-Yaki preheater :D\nHere is a photo from 2011:"
+        },
+        {
+            "post_id": 967,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-03 12:25:22",
+            "message": "No Title\n\nok louis, replaced everything and now down to .7v on charging circuit. So whatever i am doing is effecting only that 12v rail. I pulled the isl off another board. It had no visible damage around it. \nSo I have replaced it three times now. Two new ones and the last one used. I checked the ISL from the sides to see pin connections and it looked good.\n\nAny, thought? Do i just keep killing the ISL?"
+        },
+        {
+            "post_id": 969,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-03 12:41:55",
+            "message": "<TRANSISTOR>Q7030</TRANSISTOR> pin 5 = 16.1v, pin 4= .7v"
+        },
+        {
+            "post_id": 970,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-03 14:03:24",
+            "message": "No Title\n\nOK, so i figured out that the common denominator was the ISL. So I changed it once again and actually soldered it correctly. Fourth time is the charm.. I now have 12.56 v!!!!!! However, I still can not short power pads for fan spin and charger does not go orange with battery plugged in. I am attaching a photo of the final ISL solder job. I realized that I had heat way too high and I was not getting it just right on the pads."
+        },
+        {
+            "post_id": 1041,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-04 19:51:47",
+            "message": "Anyone got any other thoughts? I feel like I might be missing something simple. I have checked current sensing, etc. Seems like SmC is just saying no somewhere"
+        },
+        {
+            "post_id": 1042,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 36,
+            "username": "aprendiz",
+            "post_date": "2016-04-04 20:08:06",
+            "message": "ok, now you have 12.56V right? if yes, do you have <SIGNAL>PP3V3_S5_REG</SIGNAL>? and for no orange light (charge) what voltage do you have on pins 4 and 6 from J6950?"
+        },
+        {
+            "post_id": 1200,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-07 15:48:23",
+            "message": "i do have 3.7v on pins 4 and 6, I do not have <SIGNAL>PP3V3_S5_REG</SIGNAL>"
+        },
+        {
+            "post_id": 1208,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-07 19:08:48",
+            "message": "I am trying to understand the flow of the circuit with the <CHIP>U7200</CHIP> chip. i don't have the 5v3v3 reg en on pin13, which appears to come from SMC?"
+        },
+        {
+            "post_id": 1243,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-08 14:17:45",
+            "message": "Resistor measures good, pin 1 on <CHIP>U7840</CHIP> is 3.4v,  <SIGNAL>SMC_RESET_L</SIGNAL> is 3.4v on pin 13 of <CHIP>U7000</CHIP>.  I have no visible signs of damage around the <CHIP>U7200</CHIP> but would you recommend replacing <CHIP>U7200</CHIP> anyway? Is there some way to test if it is good?"
+        },
+        {
+            "post_id": 1265,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-09 09:02:19",
+            "message": "<SIGNAL>SMC_PM_G2_EN</SIGNAL> creates <SIGNAL>PP5V_S5</SIGNAL> by telling <CHIP>U7200</CHIP> on pin 13 to turn on <SIGNAL>PP5V_S5</SIGNAL>. Do you have <SIGNAL>PP5V_S5</SIGNAL>? If you do, pin 13 can go away. \n\nCheck for a short to ground on <SIGNAL>PP3V3_S5</SIGNAL>. If no short to ground, remove <TRANSISTOR>Q7221</TRANSISTOR> and tell me if <SIGNAL>PP3V3_S5</SIGNAL> comes up."
+        },
+        {
+            "post_id": 1275,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-09 13:16:12",
+            "message": "I do not have <SIGNAL>PP5V_S5</SIGNAL> it measures 2.2v-3.8v fluctuating. Removed <TRANSISTOR>Q7221</TRANSISTOR> and no change"
+        },
+        {
+            "post_id": 1277,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-09 13:32:54",
+            "message": "<TRANSISTOR>Q7221</TRANSISTOR> is related to a different rail. If <SIGNAL>SMC_PM_G2_EN</SIGNAL> is not fluctuating, but <SIGNAL>PP5V_S5</SIGNAL> is fluctuating, it's a safe bet your issue is either with <CHIP>U7200</CHIP>(likely) or <CHIP>U7840</CHIP>(less likely, but still possible). You have green light to replace <CHIP>U7200</CHIP>! Bonus points if you don't burn the fan or speaker connector."
+        },
+        {
+            "post_id": 1278,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-09 13:36:11",
+            "message": "Oh ye of little faith!"
+        },
+        {
+            "post_id": 1281,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-09 14:10:27",
+            "message": "changed it out and no difference"
+        },
+        {
+            "post_id": 1282,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-09 14:12:49",
+            "message": "Supported your site. I really appreciate what you are doing. you guys are awesome! I know I am a pita right now, but I will get better! :o"
+        },
+        {
+            "post_id": 1284,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-09 14:26:54",
+            "message": "Is there a short to ground on <SIGNAL>PP5V_S5</SIGNAL>? Is <SIGNAL>SMC_PM_G2_EN</SIGNAL> fluctuating? My prior post said [I]\"if <SIGNAL>SMC_PM_G2_EN</SIGNAL> is not fluctuating\"[/I], I trust you checked that!"
+        },
+        {
+            "post_id": 1296,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-09 17:34:18",
+            "message": "Ok, screwed that up. <SIGNAL>SMC_PM_G2_EN</SIGNAL> in diode mode measures .023v not fluctuating, <SIGNAL>PP5V_S5_LDO</SIGNAL> is fluctuating at .361-.4v in diode mode so it looks like they are shorted to ground.\nWhen I check these points on a working board in diode mode i get OL"
+        },
+        {
+            "post_id": 1297,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-09 19:00:59",
+            "message": "1) 0.36 to 0.4v in diode mode is not shorted to ground\n2) Please for the love of god tell me you are not making diode mode measurements with power going through the board\n3) I asked if <SIGNAL>SMC_PM_G2_EN</SIGNAL> voltage is fluctuating. Measure voltage. Is it steady or does it move?"
+        },
+        {
+            "post_id": 1298,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-09 19:13:03",
+            "message": "Ok, they are not shorted, and <SIGNAL>SMC_PM_G2_EN</SIGNAL> is fluctuating in mv, and yes i am an idiot!\n<SIGNAL>PP5V_S5_LDO</SIGNAL> = .53v\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> = .421v"
+        },
+        {
+            "post_id": 1302,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-09 20:03:15",
+            "message": "So we're clear, those are DC voltage measurements, and not diode mode measurements, right?\n\nIf so, <SIGNAL>SMC_PM_G2_EN</SIGNAL> is too low, which points to an SMC issue, <CHIP>U7840</CHIP> pulling it down, or <CHIP>U7200</CHIP> pulling it down. At this point since you've already replaced <CHIP>U7200</CHIP>, my guess is bad SMC."
+        },
+        {
+            "post_id": 1307,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-09 21:49:51",
+            "message": "no, I had power unplugged and checked in diode mode for the .53v and the .421v. I then plugged in power and measured dc voltage on <SIGNAL>SMC_PM_G2_EN</SIGNAL> and got a very low mv on probe point 1006.\nCould be possible that the <CHIP>U7200</CHIP> I replaced was bad? There was very little liquid spill on the machine, I pulled the <CHIP>U7200</CHIP> off a donor board from china. I feel like I might be missing something from my inexperience , that maybe effecting diagnosis. Having g3hot and the 12v rail just seems like the problem might be the technician. :)\nThe <SIGNAL>PP5V_S5_LDO</SIGNAL> with power plugged in, checked at probe point 650 reads from dc voltage of 2.8v to 3.6v fluctuating rapidly and at <SIGNAL>SMC_PM_G2_EN</SIGNAL> its basically nothing"
+        },
+        {
+            "post_id": 1315,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-10 08:22:37",
+            "message": "I can only guess that <SIGNAL>SMC_PM_G2_EN</SIGNAL> is 0v because you've never posted a real number. :(\n\nAnything is possible, but <SIGNAL>SMC_PM_G2_EN</SIGNAL> being 0v is your main issue here. That should be at 3.4v immediately. My guess here is SMC if <SIGNAL>SMC_RESET_L</SIGNAL> is present as well as <SIGNAL>PP3V42_G3H</SIGNAL>. You need <SIGNAL>SMC_PM_G2_EN</SIGNAL> to create <SIGNAL>PP5V_S5</SIGNAL> and get the ball rolling with everything else."
+        },
+        {
+            "post_id": 1318,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-10 09:22:47",
+            "message": "Yes, i have <SIGNAL>SMC_RESET_L</SIGNAL> 3.4v. so we basically have a dead SMC. Oh well one for the donor pile.  You make it look so easy on your videos! Thanks for your patience.\nDo you have a source for the isight connectors on the 2013 and 2014 15\" macbook pros?"
+        },
+        {
+            "post_id": 1319,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-04-10 09:28:37",
+            "message": "The source for connectors like that are scrap boards from your pile or China. Connector is the same on 13\" boards."
+        },
+        {
+            "post_id": 1321,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-10 09:55:27",
+            "message": "Ok, thanks again for all your help."
+        },
+        {
+            "post_id": 1325,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-10 10:15:08",
+            "message": "how do we close this topic?"
+        },
+        {
+            "post_id": 1331,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 69,
+            "username": "Mac-N-Sauce",
+            "post_date": "2016-04-10 11:26:50",
+            "message": "Ok, louis I am responding to your video today on success.\nMy daughter was able to micro solder on this board. (she has never done that before)\nWe were able to get green light on the charger by running a wire to fix the one wire circuit. (first wire was hideous, but the second one was much nicer) Have never done that before. \nWe where able to get the 12v circuit running.\nSuccessfully soldered the <CHIP>ISL6259</CHIP> (took three tries:o)\nWe where not able to get the 5v up because of the SMC, however It was a great success for us at least because we are learning how to problem solve these boards.\n\nI used to send all my boards to your favorite company (L2 Computer) :o I sent them enough that I was getting them at $180\nAlthough I didn't get this board to work, I didn't send it to them either. Another success!\nEventually, We will learn more and have even greater success\n\nThanks for all you guys are doing!"
+        },
+        {
+            "post_id": 1353,
+            "thread_id": 448,
+            "title": "[FUBAR] LB <LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> B no green or orange light (needs SMC)",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-10 18:50:37",
+            "message": "If your daughter can't replace the SMC then fire her :p ;)"
+        }
+    ]
+}

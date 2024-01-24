@@ -1,0 +1,102 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3330": "What is 820-3330? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "ADAPTER_SENSE": "What is ADAPTER_SENSE? This is a line between the onewire circuit and the magsafe charger where the magsafe charger can talk to the SMC(system management controller) on the SYS_ONEWIRE line..",
+        "SMC_BC_ACOK_VCC": "What is SMC_BC_ACOK_VCC? SMC_BC_ACOK_VCC is a voltage that is created if SMC_BC_ACOK & PP3V42_G3H are both present that powers the chipset for the onewire circuit that allows the SMC to talk to the charger on the SYS_ONEWIRE line. This is necessary for the magsafe charger to have a light on it. .",
+        "U7201": "What is U7201? U7201 is responsible for the 3.3v and 5v power rails on many devices..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "R7974": "What is R7974? a RESISTOR.",
+        "R7403": "What is R7403? a RESISTOR.",
+        "U7400": "What is U7400? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 83116,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 32898,
+            "username": "javier_herart",
+            "post_date": "2021-11-27 12:13:23",
+            "message": "Hello\n\n-No turning on.\n-Customer found signs of corrosion and cleaned the board. \n-Sometimes (1 of 10 times when I plug the PSU) I get green light for 2-3 seconds.\n-Tried with another jack board and issue persisted. \n\nMeasurements with no Green light: \n<SIGNAL>PP3V42_G3H</SIGNAL>: 3.4V\n<SIGNAL>SMC_RESET_L</SIGNAL>: 3.37V\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.50V\n<SIGNAL>SMC_BC_ACOK</SIGNAL>: 3.26V\n<SIGNAL>SMC_BC_ACOK_VCC</SIGNAL>: 3.40V\n<SIGNAL>SYS_ONEWIRE</SIGNAL>: 3.40V\n<SIGNAL>ADAPTER_SENSE</SIGNAL>:3.40V\n\nBoard takes 25mA from the PSU. Any idea? Thanks"
+        },
+        {
+            "post_id": 83117,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-27 14:09:57",
+            "message": "Original 85W Magsafe charger?\n\nI recommend to reball SMC."
+        },
+        {
+            "post_id": 83120,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 32898,
+            "username": "javier_herart",
+            "post_date": "2021-11-27 14:37:06",
+            "message": "Found a broken trace on <CHIP>U7201</CHIP>, fixed it and board turns on now.\nBut CPU voltages not present.\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL>: 3.3V\n\nCould it be GPU related?"
+        },
+        {
+            "post_id": 83121,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-27 15:40:51",
+            "message": "Check <RESISTOR>R7974</RESISTOR> and <RESISTOR>R7402</RESISTOR>/03."
+        },
+        {
+            "post_id": 83124,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 32898,
+            "username": "javier_herart",
+            "post_date": "2021-11-27 17:48:06",
+            "message": "<RESISTOR>R7403</RESISTOR> was open, replaced but same problem."
+        },
+        {
+            "post_id": 83127,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 32898,
+            "username": "javier_herart",
+            "post_date": "2021-11-27 20:49:52",
+            "message": "I noticed that on the <CHIP>U7400</CHIP> side of the <RESISTOR>R7403</RESISTOR>/02 I got 12V but only for 1 second. \nReplaced <CHIP>U7400</CHIP> and same behaviour"
+        },
+        {
+            "post_id": 83131,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-28 03:22:17",
+            "message": "TONA/B should drop to 0.5V approx, when CPU power supply works.\nBe sure to have good solders and traces.\nAlso check all surrounding resistors and caps.\nIf all good, try known good BIOS."
+        },
+        {
+            "post_id": 83172,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 32898,
+            "username": "javier_herart",
+            "post_date": "2021-11-29 11:54:27",
+            "message": "Could you provide good Bios file?"
+        },
+        {
+            "post_id": 83173,
+            "thread_id": 62017,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER>-B No power (Intermitent Green Light)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-29 12:20:07",
+            "message": "Try this one.\n[URL unfurl=\"true\"]https://drive.google.com/file/d/1F3ubzLhVcyu81ErPQWQEqhljC8RuJDmM/view?usp=sharing[/URL]\nDon't forget to check what I've mentioned about CPU power supply."
+        }
+    ]
+}

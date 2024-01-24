@@ -1,0 +1,93 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A2337": "What is A2337? A2337 is a model number for a 13 inch size MacBook Air from years Late 2020 M1 with EMC 3598, that may contain one of these boards depending on the year & configuration: 820-02016..",
+        "820-02016": "What is 820-02016? a LOGIC BOARD PART NUMBER.",
+        "A1502": "What is A1502? A1502 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2014, Late 2013, Early 2015 with EMC 2875, that may contain one of these boards depending on the year & configuration: 820-3476, 820-3536, 820-4924..",
+        "CD3217": "What is CD3217? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U5700": "What is U5700? a CHIP.",
+        "820-02020": "What is 820-02020? a LOGIC BOARD PART NUMBER.",
+        "BK_SD": "What is BK_SD? a SIGNAL.",
+        "3V3_S2": "What is 3V3_S2? a SIGNAL.",
+        "PP3V3_S2": "What is PP3V3_S2? PP3V3_S2 is a typo of PP3V3_S3.",
+        "P3V3S2_FB": "What is P3V3S2_FB? a SIGNAL.",
+        "PPBUS_3V3S2_VIN": "What is PPBUS_3V3S2_VIN? a SIGNAL.",
+        "INA_3V3S2HS_IOUT": "What is INA_3V3S2HS_IOUT? a SIGNAL.",
+        "INA_3V3S2HS": "What is INA_3V3S2HS? a SIGNAL.",
+        "PP3V3_S2_WLBT": "What is PP3V3_S2_WLBT? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 99849,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 28497,
+            "username": "iMuhtaseb",
+            "post_date": "2023-06-11 02:05:40",
+            "message": "Hello,\n\nThis computer firstly was brought in for a no power issue. Visual inspection showed no corrosion whatsoever, but showed one of the <CHIP>CD3217</CHIP> blown up.\nAfter replacing it the computer remained taking 5V on one port and 20V on the other although the <CHIP>CD3217</CHIP> I took is from an M1 MacBook Pro (<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER>) but IDK.. anyway that's not the issue.. the computer was still not powering on even on 20V.. I noticed some consumption on the ammeter I took the thermal camera and noticed <CHIP>U5700</CHIP> was heating up (3.8 AON generator).. I took it off and replaced it..\n\nAfter this the computer boots but with no backlight\n- tested a good display, still no backlight\n- tested without the audio board, guessed maybe it could do something funky, still no backlight\n- measured backlight fuse it was OK\n- checked backlight Vsense on backlight chip there were 12V\n- Backlight enable from PMU is there. \n- Measured some values of resistance to few resistors and noticed backlight 5V A resistor (RP845) should be 0 ohms and it read 200 ohms I have replaced it\n- Measured 5V D resistor and it was 50 ohms instead of 0, I took the voltage readings and it was 5.188V precisely as it should; have not replaced it\n- Both 5V D and A are showing as 5.188V exactly.\n- I have measured <SIGNAL>BK_SD</SIGNAL> (backlight shutdown) and it was 12V telling the backlight to reset.\n- I have replaced UP800 from <MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER>; still no backlight.\n\n\nWhat am I supposed to do next?"
+        },
+        {
+            "post_id": 99850,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-11 02:34:20",
+            "message": "Classic failure on this case is RD560.\nCheck if not corroded.\nAlso check continuity until UC710.\n\nDo you get correct <SIGNAL>3V3_S2</SIGNAL> voltage?\nIf yes, then check UC120 voltages."
+        },
+        {
+            "post_id": 99858,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 28497,
+            "username": "iMuhtaseb",
+            "post_date": "2023-06-11 06:01:32",
+            "message": "I don't want to sound dumb but what does <SIGNAL>3V3_S2</SIGNAL> has to do with backlight?  😅\n\nAnyway, I checked RD560\nPPBUS = 12V\n<SIGNAL>PPBUS_3V3S2_VIN</SIGNAL> = 12V\n\nUD560 had 12V on IN+ and IN-. VS/enable were available too but <SIGNAL>INA_3V3S2HS_IOUT</SIGNAL> was 0v\nI replaced RD560 and UD560 and still not getting <SIGNAL>INA_3V3S2HS</SIGNAL>\n\nAlthough <SIGNAL>PP3V3_S2</SIGNAL> is present and UC710 had all of its voltages except for <SIGNAL>P3V3S2_FB</SIGNAL>..\n\nI was measuring <SIGNAL>P3V3S2_FB</SIGNAL> and computer stopped working all of the sudden.. plugging in the charger ammeter turns on with 5V then it shuts down.. a few seconds then it does it again.. it's slower than a normal cycle.\nSomething gone wrong while I was probing <SIGNAL>P3V3S2_FB</SIGNAL>.\n\nI measured <SIGNAL>PP3V3_S2</SIGNAL> and it now it seems shorted to ground.. I removed the coil and measured and short was on the S2 side not switching side..\nI injected 0.5v and UP701 (display switch) heated up.. removed it and still short it there, short is not clear as before but there's low resistance to ground. Before it was 0.001 on diode mode now its 0.039. With the S2 coil removed the computer takes 20V again and when I measure <SIGNAL>3V3_S2</SIGNAL> it fluctuates."
+        },
+        {
+            "post_id": 99859,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-11 07:43:29",
+            "message": "\"I don't want to sound dumb but what does <SIGNAL>3V3_S2</SIGNAL> has to do with backlight?\"\n2.4V on <SIGNAL>3V3_S2</SIGNAL> causes missing backlight.\nAnd this was reported several times on the forum.\nOf course, only peoples who read more posts can find intersting information.\nYou can learn a lot from other members threads.\nJust take notes and save time, when you face the same problems.\n\nIf you had correct 1V8 output from UC120, why did you check more pins of it???\nIf you remove UC120, there is still low diode mode on <SIGNAL>3V3_S2</SIGNAL> line?"
+        },
+        {
+            "post_id": 99867,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 28497,
+            "username": "iMuhtaseb",
+            "post_date": "2023-06-12 00:02:01",
+            "message": "I made a typo on my previous post \"Although <SIGNAL>PP3V3_S2</SIGNAL> is present and [U]UC120[/U] had all of its voltages except for <SIGNAL>P3V3S2_FB</SIGNAL>..\"\nI mentioned UC120 but I was speaking about UC710.\n\nIt's difficult for a technician to go through every post reading and taking notes on all cases of all kinds, that's why logic.wiki and repair.wiki are there.. shame no one adds those valuable informations to those sites.\n\n<SIGNAL>3V3_S2</SIGNAL> is being very low diode mode still until I have removed all chips associated with it; UC810, U900, UC830, UP701\ndiode mode went up and its being generated successfully without fluctuation.\nI have measured UC810 the chip itself its resistance to ground and there isn't any.. I went back and replaced it and immediately diode mode lowered back I haven't even returned all the chips back just UC810..\nIDK what causes this to happen and its so weird..\n\nAfter returning UC810 and turning the laptop <SIGNAL>3V3_S2</SIGNAL> is present stable but sadly the computer is no longer POSTing and I cannot see anything on screen; it's a matter of backlight issue anymore.. I took the current sense resistor RD810 the one after UC810 exactly and I measured <SIGNAL>PP3V3_S2_WLBT</SIGNAL> in diode mode and it's lower that <SIGNAL>3V3_S2</SIGNAL> :whistle:"
+        },
+        {
+            "post_id": 99868,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-12 01:06:31",
+            "message": "Did you resolder back all components?\n\n\"I mentioned UC120 but I was speaking about UC710.\"\nDo you get correct 1V8 output from [U]UC120[/U]?"
+        },
+        {
+            "post_id": 99877,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 28497,
+            "username": "iMuhtaseb",
+            "post_date": "2023-06-12 04:28:50",
+            "message": "1.8V output from UC120 is there yes. \n\nI returned everything except for UC830 which seems to be bad; I measured in diode mode for its readings, the thermal/ground pad was not in continuity with the pin8 of ground.. and on other legs it read OL."
+        },
+        {
+            "post_id": 99881,
+            "thread_id": 63964,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A2337</MACBOOK MODEL NUMBER> missing backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-12 06:38:40",
+            "message": "Not all chips have thermal pad connected to ground internally."
+        }
+    ]
+}

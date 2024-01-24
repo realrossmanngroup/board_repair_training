@@ -1,0 +1,54 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3435": "What is 820-3435? a LOGIC BOARD PART NUMBER.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "U7501": "What is U7501? This chip is often responsible for creating PP3V3_S5,  PP3V3_S3,  PP3V3_S0,  PP5V_S5,  PP5V_S4,  PP5V_S0.",
+        "U7600": "What is U7600? a CHIP.",
+        "U8000": "What is U8000? a CHIP.",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "R8177": "What is R8177? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 51802,
+            "thread_id": 51802,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> liquid damaged",
+            "user_id": 338,
+            "username": "arnonabuurs",
+            "post_date": "2019-08-28 21:56:37",
+            "message": "Got this liquid damaged <LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER>, liquid around <CHIP>U6100</CHIP> and <CHIP>U7600</CHIP>. CLeaned it up a bit looks pretty decent. Now it doesnt turn on but I have a pulse on L7520 and Enable on pin 4 of <CHIP>U7501</CHIP>, but missong 5V, 3.3 is present. Does that mean <CHIP>U6100</CHIP> is working as I get the 5V signal and I have to look for another issue down the line?\n\nEdit: im missing <SIGNAL>3V3_SUS</SIGNAL> on <CHIP>U6100</CHIP>, missing <SIGNAL>PP3V3_S4</SIGNAL>, I have 3.3v on <CHIP>U8000</CHIP> but no enable signal"
+        },
+        {
+            "post_id": 51810,
+            "thread_id": 51802,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> liquid damaged",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-29 00:51:43",
+            "message": "BIOS is not involved in 5V generation.\nIn fact, as mentioned, <CHIP>U6100</CHIP> is not even powered up.\nIf you have enable present on pin 4/<CHIP>U7501</CHIP>, then 5V power rail should come on.\nCorresponding signal comes from <SIGNAL>PM_SLP_S4_L</SIGNAL>, or <SIGNAL>PM_SLP_S5_L</SIGNAL>; depending which resistor <RESISTOR>R8177</RESISTOR>/79 is soldered on the board.\nIf you really have that enable signal, at least <SIGNAL>PM_SLP_S5_L</SIGNAL> shoud be high.\nIn this case, <SIGNAL>S4_PWR_EN</SIGNAL> must be high too and <CHIP>U8000</CHIP> should get enable signal.\nIf is the case, change <CHIP>U8000</CHIP>."
+        },
+        {
+            "post_id": 51813,
+            "thread_id": 51802,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> liquid damaged",
+            "user_id": 338,
+            "username": "arnonabuurs",
+            "post_date": "2019-08-29 03:11:14",
+            "message": "Ok there was indeed a corroded trace near <CHIP>U6100</CHIP>, after fixing the line and give it a good cleaning, working again :)"
+        },
+        {
+            "post_id": 51817,
+            "thread_id": 51802,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> liquid damaged",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-08-29 04:22:32",
+            "message": "Glad to hear that :D."
+        }
+    ]
+}

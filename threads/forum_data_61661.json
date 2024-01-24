@@ -1,0 +1,72 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00281": "What is 820-00281? a LOGIC BOARD PART NUMBER.",
+        "U8400": "What is U8400? a CHIP.",
+        "BKLT_EN_R": "What is BKLT_EN_R? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. The “_R” suffix means that the signal is asserted when it is high, as in 3.3v, which is the opposite of the “_L”  suffix.",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "BKLT_SCL": "What is BKLT_SCL? BKLT_SCL is an I2C signal clock line between the LED driver that creates the LCD backlight power rail that powers the backlight in the screen and the screen. The screen needs to speak to the LED driver on this line before backlight voltage will be created..",
+        "BKLT_SDA": "What is BKLT_SDA? BKLT_SDA is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "LCDBKLT_SW": "What is LCDBKLT_SW? a SIGNAL.",
+        "LCDBKLT_FB": "What is LCDBKLT_FB? LCDBKLT_FB is a feedback line between backlight output and the feedback pin on the LED driver. When this connection is broken, backlight output will be equal to PPBUS_G3H voltage of the system rather than boosting. Since this point is the highest voltage in the system, it is the fastest to corrode when liquid damaged, so it is a very common point to check when there is no backlight. .",
+        "ISNS_LCDBKLT_P": "What is ISNS_LCDBKLT_P? a SIGNAL.",
+        "BKLT_PWM_KEYB": "What is BKLT_PWM_KEYB? a SIGNAL.",
+        "ISNS_LCDBKLT_N": "What is ISNS_LCDBKLT_N? a SIGNAL.",
+        "BKLT_SENSE_OUT": "What is BKLT_SENSE_OUT? a SIGNAL.",
+        "PP5V_SO_BKLT_D": "What is PP5V_SO_BKLT_D? a SIGNAL.",
+        "PP5V_SO_BKLT_A": "What is PP5V_SO_BKLT_A? a SIGNAL.",
+        "D8410": "What is D8410? a DIODE.",
+        "PPVOUT_SO_LCDBKLT": "What is PPVOUT_SO_LCDBKLT? a SIGNAL.",
+        "PPVIN_SW_LCDBKLT_SW": "What is PPVIN_SW_LCDBKLT_SW? a SIGNAL.",
+        "C8460": "What is C8460? a CAPACITOR.",
+        "C8500": "What is C8500? a CAPACITOR.",
+        "C8467": "What is C8467? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 79654,
+            "thread_id": 61661,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1891,
+            "username": "Roshon",
+            "post_date": "2021-09-01 11:53:16",
+            "message": "This maybe a liquid damaged board  works fine with external monitor. but with the internal display i see image but no back light unfortunately i don't nave a test screen or another board to test on <CHIP>U8400</CHIP> \npin1 and 2 <SIGNAL>LCDBKLT_SW</SIGNAL>= .1V\nPIN 5 <SIGNAL>PP5V_SO_BKLT_D</SIGNAL> =5V\nPIN 9 <SIGNAL>ISNS_LCDBKLT_N</SIGNAL>=12V\nPIN 10 <SIGNAL>ISNS_LCDBKLT_P</SIGNAL>=12\nPIN 11 <SIGNAL>BKLT_SD</SIGNAL>=12\nPIN 12 <SIGNAL>BKLT_PWM_KEYB</SIGNAL>=0\nPIN15 <SIGNAL>BKLT_SCL</SIGNAL>=4.5\nPIN 16 <SIGNAL>BKLT_SDA</SIGNAL>=4.5\nPIN 17 <SIGNAL>BKLT_EN_R</SIGNAL>=3.3\nPIN18 <SIGNAL>PP5V_SO_BKLT_A</SIGNAL>=5V\nPIN 19 <SIGNAL>BKLT_SENSE_OUT</SIGNAL>=0\nPIN 21 <SIGNAL>LCDBKLT_FB</SIGNAL>=0"
+        },
+        {
+            "post_id": 79659,
+            "thread_id": 61661,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-01 13:26:11",
+            "message": "Backlight is controlled via PCH -> T-CON -> <CHIP>U8400</CHIP>.\nCorrect I2C communication is required between <CHIP>U8400</CHIP> and LCD assembly.\n\nPost diode mode to ground at both pins of <DIODE>D8410</DIODE>; w/ and w/o LCD connected."
+        },
+        {
+            "post_id": 79712,
+            "thread_id": 61661,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1891,
+            "username": "Roshon",
+            "post_date": "2021-09-02 08:02:49",
+            "message": "At <DIODE>D8410</DIODE> pin 1 <SIGNAL>PPVIN_SW_LCDBKLT_SW</SIGNAL> with LCD connected is .780\n                 pin 2 <SIGNAL>PPVOUT_SO_LCDBKLT</SIGNAL> with LCD is .003\nI get the same readings with the LCD not connected"
+        },
+        {
+            "post_id": 79713,
+            "thread_id": 61661,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-02 08:10:17",
+            "message": "So you have a short inside the motherboard; not caused by LCD assembly.\nIs a basic stept to check that, don't miss it in the future.\n\nIf LCD connector looks good, then should be a bad capacitor.\nAny of <CAPACITOR>C8460</CAPACITOR>-73 can be the culprit; small chance for <CAPACITOR>C8500</CAPACITOR>..."
+        },
+        {
+            "post_id": 79798,
+            "thread_id": 61661,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1891,
+            "username": "Roshon",
+            "post_date": "2021-09-03 10:46:00",
+            "message": "THANKYOU I took every cap off till I found the one that was short it was one of the big 1206 <CAPACITOR>C8467</CAPACITOR>"
+        }
+    ]
+}

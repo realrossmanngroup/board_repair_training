@@ -1,0 +1,168 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00850": "What is 820-00850? a LOGIC BOARD PART NUMBER.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PPVBAT_G3H_CONN": "What is PPVBAT_G3H_CONN? This is the where the battery’s power rail connects to the motherboard. .",
+        "U7800": "What is U7800? a CHIP.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "R6900": "What is R6900? a RESISTOR.",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards."
+    },
+    "threads": [
+        {
+            "post_id": 103625,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-10 08:36:02",
+            "message": "No corrosion on board.\nAt the start there was 5V and 0.1A from charger.\nOne of the <CHIP>CD3215</CHIP> had burn mark and then I found PPV3_UPC_XA_LDO was shorted to ground.\nI replaced that IC, short gone and then I found other <CHIP>CD3215</CHIP> got short as well on PPV3_UPC_xx_LDO.\n\nAt this stage PPBUS at F700 was 0.1V (no short) and I removed F7000\n\nI replaced other three <CHIP>CD3215</CHIP> a got 12.25V on F7000/1\nF7000/2 in diode mode .338\n\nAnd now when put back F7000 PPBUS got short spike to around 12V and then stays for a few seconds at around 3.9V and then again short spike to 12V and drop to 3.9V.\n\nPPBUS in diode mode now got .369\nBig coils near CPU  got low resistance to ground but not shorted.\n\nAny idea?"
+        },
+        {
+            "post_id": 103626,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-10 08:47:50",
+            "message": "Looks like overcurrent is detected and T2 resets power on sequence.\nCompare diode mode readings on all coils with good board, or reference table.\n[URL unfurl=\"true\"]https://openboarddata.org/?a=showboardsolutions&bpath=laptops/apple/<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>[/URL]\n\nDid you test with battery connected too?"
+        },
+        {
+            "post_id": 103638,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-10 10:05:12",
+            "message": "Will check rest of coils soon.\n\nWith battery connected got 20V and 0A from charger with short spike to 0.025A.\nGot 9.60V on <SIGNAL>PPVBAT_G3H_CONN</SIGNAL> so will test with charged battery soon."
+        },
+        {
+            "post_id": 103674,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-11 03:32:14",
+            "message": "OK, today there is 5V and 0.35A from charger.\nRemoved F7000 and on F7000/1 got still 12.55V and F7000/1 got .022 in diode mode.\n\nDuring comparing coils in diode mode found short to ground on L7660.\nInjected low voltage to <SIGNAL>PP3V3_G3H</SIGNAL> and <CHIP>U7800</CHIP> was getting warm.\n\nRemoved <CHIP>U7800</CHIP> and short on <SIGNAL>PP3V3_G3H</SIGNAL> is gone.\nF7000/1 got now .050 in diode mode.\n\nWhile <CHIP>U7800</CHIP> is removed check coils around it and found that (diode mode):\nL7812/2 .017\nL7810/2 0.115\nL7806 .007\nL8100 .07\n\nSo.... T2 faulty?"
+        },
+        {
+            "post_id": 103687,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-11 09:12:25",
+            "message": "\"F7000/1 got now .050 in diode mode\"\nIsn't that pin 2 in fact???\n\nThese readings are from a board which doesn't actually work.\nL7600        405\nL7660        427\nL7702        061\nL8100        096\nL8102        084\nL7270        011\nL7210        002\nL7410        002\nL3500        497\nLB700        497\nL7030        482\nL8410        826\nL6900        356\nL9080        352\nL9020        382\nL9030        354\n\nL7806                015\nL7810                350\nL7812                048\nL7813                016\nL7815                245\nL7816                066\nL7820                120\nL7821                012\n\nIs an i7 with 16GB RAM and 1TB SSD.\nPlease, give me the readings from the other coils of your board.\n\nT2 coils should have good readings, as it completes DFU revive."
+        },
+        {
+            "post_id": 103691,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-11 09:37:56",
+            "message": "\"\"F7000/1 got now .050 in diode mode\"\nIsn't that pin 2 in fact???\"\nYes, pin 2 - sorry for mistake.\n\nL7600 401\nL7660 265\nL7702 040\nL8100 082\nL8102 091\nL7270 018\nL7210 004\nL7410 003\nL3500 473\nLB700 479\nL7030 470\nL8410 840\nL6900 190\nL9080 299\nL9020 239\nL9030 286\n\nL7806 011\nL7810 270\nL7812 030\nL7813 332\nL7815 223\nL7816 039\nL7820 244\nL7821 137\n\nThats 2TB board."
+        },
+        {
+            "post_id": 103703,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-11 15:41:21",
+            "message": "Check resistance (ohm scale) between <SIGNAL>PPBUS_G3H</SIGNAL> and L7702.\n\nRemove <RESISTOR>R6900</RESISTOR> and check again diode mode to ground at <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 103717,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-12 04:44:21",
+            "message": "\"Check resistance (ohm scale) between <SIGNAL>PPBUS_G3H</SIGNAL> and L7702.\"\n3.97 kilo ohm\n\n\"Remove <RESISTOR>R6900</RESISTOR> and check again diode mode to ground at <SIGNAL>PPBUS_G3H</SIGNAL>.\"\nWhen was checking <RESISTOR>R6900</RESISTOR> I found crack on <CHIP>U6903</CHIP>.\nAfter <CHIP>U6903</CHIP> has been replaced I got high value in diode mode on <SIGNAL>PPBUS_G3H</SIGNAL>.\n\nWith soldered F7000 I got 12.26 on <SIGNAL>PPBUS_G3H</SIGNAL>.\nOn charger 5V 0.29A so with this current it should switch to 20V.\nThermal camera - only warm is T2 at 32C.\n\nChecked all LDO outputs od <CHIP>CD3215</CHIP> chips and all good in diode mode."
+        },
+        {
+            "post_id": 103722,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-12 09:05:33",
+            "message": "Try DFU..."
+        },
+        {
+            "post_id": 103727,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-12 11:06:07",
+            "message": "No luck"
+        },
+        {
+            "post_id": 103736,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-12 15:09:39",
+            "message": "What means that?\nCan't enter DFU, or you can't complete it?"
+        },
+        {
+            "post_id": 103740,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-13 01:09:05",
+            "message": "Cant enter DFU."
+        },
+        {
+            "post_id": 103741,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-13 01:39:43",
+            "message": "Do you get expected SLPS2R and AWAKE voltages on <CHIP>U7800</CHIP>'s coils?"
+        },
+        {
+            "post_id": 103747,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-13 05:20:05",
+            "message": "L7810 0.78V\nL7812 0.82V\nL7811 0.84V\nL7809 0.75V\nL7808 0.75V\nL7807 0.75V\nL7806 0.76V\nL7815 1.09V\nL7814 1.10V\nL7816 0.90V\nL7817 0.89V\nL7813 1.79V\n\nL7819 0V | .240 in diode mode\nL7820 0V | .240\nL7822 0V | .133\nL7821 0V | .133"
+        },
+        {
+            "post_id": 103748,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-13 05:40:56",
+            "message": "Force it manually into DFU..."
+        },
+        {
+            "post_id": 103752,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2024-01-13 10:15:15",
+            "message": "Forced method works.\nDid 'Revive\" during 'Installing System' around in 1/3 process with error:\n\"Gave up waiting for device to transition from DFU state to DFU state.\n[com.apple.MobileDevice.MobileRestore - 0xFCA (4042)]\n\nTested with know good battery with 60% of charge.\n\nData is the most important here.\nIs there any trick to force in to 'Target Disk Mode'?"
+        },
+        {
+            "post_id": 103753,
+            "thread_id": 64451,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> PPBUS 3.9V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-13 10:26:58",
+            "message": "No way.\nAuthorized Apple service can retrieve the information in DFU mode.\nNot sure if is possible, if revive can't complete."
+        }
+    ]
+}

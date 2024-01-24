@@ -1,0 +1,163 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "EDP_PANEL_PWR": "What is EDP_PANEL_PWR? a SIGNAL.",
+        "PP3V3_S0SW_LCD": "What is PP3V3_S0SW_LCD? PP3V3_S0SW_LCD is a 3.3v power rail necessary to power the image circuitry on the screen. This is necessary to get a picture on the screen. .",
+        "ED_PANEL_PWR": "What is ED_PANEL_PWR? a SIGNAL.",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "BKL_ISET": "What is BKL_ISET? a SIGNAL.",
+        "Q7707": "What is Q7707? a TRANSISTOR.",
+        "U7701": "What is U7701? a CHIP.",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "LCDBKLT_BOOST": "What is LCDBKLT_BOOST? LCDBKLT_BOOST is connected to the SWITCH(SW) pin of the LED driver and is switched to ground quickly after the inductor in the DC to DC boost circuit that boosts PPBUS_G3H to backlight voltage for the screen. .",
+        "EDP_BKL_PWM": "What is EDP_BKL_PWM? a SIGNAL.",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "R7789": "What is R7789? a RESISTOR.",
+        "R7788": "What is R7788? a RESISTOR.",
+        "C7782": "What is C7782? a CAPACITOR.",
+        "BKLT_PLT_RST_L": "What is BKLT_PLT_RST_L? a SIGNAL.",
+        "EDP_BKLT_PWM": "What is EDP_BKLT_PWM? EDP_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_ISEN6": "What is BKL_ISEN6? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 57333,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-06 17:15:21",
+            "message": "No signs of liquid damage on the board. All voltages on backlight circuit look normal but still no backlight. I have narrowed it down to it being <SIGNAL>EDP_BKLT_EN</SIGNAL>, and <SIGNAL>EDP_PANEL_PWR</SIGNAL>.\n\nBoth of those are at 0V.\n\n<SIGNAL>EDP_PANEL_PWR</SIGNAL> pulses on start, goes to about 5V for half a second, then to 0V.\n\n<SIGNAL>EDP_BKLT_EN</SIGNAL> does not pulse, but is at 0V.\n\nI dont know if this is relevant but SMC LID is always at 3V42V, I dont know if these relate to each other.\n\nEDIT: System does power on and boots, chimes, and shows image"
+        },
+        {
+            "post_id": 57340,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-07 03:39:08",
+            "message": "You messed something there.\nHow do you get image, if <SIGNAL>ED_PANEL_PWR</SIGNAL> goes to 0V???\nIt controls <SIGNAL>PP3V3_S0SW_LCD</SIGNAL>.\n\nPlease post accurate information."
+        },
+        {
+            "post_id": 57344,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-07 08:16:55",
+            "message": "[QUOTE=\"2informaticos, post: 57340\"]You messed something there.\nHow do you get image, if <SIGNAL>ED_PANEL_PWR</SIGNAL> goes to 0V???\nIt controls <SIGNAL>PP3V3_S0SW_LCD</SIGNAL>.\n\nPlease post accurate information.[/QUOTE]\n\nOops sorry, I was reading these voltages when the display was unplugged, I get 3V on <SIGNAL>EDP_PANEL_PWR</SIGNAL> and still 0V on <SIGNAL>EDP_BKLT_EN</SIGNAL>.\n\nEDIT: 3V on both, replaced <TRANSISTOR>Q7707</TRANSISTOR>. Still no backlight.\n\n<SIGNAL>BKL_PWM</SIGNAL> is 1.4V, <SIGNAL>BKL_EN</SIGNAL> is 2.7V, <SIGNAL>BKL_ISET</SIGNAL> is 0V.\n\nPRAM reset does not fix the issue."
+        },
+        {
+            "post_id": 57345,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-07 10:26:02",
+            "message": "Probably corroded A5 ball of <CHIP>U7701</CHIP>.\nAlso check XW7720 trace...\n\nBTW, do NOT quote entire post visible few centimeters above.\nPlease, maintain forum aesthetic..."
+        },
+        {
+            "post_id": 57350,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-07 20:55:25",
+            "message": "You were correct, not sure if it was corrosion but A5 ball was definitely not making contact, ball was almost gone. Ordered a <CHIP>LP8550</CHIP>, will report back with results.\n\nSorry about quoting."
+        },
+        {
+            "post_id": 57470,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-12 17:31:30",
+            "message": "Replaced <CHIP>LP8550</CHIP> but still no backlight, PWM signal still at 1.3V (<SIGNAL>EDP_BKL_PWM</SIGNAL>)\n\nEDIT: <SIGNAL>LCDBKLT_BOOST</SIGNAL> is 0V"
+        },
+        {
+            "post_id": 57474,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-12 17:47:32",
+            "message": "Do few times PRAM reset first.\n\nDid you check continuity from A5/<CHIP>U7701</CHIP> to K/<DIODE>D7701</DIODE>?\n\nDo you get image, only missing backlight?\nCheck F7700 and post <TRANSISTOR>Q7706</TRANSISTOR> voltages."
+        },
+        {
+            "post_id": 57476,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-12 18:03:47",
+            "message": "F7700 is blown. Will replace and report back\n\nEDIT: However I can confirm it was not blown before, must have just happend."
+        },
+        {
+            "post_id": 57486,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-13 02:50:31",
+            "message": "Check for short on backlight output, w/ and w/o LCD connected; BEFORE applying power again!!!"
+        },
+        {
+            "post_id": 57509,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-14 16:27:32",
+            "message": "No short, <TRANSISTOR>Q7706</TRANSISTOR> Voltages, all pins are 8.4V"
+        },
+        {
+            "post_id": 57510,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-14 17:37:52",
+            "message": "\"all pins are 8.4V\"\nThen is shorted; it requires aprox 3V at pin 3 (Gate).\n\nYou still have other problem too, but start changing <TRANSISTOR>Q7706</TRANSISTOR>.\nCheck continuity from <TRANSISTOR>Q7706</TRANSISTOR> to L7701."
+        },
+        {
+            "post_id": 57748,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-23 21:22:36",
+            "message": "Pin 3 is 8V, When I remove <TRANSISTOR>Q7706</TRANSISTOR> it is still 8V.\n\nI replaced <RESISTOR>R7788</RESISTOR>, thinking it would fix the issue but it is still 8V. <RESISTOR>R7788</RESISTOR> is 301K (Correct) and <RESISTOR>R7789</RESISTOR> is 147K (Correct). Im thinking it is <CAPACITOR>C7782</CAPACITOR> that is the issue."
+        },
+        {
+            "post_id": 57752,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-24 04:06:00",
+            "message": "<TRANSISTOR>Q7706</TRANSISTOR> cannot have 8V at Drain, if pin 3 (Gate) doesn't drop.\n<SIGNAL>EDP_BKLT_EN</SIGNAL> and <SIGNAL>BKLT_PLT_RST_L</SIGNAL> MUST be present.\n\n\"Do you get image, only missing backlight?\"\n???"
+        },
+        {
+            "post_id": 57754,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2020-03-24 08:10:07",
+            "message": "Both are present and that problem is now fixed, no more short on <TRANSISTOR>Q7706</TRANSISTOR>. I get about 3V on Pin 3, the rest are 8V. I get image but still no backlight. <SIGNAL>BKL_EN</SIGNAL> is 2.7V, however <SIGNAL>BKL_PWM</SIGNAL> is 1.4V, which im confused why it is still that voltage because I have done 3 PRAM resets. <SIGNAL>EDP_BKLT_PWM</SIGNAL> is also 1.4V.\n\nEDIT: Im going to recheck continuity of A5 to <DIODE>D7701</DIODE>\n\nEDIT: I get continuity from A5 to <DIODE>D7701</DIODE>\n\nLast EDIT: You can mark fix, <SIGNAL>BKL_ISEN6</SIGNAL> pad looked a little small, scraped it a little bit to make it bigger, and scraped FB (A5) to make it bigger as well. Then replaced <CHIP>U7701</CHIP>, and now backlight works.\n\nTHANKS!"
+        },
+        {
+            "post_id": 57762,
+            "thread_id": 57333,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> No Backlight / Strange Issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-24 13:33:34",
+            "message": "You're welcome!\nThank you too for feedback repair.\nThis can help other people in the future."
+        }
+    ]
+}

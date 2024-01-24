@@ -1,0 +1,80 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail."
+    },
+    "threads": [
+        {
+            "post_id": 75061,
+            "thread_id": 61141,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2021-05-04 22:54:43",
+            "message": "hi, this board came in, pretty clean.\n<SIGNAL>PPBUS_G3H</SIGNAL> 8.6v\n<SIGNAL>PP5V_S5</SIGNAL> stable 5v\n<SIGNAL>PP3V3_S5</SIGNAL> 3.3v but cycling.\nI notice <SIGNAL>PPVRTC_G3H</SIGNAL> diode mode is 0.030 or so (70 ohm), I found one caps which is leaking.\nnow diode mode is 0.104 ( about 200 ohm resistance to ground ). ppvrtc voltage is 3.2v \nI compare to 3435 from another working board, its a few M Ohm at least, is this still ok ?\n<SIGNAL>PCH_SRTCRST_L</SIGNAL>: 3.1v\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> : 1.1v\n<SIGNAL>PCH_INTVRMEN</SIGNAL> : 0.4v\n<SIGNAL>RTC_RESET_L</SIGNAL> : 3.3v"
+        },
+        {
+            "post_id": 75062,
+            "thread_id": 61141,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-04 23:56:41",
+            "message": "\"<SIGNAL>PCH_INTRUDER_L</SIGNAL> : 1.1v\n<SIGNAL>PCH_INTVRMEN</SIGNAL> : 0.4v\"\nBoth values are incorrect.\nThe bad news, there are no caps connected, only PCH.\nIf series resistors are good, heat PCH to 180-200 degrees for 15-20s; use quality flux, tu burn eventually crap accumulated underneath."
+        },
+        {
+            "post_id": 75063,
+            "thread_id": 61141,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2021-05-05 00:07:16",
+            "message": "still low after heating pch. to the body bag it goes."
+        },
+        {
+            "post_id": 75068,
+            "thread_id": 61141,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-05 00:31:49",
+            "message": "You can try to force these signals with 10-100K, instead of original resistors."
+        },
+        {
+            "post_id": 75069,
+            "thread_id": 61141,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2021-05-05 01:17:19",
+            "message": "i put 330k instead of 1m, voltage increased from 1.1v to 1.3v\ni put 20k intead of 330k, voltage increased from 0.4v to 0.6v\n\ni tried jumpering, just for testing, if i jump <SIGNAL>PCH_INTRUDER_L</SIGNAL>, it can maintain 3.3v\nif i jump <SIGNAL>PCH_INTVRMEN</SIGNAL>,it will pull the entire <SIGNAL>PPVRTC_G3H</SIGNAL> to 1.2v."
+        },
+        {
+            "post_id": 75070,
+            "thread_id": 61141,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2021-05-05 01:21:34",
+            "message": "I use 3k ohm resistor on pch intvrmen, only 0.7v.\ndon hesitate to make me throw this trash lol."
+        },
+        {
+            "post_id": 75079,
+            "thread_id": 61141,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-05 07:55:43",
+            "message": "No chance in this case; <SIGNAL>PCH_INTVRMEN</SIGNAL> is damaged.\nYou now have a donor board ;)."
+        }
+    ]
+}

@@ -1,0 +1,105 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00281": "What is 820-00281? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7650": "What is U7650? a CHIP.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PP3V0_G3H": "What is PP3V0_G3H? PP3V0_G3H is a 3.0v power rail present when the machine is in a G3H global system hardware off state..",
+        "PP1V0_SUS": "What is PP1V0_SUS? a SIGNAL.",
+        "P5VS4_PGOOD": "What is P5VS4_PGOOD? a SIGNAL.",
+        "P5VS4_EN_RCD": "What is P5VS4_EN_RCD? a SIGNAL.",
+        "PP2V9_SYSCLK": "What is PP2V9_SYSCLK? a SIGNAL.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "ISL9239": "What is ISL9239? This is a charging chip for Macbook motherboards from 2016-2018 responsible for charging the battery and creating the power rail PPBUS_G3H."
+    },
+    "threads": [
+        {
+            "post_id": 47288,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-03-11 15:43:06",
+            "message": "Have an <LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> that's actually powering on (fan spins), but then it cuts off soon after. CPU isn't getting very warm (oh no), and <SIGNAL>PPBUS_G3H</SIGNAL> is at 12.67v, but should be closer to 13.1v I believe. I'd normally suspect a CPU or BIOS issue with these symptoms, but aren't so sure on newer models. Would like some confirmation here before getting that far.\n\nNo liquid, no drop or any other damage. I'll gather measurements now and will add them in, but wanted to ask first if <SIGNAL>PPBUS_G3H</SIGNAL> being ~12.67v is \"too low\" for this model? I know ~12.26v on the older boards means SMC is not turning on (or isn't communicating with ISL), but typically that would result in no fan spin. On these newer models, would they be able to have fan spin if SMC is bad? I'd not think so, but wanted to check, as I've seen in some other threads that ppbus being 12.6v could indicate an issue.\n\nWill return with more measurements shortly, thanks in advance!"
+        },
+        {
+            "post_id": 47291,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-03-11 16:19:12",
+            "message": "OK, some more measurements:\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.6v (should be 13.1v?)\n<SIGNAL>PP3V3_S5</SIGNAL>: 3.3v\n<SIGNAL>PP3V3_G3H</SIGNAL>: 3.42v\n<SIGNAL>PP5V_S5</SIGNAL>: 5v\n<SIGNAL>PP3V0_G3H</SIGNAL>: 3v\n<SIGNAL>PP1V0_SUS</SIGNAL>: 1v\n<SIGNAL>PP5V_S4</SIGNAL>: 0v\n<SIGNAL>P5VS4_PGOOD</SIGNAL>: 0v\n<SIGNAL>PM_SLP_S5_L</SIGNAL>: 0v (primary issue I believe--I can't get into s4 because of no <SIGNAL>PM_SLP_S5_L</SIGNAL>)\n<SIGNAL>S5_PWRGD</SIGNAL>: 3.3v\n<SIGNAL>PP2V9_SYSCLK</SIGNAL>: 3v\n\nAt <CHIP>U7650</CHIP>, we're missing <SIGNAL>P5VS4_EN_RCD</SIGNAL> (enable 1), which I imagine is due to <SIGNAL>PM_SLP_S5_L</SIGNAL> missing. \n\nCombine missing <SIGNAL>PM_SLP_S5_L</SIGNAL> with the \"cold CPU\" and I get concerned. No damage to board, no liquid, etc, just a lifeless CPU. Any idea what I can check on this model to figure out what's causing no <SIGNAL>PM_SLP_S5_L</SIGNAL>?\n\nWould ppbus being low (SMC?) be the reason for <SIGNAL>PM_SLP_S5_L</SIGNAL> missing? But, would I get fan spin if SMC was at fault? <SIGNAL>SMC_PM_G2_EN</SIGNAL> is present (as are all s5 signals through pgood). The hang up appears to be S4 switch, which relies on <SIGNAL>PM_SLP_S5_L</SIGNAL>.\n\nAny advice appreciated!"
+        },
+        {
+            "post_id": 47292,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-03-11 16:22:07",
+            "message": "Also, if someone happens to have a working BIOS dump for the 00820 and could post it, that would be very, very appreciated!"
+        },
+        {
+            "post_id": 47293,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-11 17:27:51",
+            "message": "Your board is stuck in S5 state, so no reason for CPU to get hot at all.\nI suppose PCH gets hot through RTC, S5, or SUS power rails.\nDo you note that with heatsink?\nDoes it get very hot without heatsink?\n\nLower <SIGNAL>PPBUS_G3H</SIGNAL> means bad communication between SMC and <CHIP>U7000</CHIP>; this may not affect all SMC functions.\nBad PCH/CPU probably means trash board.\nRemember <SIGNAL>PPBUS_G3H</SIGNAL> issue in case you want to reuse SMC; you can discard/confirm that issue then."
+        },
+        {
+            "post_id": 47319,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-03-12 07:16:40",
+            "message": "Thanks so much, I appreciate it! The PCH does not get warm, no; nothing gets warm really at all--CPU has a very, very, very slight warmth (5% of normal), but not much at all.\n\nJust to confirm: <SIGNAL>PPBUS_G3H</SIGNAL> on this model should definitely be 13.1v, correct? And it being 12.6v indicates an SMC/<CHIP>U7000</CHIP>/Comms/Trace issue (similar to 12.26v on older boards), correct? So I should go ahead and replace <CHIP>U7000</CHIP>, then the SMC, and see if it resolves? I just want to confirm that ppbus should be 13.1v on this model before assuming the issue is a low ppbus and wasting the time; I know on some other models, the schematics are wrong, and ppbus actually differs from what's written (i.e. on the older 17\" boards, for example).\n\nCan you please let me know if there's anything else I should check prior to replacing <CHIP>U7000</CHIP>? Thanks again!"
+        },
+        {
+            "post_id": 47321,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-03-12 08:59:22",
+            "message": "OK, a bit of an update, as behavior has changed:\n\n1. I think ppbus being 12.6v is fine. I think this might be acceptable, and have found threads previous with the 15\" Touchbar boards having ppbus at 12.6v. I'm going to assume this is unrelated to the issue. Also, I don't believe I'd see any sign of fan spin if ppbus were not correct (or sufficient), and it isn't running on 5v, so all seems well with SMC-->ISL comms.\n2. To be sure there was no crap under SMC (even though this wasn't a spill unit), I went ahead and reflowed the SMC, <CHIP>U7000</CHIP> and USB-C controllers.\n3. I noticed the CPU actually DOES get very, very hot for a very short time--i.e. ~1 second--right when I hit the power button (or connect charger). I didn't notice this at first, because CPU spikes in heat and then cools off within just a few seconds. I thought it wasn't getting hot at all, but it is.\n4. I got the board installed back into the unit and it now charges/powers/boots--hooray!\n\nMight have just been a case of crap under SMC or USBC controllers. Who knows, but we'll see if it continues to work without issue. I've seen similar behavior on units with failing SMCs (inconsistent power over days/weeks, etc). Will be interesting to see if that issue extends to the newer models, so will update thread if anything changes."
+        },
+        {
+            "post_id": 47330,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-12 16:05:23",
+            "message": "Good to hear that.\nPlease check <SIGNAL>PPBUS_G3H</SIGNAL> now, with the board in the case (working).\nI was thinking <CHIP>ISL9239</CHIP> should generate 13V in all boards..."
+        },
+        {
+            "post_id": 47337,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-03-12 17:56:27",
+            "message": "I'd bet was possibly crap under a chip somewhere. 12.6 is normal I can confirm have had several 15\" Touchbars with 12.6 Apple just wants to fuck with us with 13.1 on the 13\"s haha."
+        },
+        {
+            "post_id": 47345,
+            "thread_id": 47288,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>, No Boot, Fans Spin.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-13 01:27:53",
+            "message": "Did you read it on F7000/01?\nBe aware, L7030 pin 1 is not the good test point; pin 2 yes, is OK..."
+        }
+    ]
+}

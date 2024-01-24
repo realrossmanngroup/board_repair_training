@@ -1,0 +1,112 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3435": "What is 820-3435? a LOGIC BOARD PART NUMBER.",
+        "SSD_PWR_EN": "What is SSD_PWR_EN? SSD_PWR_EN is a signal that tells the chip making the power rail for the SSD to turn on when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "SSD_CLKREQ_CONN_L": "What is SSD_CLKREQ_CONN_L? a SIGNAL.",
+        "SSD_RESET_CONN_L": "What is SSD_RESET_CONN_L? SSD_RESET_CONN_L is a signal that goes to the SSD that will put it in RESET mode which will keep it from working, when SSD_RESET_L is present. _L means whatever before the _L in the signal name is asserted when it is low voltage, such as 0.0v to 0.5v. .",
+        "PP3V3_S0SW_SSD_FLT": "What is PP3V3_S0SW_SSD_FLT? a SIGNAL.",
+        "PCIE_CLK100M_SSD_P": "What is PCIE_CLK100M_SSD_P? a SIGNAL.",
+        "SSD_PCIE_SEL_L": "What is SSD_PCIE_SEL_L? a SIGNAL.",
+        "PCIE_CLK100M_SSD_N": "What is PCIE_CLK100M_SSD_N? a SIGNAL.",
+        "SSD_DEVSLP": "What is SSD_DEVSLP? a SIGNAL.",
+        "U3740": "What is U3740? a CHIP.",
+        "U3710": "What is U3710? a CHIP.",
+        "C3710": "What is C3710? a CAPACITOR.",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "P1V05S0_PGOOD": "What is P1V05S0_PGOOD? a SIGNAL.",
+        "P3V3_S0SW_SSD": "What is P3V3_S0SW_SSD? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 75659,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2021-05-21 20:45:52",
+            "message": "THIS BOARD DOESNT SHOW THE SSD, SO FAR I HAVE:\n\n<SIGNAL>PP3V3_S0SW_SSD_FLT</SIGNAL> = 3.3\n<SIGNAL>SSD_RESET_CONN_L</SIGNAL> = 3.3\n<SIGNAL>SSD_CLKREQ_CONN_L</SIGNAL> = 3.3\n<SIGNAL>SSD_PCIE_SEL_L</SIGNAL> = 0V (WHEN SSD PRESENT) 3.3 WHEN SSD REMOVED\n<SIGNAL>SSD_DEVSLP</SIGNAL> = 0V\n<SIGNAL>SSD_PWR_EN</SIGNAL> = 3.3\n<SIGNAL>PCIE_CLK100M_SSD_N</SIGNAL> = 0V\n<SIGNAL>PCIE_CLK100M_SSD_P</SIGNAL> = 0V\n\nTRIED A DIFFERENT SSD, SAME RESULT..."
+        },
+        {
+            "post_id": 75662,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-22 02:04:28",
+            "message": "\"<SIGNAL>SSD_CLKREQ_CONN_L</SIGNAL> = 3.3\"\nNot good.\nSSD must pull down this line when inserted.\nCheck connector and trace.\nPost <CHIP>U3740</CHIP> voltages."
+        },
+        {
+            "post_id": 75793,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2021-05-25 11:56:39",
+            "message": "<SIGNAL>SSD_CLKREQ_CONN_L</SIGNAL> is 0v, I was checking the value with the SSD unplugged....\n<CHIP>U3740</CHIP>\n1 = 3.4\n2 = 1.2\n3 = 3.4\n4 = 3.4\n5 = 0\n6 = 3.2\n7 = 0\n8 = 0"
+        },
+        {
+            "post_id": 75798,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-25 12:52:58",
+            "message": "Values look good.\nCheck <CAPACITOR>C3710</CAPACITOR>-17, <CHIP>U3710</CHIP>/11, solders, traces, SSD connector."
+        },
+        {
+            "post_id": 75804,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2021-05-25 14:44:50",
+            "message": "<CAPACITOR>C3710</CAPACITOR>-17 are fine\ndesoldered <CHIP>U3710</CHIP>/11 to see underneath, they look fine and traces where ok. put them back... still nothing... by pressing ALT I get to the boot option, but get no SSD there... I can boot from external drive but can´t see any internal hard drive...\n\nI am using 2 samsung SSD drives, with any of those, when the board turns on, the samsung chip on the SSD gets burning hot...\non PIN 38 of  J3700 I get a resistance to ground of 2.9 Ohms is that normal value?\n\nfound that L7630 diode mode value is ,026 checking that area... everything seems to be fine... I get <SIGNAL>PP1V05_S0</SIGNAL> with no problems, \n<SIGNAL>P1V05S0_PGOOD</SIGNAL> = 3.3v"
+        },
+        {
+            "post_id": 75808,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-25 15:07:04",
+            "message": "What is the exact <SIGNAL>P3V3_S0SW_SSD</SIGNAL> voltage?"
+        },
+        {
+            "post_id": 75816,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2021-05-25 15:26:10",
+            "message": "I´m sorry, removed L7630\ndiode mode on PIN 1 = ,153 PIN 2 = ,026\n\n<SIGNAL>P3V3_S0SW_SSD</SIGNAL> = 3.351v"
+        },
+        {
+            "post_id": 75821,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-25 16:56:51",
+            "message": "0.026 looks to low for this model.\nCompare with similar CPU..."
+        },
+        {
+            "post_id": 75843,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2021-05-26 07:50:42",
+            "message": "Found another 3435 board and the value is ,124 on L7630"
+        },
+        {
+            "post_id": 75848,
+            "thread_id": 61219,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> NO SSD",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-26 09:13:42",
+            "message": "Then you have a problem with PCH, which explains SSD issue too."
+        }
+    ]
+}

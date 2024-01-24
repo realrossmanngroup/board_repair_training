@@ -1,0 +1,136 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2530": "What is 820-2530? a LOGIC BOARD PART NUMBER.",
+        "D7010": "What is D7010? Diode between ground and gate of Q7010 on 2013-2015 year retina model macbook pros, necessary for Q7010 to allow PPDCIN_G3H to flow through to PP3V42_G3H power supply input. When this diode dies or corrodes, PP3V42_G3H input will not have any voltage, and chargers will not turn on. This can often be the problem if a system only works with a knockoff charger/bench power supply. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "ISL6258": "What is ISL6258? This is a charging chip for Macbook motherboards from 2008 through 2009.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "CHGR_ACOK": "What is CHGR_ACOK? This is identical to SMC_BC_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "SMBUS_CHGR_SDA": "What is SMBUS_CHGR_SDA? SMBUS_CHGR_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "SMBUS_CHGR_SCL": "What is SMBUS_CHGR_SCL? SMBUS_CHGR_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R5015": "What is R5015? a RESISTOR.",
+        "R5016": "What is R5016? a RESISTOR.",
+        "R7023": "What is R7023? a RESISTOR.",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "AVREF_SMC": "What is AVREF_SMC? AVREF_SMC is a reference voltage provided to the SMC so that its sensors have a reference to work from, this should be 3.3v.",
+        "PP3V3_S5_AVREF_SMC": "What is PP3V3_S5_AVREF_SMC? PP3V3_S5_AVREF_SMC Is a reference voltage for the SMC’s voltage sensors & other sensors..",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "SMC_CPU_VSENSE": "What is SMC_CPU_VSENSE? a SIGNAL.",
+        "SMC_MCP_VSENSE": "What is SMC_MCP_VSENSE? a SIGNAL.",
+        "SMC_DCIN_ISENSE": "What is SMC_DCIN_ISENSE? a SIGNAL.",
+        "SMC_CPU_ISENSE": "What is SMC_CPU_ISENSE? a SIGNAL.",
+        "SMC_BATT_ISENSE": "What is SMC_BATT_ISENSE? a SIGNAL.",
+        "SMC_CPU_FSB_ISENSE": "What is SMC_CPU_FSB_ISENSE? a SIGNAL.",
+        "SMC_MCP_CORE_ISENSE": "What is SMC_MCP_CORE_ISENSE? a SIGNAL.",
+        "SMC_MCP_DDR_ISENSE": "What is SMC_MCP_DDR_ISENSE? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 46896,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-01 16:23:28",
+            "message": "Doesn't turn ON, No green Light, No water  Damage\n\nat <CHIP>U7000</CHIP>\n1: <SIGNAL>CHGR_AGATE</SIGNAL>  14.5V\n2: <SIGNAL>CHGR_DCIN</SIGNAL>  0V\n\nReplaced <DIODE>D7010</DIODE> and <CHIP>U7000</CHIP> (<CHIP>ISL6258</CHIP>)\n\nThen my DC power supply went in Protection  because of a short to gnd: <SIGNAL>CHGR_DCIN</SIGNAL> : 3V\n<CAPACITOR>C7020</CAPACITOR> burning hot\nReplaced <CAPACITOR>C7020</CAPACITOR>:\nPPBUS: 12.60 V\n<SIGNAL>PP3V42_G3H</SIGNAL>: 3.408V  but still no green light\n\nS5 State ok\n<SIGNAL>PP3V3_S5</SIGNAL>:  3.322v\n\nChecked R17/18 and R27/28 :\nR17/18: 20.8 Ohms\nR27/28: 1.7 KOhms both <RESISTOR>R7021</RESISTOR> and <RESISTOR>R7023</RESISTOR> bad\nReplaced both <RESISTOR>R7021</RESISTOR> and <RESISTOR>R7023</RESISTOR> R27/28: 20.6Ohms\n\nStill not turning ON when shorting <RESISTOR>R5015</RESISTOR> or <RESISTOR>R5016</RESISTOR>\nBut Turning ON in SMC bypass mode.\n\n<SIGNAL>CHGR_ACOK</SIGNAL>: 3.274V\n\nActivity OK on Both <SIGNAL>SMBUS_CHGR_SCL</SIGNAL>  and <SIGNAL>SMBUS_CHGR_SDA</SIGNAL>: SMC talking to ISL : pulses on scope\n<SIGNAL>SMC_RESET_L</SIGNAL>: 3.405V and pusing to gnd when shorting <RESISTOR>R5015</RESISTOR>: OK\n\nResistance to ground on PP3V42 : 5.4 KOhm\n\nBad MCP I guess, please confirm as I don't want to waist my time ( and yours ) on that historical board....."
+        },
+        {
+            "post_id": 46897,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-01 16:47:16",
+            "message": "\"But Turning ON in SMC bypass mode.\"\nYou seem to be lucky guy.\n5.4K on 3V42 usually points to bad MCP; but not 100%, like in this case.\nHowever such low value denotes it is on end life...\n\nPost voltage for pins 9 & 15 of <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 46899,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-01 16:58:15",
+            "message": "<SIGNAL>CHGR_AMON</SIGNAL>: 0.051V\n<SIGNAL>CHGR_BMON</SIGNAL>: 0.047V\n\nWhich should be OK , no?"
+        },
+        {
+            "post_id": 46901,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-01 17:04:05",
+            "message": "Yes, but still has one sensor which blocks the SMC.\nFirst check if <SIGNAL>AVREF_SMC</SIGNAL> is OK.\nIf yes, check all VSENSE outputs from page 44."
+        },
+        {
+            "post_id": 46905,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-01 17:19:59",
+            "message": "<SIGNAL>PP3V3_S5_AVREF_SMC</SIGNAL>: 3.298V, OK\n\n<SIGNAL>SMC_CPU_VSENSE</SIGNAL>: 0V\n<SIGNAL>SMC_MCP_VSENSE</SIGNAL>: 0V\n<SIGNAL>SMC_PBUS_VSENSE</SIGNAL>: 0V \n\nThose Vsense signal should be High or Low?\n\nBy the way how are you? long time no see......and thanks for replying my friend"
+        },
+        {
+            "post_id": 46907,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-01 17:25:44",
+            "message": "0V is correct, as all work in S0 state only.\nCheck sensors output from page 45 too."
+        },
+        {
+            "post_id": 46908,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-01 17:27:42",
+            "message": "In SMC Bypass mode:\n\n<SIGNAL>SMC_CPU_VSENSE</SIGNAL>: 1.16V\n<SIGNAL>SMC_MCP_VSENSE</SIGNAL>: 1.0V\n<SIGNAL>SMC_PBUS_VSENSE</SIGNAL>: 2.049V"
+        },
+        {
+            "post_id": 46909,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-01 17:42:16",
+            "message": "<SIGNAL>SMC_MCP_CORE_ISENSE</SIGNAL> : 0V\n<SIGNAL>SMC_MCP_DDR_ISENSE</SIGNAL> : 0v\n<SIGNAL>SMC_CPU_FSB_ISENSE</SIGNAL> : 0V\n<SIGNAL>SMC_CPU_ISENSE</SIGNAL> :0v\n<SIGNAL>SMC_BATT_ISENSE</SIGNAL> : 0V\n<SIGNAL>SMC_DCIN_ISENSE</SIGNAL>: 0V\n\nIn SMC Bypass mode:\n<SIGNAL>SMC_MCP_CORE_ISENSE</SIGNAL>: 1.173V\n<SIGNAL>SMC_MCP_DDR_ISENSE</SIGNAL>: 0.403V\n<SIGNAL>SMC_CPU_FSB_ISENSE</SIGNAL>:0.811V\n<SIGNAL>SMC_CPU_ISENSE</SIGNAL>: 0.492V\n<SIGNAL>SMC_BATT_ISENSE</SIGNAL> 0.042V\n<SIGNAL>SMC_DCIN_ISENSE</SIGNAL>: 0V"
+        },
+        {
+            "post_id": 46910,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-01 17:47:08",
+            "message": "I'll also check the Thermal Sensors, but tomorow.\nWhat do you think?"
+        },
+        {
+            "post_id": 53189,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-10-09 15:27:45",
+            "message": "Hi 2Informaticos,\nI'm back with that board and I'm very surprised that it's turning ON when I short the power pads now.......why????? ni idea\nJust Noticed that the Fan spins at full speed, I will reassemble it and run the corresponding ASD to check if any sensor is alarming..........except if you advise me to test something else before........"
+        },
+        {
+            "post_id": 53190,
+            "thread_id": 46896,
+            "title": "<LOGIC BOARD PART NUMBER>820-2530</LOGIC BOARD PART NUMBER> No Power",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-10-09 16:01:26",
+            "message": "Reassembled all together: Board turns ON, Fan runs Normal speed, properly......\nMark thi stopic as solved.\n\nThanks"
+        }
+    ]
+}

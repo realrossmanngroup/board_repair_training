@@ -1,0 +1,56 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1706": "What is A1706? A1706 is a model number for a 13 inch size MacBook Pro Retina from years 2016, Mid 2017 with EMC 3071, that may contain one of these boards depending on the year & configuration: 820-00239, 820-00923..",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U3200": "What is U3200? a CHIP.",
+        "UPC_XB_SPI_MOSI": "What is UPC_XB_SPI_MOSI? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 96082,
+            "thread_id": 63533,
+            "title": "00239 missing LDO 1v1 on one side",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-01-31 07:10:12",
+            "message": "Have a 00239 <MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> board that has been a royal PITA. Ldo 3v3 was shorted on 3! (assuming customer had junk charger or dongle) of the <CHIP>CD3215</CHIP>’s (assuming customer had junk charger or dongle) and ultimately the last <CHIP>CD3215</CHIP> wasn’t shorted but was not showing any voltage so had to replace it anyway. Lost some pads on the UB300/400 side so took forever but that side now is showing 5V and all LDOs and both ports turn off momentarily and turn back on so that side seems all good and that was one I was worried about due to repairing pads,etc.\n\nThe 3100/3200 side is now both showing 5V but not LDO 1V1 on either port with charger connected to its usB-c. Tried swapping Rom as it had shifted a little at some point during rework. Checked all diode readings around both <CHIP>CD3215</CHIP>. Not seeing anything. I’m thinking it’s got to be something related to the rom being both ports not producing LDO 1V1?"
+        },
+        {
+            "post_id": 96084,
+            "thread_id": 63533,
+            "title": "00239 missing LDO 1v1 on one side",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-31 08:38:22",
+            "message": "Did you compare diode mode to ground on 1V1 LDO between all ports?\nRemove the USB-C port from chassis and inspect its terminals.\nAlso compare diode mode readings between J3300 and JB500.\nS-UEM2 tool can help you."
+        },
+        {
+            "post_id": 96106,
+            "thread_id": 63533,
+            "title": "00239 missing LDO 1v1 on one side",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-01-31 14:26:53",
+            "message": "I may look into getting the tool I checked everyone of the pads for 3100 figuring if I can get 1v1 there it will likely solve <CHIP>U3200</CHIP>. All pads and traces are checking out. replaced the <CHIP>CD3215</CHIP> just in case and tried another rom and still nothing. I noticed some coms tie to the SMC. Any possiblity that could prevent the 1v1 or do you know if that is negotiated locally between the master, slave and rom?"
+        },
+        {
+            "post_id": 96108,
+            "thread_id": 63533,
+            "title": "00239 missing LDO 1v1 on one side",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-01-31 15:38:04",
+            "message": "1V1 LDO is required for communication between <CHIP>CD3215</CHIP> chips and charger.\nAnd each <CHIP>CD3215</CHIP> must generate it when the power is applied on its corresponding port.\nOne chip boots from TBT ROM; the other (in same pair) will boot from first one, through UART lines.\nOn the connectors are many protection diode connected, also filter caps.\nSome of them can block the correct boot sequence, if corroded."
+        },
+        {
+            "post_id": 96172,
+            "thread_id": 63533,
+            "title": "00239 missing LDO 1v1 on one side",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-02-01 14:37:16",
+            "message": "After double checking J3300 and Rom diode measurements I figured I'd try <CHIP>U3200</CHIP> again and that was where issue was. Although schematics refer to it as secondary it appears it is the connection to ROM. On my board, I had previously repaired pad <SIGNAL>UPC_XB_SPI_MOSI</SIGNAL> of <CHIP>U3200</CHIP> and while I thought that repair went well, the pad was gone when I pulled the <CHIP>CD3215</CHIP>. I repaired the pad again and reballed a different <CHIP>CD3215</CHIP> just in case and it now boots. :) Thanks for your help!"
+        }
+    ]
+}

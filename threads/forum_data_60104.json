@@ -1,0 +1,45 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01521": "What is 820-01521? a LOGIC BOARD PART NUMBER.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U8510": "What is U8510? a CHIP.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "PP5V_S0SW_LCD": "What is PP5V_S0SW_LCD? a SIGNAL.",
+        "PANEL_P5V_EN": "What is PANEL_P5V_EN? a SIGNAL.",
+        "DP_INT_HPD": "What is DP_INT_HPD? a SIGNAL.",
+        "5V_S0SW_LCD": "What is 5V_S0SW_LCD? a SIGNAL.",
+        "EDP_PANEL_PWR_EN": "What is EDP_PANEL_PWR_EN? EDP_PANEL_PWR_EN is necessary to enable the power rail that powers the LCD screen image circuitry. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "R8511": "What is R8511? a RESISTOR.",
+        "C8518": "What is C8518? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 65931,
+            "thread_id": 60104,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> No image on LCD but image on External Monitor fine",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2020-10-01 18:32:21",
+            "message": "Water damaged board, ran it in UC, reflowed PM and the 2 <CHIP>CD3215</CHIP> as I was only getting 5v after that board now starts up and I get image on external monitor, tested with 2 known good LCD screens and new LCD flex, no image either.\n\nNo shorts on LCD connector\n\n<SIGNAL>SMC_LID</SIGNAL> Left and Right are both 1.5v\n<SIGNAL>PANEL_P5V_EN</SIGNAL> 0v\n<SIGNAL>PP5V_S0SW_LCD</SIGNAL> 0v\n\n<CHIP>U8510</CHIP> pin 1 0.9v"
+        },
+        {
+            "post_id": 65944,
+            "thread_id": 60104,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> No image on LCD but image on External Monitor fine",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-02 05:07:59",
+            "message": "3V3/<SIGNAL>5V_S0SW_LCD</SIGNAL> must appear at least in the first few seconds.\nThen LCD must release <SIGNAL>DP_INT_HPD</SIGNAL>.\nIf not, power cannot be maintained on LCD connector.\nPCH needs the HPD signal to recognize the LCD properly.\nThe same PCH is the one which must start this sequence, releasing first <SIGNAL>EDP_PANEL_PWR_EN</SIGNAL> for few seconds.\n\n\"<CHIP>U8510</CHIP> pin 1 0.9v\"\nThis could be your unique problem; follow the trace..."
+        },
+        {
+            "post_id": 66101,
+            "thread_id": 60104,
+            "title": "<LOGIC BOARD PART NUMBER>820-01521</LOGIC BOARD PART NUMBER> No image on LCD but image on External Monitor fine",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2020-10-05 17:38:14",
+            "message": "Thanks, indeed it was pin 1 not getting 3.3v the problem, the weird thing is that the connection between <RESISTOR>R8511</RESISTOR> and <CAPACITOR>C8518</CAPACITOR> looked clean and there was no liquid damage near that area, but somehow those 2 were not connected via its traces."
+        }
+    ]
+}

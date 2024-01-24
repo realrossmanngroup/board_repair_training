@@ -1,0 +1,103 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3209": "What is 820-3209? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "C6201": "What is C6201? a CAPACITOR.",
+        "Q7800": "What is Q7800? a TRANSISTOR.",
+        "U7201": "What is U7201? U7201 is responsible for the 3.3v and 5v power rails on many devices..",
+        "U7930": "What is U7930? a CHIP.",
+        "C7290": "What is C7290? a CAPACITOR.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "AVREF_SMC": "What is AVREF_SMC? AVREF_SMC is a reference voltage provided to the SMC so that its sensors have a reference to work from, this should be 3.3v.",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "SMC_DCIN_VSENSE": "What is SMC_DCIN_VSENSE? a SIGNAL.",
+        "Q5310": "What is Q5310? a TRANSISTOR.",
+        "R5303": "What is R5303? a RESISTOR.",
+        "Q5300": "What is Q5300? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 69783,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-12-31 11:39:38",
+            "message": "Couple of issues but focusing on <SIGNAL>PP3V3_S5</SIGNAL> missing. I pulled L7260 and at pin 2, I get .255V drop in diode mode red to ground which I know is low compared to working board. After inspecting board there was some corrosion near <CAPACITOR>C6201</CAPACITOR> and <TRANSISTOR>Q7800</TRANSISTOR>. Looks like there was liquid around J6950.\n\nI tried injecting 3V at pin 2 of L7260 but given not full short nothing getting warm. I tried pulling J2550.\n\nAny suggestions on tracking this down? :-/"
+        },
+        {
+            "post_id": 69784,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2020-12-31 11:58:34",
+            "message": "Tried pulling some things out to narrow it down... <CHIP>U7201</CHIP>, <TRANSISTOR>Q7800</TRANSISTOR>, <CHIP>U7930</CHIP>. Took a longshot being not a dead short and tried removing <CAPACITOR>C7290</CAPACITOR>/92/72 also with no change in voltage drop at pin 2 of L7260."
+        },
+        {
+            "post_id": 69785,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-31 13:28:08",
+            "message": "255 is not too low in diode mode to prevent starting <SIGNAL>3V3_S5</SIGNAL> power supply.\nI wonder why did you waste time in such manner, before checking basic voltages/signals for <CHIP>U7201</CHIP>; as pins 23, 12, 13, 22, 29, 21."
+        },
+        {
+            "post_id": 69807,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-01-01 09:17:19",
+            "message": "I thought I was headed down the right trail. Ok, I was missing enable voltages at <CHIP>U7201</CHIP> and tracked down to the SMC. Replacing that from known good 3209 (bad ram) board brought the board back to life and now starts but then stops. <SIGNAL>PPBUS_G3H</SIGNAL> is at 8.4V.\n\nSMC bypass keeps it running so I went through the VSense and ISense measurements. None of the VSense  measure over 1V. Not really getting anything to register anything notable on the iSense lines. PLT RESET L is 3.3V during smc bypass, it comes on momentarily with normal power on."
+        },
+        {
+            "post_id": 69811,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-01 10:15:23",
+            "message": "\"None of the VSense  measure over 1V\"\nDo you think is normal???\n<SIGNAL>SMC_DCIN_VSENSE</SIGNAL> should be aprox 2.4-3V, depending on charger type.\nAlso <SIGNAL>SMC_PBUS_VSENSE</SIGNAL> is aprox 2V normally...\n\nDid you check <SIGNAL>AVREF_SMC</SIGNAL> voltage?"
+        },
+        {
+            "post_id": 69819,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-01-01 11:59:03",
+            "message": "I was able to get DCIN VSENSE to over 2V by replacing <TRANSISTOR>Q5310</TRANSISTOR>. Oddly that didn't keep the board running.\nPBUS VSENSE is at .9V which matches working board.\nAVREF SMC voltage is 3.3V. I referenced other VSENSE and ISENSE readings to working board and not seeing anything unusual.\n\nThe board still starts temporarily and stay on with SMC Bypass or will turn on momentarily triggering SMC ONOFF."
+        },
+        {
+            "post_id": 69820,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-01 12:54:33",
+            "message": "\"PBUS VSENSE is at .9V\"\nYou must check it when the board is on.\nShould be 2.2V aprox..."
+        },
+        {
+            "post_id": 69832,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-01-02 08:13:54",
+            "message": "The board that isn't working reads .9V during SMC bypass at pin 2 of <RESISTOR>R5303</RESISTOR>. At pin 1 of <RESISTOR>R5303</RESISTOR> is 8.2V which from what I can tell is simply <SIGNAL>PPBUS_G3H</SIGNAL> not boosted due to bypass? I get the same reading on a board that starts normally both appear that <TRANSISTOR>Q5300</TRANSISTOR> is working properly. There is 3.3V at EN pin.\nI've checked that <RESISTOR>R5303</RESISTOR>/4/1/2 all reading correctly. Diode check at pin 2 of <RESISTOR>R5303</RESISTOR> red to ground is .7V.\n\nOn this board are you sure PBUS VSENSE is supposed to be 2.2V?"
+        },
+        {
+            "post_id": 69834,
+            "thread_id": 60563,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> partial short on <SIGNAL>PP3V3_S5</SIGNAL> <SIGNAL>PPBUS_G3H</SIGNAL> not boosting to 8.6V",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-01-02 08:31:36",
+            "message": "Reheating the SMC and a tap seems to have gotten the board to boot. Fans are running high but hopefully on the way now to having a working board.\nWent back to check and I do now have 1.5V at pin 2 of <RESISTOR>R5303</RESISTOR> now. I can only assume that the board with what used to be intermittent RAM issue that I was using for reference has another issue. What are the chances of both having same bad reading...\n\nAnyway thanks for the help. I'll report back if I can't finish this one up."
+        }
+    ]
+}

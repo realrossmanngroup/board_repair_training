@@ -1,0 +1,94 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00850": "What is 820-00850? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "C7651": "What is C7651? a CAPACITOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP1V8_AWAKE": "What is PP1V8_AWAKE? The PP1V8_AWAKE signal in the MacBook schematic is indicative of a power rail that delivers 1.8 volts when the machine is in an \"awake\" state. This is not a traditional power state defined in the older Intel PCH documentation; it seems to be specific to newer MacBook architectures. The \"awake\" designation likely refers to a state where the MacBook is on and ready for user interaction, but it is not necessarily at full operational capacity (which would be denoted by an S0 state).",
+        "PP1V2_AWAKE": "What is PP1V2_AWAKE? The PP1V2_AWAKE signal in the MacBook schematic is a power rail that provides 1.2 volts and is associated with the machine's awake state and is used for powering the T2 chip..",
+        "PP3V3_AWAKE": "What is PP3V3_AWAKE? a SIGNAL.",
+        "PPVDDCPU_AWAKE": "What is PPVDDCPU_AWAKE? a SIGNAL.",
+        "PPBUS_G3H_SSD0": "What is PPBUS_G3H_SSD0? a SIGNAL.",
+        "PP3V3_G3H_SSD0": "What is PP3V3_G3H_SSD0? a SIGNAL.",
+        "P0V9_LX0_SSD0": "What is P0V9_LX0_SSD0? a SIGNAL.",
+        "I2C_SSD_SCL": "What is I2C_SSD_SCL? a SIGNAL.",
+        "I2C_SSD_SDA": "What is I2C_SSD_SDA? a SIGNAL.",
+        "ISNS_SSDNAND_IOUT": "What is ISNS_SSDNAND_IOUT? a SIGNAL.",
+        "P1V8_LX0_SSD0": "What is P1V8_LX0_SSD0? a SIGNAL.",
+        "ISNS_SSDNAND_N": "What is ISNS_SSDNAND_N? a SIGNAL.",
+        "ISNS_SSDNAND_P": "What is ISNS_SSDNAND_P? a SIGNAL.",
+        "P2V7_SW1_TPS62180_SSD0": "What is P2V7_SW1_TPS62180_SSD0? a SIGNAL.",
+        "SSD0_OCARINA_RESET_L": "What is SSD0_OCARINA_RESET_L? a SIGNAL.",
+        "SSD0_VR_P2V7_EN": "What is SSD0_VR_P2V7_EN? a SIGNAL.",
+        "SSD0_OCARINA_PEN": "What is SSD0_OCARINA_PEN? a SIGNAL.",
+        "ISL9240": "What is ISL9240? This is a charging chip for Macbook motherboards from 2018 through 2020."
+    },
+    "threads": [
+        {
+            "post_id": 80492,
+            "thread_id": 61750,
+            "title": "2018 Pro board with PPBUS at 12.3V (<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>-A)",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-09-22 20:48:32",
+            "message": "Working on a dead <LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>. After removing a shorted capacitor (<CAPACITOR>C7651</CAPACITOR>), I get <SIGNAL>PPDCIN_G3H</SIGNAL> at 20V, <SIGNAL>PPBUS_G3H</SIGNAL> at 12.3V, and <SIGNAL>PP3V3_G3H</SIGNAL> at 3.3V.\n\nI tried a DFU firmware restore which showed an error the very end (“The System cannot be restored on this device.”), presumably because the machine cannot start up.\n\nWhat can I troubleshoot to show why <SIGNAL>PPBUS_G3H</SIGNAL> fails to go to 12.6V?"
+        },
+        {
+            "post_id": 80498,
+            "thread_id": 61750,
+            "title": "2018 Pro board with PPBUS at 12.3V (<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>-A)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-23 01:07:35",
+            "message": "There is a communication problem between T2 and <CHIP>U7000</CHIP>.\n\nIf enters DFU, all AWAKE and SLPS2R voltages should be present.\nCheck if all SSD voltages are there."
+        },
+        {
+            "post_id": 80656,
+            "thread_id": 61750,
+            "title": "2018 Pro board with PPBUS at 12.3V (<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>-A)",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-09-26 16:26:58",
+            "message": "The following voltages are present for ca. 5 seconds, then go to 0 for 1 second, and pulsing so forth:\n\n<SIGNAL>PP1V2_AWAKE</SIGNAL>: 1.2V\n<SIGNAL>PP1V8_AWAKE</SIGNAL>: 1.8V\n<SIGNAL>PP3V3_AWAKE</SIGNAL>: 3.3V\nPPVDDCPUSRAM_AWAKE: 0.8V\n<SIGNAL>PPVDDCPU_AWAKE</SIGNAL>: 0.75V\nPVDDCPUSRAMAWAKE: 0.8V\nP1V1SLPS2R: 1.1V\nP1V8SLPS2R: 1.8V\nP1V8SLPS2R: 0.8V\n\nThe SSD voltages are:\n\n<SIGNAL>PPBUS_G3H_SSD0</SIGNAL>: 12.3V\n<SIGNAL>PP3V3_G3H_SSD0</SIGNAL>: 3.3V\n<SIGNAL>I2C_SSD_SCL</SIGNAL>: 1.8V\n<SIGNAL>I2C_SSD_SDA</SIGNAL>: 1.8V\n<SIGNAL>ISNS_SSDNAND_N</SIGNAL>: 12.3V\n<SIGNAL>ISNS_SSDNAND_P</SIGNAL>: 12.3V\n<SIGNAL>ISNS_SSDNAND_IOUT</SIGNAL>: 0.23V\n<SIGNAL>P1V8_LX0_SSD0</SIGNAL>: 0V\n<SIGNAL>P0V9_LX0_SSD0</SIGNAL>: 0V\n<SIGNAL>P2V7_SW1_TPS62180_SSD0</SIGNAL>: 0V"
+        },
+        {
+            "post_id": 80658,
+            "thread_id": 61750,
+            "title": "2018 Pro board with PPBUS at 12.3V (<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>-A)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-26 17:44:37",
+            "message": "Put some logic on your work.\nI said all AWAKE and SLPS2R voltage have been confirmed; as you was able to see the machine in DFU mode!\nHowever, is your choice, if you like to waste time checking them again.\n\nYou didn't check exact points expected for SSD voltage; but enough to see all missing.\nCheck diode mode to ground at L9020/30/80."
+        },
+        {
+            "post_id": 80668,
+            "thread_id": 61750,
+            "title": "2018 Pro board with PPBUS at 12.3V (<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>-A)",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-09-27 09:46:31",
+            "message": "Diode mode (+ probe on ground) readings are:\nL9020: 0.36\nL9030: 0.35\nL9080: 0.36"
+        },
+        {
+            "post_id": 80673,
+            "thread_id": 61750,
+            "title": "2018 Pro board with PPBUS at 12.3V (<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>-A)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-27 12:30:40",
+            "message": "Check <SIGNAL>SSD0_VR_P2V7_EN</SIGNAL>, <SIGNAL>SSD0_OCARINA_PEN</SIGNAL>, <SIGNAL>SSD0_OCARINA_RESET_L</SIGNAL>."
+        },
+        {
+            "post_id": 80695,
+            "thread_id": 61750,
+            "title": "2018 Pro board with PPBUS at 12.3V (<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER>-A)",
+            "user_id": 28264,
+            "username": "sekidata",
+            "post_date": "2021-09-28 15:44:56",
+            "message": "Just noticed that <CHIP>U7000</CHIP> gets extremely hot as soon as the charger is plugged in... I assume it's shorted. This component (<CHIP>ISL9240</CHIP>) isn't easy to find, so I'll order from China."
+        }
+    ]
+}

@@ -1,0 +1,127 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3662": "What is 820-3662? a LOGIC BOARD PART NUMBER.",
+        "U7701": "What is U7701? a CHIP.",
+        "R7708": "What is R7708? a RESISTOR.",
+        "R7703": "What is R7703? a RESISTOR.",
+        "Q7706": "What is Q7706? Q7706 takes PPBUS_G3H's main 12.6v and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q7706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R7788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q7706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "Q7701": "What is Q7701? a TRANSISTOR.",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U7750": "What is U7750? a CHIP.",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "BKLT_SCL": "What is BKLT_SCL? BKLT_SCL is an I2C signal clock line between the LED driver that creates the LCD backlight power rail that powers the backlight in the screen and the screen. The screen needs to speak to the LED driver on this line before backlight voltage will be created..",
+        "PPBUS_S0_LCDBKLT_PWR_SW": "What is PPBUS_S0_LCDBKLT_PWR_SW? PPBUS_S0_LCDBKLT_PWR_SW is a line after the inductor in the DC to DC boost circuit for backlight that connects to the LED driver’s switch(SW) pin where it is switched to ground rapidly in order to create the boosted voltage for the backlight circuit. .",
+        "R7740": "What is R7740? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 42330,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1404,
+            "username": "jamiehorn1",
+            "post_date": "2018-11-19 04:48:05",
+            "message": "Hi all,\n\nI have a 2014 MBP with no backlight, image is present with torch under screen.\n\nBacklight Output = 12v\nKG Display has been tested.\n\nI'll be honest with no backlight, I generally replace most common component failures instead of testing as it's just quicker.\n\nBut this one doesn't want to play ball.\n\nComponents changed:\n\n- FB Resistors (<RESISTOR>R7708</RESISTOR>/9)\n- LED Driver (<CHIP>U7701</CHIP>)\n- LCD Connector\n- Both mosfets (<TRANSISTOR>Q7706</TRANSISTOR> incl. resistors for v. divider) + (<TRANSISTOR>Q7701</TRANSISTOR>)\n\nThe odd thing is that on the SW lines I get 0v so <TRANSISTOR>Q7701</TRANSISTOR> mosfet is not opening. <RESISTOR>R7703</RESISTOR> is not blown, checking the voltage at pins 1 and 2 of LED driver I get 0.01v.\n\nAny ideas on why that might be?\n\nThere is also no short on backlight output.\n\nThanks\nJamie"
+        },
+        {
+            "post_id": 42331,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-19 06:41:06",
+            "message": "\"The odd thing is that on the SW lines I get 0v so <TRANSISTOR>Q7701</TRANSISTOR> mosfet is not opening.\"\nWhen <TRANSISTOR>Q7701</TRANSISTOR> is opened, it will pull down <SIGNAL>PPBUS_S0_LCDBKLT_PWR_SW</SIGNAL>.\nSo it will have 0V on both D and S in that moment...\nHowever, <TRANSISTOR>Q7701</TRANSISTOR> is not triggered if you have 12V DC on L7710/<DIODE>D7701</DIODE>.\n\nDo a PRAM reset first.\nCan you see any activity on <SIGNAL>BKLT_SCL</SIGNAL>/SDA lines (with o-scope) when pressing backlight adjust keys?\n\nIf you have 0V at <SIGNAL>BKLT_SD</SIGNAL> means <CHIP>U7701</CHIP> receive information to control backlight somehow.\nCheck all resistor/traces from its area.\nYou can also try changing <CHIP>U7750</CHIP>."
+        },
+        {
+            "post_id": 42335,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-19 07:04:50",
+            "message": "What do you get in diode mode when you measure Backlight output? Sounds like possibly an issue with the feedback or switch trace."
+        },
+        {
+            "post_id": 42336,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1404,
+            "username": "jamiehorn1",
+            "post_date": "2018-11-19 07:12:01",
+            "message": "Hi both,\n\nI have tried a PRAM reset but not since replacing the components so will try that later on and report back.\nI also replaced <CHIP>U7750</CHIP> with no luck.\nSCL/SDA lines were pulsing when I checked but will double check later on.\n\nDiode mode on backlight output is 0.750 which I believe is normal. I checked continuity on both FB and SW lines, both okay.\n\nI'll have another look at the <CHIP>U7750</CHIP> area and see if anything is reading incorrectly.\n\nThanks!"
+        },
+        {
+            "post_id": 42337,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-19 07:16:24",
+            "message": "Oh wait, yeah this is a Pro not an Air my bad. I think the only possibility here is bad driver <CHIP>U7701</CHIP>."
+        },
+        {
+            "post_id": 42339,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1404,
+            "username": "jamiehorn1",
+            "post_date": "2018-11-19 07:33:22",
+            "message": "I changed <CHIP>U7701</CHIP> twice because I thought the same but no luck there either.\n\nI did however forget to mention when I first replaced <TRANSISTOR>Q7706</TRANSISTOR> and plugged in, pin 1 on the LCD connector completely fried along with <TRANSISTOR>Q7706</TRANSISTOR>. After this I obviously replaced the LCD connector and <TRANSISTOR>Q7706</TRANSISTOR>. It hasn't done that since but I'm not sure if that gives any hints?"
+        },
+        {
+            "post_id": 42340,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-19 08:06:50",
+            "message": "Voltage on backlight still 12 after that?"
+        },
+        {
+            "post_id": 42341,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1404,
+            "username": "jamiehorn1",
+            "post_date": "2018-11-19 08:23:44",
+            "message": "Yes it remained at 12v. I feel like there is multiple issues going on here..."
+        },
+        {
+            "post_id": 42343,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-19 08:26:02",
+            "message": "Did you rebuild the traces too?\nIf connector got burned, usually destroys traces too."
+        },
+        {
+            "post_id": 42345,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1404,
+            "username": "jamiehorn1",
+            "post_date": "2018-11-19 08:47:02",
+            "message": "Yes trace looked okay because I saw it and unplugged immediately, then reworked all pads and soldered the new connector."
+        },
+        {
+            "post_id": 42353,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-19 10:22:20",
+            "message": "Did you try the new (compatible) LCD after that?\nDid you solder correct <TRANSISTOR>Q7701</TRANSISTOR> (N-channel)?\n\nPost voltage at pins 15, 16, 17 of <CHIP>U7701</CHIP>.\n<RESISTOR>R7740</RESISTOR> is OK?"
+        },
+        {
+            "post_id": 42381,
+            "thread_id": 42330,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> (mbp 15)",
+            "user_id": 1404,
+            "username": "jamiehorn1",
+            "post_date": "2018-11-20 01:28:57",
+            "message": "Gave up on this one in the end, I plugged the original LCD back in and it fried pin 1 (again!). I would have needed to change the LCD connector again too as that melted inside. Time to move on as I've run out of donor boards for this.\n\nThanks everyone!"
+        }
+    ]
+}

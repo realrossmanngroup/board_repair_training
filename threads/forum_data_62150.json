@@ -1,0 +1,296 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "C6213": "What is C6213? a CAPACITOR.",
+        "U7200": "What is U7200? a CHIP.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "C1802": "What is C1802? Capacitor to ground on PCH_SRTCRST_L on machines from 2009-2012, PCH_SRTCRST_L needs to be high for PCH to not be in RTC reset mode, this capacitor can become corroded or leaky and result in this signal being pulled low. .",
+        "U2600": "What is U2600? a CHIP.",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "Q7950": "What is Q7950? a TRANSISTOR.",
+        "R7967": "What is R7967? a RESISTOR.",
+        "R7963": "What is R7963? a RESISTOR.",
+        "D5802": "What is D5802? a DIODE.",
+        "R7965": "What is R7965? a RESISTOR.",
+        "R7964": "What is R7964? a RESISTOR.",
+        "5V_S3": "What is 5V_S3? 5V_S3 is an abbreviation of “PP5V_S3” which is a 5 volt power rail present in an S3 state. S3 (Suspend to RAM) is a state where the system saves its context to RAM, a faster but more power-consuming method than S4. The system shuts down most components except for RAM, which remains powered to retain the system state. PM_SLP_S4_L is required for this rail to be present. ."
+    },
+    "threads": [
+        {
+            "post_id": 84452,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-02 19:42:58",
+            "message": "Hi all, I have an <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> that is having issues. Came in with no liquid damage, customer reported they were watching a movie and it shut off unexpectedly. I get intermittent green light but it only pulls 0.013A from the bench PSU. Found that <SIGNAL>PP5V_S3</SIGNAL> was shorted to ground (0.30ohm) and injected 1v, found <CAPACITOR>C6213</CAPACITOR> to heat up so I removed it. Short is clear now but still not getting <SIGNAL>PP5V_S3</SIGNAL>.\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.6v\n<SIGNAL>PP3V3_SUS</SIGNAL>: 0v\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 0v\n<SIGNAL>PM_DSW_PWRGD</SIGNAL>: 0v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL>: 3.3v\n<SIGNAL>PM_BATLOW_L</SIGNAL>: 0v\n<SIGNAL>PCH_SRTCRST_L</SIGNAL>: 3.4v\n<SIGNAL>PPVRTC_G3H</SIGNAL>: 3.4v\n<SIGNAL>RTC_RESET_L</SIGNAL>: 3.4v"
+        },
+        {
+            "post_id": 84455,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-03 00:57:59",
+            "message": "Post <CHIP>U7200</CHIP> basic voltage; pins 16, 13, 3, 8, 17, 6.\nDo you get <SIGNAL>SMC_PM_G2_EN</SIGNAL>?"
+        },
+        {
+            "post_id": 84469,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 08:30:11",
+            "message": "<CHIP>U7200</CHIP>\n3: 0v\n6: 0v\n8: 0v\n13: 3.4v\n16: 12.6v\n17: 0v\n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL>: 3.4v"
+        },
+        {
+            "post_id": 84471,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-03 08:35:53",
+            "message": "Check diode mode to ground at VREF and VREG3/5."
+        },
+        {
+            "post_id": 84472,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 08:43:14",
+            "message": "VREF: 687\nVREG3: 464\nVREG5: 516"
+        },
+        {
+            "post_id": 84476,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-03 10:46:59",
+            "message": "Then change <CHIP>U7200</CHIP>.\nBe sure to have good solders and traces.\nAlso check diode mode to ground at L7220/60."
+        },
+        {
+            "post_id": 84484,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 14:59:59",
+            "message": "Changed <CHIP>U7200</CHIP>, double checked all the solders/traces. Am now getting \nVREF: 679 \nVREG3: 637 \nVREG5: 503\n\nL7260 seems really low, diode is 144, L7220 is 390. Does this mean something is pulling <SIGNAL>PP5V_S3</SIGNAL> down?"
+        },
+        {
+            "post_id": 84485,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-03 15:32:49",
+            "message": "Post again <CHIP>U7200</CHIP> voltages; above mentioned pins."
+        },
+        {
+            "post_id": 84486,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 15:53:08",
+            "message": "Whoops, sorry. Completely forgot to check again.\n\n<CHIP>U7200</CHIP>\n3: 2v\n6: 0.757v\n8: 3.3v\n13: 3.3v\n16: 12.6v\n17: 5v\n\nSo <SIGNAL>PP5V_S5</SIGNAL> has returned."
+        },
+        {
+            "post_id": 84488,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 16:24:39",
+            "message": "Just to check my understanding so far. <CHIP>U7200</CHIP> needs Pin 6 to be low, Pin 13 to be high, and 13/17 to be at 3.3v and 5v. So this chip is now functioning correctly?"
+        },
+        {
+            "post_id": 84490,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-03 16:37:55",
+            "message": "\"<CHIP>U7200</CHIP> needs Pin 6 to be low\"\nDon't make wrong assumptions so easy!\nHowever, 0.757V is the correct voltage there; theoretical value is 10uAx78.7Kohm=0.787V.\nChip's datasheet explains why.\n\nYou should now have <SIGNAL>3V3_S5</SIGNAL> present at L7220."
+        },
+        {
+            "post_id": 84491,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 17:16:00",
+            "message": "I do now have <SIGNAL>3V3_S5</SIGNAL> present at L7220. I don't have <SIGNAL>PP5V_S3</SIGNAL> though. <SIGNAL>PM_SLP_S4_L</SIGNAL> is 0v. <CAPACITOR>C1802</CAPACITOR>/1803 are 3.3v"
+        },
+        {
+            "post_id": 84492,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 17:32:02",
+            "message": "Update: After reading some forum posts, I replaced <CHIP>U2600</CHIP> on a hunch. I now get consistent green light.\n\n<SIGNAL>PP5V_S3</SIGNAL>: [B]3.3V[/B]\n<SIGNAL>PM_SLP_S4_L</SIGNAL>: 3.3V\n\nPower supply is drawing 0.226A. No fan spin."
+        },
+        {
+            "post_id": 84495,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-03 18:17:43",
+            "message": "<SIGNAL>PM_SLP_S3_L</SIGNAL> should be also high.\nCheck that, as all voltages controlled by this signal too."
+        },
+        {
+            "post_id": 84496,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-03 18:41:36",
+            "message": "Looks like  <SIGNAL>PM_SLP_S3_L</SIGNAL> is also 3.3v"
+        },
+        {
+            "post_id": 84503,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-04 02:06:22",
+            "message": "Then you should have voltage in many S3 and S0 power rails; not CPU maybe.\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> goes high?"
+        },
+        {
+            "post_id": 84520,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-04 06:45:47",
+            "message": "Looks like <SIGNAL>ALL_SYS_PWRGD</SIGNAL> is still low. Will do some backtracking and see what rails I'm missing"
+        },
+        {
+            "post_id": 84531,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-04 09:42:53",
+            "message": "Remove <TRANSISTOR>Q7950</TRANSISTOR> and check <SIGNAL>ALL_SYS_PWRGD</SIGNAL> again."
+        },
+        {
+            "post_id": 84552,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-04 21:27:30",
+            "message": "<SIGNAL>ALL_SYS_PWRGD</SIGNAL> still low (0.027v) with <TRANSISTOR>Q7950</TRANSISTOR> removed."
+        },
+        {
+            "post_id": 84553,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-04 21:42:06",
+            "message": "<TRANSISTOR>Q7950</TRANSISTOR>\n1: 0.033V\n5: 1.075V\n6: 3.29V\n7: 1.505V\n\nAlso noticing now that the PCH gets hot after sitting plugged in for 5 or so mins. I take it that's not good..."
+        },
+        {
+            "post_id": 84554,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-04 23:36:43",
+            "message": "Let <TRANSISTOR>Q7950</TRANSISTOR> out for the moment; is not really needed at all in fact.\n\nRemove <RESISTOR>R7963</RESISTOR>-66 (one by one), until <SIGNAL>ALL_SYS_PWRGD</SIGNAL> goes high.\nKeep in place <RESISTOR>R7967</RESISTOR>."
+        },
+        {
+            "post_id": 84594,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-05 21:19:18",
+            "message": "Had to lift <RESISTOR>R7963</RESISTOR>, <RESISTOR>R7964</RESISTOR>, and <RESISTOR>R7965</RESISTOR> then <SIGNAL>ALL_SYS_PWRGD</SIGNAL> went high. No change otherwise though, other than....\n\nThis last time I plugged the board in, I noticed this time it was only pulling 0.009A and I lost my power rails. Touched the board to move it around and something burned my finger on the bottom corner of the board. Looked under the scope and applied some alcohol and it was <DIODE>D5802</DIODE> that was heating up. Replaced this from a donor, now I'm back where I was with ~0.220A from the PSU and the same rails present. This board is turning into a nightmare lol"
+        },
+        {
+            "post_id": 84599,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-06 01:02:15",
+            "message": "Which was the last resistor removed, before <SIGNAL>ALL_SYS_PWRGD</SIGNAL> going high?\nCheck its corresponding power supply."
+        },
+        {
+            "post_id": 84637,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-06 20:55:23",
+            "message": "It was <RESISTOR>R7965</RESISTOR>, so the finger points back to <CHIP>U7200</CHIP>. Pin 23 is only 0.204V and diode is 212. That seemed low so I checked in ohms, the meter was flashing OL without ever being able to settle on a number. Not sure where else to go from here."
+        },
+        {
+            "post_id": 84639,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-07 00:55:37",
+            "message": "So <SIGNAL>ALL_SYS_PWRGD</SIGNAL> is high if you put the other resistors back?\nWhich is the exact <SIGNAL>3V3_S5</SIGNAL> and <SIGNAL>5V_S3</SIGNAL> voltage?"
+        },
+        {
+            "post_id": 84687,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-07 21:25:41",
+            "message": "Sorry, I misunderstood your process for removing the resistors, after reading some more threads I realized you wanted me to remove one, test, then replace that one and move onto the next - I removed one, then left that one off and moved onto the next. \n\nI just re-tested by replacing <RESISTOR>R7964</RESISTOR> and <RESISTOR>R7965</RESISTOR> and checking with <RESISTOR>R7963</RESISTOR> off, then replacing <RESISTOR>R7963</RESISTOR> and removing <RESISTOR>R7964</RESISTOR>, then replacing <RESISTOR>R7964</RESISTOR> and removing <RESISTOR>R7965</RESISTOR>. In all three tests, <SIGNAL>ALL_SYS_PWRGD</SIGNAL> stays low, only if I remove all 3 resistors does it go high.\n\n<SIGNAL>3V3_S5</SIGNAL>: 3.330V\n<SIGNAL>5V_S3</SIGNAL> : 3.345V"
+        },
+        {
+            "post_id": 84694,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-08 02:02:03",
+            "message": "Check L7100 amd L7630 voltage, when all 3 resistors removed."
+        },
+        {
+            "post_id": 84702,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 31025,
+            "username": "hambook",
+            "post_date": "2022-01-08 10:18:17",
+            "message": "L7100: 0.003V\nL7630: 0.378V"
+        },
+        {
+            "post_id": 84703,
+            "thread_id": 62150,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Power Issues",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-08 11:31:01",
+            "message": "\"<SIGNAL>5V_S3</SIGNAL> : 3.345V\"\nOoops, I meesed this.\n\nSo check all components <SIGNAL>5V_S3</SIGNAL> related, near <CHIP>U7200</CHIP>."
+        }
+    ]
+}

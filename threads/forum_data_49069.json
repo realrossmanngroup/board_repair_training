@@ -1,0 +1,91 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "ISL9239": "What is ISL9239? This is a charging chip for Macbook motherboards from 2016-2018 responsible for charging the battery and creating the power rail PPBUS_G3H.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_RST_IN": "What is SMC_RST_IN? a SIGNAL.",
+        "SMC_AUX_OK": "What is SMC_AUX_OK? a SIGNAL.",
+        "SMC_MPM_OK": "What is SMC_MPM_OK? a SIGNAL.",
+        "CHGR_A": "What is CHGR_A? a SIGNAL.",
+        "Q7030": "What is Q7030? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 49069,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-10 14:46:36",
+            "message": "Have an <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> for no power no liquid whatsoever no signs of drop damage either. When I first got it in, it had no <SIGNAL>PP3V3_G3H</SIGNAL>. Was missing enable so replaced <CHIP>U7000</CHIP> and <SIGNAL>PP3V3_G3H</SIGNAL> came back but no 20 volts on DC-in. Replaced both <CHIP>CD3215</CHIP>'s, and now, this one is weird. It will show 5 volts on DC in for about 10 seconds or so on both ports, then it will shoot up to 20 volts at 0.00 amps. PPBUS is not present. DC in is a steady 20 volts and <SIGNAL>PP3V3_G3H</SIGNAL> is a steady 3.4 volts. Any ideas where to begin? PPBUS is for sure missing and not shorted to ground. I seem to have 5 volts on my TBA VDD pins and current sense resistor are not blown. Have tried 2 <CHIP>ISL9239</CHIP> chips so far.\n\nSomething I did notice too when this first came in was that when I would open the lid on the device, the fans would ramp up really quickly then shut off. With the battery connected, the device at first would give fan spin and then nothing when testing. That makes me suspect of an SMC or sensor issue as well."
+        },
+        {
+            "post_id": 49073,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-10 16:02:45",
+            "message": "So you get steady 20V at <RESISTOR>R7020</RESISTOR> after 10s?\n\nCheck near the USB port.\nThere should be one chip which is not present on schematic, nor boardview.\nPI3USB32, does it have any burn sign?"
+        },
+        {
+            "post_id": 49076,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-10 17:12:46",
+            "message": "Yes after 10 seconds it stays steady at 20. Will check that on Monday to be sure didn?t see any liquid but could still be burned"
+        },
+        {
+            "post_id": 49079,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-11 02:15:50",
+            "message": "20V means SMC talks with charger.\nFor some other reason <CHIP>U7000</CHIP> doesn't generate <SIGNAL>PPBUS_G3H</SIGNAL>.\nExtended thread on the forum didn't clarify yet how SMC/<CHIP>U7000</CHIP> assembly works.\nIf you have time, try to see if can get something disabling the communication between them.\nRemove F7000 and check if any voltage comes on (pin 1)."
+        },
+        {
+            "post_id": 49135,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-13 07:14:29",
+            "message": "Ok back to this one. The P13USB chip is present and not burned on this model at least no obvious damage that I can see. I removed F7000 and get zero volts on both sides of the fuse."
+        },
+        {
+            "post_id": 49136,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-13 07:27:47",
+            "message": "<SIGNAL>SMC_RST_IN</SIGNAL> is 0 volts, but based on the schematic, that doesn't matter as it comes from the keyboard.\n<SIGNAL>SMC_MPM_OK</SIGNAL> is missing, but <SIGNAL>SMC_AUX_OK</SIGNAL> is 3.4."
+        },
+        {
+            "post_id": 49137,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-13 08:19:49",
+            "message": "Thinking on its name, <SIGNAL>SMC_RST_IN</SIGNAL> should be good with 0V; high level means reset active.\nBetter to compare with good board; using same <CHIP>ISL9239</CHIP>.\n\n<SIGNAL>CHGR_A</SIGNAL>/BMON should be close to 0V, check that.\nTry changing <TRANSISTOR>Q7030</TRANSISTOR>/40.\n\nWe have feedback in other threads, where 13V has been confirmed on pin 1/F7000 (with fuse removed)."
+        },
+        {
+            "post_id": 49140,
+            "thread_id": 49069,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> No Power (weird one)",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-13 09:03:33",
+            "message": "Ok that was my next guess being that <CHIP>U7000</CHIP> was bad to begin with. Will replace <TRANSISTOR>Q7030</TRANSISTOR>/40 and the ISL again to rule that out."
+        }
+    ]
+}

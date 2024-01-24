@@ -1,0 +1,80 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "U5110": "What is U5110? This chip is responsible for SMC_RESET_L in many Macbook models..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "SPL_S5": "What is SPL_S5? a SIGNAL.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "R1962": "What is R1962? a RESISTOR.",
+        "3V3_S0": "What is 3V3_S0? Abbreviation for PP3V3_S0, a 3.3v power rail present when the machine is in an S0 working state.",
+        "ALL_SYS": "What is ALL_SYS? This is a typo of ALL_SYS_PWRGD When you see ALL_SYS, assume they meant to type ALL_SYS_PWRGD."
+    },
+    "threads": [
+        {
+            "post_id": 9256,
+            "thread_id": 9256,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>, Brief Power.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2016-11-06 08:34:50",
+            "message": "Got this board in with very light liquid damage. A few burned resistors near the SMC and <CHIP>U5110</CHIP> were replaced. Green/orange light and a fan spin for about 1 second, then off. No cycling. Checked SPI ROM, area looks good, but tested without chip in place (no fan cycling) and also with another SPI ROM just to see if it would affect anything, it didn't. Replaced original SPI ROM chip. Decided to reflow SMC since there was liquid nearby, and no change. Pulled SMC to make sure nothing ugly underneath, and it was really clean. While SMC was removed, I checked continuity of all BIOS lines and they're all good. Resistors all measure properly. Replaced SMC.\n\n<SIGNAL>SMC_RESET_L</SIGNAL> is present (3.3v), <SIGNAL>PM_DSW_PWRGD</SIGNAL> is present (3.38v), as is everything up to <SIGNAL>PM_SLP_S5_L</SIGNAL> as far as I can tell. When charger is connected, fan spins briefly and VCORE/<SIGNAL>PM_SLP_S5_L</SIGNAL> both spike/pulse, but then to 0v and the board has no power again. Main rails present, no shorts. Everything after <SIGNAL>PM_SLP_S5_L</SIGNAL> missing.\n\nAnything I can check before deciding the CPU is dead?"
+        },
+        {
+            "post_id": 9257,
+            "thread_id": 9256,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>, Brief Power.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-11-06 08:47:20",
+            "message": "It doesn't cycle which is unusual. Does CPU Vcore get voltage, 1 sec. should be long enough to get  a reading. I would also inspect around SMC again for bad resistors/traces. \nIt is not true that anything after <SIGNAL>SPL_S5</SIGNAL> is missing. If Vcore comes on then the whole power sequence already finished successfully."
+        },
+        {
+            "post_id": 9258,
+            "thread_id": 9256,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>, Brief Power.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2016-11-06 08:54:15",
+            "message": "Hey Duke, I meant that after the initial spike/fan, nothing after <SIGNAL>PM_SLP_S5_L</SIGNAL> is present (any longer). Sorry for confusion. It seems that after the fan turns on briefly, and then back off, I have everything before <SIGNAL>PM_SLP_S5_L</SIGNAL> steady (3v3/5v/1.05v sustains, etc). <SIGNAL>PM_SLP_S5_L</SIGNAL> is the first signal to be gone after the brief power-on.\n\nAs soon as charger is connected, VCORE spikes to 1.05v according to my scope.\n\nI'll check around SMC again, but have checked very well and everything is in place and no visibly damages or ugly resistors."
+        },
+        {
+            "post_id": 9259,
+            "thread_id": 9256,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>, Brief Power.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-11-06 09:29:26",
+            "message": "Getting PGood signal on <RESISTOR>R1962</RESISTOR>? <CHIP>U1950</CHIP> is infamous."
+        },
+        {
+            "post_id": 9262,
+            "thread_id": 9256,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>, Brief Power.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2016-11-06 10:42:38",
+            "message": "Hey Duke, I do not get pgood on <RESISTOR>R1962</RESISTOR>. I don't have <SIGNAL>3V3_S0</SIGNAL>, so pgood wouldn't show up would it?"
+        },
+        {
+            "post_id": 9265,
+            "thread_id": 9256,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>, Brief Power.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-11-06 11:53:05",
+            "message": "No way there is no <SIGNAL>3V3_S0</SIGNAL>. that is part of <SIGNAL>ALL_SYS</SIGNAL> and needed to enable Vcore."
+        },
+        {
+            "post_id": 9267,
+            "thread_id": 9256,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S5_L</SIGNAL>, Brief Power.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2016-11-06 12:11:29",
+            "message": "OK, so you meant in the brief .5-1second of when the fan turns on. Yes, it seems I have all appropriate rails for a split second, but then nothing. I thought you were asking if pgood at <RESISTOR>R1962</RESISTOR> was present at all times (it isn't), but yes, it is present in that split second when I first plug the charger in. Sorry for the confusion."
+        }
+    ]
+}

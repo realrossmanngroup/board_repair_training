@@ -1,0 +1,388 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "U1900": "What is U1900? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PP5V_S4RS3": "What is PP5V_S4RS3? PP5V_S4RS3 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "P5VS4RS3_EN": "What is P5VS4RS3_EN? PP5VS4RS3_EN is a signal that enables the PP5V_S4RS3 power rail. When you see _EN in front of a signal name, it means that it is enabling whatever comes before the _EN when the signal is high..",
+        "PM_S0_PGOOD": "What is PM_S0_PGOOD?  PM_S0_PGOOD is created when CPUVR_PGOOD and ALL_SYS_PWRGD are present and branches off to become PM_PCH_PWROK. PM_S0_PGOOD and SMC_DELAYED_PWRGD are necessary to create SYS_PWROK_R and PM_PCH_SYS_PWROK .",
+        "SPI_MLB_CS_L": "What is SPI_MLB_CS_L? a SIGNAL.",
+        "SPI_CS0_R_L": "What is SPI_CS0_R_L? a SIGNAL.",
+        "PP3V3_S3_EN": "What is PP3V3_S3_EN? a SIGNAL.",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "SMC_DELAYED_PWRGD": "What is SMC_DELAYED_PWRGD? SMC_DELAYED_PWRGD is a signal that comes from the SMC that is a pre-requisite for SYS_PWROK_R and PM_PCH_SYS_PWROK..",
+        "PPVCC_S0_CPU_PH1": "What is PPVCC_S0_CPU_PH1? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "R8000": "What is R8000? a RESISTOR.",
+        "ALL_SYS": "What is ALL_SYS? This is a typo of ALL_SYS_PWRGD When you see ALL_SYS, assume they meant to type ALL_SYS_PWRGD.",
+        "ALL_SYS_PWRG": "What is ALL_SYS_PWRG? This is a typo of ALL_SYS_PWRGD. When you see ALL_SYS_PWRG, assume they meant to type ALL_SYS_PWRGD.",
+        "SPI_MLB_IO1_MISO": "What is SPI_MLB_IO1_MISO? a SIGNAL.",
+        "820-2936B": "What is 820-2936B? a LOGIC BOARD PART NUMBER.",
+        "SPI_MLB_MISO": "What is SPI_MLB_MISO? SPI_MLB_MISO is a line between the SPI ROM BIOS chip and resistors that sit between it and the PCH. This often corrodes on Macbook Airs due to liquid damage and results in missing PM_SLP_S4_L and no bootup..",
+        "U7200": "What is U7200? a CHIP.",
+        "U7310": "What is U7310? a CHIP.",
+        "U7320": "What is U7320? a CHIP.",
+        "CPUVR_PWM2": "What is CPUVR_PWM2? a SIGNAL.",
+        "CPUVR_PWM1": "What is CPUVR_PWM1? a SIGNAL.",
+        "CPU_VR_FCCM": "What is CPU_VR_FCCM? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 38016,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-03 06:01:37",
+            "message": "This macbook came in with no signs of current or past corrosion anywhere to be found. Board looks as new.\nHistory: machine would sometimes shut down and work again for a while when started up again.\nLater, it only worked in safe mode, up until the current state: it wont power up at all.\n\nno fan spin\ngreen light functioning normally (starts green, then orange)\nusing original charger.\nEverything but I/O pcb and its flatcable disconnected [TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"] [/TD]\n \t\t\t[TD][B]Voltage[/B][/TD]\n \t\t\t[TD][B]Resistance to ground[/B][/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP3V42_G3H</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,4[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PPBUS_G3H</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]8,6[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PPVRTC_G3H</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,3[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP5V_S5</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]5[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP5V_S4RS3</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD]22k[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"][COLOR=#000000]<SIGNAL>P5VS4RS3_EN</SIGNAL>[/COLOR][/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD]98,5k[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PM_SLP_S4_L</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD]100k[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>SPI_MLB_CS_L</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,32[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>SPI_CS0_R_L</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,3[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"] [/TD]\n \t\t\t[TD=\"align: left\"] [/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP5V_S0</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD]63k[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP3V3_S5</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,3[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP3V3_S4</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD]33k[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP3V3_SUS</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,3[/TD]\n \t\t\t[TD]548k[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP3V3_S3</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD]184k[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP3V3_S0</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PP3V3_S3_EN</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>SMC_RESET_L</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,36[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>SMC_BC_ACOK</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,3[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>SMC_ADAPTER_EN</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,4[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>S5_PWRGD</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]3,36[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>ALL_SYS_PWRGD</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"] [/TD]\n \t\t\t[TD=\"align: left\"] [/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>S4_PWR_EN</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PM_SLP_S5_L</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"] [/TD]\n \t\t\t[TD=\"align: left\"] [/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PM_S0_PGOOD</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD]0.L (same for 2 donor boards)[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"] [/TD]\n \t\t\t[TD=\"align: left\"] [/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PPVCC_S0_CPU</SIGNAL>[/TD]\n \t\t\t[TD=\"align: right\"]0[/TD]\n \t\t\t[TD] [/TD]\n \t\t[/TR]\n[/TABLE]\n I've checked <CHIP>U1900</CHIP>, <CHIP>U1950</CHIP> and the SMC - the IC's, traces towards them and surrounding components look fine and clean.\n\nIve also checked all <CHIP>U6100</CHIP> pins with my scope. All but GND are sitting at ~3.3V (flat line)\n\nWhat to do?"
+        },
+        {
+            "post_id": 38018,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-08-03 07:35:22",
+            "message": "Resistance to ground on CPU VCore?"
+        },
+        {
+            "post_id": 38019,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-08-03 07:46:25",
+            "message": "This is going to suck. <SIGNAL>PM_DSW_PWRGD</SIGNAL> and <SIGNAL>SMC_DELAYED_PWRGD</SIGNAL> present? Your issue isn't no <SIGNAL>PM_SLP_S4_L</SIGNAL>. It's <SIGNAL>PM_SLP_S5_L</SIGNAL> missing that is causing all your issues. Any pulse on <SIGNAL>PM_SLP_S5_L</SIGNAL> when first turning it on?"
+        },
+        {
+            "post_id": 38020,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-03 08:12:23",
+            "message": "[USER=\"1153\"]JohnB8812[/USER] : <SIGNAL>PPVCC_S0_CPU_PH1</SIGNAL> = 7.5 Ohm to gnd\n\n[USER=\"637\"]TCRScircuit[/USER] : <SIGNAL>PM_DSW_PWRGD</SIGNAL> - 3.4V\n<SIGNAL>SMC_DELAYED_PWRGD</SIGNAL> - 0V and 100kOhm to gnd\n<SIGNAL>PM_SLP_S5_L</SIGNAL> does have a ~3.2V pulse when first hooking power up. the pulse lasts about 80miliseconds, if that matters."
+        },
+        {
+            "post_id": 38021,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2018-08-03 08:16:17",
+            "message": "OK, this could be dead SMC, dead CPU, Corrupt ROM etc... <SIGNAL>SMC_DELAYED_PWRGD</SIGNAL> is low because the CPU isn't talking to the SMC to send out PGOOD. Your sure you have pp3v3 and <SIGNAL>PP5V_S5</SIGNAL> correct?"
+        },
+        {
+            "post_id": 38023,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-03 08:31:24",
+            "message": "Doesn't hurt to double-check..\nThey're both present: <SIGNAL>PP3V3_S5</SIGNAL> at 3.3V and <SIGNAL>PP5V_S5</SIGNAL> at 5V."
+        },
+        {
+            "post_id": 38024,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-03 08:41:37",
+            "message": "Solder an wire to <SIGNAL>SMC_ONOFF_L</SIGNAL> and touch the ground with it.\nThen look if <SIGNAL>PM_PWRBTN_L</SIGNAL> and <SIGNAL>PM_SLP_S5_L</SIGNAL> react at the same time.\nIs <SIGNAL>PM_RSMRST_L</SIGNAL> high?"
+        },
+        {
+            "post_id": 38025,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-03 08:50:28",
+            "message": "<SIGNAL>PM_RSMRST_L</SIGNAL> is high. No time to do further testing right now, will check back later!"
+        },
+        {
+            "post_id": 38049,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-04 01:04:27",
+            "message": "[USER=\"682\"]2informaticos[/USER] : with <SIGNAL>SMC_ONOFF_L</SIGNAL> shorted to ground, <SIGNAL>PM_PWRBTN_L</SIGNAL> is pulled down to ~300mV\n<SIGNAL>PM_SLP_S5_L</SIGNAL> gives a ~80ms 3.2V pulse, just as it does when connecting the magsafe.\n\nI don't know what this is telling me, other than that the power button press is being responded to."
+        },
+        {
+            "post_id": 38050,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-04 01:35:21",
+            "message": "So SMC sends power button signal to PCH and this one respond with <SIGNAL>PM_SLP_S5_L</SIGNAL>.\nThat means <SIGNAL>S4_PWR_EN</SIGNAL> pulses, and voltage on <RESISTOR>R8000</RESISTOR>.\n<SIGNAL>PM_SLP_S4_L</SIGNAL> should pulse, as <SIGNAL>PM_SLP_S3_L</SIGNAL> too.\nAlso check for pulse at L7520.\nIn fact all secondary coils should pulse at the same moment; the ones from CPU maybe not."
+        },
+        {
+            "post_id": 38056,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-04 04:11:29",
+            "message": "[TABLE=\"border: 0, cellspacing: 0\"]\n[TR]\n[TD=\"align: left\"][COLOR=#000000]<RESISTOR>R8000</RESISTOR> pin 1 and 2[/COLOR][/TD]\n \t\t\t[TD=\"align: left\"]pulsing[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>S4_PWR_EN</SIGNAL>[/TD]\n \t\t\t[TD=\"align: left\"]pulsing[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PM_SLP_S4_L</SIGNAL>[/TD]\n \t\t\t[TD=\"align: left\"]pulsing[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]<SIGNAL>PM_SLP_S3_L</SIGNAL>[/TD]\n \t\t\t[TD=\"align: left\"]pulsing[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]L7520 (<SIGNAL>PP5V_S4RS3</SIGNAL>)[/TD]\n \t\t\t[TD=\"align: left\"]pulsing[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]L7630[/TD]\n \t\t\t[TD=\"align: left\"]pulsing[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]L7430[/TD]\n \t\t\t[TD=\"align: left\"]pulsing[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]L7560[/TD]\n \t\t\t[TD=\"align: left\"]~3,3V[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]CPU coils L7310 and L7320[/TD]\n \t\t\t[TD=\"align: left\"]no pulse[/TD]\n \t\t[/TR]\n[TR]\n[TD=\"align: left\"]L7701[/TD]\n \t\t\t[TD=\"align: left\"]no pulse[/TD]\n \t\t[/TR]\n[/TABLE]"
+        },
+        {
+            "post_id": 38071,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-04 13:41:13",
+            "message": "Dou you get only one pulse, or cycling every 5s?\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> pulses too?\n\nI have one 00165 here with one pulse only.\nI tried another BIOS dump (clean ME) and the board stays on. However doesn't work yet, no USB activity.\nShould have something more, I only commented as seems that BIOS is involved somehow in starting too...\nJust for test, I tried again its BIOS and got again one pulse only. Tried another BIOS, one pulse too.\nReflased the clean ME dump and board stays on again.\nThis one was liquid damaged and SMC was changed too."
+        },
+        {
+            "post_id": 38123,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-08-05 13:59:52",
+            "message": "CPU Vcore not coming on is worrying. Is <SIGNAL>ALL_SYS</SIGNAL> pulsing?"
+        },
+        {
+            "post_id": 38188,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-08 04:53:33",
+            "message": "[USER=\"2\"]dukefawks[/USER]  - <SIGNAL>ALL_SYS_PWRGD</SIGNAL> pulses once when I connect the charger or short <SIGNAL>SMC_ONOFF_L</SIGNAL>\n\n[USER=\"682\"]2informaticos[/USER] - I've only checked <SIGNAL>ALL_SYS_PWRGD</SIGNAL> and <SIGNAL>PM_SLP_S5_L</SIGNAL>, both will only do a single pulse like your board. I can try looking at the BIOS if there's nothing else left to do, because I have no BIOS programming experience beyond flashing mostly older windows laptops."
+        },
+        {
+            "post_id": 38211,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-08-08 06:06:41",
+            "message": "What is resistance to GND on CPU Vcore?"
+        },
+        {
+            "post_id": 38216,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-08 07:10:47",
+            "message": "8.5 Ohms on both L7310 and L7320"
+        },
+        {
+            "post_id": 38249,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-08-09 14:49:09",
+            "message": "BIOS is the only thing that is left now."
+        },
+        {
+            "post_id": 38269,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-09 23:52:14",
+            "message": "Alright, I guess this will be my first apple BIOS job. Time for some experimenting on donor boards.. will report back later.."
+        },
+        {
+            "post_id": 38280,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-10 09:02:33",
+            "message": "I've taken the <CHIP>U6100</CHIP> off the board and read its contents. File can be downloaded [URL=\"https://atomrepair.nl/files/<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A-org.zip\"]here[/URL]. I compared it to a clean ME <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> bin I found online, it looks about the same, but there are differences. I dont know if I can tell whether something is messed up by looking at this.\n\nNot sure how to proceed. Do I need to replace only the ME region with a known good one?\nME Analyzer says firmware version for this BIN is 10.0.35.1012\n\nps: I tried to link to the bin file below, but the board stripping part of the link. Now I can't remove the link at all. If i take it out, it wont let me save the post.. feel free to ignore."
+        },
+        {
+            "post_id": 38293,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-08-10 12:01:14",
+            "message": "Just flash any 00165 file. Bad ME will not affect it turning on. Once it works we can fix the ME."
+        },
+        {
+            "post_id": 38313,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-11 04:17:46",
+            "message": "I flashed it with a clean ME bin I got off of badcaps, put it back on the board and am seeing no difference. All pins are properly connected, all except GND sitting at ~3.3V like before."
+        },
+        {
+            "post_id": 38337,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-13 03:07:18",
+            "message": "Now I've tried the following:\n\noriginal bios chip with two different clean ME bin's.\nA different bios chip off of a donor board with whatever bios was on there.\n\nAll result in the same symptoms. Machine wont turn on and no pulse on CPU Vcore. Anything else I can do?"
+        },
+        {
+            "post_id": 38339,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-13 03:27:05",
+            "message": "You should get atleast pulsing <SIGNAL>ALL_SYS_PWRGD</SIGNAL> and other power rails, except VCORE.\nIf not, something else happened on the board..."
+        },
+        {
+            "post_id": 38340,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-13 03:39:33",
+            "message": "After each swap I have done a few quick measurements to see if the situation looked the same as before. <SIGNAL>ALL_SYS_PWRG</SIGNAL> is still pulsing like before. I can go back and measure other rails, if thats important."
+        },
+        {
+            "post_id": 38343,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-08-13 03:52:44",
+            "message": "From now BIOS is involved to get VCORE too.\nCheck voltages at pins 2, 5, 6 of SPI chip.\nYou must get 3V atleast for short time when power up the board.\nWhen SPI chip is accessed, by PCH or SMC, these voltages drop.\nIf any do not get voltage at all (0V steady) means there is a broken trace, or open resistor between SPI and PCH.\nThe pull-up resistors for SPI chip are inside PCH..."
+        },
+        {
+            "post_id": 38344,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-13 05:58:48",
+            "message": "All pins but GND are sitting at a steady 3.3V"
+        },
+        {
+            "post_id": 38366,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-13 23:36:31",
+            "message": "[B]pin 2 <SIGNAL>SPI_MLB_IO1_MISO</SIGNAL>[/B]\n[ATTACH type=\"full\" width=\"30%\"]38377._xfImport[/ATTACH]\n\nAre these normal measurements? I don't have an easily accessible functioning board here"
+        },
+        {
+            "post_id": 38380,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-14 00:02:23",
+            "message": "Found a working <LOGIC BOARD PART NUMBER>820-2936B</LOGIC BOARD PART NUMBER> I had lying around. It had some issues (had moisture damage and runs very slowly), but it will boot up. The pins look different on this one:\n\n[B]<SIGNAL>SPI_MLB_MISO</SIGNAL>[/B]\n[ATTACH type=\"full\" width=\"30%\"]38381._xfImport[/ATTACH]\n\nI take it that in my 00165 board there is some type of handshake thing going on that isn't being replied to?"
+        },
+        {
+            "post_id": 38413,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-08-14 17:19:05",
+            "message": "If Vcore is not coming on then the CPU can never process the BIOS. Vcore should at least do something before you should worry about the BIOS."
+        },
+        {
+            "post_id": 38433,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-14 23:12:48",
+            "message": "[QUOTE=\"dukefawks, post: 38249\"]If Vcore is not coming on then the CPU can never process the BIOS. Vcore should at least do something before you should worry about the BIOS.[/QUOTE]\n\nbut.. a few posts ago you said:\n\n[QUOTE=\"dukefawks, post: 38249\"]BIOS is the only thing that is left now.[/QUOTE]\n\nDid my scope pics show something to make this board go from flashing a different BIOS to troubleshooting Vcore?\n\nFeeling bad that I dont know where to go from here again... I looked at where Vcore comes from.. <CHIP>U7310</CHIP> and <CHIP>U7320</CHIP>.\n\n<CHIP>U7320</CHIP> VCC and <SIGNAL>CPU_VR_FCCM</SIGNAL> both pulse once.\n<SIGNAL>CPUVR_PWM2</SIGNAL> and <SIGNAL>CPUVR_PWM1</SIGNAL>  do not pulse, but sit at 0V and have 466kOhm to GND. same resistance on a donor board.\n\n<SIGNAL>CPUVR_PWM2</SIGNAL>/1 are generated by <CHIP>U7200</CHIP>, which in turn requires <SIGNAL>PP5V_S0</SIGNAL> on its VCC pin to power up. <SIGNAL>PP5V_S0</SIGNAL> pulses, but wont stay on.\n\nI would expect <SIGNAL>CPUVR_PWM2</SIGNAL> to pulse just like <SIGNAL>PP5V_S0</SIGNAL> does. I've taken a close look at <CHIP>U7200</CHIP>, but it and its surroundings look fine.\n\nIs <CHIP>U7200</CHIP> a suspect here or do I need a solid <SIGNAL>PP5V_S0</SIGNAL> for this circuitry to work at all?"
+        },
+        {
+            "post_id": 38541,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-08-17 12:07:13",
+            "message": "<CHIP>U7200</CHIP> needs to be told from the CPU to turn on. The problem is pretty much never with <CHIP>U7200</CHIP> and more likely with the CPU. Just try another BIOS and if that does not help I would call it a night with this one."
+        },
+        {
+            "post_id": 38575,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-18 02:13:12",
+            "message": "Thanks for the assistance in this thread guys.\n\nAll in all I've tried three different bios files; two I found online and one from a donor board. Unless someone has one thats definitely worth a try I guess this is the end of the line. Learned something new, but not the most profitable of repairs :rolleyes:."
+        },
+        {
+            "post_id": 38660,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-20 22:43:51",
+            "message": "Feel free to close this one. Cause found (CPU), no fix."
+        },
+        {
+            "post_id": 38661,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-21 03:40:20",
+            "message": "Cancel that.. I just ran it through the UC, after that it got fan spin. Left it on for a while, switched it off and on again.. Now its just repeating short fan spins. Should I try heating it a little (to pre-reflow temp) first or UC it again?"
+        },
+        {
+            "post_id": 38662,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-21 05:51:44",
+            "message": "I've UC'd it again and put the original BIOS chip with original BIOS on it back on the board. Getting consistent full fan spin now. I'm guessing there must've been some corrosion under the CPU after all.\nCPU Vcore is now 1.7V, all other rails I was missing before (<SIGNAL>ALL_SYS_PWRGD</SIGNAL>) are back up. No gong or image on screen (internal or external). NVRAM reset doesnt seem to do anything, but it will shut off when holding the power button.\nUSB mouse light is flashing when connected. Still a borked CPU?"
+        },
+        {
+            "post_id": 38750,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-08-23 14:44:31",
+            "message": "Likely, or corroded solder ball under there. I've had a few like that on the 3330 cured with a mild PCH reflow with some flux, but wouldn't try that on the wimpy CPUs here."
+        },
+        {
+            "post_id": 39005,
+            "thread_id": 38016,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>-A - <SIGNAL>PM_SLP_S4_L</SIGNAL> missing",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2018-08-29 06:34:48",
+            "message": "I tried a steamy hot ~85 degrees UC bath for 30 sec like you suggested in another post here somewhere, now it won't spin the fan anymore. I'm giving up on this one, looks like its a problem under the CPU and I cant fix that."
+        }
+    ]
+}

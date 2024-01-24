@@ -1,0 +1,485 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2330": "What is 820-2330? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "CHGR_ACOK": "What is CHGR_ACOK? This is identical to SMC_BC_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "RTC_CLK32K_XTALOUT": "What is RTC_CLK32K_XTALOUT? a SIGNAL.",
+        "PP3V3_G3_RTC": "What is PP3V3_G3_RTC? a SIGNAL.",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "C7771": "What is C7771? Tantalum capacitor on 820-2330 and 820-2532 logic boards that often dies and causes PP1V05_S5_MCP or PP1V05_S5 to be 0.331v instead of 1.05v. If heating this cap restores voltage to this rail, replace.",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PPVCORE_GPU": "What is PPVCORE_GPU? This is the main power rail for the GPU. This is required for the GPU to turn on so you can get image on the display. .",
+        "PPVTTDDR_S3": "What is PPVTTDDR_S3? PPVTTDDR_S3 is a 3.3v power rail that powers the DDR RAM when the machine is in an S3 suspend to RAM state. .",
+        "PPVCORE_S0_MCP_REG": "What is PPVCORE_S0_MCP_REG? a SIGNAL.",
+        "U5388": "What is U5388? a CHIP.",
+        "PPVIN_S5_CPU_IMVP_ISNS": "What is PPVIN_S5_CPU_IMVP_ISNS? a SIGNAL.",
+        "CPUVCORE_HISIDE_IOUT": "What is CPUVCORE_HISIDE_IOUT? a SIGNAL.",
+        "PPVIN_S5_CPU_IMVP_ISNS_R": "What is PPVIN_S5_CPU_IMVP_ISNS_R? a SIGNAL.",
+        "R5388": "What is R5388? a RESISTOR.",
+        "R5335": "What is R5335? a RESISTOR.",
+        "ISL6258": "What is ISL6258? This is a charging chip for Macbook motherboards from 2008 through 2009.",
+        "820-2327": "What is 820-2327? a LOGIC BOARD PART NUMBER.",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "SMC_BATT_ISENSE": "What is SMC_BATT_ISENSE? a SIGNAL.",
+        "SMC_CPU_HI_ISENSE": "What is SMC_CPU_HI_ISENSE? a SIGNAL.",
+        "SMC_CPU_FSB_ISENSE": "What is SMC_CPU_FSB_ISENSE? a SIGNAL.",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R5380": "What is R5380? a RESISTOR.",
+        "R5391": "What is R5391? a RESISTOR.",
+        "R5330": "What is R5330? a RESISTOR.",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "SMC_DCIN_ISENSE": "What is SMC_DCIN_ISENSE? a SIGNAL.",
+        "Q5315": "What is Q5315? a TRANSISTOR.",
+        "PBUSVSENS_EN": "What is PBUSVSENS_EN? a SIGNAL.",
+        "PBUSVSENS_EN_L": "What is PBUSVSENS_EN_L? a SIGNAL.",
+        "PPBUS_G3H_VSENSE": "What is PPBUS_G3H_VSENSE? a SIGNAL.",
+        "PBUSVSENS_EN_DIV": "What is PBUSVSENS_EN_DIV? a SIGNAL.",
+        "PM_SLP_S3_L_R": "What is PM_SLP_S3_L_R? a SIGNAL.",
+        "U7750": "What is U7750? a CHIP.",
+        "P1V05S5_EN": "What is P1V05S5_EN? a SIGNAL.",
+        "P1V05S5_ISEN": "What is P1V05S5_ISEN? a SIGNAL.",
+        "R7779": "What is R7779? a RESISTOR.",
+        "C7776": "What is C7776? a CAPACITOR.",
+        "C7771V": "What is C7771V? a CAPACITOR.",
+        "R7780": "What is R7780? a RESISTOR.",
+        "R7751": "What is R7751? a RESISTOR.",
+        "C7770": "What is C7770? a CAPACITOR.",
+        "P1V05S5_DRVH": "What is P1V05S5_DRVH? a SIGNAL.",
+        "P1V05S5_DRVL": "What is P1V05S5_DRVL? a SIGNAL.",
+        "Q7770": "What is Q7770? a TRANSISTOR.",
+        "Q7771": "What is Q7771? a TRANSISTOR.",
+        "R7781": "What is R7781? a RESISTOR.",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7050": "What is R7050? Current sense shunt resistor for the battery, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 17/18 on ISL6259 should give you 2.02 ohms. .",
+        "D6950": "What is D6950? a DIODE.",
+        "R5281": "What is R5281? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SCL which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "SMBUS_SMC_BSA_SDA": "What is SMBUS_SMC_BSA_SDA? SMBUS_SMC_BSA_SDA is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "SMBUS_SMC_BSA_SCL": "What is SMBUS_SMC_BSA_SCL? SMBUS_SMC_BSA_SCL is another way to say SMBUS_SMC_5_G3_SCL, look at the definition provided for SMBUS_SMC_5_G3_SCL as it applies to .",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015."
+    },
+    "threads": [
+        {
+            "post_id": 39474,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-11 06:28:13",
+            "message": "Hi RRG team,\n\nI have a 2330 board that doesn't turn ON\nHistory: doesn't turn ON after battery replacement ( what I've been told )\nWhen received No PPBUS , no Green light and <RESISTOR>R6905</RESISTOR> very Hot, but still mesuring 47,5Ohms Could you please check the attached picture and give me your opinion regarding it.\nThen I replaced <CHIP>U7000</CHIP> and now:\n\n<SIGNAL>PPBUS_G3H</SIGNAL> : 12,26V LOW? should be 12,56V no?\n<SIGNAL>PP3V42_G3H</SIGNAL> :3,415 green light OK\n<SIGNAL>PP3V3_G3_RTC</SIGNAL> :2,806V\n<SIGNAL>SMC_RESET_L</SIGNAL>: 3,413V\n<SIGNAL>RTC_CLK32K_XTALOUT</SIGNAL>: Nice 32KHZ Wave.\n<SIGNAL>CHGR_ACOK</SIGNAL> : 3,235v\n\n<SIGNAL>PP3V3_S5</SIGNAL>: 3,313V\n<SIGNAL>PP5V_S3</SIGNAL>: 0V\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> : Pulse at 0,083V then 0V\n\nOf course I'm shorting <SIGNAL>SMC_ONOFF_L</SIGNAL> to GND to turn ON the board."
+        },
+        {
+            "post_id": 39478,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-11 07:19:06",
+            "message": "Do you get 1.05V at L7770?\nIf not (0.3V maybe), change <CAPACITOR>C7771</CAPACITOR>, as usual issue...\n\nCheck voltage and resistance to ground at battery bus, SCL/SDA.\n\nWhy did you change <CHIP>U7000</CHIP>?\nCheck if is properly soldered..."
+        },
+        {
+            "post_id": 39491,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-11 11:36:47",
+            "message": "Hi 2informaticos,\nthanks for replying,\nI have 1,108V at L7770\n\nI've replaced <CHIP>U7000</CHIP> because i had no PPBUS, no PP3V43 plus the <CHIP>U7000</CHIP> looked fried. Why? do you think i shouldn't replace it?\nAt battery bus\nCheck voltage and resistance to ground:\nSCL: 3,412V 6,34K\nSDA: Pulsing, then when checked with the scope i have kind of square signal but pulsing to ground. and 30,90KOhms to ground.\nmaybe it's because no battery was plugged then there no communication between the battery and the board.\n\nI did an SMC reset Test :\n-shorted <SIGNAL>SMC_ONOFF_L</SIGNAL> to GND\n-plugged the charger with keeping <SIGNAL>SMC_ONOFF_L</SIGNAL> to GND during 10sec  (  no green light )\n-released the short\n-and shorted it back but just a pulse\nand then both fan spinned at full speed then i took some mesurement:\n\nPPBUS: 12,26V\n<SIGNAL>PP5V_S3</SIGNAL>: 4,969V\n<SIGNAL>PPVCORE_S0_CPU</SIGNAL>: 0,986V\n<SIGNAL>PPVCORE_GPU</SIGNAL>: 0,904V\n<SIGNAL>PPVTTDDR_S3</SIGNAL>: 0,752V\n<SIGNAL>PPVCORE_S0_MCP_REG</SIGNAL>: 1,003V\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> : 3,302V\n\nI can turn it ON/OFF as long as i don't unplug the charger"
+        },
+        {
+            "post_id": 39498,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-11 14:22:19",
+            "message": "So it starts in SMC bypass mode.\nMeans some current, or voltage sensor is out of range.\nCheck them at pag46/47.\n\nAny sign of life in SMC bypass mode?\nUSB mouse gets light?\n\nOn battery bus is normal to get pulses, even if battery is not connected.\nSMC monitors the bus constantly..."
+        },
+        {
+            "post_id": 39501,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-11 16:13:37",
+            "message": "Yes usb mouse has light in SMC bypass mode.\nWhat do you mean out of range?\nWhat should i have for <SIGNAL>CPUVCORE_HISIDE_IOUT</SIGNAL> because I mesure 0V, and it's not shorted to ground.\nAt <CHIP>U5388</CHIP>: PP3V42_G3H_CPUCOREISNS, <SIGNAL>PPVIN_S5_CPU_IMVP_ISNS</SIGNAL>, <SIGNAL>PPVIN_S5_CPU_IMVP_ISNS_R</SIGNAL> are present <RESISTOR>R5388</RESISTOR> is 0,2 Ohm.\n<RESISTOR>R5335</RESISTOR> mesures 3,937K instead of 4,53K but i would say that it4s not critical."
+        },
+        {
+            "post_id": 39504,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-12 01:05:44",
+            "message": "Post the voltage for all these sensors..."
+        },
+        {
+            "post_id": 39505,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-12 01:13:56",
+            "message": "OK, this in SMC bypass mode  right ? Because in normal mode many of the sensors are powered by \"S0\" voltage , that we know the board doesn't reach.\nThanks"
+        },
+        {
+            "post_id": 39507,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-12 03:09:34",
+            "message": "Sensors have the same values in normal mode, or SMC bypass mode.\nThese values are just ignored by SMC when it is bypassed.\n\nAs your board doesn't start, then should be some S5 sensor wich blocks the SMC.\nSo we are interested in these ones.\nStart checking pins 9 & 15 of <CHIP>ISL6258</CHIP>..."
+        },
+        {
+            "post_id": 39522,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-12 13:42:31",
+            "message": "By the way on <CHIP>U7000</CHIP>: Resistance 17/18 is around 52 Ohms and is R052 mesures 25.6 and 7051 mesures 26 but regarding the schematic it should be 10 ohms each. Strange no?\nI was sure that i'd posted that info but when i had a look at the beging of the topic it wasn't the case.....sorry my fault.\n\nSo these are the mesures you ask.....don't hesitate to correct me if i've missed something....thanks\n\n<SIGNAL>CHGR_AMON</SIGNAL>: 0.034V <RESISTOR>R5380</RESISTOR>:OK traces OK to SMC\n<SIGNAL>CHGR_BMON</SIGNAL>:0.034V <RESISTOR>R5330</RESISTOR>: OK <RESISTOR>R5391</RESISTOR>: 4.165K (OK) traces OK to SMC\nCompared with a good <LOGIC BOARD PART NUMBER>820-2327</LOGIC BOARD PART NUMBER> MBP13 and I have the same mesurements\n\nS5 sensor to SMC :\n\n<SIGNAL>SMC_CPU_HI_ISENSE</SIGNAL>: 0.003V with only the charger plugged and in smc bypass mode 0.097V in smc bypass mode.\n<SIGNAL>SMC_CPU_FSB_ISENSE</SIGNAL>: 0V with only the charger plugged and 0.268V in smc bypass mode.\n<SIGNAL>SMC_BATT_ISENSE</SIGNAL>: 0.030V and the same in smc bypass mode\n\nall the aothers sensor rails are not in S5 right?\n\nAlso I've tried to replace back the board and turn in smc bypass mode: it turns off as soon as it start the dislay , sometimes i can see the apple, i've disconencted the elements (cd drive, hdd etc.....the best result i had was without the ssd in smc bypass mode : it displayed the question mark )\n\n\nI've replaced both Resistances <RESISTOR>R7051</RESISTOR> and <RESISTOR>R7051</RESISTOR> with 10 Omhs now resistance 17/18 is around 21 Ohms but still in the same state: NOT TURNING ON......except in smc bypass mode."
+        },
+        {
+            "post_id": 39525,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-12 15:08:47",
+            "message": "<SIGNAL>SMC_PBUS_VSENSE</SIGNAL> voltage?\nAlso <SIGNAL>SMC_DCIN_ISENSE</SIGNAL> and <SIGNAL>SMC_BATT_ISENSE</SIGNAL>."
+        },
+        {
+            "post_id": 39526,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-12 15:24:52",
+            "message": "<SIGNAL>SMC_PBUS_VSENSE</SIGNAL>: 0V and 0.001V to 0.005V in smc bypass mode\n<SIGNAL>SMC_DCIN_ISENSE</SIGNAL>: 0.031V and 0.001V to 0.005v in smc bypass mode\n<SIGNAL>SMC_BATT_ISENSE</SIGNAL>: 0.036V and 0.034v in smc bypass mode (already posted that voltage higher i think)"
+        },
+        {
+            "post_id": 39528,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-12 16:54:12",
+            "message": "Post <TRANSISTOR>Q5315</TRANSISTOR> voltages."
+        },
+        {
+            "post_id": 39530,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-12 17:49:15",
+            "message": "here we go\n\n1: GND\n2: <SIGNAL>PBUSVSENS_EN</SIGNAL>: 0V normal depending of S3 state: <SIGNAL>PM_SLP_S3_L_R</SIGNAL>\n3: <SIGNAL>PPBUS_G3H_VSENSE</SIGNAL>: 0V\n4: <SIGNAL>PPBUS_G3H</SIGNAL>: 12.25\n5: <SIGNAL>PBUSVSENS_EN_DIV</SIGNAL> : 12.13V\n6: <SIGNAL>PBUSVSENS_EN_L</SIGNAL>: 12.01V can't short to ground because of Pin 2 (no S3)"
+        },
+        {
+            "post_id": 39533,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-13 02:04:00",
+            "message": "Are you using original 85W Apple charger?\nIf not, try to start with battery connected too, if is good.\n\nAlso change <CAPACITOR>C7771</CAPACITOR>, as it always gives problems at the end..."
+        },
+        {
+            "post_id": 39535,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-13 05:41:03",
+            "message": "Yes it's an official 85W charger\nand just 2 minutes before i read your answer i was mesuring again voltage at <CAPACITOR>C7771</CAPACITOR> and have a nice 1.106V\nThen i plugged another official 85W apple charger and suddenly the volage dropped to 0.350V, so i wondered that <CAPACITOR>C7771</CAPACITOR> was margin then i've replaced it but still the same, then i replaced it once more with 2 150uF in parallel, still mesuring 0.350V.\nI've also mesured all the capacitor taken out / replaced , all have good mesuring ( within the tolerance )........\n\nNow it doesn't turn on in SMC bypass mode\nSo what do you think?"
+        },
+        {
+            "post_id": 39561,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-09-13 11:50:56",
+            "message": "I replaced that capacitor one more time to be sure but still the same.\nI removed L7770 and I have no voltage on pin 1 which mens that <CHIP>U7750</CHIP> doesn't provide any power.\nThis one  has <SIGNAL>PPBUS_G3H</SIGNAL> on pin 1 vcc, and he's told to turn ON as it has 1.495V on pin 4\nI've notied that it gets very hot tme to time and make the green light disapear , certainly goes in short to ground.\n\nI'll have to order it or get on from a donor board asap"
+        },
+        {
+            "post_id": 39567,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-13 17:29:20",
+            "message": "You cannot test a buck converter without its coil.\n0.3V there is sign of bad <CAPACITOR>C7771</CAPACITOR>.\nGoogle search can help you to change it with normal size capacitor.\nIf you use same small size package, don't remove it from scrap board in the same position."
+        },
+        {
+            "post_id": 40470,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-10 07:34:37",
+            "message": "Hi, Im' back with that board as I received the <CHIP>U7750</CHIP>......\n\nSo I stopped at: bad <CHIP>U7750</CHIP> because very hot and killing the green light and 0.3V at <CAPACITOR>C7771</CAPACITOR>.\nFirst things first: replaced the <CHIP>U7750</CHIP> green light OK and <SIGNAL>PPBUS_G3H</SIGNAL> 12.30V but still 0.3 at <CAPACITOR>C7771V</CAPACITOR>.\n\nReplaced one more time <CAPACITOR>C7771</CAPACITOR> from a GOOD WORKING BOARD: still 0.3V ( So far I think I've replaced that capacitor at least 4 times and i'm pretty sure that it's not coming from there but you guyz are the experts).\nI've double checked all the <CHIP>U7750</CHIP> pins to be sure that they're soldered correctly: OK\nReplaced <CAPACITOR>C7776</CAPACITOR> still the same,\n\nDownloaded the datasheet of the <CHIP>U7750</CHIP> and tried to see the role of each pin.\nAlso just remind you that <SIGNAL>P1V05S5_EN</SIGNAL> <CHIP>U7750</CHIP> Pin 4 is OK with 3.322V\nSomeone does know about <SIGNAL>P1V05S5_ISEN</SIGNAL> on PIN 9 going through <RESISTOR>R7779</RESISTOR> which is 2.428Ohms OK.\n\nThanks"
+        },
+        {
+            "post_id": 40474,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-10 08:17:40",
+            "message": "Post voltages <CHIP>U7750</CHIP>, pins 1, 2, 12, 4, 6.\nBe sure <CAPACITOR>C7770</CAPACITOR> is in place. <RESISTOR>R7751</RESISTOR> is there?\nPay atention to <RESISTOR>R7780</RESISTOR>/81.\nResistance to ground L7770?\nBe sure to solder <CAPACITOR>C7771</CAPACITOR> in correct way, is bipolar.\nCheck the traces between all components there..."
+        },
+        {
+            "post_id": 40479,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-10 08:33:17",
+            "message": "<CHIP>U7750</CHIP> voltages:\n\nPin1: 12.57V\nPin2: 5.062V\nPin 12: 5.053V\npin 4: 3.315V\npin 6: 0.599V\n\n <CAPACITOR>C7770</CAPACITOR> in place, <RESISTOR>R7751</RESISTOR> in place and mesure 5 ohms OK\n\nL7770 resistance to gnd :[B] 265 Ohms VS 430 Ohms GOOD WORKING BOARD[/B]\n<CAPACITOR>C7771</CAPACITOR> mounted and soldered correctly"
+        },
+        {
+            "post_id": 40481,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-10 08:44:28",
+            "message": "I mesured PIN14 <SIGNAL>P1V05S5_DRVH</SIGNAL> 0.315V and PIN 11 <SIGNAL>P1V05S5_DRVL</SIGNAL>: 0V VS a [B]GOOD BOARD <SIGNAL>P1V05S5_DRVH</SIGNAL>: 1.21V and <SIGNAL>P1V05S5_DRVL</SIGNAL>: 0.157V[/B]"
+        },
+        {
+            "post_id": 40484,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-10 09:11:19",
+            "message": "Change <TRANSISTOR>Q7770</TRANSISTOR>/71 and be sure all the trace OK in that area.\n\nBTW, stop to measure Gate for buck converter MOSFETs..."
+        },
+        {
+            "post_id": 40489,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-10 10:33:32",
+            "message": "Replaced <TRANSISTOR>Q7770</TRANSISTOR> and <TRANSISTOR>Q7771</TRANSISTOR> still NOK\nStupid question but why not to measure Gate for buck converter MOSFETs...?"
+        },
+        {
+            "post_id": 40493,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-10 11:39:03",
+            "message": "The mosfet gates should oscillate very fast, do you know the frequency because I can't catch it with the oscilloscope\nremoved and mesured <RESISTOR>R7780</RESISTOR> and <RESISTOR>R7781</RESISTOR> both are ok"
+        },
+        {
+            "post_id": 40497,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-10 12:12:02",
+            "message": "Gate measurement is useless.\nIf OK, you can see oscillation; doesn't help for workink board.\nIf not OK, no oscillation; doesn't help, you already knew the board is not OK.\nSo, why to measure there???\n\nYou still miss  something there, or MCP is dead and blocks that power rail..."
+        },
+        {
+            "post_id": 40500,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-10 12:26:19",
+            "message": "[B]or MCP is dead and blocks that power rail: [/B]\nMaybe I can ty to cut the track to the MCP to check that"
+        },
+        {
+            "post_id": 40502,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2018-10-10 13:24:37",
+            "message": "If you're still having the issue that the MCP voltage isn't at the right range but around 0.2V - 0.8V make sure to replace <CAPACITOR>C7771</CAPACITOR> with a NEW capacitor.\nAll these capacitors will die over time and getting them from a donor board probably doesn't make them much healthier. \n\nMeasure resistance from <CAPACITOR>C7771</CAPACITOR> (MCP Rail) to ground, then desolder <CAPACITOR>C7771</CAPACITOR> and do the same measurement to ground. (Make sure to wait until the resistance stabilises)\nYou will probably find that the resistance without <CAPACITOR>C7771</CAPACITOR> goes up by almost half because this capacitor is leaking power away to ground combined with reduced capacity. \n\nIf you don't want to do the scratching just get a replacement capacitor from farnell (or whatever distributor you want to use), they have perfectly fitting tantalum capacitors. (However these caps will also most likely die again in a few years). Only cost a few bucks and you will use them in the future on other repairs of this exact same board!"
+        },
+        {
+            "post_id": 40506,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-10 14:53:55",
+            "message": "Replaced <CHIP>U7750</CHIP> still the same, replaced <CAPACITOR>C7771</CAPACITOR> again for maybe the 10th time from different donor board different size and different place and you know what: it's [B]working NOW[/B]\n\nYou can mark this topic as solved and close it.\n\n[B]AGAIN THANKS FOR ALL YOU GUYZ FOR YOUR TIME AND PATIENCE.[/B]"
+        },
+        {
+            "post_id": 40784,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-17 01:19:53",
+            "message": "Hi Guyz,\n\nThe MBP came back , but this time for another reason that is maybe linked to what I did during the repair process , I explain:\nNo the board is not chargng the battery, it is detected but stays at 0%.So my first tought is for the current sensing resistors attached to pin 17/18 of <CHIP>U7000</CHIP>.\n\nIf you remind correctly, previously ( higher in the post )  i was complaining that <RESISTOR>R7051</RESISTOR> and <RESISTOR>R7052</RESISTOR> were around 50 Ohms each  instead of 10 Ohms each as it is in the schematics I have, so before the board was fixed, i put there 2 nice 10 ohms resistors.\n\nQuestion: Could the issue is coming from there? Why this <LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> A board was equiped with 50 Ohms resistors but in ALL the schematics\n\nThanks"
+        },
+        {
+            "post_id": 40786,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-17 01:36:12",
+            "message": "First of all, I recommend to try other known good battery.\nBe aware of new \"fake\" chinese battery; test with used original one, if possible.\nCheck the battery state in System Report..."
+        },
+        {
+            "post_id": 40800,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-17 08:49:25",
+            "message": "So As I haven't another battery \"under the hand\" to took the susposed non charging battery and tested it in mbp 13 of 2008 ( same generation ).\nThe other machine turns on directly on the battery only and displayed the level :65%.\nChecked the LID leds: OK\nplugged the charger and after a little moment 1 or 2 min the level passed to 66%.\n\nSo I would say that issue is coming from the board:\nIn the mean time I've put back 2 47 Ohms resistors for <RESISTOR>R7051</RESISTOR> and <RESISTOR>R7052</RESISTOR> but still the same.\n\nAlso If i plug that \"bad\" board to that battery and turn ON the board with the charger, it stays ON when i remove the charger"
+        },
+        {
+            "post_id": 40801,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-17 09:07:43",
+            "message": "Post <SIGNAL>CHGR_AMON</SIGNAL> and <SIGNAL>CHGR_BMON</SIGNAL> with both charger and battery connected.\nBe sure you have ISL6258A, not 59..."
+        },
+        {
+            "post_id": 40803,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-17 09:33:57",
+            "message": "Broken trace between <RESISTOR>R7052</RESISTOR> and <RESISTOR>R7050</RESISTOR>, but still not turning ON\n\n<CHIP>ISL6258</CHIP> in place as you can see\n<SIGNAL>CHGR_AMON</SIGNAL>: 0V with the battery and 0.034V with both charger and battery\n<SIGNAL>CHGR_BMON</SIGNAL>: 0.040V with the battery and 0.033V with both connected\nI'll put back 10 Ohms resistors and let you know"
+        },
+        {
+            "post_id": 40811,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-17 11:10:40",
+            "message": "Possible some traces, or resistors corroded...\nDisconnect BIL conector (J6955) and see if charge.\nAlso check BIL connector for corrosion.\n\nCheck resistance to ground on SCL/SDA lines.\nShould't have NO more than 1% difference.\nRemove <DIODE>D6950</DIODE> if needed and compare again the values."
+        },
+        {
+            "post_id": 40820,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-17 13:51:02",
+            "message": "Hi,\nAll what i posted before was WITHOUT the BIL board connected.\nI've Checked resistance to ground on SCL/SDA lines and both are 30.22 and 30.29 KOhms.\n\nBut what I've noticed is that I don't have communication on SCL line: it's always a solid 3.41V versus square signal on the SDA line.\nI checked <RESISTOR>R5281</RESISTOR>(pull-up resistor ) this one is OK and correctly connected to J6950 and J6955 and to <CHIP>U7000</CHIP>........so maybe not correctly connected to the SMC or the SMC /<CHIP>U7000</CHIP> not talking to the battery.\nI think I'll replace the <CHIP>U7000</CHIP> first and see......\nWhat do you think?"
+        },
+        {
+            "post_id": 40827,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-17 15:24:39",
+            "message": "I've tried with a 2012 known good battery still the same....."
+        },
+        {
+            "post_id": 40829,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-17 15:33:20",
+            "message": "2012 known good battery attached to 2008 motherboard........"
+        },
+        {
+            "post_id": 40833,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-17 16:36:51",
+            "message": "In diode mode\n<SIGNAL>SMBUS_SMC_BSA_SCL</SIGNAL>: 0.515V\n<SIGNAL>SMBUS_SMC_BSA_SDA</SIGNAL>: 0.496V"
+        },
+        {
+            "post_id": 40842,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-17 17:10:30",
+            "message": "This difference looks to big for me...\nRemove <DIODE>D6950</DIODE> and check again."
+        },
+        {
+            "post_id": 40851,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-18 00:58:30",
+            "message": "Without <DIODE>D6950</DIODE>\nScl: 0,515\nSda:0,495\nWhich for me is the same.."
+        },
+        {
+            "post_id": 40855,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-18 01:59:02",
+            "message": "Now remain <CHIP>ISL6259</CHIP> and SMC, no more things connected there...\n\nRemove <CHIP>ISL6259</CHIP> first and wait for board to cool down.\nYou will get higher values, but should be equals.\nIf not, SMC need to be changed."
+        },
+        {
+            "post_id": 40866,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-18 06:30:03",
+            "message": "OK i'll do that  i'm out for the moment.\nRegarding the board cool down,  i've already noticed that  thanks for confirmation"
+        },
+        {
+            "post_id": 40881,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-18 10:03:35",
+            "message": "So I guess that in your previous post you wanted to write <CHIP>ISL6258</CHIP> right?,\nSo with the ISL out and the board cooled down more thatn 5 min with a fan, I have the following values:\nSDA: 0.544V\nSCL: 0.649V\n\nAs you said it's \"highers\" values.\nSo could you please explain me why we check the values: If I understand correctly ( correct me if I'm wrong please) we are trying to see which component is making \"trouble\" on the SCL line right? Because on a ggod working board we should have the same values for SDA and SCL right?\nIn my case the only one left it's the smc, as <CHIP>U7000</CHIP>, the battery and the BIL board are not in the \"loop\" anymore right?\nAlso I've forgot to mention that I've replaced the <CHIP>ISL6258</CHIP> and it's still the same and the values in diode more are\nSDA: 0.482V\nSCL: 0.498V\n\nIn SMC Byass mode both line have a solid 3.41V : no communication\nMy last chance is to re assemble everything and try an SMC Reset......will let you know later....\nThanks So far"
+        },
+        {
+            "post_id": 40889,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-18 12:45:27",
+            "message": "You're right, <CHIP>ISL6258</CHIP>...\nYou've correctly understood ; some component blocks the SM Bus Battery.\nSMC must be changed now.\nIf you already solder another <CHIP>ISL6258</CHIP>, don't forget to measure again whitout SMC."
+        },
+        {
+            "post_id": 41006,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2018-10-20 16:17:15",
+            "message": "Hi 2Informaticos,\nI removed the SMC and here are the mesurements in diode mode with red probe to gnd after 20min cooling down:\n\nSDA: 0.502V\nSCL:0.504V\nResistance beetween Pin3 of J6955 and pin 100 of the SMC pad on the board: 2.7 Ohms , I was expecting a lower value, but as they're not closed from each other i think value is acceptable.\nAnd Resistance to gnd (something starnge that i don't really understand):\nsometimes both are around 3.9KOhms, sometimes both are around 21KOhms and sometimes it's a mix of those 2 values ( sda has one value and scl the other or the opposite ). Maybe I should check the battery of my fluke.......\n\n@ 2Informaticos: no pb if I use soldering paste instead of ball which i don't have......?"
+        },
+        {
+            "post_id": 41013,
+            "thread_id": 39474,
+            "title": "<LOGIC BOARD PART NUMBER>820-2330</LOGIC BOARD PART NUMBER> No S3",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-20 16:52:25",
+            "message": "When you measure very low values, leads resistance is important.\nBad contacts of probes can give you 0.5-1ohm even more, when shorting probes.\nYou must ad this value to the measured circuit...\n\nBe sure all the lines are good before soldering new components.\n\nData lineas read good now.\nYou can reball SMC with paste, of course.\nBut could be very dificil; check Louis channel."
+        }
+    ]
+}

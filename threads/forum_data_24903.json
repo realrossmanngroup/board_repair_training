@@ -1,0 +1,41 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H.",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "C6405": "What is C6405? a CAPACITOR.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7080": "What is Q7080? a TRANSISTOR.",
+        "Q7085": "What is Q7085? a TRANSISTOR.",
+        "Q7055": "What is Q7055? a TRANSISTOR.",
+        "Q7035": "What is Q7035? a TRANSISTOR.",
+        "U6990": "What is U6990? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 24903,
+            "thread_id": 24903,
+            "title": "[SOLVED]Getting my ass kicked by <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>, no green light, missing ppbus.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-08-31 09:12:47",
+            "message": "I've become pretty comfortable (I though) with this type of issue, but this board is kicking my ass right now. Symptoms and order of attempts:\n\n1. Board had liquid damage that was cleaned at some point in the past, before I got it. Nothing looked too ugly except for one small area near the oft-shorted <CAPACITOR>C6405</CAPACITOR>. I cleaned that area up, and still had a short on 3v42 (.000).\n\n2. Traced short to SMC, replaced and short was gone, but no green light still.\n\n3. Checked <SIGNAL>PPBUS_G3H</SIGNAL> and it's missing (.7v) but has no short.\n\n4. <SIGNAL>PP3V42_G3H</SIGNAL> missing. <SIGNAL>SMC_BC_ACOK</SIGNAL> is 0v at <CHIP>U7000</CHIP>.\n\n5. This led me to check voltages at <CHIP>U7000</CHIP>; pins 2 and 3 are both present, but pins 23 (<SIGNAL>CHGR_PHASE</SIGNAL>) and 14 are zero. Resistance at pins 17/18 and 27/28 is normal (2.0ohm, 20.0ohm)\n\n6. I replaced <CHIP>U7000</CHIP> again, along with <TRANSISTOR>Q7080</TRANSISTOR>, <TRANSISTOR>Q7085</TRANSISTOR>, <TRANSISTOR>Q7030</TRANSISTOR>, <TRANSISTOR>Q7035</TRANSISTOR> and <TRANSISTOR>Q7055</TRANSISTOR> just to be safe. I know liquid was in the area, and didn't want to waste time. However...\n\n7. Same results; missing <SIGNAL>PPBUS_G3H</SIGNAL> (.7v) and pp3v42 (0v)\n\n8. <SIGNAL>PPBUS_G3H</SIGNAL> is present at 12v with battery installed (a bit low), and 3v42 is still missing but does jump up to .4v on battery (compared to 0v on charger).\n\n9. <SIGNAL>PPDCIN_G3H</SIGNAL> present and steady at 16.6v @ <RESISTOR>R6990</RESISTOR>. <RESISTOR>R6990</RESISTOR> and <RESISTOR>R6905</RESISTOR> both measure fine, and voltage is missing completely on <RESISTOR>R6905</RESISTOR>.\n\nSo I was leaning towards the SMC again, but power isn't even getting to the SMC yet. I've found no shorts on <SIGNAL>PPDCIN_G3H</SIGNAL> or anything else. I'm not entirely sure where to go from here; I'd suspect the ISL again since my dcin and acin are both present (pins 2 and 3), but still no ppbus voltage. Rather than waste MORE time here, I thought I'd post about it! :)\n\nHelp me out, Aprendiz/Duke! Thank you in advance."
+        },
+        {
+            "post_id": 24904,
+            "thread_id": 24903,
+            "title": "[SOLVED]Getting my ass kicked by <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>, no green light, missing ppbus.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-08-31 09:37:15",
+            "message": "Ahh, got this one right after I posted (as usual); taking the blame on this one--shit soldering on <CHIP>U6990</CHIP> when I pulled/replaced it tracking the 3v42 short. I was too cautious with it being right by the RAM slot, and didn't re-flow it well enough. Got it sitting proper and now all is well--my mistake completely.\n\nFeel free to close this one, thanks!"
+        }
+    ]
+}

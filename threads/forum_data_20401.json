@@ -1,0 +1,66 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "P5VS4RS3_EN": "What is P5VS4RS3_EN? PP5VS4RS3_EN is a signal that enables the PP5V_S4RS3 power rail. When you see _EN in front of a signal name, it means that it is enabling whatever comes before the _EN when the signal is high..",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "5V_S5": "What is 5V_S5? 5V_S5 is an abbreviation for “PP5V_S5” which is a 5v power rail that is present when the machine is in an S5 state. .",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "3V3_S3": "What is 3V3_S3? a SIGNAL.",
+        "3V_S5": "What is 3V_S5? a SIGNAL.",
+        "R8179": "What is R8179? a RESISTOR.",
+        "R8177": "What is R8177? a RESISTOR.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "SPI_CS0_L": "What is SPI_CS0_L? a SIGNAL.",
+        "R6125": "What is R6125? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 20401,
+            "thread_id": 20401,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>, <SIGNAL>P5VS4RS3_EN</SIGNAL> Pulsing",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-05-17 10:58:47",
+            "message": "Working on an <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> board with no power. Green/orange LED, but no fan spin. CPU does not get warm.\n\nPPBUS, 3v42, vrtc, <SIGNAL>5V_S5</SIGNAL>, <SIGNAL>3V_S5</SIGNAL> all stable and present. Where things get funky is with the higher-up voltages--<SIGNAL>PP5V_S0</SIGNAL>, <SIGNAL>PP3V3_S0</SIGNAL>, <SIGNAL>3V3_S3</SIGNAL>, vcore, and <SIGNAL>P5VS4RS3_EN</SIGNAL>--are all pulsing. They come up for a split second, then disappear. VCORE is present, but pulses along with the other voltages. I tracked back the pulsing, and <RESISTOR>R8177</RESISTOR>/<RESISTOR>R8179</RESISTOR> are both pulsing on both pins (<SIGNAL>S4_PWR_EN</SIGNAL>, <SIGNAL>PM_SLP_S4_L</SIGNAL>). \n\nI checked for a short on the s5/s4/s3 rails and found none. No liquid to the board that I can find. Inspected very closely under the microscope.\n\nAny ideas where I should go next? All help appreciated!"
+        },
+        {
+            "post_id": 20409,
+            "thread_id": 20401,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>, <SIGNAL>P5VS4RS3_EN</SIGNAL> Pulsing",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-05-17 11:40:55",
+            "message": "The usual, <CHIP>U6100</CHIP> area and termination resistors."
+        },
+        {
+            "post_id": 20412,
+            "thread_id": 20401,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>, <SIGNAL>P5VS4RS3_EN</SIGNAL> Pulsing",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-05-17 11:55:00",
+            "message": "Hey Duke, yeah I checked that area well already. New clock, new BIOS chip (just to check if it will power), no dice. Might throw this one in the parts pile. I posted last year about a \"growing stack\" of boards with similar issues...this one will join those. Would really love to get these figured out. They're all no-liquid boards, too; or at least, there's zero evidence of a spill. Oh well."
+        },
+        {
+            "post_id": 20413,
+            "thread_id": 20401,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>, <SIGNAL>P5VS4RS3_EN</SIGNAL> Pulsing",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-05-17 12:19:05",
+            "message": "Duke, I stand corrected. I wanted to quickly update; I decided to check all termination resistors in the BIOS area just because (last resort--hadn't done so yet), and found <SIGNAL>SPI_CS0_L</SIGNAL> was not continuous from one of the test pads to <RESISTOR>R6125</RESISTOR>. Ran a quick wire and we have fan spin! But now I'm dealing with an on/off/on/off/on/off issue. Will get back to work and update when needed."
+        },
+        {
+            "post_id": 20414,
+            "thread_id": 20401,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>, <SIGNAL>P5VS4RS3_EN</SIGNAL> Pulsing",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-05-17 13:11:47",
+            "message": "Got this one figured out. The clock chip I swapped onto it during my initial troubleshooting was faulty. Replaced that clock and everything is good to go! I've noted to myself to not be lazy and actually check all the termination resistors for SPI ROM, etc. Solved--thanks again, Duke!"
+        }
+    ]
+}

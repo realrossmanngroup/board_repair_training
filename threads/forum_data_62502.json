@@ -1,0 +1,55 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1706": "What is A1706? A1706 is a model number for a 13 inch size MacBook Pro Retina from years 2016, Mid 2017 with EMC 3071, that may contain one of these boards depending on the year & configuration: 820-00239, 820-00923..",
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "U8510": "What is U8510? a CHIP.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "SMC_4FINGERS_RST": "What is SMC_4FINGERS_RST? a SIGNAL.",
+        "R7090": "What is R7090? a RESISTOR.",
+        "HALL_SENSOR_LEFT": "What is HALL_SENSOR_LEFT? HALL_SENSOR_LEFT is a signal from the hall sensor on the left side of the machine that indicates that the lid has been closed. This is necessary for setting SMC_LID properly so the machine knows whether it is closed or open. When this is low, the machine will think it is closed which may cause it to go to sleep or have no backlight on the screen.",
+        "HALL_SENSOR_RIGHT": "What is HALL_SENSOR_RIGHT? HALL_SENSOR_RIGHT is a signal from the hall sensor on the RIGHT side of the machine that indicates that the lid has been closed. This is necessary for setting SMC_LID properly so the machine knows whether it is closed or open. When this is low, the machine will think it is closed which may cause it to go to sleep or have no backlight on the screen.",
+        "R5261": "What is R5261? a RESISTOR.",
+        "R5251": "What is R5251? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 87751,
+            "thread_id": 62502,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER>-A, turns on after SMC reset only",
+            "user_id": 33224,
+            "username": "Vogelek23",
+            "post_date": "2022-03-22 06:25:07",
+            "message": "Hi guys, I've got the computer in title with strange issue - it only turns on after SMC reset (CTRL-ALT-SHIFT + POWER). When turned on, it works perfectly fine, passes AHT and benchmarks, all 4 TBT ports work fine, it does restart correctly every time. Once it is turned off (Shutdown under the OS) it won't back on with power button pressed or lid open - SMC must be reset in order to get it start. I have replaced the power button, reprogrammed EFI, reballed SMC - no luck. Battery is 100% charged now but it happens when battery is low as well. No single sign of spillage anywhere and all sensors are white. What else may cause such problem?"
+        },
+        {
+            "post_id": 87757,
+            "thread_id": 62502,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER>-A, turns on after SMC reset only",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-22 09:31:34",
+            "message": "Check the exact <SIGNAL>SMC_ONOFF_L</SIGNAL>, <SIGNAL>SMC_RESET_L</SIGNAL>, <SIGNAL>SMC_4FINGERS_RST</SIGNAL> and <SIGNAL>BUF_SMC_RESET_L</SIGNAL> level.\nClean J6100 and inspect <RESISTOR>R7090</RESISTOR> for corrosion; you may force 33-47K in place.\nTry changing <CHIP>U8510</CHIP>..."
+        },
+        {
+            "post_id": 87849,
+            "thread_id": 62502,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER>-A, turns on after SMC reset only",
+            "user_id": 33224,
+            "username": "Vogelek23",
+            "post_date": "2022-03-24 06:29:12",
+            "message": "All the suggested voltages are OK. No signs of corrosion on J6100 and <RESISTOR>R7090</RESISTOR> (correct value, all connections checked OK).\n\nFinally worked it out. Found unstable voltage (floating between 0V and 1.8V) on <RESISTOR>R5261</RESISTOR> (<SIGNAL>HALL_SENSOR_RIGHT</SIGNAL>) while the lid was open and there was stable 3.4V on <RESISTOR>R5251</RESISTOR> (<SIGNAL>HALL_SENSOR_LEFT</SIGNAL>). It was right Hall sensor fault. Replaced and MLB now works like a charm. My suspicion about lid sensor problem raised when I reconnected the battery and connected the PSU - I found that power consumption looks quite similar to the situation when the lid is closed on a working machine with battery fully charged (5V -> 20V with \"PSU connected\" beep -> 5V @20mA)."
+        },
+        {
+            "post_id": 87859,
+            "thread_id": 62502,
+            "title": "<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER>-A, turns on after SMC reset only",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-24 10:24:08",
+            "message": "Thanks for feedback.\nAll solutions to strange issues are welcome."
+        }
+    ]
+}

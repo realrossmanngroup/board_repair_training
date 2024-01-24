@@ -1,0 +1,103 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPVCORE_S0_AXG_REG": "What is PPVCORE_S0_AXG_REG? PPVCORE_S0_AXG_REG Is a single phase of CPU VCORE for the graphics processor integrated into the CPU before it is combined into one PPVCORE_S0_AXG rail.",
+        "U7400": "What is U7400? a CHIP.",
+        "PPVCORE_S0_CPU_REG": "What is PPVCORE_S0_CPU_REG? PPVCORE_S0_CPU_REG is a single phase of CPU VCORE before it is combined into PPVCORE_S0_CPU .",
+        "CPUIMVP_PGOOD": "What is CPUIMVP_PGOOD? CPUIMVP_PGOOD is a signal from the CPU VCORE buck converter IC that indicates CPU power is good which is necessary to create PM_S0_PGOOD..",
+        "CPUIMVP_AXG_PGOOD": "What is CPUIMVP_AXG_PGOOD? a SIGNAL.",
+        "PM_PCH_PWRGD": "What is PM_PCH_PWRGD? a SIGNAL.",
+        "R7520": "What is R7520? a RESISTOR.",
+        "R7510": "What is R7510? a RESISTOR.",
+        "Q7520": "What is Q7520? a TRANSISTOR.",
+        "Q7510": "What is Q7510? a TRANSISTOR.",
+        "Q7550": "What is Q7550? a TRANSISTOR.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "Q5050": "What is Q5050? a TRANSISTOR.",
+        "U5511": "What is U5511? a CHIP.",
+        "R5260": "What is R5260? a RESISTOR.",
+        "SMBUS_SMC_1_S0_SCL": "What is SMBUS_SMC_1_S0_SCL? a SIGNAL.",
+        "SMBUS_SMC_1_S0_SDA": "What is SMBUS_SMC_1_S0_SDA? a SIGNAL.",
+        "R5261": "What is R5261? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 64979,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 27551,
+            "username": "awbower",
+            "post_date": "2020-09-10 14:47:33",
+            "message": "All S0 signals are present except for <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>. <SIGNAL>PPVCORE_S0_CPU_REG</SIGNAL> is present, but low (~1.1V). \n\nEven though <SIGNAL>PPVCORE_S0_CPU_REG</SIGNAL> is present, <CHIP>U7400</CHIP> is not giving me <SIGNAL>CPUIMVP_PGOOD</SIGNAL>. It is also not outputting <SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL> (obviously, since <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL> is missing). I need both of these signals to get <SIGNAL>PM_PCH_PWRGD</SIGNAL>. \n\nIn order to get <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>, <CHIP>U7400</CHIP> must output 4 signals to <TRANSISTOR>Q7550</TRANSISTOR> (pg. 69 of schematic). None of these signals are present. I replaced <CHIP>U7400</CHIP>, but it did not change anything. \n\nTo try to address low voltage on <SIGNAL>PPVCORE_S0_CPU_REG</SIGNAL>, I replaced <TRANSISTOR>Q7510</TRANSISTOR> and <TRANSISTOR>Q7520</TRANSISTOR>. This did not change anything. \n\nI checked the current sensing associated with <RESISTOR>R7510</RESISTOR> and <RESISTOR>R7520</RESISTOR>. No problems found with resistors or traces."
+        },
+        {
+            "post_id": 64992,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-10 17:05:59",
+            "message": "\"I need both of these signals to get <SIGNAL>PM_PCH_PWRGD</SIGNAL>.\"\nWhy did you assume this?\n<SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL> only appears under high graphics load, like playing Youtube on full screen.\n\n\"<SIGNAL>PPVCORE_S0_CPU_REG</SIGNAL> is present, but low (~1.1V)\"\nToo high in fact!\nWhen board boots, should drop to 0.8V aprox.\n\nAny history fault available?\nDid you try one RAM module at a time on each slot?\nBe aware, this board may not work with PC3-8500; not sure however, better to test faster RAM.\nDo you get <SIGNAL>PLT_RESET_L</SIGNAL>?\n\nCheck all SPI Bus Termination resistors and traces.\nYou may need to try known good working (clean ME) BIOS too."
+        },
+        {
+            "post_id": 65001,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 27551,
+            "username": "awbower",
+            "post_date": "2020-09-10 19:58:02",
+            "message": "\"I need both of these signals to get <SIGNAL>PM_PCH_PWRGD</SIGNAL>.\" \n\nIt turns out you are right. I will explain how I know in a moment. However, please take a look at pg. 3 on the schematic. Step 27. There is an AND gate with <SIGNAL>CPUIMVP_PGOOD</SIGNAL> on one side and <SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL> plus some other PGOOD signals on the other. If all those signals are present, <SIGNAL>PM_PCH_PWRGD</SIGNAL> comes out the other side. Am I reading that correctly? \n\nStrangely, the schematic seems to contradict itself. At the bottom of pg. 24 it looks like you can get <SIGNAL>PM_PCH_SYS_PWROK</SIGNAL> with just <SIGNAL>CPUIMVP_PGOOD</SIGNAL> and <SIGNAL>ALL_SYS_PWRGD</SIGNAL>. Also worth noting:  <SIGNAL>PM_PCH_PWRGD</SIGNAL> mentioned on pg. 3 step 27 does not appear anywhere else in the schematic. It seems like they changed the name on pg. 24 to <SIGNAL>PM_PCH_SYS_PWROK</SIGNAL>. \n\nOn this board, ISL 6259 was blown. After I replaced this chip, the board powers on most of the time. However, occasionally i do lose fan spin and green light on charger. I replaced SMC to try to fix that but it still sometimes happens. \n\nI was spending my time trying to get <SIGNAL>CPUIMVP_AXG_PGOOD</SIGNAL> and didn't even test for boot. It turns out that when the fan does spin, it actually does boot. Any suggestions on why it is unstable and sometimes not power on?"
+        },
+        {
+            "post_id": 65018,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-11 05:05:05",
+            "message": "Need to know what happens with <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V42_G3H</SIGNAL> when board doesn't turn on, as you also lose Magsafe light at that moment.\nAlso monitor <SIGNAL>SMC_RESET_L</SIGNAL>.\n\nBattery is charging?\nDoesn't turn on even if battery is connected?"
+        },
+        {
+            "post_id": 65031,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 27551,
+            "username": "awbower",
+            "post_date": "2020-09-11 10:28:30",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>3V42_G3H</SIGNAL> and <SIGNAL>SMC_RESET_L</SIGNAL> were all present when it wouldn't turn on. I got the computer running and ran MRI. CPU Core PECI (temp sensor) failed test. It read -127. This sensor works on a data line that goes between the SMC, CPU and PCH. It is associated with <TRANSISTOR>Q5050</TRANSISTOR>. I replaced <TRANSISTOR>Q5050</TRANSISTOR> and checked all the resistors and traces associated with it. Problem remains. \n\nGiven the occasional loss of green light and failed sensor associated with SMC, would it be wise to replace the SMC at this point?"
+        },
+        {
+            "post_id": 65039,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-11 17:07:59",
+            "message": "Check voltage and diode mode on SCL/SDA lines of that I2C bus.\nBe sure <RESISTOR>R5260</RESISTOR>/61 are good.\n\nRun HWMonitor and look for strange values related with <CHIP>U5511</CHIP>."
+        },
+        {
+            "post_id": 65049,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 27551,
+            "username": "awbower",
+            "post_date": "2020-09-11 23:38:48",
+            "message": "<SIGNAL>SMBUS_SMC_1_S0_SCL</SIGNAL>  and <SIGNAL>SMBUS_SMC_1_S0_SDA</SIGNAL> both are at 3.3V. <RESISTOR>R5260</RESISTOR> and <RESISTOR>R5261</RESISTOR> both read 4kOhms. Both signal lines are showing about 0,54V to ground. Everything seems ok here. \n\nWhen I ran MRI the temp readings on Fin Stack, CPU Proximity and Memory Proximity were all normal (between 26-32C). <CHIP>U5511</CHIP> seems like it's doing its job."
+        },
+        {
+            "post_id": 65070,
+            "thread_id": 59988,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Fan Spins, no <SIGNAL>PPVCORE_S0_AXG_REG</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-09-12 07:34:18",
+            "message": "SMC reads CPU core temp directly from CPU.\nIf <CHIP>U5511</CHIP> does not interfere, then should be a problem with the CPU."
+        }
+    ]
+}

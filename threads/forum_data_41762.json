@@ -1,0 +1,405 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924A": "What is 820-4924A? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PM_SLP_S5": "What is PM_SLP_S5? a SIGNAL.",
+        "4_L": "What is 4_L? a SIGNAL.",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "U1900": "What is U1900? a CHIP.",
+        "3_L": "What is 3_L? a SIGNAL.",
+        "SLP_S5": "What is SLP_S5? a SIGNAL.",
+        "SLP_S3": "What is SLP_S3? a SIGNAL.",
+        "C2401": "What is C2401? a CAPACITOR.",
+        "C2436": "What is C2436? a CAPACITOR.",
+        "C2407": "What is C2407? a CAPACITOR.",
+        "C2441": "What is C2441? a CAPACITOR.",
+        "C2432": "What is C2432? a CAPACITOR.",
+        "SPI_MLB_IO2_WP_L": "What is SPI_MLB_IO2_WP_L? a SIGNAL.",
+        "SPI_MLB_IO3_HOLD_L": "What is SPI_MLB_IO3_HOLD_L? a SIGNAL.",
+        "SPI_MLB_IO0_MOS1": "What is SPI_MLB_IO0_MOS1? a SIGNAL.",
+        "SPI_MLB_IO1_MOS0": "What is SPI_MLB_IO1_MOS0? a SIGNAL.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "R6130": "What is R6130? a RESISTOR.",
+        "R6123": "What is R6123? a RESISTOR.",
+        "R6122": "What is R6122? a RESISTOR.",
+        "R6131": "What is R6131? a RESISTOR.",
+        "U6101": "What is U6101? a CHIP.",
+        "R6110": "What is R6110? a RESISTOR.",
+        "R6114": "What is R6114? a RESISTOR.",
+        "R6120": "What is R6120? a RESISTOR.",
+        "R6116": "What is R6116? a RESISTOR.",
+        "R6117": "What is R6117? a RESISTOR.",
+        "R6115": "What is R6115? a RESISTOR.",
+        "R6121": "What is R6121? a RESISTOR.",
+        "R6125": "What is R6125? a RESISTOR.",
+        "R6128": "What is R6128? a RESISTOR.",
+        "R6111": "What is R6111? a RESISTOR.",
+        "R6112": "What is R6112? a RESISTOR.",
+        "R6126": "What is R6126? a RESISTOR.",
+        "R6113": "What is R6113? a RESISTOR.",
+        "R6127": "What is R6127? a RESISTOR.",
+        "R6133": "What is R6133? a RESISTOR.",
+        "R6118": "What is R6118? a RESISTOR.",
+        "R6119": "What is R6119? a RESISTOR.",
+        "R6132": "What is R6132? a RESISTOR.",
+        "R1548": "What is R1548? a RESISTOR.",
+        "R1549": "What is R1549? a RESISTOR.",
+        "R1632": "What is R1632? a RESISTOR.",
+        "U8080": "What is U8080? a CHIP.",
+        "U8000": "What is U8000? a CHIP.",
+        "U8030": "What is U8030? a CHIP.",
+        "U8020": "What is U8020? a CHIP.",
+        "U8005": "What is U8005? a CHIP.",
+        "U8050": "What is U8050? a CHIP.",
+        "U8010": "What is U8010? a CHIP.",
+        "U8070": "What is U8070? a CHIP.",
+        "U8060": "What is U8060? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 41762,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 05:43:34",
+            "message": "no liquid damage signs anywhere, not dropped. at first all rails were present, cpu becoming warm but no spin. after a bit it went worse. 5vs5 and 3.3sv5 present, but <SIGNAL>PM_SLP_S5_L</SIGNAL> so no 5vs4. no corrosion sign anywhere."
+        },
+        {
+            "post_id": 41763,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-06 05:50:21",
+            "message": "Don't get any pulse at <SIGNAL>PM_SLP_S5</SIGNAL>/<SIGNAL>4_L</SIGNAL>?\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> present?\nAre you using original Apple charger, 60/85W?\nCheck <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_BATLOW_L</SIGNAL> and <SIGNAL>S5_PWRGD</SIGNAL>..."
+        },
+        {
+            "post_id": 41767,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 06:06:14",
+            "message": "<SIGNAL>PM_SLP_S5</SIGNAL> completely 0 no pulse\n<SIGNAL>PM_SLP_S4</SIGNAL> ditto\n\nbrand new original 85 watt. whole charger not just the cable\n\n <SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 3.39v\n<SIGNAL>PM_BATLOW_L</SIGNAL> = 3.34v\n<SIGNAL>S5_PWRGD</SIGNAL>= 3.32v"
+        },
+        {
+            "post_id": 41770,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-06 06:36:24",
+            "message": "\"<SIGNAL>PM_SLP_SUS_L</SIGNAL> present?\"\n\nCheck RTC signals and <SIGNAL>PCH_DSWVRMEN</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL>.\n<SIGNAL>PM_PWRBTN_L</SIGNAL> reacts when you toggle <SIGNAL>SMC_ONOFF_L</SIGNAL>?"
+        },
+        {
+            "post_id": 41771,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 06:51:41",
+            "message": "SRTCRST# 3,3v\nINTVRMEN# 3.11v\nRSMRST# 3.31v\nPWRBTN# 3.42v\n\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> 3.34v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> 3.34v\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> 3.42v\n<SIGNAL>PM_RSMRST_L</SIGNAL> 3.31v\n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> 3.42 on normal state 1.02v after shorting <SIGNAL>SMC_ONOFF_L</SIGNAL> but once it went to 0.34v"
+        },
+        {
+            "post_id": 41773,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-06 07:04:18",
+            "message": "32KHz oscillation comes out from <CHIP>U1900</CHIP>?\n\n\"<SIGNAL>PM_PWRBTN_L</SIGNAL> 3.42 on normal state 1.02v after shorting <SIGNAL>SMC_ONOFF_L</SIGNAL> but once it went to 0.34v\"\n<SIGNAL>PM_SLP_S5</SIGNAL>/4/<SIGNAL>3_L</SIGNAL> react at the same moment?"
+        },
+        {
+            "post_id": 41774,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 07:32:01",
+            "message": "<SIGNAL>PM_SLP_S4</SIGNAL> and s5 goes up to 3.3 for an instant when you plug in magsafe or when you short <SIGNAL>SMC_ONOFF_L</SIGNAL> then back to 0.\n\nno chanhe on s3 that remains on 0\n\non the rtc my scope measures the 25mhz but they are not always present. 25mhz present for a sec, then nothing then back and so, 32khz are present and well stable"
+        },
+        {
+            "post_id": 41778,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-06 08:37:54",
+            "message": "\"<SIGNAL>PM_SLP_S4</SIGNAL> and s5 goes up to 3.3 for an instant when you plug in magsafe or when you short <SIGNAL>SMC_ONOFF_L</SIGNAL> then back to 0.\"\nSo SMC so power button info to PCH and this one reacts too.\nIn this case, check if power supplies controlled by <SIGNAL>SLP_S5</SIGNAL>/4 pulse at least; should do it...\n\n25MHz comes out only when board starts; or tries to do it.\n\nCheck again, better with o-scope, if <SIGNAL>SLP_S3</SIGNAL> pulses at least."
+        },
+        {
+            "post_id": 41779,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 08:40:50",
+            "message": "i just found out that \n<CAPACITOR>C2436</CAPACITOR>\n<CAPACITOR>C2407</CAPACITOR>\n<CAPACITOR>C2441</CAPACITOR>\n<CAPACITOR>C2401</CAPACITOR>\n<CAPACITOR>C2432</CAPACITOR>\n\nhave been riped off from the board.. but i doubt they are the cause of my issue"
+        },
+        {
+            "post_id": 41780,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 08:43:49",
+            "message": "also yes 5vs4 and all the stuff commanded by  <SIGNAL>SLP_S5</SIGNAL>/4 pulse at button press/magsafe insertion"
+        },
+        {
+            "post_id": 41781,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 08:46:48",
+            "message": "also <SIGNAL>SLP_S3</SIGNAL> pulses for a micro instant but i can detect it only with the oscilloscope"
+        },
+        {
+            "post_id": 41782,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 09:06:35",
+            "message": "i checked the bios chip.\n\n<SIGNAL>SPI_MLB_IO0_MOS1</SIGNAL>\n<SIGNAL>SPI_MLB_IO1_MOS0</SIGNAL>\n<SIGNAL>SPI_MLB_IO2_WP_L</SIGNAL>\n<SIGNAL>SPI_MLB_IO3_HOLD_L</SIGNAL>\n\nare stuck at 50hz."
+        },
+        {
+            "post_id": 41783,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-06 09:10:04",
+            "message": "Check if all power supplies controlled by <SIGNAL>SLP_S3</SIGNAL> pulse too; the _S0 ones.\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> should pulse too.\nIf not, one S0 supply is bad..."
+        },
+        {
+            "post_id": 41786,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-06 09:30:27",
+            "message": "<SIGNAL>ALL_SYS_PWRGD</SIGNAL>  jumps an instant to 0,4v then back to 0... ugh this is a nightmare"
+        },
+        {
+            "post_id": 41798,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-06 10:53:22",
+            "message": "Check <CHIP>U1950</CHIP> for pulses at pins 7 & 3."
+        },
+        {
+            "post_id": 41819,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 00:51:48",
+            "message": "pin 7 jumps to 2.66\npin 3 jumps to 3.47\n\nonly at magsafe connected or on button pressed"
+        },
+        {
+            "post_id": 41822,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-07 01:21:07",
+            "message": "That means even CPU VCORE tries to appear and PCH knows that.\nCheck now SPI termination resistors and traces around SPI chip <CHIP>U6100</CHIP>.\nYou can also try new BIOS."
+        },
+        {
+            "post_id": 41825,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 02:21:25",
+            "message": "tried a new bios but nothing changed. <CHIP>U6100</CHIP> seems healthy on my reader\n\n<RESISTOR>R6130</RESISTOR>\n<RESISTOR>R6131</RESISTOR>\n<RESISTOR>R6122</RESISTOR>\n<RESISTOR>R6123</RESISTOR>\n\nseems ok\n\nal bios pins but gnd have 3.3 v"
+        },
+        {
+            "post_id": 41827,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-07 03:12:01",
+            "message": "3.3V at SPI chip means PCH doesn't access it.\nThere are 24 resistors, not 4...\nCheck <CHIP>U6101</CHIP> too, resolder both chips.\nBe sure no corrosion there, nor on <CHIP>U1950</CHIP> area.\nDo you get 24MHz oscillation at Y1915?"
+        },
+        {
+            "post_id": 41832,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 03:53:58",
+            "message": "no oscillation on y1915\n\nwill reflow <CHIP>U6101</CHIP> but i see no oxyde\n\nchecked:\n\n<RESISTOR>R6110</RESISTOR>  ok\n<RESISTOR>R6111</RESISTOR> ok\n<RESISTOR>R6112</RESISTOR> ok\n<RESISTOR>R6113</RESISTOR> ok\n<RESISTOR>R6118</RESISTOR> ok\n<RESISTOR>R6119</RESISTOR> ok\n\n\n<RESISTOR>R6114</RESISTOR> ok\n<RESISTOR>R6115</RESISTOR> ok\n<RESISTOR>R6116</RESISTOR> ok\n<RESISTOR>R6117</RESISTOR>  ok\n\n<RESISTOR>R6120</RESISTOR> ok\n<RESISTOR>R6121</RESISTOR> ok\n<RESISTOR>R6122</RESISTOR> ok\n<RESISTOR>R6123</RESISTOR>  ok\n<RESISTOR>R6130</RESISTOR> ok\n<RESISTOR>R6131</RESISTOR> ok\n\n<RESISTOR>R6133</RESISTOR> ok \n<RESISTOR>R6132</RESISTOR>  ok\n<RESISTOR>R6128</RESISTOR> ok\n<RESISTOR>R6127</RESISTOR> ok\n​​​​​​​<RESISTOR>R6126</RESISTOR> ok\n​​​​​​​<RESISTOR>R6125</RESISTOR> ok"
+        },
+        {
+            "post_id": 41833,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 04:05:09",
+            "message": "<RESISTOR>R1548</RESISTOR> ok\n<RESISTOR>R1549</RESISTOR> ok"
+        },
+        {
+            "post_id": 41834,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 04:12:40",
+            "message": "reflowed both <CHIP>U6101</CHIP>  and <CHIP>U1950</CHIP>  no change, still no 24mhz on Y1915"
+        },
+        {
+            "post_id": 41835,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 04:22:14",
+            "message": "well it goes to 24mhz only on on buton press or magsafe plug in. for an instant"
+        },
+        {
+            "post_id": 41841,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-07 05:16:35",
+            "message": "So 24MHz is OK.\nFor some reason board turns off and oscillation disappears too.\n\nSee if pins 2, 5, 6 of <CHIP>U6100</CHIP> react when press power button.\nMaybe need to remove J6100; sometime gets invisible corrosion under..."
+        },
+        {
+            "post_id": 41843,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 05:31:18",
+            "message": "<RESISTOR>R1632</RESISTOR> is 100k off circuit (like schematics) but on circuit it drop to 5k.\nbad <CHIP>U6101</CHIP>?"
+        },
+        {
+            "post_id": 41844,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 05:35:46",
+            "message": "pin 2 5 6 do the following at on button press/ magasafe in\n\n0 v\n\nrubbish oscillation\n\n0 v\n\nquick constant oscillation\n\n0v\n\n3.3v fixed no oscillation\n\nit is very very very sudden"
+        },
+        {
+            "post_id": 41845,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 05:42:53",
+            "message": "actually only 5 and 6 get that quick oscillation. 2 goes directly to 3.3v"
+        },
+        {
+            "post_id": 41846,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 06:01:50",
+            "message": "removed <CHIP>U6101</CHIP> but <RESISTOR>R1632</RESISTOR> remains (on the circuit) at 5k"
+        },
+        {
+            "post_id": 41849,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-07 06:58:17",
+            "message": "Did you remove J6100?"
+        },
+        {
+            "post_id": 41850,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 07:17:16",
+            "message": "yes of course. first thing i did"
+        },
+        {
+            "post_id": 41859,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-07 08:32:18",
+            "message": "Let see if starts in SMC bypass mode..."
+        },
+        {
+            "post_id": 41863,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 08:58:58",
+            "message": "i tried earlier... no change... gonna try again in a second. so frustrating"
+        },
+        {
+            "post_id": 41872,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-07 12:33:50",
+            "message": "Nope :( same stuff only thing that changes is the one wire led not turning on but that is normal"
+        },
+        {
+            "post_id": 41873,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-07 13:14:47",
+            "message": "Check for short on any power rails; not only big coils.\nPay atention to Power FETs, at page 63; all these voltages should try to appear."
+        },
+        {
+            "post_id": 41890,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-08 03:14:15",
+            "message": "fun. ok getting on this now. it is the last one of this batch.. hopefully i get it working. i contacted the guy who previusly atempted to fix it. he said the only thing he tried to do was injecting around 5 v into L7520 but i doubt this caused any damage"
+        },
+        {
+            "post_id": 41891,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 700,
+            "username": "Nick",
+            "post_date": "2018-11-08 04:07:45",
+            "message": "<CHIP>U8000</CHIP> \n\n<CHIP>U8010</CHIP>\n\n<CHIP>U8030</CHIP>\n\n<CHIP>U8050</CHIP>\n\n\n\n<CHIP>U8020</CHIP>\n\n<CHIP>U8070</CHIP>\n\n<CHIP>U8060</CHIP>\n\n<CHIP>U8080</CHIP>\n\n<CHIP>U8005</CHIP>\n\n\n\nall have no shorted output ;("
+        },
+        {
+            "post_id": 41902,
+            "thread_id": 41762,
+            "title": "missing <SIGNAL>PM_SLP_S5_L</SIGNAL> on a <LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-08 09:11:37",
+            "message": "Can you see pulsing any of these outputs?\nMaybe one has missing enable control..."
+        }
+    ]
+}

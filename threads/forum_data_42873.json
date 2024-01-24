@@ -1,0 +1,373 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "TPS51125": "What is TPS51125? This is a power chip responsible for the PP3V3_S5,  PP5V_S5,  and PP5V_S3 power rails on many A1278 model Macbooks.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_SUS": "What is PP5V_SUS? a SIGNAL.",
+        "DIODE_MOD": "What is DIODE_MOD? a SIGNAL.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "ADAPTER_SENSE": "What is ADAPTER_SENSE? This is a line between the onewire circuit and the magsafe charger where the magsafe charger can talk to the SMC(system management controller) on the SYS_ONEWIRE line..",
+        "SYS_ONWIRE": "What is SYS_ONWIRE? a SIGNAL.",
+        "U4900": "What is U4900? This is the System Management Controller(SMC) in older(pre-2013) macbooks.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP5V_S0_HDD": "What is PP5V_S0_HDD? a SIGNAL.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "U6900": "What is U6900? a CHIP.",
+        "U7200": "What is U7200? a CHIP.",
+        "U6901": "What is U6901? a CHIP.",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "SMC_BC_ACOK_VCC": "What is SMC_BC_ACOK_VCC? SMC_BC_ACOK_VCC is a voltage that is created if SMC_BC_ACOK & PP3V42_G3H are both present that powers the chipset for the onewire circuit that allows the SMC to talk to the charger on the SYS_ONEWIRE line. This is necessary for the magsafe charger to have a light on it. .",
+        "Q7260": "What is Q7260? a TRANSISTOR.",
+        "Q7261": "What is Q7261? a TRANSISTOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U2600": "What is U2600? a CHIP.",
+        "SYSCLK_CLK32K_RTC": "What is SYSCLK_CLK32K_RTC? a SIGNAL.",
+        "P5VS3_EN_L": "What is P5VS3_EN_L? P5VS3_EN_L is a signal that enables the PP5V_S3 power rail when it is low.  _L means whatever before the _L in the signal name is asserted when it is low voltage, such as 0.0v to 0.5v..",
+        "U7941": "What is U7941? a CHIP.",
+        "5V_S3": "What is 5V_S3? 5V_S3 is an abbreviation of “PP5V_S3” which is a 5 volt power rail present in an S3 state. S3 (Suspend to RAM) is a state where the system saves its context to RAM, a faster but more power-consuming method than S4. The system shuts down most components except for RAM, which remains powered to retain the system state. PM_SLP_S4_L is required for this rail to be present. .",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "P3V3S5_EN_L": "What is P3V3S5_EN_L? P3V3S5_EN_L is a signal that enables the power chip responsible for creating PP3V3_S5 when it is low. .",
+        "P5V3V3_REG_EN": "What is P5V3V3_REG_EN? a SIGNAL.",
+        "PP3V3_S5_PWRCTL": "What is PP3V3_S5_PWRCTL? a SIGNAL.",
+        "PP3V42_G3H_PWRCTL": "What is PP3V42_G3H_PWRCTL? a SIGNAL.",
+        "S5PGOOD_DLY": "What is S5PGOOD_DLY? a SIGNAL.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "R5015": "What is R5015? a RESISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "U7930": "What is U7930? a CHIP.",
+        "U7939": "What is U7939? a CHIP.",
+        "PP3V3_SUS_PWRCTL": "What is PP3V3_SUS_PWRCTL? a SIGNAL.",
+        "S4_PGOOD_CT": "What is S4_PGOOD_CT? a SIGNAL.",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "Q7820": "What is Q7820? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 42873,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-04 02:56:20",
+            "message": "Hey, \n\nworking on 3115 board with no green light. No signals Liquid damage, board very clean! \n\nPPBUS = 12.30V\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.42V\n<SIGNAL>PPVRTC_G3H</SIGNAL> = 3.4V\n<SIGNAL>PP5V_S5</SIGNAL> = 0.42V - No short 430v - <SIGNAL>DIODE_MOD</SIGNAL> \n<SIGNAL>PP5V_SUS</SIGNAL> = 0V\n\nalready reflow SMC - no changes \n\nalready test with power supply on this board and consumes only 0.008A.. \n\nideas?? <CHIP>TPS51125</CHIP> problem?? i don't do anything on this board i need the right direction. \n\nthank you"
+        },
+        {
+            "post_id": 42876,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-04 03:03:25",
+            "message": "\"PPBUS = 12.30V\"\nIncorrect, SMC doesn't talk with <CHIP>ISL6259</CHIP>.\nCheck first <SIGNAL>SMC_RESET_L</SIGNAL>."
+        },
+        {
+            "post_id": 42878,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-04 03:26:52",
+            "message": "<SIGNAL>SMC_RESET_L</SIGNAL> = 3.449V \n<SIGNAL>SMC_BC_ACOK</SIGNAL> = 3.4V\n<SIGNAL>SYS_ONWIRE</SIGNAL> = 3.4V\n<SIGNAL>ADAPTER_SENSE</SIGNAL> = 3.4V\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> = 0.133V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 0V"
+        },
+        {
+            "post_id": 42883,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-04 05:12:26",
+            "message": "\"<SIGNAL>SMC_PM_G2_EN</SIGNAL> = 0.133V\"\nSMC issue, so change it.\nYou can try to reball it first..."
+        },
+        {
+            "post_id": 42925,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-05 02:50:53",
+            "message": "Already reballing SMC and replaced for a donor board!! Same history.. PPBus still 12.32V! Probably this SMC it's Bad!! there's something else I can do before I replace to another one?? \n\nthanks"
+        },
+        {
+            "post_id": 42926,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-05 03:41:00",
+            "message": "Check basic voltages and signals for SMC, <CHIP>U4900</CHIP> (2 of 2) at page 45."
+        },
+        {
+            "post_id": 42931,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-12-05 07:38:40",
+            "message": "Yes check basic voltages. Also doesn't hurt to try a new ISL as well, but this sounds like a bad SMC."
+        },
+        {
+            "post_id": 42934,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-05 08:31:49",
+            "message": "ok, while checking the basic signals first point i was checked BANG !!  L4901 was moved!! heheh\n\n[url]https://drive.google.com/file/d/15VXX9gZCkA0bvnWEhiTwMkGRXQpgGyTl/view?usp=sharing[/url]\n\nNow i have PPBUS Stable!! Missing green light!! \n\nPPBUS = 12.63V\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.42V\n<SIGNAL>PPVRTC_G3H</SIGNAL> = 3.1V\n<SIGNAL>PP5V_S5</SIGNAL> = 5V\n<SIGNAL>PP5V_SUS</SIGNAL> = 5V \n<SIGNAL>PP5V_S3</SIGNAL> = 0V - Diod Mode = 0.140v\n<SIGNAL>PP5V_S0</SIGNAL> = 0V - Diod Mode = 0.381v\n<SIGNAL>PP5V_S0_HDD</SIGNAL> 0V Diod Mode = 0.379V\n\n\nAlready replace 51125 for a new one same history!!"
+        },
+        {
+            "post_id": 42937,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-12-05 09:25:13",
+            "message": "<SIGNAL>PP3V3_S5</SIGNAL> present? If so, check rails for shorts a common is <SIGNAL>PP5V_S3</SIGNAL> audio caps which can cause the green light to have issues."
+        },
+        {
+            "post_id": 42938,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-05 10:22:27",
+            "message": "Check around <CHIP>U6900</CHIP>/01; start with <SIGNAL>SMC_BC_ACOK</SIGNAL>."
+        },
+        {
+            "post_id": 42972,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-06 06:58:59",
+            "message": "JohnB8812 touch on the spot!! i have a partial short on <SIGNAL>PP5V_S3</SIGNAL>!! Diode mode i have 139v ... i have one working board and i have 439v on the line! \n\ni put 3v on this line and <CHIP>U7200</CHIP> start to heat a little but i don't have others components heating!! i take off <CHIP>U7200</CHIP> put the 3v and DC power don't consume (A)! \n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> - floating 2.9 - 3.4 V \n\n\nany advice ?"
+        },
+        {
+            "post_id": 42973,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-12-06 07:04:10",
+            "message": "Hmm do you still have no green light and no power after replacing <CHIP>U7200</CHIP>?"
+        },
+        {
+            "post_id": 42975,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-06 07:23:37",
+            "message": "ya, i don't have green light yet... when i plug the charger i have a green light for 1 sec and then goes off!! already replace again <CHIP>U7200</CHIP>!! and noo changes!!"
+        },
+        {
+            "post_id": 42980,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-06 08:05:34",
+            "message": "Post voltages for <CHIP>U6900</CHIP>/01.\nCheck diode and small resistors from magsafe board; change it for test."
+        },
+        {
+            "post_id": 42983,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-06 08:25:13",
+            "message": "<CHIP>U6900</CHIP> \n\n1- <SIGNAL>SMC_BC_ACOK_VCC</SIGNAL> = 3.340V - 3.484 Floating     [url]https://drive.google.com/file/d/1ynHbGna1dnDmAm6pmcYCerOcK7DsGr9Z/view?usp=sharing[/url]\n4 - <SIGNAL>SYS_ONEWIRE</SIGNAL> - 2.800V - 2.980V - Floating \n5 - <SIGNAL>ADAPTER_SENSE</SIGNAL> - 2.800V - 2.980V - Floating \n\n<CHIP>U6901</CHIP> \n\n1- <SIGNAL>SMC_BC_ACOK_VCC</SIGNAL> = 3.340V - 3.484 Floating\n2-1- <SIGNAL>SMC_BC_ACOK_VCC</SIGNAL> = 3.340V - 3.484 Floating\n4- <SIGNAL>SMC_BC_ACOK_VCC</SIGNAL> = 3.490V\n5- =PP3V42_G3H_ONEWIREPROT - 3.340V - 3.484 Floating\n\nWith my experience when the voltages are floating on this case i think i have a short problem in some line!"
+        },
+        {
+            "post_id": 42984,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-06 08:57:55",
+            "message": "Already replaced magasafe for a new on.. Replace <TRANSISTOR>Q7260</TRANSISTOR> and <TRANSISTOR>Q7261</TRANSISTOR> and <SIGNAL>PP5V_S3</SIGNAL> now i have 439v on diode mode! Compare with a working board it's same value! but the board not turnin on and no green light!! i will check all trails for shorts!! =("
+        },
+        {
+            "post_id": 43051,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-07 02:37:24",
+            "message": "All rails checked and not found any short's! As I was analyzing it was comparing with a working board and the values are similar (Diode mode)! \n\nAlready replace <CHIP>U7000</CHIP>, by discharge same result's! With fake charge i have green light 1-2 sec goes orange and then goes green but  don't turn on.  \n\nalready replace <CHIP>U2600</CHIP>, by discharge to same results. <SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> = 32khz ! \n\ni have <SIGNAL>P5VS3_EN_L</SIGNAL> = 3.2V but Still missing <SIGNAL>PP5V_S3</SIGNAL> = 0V. When i plug and unplug the charger i have this [url]https://drive.google.com/file/d/1GwNbkgMwoZEEibQfBGgRF11jPQn_8Vm_/view?usp=sharing[/url]\n\nthis one I would like to repair because it is from a new client and I think it's worth it because the board is clean. Does not look bad or touch from another guy! \n\nthanks"
+        },
+        {
+            "post_id": 43052,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-07 03:16:59",
+            "message": "\"i have <SIGNAL>P5VS3_EN_L</SIGNAL> = 3.2V\"\nIn fact <SIGNAL>5V_S3</SIGNAL> is not enabled!\nThat \"_L\" means something; active low, you need 0V there...\n\nPost voltages for <CHIP>U7941</CHIP>."
+        },
+        {
+            "post_id": 43054,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-07 04:19:44",
+            "message": "<CHIP>U7941</CHIP> \n\n1 - <SIGNAL>PP3V42_G3H_PWRCTL</SIGNAL> - 3.42v\n2 - <SIGNAL>SMC_PM_G2_EN</SIGNAL> - 3.4v\n3 -<SIGNAL>P5V3V3_REG_EN</SIGNAL> - 3.2v\n4 - <SIGNAL>P3V3S5_EN_L</SIGNAL> - 0v\n5 - gnd\n6 - <SIGNAL>PP3V3_S5_PWRCTL</SIGNAL> - 3.3v \n7 - <SIGNAL>S5PGOOD_DLY</SIGNAL> - 0v\n8 - <SIGNAL>S5_PWRGD</SIGNAL> - 3.4v"
+        },
+        {
+            "post_id": 43055,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-07 04:26:20",
+            "message": "<CHIP>U7941</CHIP> OK.\nCheck if <SIGNAL>PM_SLP_S4_L</SIGNAL> pulses at least; also check S3..."
+        },
+        {
+            "post_id": 43066,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-07 08:30:19",
+            "message": "whiling plug and unplug the mega safe, On <SIGNAL>PM_SLP_S4_L</SIGNAL> and <SIGNAL>PM_SLP_S3_L</SIGNAL> i have this ! [url]https://drive.google.com/file/d/1kq_y91of8WX3ZjJKAe0OhZsKcTkvGmxv/view?usp=sharing[/url] Can i consider a pulse?? \n\nI already check this board with scoop 10 times looking components knockouts ... and Board have good aspect! I don't have more SMC if not, i change again for discharge!"
+        },
+        {
+            "post_id": 43069,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-07 10:07:17",
+            "message": "Much better to trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> (simulating power button with <RESISTOR>R5015</RESISTOR>/16) and check any reaction at the moment."
+        },
+        {
+            "post_id": 43134,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-10 03:09:01",
+            "message": "<SIGNAL>SMC_ONOFF_L</SIGNAL> When i short the pads 3.42V gos to 0V! \n\ni check <SIGNAL>PM_SLP_S4_L</SIGNAL> and <SIGNAL>PM_SLP_S3_L</SIGNAL> with oscilloscope and i don't have any pulse when i short the pads (<RESISTOR>R5015</RESISTOR>/16). \n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> measuring with oscilloscope and ORIGINAL CHARGER: [url]https://drive.google.com/file/d/1DV2WhnrMhxXeyDlrknrVwCqS-xcZ9kXh/view?usp=sharing[/url]  Without original charger i don't have this oscillations. I do not know if this information is useful but i try my best! \n\nthanks"
+        },
+        {
+            "post_id": 43138,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-10 04:01:34",
+            "message": "\"<SIGNAL>SMC_BC_ACOK</SIGNAL>\" needs to be steady 3V (or close value); no need o-scope to check it.\nYou must put <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground for an instance only, like when pressing power button; do NOT maintain ground contact."
+        },
+        {
+            "post_id": 43190,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-11 02:06:47",
+            "message": "I don't see any reaction! =( \n\ni test with power supply and when i press the power button only consume 0.018A to 0.020A. \n\nalready replace SMC for one i know it's working!! and same history,, \n\ncould be PCH? \n\nI really needed this board repaired. so I because insist a little more .. thank you"
+        },
+        {
+            "post_id": 43197,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 02:29:49",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> reacts?\n<SIGNAL>PM_RSMRST_L</SIGNAL> is steady 3V?\nDo you have stable <SIGNAL>PPBUS_G3H</SIGNAL> and 3V42?"
+        },
+        {
+            "post_id": 43199,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-11 03:20:59",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> the only reaction i see it's the signal goes to 0v when i put <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground for an instance. \n\n<SIGNAL>PM_RSMRST_L</SIGNAL> = 0V \n\n<SIGNAL>PPBUS_G3H</SIGNAL> and 3V42 are stable's! And in diode mode compare with a working board and shows same values! i still haven't green light with original charge only with fake! \n\ni have a perfect working board with me. it's possible we know if PCH is working well with measure points ??  \n\n1 question we know <SIGNAL>PM_SLP_S4_L</SIGNAL> and <SIGNAL>PM_SLP_S3_L</SIGNAL> bought are pulsing, what does it mean?? i would like to understand!!"
+        },
+        {
+            "post_id": 43200,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 03:29:37",
+            "message": "\"<SIGNAL>PM_RSMRST_L</SIGNAL> = 0V\"\nIt MUST stay high at 3V.\nPost <CHIP>U7930</CHIP> voltages.\nTry to start in SMC bypass mode."
+        },
+        {
+            "post_id": 43203,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-11 04:07:25",
+            "message": "<CHIP>U7939</CHIP> \n\npin1- <SIGNAL>PM_RSMRST_L</SIGNAL> = 0V\npin 2 - GND\npin3 - N.C - 3.3V\npin4 - <SIGNAL>S4_PGOOD_CT</SIGNAL> = 1.4V \npin5 -  <SIGNAL>PP3V3_SUS_PWRCTL</SIGNAL> - 0.04V\npin6 - <SIGNAL>PP3V3_S5_PWRCTL</SIGNAL> - 3.3V\n\nDon't star via SMC bypass mode!"
+        },
+        {
+            "post_id": 43205,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 04:34:49",
+            "message": "So you miss <SIGNAL>3V3_SUS</SIGNAL>.\nDo you also miss <SIGNAL>PM_SLP_SUS_L</SIGNAL>?\nThis one should appear before start the board."
+        },
+        {
+            "post_id": 43210,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-11 04:55:57",
+            "message": "No i have <SIGNAL>PM_SLP_SUS_L</SIGNAL> = 3.3V stable! \n\ni noticed <SIGNAL>PP5V_S3</SIGNAL> in diode mode i have 424v compare a working board i have 0.138v ... the problem can be here..already replace again this 2 components <TRANSISTOR>Q7261</TRANSISTOR> and <TRANSISTOR>Q7260</TRANSISTOR>.  i already check the rails and no one missing! can e a component fault??\n\n\n\nthank you"
+        },
+        {
+            "post_id": 43212,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 05:24:04",
+            "message": "Then check <TRANSISTOR>Q7820</TRANSISTOR>/22, you are missing <SIGNAL>3V3_SUS</SIGNAL>..."
+        },
+        {
+            "post_id": 43217,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-11 06:23:47",
+            "message": "I do not know how to tell you this but while I was doing the measurements on <TRANSISTOR>Q7820</TRANSISTOR> / 22, the comes to life without replace any component!!! i use a power supply to test boards, and when i see the current up to 900mA i'm WOW!!! This board repaired itself. in this type of situations what do you do ?? I have a lot of fear in these situations because the probability of coming back is high!"
+        },
+        {
+            "post_id": 43220,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 08:29:05",
+            "message": "Check the solders for all the places you tocuhed before..."
+        },
+        {
+            "post_id": 43225,
+            "thread_id": 42873,
+            "title": "820 3115, no green light",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2018-12-11 08:56:42",
+            "message": "Nice one Mr.Vali!!! Thank you for your patience and insistence. Without your help I would not be able to repair this mac. you are a legend! in addition to being repaired I learned from you .. thanks one more time"
+        }
+    ]
+}

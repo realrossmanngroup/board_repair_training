@@ -1,0 +1,127 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U5110": "What is U5110? This chip is responsible for SMC_RESET_L in many Macbook models..",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN_L": "What is PCH_INTVRMEN_L? PCH_INTVRMEN_L is a signal that stands for Internal Voltage Regulator Enable. When pulled high, this signal enables the internal 1.05 V regulators for the Suspend well in the PCH. This signal must be pulled-up to PPVRTC_G3H..",
+        "PCH_DSWVRMEN_L": "What is PCH_DSWVRMEN_L? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "Q8150": "What is Q8150? a TRANSISTOR.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ONOFF": "What is SMC_ONOFF? SMC_ONOFF is a signal that tells the machine that the power button has been pressed so it knows to turn on, or turn off. ."
+    },
+    "threads": [
+        {
+            "post_id": 97154,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-02 14:16:47",
+            "message": "This board will usually boot fine the first time but will often not turn back on with or without battery plugged in. On bench nothing plugged in if I shutoff by grounding <SIGNAL>SMC_ONOFF_L</SIGNAL> it wont restart. IN this state, I get 3.4V at <SIGNAL>SMC_ONOFF_L</SIGNAL> with and without keyboard plugged in. When triggering on/off I get voltage drop at <SIGNAL>PM_PWRBTN_L</SIGNAL>. When it won't restart I tested voltages at <CHIP>U5110</CHIP> and everything looks good there.  Board always starts when I unplug and replug charger back in. Somerhing appears ro not be resetting when board stays connected to power but shut down manually or via OS. Only if removing all power.\n\n<SIGNAL>PM_SLP_S4_L</SIGNAL> is not present. From what I can tell the below are all present:\n\n<SIGNAL>PPVRTC_G3H</SIGNAL>\n<SIGNAL>RTC_RESET_L</SIGNAL>\n<SIGNAL>PCH_SRTCRST_L</SIGNAL>\n<SIGNAL>PCH_INTVRMEN_L</SIGNAL>\n<SIGNAL>PCH_DSWVRMEN_L</SIGNAL>\n<SIGNAL>PP3V3_S5</SIGNAL>\n<SIGNAL>PM_DSW_PWRGD</SIGNAL>\n<SIGNAL>PP3V3_SUS</SIGNAL>\n<SIGNAL>PM_BATLOW_L</SIGNAL>\n<SIGNAL>PM_RSMRST_L</SIGNAL>\n<SIGNAL>PM_PWRBTN_L</SIGNAL>"
+        },
+        {
+            "post_id": 97161,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-02 15:42:33",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> reacts even when doesn't want to turn on?\nAny pulse at <SIGNAL>PM_SLP_S4_L</SIGNAL> then (at same time)?\n\nYou've forgot to check <SIGNAL>PCH_INTRUDER_L</SIGNAL>?"
+        },
+        {
+            "post_id": 97176,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-03 07:18:49",
+            "message": "I did forget to add to list: yes <SIGNAL>PCH_INTRUDER_L</SIGNAL> is good also. <SIGNAL>PM_SLP_S4_L</SIGNAL> does go to 3.3V  momentarily when toggling on/off while board is in state of being unable to start after shutdown."
+        },
+        {
+            "post_id": 97177,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-03 08:23:10",
+            "message": "Then check for pulse at S3 voltages.\nDo the same with <SIGNAL>PM_SLP_S3_L</SIGNAL> abd S0 voltages.\nCheck if <SIGNAL>ALL_SYS_PWRGD</SIGNAL> pulses too.\n\nInspect <CHIP>U1950</CHIP> for corrosion.\nRemove <TRANSISTOR>Q8150</TRANSISTOR> and test again."
+        },
+        {
+            "post_id": 97185,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-03 12:16:31",
+            "message": "Well you helped me discover some things I realized the board is cycling the rails even without triggering <SIGNAL>SMC_ONOFF_L</SIGNAL>.\n\n<SIGNAL>PLT_RESET_L</SIGNAL> is jumping to 3.3V every couple of seconds also. So if I shut the board off it seems to go to normal s5 state (rails are not pulsing), but once I trigger the board to start again, the board is continously trying to restart and I get pulse at <SIGNAL>PLT_RESET_L</SIGNAL>.\n\nI couldn't get the board to PRAM reset when it was in the Mac so I PRAM reset via Medusa and also did cleanME. The board still won't start again without disconnecting power."
+        },
+        {
+            "post_id": 97186,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-03 12:24:06",
+            "message": "Did all mentioned tests?\n\nJust in case, test starting in SMC bypass mode."
+        },
+        {
+            "post_id": 97189,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-03 12:56:03",
+            "message": "Yes <CHIP>U1950</CHIP> good, Tried without <TRANSISTOR>Q8150</TRANSISTOR>. \n\nIf I start in SMC bypass, then force off by grounding <SIGNAL>SMC_ONOFF</SIGNAL>, then triggering did start the board again but only briefly. Then you can see fans periodically start to spin but stop again and this continues.\n\nYou think SMC is shit maybe?"
+        },
+        {
+            "post_id": 97194,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-03 14:39:09",
+            "message": "Any history available?\n\nYou can try heating PCH area with quality flux; in case of accumulated crap underneath\nReballing SMC can also be done.\n\nNot sure if is related with FDMF6808N chips, but you can try replacing them too.\nUse FDMD6708/3030 from reliable source (not China)."
+        },
+        {
+            "post_id": 97202,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-04 08:56:26",
+            "message": "No history. I tried heating PCH and also replacing SMC and new BIOS but no change. I think I will just replace the board unfortunately."
+        },
+        {
+            "post_id": 97203,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-04 09:02:03",
+            "message": "Did you test removing <TRANSISTOR>Q8150</TRANSISTOR>\nAlso try pressing power button 2-3s."
+        },
+        {
+            "post_id": 97415,
+            "thread_id": 63662,
+            "title": "00138 won't turn back on after initial boot",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-11 08:04:58",
+            "message": "I ended up as last hope, reflowing PCH w/ flux and high temp enough to melt solder and it now is restarting normally."
+        }
+    ]
+}

@@ -1,0 +1,200 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3662": "What is 820-3662? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U7501": "What is U7501? This chip is often responsible for creating PP3V3_S5,  PP3V3_S3,  PP3V3_S0,  PP5V_S5,  PP5V_S4,  PP5V_S0.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_CHGR_BMON_ISENSE": "What is SMC_CHGR_BMON_ISENSE? a SIGNAL.",
+        "R7150": "What is R7150? a RESISTOR.",
+        "R7151": "What is R7151? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7152": "What is R7152? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "C7125": "What is C7125? Capacitor between CHGR_BOOT and CHGR_PHASE important for bootstrapping creation of PPBUS_G3H on 2013-2015 macbook pros.",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  ."
+    },
+    "threads": [
+        {
+            "post_id": 78593,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-09 04:47:00",
+            "message": "Hi!\nThere was spill in the <CHIP>U7100</CHIP> and <CHIP>U7501</CHIP> area, so I replaced the two ICs and some components around them. Now the macbook can start and work (fans spin very fast), but it does not charge and puts \"repair\" in the battery state. The charger led blinks green twice, stays steady for 1 second and blinks twice again.\n\nPS: I also tried two batteries and same result."
+        },
+        {
+            "post_id": 78599,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-09 05:54:22",
+            "message": "Tried known good battery?\n\nCheck voltage and diode mode to ground at SCL/SDA lines.\nPost exact <SIGNAL>PPBUS_G3H</SIGNAL> voltage w/ and w/o battery connected?\nRun corresponding EFI ASD test.\nCheck <RESISTOR>R7150</RESISTOR>/51/52 and traces; also check <SIGNAL>SMC_CHGR_BMON_ISENSE</SIGNAL> level."
+        },
+        {
+            "post_id": 78844,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-14 10:44:49",
+            "message": "SCL = 3.40V\nSDA = 3.40V\n<SIGNAL>PPBUS_G3H</SIGNAL> W= 10.80V\n<SIGNAL>PPBUS_G3H</SIGNAL> W/O = 19.54V\n\nEFI ASD = tomorrow (I'm downloading the files).\n\n<RESISTOR>R7151</RESISTOR> = 2.8 ohms\n<RESISTOR>R7152</RESISTOR> = 0.8 ohms\n<SIGNAL>SMC_CHGR_BMON_ISENSE</SIGNAL> = 45k / 0V"
+        },
+        {
+            "post_id": 78846,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-14 11:21:08",
+            "message": "\"<SIGNAL>PPBUS_G3H</SIGNAL> W/O = 19.54V\"\nIf this means <SIGNAL>PPBUS_G3H</SIGNAL> without battery (only charger), <TRANSISTOR>Q7130</TRANSISTOR> is shorted; change it asap.\nBe sure <CAPACITOR>C7125</CAPACITOR> is good."
+        },
+        {
+            "post_id": 78876,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-16 04:47:17",
+            "message": "I have injected V = 1V into <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> and <RESISTOR>R7021</RESISTOR> / 2 was getting hot: I changed the resistors, changed <TRANSISTOR>Q7130</TRANSISTOR> but it still doesn't charge the battery (<RESISTOR>R7021</RESISTOR> / 2 no longer gets hot).\n\nWith thermal camera, <TRANSISTOR>Q7130</TRANSISTOR> heats up with charger and charger + battery."
+        },
+        {
+            "post_id": 78877,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-16 05:22:38",
+            "message": "Did you think to check actual <SIGNAL>PPBUS_G3H</SIGNAL> voltage???"
+        },
+        {
+            "post_id": 78993,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-19 06:53:02",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> = 19.20V."
+        },
+        {
+            "post_id": 79012,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-19 11:12:53",
+            "message": "Doesn't look to high for you?\nChange <TRANSISTOR>Q7130</TRANSISTOR>..."
+        },
+        {
+            "post_id": 79289,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-25 09:54:20",
+            "message": "I have changed it 3 times but it remains the same, it doesn't charge the battery and it gets hot (<TRANSISTOR>Q7130</TRANSISTOR>)."
+        },
+        {
+            "post_id": 79292,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-25 10:58:43",
+            "message": "Did you check <SIGNAL>PPBUS_G3H</SIGNAL> each time?\nBe sure <TRANSISTOR>Q7130</TRANSISTOR> Gate pin has good contact with <CHIP>U7100</CHIP>.\nAlso check/replace <CAPACITOR>C7125</CAPACITOR>; its traces good?"
+        },
+        {
+            "post_id": 79385,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-27 08:36:56",
+            "message": "Thanks to [USER=682]@2informaticos[/USER]  for the information: I have managed to get ppbus to be correct (12.58V) and to charge but, I still have problems: when turning on the macbook, the battery appears after 1-2 minutes of logging in (charger connected) and when I disconnect the charger, it keeps marking as if it was charging."
+        },
+        {
+            "post_id": 79390,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-27 08:59:51",
+            "message": "Did you try known good battery?\nCheck <SIGNAL>SMC_BC_ACOK</SIGNAL> when charger is disconnected; only battery present."
+        },
+        {
+            "post_id": 79392,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-27 10:05:52",
+            "message": "Yes, it's a new battery with 1 charge cycle.\n\n- <SIGNAL>SMC_BC_ACOK</SIGNAL> = 0V."
+        },
+        {
+            "post_id": 79462,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-29 11:54:18",
+            "message": "Yes, it's a new battery with 1 charge cycle.\n\n<SIGNAL>SMC_BC_ACOK</SIGNAL> = 0V (battery connected only)."
+        },
+        {
+            "post_id": 79463,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-29 14:22:36",
+            "message": "New chinese battery?\nYou've said tried two more batterires; was any known good?"
+        },
+        {
+            "post_id": 79467,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-29 14:46:54",
+            "message": "Newertech battery.\n\nYes, I have an \"old original\" battery and this new one."
+        },
+        {
+            "post_id": 79468,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-29 15:51:13",
+            "message": "And known good one has exact the same behavior?\nDid you try another original Magsafe 2 charger?"
+        },
+        {
+            "post_id": 79475,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-30 01:37:41",
+            "message": "Yes, it recognizes it after 1-2 minutes of logging in.\nWith the new battery, I can turn on the macbook but still, it recognizes it after 1-2 minutes and even if I charge it, the percentage doesn't change (I look at the information about the remaining charge and after a few minutes, I check again).\n\nYes, I have tried with another original magsafe 2 and same behavior."
+        },
+        {
+            "post_id": 79476,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-08-30 01:49:37",
+            "message": "Remove internal SSD and try another USB macOS.\nOr try with the SSD from another working machine.\n\nDo PRAM reset 2-3 times.\nActual <SIGNAL>PPBUS_G3H</SIGNAL>, without battery?"
+        },
+        {
+            "post_id": 79504,
+            "thread_id": 61542,
+            "title": "<LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER> doesn't charge the battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2021-08-30 13:41:31",
+            "message": "I finally changed the SMC and the battery issues were fixed.\n\nIt can be marked as repaired and thank [USER=682]@2informaticos[/USER]"
+        }
+    ]
+}

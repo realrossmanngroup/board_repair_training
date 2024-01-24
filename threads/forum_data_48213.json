@@ -1,0 +1,115 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "ADAPTER_SENSE": "What is ADAPTER_SENSE? This is a line between the onewire circuit and the magsafe charger where the magsafe charger can talk to the SMC(system management controller) on the SYS_ONEWIRE line..",
+        "PP18V5_DCIN_FUSE": "What is PP18V5_DCIN_FUSE? a SIGNAL.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7085": "What is R7085? a RESISTOR.",
+        "R7080": "What is R7080? a RESISTOR.",
+        "R7010": "What is R7010? a RESISTOR.",
+        "C6990": "What is C6990? Capacitor to ground on input to PP3V42_G3H power supply. PP3V42_G3H power supply turns 18.5v from charger or 8.5v-12.5v PPBUS_G3H from the battery into PP3V42_G3H. This capacitor can short to ground and keep PP3V42_G3H from turning on which would keep the machine from having a light on the magsafe charger.",
+        "U6900": "What is U6900? a CHIP.",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "U6901": "What is U6901? a CHIP.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "SMC_BC_ACOK_VCC": "What is SMC_BC_ACOK_VCC? SMC_BC_ACOK_VCC is a voltage that is created if SMC_BC_ACOK & PP3V42_G3H are both present that powers the chipset for the onewire circuit that allows the SMC to talk to the charger on the SYS_ONEWIRE line. This is necessary for the magsafe charger to have a light on it. .",
+        "ACOK_VCC": "What is ACOK_VCC? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 48213,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2019-04-06 10:26:35",
+            "message": "Dim green light on magsafe, somebody had apparently tried to repair this board previously... both <SIGNAL>ADAPTER_SENSE</SIGNAL> and <SIGNAL>PP18V5_DCIN_FUSE</SIGNAL> jump every second, SENSE between ~3.9v to ~4.1v and FUSE between ~17.1v to ~16v. No shorts on any of those lines, and <SIGNAL>PPBUS_G3H</SIGNAL> descends constantly from around ~200mv but jumps every few seconds to around ~350mv and straight back down to continue descending, while 3V42 is constant at 17mv, no jumps. Have to run, but any symptoms sound familiar to you guys? Will test any more rails I need to once I get back, may be tomorrow tho."
+        },
+        {
+            "post_id": 48217,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-04-06 15:30:08",
+            "message": "Known good DC in board and 85 watt magsafe 1? Resistance to ground on PP3v42?"
+        },
+        {
+            "post_id": 48218,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2019-04-06 16:13:57",
+            "message": "Yes charger is known good, I've been using a 60w since it's a 13\" board, but 85w returns same results. Tried multiple DC-in boards, PP3v42 has .310v drop in diode mode to ground, 1.655kohms in resistance."
+        },
+        {
+            "post_id": 48233,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-07 18:15:10",
+            "message": "Possibly leakage on the input stage.\nOriginal charger detects it and gets blocked.\nFirst check for short at <SIGNAL>CHGR_ACIN</SIGNAL>.\nAlso be sure both <RESISTOR>R7010</RESISTOR>/11 are OK.\n\nPost exact value for <RESISTOR>R7080</RESISTOR>/81 and <RESISTOR>R7085</RESISTOR>/86; measured  onboard, ohm scale.\nAlso  post diode mode to ground at <RESISTOR>R7020</RESISTOR>, L6995 and <CAPACITOR>C6990</CAPACITOR>."
+        },
+        {
+            "post_id": 48260,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2019-04-08 11:26:29",
+            "message": "While looking at <RESISTOR>R7080</RESISTOR>/81 I discovered <RESISTOR>R6905</RESISTOR>/<RESISTOR>R6990</RESISTOR> were completely missing from the board >:( maybe the guy before was using this board for parts, not sure. Either way, after replacing I now have stable DCIN rails, 3V42 and <SIGNAL>PPBUS_G3H</SIGNAL> are 3.44v and 12.56v respectively. The resistors you mentioned all returned normal values, plus current sensing is fine as well.\nONEWIRE and <SIGNAL>ADAPTER_SENSE</SIGNAL> are ~1.49v. No shorts on those lines. <CHIP>U6900</CHIP>/01 look fine, should try replacing anyway? Already replaced ISL earlier no change."
+        },
+        {
+            "post_id": 48261,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-08 11:28:45",
+            "message": "Post all voltages for <CHIP>U6900</CHIP>/01."
+        },
+        {
+            "post_id": 48262,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2019-04-08 11:41:27",
+            "message": "<CHIP>U6900</CHIP>\n(1)<SIGNAL>SMC_BC_ACOK_VCC</SIGNAL> 2.00v\n(4)<SIGNAL>SYS_ONEWIRE</SIGNAL> 2.00v\n(5)<SIGNAL>ADAPTER_SENSE</SIGNAL> 2.00v\n\n<CHIP>U6901</CHIP>\n(1,2)<SIGNAL>SMC_BC_ACOK</SIGNAL> 3.27v\n(4)<SIGNAL>SMC_BC_ACOK_VCC</SIGNAL> 2.00v\n(5)<SIGNAL>PP3V42_G3H</SIGNAL> 3.44v\n\nVoltage went from 1.47v to 2.00v on the ONEWIRE lines since last time but still low."
+        },
+        {
+            "post_id": 48263,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-08 12:52:45",
+            "message": "\"<SIGNAL>SMC_BC_ACOK_VCC</SIGNAL> 2.00v\"\nReplace <CHIP>U6901</CHIP>."
+        },
+        {
+            "post_id": 48265,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2019-04-08 12:58:18",
+            "message": "Replaced it, works now :) thanks a bunch. Why does <SIGNAL>ACOK_VCC</SIGNAL> being 2.00v conclude <CHIP>U6901</CHIP> being bad and not <CHIP>U6900</CHIP>?"
+        },
+        {
+            "post_id": 48275,
+            "thread_id": 48213,
+            "title": "3115-B, dim green light on magsafe + DCIN rails pumping?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-08 18:44:06",
+            "message": "<CHIP>U6901</CHIP> generates that voltage, from 3V42; enabled by <SIGNAL>SMC_BC_ACOK</SIGNAL>.\nIf <CHIP>U6900</CHIP> sinks too much current, it should drop more..."
+        }
+    ]
+}

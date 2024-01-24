@@ -1,0 +1,282 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "D9701": "What is D9701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "LCD_BKLT_EN": "What is LCD_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “LCD_BKLT” which stands for “LCD screen backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "C9782": "What is C9782? a CAPACITOR.",
+        "Q9706": "What is Q9706? Q9706 takes PPBUS_G3H's vltage and sends it through to the backlight circuit. If Q9706 is not allowing PPBUS_G3H through, you will get no voltage on the backlight circuit. Q9706 is a P channel MOSFET, meaning power will flow through it when the voltage on the gate is lower than on the source. Look at pin 3. R9788 takes the 12.6v that is on the source and places it right on pin 3. This will set Q9706 to \"off\", and not allow it to pass power, as the voltage on the source and the gate are identical..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U3990": "What is U3990? a CHIP.",
+        "R9731": "What is R9731? a RESISTOR.",
+        "R9789": "What is R9789? a RESISTOR.",
+        "R0910": "What is R0910? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 36291,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-27 20:03:51",
+            "message": "Awesome work guys, just needed to say that. I usually find everything I need in this forum for my answers to the things I get stuck on. For the past two days I have been following all the <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Back Light posts, and up until tonight, I'm at a dead end.\n\nAll voltages are correct, no break in any traces, parts all mentioned in other posts replaced, last part replaced tonight was <SIGNAL>SMC_LID</SIGNAL> which showed high so changed out the resistor and it now shows low on open lid. For the LIFE of me, I cannot figure out what I am missing, and I KNOW it's something stupid retarded, so I am finally reaching out for some help.\n\nBoard powers on on impact of magsafe green light, orange light, chimes, see faint image, boots... But I cannot for the life of me get the backlight to turn on. If any of you have any ideas on what on earth I am missing, please by all means see what I am missing. I built this board from the ground up with no green light, nothing and this is my last snag, the fun part was running a wire through the board for the RTC, if I can manage to find THAT what on earth am I missing on the backlight :(\n\n**Forgot to mention I have tried the board in two different chassis...."
+        },
+        {
+            "post_id": 36294,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-27 20:18:35",
+            "message": "<SIGNAL>SMC_LID</SIGNAL> should be 3.4V and NOT low. So that is problem #1 that needs to be fixed."
+        },
+        {
+            "post_id": 36295,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-27 20:35:53",
+            "message": "Ok, done, back at 3.3 for <SIGNAL>SMC_LID</SIGNAL>"
+        },
+        {
+            "post_id": 36303,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-28 03:07:33",
+            "message": "Need some voltages, <SIGNAL>BKL_EN</SIGNAL> <SIGNAL>BKL_PWM</SIGNAL> the actual voltage on the BKL line on the LCD connector,"
+        },
+        {
+            "post_id": 36312,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-28 06:54:07",
+            "message": "Ok, I will be opening my shop in an hour, I will give whatever you ask for sir."
+        },
+        {
+            "post_id": 36317,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-28 09:06:32",
+            "message": "<SIGNAL>BKL_EN</SIGNAL> is 0.11v\n<SIGNAL>BKL_PWM</SIGNAL> is 3.3v\nPins 2,3,4 on LCD connector 3.3v\nPins 21,22 on LCD connector 0v and pins on both caps are going to ground"
+        },
+        {
+            "post_id": 36319,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-28 10:21:31",
+            "message": "dukefawks, I greatly appreciate your time, I found out what is wrong, I need to re-do the solder mask for the <CHIP>LP8550</CHIP>, it didn't look to bad the first go around but I pulled it again and yeah, you can't make out where the pads go. So I have to make a blackout stencil and uv some solder masking so the balls don't decide to merge over.\n\nYou all keep up the great work. Inspiration to all of us in the repair business."
+        },
+        {
+            "post_id": 36381,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-29 09:54:44",
+            "message": "Ok, this board is really upsetting me, remasked the area, put a new <CHIP>LP8550</CHIP> and short to ground is gone from all BKL points, now Pin 21,22 on LCD connector is giving me 2.4v as well as Pin 1 on <DIODE>D9701</DIODE>"
+        },
+        {
+            "post_id": 36395,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-29 18:31:55",
+            "message": "Again, <SIGNAL>BKL_EN</SIGNAL>, <SIGNAL>BKL_PWM</SIGNAL>. Is there even an image present?"
+        },
+        {
+            "post_id": 36399,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-29 19:00:00",
+            "message": "<SIGNAL>BKL_EN</SIGNAL> is 0.16v\n<SIGNAL>BKL_PWM</SIGNAL> is 3.3v\n\nYes image is in background"
+        },
+        {
+            "post_id": 36401,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-29 19:19:36",
+            "message": "<SIGNAL>LCD_BKLT_EN</SIGNAL> present? F9700 good? Do a PRAM reset too."
+        },
+        {
+            "post_id": 36402,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-29 19:27:47",
+            "message": "<SIGNAL>LCD_BKLT_EN</SIGNAL> is 3.2v\nF9700 is good with 12.5v on each side and PRAM was done three times in a row, no changes."
+        },
+        {
+            "post_id": 36412,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 624,
+            "username": "Alan.L",
+            "post_date": "2018-06-30 07:18:08",
+            "message": "can you check for short on <CAPACITOR>C9782</CAPACITOR>, just had a 3115 fixed for no backlight, fused does give 12.5v but <CAPACITOR>C9782</CAPACITOR> was shorted when i measured both side of this cap. good idea to swap <TRANSISTOR>Q9706</TRANSISTOR> if that cap is shorted."
+        },
+        {
+            "post_id": 36424,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-30 10:25:01",
+            "message": "Voltages on <TRANSISTOR>Q9706</TRANSISTOR>?"
+        },
+        {
+            "post_id": 36429,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-30 13:01:43",
+            "message": "<CAPACITOR>C9782</CAPACITOR> no short on either pin\n\n<TRANSISTOR>Q9706</TRANSISTOR>\n\nPin 1,2 - 3.17v\nPin 3 - 3.3v\nPin 4 - 3.3v\nPin 5 - 0v\nPin 6 - 0.6v"
+        },
+        {
+            "post_id": 36430,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 624,
+            "username": "Alan.L",
+            "post_date": "2018-06-30 13:09:41",
+            "message": "something wrong there. Pin 4 should have the same voltage as F9700 fuse.\n\n#edit\n\nbtw, how did you measure <CAPACITOR>C9782</CAPACITOR>?"
+        },
+        {
+            "post_id": 36432,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-06-30 13:52:45",
+            "message": "Pin 1,2,5,6 are tied together they should measure the same, please check again voltage.\nPin 4 is <SIGNAL>PPBUS_G3H</SIGNAL> witch you measured good at the fuse before.\nLook if you don't have now a short on <SIGNAL>PPBUS_G3H</SIGNAL> because of the soldering.\n\nYou need to have <SIGNAL>PPBUS_G3H</SIGNAL> 12.6V at pin 4 and <TRANSISTOR>Q9706</TRANSISTOR> must open to let 12,6V appear on pins 1-2-5-6.\nTo have <TRANSISTOR>Q9706</TRANSISTOR> open, Voltage divider must operate, this means pin 3 must be lower than pin 4.\n​​​​​​"
+        },
+        {
+            "post_id": 36433,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-30 14:23:42",
+            "message": "[QUOTE=\"Alan.L, post: 36430\"]something wrong there. Pin 4 should have the same voltage as F9700 fuse.\n\n#edit\n\nbtw, how did you measure <CAPACITOR>C9782</CAPACITOR>?[/QUOTE]\n\nMeasured in diode mode"
+        },
+        {
+            "post_id": 36434,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-30 14:27:29",
+            "message": "[QUOTE=\"jadao, post: 36432\"]Pin 1,2,5,6 are tied together they should measure the same, please check again voltage.\nPin 4 is <SIGNAL>PPBUS_G3H</SIGNAL> witch you measured good at the fuse before.\nLook if you don't have now a short on <SIGNAL>PPBUS_G3H</SIGNAL> because of the soldering.\n\nYou need to have <SIGNAL>PPBUS_G3H</SIGNAL> 12.6V at pin 4 and <TRANSISTOR>Q9706</TRANSISTOR> must open to let 12,6V appear on pins 1-2-5-6.\nTo have <TRANSISTOR>Q9706</TRANSISTOR> open, Voltage divider must operate, this means pin 3 must be lower than pin 4.\n​​​​​​[/QUOTE]\n\n\nLet me check because I just realized I am so fed up with this board I was measuring <CHIP>U3990</CHIP> UGH... Why isn't there a head bashing wall emoji! Let me recheck...."
+        },
+        {
+            "post_id": 36435,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-30 14:31:44",
+            "message": "THE ACTUAL PART <TRANSISTOR>Q9706</TRANSISTOR>\n\nPin 1,2 - 12.5v\nPin 3 - 12.2v\nPin 4 - 12.5v\nPin 5 - 12.5v\nPin 6 - 12.5v"
+        },
+        {
+            "post_id": 36436,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-06-30 15:02:12",
+            "message": "Pin 3 should be way lower...something around 4V.\nCould you check continuity (diode mode) between\npins 4 and 1-2-5-6?\npins 3 and 4? \nEDIT: With no power applied of course."
+        },
+        {
+            "post_id": 36437,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-30 15:10:14",
+            "message": "No beep at all on all the Pins you asked.... I should just go run this over with my SUV a few times, pick up the remains and burn them and then bury it.....\n\nJust for the heck of it I replaced <CAPACITOR>C9782</CAPACITOR> as well...\n\nPin 3 now shows 4v still no backlight...."
+        },
+        {
+            "post_id": 36438,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-06-30 15:35:57",
+            "message": "What voltage do you get at \npin 2 of <RESISTOR>R9789</RESISTOR>?\npin 1 of <RESISTOR>R9731</RESISTOR>?\npin 2 of <RESISTOR>R9731</RESISTOR>?\nWhat resistance do you measure on <RESISTOR>R9731</RESISTOR>?\n​​​​"
+        },
+        {
+            "post_id": 36439,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-06-30 15:47:57",
+            "message": "pin 2 of <RESISTOR>R9789</RESISTOR> - 12.03v then drops to 0.1\npin 1 of <RESISTOR>R9731</RESISTOR> - 0v\npin 2 of <RESISTOR>R9731</RESISTOR> - 0v\nWhat resistance do you measure on <RESISTOR>R9731</RESISTOR> - 301K"
+        },
+        {
+            "post_id": 36440,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2018-06-30 16:03:35",
+            "message": "Ok you seem to have a break in the trace between pin 1 of <RESISTOR>R9731</RESISTOR> and pin 1-2-5-6 of <TRANSISTOR>Q9706</TRANSISTOR>, so \nDouble check before and run a wire If no continuity, after that you should get around 3V at pin 2 of <RESISTOR>R9731</RESISTOR> it's <SIGNAL>BKL_EN</SIGNAL>."
+        },
+        {
+            "post_id": 36463,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-07-01 08:29:16",
+            "message": "Thank you for the suggestion, I didn't even notice the through the hole to other side was bad :-/\nI have the 3v on pin 2 of <RESISTOR>R9731</RESISTOR> still no backlight. I'm beginning to wonder if this board is just hopeless"
+        },
+        {
+            "post_id": 36470,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-01 09:12:23",
+            "message": "You fixed a bad trace. Now you go back to step 1 and check voltages again on <TRANSISTOR>Q9706</TRANSISTOR> and see if it at least fixed that."
+        },
+        {
+            "post_id": 36473,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 1673,
+            "username": "felixthecat",
+            "post_date": "2018-07-01 12:02:41",
+            "message": "<TRANSISTOR>Q9706</TRANSISTOR>\n\nPin 1,2 - 12.5v\nPin 3 - 4.3v\nPin 4,5,6 - 12.5v\n\n<SIGNAL>BKL_EN</SIGNAL> - 3.1v \n<SIGNAL>BKL_PWM</SIGNAL> - 3.2v\n\nBKL Line LCD Pins 2,3,4 - 3.3v Pins 21,22 - 0.6v"
+        },
+        {
+            "post_id": 36476,
+            "thread_id": 36291,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> No Backlight Killing Me",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-01 16:03:50",
+            "message": "<RESISTOR>R0910</RESISTOR>, <DIODE>D9701</DIODE> or L9701 is/are bad. Or any traces between them. <RESISTOR>R0910</RESISTOR> is a common one to corrode."
+        }
+    ]
+}

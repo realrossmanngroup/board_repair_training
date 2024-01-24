@@ -1,0 +1,76 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "TBA_AUX_DET": "What is TBA_AUX_DET? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 55095,
+            "thread_id": 55095,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2019-12-06 12:04:27",
+            "message": "No liquid Damage.\n20V however, no PPBUS\n\nL7030 = 0.03V - Diode Mode = 0.447\nF7000 = 0.3V -  Diode Mode = on ppbus side.072\n<SIGNAL>PP3V3_G3H</SIGNAL> = 3.4V\n<SIGNAL>BUF_SMC_RESET_L</SIGNAL> = 3.4V\n<SIGNAL>TBA_AUX_DET</SIGNAL> = 5V\n<SIGNAL>SMC_BC_ACOK</SIGNAL> = 3.4V\n\nIf i inject some Voltage on <SIGNAL>PPBUS_G3H</SIGNAL>, the CPU gets hot."
+        },
+        {
+            "post_id": 55096,
+            "thread_id": 55095,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-06 12:09:19",
+            "message": "Again injecting voltage into <SIGNAL>PPBUS_G3H</SIGNAL>, without checking for shorted high-side MOSFETs :(.\nYou could just fried CPU; depending the value of that \"some volatge\"...\n\n\"F7000 = 0.3V - Diode Mode = on ppbus side.072\"\nPost reading with black probe at ground too.\nIf still low, check in ohm mode, which big coil gives the same readings in both ways."
+        },
+        {
+            "post_id": 55097,
+            "thread_id": 55095,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2019-12-06 12:32:02",
+            "message": "F7000 = 0.020 (diode mode w/ black probe at ground)"
+        },
+        {
+            "post_id": 55098,
+            "thread_id": 55095,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2019-12-06 12:43:34",
+            "message": "What you mean about \"shorted high-side MOSFETs\" ?"
+        },
+        {
+            "post_id": 55108,
+            "thread_id": 55095,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-06 23:56:15",
+            "message": "\"F7000 = 0.020\n---------------\nIf still low, check in ohm mode, which big coil gives the same readings in both ways.\"\nPlease do it.\nThis way, we can find the shorted MOSFET; if is the case..."
+        },
+        {
+            "post_id": 55155,
+            "thread_id": 55095,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2019-12-09 11:23:26",
+            "message": "L7670 (16.40 k ohm) and 7690 (10.45 k ohm)  Gave me the same numbers in both sides. However, goes up and down and eventually\nstops. That's the only two Weird Big Coil.\nThe rest of the big Coils gave me the measurement right way in both sides."
+        },
+        {
+            "post_id": 55158,
+            "thread_id": 55095,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - No <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-12-09 17:47:55",
+            "message": "Why would you expect different values to ground on both sides of same wire???\n\nYou've got 0.020 in diode mode at F7000 (pad 2); means 35-45 ohms usually, depending of multimeter.\nThat looks so close to 10-16K for you?\nPlease, try to understand a schematic before dig in a board repair.\n\nCheck all big coils in diode mode; which one gives the same value to ground, like F7000?\nYou can also check in ohm mode; but F7000 as big coils too.\nIs not the same comparing diode mode with ohm mode readings."
+        }
+    ]
+}

@@ -1,0 +1,109 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PP18V5_DCIN_CONN_R": "What is PP18V5_DCIN_CONN_R? a SIGNAL.",
+        "R7151": "What is R7151? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "SMBUS_CHGR_SDA": "What is SMBUS_CHGR_SDA? SMBUS_CHGR_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "SMBUS_CHGR_SCL": "What is SMBUS_CHGR_SCL? SMBUS_CHGR_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED..",
+        "R5381": "What is R5381? a RESISTOR.",
+        "D7050": "What is D7050? Diodes between SMBUS_SMC_5_G3_SDA and SMBUS_SMC_5_G3_SCL and ground, these data lines allow the battery to communicate with the battery charging chip and the SMC..",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "R5380": "What is R5380? a RESISTOR.",
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER."
+    },
+    "threads": [
+        {
+            "post_id": 93004,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2022-10-03 15:51:02",
+            "message": "No water damage, Just stopped charging (no green/orange light)\n\nISL625 pin 17/18 resistance was wrong so i replaced it, also <RESISTOR>R7151</RESISTOR> ( value was wrong). \n\n\nNow MacBook boot, i have green and orange light but when unplug charger it takes about 3-4 seconds and computers sleeps. \n\n<SIGNAL>PP18V5_DCIN_CONN_R</SIGNAL> is 15V\nPPBUS is 12,2V\n\nAlso replaced <TRANSISTOR>Q7130</TRANSISTOR> but no result. \n\nSMC is dead?"
+        },
+        {
+            "post_id": 93005,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-03 16:52:28",
+            "message": "\"PPBUS is 12,2V\"\nWrong voltage, with charger alone.\nLooks like bad communication between SMC and <CHIP>U7100</CHIP>.\nCheck diode mode to ground and voltage on the battery bus.\n\n\"<SIGNAL>PP18V5_DCIN_CONN_R</SIGNAL> is 15V\"\nAre you using 45W charger?\nThis board requires 60W Magsafe 2 charger; it should boot with 85W too, but not 45W."
+        },
+        {
+            "post_id": 93019,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2022-10-04 09:32:47",
+            "message": "<RESISTOR>R5381</RESISTOR> must be 2K OHMS but it is 15 OHMS . Replaced it but still same value. \n\n\nDiode mode: \n\n[B]<SIGNAL>SMBUS_CHGR_SCL</SIGNAL> = 0,003 \n[B]<SIGNAL>SMBUS_CHGR_SDA</SIGNAL> = 0,497[/B][/B]"
+        },
+        {
+            "post_id": 93021,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-04 11:31:59",
+            "message": "<RESISTOR>R5381</RESISTOR> was probably good.\nThe short on the board have put you into confusion.\n\nRemove <DIODE>D7050</DIODE> and check again SCL line."
+        },
+        {
+            "post_id": 93039,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2022-10-05 03:23:15",
+            "message": "Removed <DIODE>D7050</DIODE> and <RESISTOR>R5381</RESISTOR> still 15ohms. Diode mode same (0,003)\n\n\nIt really seems bad connections between smc and ISL because voltage PIn 2 <RESISTOR>R5380</RESISTOR> (<SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>[B])[/B]on fluctuating from 0,2 to 3.3"
+        },
+        {
+            "post_id": 93050,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-05 06:22:59",
+            "message": "Remove <CHIP>U7100</CHIP> and check again diode mode on SCL line.\nIf still bad, then probably need to change SMC."
+        },
+        {
+            "post_id": 93122,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2022-10-07 15:25:08",
+            "message": "it was SMC. replaced and all is ok now\n\n\nthank you \n\n\nP.S: Is there anyway to reprogramm SMC??? I got first from <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> board (similar, but not same) and everything was ok but it was detecting 42 inches display and resolution was over 2500px."
+        },
+        {
+            "post_id": 93123,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-10-07 15:48:34",
+            "message": "[MEDIA=youtube]q8LEh8C4iYo[/MEDIA]"
+        },
+        {
+            "post_id": 93164,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2022-10-10 14:09:48",
+            "message": "Thank you very much. this week will try flash it."
+        },
+        {
+            "post_id": 93201,
+            "thread_id": 63143,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> doesnt run from battery",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2022-10-11 18:01:10",
+            "message": "Flashed, thanks"
+        }
+    ]
+}

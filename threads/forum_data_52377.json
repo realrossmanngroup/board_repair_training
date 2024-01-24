@@ -1,0 +1,70 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3332": "What is 820-3332? a LOGIC BOARD PART NUMBER.",
+        "U7950": "What is U7950? a CHIP.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "U7600": "What is U7600? a CHIP.",
+        "C7981": "What is C7981? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 52377,
+            "thread_id": 52377,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> - Wont turn on",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2019-09-17 14:14:51",
+            "message": "No liquid damage.\nI have all the rails, however, the LB wont turn on.\nHere is a couple measurement: \n\n\nPP5VS5 = 5V\nPP5VS0 = 5V\nPP3VS0 = 3.3V\n<SIGNAL>PM_SLP_S3_L</SIGNAL> = 3.3V\n<SIGNAL>PM_SLP_S4_L</SIGNAL> = 3.3V\nPP3V42 = 3.39V (close enough?)\n\n<CHIP>U7950</CHIP>\nPin 8 = 3.3V\nPin 1 = 0.20V\nPin 5 and 7 = 0V"
+        },
+        {
+            "post_id": 52378,
+            "thread_id": 52377,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> - Wont turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-17 15:37:58",
+            "message": "Which other big coils have voltage?\nAny pulse at <SIGNAL>ALL_SYS_PWRGD</SIGNAL>?\n\nIf you get (some) S0 voltages, board turns on.\nNot working, is other thing..."
+        },
+        {
+            "post_id": 52390,
+            "thread_id": 52377,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> - Wont turn on",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2019-09-18 10:58:47",
+            "message": "<SIGNAL>ALL_SYS_PWRGD</SIGNAL> = 0.24v\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 3.36v\n<SIGNAL>SMC_RESET_L</SIGNAL> = 3.36v\n\nl7220 = 5v\nl7030 = 12.57v\nl7330 = 1.34v\nl9830 = 1.05v"
+        },
+        {
+            "post_id": 52391,
+            "thread_id": 52377,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> - Wont turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-18 11:07:00",
+            "message": "What about L7630, L7720/70?\nAlso check (at least pulse) at L7510/20/30."
+        },
+        {
+            "post_id": 52394,
+            "thread_id": 52377,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> - Wont turn on",
+            "user_id": 79,
+            "username": "menatwork",
+            "post_date": "2019-09-18 11:27:38",
+            "message": "L7630 = 0.096v\nl7720 = 1.8v\nl7720 = 1.5\nl7510/20/30 = 0.02v"
+        },
+        {
+            "post_id": 52396,
+            "thread_id": 52377,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> - Wont turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-09-18 14:19:42",
+            "message": "\"L7630 = 0.096v\"\nThere is your problem.\nFor this reason <SIGNAL>ALL_SYS_PWRGD</SIGNAL> stays low.\n\nDo you get CPUVCCIOS0_EN?\nIf yes, post <CHIP>U7600</CHIP> voltages.\nI not, check R/<CAPACITOR>C7981</CAPACITOR>."
+        }
+    ]
+}

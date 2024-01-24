@@ -1,0 +1,99 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3332": "What is 820-3332? a LOGIC BOARD PART NUMBER.",
+        "U9701": "What is U9701? a CHIP.",
+        "U9100": "What is U9100? a CHIP.",
+        "LCD_BKLT_EN": "What is LCD_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “LCD_BKLT” which stands for “LCD screen backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "PP5VR3V3_SW_LCD": "What is PP5VR3V3_SW_LCD? a SIGNAL.",
+        "PPBUS_S0_LCDBKLT_FUSED": "What is PPBUS_S0_LCDBKLT_FUSED? a SIGNAL.",
+        "D9701": "What is D9701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U8900": "What is U8900? This chip creates the GPU power rails on the 820-3332 board to the 2012 and early 2013 15” Retina Macbook Pros. It becomes desoldered and is the cause of no video and kernel panics/crashes in that model most of the time..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "LCDBLKT_FUSED": "What is LCDBLKT_FUSED? a SIGNAL.",
+        "PPVOUT_SW_LCDBKLT": "What is PPVOUT_SW_LCDBKLT? PPVOUT_SW_LCDBKLT is the voltage rail for the backlight of the LCD screen. ."
+    },
+    "threads": [
+        {
+            "post_id": 54253,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-11-06 17:32:48",
+            "message": "Hi Team,\n\nThis machines starts, chimes but no display on internal or external screen.\nChecked and noticed that F9700 was blown, so I replaced it, after what <SIGNAL>PPBUS_S0_LCDBKLT_FUSED</SIGNAL> was present but still no backlight display.\n<SIGNAL>LCD_BKLT_EN</SIGNAL>: 0V\ndisconnected the screen at J9000 and tested again on external screen: OK\nTried another 2013 retina LCD Screen: NOK\n\nreflowed <CHIP>U9100</CHIP>:\n<SIGNAL>LCD_BKLT_EN</SIGNAL>: 3.3V OK\nnow with the LCD connected <SIGNAL>PPBUS_S0_LCDBKLT_FUSED</SIGNAL> jumping between 1.8V to 3.0V, if LCD not connected it stays solid 12.50V\n<SIGNAL>PP5VR3V3_SW_LCD</SIGNAL> at L9000: 5.0V\nIf I put a torch light on the LCD, I DO have a Display/Image.\nShould I suspect <CHIP>U9701</CHIP>?"
+        },
+        {
+            "post_id": 54254,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-11-06 18:12:54",
+            "message": "Check diode mode to ground on <DIODE>D9701</DIODE> pins w/ and w/o LCD connected."
+        },
+        {
+            "post_id": 54256,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-11-06 22:09:46",
+            "message": "Did you resolder <CHIP>U8900</CHIP>?"
+        },
+        {
+            "post_id": 54259,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-11-07 01:48:56",
+            "message": "[USER=\"1153\"]JohnB8812[/USER] :\n\nYes resoldered the pins with good flux and solder\n\n[USER=\"682\"]2informaticos[/USER]:\n\nIn diode mode  without LCD Connected:\n<DIODE>D9701</DIODE> to gnd:\nPin1: 0.880V    Pin2: 1.191V\nand the same reading with LCD Connected:"
+        },
+        {
+            "post_id": 54261,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-11-07 01:55:34",
+            "message": "Are these diode mode readings with red probe at ground?\n\n<SIGNAL>PPBUS_S0_LCDBKLT_FUSED</SIGNAL> is practically same as <SIGNAL>PPBUS_G3H</SIGNAL>.\nDid you note <SIGNAL>PPBUS_G3H</SIGNAL> fluctuating too???"
+        },
+        {
+            "post_id": 54265,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-11-07 02:49:22",
+            "message": "Yes red probe on ground. \n<SIGNAL>PPBUS_G3H</SIGNAL> solid 12,5V\nThat why I think the fuse was blown, maybe <CHIP>U9701</CHIP> randomly shorting <SIGNAL>LCDBLKT_FUSED</SIGNAL> rail to gnd or having dropping the resistance of that rail close to gnd (low r?sistance to gnd)"
+        },
+        {
+            "post_id": 54271,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-11-07 03:08:44",
+            "message": "Change the fuse then..."
+        },
+        {
+            "post_id": 54294,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-11-07 16:10:31",
+            "message": "Hi 2Informaticos,\nyou were right the fuse was blown again, so I replaced it.\nAfter what <SIGNAL>PPVOUT_SW_LCDBKLT</SIGNAL> was mesuring 55V which means that the backlight boost circuit is working.\nI've tried a spare lcd: worked fine\nSo I disassembled the faulty LCD, then I've found that it had a WD + burn and broken and missing  <SIGNAL>PPVOUT_SW_LCDBKLT</SIGNAL> pin on the LCD connector.\n[SIZE=12px]See attached pictures.\nMaybe I can try to fix it[/SIZE].......\nThank you\n\n[ATTACH alt=\"Click image for larger version  Name:\tIMG-20191108-WA0005.JPG Views:\t0 Size:\t222.9 KB ID:\t54295\" type=\"full\"]54295._xfImport[/ATTACH][ATTACH alt=\"Click image for larger version  Name:\t20191108-002811-677.jpg Views:\t0 Size:\t44.9 KB ID:\t54296\" type=\"full\"]54296._xfImport[/ATTACH]"
+        },
+        {
+            "post_id": 54302,
+            "thread_id": 54253,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> no video/backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-11-07 16:43:22",
+            "message": "You can try, nothing to lose before trash it..."
+        }
+    ]
+}

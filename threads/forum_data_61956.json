@@ -1,0 +1,83 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00928": "What is 820-00928? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP1V_PCH_REG_R": "What is PP1V_PCH_REG_R? a SIGNAL.",
+        "PP1V8_SSD_FMC": "What is PP1V8_SSD_FMC? a SIGNAL.",
+        "P1VS4_PHASE": "What is P1VS4_PHASE? a SIGNAL.",
+        "P12V_SSD_VPP_SW": "What is P12V_SSD_VPP_SW? a SIGNAL.",
+        "P1V0_SSD_CORE": "What is P1V0_SSD_CORE? a SIGNAL.",
+        "PP3V3_SSD_ISNS_R": "What is PP3V3_SSD_ISNS_R? a SIGNAL.",
+        "PP12V_SSD_VPP": "What is PP12V_SSD_VPP? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 82520,
+            "thread_id": 61956,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v 40ma",
+            "user_id": 400,
+            "username": "nik1981",
+            "post_date": "2021-11-11 06:03:04",
+            "message": "Hello, I have an <LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> with 20v and only 0.04a which jumps to 0.40a and back again every 15 seconds.\n\nNo obvious signs of liquid and wont start on SMC bypass\n\nTesting board on the side only with only a dc in board connected, I get:\n\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.52\n<SIGNAL>PP3V3_S0</SIGNAL> = pulsing\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> = pulsing\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.29 solid\n<SIGNAL>PP3V3_SUS</SIGNAL> 3.29 solid\nL7211/21/31 all 0v \n\nDo you think the CPU is dead? Maybe try a new BIOS?"
+        },
+        {
+            "post_id": 82526,
+            "thread_id": 61956,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v 40ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-11 09:49:15",
+            "message": "Check for pulse at L7330/7960/8000.\nAlso check at LA300/50 and LA640/50.\nDon't forget SSD power rails too.\n\nLooks like board tries to start and gets blocked because of short.\nSo compare resistance to ground at CPU and GPU coils with good board."
+        },
+        {
+            "post_id": 82696,
+            "thread_id": 61956,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v 40ma",
+            "user_id": 400,
+            "username": "nik1981",
+            "post_date": "2021-11-15 02:53:27",
+            "message": "Hi 2informaticos, thank you for your help.\n\nL7330 and L7960 are pulsing but the multimeter isn't quick enough to catch the peak (possibly 0.8v-1v).\nL8000 has nothing on pin 1 <SIGNAL>P1VS4_PHASE</SIGNAL> but does have 1v constant on pin 2 <SIGNAL>PP1V_PCH_REG_R</SIGNAL>\n\n<SIGNAL>P12V_SSD_VPP_SW</SIGNAL> & _L are holding at 0.15v and pulsing maybe 1v\n<SIGNAL>P1V0_SSD_CORE</SIGNAL> & _SW are pulsing somewhere around 1v\n<SIGNAL>PP3V3_SSD_ISNS_R</SIGNAL> is pulsing 3v\n<SIGNAL>PP12V_SSD_VPP</SIGNAL> is jumping from 5v to 12v\n<SIGNAL>PP1V8_SSD_FMC</SIGNAL> is pulsing 1.5v\n\nI don't have a known good board for this in the building, just scrap half boards for parts.\n\nThese are the resistance values though.\n\nL7410 = 3.7ohm\nL7420 = 3.7ohm\nL7211 = 2ohm\nL7221 = 2ohm\nL7231 = 2ohm\nL7330 = 11.4ohm\nLA640 = 2.9ohm\nLA650 = 2.9ohm\nLA350 = 34.5ohm\nLA300 = 117ohm"
+        },
+        {
+            "post_id": 82697,
+            "thread_id": 61956,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v 40ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-15 04:41:46",
+            "message": "I don't see short, but somehow the board restarts in power on sequence.\nTry SMC bypass..."
+        },
+        {
+            "post_id": 82746,
+            "thread_id": 61956,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v 40ma",
+            "user_id": 400,
+            "username": "nik1981",
+            "post_date": "2021-11-16 05:40:40",
+            "message": "SMC Bypass does nothing unfortunately"
+        },
+        {
+            "post_id": 82747,
+            "thread_id": 61956,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v 40ma",
+            "user_id": 400,
+            "username": "nik1981",
+            "post_date": "2021-11-16 05:43:37",
+            "message": "With the battery plugged its pulling 20v 3.6a but I suppose thats just battery charging only as everything just stays pulsing"
+        },
+        {
+            "post_id": 82755,
+            "thread_id": 61956,
+            "title": "<LOGIC BOARD PART NUMBER>820-00928</LOGIC BOARD PART NUMBER> 20v 40ma",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-16 13:32:41",
+            "message": "Check for voltage pulse, or short, all the power rails from page 74."
+        }
+    ]
+}

@@ -1,0 +1,154 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "U9100": "What is U9100? a CHIP.",
+        "3V3_S0": "What is 3V3_S0? Abbreviation for PP3V3_S0, a 3.3v power rail present when the machine is in an S0 working state.",
+        "R2080": "What is R2080? a RESISTOR.",
+        "R2084": "What is R2084? a RESISTOR.",
+        "PCIE_CLK100M_SSD_LBP": "What is PCIE_CLK100M_SSD_LBP? a SIGNAL.",
+        "U9300": "What is U9300? a CHIP.",
+        "U8600": "What is U8600? a CHIP.",
+        "SSD_BOOT_L": "What is SSD_BOOT_L? a SIGNAL.",
+        "R8600": "What is R8600? a RESISTOR.",
+        "R8602": "What is R8602? a RESISTOR.",
+        "A1706": "What is A1706? A1706 is a model number for a 13 inch size MacBook Pro Retina from years 2016, Mid 2017 with EMC 3071, that may contain one of these boards depending on the year & configuration: 820-00239, 820-00923.."
+    },
+    "threads": [
+        {
+            "post_id": 94045,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-15 09:10:36",
+            "message": "Working on a <LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER>.  Works perfectly other than not seeing the internal SSD.  Ive verified every power and enable signal related to SSD i can think of, and everything seems normal. Seem to be getting PWRGOODs on everything SSD related as well.   That said, happy to provide specific measurements if i happened to miss something.  \n\nThe only thing that is anomalous is the lack of the 100MHZ SSD clock signals.   the clock request is low (.090v which is a not zero, but i think would still count as a logic low).\nJ9600 cover is present ( and replaced for testing sake). I have only been able to look for those clocks with the j9600 cover removed as i dont see any other place to measure it. Will SSD clock be present with the cover removed? Is there anywhere to measure for it on the board otherwise?\n\n\n\nNo evidence of liquid damage. It did have a Drivesavers sticker on it, so it is possible they cleaned it, but it looks very clean everywhere.\nAssuming i am on the right path of the missing clock signal, is there anything other than the CPU that could be causing this? It looks like the request goes low, and the cpu should start spitting out 100MHZ, with only traces in between the CPU and j9600. \n\nContinuity on j9600 seems good\n\nWifi works fine, so the cpu must be putting out the AP clock (if i understand that correctly anyway).  Camera did not work in Linux, but that doesnt say much. Doing a Mac OS USB install presently to test that.      I am leaning towards a bad connection from CPU ball to board, but it seems unlikely to have those connections be bad while absolutely everything else is working.\n\nSSD not present in linux, SSD not present in Mac OS Disk Utility.   Mac OS online diagnostics come back as no issues found."
+        },
+        {
+            "post_id": 94053,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-15 10:54:13",
+            "message": "You can't get SSD clock with J9600 disconnected.\nPCH expects some confirmation that SSD is present.\n\nCompare all SSD signals with good board.\n\nNot sure yet if SSD must have low, or high level on clock request line.\nSome people reported high level in working state; opposite to airport situation.\nSSD clock must be available for check on the other side, near <CHIP>U9100</CHIP>."
+        },
+        {
+            "post_id": 94060,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-15 11:30:48",
+            "message": "Ok, i found the test points. Kind of hidden under one of the NAND shields.  Running a USB install presently, but when that finishes im going to check for clock there. \n\nMy thought on the clock request needing to be low is that it should normally be held high through <RESISTOR>R2080</RESISTOR> (from <SIGNAL>3V3_S0</SIGNAL>) until it can be taken low by a logic signal from the CPU through <RESISTOR>R2084</RESISTOR>."
+        },
+        {
+            "post_id": 94062,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-15 13:03:33",
+            "message": "Ok, can confirm there is no clock signal on either of those test points near <CHIP>U9100</CHIP>.  <SIGNAL>PCIE_CLK100M_SSD_LBP</SIGNAL>/n\n\nAlso my boot after the OS install on an external USB drive failed with the message of not being able to install a needed firmware update.  This happened both on Sierra (OEM OS) and Ventura (Latest OS) from Internet recovery."
+        },
+        {
+            "post_id": 94063,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-15 14:10:23",
+            "message": "The touchbar requires internal SSD to install its firmware.\nDid you try to boot in safe mode, from external macOS?\n\nCompare the SSD control signals (reset, enable, clock request, etc) with good board."
+        },
+        {
+            "post_id": 94130,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-17 10:54:14",
+            "message": "Tested every pin on <CHIP>U9300</CHIP> just to be sure. Everything checks out as normal.  i think I can almost certainly rule out a power issue with the SSD at this point\n\nI dont have a known good board to test with at this time.  What else is critical to the SSD that i can point my efforts to?  <CHIP>U8600</CHIP> looks important but is going to be difficult to accurately test given the pin count."
+        },
+        {
+            "post_id": 94131,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-17 11:07:59",
+            "message": "Do you get 24MHz at Y8600?"
+        },
+        {
+            "post_id": 94133,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-17 12:03:14",
+            "message": "i get elevated steady voltages, but no discernible clock signal.   Solid 1.8v on XTALi  and solid 0.9V on XTALO\nI also noticed that <SIGNAL>SSD_BOOT_L</SIGNAL> is at a constant 1.8V. _L suggests to me it should be logic low, but you never know with these things."
+        },
+        {
+            "post_id": 94134,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-17 12:21:07",
+            "message": "I just swapped y8600 with a donor board. No change.  <RESISTOR>R8600</RESISTOR>, and <RESISTOR>R8602</RESISTOR> measure correctly.  I assume that this should be a simple crystal oscillator at 24mhz?\n\nBooting Linux with y8600 removed from the board yields no change positive or negative"
+        },
+        {
+            "post_id": 94135,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-17 12:42:16",
+            "message": "An o-scope should catch clear 24MHz oscillation there.\nIf not available, compare DC levels with working board."
+        },
+        {
+            "post_id": 94138,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-17 13:29:12",
+            "message": "this clock situation may not be relevant. I just looked it up and the scope im using maxes out below 1MHZ, so there is a very good chance my measurements are irrelevant."
+        },
+        {
+            "post_id": 94141,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-17 16:10:54",
+            "message": "Get an working <MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>/7 board for comparison..."
+        },
+        {
+            "post_id": 94161,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-18 08:10:29",
+            "message": "yeah, the little scope i was using is indeed hopeless for the measurement task i was giving it.  I used a better one and the 24mhz is present at the crystal.  100mhz is beyond this scope's ability but im going to order a 200mhz model.  That said, i have a strong feeling the elevated DC at the 100mhz test points is my clock signal. \n\nAny chance at all that this is a bios or firmware issue? Feels extremely unlikely, but ive yet to find anything at all wrong elsewhere.  \n\nIs there any good way to tell if <CHIP>U8600</CHIP> is alive and functioning?"
+        },
+        {
+            "post_id": 94165,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 2333,
+            "username": "realmacmods",
+            "post_date": "2022-11-18 09:37:46",
+            "message": "giving up.  now randomly has a short through <CHIP>U8600</CHIP> that was not there before.  probably a bad <CHIP>U8600</CHIP> all along"
+        },
+        {
+            "post_id": 94168,
+            "thread_id": 63283,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> - no SSD - missing clock signal",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-18 10:22:41",
+            "message": "You should try changing <CHIP>U8600</CHIP>."
+        }
+    ]
+}

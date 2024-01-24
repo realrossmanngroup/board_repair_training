@@ -1,0 +1,252 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "U8010": "What is U8010? a CHIP.",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "P3V3S3_EN": "What is P3V3S3_EN? P3V3S3_EN is a signal that turns on the PP3V3_S3 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PPVCOMP_S0_CPU": "What is PPVCOMP_S0_CPU? a SIGNAL.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "U1900": "What is U1900? a CHIP.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. ."
+    },
+    "threads": [
+        {
+            "post_id": 20536,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-18 20:53:17",
+            "message": "Board came in with a dead keyboard, but I've never seen it power on.\n\nGreen / Orange light all good.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.58\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.433\n<SIGNAL>PP5V_S5</SIGNAL> = 5.02\n<SIGNAL>PP5V_S0</SIGNAL> = 0v\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.344\n<SIGNAL>PP3V3_S4</SIGNAL> = 0\n<SIGNAL>PP3V3_S3</SIGNAL> = 300mV"
+        },
+        {
+            "post_id": 20537,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-18 20:59:09",
+            "message": "<SIGNAL>P3V3S3_EN</SIGNAL> on <CHIP>U8010</CHIP> missing.\n\n<CHIP>U8010</CHIP>::1/3 = 300mV\n\n<SIGNAL>PM_SLP_S4</SIGNAL> is 0v."
+        },
+        {
+            "post_id": 20555,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2017-05-19 12:29:03",
+            "message": "So we need to restore <SIGNAL>PM_SLP_S4</SIGNAL> L in order to get <SIGNAL>P3V3S3_EN</SIGNAL>. Look at page 64 of the schematic and check the resistors for S3 Enable. Included a pic of the resistors you need to check.  [ATTACH type=\"full\" width=\"200px\"]20556._xfImport[/ATTACH][ATTACH type=\"full\" width=\"30%\"]20557._xfImport[/ATTACH]"
+        },
+        {
+            "post_id": 20558,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2017-05-19 12:32:00",
+            "message": "However, Since <SIGNAL>PM_SLP_S4_L</SIGNAL> is missing, Those resistors are not likely the cause of the problem, but they need to be checked.... <SIGNAL>PM_SLP_S4_L</SIGNAL> comes from the CPU, But can't be generated if the CPU isn't on or if the clock signal is messed up. Check your clock circuit and see if you have Vcore."
+        },
+        {
+            "post_id": 20563,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-19 16:09:13",
+            "message": "<SIGNAL>PPVCOMP_S0_CPU</SIGNAL> = 0v.\n\nThanks for the info TCRS, I'll investigate why VCore is missing quickly."
+        },
+        {
+            "post_id": 20564,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-19 16:32:54",
+            "message": "If nothing above s4 is on, surely S0 won't be there?"
+        },
+        {
+            "post_id": 20569,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-05-19 21:41:20",
+            "message": "Does <SIGNAL>PM_SLP_S4_L</SIGNAL> turn on really quickly then go to 0 or is it 0 from the moment it is plugged in? Does this turn on when everything is disconnected from the machine? Dead keyboard means liquid somewhere, how does <CHIP>U1950</CHIP> area look? Clock area? SMC area?"
+        },
+        {
+            "post_id": 20582,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-05-19 22:40:53",
+            "message": "<CHIP>U6100</CHIP> area termination resistors and traces suspect too"
+        },
+        {
+            "post_id": 20588,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-19 23:42:00",
+            "message": "[QUOTE=\"larossmann, post: 20569\"]Does <SIGNAL>PM_SLP_S4_L</SIGNAL> turn on really quickly then go to 0 or is it 0 from the moment it is plugged in? Does this turn on when everything is disconnected from the machine? Dead keyboard means liquid somewhere, how does <CHIP>U1950</CHIP> area look? Clock area? SMC area?[/QUOTE]\n\nMy DM doesn't pick up anything and I don't have a scope yet.\n\nBoard has never turned on for me, but the guy that received the job swears it was working.\n\n<CHIP>U1950</CHIP> looks spotless. The board as a whole is really really clean."
+        },
+        {
+            "post_id": 20589,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-19 23:45:33",
+            "message": "[QUOTE=\"dukefawks, post: 20582\"]<CHIP>U6100</CHIP> area termination resistors and traces suspect too[/QUOTE]\n\nAll resisters around <CHIP>U6100</CHIP> look really and measure fine."
+        },
+        {
+            "post_id": 20597,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 637,
+            "username": "TCRScircuit",
+            "post_date": "2017-05-20 10:49:24",
+            "message": "[USER=\"375\"]gcain[/USER] Check your clock circuit.... If everything looks and measures ok leading to <CHIP>U1900</CHIP>, I would take the long shot and replace the chip... Takes 2 min and It will rule out the possibility of a bad clock chip..."
+        },
+        {
+            "post_id": 20606,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-20 16:46:16",
+            "message": "The board performs an SMC reset just fine (light on charger flashes green, then orange again).\n\nInspecting clock circuit now."
+        },
+        {
+            "post_id": 20741,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-23 15:42:48",
+            "message": "[USER=\"2\"]dukefawks[/USER] Should I replace the clock chip?\nI'm reluctant to just replace random chips hoping for a result."
+        },
+        {
+            "post_id": 20743,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 461,
+            "username": "Gurmon",
+            "post_date": "2017-05-23 15:49:38",
+            "message": "[QUOTE=\"gcain, post: 20741\"][USER=\"2\"]dukefawks[/USER] Should I replace the clock chip?\nI'm reluctant to just replace random chips hoping for a result.\n[/QUOTE]\n\nwithout a scope you wont know if the 32khz signal is clean and stable. If you have another chip try it."
+        },
+        {
+            "post_id": 20748,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-23 16:39:50",
+            "message": "Tried to track down a scope again, but no dice.\n\nThanks Gurmon, will swap the clock chip and report back.\n\n\nOddly enough, the board booted (CPU got hot) once yesterday at random, but hasn't done so again."
+        },
+        {
+            "post_id": 20773,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-23 23:22:01",
+            "message": "Plugged another battery into the board and it boots up every time.\n\nSo it appears it will only boot when a good battery is connected. Trying to work out how come I didn't pick up on this.\n\nCan someone suggest what would be wrong that it will only boot with a known good battery? Going to try work backwards to see how I missed this.\n\nLuckily I hadn't started removing chips."
+        },
+        {
+            "post_id": 20775,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 461,
+            "username": "Gurmon",
+            "post_date": "2017-05-24 00:07:21",
+            "message": "Fault will be around <CHIP>U7100</CHIP>. Is <TRANSISTOR>Q7180</TRANSISTOR> opening ?"
+        },
+        {
+            "post_id": 20871,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-05-25 12:03:41",
+            "message": "Since your PPBUS is fine at 12.6V it must be a one wire issue. Do you get a green then orange light?"
+        },
+        {
+            "post_id": 20887,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-25 15:30:51",
+            "message": "Board only works if battery is connected.\n\nGreen/Orange light etc. all good."
+        },
+        {
+            "post_id": 20889,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-05-25 15:44:53",
+            "message": "<SIGNAL>SMC_ADAPTER_EN</SIGNAL> high?  Checked current sense circuit around <CHIP>ISL6259</CHIP>?"
+        },
+        {
+            "post_id": 20890,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-25 15:51:10",
+            "message": "<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 3.339v\n\nGoing to poke around the <CHIP>ISL6259</CHIP> again."
+        },
+        {
+            "post_id": 20901,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 557,
+            "username": "MDY",
+            "post_date": "2017-05-25 22:30:48",
+            "message": "Hi gcain. I had so meny problems with this board and working only with good battery and in fact this board need a ORIGINAL ac adapter. With chines and hight copy ac adapter it works and charge the battery but need you have to connect the battery always. With ORIGINAL ac adapter ONLY it works without battery."
+        },
+        {
+            "post_id": 20903,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-26 01:27:33",
+            "message": "MDY; thanks for your input.\n\nI am using a genuine apple charger, but it's a MagSafe1, not 2. Maybe there is something in that... Either way, it's working now which is good."
+        },
+        {
+            "post_id": 20944,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-26 20:40:08",
+            "message": "Just in case someone comes across this thread;\n\nMDY was onto it.\nBoard boots every time with a MagSafe2 (no battery) but won't boot with a MagSafe1 using a MagSafe1-to-MagSafe2 Adapter. Both are 85w.\n\nMark it solved please."
+        },
+        {
+            "post_id": 20945,
+            "thread_id": 20536,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> - No Power.",
+            "user_id": 375,
+            "username": "gcain",
+            "post_date": "2017-05-26 22:14:21",
+            "message": "Another thing with this board;\n\nTrackpad worked, keyboard did not work. Tried a known good keyboard, didn't work either.\n\nI swapped the trackpad cable, and the keyboard started working.\n\nSo, the trackpad cable on the trackpad which worked, was causing the keyboard, which also [technically] worked to not work. :/\n\n(I need a drink)"
+        }
+    ]
+}

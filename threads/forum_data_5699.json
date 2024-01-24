@@ -1,0 +1,101 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2390": "What is 820-2390? a LOGIC BOARD PART NUMBER.",
+        "U7201": "What is U7201? U7201 is responsible for the 3.3v and 5v power rails on many devices..",
+        "U1400": "What is U1400? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP3V3_S5_REG": "What is PP3V3_S5_REG? PP3V3_S5_REG is a 3.3v power rail present when the machine is in an S5 soft off state. .",
+        "PP18V5_DCIN_CONN": "What is PP18V5_DCIN_CONN? a SIGNAL.",
+        "PP5V_S3_REG": "What is PP5V_S3_REG? a SIGNAL.",
+        "PP3V42_G3H_REG": "What is PP3V42_G3H_REG? PP3V42_G3H_REG is another way to say PP3V42_G3H. PP3V42_G3H_REG and PP3V42_G3H are a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPVCORE_S0_CPU_REG": "What is PPVCORE_S0_CPU_REG? PPVCORE_S0_CPU_REG is a single phase of CPU VCORE before it is combined into PPVCORE_S0_CPU .",
+        "P5VS3_EN": "What is P5VS3_EN? a SIGNAL.",
+        "P3V3S3_EN": "What is P3V3S3_EN? P3V3S3_EN is a signal that turns on the PP3V3_S3 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PP3V3_S3_FET": "What is PP3V3_S3_FET? a SIGNAL.",
+        "P3V3S3_SS": "What is P3V3S3_SS? a SIGNAL.",
+        "PPVIN_S5_CPU_IMVP_ISNS": "What is PPVIN_S5_CPU_IMVP_ISNS? a SIGNAL.",
+        "PP5V_S0_REG": "What is PP5V_S0_REG? a SIGNAL.",
+        "PP3V3_S3_P3V3S3FET": "What is PP3V3_S3_P3V3S3FET? a SIGNAL.",
+        "C7812": "What is C7812? a CAPACITOR.",
+        "Q7910": "What is Q7910? a TRANSISTOR.",
+        "C7771": "What is C7771? Tantalum capacitor on 820-2330 and 820-2532 logic boards that often dies and causes PP1V05_S5_MCP or PP1V05_S5 to be 0.331v instead of 1.05v. If heating this cap restores voltage to this rail, replace.",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. ."
+    },
+    "threads": [
+        {
+            "post_id": 5699,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 352,
+            "username": "nikwest",
+            "post_date": "2016-08-19 09:45:40",
+            "message": "- I cleaned the board, there where some small areas where you could see a bit of liquid damage. After cleaning it looks ok.\n\n- Light from power adapter is  green\n\n- Checked the following power rails:\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 8.4V\n<SIGNAL>PPVIN_S5_CPU_IMVP_ISNS</SIGNAL>: 8.4V\n<SIGNAL>PP18V5_DCIN_CONN</SIGNAL>: 17.1V\n<SIGNAL>PP3V42_G3H_REG</SIGNAL>: 3.4V\n\n<SIGNAL>PP5V_S3_REG</SIGNAL>: 0V\n<SIGNAL>PP5V_S0_REG</SIGNAL>: 0V\n<SIGNAL>PPVCORE_S0_CPU_REG</SIGNAL>: 0V\n\n<SIGNAL>PP3V3_S5_REG</SIGNAL>: 3.3V\n<SIGNAL>PP3V3_S3_FET</SIGNAL>: 0V\n\nTried to get to the source why <SIGNAL>PP5V_S3_REG</SIGNAL> is 0V.\n- Checked [FONT=Courier]<CHIP>U7201</CHIP>(TPS51[/FONT]220)[FONT=Courier][SIZE=2] enable:[/SIZE][/FONT]\n[FONT=Courier][SIZE=2] - EN1: 0V[/SIZE][/FONT]\n[FONT=Courier][SIZE=2] - EN2: 3.4V[/SIZE][/FONT]\n\n[FONT=Courier][SIZE=2]Followed EN1 / [/SIZE][/FONT]<SIGNAL>P5VS3_EN</SIGNAL> which is same as <SIGNAL>PM_SLP_S4_L</SIGNAL> (double checked voltage also 0), which ends in <CHIP>U1400</CHIP> (MCP79).\n\nMy only idea left is that the <CAPACITOR>C7812</CAPACITOR> could be broken and pulls <SIGNAL>PM_SLP_S4_L</SIGNAL> to ground. But <CAPACITOR>C7812</CAPACITOR> looks like it is not put on the board (there was a No Stuff comment on the diagram).\n\nFollowed source where <SIGNAL>PP3V3_S3_FET</SIGNAL> is supposed to come from. Ended up at <TRANSISTOR>Q7910</TRANSISTOR>. Source of the MOSFET is <SIGNAL>PP3V3_S3_P3V3S3FET</SIGNAL>, which I measured 3.3V. <SIGNAL>P3V3S3_SS</SIGNAL> is around 3.15V, which if I understand it correctly explains that the MOSFET switches <SIGNAL>PP3V3_S3_FET</SIGNAL> off. Then I tried to figure out why <SIGNAL>P3V3S3_SS</SIGNAL> is 3.15V. This is due to <SIGNAL>P3V3S3_EN</SIGNAL> is 0V.\n<SIGNAL>P3V3S3_EN</SIGNAL> is <SIGNAL>PM_SLP_S4_L</SIGNAL> and so the reason is the same as above.\n\nNow I'm stuck as I cannot tell why <SIGNAL>PM_SLP_S4_L</SIGNAL> is 0V. If anybody has some ideas what to do, I would greatly appreciate it."
+        },
+        {
+            "post_id": 5703,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-19 12:40:45",
+            "message": "Got 1.05V on <CAPACITOR>C7771</CAPACITOR>? Did you use the pads on the board to power on to eliminate a bad keyboard?"
+        },
+        {
+            "post_id": 5736,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 352,
+            "username": "nikwest",
+            "post_date": "2016-08-20 02:44:48",
+            "message": "Yes, I have 1.05V on <CAPACITOR>C7771</CAPACITOR> Pin 2.\nI completely removed the logic board from the housing. No keyboard connected. However I just connected the board with the power supply, but did not manually power on the board with the pads.\nI just tried to do that now, but that did not change anything.  <SIGNAL>PP5V_S3_REG</SIGNAL>,  <SIGNAL>PP3V3_S3_FET</SIGNAL> and <SIGNAL>PM_SLP_S4_L</SIGNAL> are still 0V.\nIs there a way to verify that I have powered on the board correctly? I just connected the two 'PWR BTN' pads for a couple of seconds."
+        },
+        {
+            "post_id": 5737,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-20 04:34:08",
+            "message": "You check <SIGNAL>PM_PWRBTN_L</SIGNAL> when you short the pad on the board, it should go low. Also make sure you use a REAL 85W charger!"
+        },
+        {
+            "post_id": 5741,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 352,
+            "username": "nikwest",
+            "post_date": "2016-08-20 06:27:05",
+            "message": "Thanks, that was a good hint. I changed to the 85W charger and then when I shorted the pads the fans spun up for a minute. However they stopped again while I tried to measure the missing power rails. \nNow the fans not spinning up again and I am back to where I was before.\n<SIGNAL>PM_PWRBTN_L</SIGNAL> only goes low while the pads are shorted or will it stay low?"
+        },
+        {
+            "post_id": 5789,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-21 05:24:15",
+            "message": "Did you short things out when measuring? Need to start form the beginning now, PPBUS, <SIGNAL>3V3_S5</SIGNAL>, 1.05V, etc."
+        },
+        {
+            "post_id": 7936,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 352,
+            "username": "nikwest",
+            "post_date": "2016-10-10 09:52:26",
+            "message": "Sorry, for the long silence. I have been swamped with work.\nI don't think I shorted anything, but I measured everything again. Status is like given in my first post. It also doesn't turn on with the PWR BTN pads."
+        },
+        {
+            "post_id": 7942,
+            "thread_id": 5699,
+            "title": "Macbook Pro 2009 17 / <LOGIC BOARD PART NUMBER>820-2390</LOGIC BOARD PART NUMBER>-A attempt to repair liquid spill",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-10-10 13:20:42",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> toggling when you short the power on pads?"
+        }
+    ]
+}

@@ -1,0 +1,86 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1706": "What is A1706? A1706 is a model number for a 13 inch size MacBook Pro Retina from years 2016, Mid 2017 with EMC 3071, that may contain one of these boards depending on the year & configuration: 820-00239, 820-00923..",
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "U7600": "What is U7600? a CHIP.",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP3V3_S4_TPAD": "What is PP3V3_S4_TPAD? a SIGNAL.",
+        "SMBUS_SMC_3_SDA": "What is SMBUS_SMC_3_SDA? SMBUS_SMC_3_SDA is the SMBUS data line between the trackpad temperature sensor, temperature sensors, and the system management controller(SMC). .",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "TPAD_SPI": "What is TPAD_SPI? a SIGNAL.",
+        "HALL_SENSOR_LEFT": "What is HALL_SENSOR_LEFT? HALL_SENSOR_LEFT is a signal from the hall sensor on the left side of the machine that indicates that the lid has been closed. This is necessary for setting SMC_LID properly so the machine knows whether it is closed or open. When this is low, the machine will think it is closed which may cause it to go to sleep or have no backlight on the screen.",
+        "R5171": "What is R5171? a RESISTOR.",
+        "U5255": "What is U5255? a CHIP.",
+        "U5225": "What is U5225? a CHIP.",
+        "R5320": "What is R5320? a RESISTOR.",
+        "R4491": "What is R4491? a RESISTOR.",
+        "C4490": "What is C4490? a CAPACITOR.",
+        "Q4400": "What is Q4400? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 85897,
+            "thread_id": 62291,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> (<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>) No Keyboard or Trackpad",
+            "user_id": 27938,
+            "username": "KootenayMacGuy",
+            "post_date": "2022-02-02 15:55:01",
+            "message": "Hi there. I just replaced the display on an <MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER> (2016 13\" Touchbar) and after installation, the machine would not boot up fully (20V @ 200-400mA, no image, no chime) Inspection using thermal camera indicated <CHIP>U7600</CHIP> was getting hot. I proceeded to remove the board and test. I connected power and the unit booted up, and <CHIP>U7600</CHIP> remained normal temp. I then connected a display and got a boot screen. I then reinstalled the board and connected all cables. The machine booted up, yet there is no trackpad or keyboard. Keyboard backlight is functional, so is touchbar. I measured voltages to trackpad and they seemed normal:\n\n<SIGNAL>PP5V_S4</SIGNAL>=5.1V\n<SIGNAL>SMBUS_SMC_3_SDA</SIGNAL>=3.4V\n<SIGNAL>PP3V3_S4_TPAD</SIGNAL>=3.4V\n\nIf I disconnect the trackpad before booting the fans spin up full blast indicating that its not seeing a trackpad. Reconnecting and fans stay off as normal. I have tried three different trackpads, two different cables, and one other known good top case/keyboard...and still no function. Its definitely a board issue.\n\nWhere do I go from here?"
+        },
+        {
+            "post_id": 85898,
+            "thread_id": 62291,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> (<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>) No Keyboard or Trackpad",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-02 16:09:18",
+            "message": "Check <SIGNAL>SMC_LID</SIGNAL> level and all <SIGNAL>TPAD_SPI</SIGNAL> resistors."
+        },
+        {
+            "post_id": 85955,
+            "thread_id": 62291,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> (<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>) No Keyboard or Trackpad",
+            "user_id": 27938,
+            "username": "KootenayMacGuy",
+            "post_date": "2022-02-03 17:40:09",
+            "message": "Tested all <SIGNAL>TPAD_SPI</SIGNAL> resistors, all within spec. <SIGNAL>SMC_LID</SIGNAL> is 0.04V. Is supposed to be that low?"
+        },
+        {
+            "post_id": 85960,
+            "thread_id": 62291,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> (<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>) No Keyboard or Trackpad",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-04 01:15:03",
+            "message": "\"<SIGNAL>SMC_LID</SIGNAL> is 0.04V\"\nThat is the problem.\nCheck its level disconnecting trackpad first.\nIf still low, check <RESISTOR>R5171</RESISTOR>.\nNext, check <SIGNAL>HALL_SENSOR_LEFT</SIGNAL>/RIGHT levels."
+        },
+        {
+            "post_id": 85983,
+            "thread_id": 62291,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> (<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>) No Keyboard or Trackpad",
+            "user_id": 27938,
+            "username": "KootenayMacGuy",
+            "post_date": "2022-02-04 15:30:35",
+            "message": "There is no change to <SIGNAL>SMC_LID</SIGNAL> when trackpad is connected/disconnected. Hall sensor left and right are both 3.42V with the lid open. When I tested <RESISTOR>R5171</RESISTOR> the measurements were all over the place, so I replaced the resistor..but still got the same readings."
+        },
+        {
+            "post_id": 85985,
+            "thread_id": 62291,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> (<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>) No Keyboard or Trackpad",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-02-04 16:11:41",
+            "message": "Check <CHIP>U5255</CHIP> and adjacent resistors."
+        },
+        {
+            "post_id": 88367,
+            "thread_id": 62291,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> (<MACBOOK MODEL NUMBER>A1706</MACBOOK MODEL NUMBER>) No Keyboard or Trackpad",
+            "user_id": 27938,
+            "username": "KootenayMacGuy",
+            "post_date": "2022-04-05 14:28:25",
+            "message": "Measured resistors around <CHIP>U5225</CHIP> and <RESISTOR>R5320</RESISTOR> was out of spec so I replaced it. No change.\n\nI then found 136ohms of resistance to ground on <SIGNAL>SMC_LID</SIGNAL>. Found 2 ohm short to ground on <TRANSISTOR>Q4400</TRANSISTOR> so I replaced it along with <RESISTOR>R4491</RESISTOR> and <CAPACITOR>C4490</CAPACITOR>. That did the trick. Trackpad now working.\n\nThanks a bunch."
+        }
+    ]
+}

@@ -1,0 +1,67 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "U5580": "What is U5580? a CHIP.",
+        "R5429": "What is R5429? a RESISTOR.",
+        "R7237": "What is R7237? a RESISTOR.",
+        "Q7321": "What is Q7321? a TRANSISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. ."
+    },
+    "threads": [
+        {
+            "post_id": 36485,
+            "thread_id": 36485,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> ASD EFI fails on IPBR and Management Engine Presence Test",
+            "user_id": 680,
+            "username": "phuketmymac",
+            "post_date": "2018-07-01 23:53:21",
+            "message": "Hi,\n\nI have that board which apparently had a tiny little liquid damage around <CHIP>U5580</CHIP>, <RESISTOR>R7237</RESISTOR> and <TRANSISTOR>Q7321</TRANSISTOR> (GND side).\n\n-<CHIP>U5580</CHIP> had a corroded pin 3 which was fixed and chip was replaced.\n- <RESISTOR>R7237</RESISTOR> wasn't replaced at it does measure fine. I have just re-applied some solder on each side of it.\n- <TRANSISTOR>Q7321</TRANSISTOR> wasn't replaced too as only the ground side had signs of liquid. I did re-applied some solder to it.\n\nSymptoms:\n\n Mac will load OSX with the progression bar and freeze/halt when reaching the end.\n\nTrying ASD OS will fail the ME region kext loading\nTrying the ASD EFI will fail with the IPBR sensor reading above limit and the Management Engine Present Test failing.\n\nAfter using the ASD EFI, I did measure <RESISTOR>R5429</RESISTOR> which measures fine and compared each side in diode mode with a known good board. Same values.\nI also did reflow the SMC.\nFinally I did backup the Bios 3 times and rewrote it with one with a Clear ME found on Vinafix. Same errors in ASD EFI.\n\nWhat could be causing the Management Engine Present Test to fail other than a faulty Bios.\n\nCan both problems leads to a faulty SMC?"
+        },
+        {
+            "post_id": 36491,
+            "thread_id": 36485,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> ASD EFI fails on IPBR and Management Engine Presence Test",
+            "user_id": 680,
+            "username": "phuketmymac",
+            "post_date": "2018-07-02 03:26:41",
+            "message": "Forgot to mention that the JTAG connector had liquid too which could explain the messy ME region"
+        },
+        {
+            "post_id": 36493,
+            "thread_id": 36485,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> ASD EFI fails on IPBR and Management Engine Presence Test",
+            "user_id": 680,
+            "username": "phuketmymac",
+            "post_date": "2018-07-02 04:36:26",
+            "message": "I also know now why ASD is complaining about IPBR...\nMacBook won't start from the charger only. It needs the battery as well.\n<SIGNAL>PPBUS_G3H</SIGNAL> is 4V if only charger is plugged whereas it is 10V when battery is plugged.\n<SIGNAL>PPBUS_G3H</SIGNAL> has .115V drop to ground which seems like a decent value.\nI already replaced the ISL but same issue so I need to investigate this PPBUS issue first."
+        },
+        {
+            "post_id": 36540,
+            "thread_id": 36485,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> ASD EFI fails on IPBR and Management Engine Presence Test",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-03 14:42:38",
+            "message": "Fix PPBUS first. After that it seems like the ME got corrupted so upload BIOS here for it to be fixed."
+        },
+        {
+            "post_id": 36552,
+            "thread_id": 36485,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> ASD EFI fails on IPBR and Management Engine Presence Test",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-07-03 15:39:33",
+            "message": "Exactly what Duke said check resistance of 17/18 and 27/28 of ISL"
+        },
+        {
+            "post_id": 36651,
+            "thread_id": 36485,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> ASD EFI fails on IPBR and Management Engine Presence Test",
+            "user_id": 680,
+            "username": "phuketmymac",
+            "post_date": "2018-07-04 19:08:43",
+            "message": "Solved. We had the transistor linked to the ISL which was shorted, sending 5V to PPBUS.\nThen I just did clean the ME region manually and everything works now."
+        }
+    ]
+}

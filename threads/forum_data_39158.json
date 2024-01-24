@@ -1,0 +1,447 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1466": "What is A1466? A1466 is a model number for a 13 inch size MacBook Air from years Early 2015, 2017, Mid 2012, Mid 2013, Early 2014 with EMC 2925, that may contain one of these boards depending on the year & configuration: 820-00165, 820-3209, 820-3437..",
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "R1661": "What is R1661? a RESISTOR.",
+        "R1669": "What is R1669? a RESISTOR.",
+        "R1663": "What is R1663? a RESISTOR.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INVTRMEN": "What is PCH_INVTRMEN? a SIGNAL.",
+        "PPVCC_SO_CPU": "What is PPVCC_SO_CPU? a SIGNAL.",
+        "PCH_SRT": "What is PCH_SRT? a SIGNAL.",
+        "PCH_INT": "What is PCH_INT? a SIGNAL.",
+        "PCH_INV": "What is PCH_INV? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "R5115": "What is R5115? a RESISTOR.",
+        "R5116": "What is R5116? a RESISTOR.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "U7501": "What is U7501? This chip is often responsible for creating PP3V3_S5,  PP3V3_S3,  PP3V3_S0,  PP5V_S5,  PP5V_S4,  PP5V_S0.",
+        "PPBUS_S5_HS_OTHER_ISNS": "What is PPBUS_S5_HS_OTHER_ISNS? This is PPBUS_G3H after passing through a current sense resistor that splits it off from the rest of PPBUS_G3H. The purpose of this is so that we can measure how much current is flowing to this part of the machine..",
+        "C7500": "What is C7500? a CAPACITOR.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "U1900": "What is U1900? a CHIP.",
+        "R6101": "What is R6101? a RESISTOR.",
+        "R2042": "What is R2042? a RESISTOR.",
+        "R6110": "What is R6110? a RESISTOR.",
+        "C1031": "What is C1031? a CAPACITOR.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "PPBUS_3GH": "What is PPBUS_3GH? PPBUS_3GH is a typo of PPBUS_G3H. If you see someone type PPBUS_3GH assume they meant to type PPBUS_G3H.",
+        "PP3V4_3GH": "What is PP3V4_3GH? a SIGNAL.",
+        "R1343": "What is R1343? a RESISTOR.",
+        "C7649": "What is C7649? a CAPACITOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PPVRTC_G3J": "What is PPVRTC_G3J? a SIGNAL.",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PP1V05_SUS": "What is PP1V05_SUS? The PP1V05_SUS signal in the MacBook schematic is a power rail that supplies 1.05 volts, typically used in a suspended (SUS) state of the laptop. This state is a low-power mode where essential system functions are maintained, but the majority of the system is powered down.."
+    },
+    "threads": [
+        {
+            "post_id": 39158,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-02 14:55:14",
+            "message": "Post Reply SUBSCRIBE\n[LIST]\n[*][URL=\"https://www.rossmanngroup.com/boards/forum/board-repair-troubleshooting/38981-macbook-air-<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER>-not-powering-on?view=thread\"]POSTS[/URL]\n[*][URL=\"https://www.rossmanngroup.com/boards/forum/board-repair-troubleshooting/38981-macbook-air-<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER>-not-powering-on?view=stream\"]LATEST ACTIVITY[/URL]\n[/LIST]\n[LIST]\n[*]\n[/LIST]\n[LIST]\n[*]Filter\n[/LIST]\n[LIST]\n[*]\n[IMG alt=\"Biggtechman - Biggtechman\" type=\"full\" width=\"64px\"]https://www.rossmanngroup.com/boards/core/images/default/default_avatar_medium.png[/IMG]\n\tHello everyone.\n\tlast week I got a macbook air <MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b with reports that it stopped working.\n\n\twas told a few months prior to this that it was exposed to a tiny bit of water.\n\n\talso was told in the last 2 months prior to it dying that it was turning off earlier then what battery says.\n\n\tmy findings.\n\tupon examination I checked one wire circuit and it works.\n\tchecked 8v line and it works.\n\tno 5v ot 3.3v line work.\n\tnothing on top side stranded out as corrosion..\n\thowever on the bottom side I noticed corrosion around <RESISTOR>R1661</RESISTOR> and the 3 test point closest to it were completely dead. So <RESISTOR>R1661</RESISTOR> pin 1 that runs to the test point was down. I could not solder a jumper back to it because the pad was so corroded l. Also line for <RESISTOR>R1663</RESISTOR> pin 1 line was down to test point, same for <RESISTOR>R1669</RESISTOR> pin 1 to test point.\n\n\tforgive my boorish question, I'm unfamiliar with board view. I normally fix iPhones.\n\n\tis that test point the only means of communication that the resistors have ?\n\n\tcan I use board view to check what is on the test point line for that specific resistor and run a jumper to closest component?\n\n\talso am I wasting time ?\n\twill any of these resistors causeing no power on ?\n[*]\n[*]thanks again. Any advice or help is appreciated\n[/LIST]"
+        },
+        {
+            "post_id": 39159,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-02 16:45:13",
+            "message": "These resistors I don't think to be related with start sequence.\nCheck presence of <SIGNAL>PPVRTC_G3H</SIGNAL> and the 4 derived RTC signals: <SIGNAL>RTC_RESET_L</SIGNAL>, <SIGNAL>PCH_SRTCRST_L</SIGNAL>, <SIGNAL>PCH_INTRUDER_L</SIGNAL> and <SIGNAL>PCH_INVTRMEN</SIGNAL>.\nPost voltages for <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>SMC_PM_G2_EN</SIGNAL>, <SIGNAL>SMC_RESET_L</SIGNAL>.\nDo you get magsafe light?"
+        },
+        {
+            "post_id": 39160,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-03 01:35:33",
+            "message": "Yes one wire is active.\nI'll check all them points and get back to you.\nthanks for responding"
+        },
+        {
+            "post_id": 39180,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-04 06:28:30",
+            "message": "3.329v on <SIGNAL>PPVRTC_G3H</SIGNAL>\n3.321 on rtc \n3.321 on <SIGNAL>PCH_SRT</SIGNAL> \n3.011 on <SIGNAL>PCH_INT</SIGNAL>\n3.217 on <SIGNAL>PCH_INV</SIGNAL>\n\n3.410 on <SIGNAL>SMC_ADAPTER_EN</SIGNAL>\n3.325 on <SIGNAL>PM_BATLOW_L</SIGNAL>\n3.440 on <SIGNAL>SMC_PM_G2_EN</SIGNAL>\n3.408 on <SIGNAL>SMC_RESET_L</SIGNAL>\n\nI just checked <SIGNAL>PPVCC_SO_CPU</SIGNAL> and it reads 0 volts.\nI seen some other guy with a similar issue out a post up.\n\nCould I please have some guidance as to what direction I should take next ?\nthis is my first macbook air board level repair.\nI have repaired a fair few iPhone board issues, but am a bit lost with Mac's.\n\nthanks again for any advice or guidance you can provide."
+        },
+        {
+            "post_id": 39181,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1524,
+            "username": "Paul Daniels",
+            "post_date": "2018-09-04 06:37:40",
+            "message": "[ATTACH type=\"full\" width=\"200px\"]39182._xfImport[/ATTACH] [QUOTE=\"Biggtechman, post: 39158\"]\ncan I use board view to check what is on the test point line for that specific resistor and run a jumper to closest component?\n[/quote]\n\nWhat boardview program are you using?  OpenBoardView and FlexBV should bring up all the other points on the board that share the same network, including parts.\n\nI suspect with <RESISTOR>R1669</RESISTOR>, what you're finding is that the other part on the board one side is connected to is the CPU on the directly other side of the board (see the faint blue line and ring, they indicate the connection on the other side)"
+        },
+        {
+            "post_id": 39191,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-04 09:21:28",
+            "message": "Short <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground and see if <SIGNAL>PM_PWRBTN_L</SIGNAL> reacts (3V-0-3V).\nYou can use <RESISTOR>R5115</RESISTOR>/16 pads.\n\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> is present?"
+        },
+        {
+            "post_id": 39222,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-04 20:37:49",
+            "message": "\"no 5v ot 3.3v line work.\"\n\nIs 3V not present on L7560?"
+        },
+        {
+            "post_id": 39233,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-05 02:17:39",
+            "message": "Hey guys. Crazy day with the family.\nI will post findings in next few hours.\nthanks again you guys rock, appreciate all your support"
+        },
+        {
+            "post_id": 39315,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-06 21:37:25",
+            "message": "<SIGNAL>PM_SLP_SUS_L</SIGNAL> is there.\nmag light won't come on when I short <RESISTOR>R5116</RESISTOR>\nit seems the only line that is right is 3.450"
+        },
+        {
+            "post_id": 39320,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-07 01:34:34",
+            "message": "\"Is 3V not present on L7560?\"\nIs importanbt to reply, in order to get more help..."
+        },
+        {
+            "post_id": 39330,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-07 04:47:24",
+            "message": "Yeah. Sorry been juggling work and family lately.\nwife is pregnant.\nl7560 is 0v\nthanks again\ntalk soon. I'm off to bed. Night"
+        },
+        {
+            "post_id": 39339,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-07 14:07:45",
+            "message": "<SIGNAL>SMC_PM_G2_EN</SIGNAL> present? No short on <SIGNAL>3V3_S5</SIGNAL>?"
+        },
+        {
+            "post_id": 39345,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-07 15:48:17",
+            "message": "\"upon examination I checked one wire circuit and it work\"\n-----\n\"mag light won't come on\"\nSo, don't you get magsafe light???\nYour affirmations are contradictory...\n\n\"3.440 on <SIGNAL>SMC_PM_G2_EN</SIGNAL>\"\n<CHIP>U7501</CHIP> should then generate <SIGNAL>3V3_S5</SIGNAL>.\nPost exact values at <CHIP>U7501</CHIP>, pins 23, 12, 21, 22, 29, 13."
+        },
+        {
+            "post_id": 39350,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 03:54:17",
+            "message": "Hey guys my apologies \nwhat I meant is when I short <RESISTOR>R5116</RESISTOR>. So I short it and plus mag in and no light.\ntake short away and plug it back in and it works.\n\nso <SIGNAL>3V3_S5</SIGNAL> is there at 3.304"
+        },
+        {
+            "post_id": 39351,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 04:09:47",
+            "message": "Reading for <CHIP>U7501</CHIP> are as follows\npin 23=8.59v\npin 12=3.440v\npin 21=3.440v\npin 22=3.315v\npin 29=5.02v\npin 13=2.002v"
+        },
+        {
+            "post_id": 39352,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 04:11:41",
+            "message": "Was I meant to short <RESISTOR>R5116</RESISTOR> while mag was plugged in ?"
+        },
+        {
+            "post_id": 39353,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 04:17:20",
+            "message": "Bingo!!!\n\nshort on <CAPACITOR>C7500</CAPACITOR> which is <SIGNAL>PPBUS_S5_HS_OTHER_ISNS</SIGNAL>\nwould it be correct to say this would stop it from running !!?\nnow I just got to find where the short on that line is coming from.\nanyone got any suggested places to start looking ?\nthanks again"
+        },
+        {
+            "post_id": 39354,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 04:27:19",
+            "message": "Ok... what da...\nthe short disappears after a few minutes of no power..\nit comes straight back once mag is plugged in???\nwhy would this be so?"
+        },
+        {
+            "post_id": 39355,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 04:48:44",
+            "message": "Got to go to bed guys.\nwill be back in the morning\nit's nearly 10pm and I've got the kids fr the morning while my wife goes to her friends.\nwill be back asap when we gets back.\nthanks again. I think we are making progress \ntalk soon."
+        },
+        {
+            "post_id": 39357,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-08 06:38:22",
+            "message": "\"l7560 is 0v\"\n---\nso <SIGNAL>3V3_S5</SIGNAL> is there at 3.304\"\nDid you really check it at L7560?\nIs there stable 3V3?\n\nWhen I talk about <RESISTOR>R5115</RESISTOR>/16 means temporary short; is like pressinbg power button.\nSo again\n\"Short <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground and see if <SIGNAL>PM_PWRBTN_L</SIGNAL> reacts (3V-0-3V).\""
+        },
+        {
+            "post_id": 39359,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 07:27:22",
+            "message": "I stayed up fixing a ipad.\nI just checked l7560 3.329 and its stable\njust jumped <RESISTOR>R5116</RESISTOR> for 10 seconds then turned board over to check <SIGNAL>PM_PWRBTN_L</SIGNAL> it's a stable 3.431\ndo you mean to jump it continuously until I've checked <SIGNAL>PM_PWRBTN_L</SIGNAL> ?"
+        },
+        {
+            "post_id": 39360,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 07:38:10",
+            "message": "I just assumed you meant short it while I check if.\nI just done that.\nis is now 6.420v"
+        },
+        {
+            "post_id": 39361,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 07:39:06",
+            "message": "Hey thanks heaps for your patience with my stupid questions and mistakes.\nreally appreciate it."
+        },
+        {
+            "post_id": 39362,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 07:41:30",
+            "message": "Just to clarify \n<SIGNAL>PM_PWRBTN_L</SIGNAL> is stable 6.420v wile <RESISTOR>R5116</RESISTOR> is shorted.\nI'm for real of to bed now lol.\nTalk in the morning"
+        },
+        {
+            "post_id": 39368,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-08 10:57:00",
+            "message": "\"<SIGNAL>PM_PWRBTN_L</SIGNAL> is stable 6.420v wile <RESISTOR>R5116</RESISTOR> is shorted.\"\nReally no idea how can you get such high voltage there.\nAnd I repeat, you must only short <RESISTOR>R5115</RESISTOR>, or <RESISTOR>R5116</RESISTOR>, for 1s or even less; when the board is powered of course.\nIs just like you press the power button. The pads of these resistors (which are not present on the board) are used to simulate power button.\n\n\"the short disappears after a few minutes of no power..\nit comes straight back once mag is plugged in???\"\nDoes this mean you measure continuity (diode mode), on powered board???\nI hope you don't do it again.\nIn fact, wait 15-20s after power removed, before measure in diode mode.\nLet time to discharge power rails..."
+        },
+        {
+            "post_id": 39371,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 16:23:56",
+            "message": "Ol got.\nthat high reading on <SIGNAL>PM_PWRBTN_L</SIGNAL> is that high when <RESISTOR>R5116</RESISTOR> is shorted.\nfirst reading was when I shorted <RESISTOR>R5116</RESISTOR> for about 10 seconds then removed the short and checked <SIGNAL>PM_PWRBTN_L</SIGNAL> the reading was a stable 3.431\nbut it seems to be that all the time.\nso it's like the shorting of <RESISTOR>R5116</RESISTOR> to mimick power on button is not doing anything."
+        },
+        {
+            "post_id": 39377,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-08 16:43:22",
+            "message": "The usual suspects should be inspected now. Corrosion on <CHIP>U1900</CHIP>/<CHIP>U1950</CHIP> pin 8/J6100/<CHIP>U6100</CHIP> and traces and resistors going to <CHIP>U6100</CHIP>."
+        },
+        {
+            "post_id": 39381,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-08 18:53:46",
+            "message": "I have checked all the above mentioned ic's for corrosion ot signs of damage.\nthey all look fine and I've checked pin 8 and its corresponding chips for continuity and they test ok.\nthe only corrosion I found on the board was what I mentioned when I first posted this post.\n<RESISTOR>R1663</RESISTOR>\n<RESISTOR>R1661</RESISTOR>\n<RESISTOR>R1669</RESISTOR>\nthey have no continuity to the test points that are really close.\nthe test points were so badly corroded I couldn't even run a jumper."
+        },
+        {
+            "post_id": 39387,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-09 05:02:30",
+            "message": "Ok I have had a closer look at resistors around <CHIP>U6100</CHIP> <CHIP>U1900</CHIP> and it seems that <RESISTOR>R6101</RESISTOR> and <RESISTOR>R2042</RESISTOR> are no good.\n\n<RESISTOR>R6101</RESISTOR> is meant to be 3.3u says schematics but it reads 12.50 and <RESISTOR>R2042</RESISTOR> reads 10.58\n\nwould this cause it not to turn on ?"
+        },
+        {
+            "post_id": 39396,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-09 15:46:44",
+            "message": "12.50 what? K M Ohm? Are you measuring with power removed? The usual culprits are <RESISTOR>R6110</RESISTOR>-28 and traces between them"
+        },
+        {
+            "post_id": 39399,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-09 16:38:36",
+            "message": "That's measured with no power.\nthat is with the u symble"
+        },
+        {
+            "post_id": 39401,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-09 16:43:46",
+            "message": "What is a \"u\" symble? Resistance is measured in Ohm, KOhm, MOhm etc."
+        },
+        {
+            "post_id": 39402,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-09 17:04:44",
+            "message": "8.19ko\non one side and \n12.76ko on the other"
+        },
+        {
+            "post_id": 39404,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-09 17:22:07",
+            "message": "Red probe on ground black on what I'm reading."
+        },
+        {
+            "post_id": 39406,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-09 18:13:26",
+            "message": "I just noticed that <CAPACITOR>C1031</CAPACITOR> is very dark.\nI have another <MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> that come in for keyboard replacement, mind you its trolling me to...\nnot a fan of these <MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER>...\nanyway <CAPACITOR>C1031</CAPACITOR> on pin 1 is showing 80.1u in diode mode\nand it seems to be showing a half short in continuity mode"
+        },
+        {
+            "post_id": 39435,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-09-10 15:27:13",
+            "message": "I think you do not know how to use a multimeter. If you are measuring a resistor you measure across the resistor and on the Ohm scale. \nCaps you can never measure in circuit if you wanted to measure capacity. On diode mode you would never get 80.1u. I really do not understand what you are trying to measure."
+        },
+        {
+            "post_id": 39469,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-11 03:39:34",
+            "message": "Sorry, I have a lot to learn, and thanks to people like you I keep learning :)\nin continuity it reads 80.1 and has a funny beep, l I'll ke half a short."
+        },
+        {
+            "post_id": 39662,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-18 06:42:59",
+            "message": "Ok guys.\nI've spent some time trying to figure out macbook boards.\n\nhere is some new findings.\n\nso I'm gett in ng <SIGNAL>PPBUS_3GH</SIGNAL>, <SIGNAL>PP3V4_3GH</SIGNAL>\nI've checked for <SIGNAL>PP3V3_S0</SIGNAL> on <RESISTOR>R1343</RESISTOR> and I get 055.3mv \n<SIGNAL>PP1V05_S0</SIGNAL> read 005.3mv on <CAPACITOR>C7649</CAPACITOR>\non <SIGNAL>PP5V_S0</SIGNAL> I get 0v on j6100 pin 29, l4010 0v also.\ndoes this help ?\nany advice ot direction sims appreciated \nalso thanks again for your time and patience"
+        },
+        {
+            "post_id": 39673,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-18 11:32:22",
+            "message": "Any voltage from _S4 to _S0 will appear after board starts.\nYour board doesn't turn on, so post all _SUS and _S5 voltages you have..."
+        },
+        {
+            "post_id": 39684,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-18 15:07:28",
+            "message": "Good morning.\nthank you \nwill do asap"
+        },
+        {
+            "post_id": 39710,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-19 10:24:56",
+            "message": "Could you please direct me where to check next \nwhere can I find out what starts the s4 a3 status for rails.\nI have all s5 rails but still no power.\nit charges the battery from what I can tell as it turns orange for charging then green for full.\nbut no power.\nI get all these rails\n[TABLE]\n[TR]\n[TD=\"width: 220\"]<SIGNAL>PPBUS_G3H</SIGNAL>[/TD]\n \t\t\t[TD=\"width: 147\"]8.59v[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PPDCIN_G3H</SIGNAL>[/TD]\n \t\t\t[TD]15.02[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PP3V42_G3H</SIGNAL>[/TD]\n \t\t\t[TD]3.440v[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PPVRTC_G3J</SIGNAL>[/TD]\n \t\t\t[TD]3.328v[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PP5V_S5</SIGNAL>[/TD]\n \t\t\t[TD]05.02[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PP5V_S4</SIGNAL>[/TD]\n \t\t\t[TD]0V[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PP5V_S0</SIGNAL>[/TD]\n \t\t\t[TD]0V[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PP3V3_S0</SIGNAL>[/TD]\n \t\t\t[TD]000.4mv[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PP3V3_S3</SIGNAL>[/TD]\n \t\t\t[TD]083.2mv[/TD]\n \t\t[/TR]\n[TR]\n[TD]<SIGNAL>PP3V3_S0</SIGNAL>.   3.329v[/TD]\n \t\t[/TR]\n[/TABLE]"
+        },
+        {
+            "post_id": 39711,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 1840,
+            "username": "Biggtechman",
+            "post_date": "2018-09-19 10:37:09",
+            "message": "I just checked\n<SIGNAL>PP3V3_S4</SIGNAL> it reads 054.1mv unstable"
+        },
+        {
+            "post_id": 39715,
+            "thread_id": 39158,
+            "title": "<MACBOOK MODEL NUMBER>A1466</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-b not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-09-19 11:31:35",
+            "message": "Why do you insist with S3 and S0, if your board doesn't turn on???\n\n<SIGNAL>PP3V3_SUS</SIGNAL>\n<SIGNAL>PP3V3_S5</SIGNAL>\n<SIGNAL>PP1V05_SUS</SIGNAL>\n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>\n<SIGNAL>PM_BATLOW_L</SIGNAL>\n<SIGNAL>PM_RSMRST_L</SIGNAL>\n<SIGNAL>PM_PWRBTN_L</SIGNAL> reacts if touch <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground?"
+        }
+    ]
+}

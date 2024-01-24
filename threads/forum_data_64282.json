@@ -1,0 +1,89 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "SMC_PM_G2": "What is SMC_PM_G2? This is a typo of SMC_PM_G2_EN When you see SMC_PM_G2, assume they meant to type SMC_PM_G2_EN.",
+        "R5100": "What is R5100? a RESISTOR.",
+        "U5110": "What is U5110? This chip is responsible for SMC_RESET_L in many Macbook models..",
+        "R7100": "What is R7100? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 102165,
+            "thread_id": 64282,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 30363,
+            "username": "Palhano",
+            "post_date": "2023-10-25 12:34:58",
+            "message": "The board was in good condition, but it wouldn't turn on. PPBus had 8.2v and <SIGNAL>SMC_RESET_L</SIGNAL> was low. Replaced the <RESISTOR>R5100</RESISTOR> and the Mac came back. It worked fine for two weeks and stopped.\n\nThe font pulses up to 0.160, as do some lines.\n\n<SIGNAL>RTC_RESET_L</SIGNAL> - 3.26V\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> - 3v\n<SIGNAL>PCH_INTVRMEN</SIGNAL> - 2.5v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> - 2.4v\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> - 3.26V\n\n<SIGNAL>PPBUS_G3H</SIGNAL> - 8.6v\n<SIGNAL>PP3V42_G3H</SIGNAL> - 3.4v\n<SIGNAL>PPVRTC_G3H</SIGNAL> - 3.3V\n<SIGNAL>PP5V_S5</SIGNAL> - 5v (pulsating)\n<SIGNAL>PP3V3_S5</SIGNAL> - 3.3V (pulsating)\n<SIGNAL>PP3V3_SUS</SIGNAL> - 0\n<SIGNAL>SMC_ONOFF_L</SIGNAL> - 3.37v\n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> - 0\n<SIGNAL>SMC_PM_G2</SIGNAL> _EN - 3.4V\n\nI tried SMC bypass mode, it didn't work. I've already checked the SPI resistors.\n\nI think it could be the SMC, but I don't have a replacement.\n\nany tips?"
+        },
+        {
+            "post_id": 102166,
+            "thread_id": 64282,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-10-25 12:57:43",
+            "message": "Try reballing SMC..."
+        },
+        {
+            "post_id": 102208,
+            "thread_id": 64282,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 30363,
+            "username": "Palhano",
+            "post_date": "2023-10-27 06:10:41",
+            "message": "Reballing and it didn't work. I got an SMC chip and replaced it.\n\nI returned to the initial problem. PPBus 8.2v and <SIGNAL>SMC_RESET_L</SIGNAL> low. The <RESISTOR>R5100</RESISTOR> is fine, 100k. I have 3.42 on pin 1 and 0.6 on pin 2."
+        },
+        {
+            "post_id": 102219,
+            "thread_id": 64282,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-10-27 08:52:06",
+            "message": "Be sure no corrosion between J6100 pads.\nRemove <RESISTOR>R7100</RESISTOR> and check <SIGNAL>SMC_RESET_L</SIGNAL>.\nIf still low, replace <CHIP>U5110</CHIP>."
+        },
+        {
+            "post_id": 102226,
+            "thread_id": 64282,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 30363,
+            "username": "Palhano",
+            "post_date": "2023-10-27 09:52:17",
+            "message": "I had removed the J6100.\n\nWithout the <RESISTOR>R7100</RESISTOR>, the <SIGNAL>SMC_RESET_L</SIGNAL> remains low, even when replacing the <CHIP>U5110</CHIP>. I put the <RESISTOR>R7100</RESISTOR> back in place and now I have 3v. But PPBus remains 8.2v\n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> - 0\n<SIGNAL>SMC_PM_G2</SIGNAL> _EN - 0\n\nMaybe the SMC chip I got is bad?"
+        },
+        {
+            "post_id": 102237,
+            "thread_id": 64282,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-10-27 13:40:04",
+            "message": "Try another one..."
+        },
+        {
+            "post_id": 102371,
+            "thread_id": 64282,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no fan, pulsing",
+            "user_id": 30363,
+            "username": "Palhano",
+            "post_date": "2023-10-31 11:40:25",
+            "message": "With a \"new\" SMC, it worked again. Let's go to the tests.\n\nThank you very much for your help, once again!"
+        }
+    ]
+}

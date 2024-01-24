@@ -1,0 +1,340 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01987": "What is 820-01987? a LOGIC BOARD PART NUMBER.",
+        "P1V1_SLPDDR_SOCKET_EN": "What is P1V1_SLPDDR_SOCKET_EN? a SIGNAL.",
+        "A1708": "What is A1708? A1708 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2017, 2016 with EMC 3164, that may contain one of these boards depending on the year & configuration: 820-00840, 820-00875..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_SLP_S0_L": "What is PM_SLP_S0_L? a SIGNAL.",
+        "PP1V_S3": "What is PP1V_S3? a SIGNAL.",
+        "R5929": "What is R5929? a RESISTOR.",
+        "R5569": "What is R5569? a RESISTOR.",
+        "C8751": "What is C8751? a CAPACITOR.",
+        "C5569": "What is C5569? a CAPACITOR.",
+        "PLT_RST_L": "What is PLT_RST_L? This is an abbreviation of “PLT_RESET_L” – when you see “PLT_RST_L\", assume the person meant to type PLT_RESET_L.",
+        "SMC_PCH_SYS_PWROK": "What is SMC_PCH_SYS_PWROK? a SIGNAL.",
+        "PP1V8_SLPS2R": "What is PP1V8_SLPS2R? PP1V8_SLPS2R is a 1.8v power rail present when the system is in a SLPS2R state. .",
+        "PP1V8_AWAKE": "What is PP1V8_AWAKE? The PP1V8_AWAKE signal in the MacBook schematic is indicative of a power rail that delivers 1.8 volts when the machine is in an \"awake\" state. This is not a traditional power state defined in the older Intel PCH documentation; it seems to be specific to newer MacBook architectures. The \"awake\" designation likely refers to a state where the MacBook is on and ready for user interaction, but it is not necessarily at full operational capacity (which would be denoted by an S0 state).",
+        "SOC_DFU_STATUS": "What is SOC_DFU_STATUS? a SIGNAL.",
+        "SOC_FORCE_DFU": "What is SOC_FORCE_DFU? a SIGNAL.",
+        "SMC_FORCE_DFU": "What is SMC_FORCE_DFU? a SIGNAL.",
+        "PP1V8_SLP_S2R": "What is PP1V8_SLP_S2R? a SIGNAL.",
+        "CD3217": "What is CD3217? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "D3300": "What is D3300? a DIODE.",
+        "D3301": "What is D3301? a DIODE.",
+        "D3399": "What is D3399? a DIODE.",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "D3398": "What is D3398? a DIODE.",
+        "PP20V_USBC_XA_VBUS": "What is PP20V_USBC_XA_VBUS? This is .",
+        "PP20V_USBC_XB_VBUS": "What is PP20V_USBC_XB_VBUS? PP20V_USBC_XB_VBUS is 20v in from the USB-C charger on USB-C powered Macbook Pros..",
+        "USBC_XA_CC1": "What is USBC_XA_CC1? a SIGNAL.",
+        "USBC_XA_CC2": "What is USBC_XA_CC2? USBC_XA_CC2 is a line between the USB-C muxing chip such as the CD3217 or CD3215 and the USB-C charger. Communication must happen on this line in order for the USB-C charger to put out 20v..",
+        "USBC_XB_CC1": "What is USBC_XB_CC1? USBC_XB_CC1 is a line between the USB-C muxing chip such as the CD3217 or CD3215 and the USB-C charger. Communication must happen on this line in order for the USB-C charger to put out 20v..",
+        "TP_USBC_PP20V_XB": "What is TP_USBC_PP20V_XB? a SIGNAL.",
+        "USBC_XB_SBU1": "What is USBC_XB_SBU1? a SIGNAL.",
+        "USBC_XB_SBU2": "What is USBC_XB_SBU2? a SIGNAL.",
+        "USBC_XA_SBU1": "What is USBC_XA_SBU1? a SIGNAL.",
+        "TP_USBC_PP20V_XA": "What is TP_USBC_PP20V_XA? a SIGNAL.",
+        "USBC_XB_CC": "What is USBC_XB_CC? a SIGNAL.",
+        "USBC_XA_SBU2": "What is USBC_XA_SBU2? a SIGNAL.",
+        "C3214": "What is C3214? a CAPACITOR.",
+        "C3114": "What is C3114? a CAPACITOR.",
+        "C3213": "What is C3213? a CAPACITOR.",
+        "C3113": "What is C3113? a CAPACITOR.",
+        "U3100": "What is U3100? a CHIP.",
+        "A2159": "What is A2159? A2159 is a model number for a 13 inch size MacBook Pro Retina from years 2019 with EMC 3301, that may contain one of these boards depending on the year & configuration: 820-01598..",
+        "820-1598": "What is 820-1598? a LOGIC BOARD PART NUMBER."
+    },
+    "threads": [
+        {
+            "post_id": 99512,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-05-29 20:15:00",
+            "message": "Hi all,\n\nNeed some assistance with a 1987. History is its chassis was completely crushed trackpad and screen were shattered not sure how but it seems like it was ran over. Board visually seems fine doesn’t look warped no visible cracks in anything board side.\n\nwent through the power sequence diagram on logiwiki for the 01055 because there doesn’t seem to be one for the 1987? All rails up until pp3v3s5 are present. Found out that pp3v3s5 and pp1v8s5 are coming on when you first connect the board but they shutdown after around 15 seconds or so.It seems like the PMIC is detecting a short on a minor sub rail and shutting down.\n\nso the question is are there any signature faults with the PMIC and the <LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER>? Unfortunately I do not have a thermal camera so I’m hoping there’s a shortcut I can follow. Freaking seeks have gone from 500 to 900 hence why I’ve been putting it off, not to mention we don’t do much of this so it’s hard to justify spending a grand for a once in a blue moon job.\n\nthanks for the assistance!"
+        },
+        {
+            "post_id": 99514,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-05-29 23:28:39",
+            "message": "Has anyone else noticed the board view labeled <LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER>.bvr doesn’t seem to match the board? Been looking at the PMIC lines to see what could be shorted and a lot of the component locations don’t match the board. Especially test points.\n\nNoticed 3 test points are reading as ground when they’re supposed to be PMIC outputs. One in particular <SIGNAL>P1V1_SLPDDR_SOCKET_EN</SIGNAL>. I’ve attached a pic with the 3 test points reading as ground outlined. Not sure if there the right test points though as they don’t line up with the BV.[ATTACH type=\"full\"]61175[/ATTACH][ATTACH type=\"full\"]61175[/ATTACH]"
+        },
+        {
+            "post_id": 99515,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-30 04:41:56",
+            "message": "Test points figured on the boardview are not always available on \"real life\".\nIt happens on other models too; even old ones.\n\nIs the machine recognized in DFU?\nDid you check diode mode to ground on all coils?\nApart of S5, can you detect any S3, or S0 voltage?\n\nI suspect broken trace/solder, or knocked off components."
+        },
+        {
+            "post_id": 99529,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-05-30 18:06:13",
+            "message": "Thanks, thought as much. I noticed the same when I was working on that 1958 a while ago. The large cap on the left side of the nand in the photo above is <CAPACITOR>C8751</CAPACITOR> what do you think those three TPs with the blue squares are? Being behind the CPU there probably supposed to be quite low resistance I'm guessing, but not 0.002 ohms so I'm guessing there what the issue is but unfortunately the only other way to test those lines is remove the T2/PMIC shield which I really want to leave as a last resort. \n\nSorry forgot to mention that in the original post. It is not recognized in DFU. That said the only mac we have is a <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> which only will upgrade to Monterey, I tried upgrading it further, but it says it's not supported via the app store so not sure if you can \"force\" upgrade these or not. I did use the master port on the 1987 and tried both ports on the <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER>. I have not tried forcing DFU via the test pad because the rails were shutting down I assumed there's further board level faults not firmware faults.\n\nYes I checked diode mode on all the coils. The CPU ones seem a little low comparing them to open board data, but there within 15% which I'm hoping is just meter differences/board differences and not a dead CPU. Is this board one of the ones that is required to have a working CPU to get 20V?\n\nJust checked now yes S3 & S0 are also pulsing. Checked <SIGNAL>PP1V_S3</SIGNAL> & <SIGNAL>PM_SLP_S0_L</SIGNAL>. I did not check them earlier as the S5s were pulsing. \nSomethings burned out as when I went to check <SIGNAL>ALL_SYS_PWRGD</SIGNAL> the USB C meter now is only outputting 5V 0.200A in all 4 orientations of the usb c cable.\n\n Damaged tracks definitely but I doubt it's a knocked off component. Physically board looks fine, normally if there's knocked off components you can see a part of the pad or the component torn or remaining, but everything looks normal. There are some components \"missing\" for example <RESISTOR>R5929</RESISTOR> that whole row is missing and not marked as no stuff in the schematic. As is the row of <RESISTOR>R5569</RESISTOR>. As are the caps in the vertical assortment in between those row's ex <CAPACITOR>C5569</CAPACITOR> and again not marked as no stuff in the schematic."
+        },
+        {
+            "post_id": 99530,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-05-30 18:36:42",
+            "message": "Think my USB C meter is trolling me. Disconnected power from it a few times and it was still stuck on 5V. Switched orientation of the power in cable and it went back to 20V than I disconnected the board and reconnected and it sat on 5V for a while till I went back to the original orientation. Time for a new USB c meter, freaking China! \n\nI am getting <SIGNAL>ALL_SYS_PWRGD</SIGNAL> & <SIGNAL>SMC_PCH_SYS_PWROK</SIGNAL>  for a brief moment and <SIGNAL>PLT_RST_L</SIGNAL> is 0v consistent so it's stuck in a reset state."
+        },
+        {
+            "post_id": 99534,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-31 01:11:17",
+            "message": "Did you test the board alone on the desk?\nIt should boot with correct charger.\n\nMust be recognized in DFU, if T2 required AWAKE and SLPS2R voltages are stable."
+        },
+        {
+            "post_id": 99566,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-05-31 18:10:43",
+            "message": "Yes all the above findings are with the board only. Nothing, but a 98W apple charger and apple cable connected so that side should not be a issue. I haven't tried without the usb c meter though so I could try that but then you would have no indication of boot unless I connect it back into the chassis.\n\n<SIGNAL>PP1V8_AWAKE</SIGNAL> dips down for a split second once the PMIC shuts off but comes straight back up and is stable. <SIGNAL>PP1V8_SLPS2R</SIGNAL> does the same. Once the PMIC shuts off the board settles into 20v and bounces between 0.0138-0.0161a.\n\nAll signs are indeed pointing to T2 firmware issues, so is it worth forcing the device into DFU mode? It does not seem to be in DFU mode itself so it will have to be forced. I do not want to do this though as I'm concerned the <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> I have won't be able to detect it. Looking at both logiwiki and the repair wiki both note you must be on the latest MAC OS which obviously the <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> does not support. Unfortunately, we don't have any newer macs to use."
+        },
+        {
+            "post_id": 99571,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-01 01:03:39",
+            "message": "Why will need you USB-C meter to confirm boot?\nMeasuring CPU core voltage is not good enough?\n\nIs worth to force DFU mode.\nCheck <SIGNAL>SOC_DFU_STATUS</SIGNAL>, to get an idea about actual board state."
+        },
+        {
+            "post_id": 99613,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-01 19:21:06",
+            "message": "I managed to get our <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> onto  the latest OSX through legacy core patcher so I'm going to try forcing the board into DFU mode. For Apple Configurator though has Apple Configurator 2 been replaced with just plain old Apple Configurator? I can't find 2 on the app store and googling it there's forums pointing back to use plain Apple Configurator but all the DFU tutorials call it 2 so I'm not sure if I've downloaded the correct version."
+        },
+        {
+            "post_id": 99614,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-01 20:13:13",
+            "message": "Also am I correct in assuming <SIGNAL>SOC_FORCE_DFU</SIGNAL> on this board is the same as <SIGNAL>SMC_FORCE_DFU</SIGNAL>? Logiwiki says to force DFU you need to bring up <SIGNAL>SMC_FORCE_DFU</SIGNAL> to 1.8V by bridging a wire from that to  <SIGNAL>PP1V8_SLP_S2R</SIGNAL>. But that said <SIGNAL>SMC_FORCE_DFU</SIGNAL> does not exist on this board, only <SIGNAL>SOC_FORCE_DFU</SIGNAL> does."
+        },
+        {
+            "post_id": 99618,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-01 21:10:31",
+            "message": "Dfu restore failed (yes I know it deletes data that’s what I wanted).[ATTACH type=\"full\"]61181[/ATTACH]"
+        },
+        {
+            "post_id": 99619,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-01 21:17:07",
+            "message": "It’s now saying apple controller instead of dfu. Tried it again and got a different error this time"
+        },
+        {
+            "post_id": 99622,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-01 23:21:16",
+            "message": "Ha I feel like I'm the pin ball at a roulette table. Tried putting the board in DFU mode again and now recieved error 75.[ATTACH type=\"full\"]61183[/ATTACH]"
+        },
+        {
+            "post_id": 99623,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-01 23:57:01",
+            "message": "Finally seems to of gone through now I’m at a lock icon?"
+        },
+        {
+            "post_id": 99624,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-02 01:25:02",
+            "message": "That looks good.\nThe target MacBook didn't boot?\nStill pulsing voltages?"
+        },
+        {
+            "post_id": 99631,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-02 03:52:24",
+            "message": "It didn’t boot no, 20v fluctuates around 300ma didn’t check the rails had to head home. took the board and chassis home with me to try out it back together over the weekend but I forgot to grab the charger,multimeter and screws. Might try hookup the battery flex tomorrow and hold down the battery flap see if that boots otherwise I’ll have to wait till I’m back in the office on Monday."
+        },
+        {
+            "post_id": 99682,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-04 17:12:58",
+            "message": "It's still doing the same thing.  <SIGNAL>ALL_SYS_PWRGD</SIGNAL>  comes up to 1.8V for about 20 sec when the boards taking 0.5 amps than once it dips down to 0.01 it drops out. Do these require a battery to boot or complete DFU restore? I was originally doing it board only and kept getting -75. Read Logiwiki and it mentioned trackpad and battery must be connected but I didn't have the battery ribbon, so I just connected trackpad and that's where I got the above lock screen. I've got the flex now so is it worth putting the board back in the chassis and connecting battery and TP to retry DFU?"
+        },
+        {
+            "post_id": 99685,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-05 00:57:58",
+            "message": "Yes, try DFU with battery connected too."
+        },
+        {
+            "post_id": 99709,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-05 16:47:24",
+            "message": "Looks like the CPU is dead :(. Connected the battery and trackpad and it would refuse to be detected in DFU mode despite the detect signal being present. Disconnected the battery and trackpad and connected the fan because I noticed the CPU heatsink heating up slightly and now can't get past 5V 280ma on all ports besides the trackpad side one way the connector gives 5v 280ma, the other way the board does not turn on at all, XAVbus fuse near the corresponding CD is 0v and the board takes 0 amps. Tried without my USB C meter as well to make sure that wasn't trolling me again than checking the fuse near the CDs to check whether it's 20V or not and there still 5V.\n\nChecked the <CHIP>CD3217</CHIP> LDOs all of them seem present, so either the ISL has gone or me leaving the battery connected for a while to charge up killed something."
+        },
+        {
+            "post_id": 99719,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-06 01:16:46",
+            "message": "You don't get <SIGNAL>PPBUS_G3H</SIGNAL> now?"
+        },
+        {
+            "post_id": 99753,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-06 17:41:18",
+            "message": "PPBus at F7000 is 1.28V for about 40 seconds then the board shuts off and obviously drops to 0. That's if I reset the charger and it's at 5V. If I use another device to switch the charger to 20V than connect the board sits at 0.0035 ma and 20V which looks like DFU mode but it's not, DFU status is not present."
+        },
+        {
+            "post_id": 99757,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-07 01:11:36",
+            "message": "Remove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage."
+        },
+        {
+            "post_id": 99777,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-07 19:15:50",
+            "message": "12.27V @ <CAPACITOR>C7050</CAPACITOR> with F7000 removed. That's only if i use the port towards the screen side (slave port). If I use the port towards the battery side (master) I get 0V. That ports not working at all stays at 5v 0A no matter what you do. Nothing is shorted though. Checked <DIODE>D3399</DIODE>, <DIODE>D3300</DIODE>, <DIODE>D3301</DIODE> and F3000 and neither seem to be getting any voltage. Checked diode mode on them and the readings match open board data. 3v3 RTC wont come up using the master port either, only works with the slave port."
+        },
+        {
+            "post_id": 99778,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-07 20:11:42",
+            "message": "May have found a problem. <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> seems to be a bit high, 3.48V instead of 3.3. Diode mode is .471 when open board data says it should be .515."
+        },
+        {
+            "post_id": 99781,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-08 02:10:38",
+            "message": "Check/compare diode mode readings between both ports.\nPay atention to CC1/2 lines.\nS-UEM2 tool is helpful in this case."
+        },
+        {
+            "post_id": 99803,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-08 16:55:46",
+            "message": "CC lines are all 0.577 diode mode to ground. Checked at their respective capacitors near their respective CD3217s as it is impossible to get to the protection diodes as I have the shield on the USB C charge port on so it covers them. Still going through and comparing the rest of the lines."
+        },
+        {
+            "post_id": 99806,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-08 17:36:19",
+            "message": "Interesting after poking around a bit checking the other lines it seems that the CC lines have dropped slightly. Now there reading .569"
+        },
+        {
+            "post_id": 99807,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-08 17:48:37",
+            "message": "Ok finished checking all the lines I could get to. Some only go to components under the thunderbolt shield which I haven't removed and would rather not for now so I didn't check them.\n\n<SIGNAL>USBC_XB_CC1</SIGNAL> @ <CAPACITOR>C3213</CAPACITOR>  =  .569\n<SIGNAL>USBC_XB_CC</SIGNAL> 2  @ <CAPACITOR>C3214</CAPACITOR> = .569\n<SIGNAL>USBC_XA_CC1</SIGNAL> @ <CAPACITOR>C3113</CAPACITOR> =  .577\n<SIGNAL>USBC_XA_CC2</SIGNAL> @ <CAPACITOR>C3114</CAPACITOR> =  .577\n<SIGNAL>PP20V_USBC_XB_VBUS</SIGNAL> @ <DIODE>D3398</DIODE> = .136\n<SIGNAL>PP20V_USBC_XA_VBUS</SIGNAL> @ <DIODE>D3399</DIODE> = .142\n <SIGNAL>USBC_XA_SBU2</SIGNAL> @ test point = .635\n<SIGNAL>USBC_XB_SBU2</SIGNAL> @ test point = .631 \n<SIGNAL>USBC_XB_SBU1</SIGNAL> @ test point = .632\n<SIGNAL>USBC_XA_SBU1</SIGNAL> @ test point  = .630 \n<SIGNAL>TP_USBC_PP20V_XB</SIGNAL> @ test point = .131 Trackpad disconnected (assuming that's what TP stands for).\n<SIGNAL>TP_USBC_PP20V_XA</SIGNAL> @ test point = .138 Trackpad disconnected (assuming that's what TP stands for)."
+        },
+        {
+            "post_id": 99809,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-09 01:08:33",
+            "message": "TP stands for Test Point.\n\nSo you have problems with <CHIP>U3100</CHIP>; change it..."
+        },
+        {
+            "post_id": 99890,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-12 18:35:51",
+            "message": "Only CD3217s I have are from that <MACBOOK MODEL NUMBER>A2159</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-1598</LOGIC BOARD PART NUMBER> are they compatible with this board? They do match the markings, both say <CHIP>CD3217</CHIP> B12 only the second line differs does that matter? I always thought the second line was just a serial number / batch or DOM info but wanted to double check. Need to get a stencil as well only got one for the 15s."
+        },
+        {
+            "post_id": 99891,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-13 00:25:36",
+            "message": "B12 is perfect..."
+        },
+        {
+            "post_id": 99919,
+            "thread_id": 63928,
+            "title": "<LOGIC BOARD PART NUMBER>820-01987</LOGIC BOARD PART NUMBER> 20v 0.019A pp3v3s5 pulsing",
+            "user_id": 32299,
+            "username": "posarah",
+            "post_date": "2023-06-13 21:06:07",
+            "message": "I've ordered some replacement ICs and stencils as I didn't have a matching stencil. I was hoping the iphone ones would suffice but no such luck."
+        }
+    ]
+}

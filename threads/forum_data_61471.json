@@ -1,0 +1,113 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_CLK32K_SUSCLK_L": "What is PM_CLK32K_SUSCLK_L? a SIGNAL.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "Q8150": "What is Q8150? a TRANSISTOR.",
+        "CPUVR_PHASE1": "What is CPUVR_PHASE1? a SIGNAL.",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "CPU_VCCSENSE_P": "What is CPU_VCCSENSE_P? a SIGNAL.",
+        "PPVCC_SO_CPU_PH1": "What is PPVCC_SO_CPU_PH1? a SIGNAL.",
+        "R7320": "What is R7320? a RESISTOR.",
+        "C7260": "What is C7260? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 78045,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 26060,
+            "username": "Maxibon",
+            "post_date": "2021-07-22 19:43:27",
+            "message": "G'day! \n\nHave a macbook air here that came in with no boot issue. \n\nAfter check all power rails I get to <SIGNAL>PM_SLP_S5_L</SIGNAL> and we are at 0V\n\nI tried SMC bypass though nothing happen, at best I see the fan move less then 1mm and stop, it's only really slight. \n\n<SIGNAL>PM_CLK32K_SUSCLK_L</SIGNAL> = 3.257v\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.4v \n\nWith the bypass not working are there other rails I can check to get to the bottom of this! \n\nThanks"
+        },
+        {
+            "post_id": 78046,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 26060,
+            "username": "Maxibon",
+            "post_date": "2021-07-22 19:59:18",
+            "message": "Additionally: \n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> = 0V\n<SIGNAL>PM_SLP_S4_L</SIGNAL> is consistently changing - hangs around 500mA"
+        },
+        {
+            "post_id": 78051,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-23 00:05:58",
+            "message": "\"<SIGNAL>PM_SLP_S4_L</SIGNAL> is consistently changing - hangs around 500mA\"\nMight this be a typo?\nI don't understand what you've meant.\nHow do you measure current for a signal???\n\nIf fan tries to spin, is sign of <SIGNAL>5V_S0</SIGNAL> pulsing.\nDid you only note this in SMC bypass mode?\n\n<SIGNAL>PM_SLP_S3_L</SIGNAL> should pulse each time you trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>; confirm that.\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> should also pulse, as big coils too.\nInspect <CHIP>U1950</CHIP> area; check for pulse at its pins 7 & 3.\nJust in case, remove <TRANSISTOR>Q8150</TRANSISTOR>, is not really needed.\n\nCheck for short on all big coils and after Power FETs (page 58)."
+        },
+        {
+            "post_id": 78227,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 26060,
+            "username": "Maxibon",
+            "post_date": "2021-07-29 22:02:43",
+            "message": "Sorry mate, you're right, -  \"<SIGNAL>PM_SLP_S4_L</SIGNAL> is consistently changing - hangs around 500mA\" is wrong - I get 0v\n\nWhen I mention the fan, I wouldn't call it spin, it's ever so slightly budging.\n\n\n\"Inspect <CHIP>U1950</CHIP> area; check for pulse at its pins 7 & 3.\"\n\n\nWhen I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> I get a pulse at 7, nothing on pin 3\n\nChecked for shorts, nothing."
+        },
+        {
+            "post_id": 78235,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-30 02:24:54",
+            "message": "I was expecting a mention about big coils.\nAny voltage pulse at L7310/20 (VCORE)?"
+        },
+        {
+            "post_id": 78248,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 26060,
+            "username": "Maxibon",
+            "post_date": "2021-07-30 08:15:44",
+            "message": "Sorry I ignore you mention on the coils.\n\nI checked L7310/20 for pulse, nothing.\n\nI then checked diode reading on <SIGNAL>CPUVR_PHASE1</SIGNAL> and I get 0.000 - full short. \n\nSo my question is, does that mean CPU is toast on this on, or what should I do next. \n\nThanks, Max"
+        },
+        {
+            "post_id": 78253,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-30 09:22:38",
+            "message": "This looks like short.\nLift both coils one side and check where the short remains."
+        },
+        {
+            "post_id": 78271,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 26060,
+            "username": "Maxibon",
+            "post_date": "2021-07-31 01:54:58",
+            "message": "Thank s a lot for your help, \n\nI removed the coils - Short on <SIGNAL>PPVCC_SO_CPU_PH1</SIGNAL> \n\nRemoved <RESISTOR>R7320</RESISTOR>/10 short on <SIGNAL>PPVCC_S0_CPU</SIGNAL> & <SIGNAL>CPU_VCCSENSE_P</SIGNAL> \n\nRemoved <CAPACITOR>C7260</CAPACITOR> Cap still short on <SIGNAL>CPU_VCCSENSE_P</SIGNAL> \n\nWhat can I do next or is this CPU gone?"
+        },
+        {
+            "post_id": 78274,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-31 02:52:21",
+            "message": "Dead CPU..."
+        },
+        {
+            "post_id": 78560,
+            "thread_id": 61471,
+            "title": "Macbook Air 820-000165 missing <SIGNAL>PM_SLP_S5_L</SIGNAL>",
+            "user_id": 26060,
+            "username": "Maxibon",
+            "post_date": "2021-08-07 19:12:35",
+            "message": "Thank you as always!"
+        }
+    ]
+}

@@ -1,0 +1,142 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "SMB_SMC_CHGR_SDA": "What is SMB_SMC_CHGR_SDA? a SIGNAL.",
+        "R7061": "What is R7061? a RESISTOR.",
+        "R7062": "What is R7062? a RESISTOR.",
+        "C7020": "What is C7020? Capacitor between current sense lines on ISL6259 chip for charger current sensing, you should measure around 20.02 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing as much power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "Q7065": "What is Q7065? a TRANSISTOR.",
+        "C7023": "What is C7023? a CAPACITOR.",
+        "DCIN_ISENSE": "What is DCIN_ISENSE? a SIGNAL.",
+        "SMC_BMON": "What is SMC_BMON? a SIGNAL.",
+        "R5498": "What is R5498? a RESISTOR.",
+        "R5438": "What is R5438? a RESISTOR.",
+        "SMC_DCIN": "What is SMC_DCIN? a SIGNAL.",
+        "PBUS_VSENSE": "What is PBUS_VSENSE? a SIGNAL.",
+        "SMC_BMON_ISENSE": "What is SMC_BMON_ISENSE? a SIGNAL.",
+        "DCIN_VSENSE": "What is DCIN_VSENSE? a SIGNAL.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R7060": "What is R7060? a RESISTOR.",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting.."
+    },
+    "threads": [
+        {
+            "post_id": 87286,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2022-03-12 09:24:15",
+            "message": "we refurbish this <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> before selling it out to customer, about 2 month later customer complains that it randomly shuts down. 1 week about ~3 times.\nwe took back the laptop and now it does not boot at all.\n\nFound out that when battery is not plugged in, it boots fine with just charger\nBattery + charger = no boot, charger loops after charger hits 20V and goes back to 5V.\nBattery only = no boot.\n\nmeasuring on battery terminal itself i get 0V but if i measure the cells i get 11.8V. Battery lock up, but same case when using known good battery.\nwhen on only battery, ppbus is pulsing about 12v(can't get a good ready from osope) 2 short pulse within 1sec and 2/3 sec of no activity and loops.\n\nMeasure current sensing for ISL <RESISTOR>R7061</RESISTOR>/<RESISTOR>R7062</RESISTOR> and all is good, measured <SIGNAL>SMB_SMC_CHGR_SDA</SIGNAL> and SCL and i get normal communication with SMC(diode reading at 0.395)\nnot sure what else is wrong here"
+        },
+        {
+            "post_id": 87288,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-12 16:04:57",
+            "message": "Check resistance (ohm scale), over <CAPACITOR>C7020</CAPACITOR>/23.\nAlso check if <TRANSISTOR>Q7065</TRANSISTOR> is not shorted.\n\nWhat is exact F7000 voltage w/ and w/o battery (charger connected)?"
+        },
+        {
+            "post_id": 87324,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2022-03-13 11:08:51",
+            "message": "<CAPACITOR>C7020</CAPACITOR> is 2ohms\n<CAPACITOR>C7023</CAPACITOR> is 2ohms\n<TRANSISTOR>Q7065</TRANSISTOR> not shorted\n\nF7000 with battery + charger = 3+V and dropping\nF7000 without battery + charger = 13v"
+        },
+        {
+            "post_id": 87325,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-13 15:05:01",
+            "message": "Check <SIGNAL>SMC_BMON</SIGNAL>/<SIGNAL>DCIN_ISENSE</SIGNAL>, with both charger and battery connected.\nAlso try starting in SMC bypass, in same case."
+        },
+        {
+            "post_id": 87341,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2022-03-14 02:56:23",
+            "message": "okay, was poking around to measure with DMM to measure <RESISTOR>R5438</RESISTOR>/39, resister is good. but i noticed <RESISTOR>R5498</RESISTOR> alittle \"out of colour\"\nmeasure resistance all good. tried measuring voltage, i get 0v. i maybe thought its pulsing and DMM not picking up. i used oscope and touch <RESISTOR>R5498</RESISTOR> pin1. suddenly it boots up. now its working good with only battery\n\nwhen i unplugged the battery, its dead again"
+        },
+        {
+            "post_id": 87342,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-14 03:15:16",
+            "message": "We need voltage of mentioned signals.\nAlso check <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>PBUS_VSENSE</SIGNAL> levels."
+        },
+        {
+            "post_id": 87356,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2022-03-14 09:37:20",
+            "message": "in terms of resistance they all measure within spec.\n<SIGNAL>SMC_BMON_ISENSE</SIGNAL> = 500mv pulsing\n<SIGNAL>DCIN_ISENSE</SIGNAL> = 0v\n<SIGNAL>DCIN_VSENSE</SIGNAL> = 0v\n<SIGNAL>PBUS_VSENSE</SIGNAL> = 0v\nall measure when charger is + battery plugged in"
+        },
+        {
+            "post_id": 87370,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-14 12:40:43",
+            "message": "Post these signals with charger (not battery) connected only."
+        },
+        {
+            "post_id": 87398,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2022-03-15 01:43:52",
+            "message": "<SIGNAL>DCIN_VSENSE</SIGNAL> = 2.9v\n<SIGNAL>DCIN_ISENSE</SIGNAL> = 0.2v\n<SIGNAL>SMC_BMON_ISENSE</SIGNAL> = 1v\n<SIGNAL>PBUS_VSENSE</SIGNAL> = 2.1v"
+        },
+        {
+            "post_id": 87399,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-15 01:53:20",
+            "message": "Check <RESISTOR>R7061</RESISTOR>/62 and their traces."
+        },
+        {
+            "post_id": 87423,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2022-03-15 07:24:39",
+            "message": "yeap. traces are good to <CHIP>U7000</CHIP>(have tried replacing as well) and to <RESISTOR>R7060</RESISTOR>. both resister read 2ohms"
+        },
+        {
+            "post_id": 87438,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-15 10:35:42",
+            "message": "Check both <SIGNAL>SMC_BMON_ISENSE</SIGNAL> and <SIGNAL>CHGR_BMON</SIGNAL> levels, without battery.\nYou should get almost 0V there, not 1V."
+        },
+        {
+            "post_id": 87515,
+            "thread_id": 62459,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> does not boot when battery is connected",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2022-03-16 09:16:22",
+            "message": "the board has gone from working state to a non-working 20v 450ma now. its a sad sad day\ncpuvcore is 0.95v no usb activity"
+        }
+    ]
+}

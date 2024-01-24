@@ -1,0 +1,129 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "CHGR_ACOK": "What is CHGR_ACOK? This is identical to SMC_BC_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SMC_DCIN_VSENSE": "What is SMC_DCIN_VSENSE? a SIGNAL.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R5281": "What is R5281? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SCL which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R5498": "What is R5498? a RESISTOR.",
+        "R5488": "What is R5488? a RESISTOR.",
+        "R5499": "What is R5499? a RESISTOR.",
+        "R5489": "What is R5489? a RESISTOR.",
+        "C5489": "What is C5489? a CAPACITOR.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "U6900": "What is U6900? a CHIP.",
+        "U6901": "What is U6901? a CHIP.",
+        "R7000": "What is R7000? a RESISTOR.",
+        "C6952": "What is C6952? a CAPACITOR.",
+        "C6953": "What is C6953? a CAPACITOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015."
+    },
+    "threads": [
+        {
+            "post_id": 70632,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 27657,
+            "username": "ViBe",
+            "post_date": "2021-01-22 09:47:20",
+            "message": "MacBook <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B with prior repair came in for battery not charging.  MagSafe takes a few seconds after power-on to light green, never changes to amber, and intermittently turns off altogether.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> is a steady 12.29V with no battery attached.\n<CHIP>U7000</CHIP> was replaced.  No change.\n<CHIP>U7000</CHIP> resistance on pins 17/18 is 3.2 Ohms and pins 27/28 is 20 Ohms.\n<RESISTOR>R7005</RESISTOR> resistance is 20 Ohms.\nSteady <SIGNAL>CHGR_ACOK</SIGNAL> signal, even when MagSafe is not lit.\n<TRANSISTOR>Q7030</TRANSISTOR>/35 both replaced.  No change.\n<RESISTOR>R5280</RESISTOR> and <RESISTOR>R5281</RESISTOR> resistance both measure 2 kOhms.\nOn <SIGNAL>SMC_DCIN_VSENSE</SIGNAL>; <RESISTOR>R5498</RESISTOR> resistance 27.3 kOhms, <RESISTOR>R5499</RESISTOR> is 5.49 kOhms.\nOn <SIGNAL>SMC_PBUS_VSENSE</SIGNAL>; <RESISTOR>R5488</RESISTOR> resistance 23.3 kOhms, <RESISTOR>R5489</RESISTOR> is 5.47 kOhms.  <CAPACITOR>C5489</CAPACITOR> not shorted.\n\nAny help would be greatly appreciated.\n\n*Update:  Booted the machine and appears that it doesn't see the battery.  <RESISTOR>R7051</RESISTOR> measures 2.5 Ohms, <RESISTOR>R7052</RESISTOR> is 0.4 Ohms."
+        },
+        {
+            "post_id": 70640,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-22 11:22:36",
+            "message": "Incorrect communication between SMC and <CHIP>U7000</CHIP>.\nDid you test disconnecting BIL?\n\nPost voltage and diode mode to ground at SCL/SDA lines."
+        },
+        {
+            "post_id": 70645,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 27657,
+            "username": "ViBe",
+            "post_date": "2021-01-22 11:31:36",
+            "message": "Yeah, that's what I was thinking.\n\nBIL disconnected.\nVoltage on SDA is 3.034v, SCL is 3.477. \nDiode mode on SDA is .520, SCL is .527."
+        },
+        {
+            "post_id": 70653,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-22 14:45:42",
+            "message": "Both lines should have the same voltage.\nDiode mode difference should also be lower.\n\nPossibly SMC problems.\nPost <CHIP>U6900</CHIP>/01 voltages."
+        },
+        {
+            "post_id": 70732,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 27657,
+            "username": "ViBe",
+            "post_date": "2021-01-25 12:54:50",
+            "message": "Using a different adapter, magsafe light stays steady green but still does not charge.\n\n<CHIP>U6900</CHIP>\nPin 1 - 3.475v\nPin 4 - 3.453v\nPin 5 - 3.453v\n\n<CHIP>U6901</CHIP>\nPin 1/2 - Jumps from 3.267v up to 3.349v\nPin 4 - 3.476v\nPin 5 - 3.476v\n\nOdd signal from <CHIP>U7000</CHIP> considering that it was replaced..."
+        },
+        {
+            "post_id": 70733,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-25 13:12:37",
+            "message": "<CHIP>U6900</CHIP>/01 both good, if get steady green light.\nWhich is actual <SIGNAL>PPBUS_G3H</SIGNAL> voltage (without battery)?"
+        },
+        {
+            "post_id": 70735,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 27657,
+            "username": "ViBe",
+            "post_date": "2021-01-25 13:16:07",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> is still at 12.27v.  I'm guessing communication with the SMC isn't right."
+        },
+        {
+            "post_id": 70738,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-25 13:49:00",
+            "message": "Remove <CAPACITOR>C6952</CAPACITOR>/53 (if present) and check again.\nIf still the same issue, change <CHIP>U7000</CHIP>.\nBe sure first <RESISTOR>R7000</RESISTOR> is good.\nLast option, change SMC..."
+        },
+        {
+            "post_id": 70743,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 27657,
+            "username": "ViBe",
+            "post_date": "2021-01-25 14:47:27",
+            "message": "Removed <CAPACITOR>C6952</CAPACITOR> & <CAPACITOR>C6953</CAPACITOR>, no change.  Still seeing voltage fluctuation from <CHIP>U7000</CHIP>.  I'll change it again in the AM.  Thanks, 2info."
+        },
+        {
+            "post_id": 70806,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 27657,
+            "username": "ViBe",
+            "post_date": "2021-01-27 09:34:01",
+            "message": "<RESISTOR>R7000</RESISTOR> is good.  Changed <CHIP>U7000</CHIP> and now have no PPBUS.  I'm suspecting that I may have a skunk set of <CHIP>ISL6259</CHIP>'s, so I've ordered from a different supplier and waiting for their arrival.\n\nEdit:  Swapped the previous <CHIP>U7000</CHIP> back in and still no PPBUS, so I may have mishandled it or created another problem."
+        },
+        {
+            "post_id": 70812,
+            "thread_id": 60666,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B Not charging & intermittent magsafe light",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-27 11:22:51",
+            "message": "Post <CHIP>U7000</CHIP> basic voltages; pins 1, 2, 3, 9, 12, 13, 14, 15, 17, 19, 20, 27."
+        }
+    ]
+}

@@ -1,0 +1,72 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R5281": "What is R5281? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SCL which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "U6990": "What is U6990? a CHIP.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "R6905": "What is R6905? Resistor between charger voltage and input to PP3V42_G3H power supply on older Macbooks, pre-2011 models. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on.."
+    },
+    "threads": [
+        {
+            "post_id": 32215,
+            "thread_id": 32215,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> wont run off battery",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-03-03 10:56:26",
+            "message": "system detects and charges battery but wont run off of it.\nwhen i do an smc reset it runs off of it for a short period and on the problem comes back.\nwhen i hold the power button for 5 seconds on startup it boots off of battery fine.\n\nany ideas?"
+        },
+        {
+            "post_id": 32218,
+            "thread_id": 32215,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> wont run off battery",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-03 11:41:46",
+            "message": "1) What voltage is <SIGNAL>PPBUS_G3H</SIGNAL> with charger connected, battery NOT connected?\n2) What is diode mode to ground on pin 2 of <RESISTOR>R5280</RESISTOR>, <RESISTOR>R5281</RESISTOR>? Red probe on ground, black probe on pin 2. Make these two measurements without power connected. \n3) What is the resistance between pins 17/18 of <CHIP>U7000</CHIP>? Make these two measurements without power connected. \n4) What is the resistance between pins 27/28 of <CHIP>U7000</CHIP>? Make these two measurements without power connected. \n5) What is the voltage measured on <SIGNAL>PPBUS_G3H</SIGNAL> when the battery is charged, and the charger is not plugged in?"
+        },
+        {
+            "post_id": 32221,
+            "thread_id": 32215,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> wont run off battery",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-03-03 12:32:10",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL>= 12.56volts\n<RESISTOR>R5280</RESISTOR>= .505\n25281= .506\nResistance 17/18 <CHIP>U7000</CHIP>=  3.3ohm\nResistance 27/28 <CHIP>U7000</CHIP>= 20.4ohm\n<SIGNAL>PPBUS_G3H</SIGNAL> with battery charged and no charger connected= 11.69volts"
+        },
+        {
+            "post_id": 32226,
+            "thread_id": 32215,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> wont run off battery",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-03 17:39:32",
+            "message": "This is odd. Typically this is a logical problem or a power problem.\n\nA logical problem is that the SMC is unable to communicate with the battery - it doesn't see the battery due to a short on a data line, or the SMC is dead. That does not appear to be the case because <SIGNAL>PPBUS_G3H</SIGNAL> is the proper voltage and there are no shorts on that data line. \n\nA power problem is when a rail that can be powered off the charger or the battery is not working off the battery. Take <SIGNAL>PP3V42_G3H</SIGNAL> and observe <RESISTOR>R6990</RESISTOR> and <RESISTOR>R6905</RESISTOR>, for instance. <SIGNAL>PP3V42_G3H</SIGNAL> is the first rail that must be initialized, so it has inputs from the battery(<RESISTOR>R6905</RESISTOR>) and the charger(<RESISTOR>R6990</RESISTOR>). If <RESISTOR>R6905</RESISTOR> were blown, then <SIGNAL>PP3V42_G3H</SIGNAL> would only work off the charger. Even if the battery [I]were[/I] charged, battery power would never make its way to <CHIP>U6990</CHIP> and <SIGNAL>PP3V42_G3H</SIGNAL> would never be present. That is not the case here because, as you say, it will turn on from the battery for a short period due to <SIGNAL>SMC_RESET_L</SIGNAL>.\n\nIt does not appear to be a logical problem either. <SIGNAL>PPBUS_G3H</SIGNAL> is 12.56v, which it would not be if the data line to the battery were destroyed. The same data line to the battery from the SMC, is the data line between the SMC and the <CHIP>ISL6259</CHIP> chip that tells <CHIP>ISL6259</CHIP> to make <SIGNAL>PPBUS_G3H</SIGNAL> 12.56v. When that data line is destroyed you would only have 12.23v. \n\nIn this case I would guess the issue is SMC. The data provided is too trolling and inconclusive to be certain, but without more history/signs of corrosion that is all I can provide. Something like [I]\"this happened when someone tried to replace their own battery\"[/I] is helpful - it would mean that they likely shorted the battery power to the data line which would mean clear cut case of replacing SMC/<CHIP>ISL6259</CHIP>."
+        },
+        {
+            "post_id": 32227,
+            "thread_id": 32215,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> wont run off battery",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-03-03 20:05:27",
+            "message": "The system had water damage when i got it. the area above the cpu was the most damaged replaced all the components that were barely hanging on to the board that made it turn back on then i ran into that odd battery issue. Holding the power button for 5 seconds on startup makes it work just fine but when i close the lid for longer than 10 seconds and it goes into a sleep state it turns off.\n\nguess ill try replacing <CHIP>ISL6259</CHIP> and if issue continues then ill leave it alone. dont have proper tools to replace smc and seems to me like for the most part its not worth it?\n\nwhats your take for this 2012 model."
+        },
+        {
+            "post_id": 32230,
+            "thread_id": 32215,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> wont run off battery",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-03 22:26:43",
+            "message": "area above CPU = near the SMC. Check all your traces and components in that area again, and replace the SMC after is what I'd say."
+        }
+    ]
+}

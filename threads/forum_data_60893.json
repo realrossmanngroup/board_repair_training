@@ -1,0 +1,60 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U7800": "What is U7800? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PMIC_SHUTDOWN_L": "What is PMIC_SHUTDOWN_L? a SIGNAL.",
+        "PPVCCGT_S0G": "What is PPVCCGT_S0G? a SIGNAL.",
+        "PPVCCSA_S0G": "What is PPVCCSA_S0G? a SIGNAL.",
+        "PM_PGOOD_CPUVCC": "What is PM_PGOOD_CPUVCC? a SIGNAL.",
+        "PPVCCPU_S0G": "What is PPVCCPU_S0G? a SIGNAL.",
+        "PM_PCHPWROK": "What is PM_PCHPWROK? a SIGNAL.",
+        "PM_ENCPUVCC": "What is PM_ENCPUVCC? a SIGNAL.",
+        "R7148": "What is R7148? a RESISTOR.",
+        "R7874": "What is R7874? a RESISTOR.",
+        "PPVCCCPU_S0G": "What is PPVCCCPU_S0G? a SIGNAL.",
+        "CPU_VID": "What is CPU_VID? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 72719,
+            "thread_id": 60893,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0A in S0 state",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2021-03-06 22:54:54",
+            "message": "This one is a liquid damage board.\n<SIGNAL>PPBUS_G3H</SIGNAL> is 13,06V, I got 20V and it charges the battery just fine.\n\nWithout battery it is stuck with 20V@0A\n\nI am in S0 state and all rails on the power rail page are present except for the cpu:\n<SIGNAL>PPVCCPU_S0G</SIGNAL> = 0V\n<SIGNAL>PPVCCSA_S0G</SIGNAL> = 0V\n<SIGNAL>PPVCCGT_S0G</SIGNAL> = 0V\n\nOn <CHIP>U7800</CHIP>\n<SIGNAL>PM_PCHPWROK</SIGNAL> is missing\n<SIGNAL>PMIC_SHUTDOWN_L</SIGNAL> is present 3V\nInputs VSA to VSH are all present\nInput ENA to ENG are all present\ninput ENH is missing, <RESISTOR>R7874</RESISTOR> is 0 ohm and <SIGNAL>PM_PGOOD_CPUVCC</SIGNAL> is 0V , there is no short and diode mode is 0,479.\n\nOn <CHIP>U7100</CHIP>, I confirmed that <SIGNAL>PM_PGOOD_CPUVCC</SIGNAL> is 0V\nI made sure <SIGNAL>PP5V_S4</SIGNAL> and <SIGNAL>PPBUS_G3H</SIGNAL> are present to VIN and VCC\n<SIGNAL>PM_ENCPUVCC</SIGNAL> (<SIGNAL>ALL_SYS_PWRGD</SIGNAL>) is present, 3,3V on both sides of <RESISTOR>R7148</RESISTOR>.\n\nIs it reasonnable to blame <CHIP>U7100</CHIP> who must output <SIGNAL>PM_PGOOD_CPUVCC</SIGNAL>, I notice a via pad going to VIN (pin 41) was corroded so probably the chip took a hit, although it is well bonded with sillicone.\n\nThanks"
+        },
+        {
+            "post_id": 72720,
+            "thread_id": 60893,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0A in S0 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-07 03:48:06",
+            "message": "You cannot expect a power good signal, before corresponding power rail appears.\n\n<CHIP>U7100</CHIP> requires more than a simple enable signal.\nIt is controlled through <SIGNAL>CPU_VID</SIGNAL> bus.\nSo there could be a problem with PCH/CPU, or even BIOS.\niGPU voltage (<SIGNAL>PPVCCGT_S0G</SIGNAL>) will not appear until high graphics load is detected, but CPU core voltage (<SIGNAL>PPVCCCPU_S0G</SIGNAL>) is of course required.\nMany blocks of CPU are already powered with other voltages and communication is necessary between some blocks of CPU and PCH, prior to generate core voltage.\n\nBe aware, liquid sign on the CPU power supply could mean letal damage.\nTry known good BIOS, clean ME."
+        },
+        {
+            "post_id": 72732,
+            "thread_id": 60893,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0A in S0 state",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2021-03-07 10:28:15",
+            "message": "I agree that much more signals are involved and required and anything can mess up the proper function of <CHIP>U7100</CHIP>.\nI forget to mention that I started with a known working and ME cleaned bios but nothing changed.\nI think this one may be a nightmare as it will be difficult to pinpoint a resistor, trace or simply a dead cpu"
+        },
+        {
+            "post_id": 72734,
+            "thread_id": 60893,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 20V 0A in S0 state",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2021-03-07 11:32:20",
+            "message": "I replaced <CHIP>U7100</CHIP> and it works now!!\nI know it's an exceptional luck, specially that this chip is surrounded with sillicon there was no corrosion under it, but the <SIGNAL>PPBUS_G3H</SIGNAL> burned via going into the chip leads me to believe it may took a hit... I replaced it out of desperation.\nWill check now if it doesn't crashes after couple of minutes :)"
+        }
+    ]
+}

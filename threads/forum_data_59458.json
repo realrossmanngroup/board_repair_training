@@ -1,0 +1,71 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00850": "What is 820-00850? a LOGIC BOARD PART NUMBER.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U9080": "What is U9080? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP1V8_SLPS2R": "What is PP1V8_SLPS2R? PP1V8_SLPS2R is a 1.8v power rail present when the system is in a SLPS2R state. .",
+        "PP1V1_SLPS2R": "What is PP1V1_SLPS2R? The PP1V1_SLPS2R power rail in the MacBook schematic provides a 1.1-volt supply in a specific low-power state indicated by the \"_SLPS2R\" suffix and is used for powering the T2 chip..",
+        "PMU_ONOFF_L": "What is PMU_ONOFF_L? a SIGNAL.",
+        "PP0V8_SLPS2R": "What is PP0V8_SLPS2R? a SIGNAL.",
+        "PP20V_USBC_XB_VBUS": "What is PP20V_USBC_XB_VBUS? PP20V_USBC_XB_VBUS is 20v in from the USB-C charger on USB-C powered Macbook Pros.."
+    },
+    "threads": [
+        {
+            "post_id": 60530,
+            "thread_id": 59458,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> stuck at 5V 280mA",
+            "user_id": 26559,
+            "username": "clusterfsck",
+            "post_date": "2020-06-05 12:01:46",
+            "message": "I've got an <LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> logic board that suffered water damage. Board cleaned up well, may have a little corrosion around <CHIP>U9080</CHIP>. The board draws 5V 280mA when connected to a charger alone, 20V 0mA when the battery is connected. Behavior is the same on all 4 USB-C ports. I measured all the usual suspects and nothing seems off.\n\n<SIGNAL>PP3V3_G3H</SIGNAL> 3.34V\n<SIGNAL>PPBUS_G3H</SIGNAL> 12.31V\n<SIGNAL>PP20V_USBC_XB_VBUS</SIGNAL> 5.24V\n<SIGNAL>PMU_ONOFF_L</SIGNAL> 3.40V\n<SIGNAL>PP0V8_SLPS2R</SIGNAL> 0.8V\n<SIGNAL>PP1V1_SLPS2R</SIGNAL> 1.1V\n<SIGNAL>PP1V8_SLPS2R</SIGNAL> 1.8V\n\nI was really hoping it was a T2 firmware issue. I can get the board into DFU mode, but it's seen as a generic \"Apple Controller\" in Apple Configurator 2.6 on a Mac mini. The mini complains \"Cannot use thunderbolt accessory\" when first connected. Could it be a cable issue?\n\nSymptoms seem similar to this thread [URL]https://boards.rossmanngroup.com/threads/59438/[/URL]. I checked all <CHIP>CD3215</CHIP> LDO outputs in diode mode and got readings ranging 0.43V-0.48V. Replacing the CD3215s seems to issue in that instance. Is there anything else I should check/try first?"
+        },
+        {
+            "post_id": 60539,
+            "thread_id": 59458,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> stuck at 5V 280mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-05 14:35:02",
+            "message": "\"<SIGNAL>PPBUS_G3H</SIGNAL> 12.31V\"\nThis points to T2 firmware issue...\n\nBe sure to use dedicated USB-C port for recovery; read Apple documentation.\nAlso be aware, some people reported to have problem with original Apple cables.\nAnd try using another machine, maybe a MacBook, for recovery process."
+        },
+        {
+            "post_id": 60636,
+            "thread_id": 59458,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> stuck at 5V 280mA",
+            "user_id": 26559,
+            "username": "clusterfsck",
+            "post_date": "2020-06-08 13:39:27",
+            "message": "Tried on a 2016 MacBook pro with a different cable. Doesn't show the thunderbolt accessory error anymore, but still shows up as \"Apple Controller\". Tried Revive anyway, it times out in Step 4.\n\n[ATTACH]59266[/ATTACH][ATTACH]59267[/ATTACH]\n\nI'm going to try replacing the CD3215s. Do they all need to be present for the machine to function or can I get away with only installing one? Just trying to get the data off the MacBook."
+        },
+        {
+            "post_id": 60667,
+            "thread_id": 59458,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> stuck at 5V 280mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-09 07:00:58",
+            "message": "Do NOT touch <CHIP>CD3215</CHIP> chips!\nAll are good, as you get 12.3V at <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 61645,
+            "thread_id": 59458,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> stuck at 5V 280mA",
+            "user_id": 26559,
+            "username": "clusterfsck",
+            "post_date": "2020-06-30 10:44:08",
+            "message": "I've been trying with different cables on different Macs and the board always identifies in DFU mode as \"Apple Controller\". It's supposed to say \"iBridge\", correct? Makes me thing something goes wrong very early with the T2 and it isn't even in a state that can be revived by Apple Configurator.\n\nIt still bothers me, though, that the USB-C voltage isn't changing to 20V. Anything else you can think of to try?"
+        },
+        {
+            "post_id": 61663,
+            "thread_id": 59458,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> stuck at 5V 280mA",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-30 16:31:16",
+            "message": "T2 must talk with <CHIP>CD3215</CHIP> chips, in order to switch to 20V on USB-C port.\nA T2 firmware issue can block this communication..."
+        }
+    ]
+}

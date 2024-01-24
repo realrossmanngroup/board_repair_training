@@ -1,0 +1,68 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-02020": "What is 820-02020? a LOGIC BOARD PART NUMBER.",
+        "BKLT_EN_R": "What is BKLT_EN_R? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. The “_R” suffix means that the signal is asserted when it is high, as in 3.3v, which is the opposite of the “_L”  suffix.",
+        "PP3V3_SW_LCD": "What is PP3V3_SW_LCD? a SIGNAL.",
+        "PPVOUT_LCDBKLT": "What is PPVOUT_LCDBKLT? PPVOUT_LCDBKLT is the backlight power rail that is responsible for creating a backlight o nthe screen. .",
+        "PP5V_SW_LCD": "What is PP5V_SW_LCD? a SIGNAL.",
+        "I2C_BKLT_SCL": "What is I2C_BKLT_SCL? a SIGNAL.",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground."
+    },
+    "threads": [
+        {
+            "post_id": 91335,
+            "thread_id": 62926,
+            "title": "<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 31045,
+            "username": "Dave35",
+            "post_date": "2022-07-22 04:28:25",
+            "message": "hello,\n\n<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> liquid damage on few spot, i have image.\n\n-FP800 ok\n-QP800 ok\n-<SIGNAL>PP5V_SW_LCD</SIGNAL> ok\n-<SIGNAL>PP3V3_SW_LCD</SIGNAL> ok\n\n-VIN ok on UP800\n-<SIGNAL>BKLT_EN_R</SIGNAL> present (1.8v)\n-All trace ok on UP800\n-Diode mode ok on motherboard pad UP800\n-All resistances tested near UP800 and QP800\n-2 good screen tested\n-Change Up800, backlight back few minutes only, never back again.\n\nNo voltage on <SIGNAL>PPVOUT_LCDBKLT</SIGNAL>\n\nAny idea ?\n\nthanks"
+        },
+        {
+            "post_id": 91338,
+            "thread_id": 62926,
+            "title": "<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-22 07:07:36",
+            "message": "Apart of enable, UP800 requires good communication with M1 and LCD assembly, through <SIGNAL>I2C_BKLT_SCL</SIGNAL>/SDA lines.\nCheck voltage and diode mode on that bus.\nBe sure RP850-53 and their traces are good.\n\nAlso check continuity between DP800 and RP831."
+        },
+        {
+            "post_id": 91345,
+            "thread_id": 62926,
+            "title": "<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 31045,
+            "username": "Dave35",
+            "post_date": "2022-07-22 09:40:22",
+            "message": "in diode mode : .460 on  <SIGNAL>I2C_BKLT_SCL</SIGNAL>/SDA screen plug  .473 with screen unplug\ntraces good on RP850/1/2/3\n\ncontinuity ok on DP800 to RP831 and RP831 to chip."
+        },
+        {
+            "post_id": 91346,
+            "thread_id": 62926,
+            "title": "<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-22 10:23:06",
+            "message": "Check <SIGNAL>BKLT_SD</SIGNAL> level; should be 0V."
+        },
+        {
+            "post_id": 91350,
+            "thread_id": 62926,
+            "title": "<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 31045,
+            "username": "Dave35",
+            "post_date": "2022-07-22 10:36:48",
+            "message": "Nop, high, 11v8 and of course the QP800 stay close"
+        },
+        {
+            "post_id": 91351,
+            "thread_id": 62926,
+            "title": "<LOGIC BOARD PART NUMBER>820-02020</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-22 11:41:01",
+            "message": "Tried SMC reset?\nJust in case, see if DFU revive helps."
+        }
+    ]
+}

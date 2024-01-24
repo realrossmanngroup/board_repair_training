@@ -1,0 +1,137 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2879": "What is 820-2879? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "Q7035": "What is Q7035? a TRANSISTOR.",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "C7025": "What is C7025? a CAPACITOR.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "R7012": "What is R7012? a RESISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "Q7080": "What is Q7080? a TRANSISTOR.",
+        "C7040": "What is C7040? a CAPACITOR.",
+        "AVREF_SMC": "What is AVREF_SMC? AVREF_SMC is a reference voltage provided to the SMC so that its sensors have a reference to work from, this should be 3.3v."
+    },
+    "threads": [
+        {
+            "post_id": 71796,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-02-17 19:54:46",
+            "message": "Initially PPBUS was ~1V, I then replaced <CHIP>U7000</CHIP> and <TRANSISTOR>Q7035</TRANSISTOR> I now get ~4V on PPBUS then it starts to drop down close to 0V, loops then next time around starts around 11V then rapidly drops down to 0V and repeats the loop.\n\nChecked pins 17-18 and 27-28 of <CHIP>U7000</CHIP> and those are fine\n3V42 resistance is around 240K after replacing <CHIP>U7000</CHIP>, before that it was like 11k\n\nI've never seen this before, please help."
+        },
+        {
+            "post_id": 71799,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-18 01:54:25",
+            "message": "<SIGNAL>3V42_G3H</SIGNAL> steady value?\nDid you try SMC bypass mode?\nReplace <CAPACITOR>C7025</CAPACITOR>, just in case; maybe <TRANSISTOR>Q7030</TRANSISTOR> too.\nCheck diode mode to ground at L7220; any voltage pulse there?"
+        },
+        {
+            "post_id": 72000,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-02-22 12:32:11",
+            "message": "<SIGNAL>3V42_G3H</SIGNAL> steady\nReplace <CAPACITOR>C7025</CAPACITOR> same thing\nReplace <TRANSISTOR>Q7030</TRANSISTOR> same thing\nDiode read on L7220 is 0.130 on both ends\nPulse every 7-8 seconds on L7220 ~3V"
+        },
+        {
+            "post_id": 72010,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-22 12:54:42",
+            "message": "Post <CHIP>U7000</CHIP> voltages; pins 1, 2, 3, 6, 9, 12, 13, 14, 15, 17, 19, 20, 27.\nCheck the R/C networks from pins 5, 7, 8.\nBe sure <RESISTOR>R7012</RESISTOR> is good."
+        },
+        {
+            "post_id": 72025,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-02-22 14:36:25",
+            "message": "ISL\n1-16v BUT PULSING\n2-16.5V\n3-4V\n9-0.031V\n12-3.4V\n13-3.4V\n14-3V\n15-0\n17-PULSING 11V then it starts to come down to ~3V\n19-5V\n20-5V\n27-PULSING 16V then it starts to come down to ~6V\n\n17/18- 5 ohms\n27/28-22 ohms \n\n<RESISTOR>R7012</RESISTOR> 1k Good\n\nCheck the R/C networks from pins 5, 7, 8 please explain what to do."
+        },
+        {
+            "post_id": 72026,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-22 14:44:56",
+            "message": "You said to have 4V at <SIGNAL>PPBUS_G3H</SIGNAL>.\nIf in fact, if fluctuates 3-11V, then SMC can cycle power, because detects something wrong.\nCheck what happens in SMC bypass mode.\n\nIf <RESISTOR>R7020</RESISTOR> voltage fluctuates, you may need to change <TRANSISTOR>Q7080</TRANSISTOR>/85.\n<SIGNAL>PPDCIN_G3H</SIGNAL> also fluctuates?\nIf yes, test with fake charger, or lab PSU and 60/85W Magsafe 1 cable."
+        },
+        {
+            "post_id": 72047,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-02-22 17:27:46",
+            "message": "Yes PPBUS fluctuates down from ~12V to ~4V then cycles\nSMC bypass I get not light on charger and 3.3V steady on PPBUS\n<RESISTOR>R7020</RESISTOR> does fluctuate\n<SIGNAL>PPDCIN_G3H</SIGNAL> steady ~16V\nReplaced <TRANSISTOR>Q7080</TRANSISTOR>/85 same thing"
+        },
+        {
+            "post_id": 72053,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-23 00:36:11",
+            "message": "Remove F7040 and check <CAPACITOR>C7040</CAPACITOR> voltage.\nCheck diode mode to ground at L7220/60."
+        },
+        {
+            "post_id": 72088,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-02-23 08:27:25",
+            "message": "With F7040 removed <CAPACITOR>C7040</CAPACITOR> voltage starts around 3.4V then drops down from there and loops around.\nDiode mode reading on L7220 is 0.140 and on L7260 is 0.425 both measured with F7040 removed."
+        },
+        {
+            "post_id": 72095,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-23 10:18:45",
+            "message": "Check diode mode at L7220 inverting multimeter probes.\nCompare with good board."
+        },
+        {
+            "post_id": 72245,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-02-25 07:08:00",
+            "message": "Compared with the other boards I have they are pretty much the same measurements."
+        },
+        {
+            "post_id": 72247,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-02-25 07:31:25",
+            "message": "Post <SIGNAL>AVREF_SMC</SIGNAL> voltage."
+        },
+        {
+            "post_id": 72619,
+            "thread_id": 60798,
+            "title": "<LOGIC BOARD PART NUMBER>820-2879</LOGIC BOARD PART NUMBER> PPBUS 1V",
+            "user_id": 2508,
+            "username": "No-Clean",
+            "post_date": "2021-03-04 11:57:20",
+            "message": "I found an old easier to repair same model board, I fixed that and gave it to my customer, I was pretty much over with this board."
+        }
+    ]
+}

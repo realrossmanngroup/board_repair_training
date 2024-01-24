@@ -1,0 +1,90 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "U7701": "What is U7701? a CHIP.",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "R7704": "What is R7704? a RESISTOR.",
+        "BKL_PWN": "What is BKL_PWN? a SIGNAL.",
+        "R7715": "What is R7715? a RESISTOR.",
+        "C7704": "What is C7704? a CAPACITOR.",
+        "EDP_BKLT_PWM": "What is EDP_BKLT_PWM? EDP_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKLT_PWM": "What is BKLT_PWM? BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKLT_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly.."
+    },
+    "threads": [
+        {
+            "post_id": 59118,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 5081,
+            "username": "sbergin",
+            "post_date": "2020-05-04 11:55:13",
+            "message": "I have an <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> that had some liquid damage. I have replaced a few components and now have normal behavior (fan-spin, image, proper rails, etc). Only issue is that backlight starts out at about 25V and slowly drops down to the non-boosted voltage as I measure it. I've tried multiple screens, and I replaced <CHIP>LP8550</CHIP>. I confirmed that the feedback line has continuity from Pin 5 on <CHIP>LP8550</CHIP> to the other side of the board near <DIODE>D7701</DIODE>. Any thoughts? Thanks!"
+        },
+        {
+            "post_id": 59122,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-04 14:21:23",
+            "message": "\"Pin 5 on <CHIP>LP8550</CHIP> to the other side of the board near <DIODE>D7701</DIODE>\"\nNot near; do you have contact with p?n K of <DIODE>D7701</DIODE>?\n\nWhat happen with <SIGNAL>BKL_EN</SIGNAL>/PWM?\nDid you try PRAM reset?\nDid you try known good LCD assembly?\n\nCheck all traces, resistors and resolder all them (around <CHIP>U7701</CHIP>); pay atention to <RESISTOR>R7704</RESISTOR> and the 6 return resistors."
+        },
+        {
+            "post_id": 59388,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 5081,
+            "username": "sbergin",
+            "post_date": "2020-05-11 14:14:20",
+            "message": "Sorry, yes. I have continuity between pin 5 on <DIODE>D7701</DIODE> and the boost side of <DIODE>D7701</DIODE>. <SIGNAL>BKL_EN</SIGNAL> is 2.85, <SIGNAL>BKL_PWN</SIGNAL> is 0.00 (both values are when screen is attached). All resistors measure within spec and traces look good"
+        },
+        {
+            "post_id": 59389,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 5081,
+            "username": "sbergin",
+            "post_date": "2020-05-11 14:17:53",
+            "message": "I've also tried PRAM zap and multiple known-good LCD assemblies"
+        },
+        {
+            "post_id": 59397,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-11 16:50:11",
+            "message": "\"<SIGNAL>BKL_PWN</SIGNAL> is 0.00 \"\nNot normal at all, check <RESISTOR>R7704</RESISTOR>.\nIf good, remove it and run a wire from <RESISTOR>R7715</RESISTOR> to <CAPACITOR>C7704</CAPACITOR>.\nTest if backlight appears."
+        },
+        {
+            "post_id": 59520,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 5081,
+            "username": "sbergin",
+            "post_date": "2020-05-13 09:55:50",
+            "message": "yes, that gives us backlight with the jumper in place. <RESISTOR>R7704</RESISTOR> tests fine... OK so what does this tell us? <SIGNAL>BKL_PWN</SIGNAL> is the source of the problem? Which means I have a CPU issue? I'm assuming I can't leave this jumper in place full time...\n\nFWIW with <RESISTOR>R7704</RESISTOR> removed <SIGNAL>EDP_BKLT_PWM</SIGNAL> measures 2.1M ohms to ground (no short), and I get about 2.4v on that line for a split second during POST. But then it quickly drops to 1.4v and then 0.0v."
+        },
+        {
+            "post_id": 59525,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 5081,
+            "username": "sbergin",
+            "post_date": "2020-05-13 11:12:13",
+            "message": "I just read the sticky on this topic, sorry for not finding it sooner. I see now why you suggested a PRAM zap...to reset what might have been a fully lowered brightness setting. So I guess I could leave the jumper in place if the owner approves the loss of brightness control. I am curious where the issue with <SIGNAL>BKLT_PWM</SIGNAL> actually lies, at least now I can dig a bit more on my own. Thanks SO MUCH for your guidance!"
+        },
+        {
+            "post_id": 59530,
+            "thread_id": 59118,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight boost",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 13:39:11",
+            "message": "Try again 2-3 PRAM resets.\nThen put back <RESISTOR>R7704</RESISTOR> and test.\nBe sure to have good solders on its pins!"
+        }
+    ]
+}

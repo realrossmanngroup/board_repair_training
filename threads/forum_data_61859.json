@@ -1,0 +1,80 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "U8130": "What is U8130? a CHIP.",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PP5V_S4RS3": "What is PP5V_S4RS3? PP5V_S4RS3 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "SPI_CS0_L": "What is SPI_CS0_L? a SIGNAL.",
+        "R6110": "What is R6110? a RESISTOR.",
+        "R8133": "What is R8133? a RESISTOR.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "3_L": "What is 3_L? a SIGNAL.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. ."
+    },
+    "threads": [
+        {
+            "post_id": 81560,
+            "thread_id": 61859,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> light on charge, no fan spin",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2021-10-19 04:03:06",
+            "message": "No liquid damage - light on charger, no fan spin.\n\n<SIGNAL>PP5V_S4RS3</SIGNAL> missing.\n\nGot connection between <RESISTOR>R6110</RESISTOR> and test pad <SIGNAL>SPI_CS0_L</SIGNAL>.\nAll resistors around BIOS chip looks fine and got correct resistance - all connections are OK as well. No water/corrosion.\n\n<CHIP>U8130</CHIP> are look good.\n<RESISTOR>R8133</RESISTOR> is OK\n\n<SIGNAL>3V3_S5</SIGNAL> - 3.3V\n<SIGNAL>3V3_SUS</SIGNAL> - 3.33V\n<SIGNAL>PM_BATLOW_L</SIGNAL> - 3.33V\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> - 3.42V\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> - 2.98V\n<SIGNAL>PM_RSMRST_L</SIGNAL> - 3.28V\n<SIGNAL>PM_PWRBTN_L</SIGNAL> - 3.41V\n\nAny idea?"
+        },
+        {
+            "post_id": 81564,
+            "thread_id": 61859,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> light on charge, no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-19 05:41:47",
+            "message": "Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\n\nBe sure no short to ground at L7520, nor other coil."
+        },
+        {
+            "post_id": 81599,
+            "thread_id": 61859,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> light on charge, no fan spin",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2021-10-20 05:04:30",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> drop from 3.41 to 0.33V, still no fan spin"
+        },
+        {
+            "post_id": 81600,
+            "thread_id": 61859,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> light on charge, no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-20 05:37:26",
+            "message": "Check for pulse at <SIGNAL>PM_SLP_S4</SIGNAL>/<SIGNAL>3_L</SIGNAL>, at same time."
+        },
+        {
+            "post_id": 81664,
+            "thread_id": 61859,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> light on charge, no fan spin",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2021-10-21 06:40:32",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> there is pulse from 0V to 1.4-2.2V\n<SIGNAL>PM_SLP_S3_L</SIGNAL> there is pulse from 0V to 1.2-2V\n\nThose pulses are not there every time when I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>"
+        },
+        {
+            "post_id": 82000,
+            "thread_id": 61859,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> light on charge, no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-30 02:49:15",
+            "message": "When you get pulse there, corresponding S3 and S0 voltages should pulse too.\nAlso check <SIGNAL>ALL_SYS_PWRGD</SIGNAL>, at same time.\n\nSorry for delay, I lost this thread somehow..."
+        }
+    ]
+}

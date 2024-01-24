@@ -1,0 +1,124 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "U8500": "What is U8500? a CHIP.",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP5V_S0SW_LCD": "What is PP5V_S0SW_LCD? a SIGNAL.",
+        "PP5V_SO": "What is PP5V_SO? PP5V_SO is a typo of PP5V_S0, which is a 5v power rail present when the machine is in an S0 working state. The person who typed PP5V_SO thought that the S0 in PP5V_S0 was SO, if you see PP5V_SO assume the user made a typo and meant to type PP5V_S0.",
+        "SMBUS_SMC_0_S0_SDA": "What is SMBUS_SMC_0_S0_SDA? SMBUS_SMC_0_S0_SDA is a data line between the system management controller(SMC), temperature sensors, GPU, and ALS(ambient light sensor). If this line is pulled down the machine may run slow or have the fans run fast all the time because the SMC can’t tell what the temperature of parts of the machine like fin stack are. Usual problem is bad webcam, unplug webcam to see if it fixes problem. .",
+        "I2C_BKLT_SIS": "What is I2C_BKLT_SIS? a SIGNAL.",
+        "I2CA_ALS_SDA": "What is I2CA_ALS_SDA? a SIGNAL.",
+        "I2C_CAM_SCL": "What is I2C_CAM_SCL? a SIGNAL.",
+        "ALSCAM_F": "What is ALSCAM_F? a SIGNAL.",
+        "EDP_INT": "What is EDP_INT? a SIGNAL.",
+        "U8510": "What is U8510? a CHIP.",
+        "U8501": "What is U8501? a CHIP.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "EDP_PANEL_PWR_EN": "What is EDP_PANEL_PWR_EN? EDP_PANEL_PWR_EN is necessary to enable the power rail that powers the LCD screen image circuitry. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "MIPI_DATA_CONN_P": "What is MIPI_DATA_CONN_P? a SIGNAL.",
+        "MIPI_CLK_CONN_N": "What is MIPI_CLK_CONN_N? a SIGNAL.",
+        "MIPI_CLK_CONN_P": "What is MIPI_CLK_CONN_P? a SIGNAL.",
+        "MIPI_DATA_CONN_N": "What is MIPI_DATA_CONN_N? a SIGNAL.",
+        "ML_N": "What is ML_N? a SIGNAL.",
+        "AUX_N": "What is AUX_N? a SIGNAL.",
+        "AUX_P": "What is AUX_P? a SIGNAL.",
+        "ML_N356": "What is ML_N356? a SIGNAL.",
+        "ML_P": "What is ML_P? a SIGNAL.",
+        "5V_S0SW_LCD": "What is 5V_S0SW_LCD? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 87994,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2022-03-28 00:30:11",
+            "message": "it’s a water damage\nThe screen connector is burnt in the screen clip side. So I decided to chang the screen connector flex and the screen.  , still  no display.\nI check the voltages on j8500\n<SIGNAL>PP3V3_S0</SIGNAL> is not present\n<SIGNAL>I2C_BKLT_SIS</SIGNAL> is 5v is present on pin 24 and 26\n<SIGNAL>SMBUS_SMC_0_S0_SDA</SIGNAL> is 3v3 is present on pin 28 and 30\n<SIGNAL>I2CA_ALS_SDA</SIGNAL>/scl 3v3 is present on pin 34 and 36\n<SIGNAL>I2C_CAM_SCL</SIGNAL>/sda 1.7 is present on pin 38 and 40.\n<SIGNAL>PP5V_SO</SIGNAL>-<SIGNAL>ALSCAM_F</SIGNAL> is present\n<SIGNAL>PP5V_S0SW_LCD</SIGNAL> is not present\nPls help me out.\nNo enable signal on both <CHIP>U8500</CHIP> and 8501"
+        },
+        {
+            "post_id": 87998,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-28 01:04:14",
+            "message": "Very likely CPU's eDP output was burnt.\nDo you get external video at least?\n\nPost diode mode to ground on all <SIGNAL>EDP_INT</SIGNAL> data lines (J8500)."
+        },
+        {
+            "post_id": 88008,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2022-03-28 01:57:42",
+            "message": "Ok. <SIGNAL>EDP_PANEL_PWR_EN</SIGNAL> not present on <CHIP>U8501</CHIP> 357\n<SIGNAL>AUX_N</SIGNAL> 365\n<SIGNAL>AUX_P</SIGNAL> 350\n<SIGNAL>ML_N356</SIGNAL>\n<SIGNAL>ML_N</SIGNAL><1> 337\n<SIGNAL>ML_P</SIGNAL><1> 338\n<SIGNAL>ML_N</SIGNAL><2> 357\nml_p_<2>374\nml_n_<3>339\nml_p_<3>347\n<SIGNAL>MIPI_DATA_CONN_N</SIGNAL> 1342\n<SIGNAL>MIPI_DATA_CONN_P</SIGNAL> 1305\n<SIGNAL>MIPI_CLK_CONN_N</SIGNAL> 1269\n<SIGNAL>MIPI_CLK_CONN_P</SIGNAL> 1267\nAm suspecting <CHIP>U8510</CHIP> not creating enable signals\n<SIGNAL>PP3V3_G3H</SIGNAL> is present\n<SIGNAL>PM_SLP_S3_L</SIGNAL> is present \n<SIGNAL>SMC_RESET_L</SIGNAL> is present \n<SIGNAL>EDP_PANEL_PWR_EN</SIGNAL> is missing"
+        },
+        {
+            "post_id": 88012,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-28 02:37:43",
+            "message": "\"Do you get external video at least?\"\n\nCheck diode mode to ground at 3V3/<SIGNAL>5V_S0SW_LCD</SIGNAL>, w/ and w/o LCD connected."
+        },
+        {
+            "post_id": 88017,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2022-03-28 03:04:54",
+            "message": "3v3 W/o- 572\n3v3 w - 336\n5v w/0- 571\n5v w -515"
+        },
+        {
+            "post_id": 88020,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-28 04:06:32",
+            "message": "How can we get correct replies from you?\nShould I write 3-4 times in the same post, to avoid more posts???\n\"Do you get external video at least?\"\n\nDid you even check for USB activity???"
+        },
+        {
+            "post_id": 88105,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2022-03-30 06:07:50",
+            "message": "No external video to external display, but cpu is getting warm."
+        },
+        {
+            "post_id": 88132,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-03-30 12:18:51",
+            "message": "Disconnect internal LCD and check again external video.\nAlso let us know if you get USB activity.\nPLEASE, do all test we recommend.\nThere is no reason to expect video, if no USB activity is detected."
+        },
+        {
+            "post_id": 88178,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 1166,
+            "username": "Soji",
+            "post_date": "2022-04-01 01:42:19",
+            "message": "Pls how will I know if there is  usb activities. How will I check \nI thought is just to check if there is display on the usd. Pls what will I do to check"
+        },
+        {
+            "post_id": 88185,
+            "thread_id": 62530,
+            "title": "<LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>-A no display",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-04-01 03:10:15",
+            "message": "[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]\nTake notes, when you find interesant information in the forum..."
+        }
+    ]
+}

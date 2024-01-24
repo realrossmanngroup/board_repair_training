@@ -1,0 +1,89 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7600": "What is U7600? a CHIP.",
+        "R7613": "What is R7613? a RESISTOR.",
+        "Q7630": "What is Q7630? a TRANSISTOR.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "CHGR_UGATE": "What is CHGR_UGATE? a SIGNAL.",
+        "CHGR_LGATE": "What is CHGR_LGATE? a SIGNAL.",
+        "Q7130": "What is Q7130? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 52832,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 5175,
+            "username": "tlough75",
+            "post_date": "2019-10-02 10:40:26",
+            "message": "OK, so I have an <LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> board that is taking 20 milliamps. I did a quick power on before I discovered a small amount of corrosion to the right of <CHIP>U7600</CHIP>. I checked the resistance of the 4 resistors, (8164, 7613, 7614 & 7610). all values check with the exception of <RESISTOR>R7613</RESISTOR> which measures 20K instead of 47.5K. I measured L7630 and found pin 1 to be shorted to ground. I'm assuming my options are: Replace <RESISTOR>R7613</RESISTOR> and check PPBUS after, Pull <TRANSISTOR>Q7630</TRANSISTOR> and check for short again or toss this POS in the donor pile. Just looking for suggestions before I bin it. BTW no fan spin but have light on the charger."
+        },
+        {
+            "post_id": 52833,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 5175,
+            "username": "tlough75",
+            "post_date": "2019-10-02 10:47:07",
+            "message": "I wonder if I got lucky, it looks like the shorted side of L7630 is not on the CPU side. would that be a correct assessment?"
+        },
+        {
+            "post_id": 52847,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 5281,
+            "username": "Milwaukee Mac Repair",
+            "post_date": "2019-10-02 13:50:40",
+            "message": "<CHIP>U7100</CHIP> would be my focus. Check V In @ pin 2 of <TRANSISTOR>Q7130</TRANSISTOR>. Now check <SIGNAL>CHGR_UGATE</SIGNAL> and <SIGNAL>CHGR_LGATE</SIGNAL> voltages. <SIGNAL>CHGR_LGATE</SIGNAL> should be 0.00x mV at most...while <SIGNAL>CHGR_UGATE</SIGNAL> should be same as <SIGNAL>PPBUS_G3H</SIGNAL> is expected to be. These are really pulsed DC averaged readings for the gates of the dual FET. Pull and read ohms to ground at pin 2 of F7140. Pump your OWN <SIGNAL>PPBUS_G3H</SIGNAL> voltage into pin 2 with your own power supply.and look for hot spot / gated short, spy the current draw / behavior. If you find that you need to replace your <CHIP>ISL6259</CHIP>: your stock of that chip is probably old. The contacts on the underside of the chip are not going to take to tinning well. Use an acidic flux on the contacts under the new <CHIP>ISL6259</CHIP>. Something like Rubyfluid. With small soldering pen and your own bismuth / tin low-melt no lead solder. I specify no-lead because lead wets flat, no - lead fills gaps nicely. Flow the chip into place, let it set. push tweezers onto top of chip when cold, reflow and squish out excess solder. Clean-up squished-out solder blobs with knife-edge tip with 220C air and fresh flux, wetting ends of all chip contacts to board pads nicely. That's a VERY picky and important chip!"
+        },
+        {
+            "post_id": 52856,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 5175,
+            "username": "tlough75",
+            "post_date": "2019-10-02 17:18:52",
+            "message": "So after cleaning & freshening up the solder joints on the 4 resistors by <CHIP>U7600</CHIP>, I now have a spinning fan as well as correct power rail voltages. Now I am going to reassemble and test the computer. Thanks!"
+        },
+        {
+            "post_id": 52858,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-02 17:39:20",
+            "message": "\"<SIGNAL>CHGR_UGATE</SIGNAL> should be same as <SIGNAL>PPBUS_G3H</SIGNAL> is expected to be.\"\nIs not the only one wrong assumption.\nThat MOSFET (like any other from a buck converter) requires 5V pulse between G-S; calculate again!\n\"These are really pulsed DC averaged readings for the gates of the dual FET\"\nYeah, 5V amplitude PWM G-S.\n\n\"<SIGNAL>CHGR_LGATE</SIGNAL> should be 0.00x mV at most\"\nRe-calculate this too.\n\nHowever, never need to check voltage on Gate pin of the MOSFETs from a buck converter.\n\n\"Pump your OWN <SIGNAL>PPBUS_G3H</SIGNAL> voltage into pin 2 with your own power supply\"\nPlease, co NOT recommend this to anybody else; snd STOP to do this yourself.\nToo many times has been explained on the forum how to (and how to NOT ) inject voltage on the <SIGNAL>PPBUS_G3H</SIGNAL>.\nIf you are ready to fry the CPU, do it on your risk!"
+        },
+        {
+            "post_id": 52869,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 5175,
+            "username": "tlough75",
+            "post_date": "2019-10-02 19:45:16",
+            "message": "Yeah i didn't do any of that. I cleaned the corrosion. The board started working. I put computer back together and started installing OS but before it could finish I got a black screen with text saying cpu could not finish instruction or kernal something... I restarted and now bar under Apple logo freezes and is showing like asliver of white. Drawing normal current though. Stupid me i should have taken a picture of the fault. Still learning"
+        },
+        {
+            "post_id": 52874,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-03 02:19:06",
+            "message": "Test if machine works good with USB OSX.\nIf not, try to clean ME region."
+        },
+        {
+            "post_id": 52910,
+            "thread_id": 52832,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> <SIGNAL>PPBUS_G3H</SIGNAL> @ 2.2v",
+            "user_id": 5175,
+            "username": "tlough75",
+            "post_date": "2019-10-03 10:25:18",
+            "message": "Will do that next"
+        }
+    ]
+}

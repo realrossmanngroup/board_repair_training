@@ -1,0 +1,187 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PPVIN_S4_TPAD": "What is PPVIN_S4_TPAD? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PM_SLP_SX_L": "What is PM_SLP_SX_L? a SIGNAL.",
+        "SLP_S4_L": "What is SLP_S4_L? a SIGNAL.",
+        "SLP_S5_L": "What is SLP_S5_L? SLP_S5_L is an abbreviation for PM_SLP_S5_L.",
+        "U0500": "What is U0500? a CHIP.",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "PM_PCH_SYS_PWROK": "What is PM_PCH_SYS_PWROK? a SIGNAL.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PM_SYSRST_L": "What is PM_SYSRST_L? PM_SYSRST_L is a system reset signal present when it is low, _L means the signal asserts itself when the voltage is low. This signal needs to be high for the system to exit reset mode & turn on properly. .",
+        "PM_PCH_APWROK": "What is PM_PCH_APWROK? a SIGNAL.",
+        "PCIE_WAKE_L": "What is PCIE_WAKE_L? a SIGNAL.",
+        "PCH_SUSACK_L": "What is PCH_SUSACK_L? a SIGNAL.",
+        "PM_CLKRUN_L": "What is PM_CLKRUN_L? a SIGNAL.",
+        "1V05_SUS": "What is 1V05_SUS? a SIGNAL.",
+        "PP1V05_SUS": "What is PP1V05_SUS? The PP1V05_SUS signal in the MacBook schematic is a power rail that supplies 1.05 volts, typically used in a suspended (SUS) state of the laptop. This state is a low-power mode where essential system functions are maintained, but the majority of the system is powered down..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "PP3V3_S0_FET": "What is PP3V3_S0_FET? a SIGNAL.",
+        "PP3V3_S4_TPAD": "What is PP3V3_S4_TPAD? a SIGNAL.",
+        "SLP_SX_L": "What is SLP_SX_L? a SIGNAL.",
+        "3V3_S0": "What is 3V3_S0? Abbreviation for PP3V3_S0, a 3.3v power rail present when the machine is in an S0 working state."
+    },
+    "threads": [
+        {
+            "post_id": 49507,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-27 06:20:34",
+            "message": "Hello,\nthis 820-494 is dead after the customer swapped a faulty trackpad cable. He did not removed the battery and as he want to plug it in he saw a spark on J4802 (the corrosponding connector at the trackpad - not at the board). So i guess he shorted <SIGNAL>PPVIN_S4_TPAD</SIGNAL> to GND. Now its dead and missing <SIGNAL>PM_SLP_S5_L</SIGNAL> and i dont really know where to start. The first missing rail is <SIGNAL>PP5V_S4</SIGNAL> not enabled by <SIGNAL>PM_SLP_S5_L</SIGNAL>..."
+        },
+        {
+            "post_id": 49508,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-27 10:09:55",
+            "message": "No S4 voltage present on board with only battery.\nUnless machine was in suspend state, closing the lid.\nNor even S5 voltage is present when machine is really turned off and charger is disconnected.\n\n<SIGNAL>3V42_G3H</SIGNAL> is present on battery only, but it doesn't go to J4802, but J4813.\nDo you get <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>3V42_G3H</SIGNAL> now?"
+        },
+        {
+            "post_id": 49510,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-27 11:08:04",
+            "message": "Yeah that makes sence. I?ll ask him if he turned it off...  3V42 and PPBUS present and steady."
+        },
+        {
+            "post_id": 49511,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-27 11:20:55",
+            "message": "Do you get Magsafe light?\nOriginal 60/85W Magsafe 2 charger used?\n\nPost <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>3V3_S5</SIGNAL>, <SIGNAL>3V3_SUS</SIGNAL>."
+        },
+        {
+            "post_id": 49512,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-27 11:30:48",
+            "message": "Magsafe working normally. Yes original 85W charger. \n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 3.39 V\n<SIGNAL>PM_BATLOW_L</SIGNAL> = 3.35 V\n<SIGNAL>3V3_S5</SIGNAL> = 3.34 V\n<SIGNAL>3V3_SUS</SIGNAL> = 3.33 V"
+        },
+        {
+            "post_id": 49515,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-27 14:08:49",
+            "message": "<SIGNAL>PM_RSMRST_L</SIGNAL> steady high?\n<SIGNAL>PM_PWRBTN_L</SIGNAL> reacts triggering <SIGNAL>SMC_ONOFF_L</SIGNAL> signal?\nIf yes, any pulse at one of <SIGNAL>PM_SLP_SX_L</SIGNAL> signals?"
+        },
+        {
+            "post_id": 49522,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-27 22:05:46",
+            "message": "<SIGNAL>PM_RSMRST_L</SIGNAL> is steady 3.3 V\n<SIGNAL>PM_PWRBTN_L</SIGNAL> goes down from 3.4 V to 0.35 V if i trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> ald stays low as long as i short <SIGNAL>SMC_ONOFF_L</SIGNAL>\nOn my scope i can see a pulse on <SIGNAL>SLP_S4_L</SIGNAL> a few seconds after plugging power in. But ist in mV scale. <SIGNAL>SLP_S5_L</SIGNAL> jummps up a few mV after plugging power in and stays there."
+        },
+        {
+            "post_id": 49523,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-28 02:04:54",
+            "message": "Test the board alone, without RIO board and TP/KB connected; also no battery.\nIt should start automatically when charger is connected.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> only to check signals reaction.\n\nCheck basic signals for <CHIP>U0500</CHIP> on page 13 (SYM 8 OF 19)."
+        },
+        {
+            "post_id": 49524,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-28 04:02:11",
+            "message": "All measurements are i took were with the board outside the case. \nI checked all the signals around <CHIP>U0500</CHIP> and here are the Signals that go in <CHIP>U0500</CHIP> (SYM 8 of 19):\n\n<SIGNAL>PCH_SUSACK_L</SIGNAL> = 3.3 V\n<SIGNAL>PM_SYSRST_L</SIGNAL> = 0 V\n<SIGNAL>PM_PCH_SYS_PWROK</SIGNAL> = 0 V\n<SIGNAL>PM_PCH_PWROK</SIGNAL> = 0 V\n<SIGNAL>PM_PCH_APWROK</SIGNAL> = 0 V\n<SIGNAL>PM_RSMRST_L</SIGNAL> = 3.3 V\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.42 V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 3.38 V\n<SIGNAL>PM_BATLOW_L</SIGNAL> = 3.33 V\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> = 3.24 V\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> = 3.42 V\n<SIGNAL>PCIE_WAKE_L</SIGNAL> = 3.33 V\n<SIGNAL>PM_CLKRUN_L</SIGNAL> = 0 V\n\nThere are a few missing that are critical..."
+        },
+        {
+            "post_id": 49529,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-28 11:47:18",
+            "message": "If <SIGNAL>PM_PWRBTN_L</SIGNAL> reacts triggering <SIGNAL>SMC_ONOFF_L</SIGNAL>, then <SIGNAL>PM_SLP_SX_L</SIGNAL> signals should react too.\nIf not, this looks like PCH issue.\n\nDo you get <SIGNAL>1V05_SUS</SIGNAL>?"
+        },
+        {
+            "post_id": 49536,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-28 23:28:56",
+            "message": "If i hold <SIGNAL>SMC_ONOFF_L</SIGNAL> shortet <SIGNAL>PM_PWRBTN_L</SIGNAL> seays at 0.35 V. Should the sleep signals stay up while i hold <SIGNAL>SMC_ONOFF_L</SIGNAL> shorted? Or just pulse? I cant see a reaction of the sleep signals... \n<SIGNAL>PP1V05_SUS</SIGNAL> is present."
+        },
+        {
+            "post_id": 49537,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-29 02:39:39",
+            "message": "<SIGNAL>PM_SLP_SX_L</SIGNAL> signals should all go high (steady), after pressing power button; same as triggering <SIGNAL>SMC_ONOFF_L</SIGNAL>.\nYou don't need to keep <SIGNAL>SMC_ONOFF_L</SIGNAL> low; just a temporary contact.\nAn o-scope can catch a fast 3V pulse on these signals.\nThat will mean PCH starts the power sequence.\nIf not, likely bad PCH.\n\nDid you try to start in SMC bypass mode?"
+        },
+        {
+            "post_id": 49564,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-30 02:23:36",
+            "message": "I cant see a pulse on my scope on the <SIGNAL>SLP_SX_L</SIGNAL> signals. Its also not turning on in SMC bypass mode. \nI also talked to the customer and he said that the charger was not attached but maybe it was just sleeping not turned off as he changed the cable. That would explain the spark on J4802.\nI checked the resistances of all rails as i could fix a few boards by comparing resistance values with other good boards and i think i found some shorts there. I did not checked these rails before as <SIGNAL>PP5V_S4</SIGNAL> was the first missing rail and it is not shorted... The following resistance values seem to low to me:\n\n<SIGNAL>PP3V3_SUS</SIGNAL>: 380 Ohm (i would expect kOhms here)\n<SIGNAL>PP3V3_S3</SIGNAL>: 1.1 Ohm\n<SIGNAL>PP3V3_S0</SIGNAL>: 1.2 Ohm\n<SIGNAL>PP3V3_S0_FET</SIGNAL>: 0.8 Ohm\n<SIGNAL>PP1V05_S0</SIGNAL>: 0.9 Ohm\n\nI am not sure how they all can go bad (maybe the short was on <SIGNAL>PP3V3_S4_TPAD</SIGNAL> killing other 3V3 rails?!) and where they all are connected to each other but eg. <SIGNAL>PP1V05_S0</SIGNAL> shorted would mean that the PCH is not turning on and explain why <SIGNAL>SLP_SX_L</SIGNAL> signals are not pulsing."
+        },
+        {
+            "post_id": 49566,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-30 02:40:03",
+            "message": "All these power rails have a common point, which is PCH.\nSome of them are low enough to inject voltage.\nRemove CPU heatsink and inject on <SIGNAL>3V3_S0</SIGNAL>/SUS; start with 1V and go up if needed.\nYou should be able to detect if PCH die gets hot."
+        },
+        {
+            "post_id": 49570,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-05-30 06:46:36",
+            "message": "Yeah that sound like trash"
+        },
+        {
+            "post_id": 49576,
+            "thread_id": 49507,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> dead after short on J4802",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-30 09:34:07",
+            "message": "Ok thank you. I'll check that and only get back to this of its not the PCH. But i think you are right..."
+        }
+    ]
+}

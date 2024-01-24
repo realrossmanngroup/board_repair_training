@@ -1,0 +1,52 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "A1708": "What is A1708? A1708 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2017, 2016 with EMC 3164, that may contain one of these boards depending on the year & configuration: 820-00840, 820-00875..",
+        "U2800": "What is U2800? a CHIP.",
+        "U3900": "What is U3900? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "P3V3S5_EN": "What is P3V3S5_EN? P3V3S5_EN is a signal that enables the power chip responsible for creating PP3V3_S5 when it is high. Signals with _EN mean that whatever is mentioned before the _EN will be enabled or turned on when the signal is high. .",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. ."
+    },
+    "threads": [
+        {
+            "post_id": 65912,
+            "thread_id": 60100,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 21359,
+            "username": "Fanfwe",
+            "post_date": "2020-10-01 13:05:17",
+            "message": "Hi,\nI have a board from an <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> which doesn't turn on. No trace of liquid spill.\nAt first, plugging in the charger gave me 5V only, and around 150mA of current draw.\nI figured out that my first issue was that it was missing <SIGNAL>PP3V3_G3H</SIGNAL>, and that was due to a short to ground (approx 2 Ohms)\nI was able to identify that the rail was shorted to ground by a chip... that is not present on the boardview... ( a rectangle QFN chip somewhere between <CHIP>U2800</CHIP> and <CHIP>U3900</CHIP>, right next to the USB-C connector).\nI replaced it by another one that came from a donor, and my <SIGNAL>PP3V3_G3H</SIGNAL> was happy again.\nBut still 5V on the charger...\nSo I replaced both CD3215s because I had no hint on which one was faulty.\nThen I was able to get 20V on the charger, but... current is somewhere jumping between 10mA and 30mA.\n<SIGNAL>PPBUS_G3H</SIGNAL> gives me a good 13V\nBut I get pulses on my <SIGNAL>PP3V3_S5</SIGNAL> rail.\nThe <SIGNAL>P3V3S5_EN</SIGNAL> enable signal also pulses.\nAnd this is where I'm stuck. That enable comes from the PMIC, but I am not much familiar with that circuit, and I'm not sure where to look.\nI would assume this is maybe an issue with current sense, or maybe something related to the PGOOD signals telling the PMIC that power is not good, and so, PMIC shutting down the rail.\nAny suggestion what to look at from this point ?"
+        },
+        {
+            "post_id": 65922,
+            "thread_id": 60100,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-01 16:15:36",
+            "message": "Try first starting in SMC bypass mode.\nOther big coils pulse at same time with <SIGNAL>3V3_S5</SIGNAL>?"
+        },
+        {
+            "post_id": 65965,
+            "thread_id": 60100,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 21359,
+            "username": "Fanfwe",
+            "post_date": "2020-10-02 09:44:21",
+            "message": "SMC bypass doesn't help.\nThe only other coil that pulses, besides <SIGNAL>3V3_S5</SIGNAL> is is L7030. All other coils read 0V."
+        },
+        {
+            "post_id": 65975,
+            "thread_id": 60100,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> not turning on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-02 14:52:03",
+            "message": "Do not check charger coil in this kind of buck/boost converter; is irrelevant, if you get stable <SIGNAL>PPBUS_G3H</SIGNAL>.\n\nCheck diode mode to ground on all other big coils."
+        }
+    ]
+}

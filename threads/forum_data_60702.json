@@ -1,0 +1,85 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4668": "What is 820-4668? a LOGIC BOARD PART NUMBER.",
+        "U7600": "What is U7600? a CHIP.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V0_S4": "What is PP5V0_S4? a SIGNAL.",
+        "NO_BOOT": "What is NO_BOOT? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "3V3_S4": "What is 3V3_S4? This is an abbreviation of PP3V3_S4, a 3.3v power rail when the machine is in an S4 state. .",
+        "3_L": "What is 3_L? a SIGNAL.",
+        "12V_S0_FET": "What is 12V_S0_FET? a SIGNAL.",
+        "Q8450": "What is Q8450? a TRANSISTOR.",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "5V_S4": "What is 5V_S4? This is an abbreviation of “PP5V_S4” – when you see this, assume the person typing it meant to type “PP5V_S4”.",
+        "C7656": "What is C7656? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 70965,
+            "thread_id": 60702,
+            "title": "*SOLVED*IMAC A1418 2014 <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2021-01-31 07:21:21",
+            "message": "Hello,\n\nI have a <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting, after a few measurements,  don't see obvious short or any heating.\nI have the 1st LED but when pressing power botton has no reaction.\n\nmy confusion is that in <SIGNAL>NO_BOOT</SIGNAL> state i have S5 state power rails(which i do have). but the board is pushing out <SIGNAL>PM_SLP_S5_L</SIGNAL>(3.3v) which is S4 enable before power button is pressed, Is this normal?\ni have <SIGNAL>PP3V3_S4</SIGNAL> but no <SIGNAL>PP5V0_S4</SIGNAL>. should i start my troubleshooting here? pin 24 of <CHIP>U7600</CHIP> is 3.1v but no <SIGNAL>PP5V0_S4</SIGNAL> output"
+        },
+        {
+            "post_id": 70966,
+            "thread_id": 60702,
+            "title": "*SOLVED*IMAC A1418 2014 <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-31 07:51:30",
+            "message": "\"i have <SIGNAL>PP3V3_S4</SIGNAL> ...  but no <SIGNAL>3V3_S4</SIGNAL> output\"\nWhat we should understand there???\n\nThe board must start by itself when power is connected.\nHowever, if stuck in S5, you can trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for reaction at <SIGNAL>PM_SLP_S4</SIGNAL>/<SIGNAL>3_L</SIGNAL> signals.\n\n<SIGNAL>12V_S0_FET</SIGNAL> pulse at least at the same time?\n<TRANSISTOR>Q8450</TRANSISTOR> is a common failure in these boards."
+        },
+        {
+            "post_id": 70972,
+            "thread_id": 60702,
+            "title": "*SOLVED*IMAC A1418 2014 <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2021-01-31 08:55:59",
+            "message": "typo there i i have <SIGNAL>PP3V3_S4</SIGNAL> but no <SIGNAL>PP5V0_S4</SIGNAL> even when pin 24 of <CHIP>U7600</CHIP> is enabled.\n\n<SIGNAL>SMC_ONOFF_L</SIGNAL>  can be triggered when power button is pressed. \n\nso seems i'm going past s5 state. i have <SIGNAL>PM_SLP_S4</SIGNAL> and S3.\n\n12v s0 is constant ON @12V, not pulsing."
+        },
+        {
+            "post_id": 70975,
+            "thread_id": 60702,
+            "title": "*SOLVED*IMAC A1418 2014 <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-31 11:40:34",
+            "message": "<SIGNAL>PM_SLP_S3_L</SIGNAL> stays high?\nThen various S0 voltages should be present.\n\nPost diode mode to ground at <SIGNAL>5V_S4</SIGNAL> (L7650)."
+        },
+        {
+            "post_id": 70978,
+            "thread_id": 60702,
+            "title": "*SOLVED*IMAC A1418 2014 <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2021-01-31 12:19:12",
+            "message": "Yes some of the s0 power rails are running except for those depending on the 5v rail.\n\nDiode mode reading is 0.165 done at L7650"
+        },
+        {
+            "post_id": 70982,
+            "thread_id": 60702,
+            "title": "*SOLVED*IMAC A1418 2014 <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-31 16:22:16",
+            "message": "Then change <CHIP>U7600</CHIP> and check all surrounding components and solders.\nPay atention to R/<CAPACITOR>C7656</CAPACITOR>."
+        },
+        {
+            "post_id": 71129,
+            "thread_id": 60702,
+            "title": "*SOLVED*IMAC A1418 2014 <LOGIC BOARD PART NUMBER>820-4668</LOGIC BOARD PART NUMBER> not booting",
+            "user_id": 29424,
+            "username": "donnos",
+            "post_date": "2021-02-04 01:21:18",
+            "message": "Changed <CHIP>U7600</CHIP> to resolve issue. Thank you for the guidance"
+        }
+    ]
+}

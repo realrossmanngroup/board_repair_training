@@ -1,0 +1,198 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "D6902": "What is D6902? a DIODE.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "PPVBAT_G3H_CHGR_R": "What is PPVBAT_G3H_CHGR_R? This is a power rail between the battery and a current sense resistor before the battery power feeds current to the rest of the machine. .",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "Q3100": "What is Q3100? a TRANSISTOR.",
+        "Q3200": "What is Q3200? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 68875,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-07 22:48:32",
+            "message": "Hi, when I connect the board to the usb c it makes the transition from 5v to 19.4v but is only getting .026 A. Don´t know where to start on this models... please help!"
+        },
+        {
+            "post_id": 68878,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-08 00:21:38",
+            "message": "Practically same signals and voltages like old boards, for power on sequence.\nBut now PMIC is involved too.\nDo you get <SIGNAL>3V3_S5</SIGNAL>/SUS?\nWhat about PCH's RTC signals?"
+        },
+        {
+            "post_id": 68903,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-08 12:20:32",
+            "message": "I don´t have <SIGNAL>PP3V3_G3H</SIGNAL>, there is a weird thing, on <DIODE>D6902</DIODE> at both pins I get low voltages going further down while powered on and with a .025A consumption.\nAnother weird thing is that I replaced <CHIP>U7000</CHIP> and while the board was still a little hot, it went to its normal .700A of consumption, I disconnected and changed to the other port and it just got .025A, then return to the same port in which it turned on and again getting .025A. What could be happening?? Should I inject voltage on that line to see if there is something wrong?\n\nUPDATE: waited a few minutes and connected it to the usb c port which worked the first time, it went to .700A, connected it to the other usb c and goes to .025A and 0A repeatedly. If I go back to the usb c which worked right away it starts doing the same behavior..."
+        },
+        {
+            "post_id": 68912,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-08 15:24:59",
+            "message": "Looks like something reacted to heat, when you've changed <CHIP>U7000</CHIP>.\nMaybe bad solders on it, or problems under other BGA chip.\n\nCan you post <DIODE>D6902</DIODE> voltages, when no <SIGNAL>3V3_G3H</SIGNAL> present?\nBetter to post also <CHIP>U6903</CHIP> voltages."
+        },
+        {
+            "post_id": 68931,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-08 17:02:40",
+            "message": "with .026A and no <SIGNAL>PP3V3_G3H</SIGNAL>\n<DIODE>D6902</DIODE>\nPIN 1 = 1.4v\nPIN 2 = .224\nBoth pins slowly going down....\n<CHIP>U6903</CHIP>\nPIN 1 = .100V (going down)\nPIN 2 = .1.100 (going down)\nPIN 3 = 0\nPIN 4 = 0\nPIN 5 = 0\nPIN 6 = 0\nPIN 7 = 0\nPIN 8 = 0\nPIN 9 = 0\nPIN 10= .080\n\nPicture 1 = Connected the usb c after a couple hours that I left the board on my desk\nPicture 2 = Disconnected the usb c and reconnected it a few seconds after it was on\n** values taken when it was at .026 A**\n\nNew discovery...\nwhen I connect the usb c it seems to charge some capacitor or something on the line  <SIGNAL>PPVBAT_G3H_CHGR_R</SIGNAL> because right when I disconnect the charger, if I measure for continuity on that line, it has continuity to ground but after a couple seconds it goes away and in that case the board will start on any of the usb c ports, I just need to make sure that the short is gone and if I connect it, it will work... I just don´t know how to figure what is making that happen..."
+        },
+        {
+            "post_id": 68940,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-09 01:22:08",
+            "message": "Looks like missing <RESISTOR>R7020</RESISTOR> voltage in that moment.\nSame behaviour on all USB-C ports?\nCompare diode mode readings on all input MOSFETs (<TRANSISTOR>Q3100</TRANSISTOR>, etc)."
+        },
+        {
+            "post_id": 68955,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-09 08:57:27",
+            "message": "DIODE MODE\n<TRANSISTOR>Q3100</TRANSISTOR>\n1,2,3,4 = .650\n5,6 = .180\n7,8 = .560\n<TRANSISTOR>Q3200</TRANSISTOR>\n1,2,3,4 = .650\n5,6 = .180\n7,8 = .560\nQB300\n1,2,3,4 = .650\n5,6 = .180\n7,8 = .560\nQB400\n1,2,3,4 = .650\n5,6 = .180\n7,8 = .560\n\nyes all usb c where doing the same, I started removing capacitors on the line <SIGNAL>PPVBAT_G3H_CHGR_R</SIGNAL> and now it hasn´t turned on it is only getting .025 A and down to 0 A again..."
+        },
+        {
+            "post_id": 68978,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-09 14:23:42",
+            "message": "Did you remove the caps with hot air?"
+        },
+        {
+            "post_id": 68992,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-09 20:56:52",
+            "message": "i did..."
+        },
+        {
+            "post_id": 68997,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-10 03:29:22",
+            "message": "The heat applied affected something else.\nYou should not touch that area..."
+        },
+        {
+            "post_id": 69006,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-10 08:05:15",
+            "message": "I mean I did that, but the board is having the same behavior that it used to have, it is at 19.5v .026A and nowhere to go from there... any advice?"
+        },
+        {
+            "post_id": 69013,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-10 10:42:21",
+            "message": "You've said board started before, after few seconds..."
+        },
+        {
+            "post_id": 69033,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-10 16:06:25",
+            "message": "so, nothing to do further?"
+        },
+        {
+            "post_id": 69043,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-11 03:27:10",
+            "message": "Still not sure what happens with <RESISTOR>R7020</RESISTOR> voltage at that moment..."
+        },
+        {
+            "post_id": 69092,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-12 16:14:22",
+            "message": "<RESISTOR>R7020</RESISTOR> = .500v (and loosing power...)"
+        },
+        {
+            "post_id": 69102,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-13 12:52:47",
+            "message": "Do you get at least 5V at <RESISTOR>R7020</RESISTOR> in that moment???"
+        },
+        {
+            "post_id": 69109,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-13 20:35:57",
+            "message": "Thanks for the patience vali!, ok, so when I connect the charger I get 5v inmediatly, whenever it does the transition to 19.4v it goes to 1v and then starts to drop..."
+        },
+        {
+            "post_id": 69118,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-14 04:15:43",
+            "message": "Did you try SMC bypass mode?"
+        },
+        {
+            "post_id": 69152,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 24760,
+            "username": "2click",
+            "post_date": "2020-12-14 15:35:31",
+            "message": "I don´t know how to do SMC bypass, if you would please send me a link on how to do it on those models I will really appreciate it... thank you!"
+        },
+        {
+            "post_id": 69165,
+            "thread_id": 60465,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> not turning getting .026 A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-15 04:52:16",
+            "message": "So many times explained on the forum.\nGoogle also can direct you to an official Apple instructions for sure..."
+        }
+    ]
+}

@@ -1,0 +1,100 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "U7700": "What is U7700? a CHIP.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "EDP_BKLT_PWM": "What is EDP_BKLT_PWM? EDP_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "R7700": "What is R7700? a RESISTOR.",
+        "Q7700": "What is Q7700? a TRANSISTOR.",
+        "D7710": "What is D7710? a DIODE.",
+        "BKLT_EN_R": "What is BKLT_EN_R? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. The “_R” suffix means that the signal is asserted when it is high, as in 3.3v, which is the opposite of the “_L”  suffix.",
+        "R7731": "What is R7731? a RESISTOR.",
+        "R7750": "What is R7750? a RESISTOR.",
+        "U3210": "What is U3210? a CHIP.",
+        "BKLT_SDA": "What is BKLT_SDA? BKLT_SDA is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "R7752": "What is R7752? a RESISTOR.",
+        "R7753": "What is R7753? a RESISTOR.",
+        "R7751": "What is R7751? a RESISTOR.",
+        "R7730": "What is R7730? a RESISTOR.",
+        "C8358": "What is C8358? a CAPACITOR.",
+        "A1502": "What is A1502? A1502 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2014, Late 2013, Early 2015 with EMC 2875, that may contain one of these boards depending on the year & configuration: 820-3476, 820-3536, 820-4924..",
+        "I2C_BKLT": "What is I2C_BKLT? I2C_BKLT is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight.."
+    },
+    "threads": [
+        {
+            "post_id": 91742,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2022-08-08 17:54:11",
+            "message": "Hello, <LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> with some water damage on the LVDS connector, replaced and still no backlight, pin 1 was frayed and bent, so I replaced it. That is the only known history on this board. Backlight circuit looks untouched.\n\nTested with a 100% known working display, and the display had the bad LVDS connector, both show same symptoms.\n\nDisplay is getting an image, tested with flashlight behind, flashing question mark folder shows.\n\nI get 0V on pin 1 of the LVDS connector, no short to ground on anything as far as I can tell. F7700 is good.\n\n<TRANSISTOR>Q7700</TRANSISTOR> has proper 12.6V on pin 4, pin 3 always has a little bit less voltage (around 12.0-12.1V). Pins 1,2,5,6 sometimes have voltage, sometimes dont, dont know if this is my shitty multimeter however im noticing <TRANSISTOR>Q7700</TRANSISTOR> does open but voltage will drop from around 6-8v to 0v slowly (visibly decreases on multimeter) never seen this so not too sure what it means. When I say slowly, I mean it fully decreases in no more than 15-20 seconds.\n\n<SIGNAL>LCDBKLT_EN_L</SIGNAL> is not being pulled down, otherside (<SIGNAL>BKLT_SD</SIGNAL>) is also 12V.\n\n<CHIP>U7700</CHIP> is getting 5V on pin 5.\n\n<SIGNAL>SMC_LID</SIGNAL> is 3.3V\n\n<SIGNAL>EDP_BKLT_PWM</SIGNAL> is 3.3V\n\n<RESISTOR>R7700</RESISTOR> and <CHIP>U7700</CHIP> have continuity on pins 9 and 10 with 3 and 4.\n\nStuck on this one, anymore info or needed voltages please let me know!\n\nedit: Also to clarify, 100% known these are both 2015 screens"
+        },
+        {
+            "post_id": 91745,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-09 01:06:15",
+            "message": "Apart of <SIGNAL>BKLT_EN_R</SIGNAL>, <CHIP>U7700</CHIP> requires correct communication through I2C bus with LCD screen.\nPCH sends the PWM signal to LCD assembly being encoded into T-CONN, going then to <CHIP>U7700</CHIP>.\nCheck <RESISTOR>R7750</RESISTOR>-53 and diode mode to ground on SCL/SDA lines.\n\nBe sure <DIODE>D7710</DIODE> is not shorted (A-K) and has good continuity until J8300.\nCheck <RESISTOR>R7731</RESISTOR>/2 and traces."
+        },
+        {
+            "post_id": 91762,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2022-08-09 13:59:47",
+            "message": "Diode mode to ground on SCL/SDA lines, red probe to ground.\n<RESISTOR>R7750</RESISTOR> - 0.530 (Measured again, goes to 0.526)\n<RESISTOR>R7751</RESISTOR> - 0.526\n<RESISTOR>R7752</RESISTOR> - 0.526\n<RESISTOR>R7753</RESISTOR> - 0.526\n\n<DIODE>D7710</DIODE> is not shorted, diode mode to ground reads 1.155 (pin 2), and 0.848 (pin 1). <DIODE>D7710</DIODE> has continuity to J8300.\n\nFeedback trace and <RESISTOR>R7731</RESISTOR> and <RESISTOR>R7730</RESISTOR> look good, no scratches, or water damage, or anything out of the ordinary.\n\n<RESISTOR>R7731</RESISTOR> reads 13.30 K Ohms\n<RESISTOR>R7730</RESISTOR> reads 149.2 K Ohms\n\nThese readings seem correct as im comparing them with a good board I have here.\n\nGoing to check continuity with I2C lines to display.\n\nI2C lines all have continuity throughout and going to J8300. Going to boot to OS to see if communication is happening with brightness keys.\n\nedit: Could this be a bad <CHIP>U7700</CHIP>? Also with further inspection, top left of back of the board was hit with water damage, <CHIP>U3210</CHIP> has 2 pins that were corroded, but not too bad, could one of those capacitors (<CAPACITOR>C8358</CAPACITOR>-59) possibly be causing communication issues if they got hit with water? No corrosion on them, they look fine though. edit 2: TP for <SIGNAL>BKLT_SDA</SIGNAL> looks like it possibly had some corrosion, or something is it, very very small though, doesnt affect continuity however, or any reading, just throwing this out there though."
+        },
+        {
+            "post_id": 91764,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-09 16:29:47",
+            "message": "I meant to check <RESISTOR>R7750</RESISTOR>-53 values in ohm; not diode mode to ground.\n\nShould be good to change <CHIP>U7700</CHIP>; just in case, nothing to lose.\nIt should pull down <SIGNAL>BKLT_SD</SIGNAL>, when has correct communication with T-CONN."
+        },
+        {
+            "post_id": 91766,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2022-08-09 16:53:18",
+            "message": "<RESISTOR>R7750</RESISTOR> - 0.5 Ohm\n<RESISTOR>R7751</RESISTOR> - 0.5 Ohm\n<RESISTOR>R7752</RESISTOR> - 1.5 K Ohm\n<RESISTOR>R7753</RESISTOR> - 1.6 K Ohm\n\nThese seem normal?\n\nWhen I booted to OS X, Ive noticed very weird symptoms. It also told me how old and used the machine is, battery has 1200+ cycles lol. \n\nOS X Registers brightness keys, and keyboard backlight brightness keys, Keyboard backlight does work, HOWEVER, when tilting the display 70 degrees or higher, brightness goes away, and keys do not register anymore (Circle sign) When putting it below 70 degrees it returns to normal. Display backlight is always out though. \n\nI thought the keyboard backlight connector was caught on a hinge somehow, or connection was weird, it wasnt. Keyboard backlight connector is completely normal, no tear, no rip, solid connection and only does it when the display is open higher than 70 degrees. Is this an ALS issue or something? Could this be related to the issues im having? Very wierd. System preferences and information both recognize the keyboard backlight and display perfectly fine too.\n\nIm going to replace <CHIP>U7700</CHIP> as these issues are very weird, and im suspect of this chip as everything else is perfectly normal.\n\nAlso last question, would a bad inductor (possibly L7710) cause any issues like this?"
+        },
+        {
+            "post_id": 91767,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-09 17:54:49",
+            "message": "I never heard about backlight inductor failure.\nDoesn't mean not possible.\n\nYou have flexgate problem.\nNot only backlight flex can suffer of this problem.\nSeems that (at least) camera flex is damaged in this case; ALS connection is affected."
+        },
+        {
+            "post_id": 91768,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2022-08-09 19:23:53",
+            "message": "I wonder if display is damaged internally then too? Very strange. This has basically been a very weird rabbit hole. I replaced <CHIP>U7700</CHIP> and still same issues. \n\nAny other advice?\n\nBacklight flex (Do you mean keyboard backlight cable) was not being bent however, in anyway. This is an <MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER>, I know 2016's and up suffer the same problem with display, however that is connected to the hinge, the keyboard backlight flex is not, only connected to the backlight itself, not flexing when the display is open or closed."
+        },
+        {
+            "post_id": 91774,
+            "thread_id": 62977,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-08-10 00:33:01",
+            "message": "Yeah, webcam is connected with wires here, as video too (no flex).\nIn fact, you've said have tested board with two good screens; shouldn't be video, or webcam cables issue.\n\nTried classic 2-3 times PRAM reset?\nBe sure any trace and component in the area is good.\n\nCheck if <SIGNAL>EDP_BKLT_PWM</SIGNAL> reacts when pressing backlight adjust keys.\nAn o-scope will help you to detect reaction on the <SIGNAL>I2C_BKLT</SIGNAL> bus at same time."
+        }
+    ]
+}

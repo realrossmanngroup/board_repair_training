@@ -1,0 +1,129 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3536": "What is 820-3536? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "D7010": "What is D7010? Diode between ground and gate of Q7010 on 2013-2015 year retina model macbook pros, necessary for Q7010 to allow PPDCIN_G3H to flow through to PP3V42_G3H power supply input. When this diode dies or corrodes, PP3V42_G3H input will not have any voltage, and chargers will not turn on. This can often be the problem if a system only works with a knockoff charger/bench power supply. .",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "ALL_SYS": "What is ALL_SYS? This is a typo of ALL_SYS_PWRGD When you see ALL_SYS, assume they meant to type ALL_SYS_PWRGD.",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_CLK32K_RTCX1": "What is PCH_CLK32K_RTCX1? a SIGNAL.",
+        "PPVOUT_S0_PCH_DCPRTC": "What is PPVOUT_S0_PCH_DCPRTC? a SIGNAL.",
+        "U8020": "What is U8020? a CHIP.",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER."
+    },
+    "threads": [
+        {
+            "post_id": 66266,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-10-07 14:42:48",
+            "message": "oo friend, I have this mac that is in contact with liquid, where the SMC was short I replaced it with a one removed from the donor plate, the tests are missing <SIGNAL>PPBUS_G3H</SIGNAL> and <SIGNAL>PP3V42_G3H</SIGNAL>.  I tested 17/18 27/28 of the <CHIP>U7100</CHIP> is ok."
+        },
+        {
+            "post_id": 66321,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-08 14:12:20",
+            "message": "Do you get voltage at F7005?\nIf not, try fake charger, or lab PSU.\nIf works, check <DIODE>D7010</DIODE> and <TRANSISTOR>Q7180</TRANSISTOR>."
+        },
+        {
+            "post_id": 66519,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-10-13 07:52:15",
+            "message": "F7005 20.4V;\n\nmac did not connect with fake magSafe.\n\nNo power, Green/orange light . I changed the SMC, because it was short, I used a 3476 board\n\nVoltage:\n<SIGNAL>PPBUS_G3H</SIGNAL> 12.6V; PP3V42 3.42V; PPVRTC 3.34V; <SIGNAL>PM_BATLOW_L</SIGNAL> 3.34v; <SIGNAL>ALL_SYS</SIGNAL> 0V; <SIGNAL>PP3V3_SUS</SIGNAL> 0v; <SIGNAL>SMC_RESET_L</SIGNAL> 3.34v;  <SIGNAL>PM_BATLOW_L</SIGNAL> 3.34V; Vcore 0v; <SIGNAL>PP5V_S5</SIGNAL> 5.03V.\n\n- <CHIP>U6100</CHIP> All pins with 0V.\n - Does not accept SMC deviation.\n- Reverse diode mode <SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>, <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> respectively 0.557 and 0.560.\nwithout USB activity"
+        },
+        {
+            "post_id": 66528,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-13 11:42:04",
+            "message": "Post <SIGNAL>3V3_S5</SIGNAL>/SUS, <SIGNAL>S5_PWRGD</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL>, <SIGNAL>SMC_ONOFF_L</SIGNAL>, <SIGNAL>PM_RSMRST_L</SIGNAL>, <SIGNAL>PM_PWRBTN_L</SIGNAL>."
+        },
+        {
+            "post_id": 66536,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-10-13 13:27:55",
+            "message": "<SIGNAL>3V3_S5</SIGNAL>/SUS = 3.34v   /  0V\n <SIGNAL>S5_PWRGD</SIGNAL> = 3.31V\n <SIGNAL>PM_DSW_PWRGD</SIGNAL> = 3.41V \n <SIGNAL>PCH_DSWVRMEN</SIGNAL> = 3.07V\n<SIGNAL>SMC_ONOFF_L</SIGNAL> = 3.41V\n<SIGNAL>PM_RSMRST_L</SIGNAL> = 0V\n <SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.41V"
+        },
+        {
+            "post_id": 66548,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-13 17:39:21",
+            "message": "So missing <SIGNAL>PM_SLP_SUS_L</SIGNAL>.\nCheck all PCH's RTC signals."
+        },
+        {
+            "post_id": 66567,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 24223,
+            "username": "iClub",
+            "post_date": "2020-10-14 05:27:09",
+            "message": "<SIGNAL>PPVRTC_G3H</SIGNAL> 3.34v\n<SIGNAL>PPVOUT_S0_PCH_DCPRTC</SIGNAL> 1.36V\n<SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> 0.45V\n<SIGNAL>RTC_RESET_L</SIGNAL> 3.33v \n<SIGNAL>PCH_SRTCRST_L</SIGNAL> 3.33v\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> 3.34v"
+        },
+        {
+            "post_id": 66570,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-14 06:08:50",
+            "message": "<SIGNAL>PCH_INTRUDER_L</SIGNAL>, <SIGNAL>PCH_INTVRMEN</SIGNAL>, are not them connected to PCH's RTC block???\n\n\"<SIGNAL>PM_SLP_SUS_L</SIGNAL> 3.34v\"\nThen <SIGNAL>3V3_SUS</SIGNAL> MUST be present too.\nCheck it on diode mode and post <CHIP>U8020</CHIP> voltages."
+        },
+        {
+            "post_id": 66584,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 1427,
+            "username": "Narek",
+            "post_date": "2020-10-14 12:24:25",
+            "message": "[USER=682]@2informaticos[/USER] , I’m wondering if SMC from <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> will be compatible with <LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER>?"
+        },
+        {
+            "post_id": 66593,
+            "thread_id": 60146,
+            "title": "<LOGIC BOARD PART NUMBER>820-3536</LOGIC BOARD PART NUMBER> no <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-14 15:12:31",
+            "message": "Yes, it is..."
+        }
+    ]
+}

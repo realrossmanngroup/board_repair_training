@@ -1,0 +1,107 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00850": "What is 820-00850? a LOGIC BOARD PART NUMBER.",
+        "U7800": "What is U7800? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP5V_G3S": "What is PP5V_G3S? PP5V_G3S is a 5v power rail present when the system is in a G3S standby state.",
+        "PP3V3_G3H_RTC": "What is PP3V3_G3H_RTC? PP3V3_G3H_RTC Is one of the first rails that has to come on in order for the USB-C mux chip to be powered in the T2 chip Macbook Pros..",
+        "PP3V3_S4SW_SNS": "What is PP3V3_S4SW_SNS? a SIGNAL.",
+        "P5VG3S_EN": "What is P5VG3S_EN? This signal enables the PP5V_G3S power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PP3V3_G3S": "What is PP3V3_G3S? PP3V3_G3S is a 3.3v power rail present when the machine is in a G3S standby state. .",
+        "P3V3G3S_EN": "What is P3V3G3S_EN? P3VG3S_EN is a signal that turns on the PP3V3_G3S power rail. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "USBC_XA_CC1": "What is USBC_XA_CC1? a SIGNAL.",
+        "USBC_XA_CC2": "What is USBC_XA_CC2? USBC_XA_CC2 is a line between the USB-C muxing chip such as the CD3217 or CD3215 and the USB-C charger. Communication must happen on this line in order for the USB-C charger to put out 20v..",
+        "USBC_XB_CC1": "What is USBC_XB_CC1? USBC_XB_CC1 is a line between the USB-C muxing chip such as the CD3217 or CD3215 and the USB-C charger. Communication must happen on this line in order for the USB-C charger to put out 20v..",
+        "USBC_XB_CC2": "What is USBC_XB_CC2? USBC_XB_CC2 is a line between the USB-C muxing chip such as the CD3217 or CD3215 and the USB-C charger. Communication must happen on this line in order for the USB-C charger to put out 20v..",
+        "USBC_TB_CC2": "What is USBC_TB_CC2? USBC_TB_CC2 is a line between the USB-C muxing chip such as the CD3217 or CD3215 and the USB-C charger. Communication must happen on this line in order for the USB-C charger to put out 20v..",
+        "USBC_TA_CC1": "What is USBC_TA_CC1? a SIGNAL.",
+        "USBC_TA_CC2": "What is USBC_TA_CC2? a SIGNAL.",
+        "USBC_TB_CC1": "What is USBC_TB_CC1? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 77251,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 28415,
+            "username": "Rlab",
+            "post_date": "2021-07-01 07:33:46",
+            "message": "Hi guys, \nI got this mac with a little water damage in the QB631 area and RB641 & RB631 were replaced. \nI have 20v in DCIN only with the battery connected but it does not turn on. without the battery DCIN  has 5V and all LDOs are present.\n\nchecking without battery i have:\n<SIGNAL>PPBUS_G3H</SIGNAL> 12.28 V\n<SIGNAL>PP5V_G3S</SIGNAL> 0.033 V\n<SIGNAL>P5VG3S_EN</SIGNAL> 0.0 V\n<SIGNAL>PP3V3_G3H_RTC</SIGNAL> 3.3 V\n<SIGNAL>PP3V3_G3H</SIGNAL> 3.3 V\n<SIGNAL>PP3V3_S4SW_SNS</SIGNAL> 0.0\n<SIGNAL>PP3V3_G3S</SIGNAL> 0.0\n<SIGNAL>P3V3G3S_EN</SIGNAL> 0.0\n\nNo shorts..\n\nbad <CHIP>U7800</CHIP>?\nany ideas?"
+        },
+        {
+            "post_id": 77255,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-01 08:41:36",
+            "message": "12.28V at USB-C input denotes a communication problem between T2 and <CHIP>CD3215</CHIP> chips.\n\nAll USB-C ports have the same behaviour?\nCompare diode mode readings for LDO rails of all <CHIP>CD3215</CHIP> chips; also for CC1/2 pins.\n\nSee if you can get into DFU mode."
+        },
+        {
+            "post_id": 77257,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 28415,
+            "username": "Rlab",
+            "post_date": "2021-07-01 08:53:34",
+            "message": "yeap, all USB-C ports have the same behavior. 20V with battery and charger only 5V just charger.\nno shorts found, all diode mode readings are ok in LDOs.\n\nCC1/2 pins.  ?  what is it?\nanything else to check before the T2 firmware ?"
+        },
+        {
+            "post_id": 77260,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-01 09:10:08",
+            "message": "CC1/2 means CC1 AND CC2."
+        },
+        {
+            "post_id": 77262,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 28415,
+            "username": "Rlab",
+            "post_date": "2021-07-01 09:34:02",
+            "message": "<SIGNAL>USBC_XA_CC1</SIGNAL> 0.569\n<SIGNAL>USBC_XA_CC2</SIGNAL> 0.562\n\n<SIGNAL>USBC_TA_CC1</SIGNAL> 0.566\n<SIGNAL>USBC_TA_CC2</SIGNAL> 0.572\n\n<SIGNAL>USBC_TB_CC1</SIGNAL> 0.559\n<SIGNAL>USBC_TB_CC2</SIGNAL> 0.565 \n\n<SIGNAL>USBC_XB_CC1</SIGNAL> 0.557\n<SIGNAL>USBC_XB_CC2</SIGNAL> 0.563\n\nwhat do you think?"
+        },
+        {
+            "post_id": 77263,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-01 11:48:51",
+            "message": "Not too big differences.\nDo you get 1V1 LDO on each powered USB-C port?"
+        },
+        {
+            "post_id": 77377,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 28415,
+            "username": "Rlab",
+            "post_date": "2021-07-04 09:13:42",
+            "message": "yes, i have all LDOs present, 3.3 1.8 (X2) and 1.1 ( on each port where power is connected)\n\nWhat could be the reason for 20V in DCIN when battery and charger connected but 5V with only the charger connected?"
+        },
+        {
+            "post_id": 77379,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-04 12:03:57",
+            "message": "Did you try DFU?"
+        },
+        {
+            "post_id": 77407,
+            "thread_id": 61386,
+            "title": "<LOGIC BOARD PART NUMBER>820-00850</LOGIC BOARD PART NUMBER> 5V DCIN all LDOs present",
+            "user_id": 28415,
+            "username": "Rlab",
+            "post_date": "2021-07-05 09:06:27",
+            "message": "2informaticos !!!!\nmil gracias !!!\n\nSo the T2 firmware fix procedure did the magic.\nThis mac is now up and running. :geek:"
+        }
+    ]
+}

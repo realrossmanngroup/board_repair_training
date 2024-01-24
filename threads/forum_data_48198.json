@@ -1,0 +1,149 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "R7185": "What is R7185? a RESISTOR.",
+        "R7180": "What is R7180? a RESISTOR.",
+        "PPBUS_G2H": "What is PPBUS_G2H? a SIGNAL.",
+        "R7186": "What is R7186? a RESISTOR.",
+        "R7181": "What is R7181? a RESISTOR.",
+        "R7120": "What is R7120? a RESISTOR.",
+        "CHGR_AGATE_DIV": "What is CHGR_AGATE_DIV? a SIGNAL.",
+        "CHGR_SGATE_DIV": "What is CHGR_SGATE_DIV? a SIGNAL.",
+        "CHGR_SGATE": "What is CHGR_SGATE? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 48198,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-05 20:06:23",
+            "message": "I think I had a bad charger that killed several boards the same way. I first found a short in <CHIP>ISL6259</CHIP> on <SIGNAL>CHGR_ACIN</SIGNAL>, which was cleared after changing the ISL. The short is gone, but I am still not getting any ppbus. I have a resistance of about 20ohms between pin 27 and 28. I have about 4ohms between pin 17 and 18. I think I have found an abnormality, I am not getting any current passed through <TRANSISTOR>Q7180</TRANSISTOR>. I think the reason is the <SIGNAL>CHGR_AGATE</SIGNAL> is passing over 16v. On a working board <SIGNAL>CHGR_AGATE</SIGNAL> is 0v. Since <TRANSISTOR>Q7180</TRANSISTOR> is a p channel mosfet, I think it needs low voltage on the gate to turn on. It seems like <CHIP>ISL6259</CHIP> is putting out high voltage on <SIGNAL>CHGR_AGATE</SIGNAL> when in needs to be low. Any suggestions?"
+        },
+        {
+            "post_id": 48204,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-06 03:11:35",
+            "message": "Check first resistance to ground at <SIGNAL>PPBUS_G3H</SIGNAL>; diode mode, red probe to ground.\nPost exact value for <RESISTOR>R7180</RESISTOR>/81 and <RESISTOR>R7185</RESISTOR>/86, measured onboard.\nAlso need voltages for <CHIP>U7100</CHIP>; pins 2, 3, 9, 19, 20."
+        },
+        {
+            "post_id": 48209,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-06 08:30:40",
+            "message": "I will verify those reading for you when I get back to the shop. \n\nAm I correct in my reasoning that the gate, <SIGNAL>CHGR_AGATE</SIGNAL>, needs to have a low voltage to turn on mosfet 7180 and that fact it is high is a problem? Helping me with these extra questions helps my general understanding and helps me learn."
+        },
+        {
+            "post_id": 48219,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-06 17:09:36",
+            "message": "I personally find it more beneficial to help me understand concepts than fixing the actual board"
+        },
+        {
+            "post_id": 48227,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-07 11:11:05",
+            "message": "As you requested:\n<SIGNAL>PPBUS_G2H</SIGNAL> resistance to ground   610ohm  .123 diode mode\n<RESISTOR>R7180</RESISTOR> 99k\n<RESISTOR>R7181</RESISTOR> 62k\n<RESISTOR>R7185</RESISTOR> 470k\n<RESISTOR>R7186</RESISTOR> 300k\n\n<CHIP>ISL6259</CHIP>\npin2 15.1v\npin3 4v\npin9 .04v\npin19 5.46v\npin20 5.46v\n\nMay I ask a question? Is <SIGNAL>CHGR_AGATE</SIGNAL> with its high voltage stopping <TRANSISTOR>Q7180</TRANSISTOR> from turning on? From what I think I understand about mosfets, that seems to be an issue. Is my understanding of this correct?"
+        },
+        {
+            "post_id": 48230,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-07 17:57:39",
+            "message": "Yeah, P-channel MOSFET requires negative G-S voltage (Vgs<0).\n\n123 in diode mode (red probe to ground) is Ok for <SIGNAL>PPBUS_G3H</SIGNAL>.\nBut you cannot get 600 ohms there; kohms maybe...\nCheck for short to ground at <RESISTOR>R7120</RESISTOR>.\nAlso be sure, no short between <RESISTOR>R7120</RESISTOR> and L7130.\nIf all OK, replace <CHIP>U7100</CHIP>.\nRemove F7140 and see if get voltage at L7130."
+        },
+        {
+            "post_id": 48256,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-08 08:35:22",
+            "message": "I was double checking my resistance reading on <SIGNAL>PPBUS_G3H</SIGNAL> and I got .610 kohm, which I think is equal to 610 ohms. I also get this same reading on a known good board. That seems to be a good reading, but I may be doing something incorrectly, which happens more than I would like to admit.\n\nno short between <RESISTOR>R7120</RESISTOR> and l7130\nno short to ground on <RESISTOR>R7120</RESISTOR>\nI removed f7140 because you asked and even though I don't think we have a short. It did not help\n\nI have not yet replaced <CHIP>U7100</CHIP> a SECOND TIME, which I can if you think it is needed. Would you like me to do that?\n\nDo you know what conditions would cause <SIGNAL>CHGR_AGATE</SIGNAL> not to be low like we need it? To my novice understanding, this seems to be the problem"
+        },
+        {
+            "post_id": 48257,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-08 09:20:12",
+            "message": "If ACIN is OK, <CHIP>ISL6259</CHIP> should open <TRANSISTOR>Q7180</TRANSISTOR>; if no short at <RESISTOR>R7120</RESISTOR>, of course.\nBut <TRANSISTOR>Q7180</TRANSISTOR> could be bad.\nResistor readings do not point to <TRANSISTOR>Q7180</TRANSISTOR> leakage, but change it just in case."
+        },
+        {
+            "post_id": 48258,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-08 11:03:28",
+            "message": "Thank you 2informaticos for spending this extra time explaining stuff. I am asking the following question to understand, not argue. Before replacing <TRANSISTOR>Q7180</TRANSISTOR> don't we first need to get the enable fixed? On a working board both <SIGNAL>CHGR_AGATE_DIV</SIGNAL> and <SIGNAL>CHGR_SGATE_DIV</SIGNAL> are about 6.5 volts. On this unworking board, they are 15.8v and 12v. The specs for the mosfet are about 2v for the gate threshold. Until we figure out the gate issue, should we even worry about the mosfet? Then my logic is since we changed <CHIP>U7100</CHIP> already it may one of its inputs causing the issue. I will change <TRANSISTOR>Q7180</TRANSISTOR> just in case"
+        },
+        {
+            "post_id": 48259,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-08 11:19:52",
+            "message": "\"I am not getting any current passed through <TRANSISTOR>Q7180</TRANSISTOR>\"\nI'm wondering how do you get 12V at <SIGNAL>CHGR_SGATE_DIV</SIGNAL>, if no voltage at <RESISTOR>R7120</RESISTOR> available.\nUnless <TRANSISTOR>Q7180</TRANSISTOR> is bad, or <CHIP>U7100</CHIP>...\n\n\"we first need to get the enable fixed?\"\n<CHIP>U7100</CHIP> controls <TRANSISTOR>Q7180</TRANSISTOR>."
+        },
+        {
+            "post_id": 48266,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-08 13:24:55",
+            "message": "[QUOTE=\"2informaticos, post: 48259\"]\nI'm wondering how do you get 12V at <SIGNAL>CHGR_SGATE_DIV</SIGNAL>, if no voltage at <RESISTOR>R7120</RESISTOR> available.\n.[/QUOTE]\n\nI think I follow you. Even if <SIGNAL>CHGR_AGATE_DIV</SIGNAL> is not turning on, but with 12 volts at <SIGNAL>CHGR_SGATE</SIGNAL> you should get something coming out of the <TRANSISTOR>Q7180</TRANSISTOR>."
+        },
+        {
+            "post_id": 48267,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-08 14:19:36",
+            "message": "changed <TRANSISTOR>Q7180</TRANSISTOR>, <CHIP>U7100</CHIP>, and <RESISTOR>R7185</RESISTOR>(just because). Still high voltage on <SIGNAL>CHGR_AGATE_DIV</SIGNAL>.\n\nedit added later//\nlet me double check all of the information I gave you. I think I may have made some mistakes"
+        },
+        {
+            "post_id": 48269,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-04-08 15:35:02",
+            "message": "I double checked everything and the numbers I gave you seem correct. I also switched <RESISTOR>R7186</RESISTOR>. From what I can tell it seems like <CHIP>U7100</CHIP> is not pulling the voltage down on <SIGNAL>CHGR_AGATE</SIGNAL>."
+        },
+        {
+            "post_id": 48271,
+            "thread_id": 48198,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> no ppbus",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-08 18:24:39",
+            "message": "<SIGNAL>CHGR_AGATE</SIGNAL> should be pulled down first.\nIf not, NO voltage possible to arrive at <RESISTOR>R7120</RESISTOR>.\n\nSecond part of <TRANSISTOR>Q7180</TRANSISTOR> is always ON, through internal diode; even if <SIGNAL>CHGR_SGATE</SIGNAL> is high.\n\nPost other voltages for <CHIP>U7100</CHIP>, apart of above mentioned.\nPins 6, 9, 12, 13, 14, 15, 17/18, 25, 27/28.\nIf similar board available, compare diode mode readings on all pins of <CHIP>U7100</CHIP> and other surrounding points..."
+        }
+    ]
+}

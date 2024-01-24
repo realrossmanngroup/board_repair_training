@@ -1,0 +1,52 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2883": "What is 820-2883? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP1V5_S3": "What is PP1V5_S3? a SIGNAL.",
+        "PP18V5_G3H": "What is PP18V5_G3H? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence.."
+    },
+    "threads": [
+        {
+            "post_id": 94310,
+            "thread_id": 63316,
+            "title": "A1342 <LOGIC BOARD PART NUMBER>820-2883</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2022-11-24 06:20:04",
+            "message": "Hi,\n\nI have an A1342 <LOGIC BOARD PART NUMBER>820-2883</LOGIC BOARD PART NUMBER>-A with no power. I have green light, but no fan spin, and it only pulls 0.15A on bench PSU.\n\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.382V\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.59V\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.310V\nPP1V1R1V05_S5 = 1.0V\n<SIGNAL>PP18V5_G3H</SIGNAL> = 19.9V (using 20V on PSU)\n<SIGNAL>PP1V5_S3</SIGNAL> = 0V\n<SIGNAL>PP5V_S3</SIGNAL> = 0V\n\nI think L7560 is shorted (0.008 diode reading), but I'm not sure...\n\nCan you help?"
+        },
+        {
+            "post_id": 94311,
+            "thread_id": 63316,
+            "title": "A1342 <LOGIC BOARD PART NUMBER>820-2883</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-24 06:45:44",
+            "message": "MCP core has low resistance to ground as normal.\n\nCheck resistance to ground at L6995 (ohm scale); should be higher than 30K.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL>, at same time.\n\nBTW, why do you like to test 60W machines with 20V?\nDo you still expect to find a machine where VD0R will be triggered and you'll waste time for nothing on it?"
+        },
+        {
+            "post_id": 94319,
+            "thread_id": 63316,
+            "title": "A1342 <LOGIC BOARD PART NUMBER>820-2883</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2022-11-24 09:17:21",
+            "message": "Well, I test all machines with 20V, because of lack of knowledge. I never know what the consumption of each machine is for sure, and I thought it was nothing very serious in macbooks.  I will be more careful .\n\nL6995 has 50K ohm to ground, and I have a drop pulse on  <SIGNAL>PM_PWRBTN_L</SIGNAL>  when trigering  <SIGNAL>SMC_ONOFF_L</SIGNAL>\n\nIt seams that the problem is the power button...\n\nTKS"
+        },
+        {
+            "post_id": 94323,
+            "thread_id": 63316,
+            "title": "A1342 <LOGIC BOARD PART NUMBER>820-2883</LOGIC BOARD PART NUMBER>-A no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-11-24 13:24:22",
+            "message": "<SIGNAL>PM_PWRBTN_L</SIGNAL> doesn't drop when pressing power button from keyboard?\n\n\"Well, I test all machines with 20V, because of lack of knowledge. I never know what the consumption of each machine is for sure\"\nEach charger has the output voltage marked on it, depending on its power."
+        }
+    ]
+}

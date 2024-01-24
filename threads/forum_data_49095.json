@@ -1,0 +1,212 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3209": "What is 820-3209? a LOGIC BOARD PART NUMBER.",
+        "U5750": "What is U5750? a CHIP.",
+        "R5755": "What is R5755? a RESISTOR.",
+        "42_G3H": "What is 42_G3H? a SIGNAL.",
+        "SMC_SYS_KBDLED": "What is SMC_SYS_KBDLED? a SIGNAL.",
+        "R5853": "What is R5853? a RESISTOR.",
+        "3V3_S0": "What is 3V3_S0? Abbreviation for PP3V3_S0, a 3.3v power rail present when the machine is in an S0 working state."
+    },
+    "threads": [
+        {
+            "post_id": 49095,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-12 02:39:23",
+            "message": "Hello,\nthis <LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> was waterdamaged and dead. I fixed it (including a new SMC) and now everything except keyboard backlight works fine. \nIf i dont cover the light sensor i cant adjust the kayboard backlight brightness. If i cover it i can lower and raise the keyboard brightness. So i guess SMC communication works. I get 4.96 V at J5715. So its not boosting i guess. The problem is that i cant find any problem. Everything seems to be ok. I get 5.12 V at Pin 2 and 7 of <CHIP>U5750</CHIP> and 4.96 V at pin 1. Pin 3 is ~ 0.16 V (dont know if thats ok but as i mentioned SMC communication seems to work fine). <RESISTOR>R5755</RESISTOR> is ~10 Ohms (multimeter slowly counting down...). Feedback (pin 6) is connected to GND. I am not sure if thats right but schematic says that J5815 pin 1 is grounded on keyboard backlight flex... I changed <CHIP>U5750</CHIP> already (originally there was some corrosion near it so i gave it a try) but no change. No matter what brightness i set it to its always stuck at 4.96 V. And of course i tested another keyboard backlight modul but also no light...  So i am stuck here."
+        },
+        {
+            "post_id": 49098,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-12 04:01:46",
+            "message": "Compare diode mode readings (to ground) with other Air board; keyboard backlight circuit should be similar.\nAs you had corrosion in that area, check all traces around <CHIP>U5750</CHIP>.\nSwap the components from other board, just in case..."
+        },
+        {
+            "post_id": 49100,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-12 06:12:37",
+            "message": "I did a lot of testing and as fas as i understand the SMC dataline should be 0V is KBDBKL is off and 3 V to 3.3 V is on (depending on brightness and just in a OS). So 0.18 V is no valide state. Diode mode readings are identical with 2 other boards... Is it safe to put 3.<SIGNAL>42_G3H</SIGNAL> there and enable keyboard backlight for testing / always probably without brightness control?\nI chcked all traces and everything in that circuit beeps.\n\nMy thoughts/questions on this so far:\nIt could be a bad SMC but would brightness comtrols be avaliable if the SMC or that dataline would be the problem?\nAlso it can not be that the ball under the SMC for that dataline is not making contact as the dataline would be 0V in that case.\nAnd also it can not be a short to another ball under the SMC as all balls next to this dataline are NC or really important so that a short of two balls would probably keep the board from turning on at all...\nCan i expext that dataline to be 3 V if <CHIP>U5750</CHIP> is not on the board (incase <CHIP>U5750</CHIP> is pulling it down)? But in that case i would expect different diode mode readings..."
+        },
+        {
+            "post_id": 49104,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-12 07:00:02",
+            "message": "In the first step, SMC expect a low level on <SIGNAL>SMC_SYS_KBDLED</SIGNAL> line.\nI suppose it will take the control then and send PWM signal to <CHIP>U5750</CHIP>, according with keyboard backlight adjust.\nIf is not PWM, should be some kind of 1-wire protocol.\nNeed to check that line with o-scope; especially when keyboard backlight control keys are pressed.\nIf no signal at all, then change SMC; if <CHIP>U5750</CHIP> was already discarded..."
+        },
+        {
+            "post_id": 49124,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-13 01:44:54",
+            "message": "Something really interesting is happening. As i need to measure at the back of the board and also need to plug a lot of stuff into it to orfirm control keys activity (LCD, USB-SSD, TP & keyboard, Backlight battery etc...) i soldered a wire to TP[1]<SIGNAL>SMC_SYS_KBDLED</SIGNAL> and run it around the board (other end just tinned free in the air) to have a point to measure it while the board is in the case. So i turned it on, waited for it to boot into my test OS and wanted to measure with my scope. But as soon as i touch the wire with the probe the keyboard backlight turns on and off again if i take my probe away! Even if i touch the wire with my finger the keyboard backlight turns on! I can also \"touch it on\" pre OS with my finger as soon as the board is powered on... But i cant set the brightness it i \" touch it on\" and also cant turn it off completely with the control keys. So it needs to be grounded by something to turn on?! I am really cnofuesd now... But at least it has th capability to boots the 5 V to ~18 V..."
+        },
+        {
+            "post_id": 49127,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-13 04:23:07",
+            "message": "Looks like SMC doesn't detect low level on that line.\n<CHIP>U5750</CHIP> should do this job.\n\nSchematic talks about <RESISTOR>R5853</RESISTOR>/54, but none appear pictured.\nTry soldering 1-10M resistor from <SIGNAL>SMC_SYS_KBDLED</SIGNAL> to ground."
+        },
+        {
+            "post_id": 49132,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-13 06:04:30",
+            "message": "Sorry for that question. I cant find a 10 MOhm resistor.... Can i use a 1 MOhm resistor instead? Or could you gibe me an example of a board that has a 10 MOhm resistor on it that i could reuse?..."
+        },
+        {
+            "post_id": 49138,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-13 08:22:56",
+            "message": "Start trying 1M.\nIf no good, get any scrap board you have, find its schematic and search bigger resistors.\nI mean bigger value, not size..."
+        },
+        {
+            "post_id": 49158,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-13 23:38:28",
+            "message": "I put a 1 MOhm resistor there but still no change. I try to find 10 MOhm but i guess i need to order a few..."
+        },
+        {
+            "post_id": 49160,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-14 01:28:49",
+            "message": "I searched on all of my boards and could find a single 10 MOhm resistor in the crystal circuit of a older iMac board. But unfortunately still no change. control keys and light sensor work fine but its still stuck at 5 V...\nSo if <CHIP>U5750</CHIP> should give a path to GND could it be that both chips (i already changed <CHIP>U5750</CHIP>) have the same issue?"
+        },
+        {
+            "post_id": 49162,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-14 01:33:12",
+            "message": "Compare resistance to ground (ohm scale) with an working board; around <CHIP>U5750</CHIP>.\nIn both cases, keyboard backlight connected and not."
+        },
+        {
+            "post_id": 49171,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-14 02:19:23",
+            "message": "I have no working one but i compared it to some similar boards i could not fix ( with CPU, SMC... on them) and the only difference is that the dataline (Pin3 <CHIP>U5750</CHIP>) has a resistance to gnd as on the working board without KBDBKL i get OL (i removet the 10 MOhm resistor for mearurements). The resistance on the other boards is somewhere between 2 and 9 MOhms depending on what direction my multimeter counts and how long i wait. With the 10 MOhm resistor back on the board i get pretty stable 9,75 MOhm to GND"
+        },
+        {
+            "post_id": 49173,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-14 02:51:26",
+            "message": "I suppose <CHIP>U5750</CHIP> should pull-down that line only at first step and release it for data immediately.\nCan you see any activity on o-scope?"
+        },
+        {
+            "post_id": 49177,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-14 03:56:35",
+            "message": "As i had the wire soldered to the TP on that line and could \"turn on\" the backlight with my finger i measured some activity. No straight dc voltage, but pulses. But that was in mV scale and they were just a few us apart..."
+        },
+        {
+            "post_id": 49180,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-14 04:13:05",
+            "message": "Should be pulses, of course; need o-scope to make better idea.\nCan you try other keyboard backlight, from scrap keyboard?"
+        },
+        {
+            "post_id": 49186,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-14 05:07:40",
+            "message": "That measurement was taken with a scope. My equipment is not the newest so i cant show a better image than the one attached. Thats what the pulses look like. Scale is: 2us/div, 5 mV/div.\nI already testet another backlight modul but same thing..."
+        },
+        {
+            "post_id": 49189,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-14 05:55:23",
+            "message": "Do you get similar signal on working board?\nTry changing again SMC..."
+        },
+        {
+            "post_id": 49192,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-14 06:01:58",
+            "message": "I?ll check that but i need a few days to get a working board here. I would not really like to mess with the SMC again if no KBDBKL is the only problem as i dont have many donor SMCs and really dont like to swap SMCs praying that the \"new\" ones work...\nWould it be ok to put eg. 3V42 or <SIGNAL>3V3_S0</SIGNAL> at <CHIP>U5750</CHIP> pin 3 (enable) to turn it on forever (probably loosing brightness controls...)? It is a 3.3 V line anyways..."
+        },
+        {
+            "post_id": 49193,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-14 06:05:07",
+            "message": "Is worth to try.\nBut backlight level depends of data line; output can still stuck on 5V."
+        },
+        {
+            "post_id": 49214,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-15 05:23:10",
+            "message": "Thank you! I just put <SIGNAL>3V3_S0</SIGNAL> there and now it works at full brightness all the time now (24 V). I still kept the 10 MOhm resistor in place. Should i remove it?\nAnd is there anything to worry about doint this (except lower battery live...)? Like overloading the <SIGNAL>3V3_S0</SIGNAL> regulator or something as it always uses a few more mA on that rail now... Or is there another powerrail that is more suitable for this application or something?\nI could again learn alot from the conversation with you so again: Thank you for the great support!!"
+        },
+        {
+            "post_id": 49227,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-05-15 13:37:02",
+            "message": "Remove the resistor, or try other value.\nSee if backlight keys have any efect, in each case."
+        },
+        {
+            "post_id": 49243,
+            "thread_id": 49095,
+            "title": "<LOGIC BOARD PART NUMBER>820-3209</LOGIC BOARD PART NUMBER> no keyboard backlight after waterdamage",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-05-16 04:39:29",
+            "message": "I tested with other and no resistor but same thing... So i guess i leave the resistor off and deal with no KBDBKL control key... Better option for me as hope that another SMC will fix this and pray that it wont kill it again..."
+        }
+    ]
+}

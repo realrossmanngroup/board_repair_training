@@ -1,0 +1,86 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "U7210": "What is U7210? a CHIP.",
+        "U7410": "What is U7410? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPBUS_HS_CPU": "What is PPBUS_HS_CPU? a SIGNAL.",
+        "R6907": "What is R6907? a RESISTOR.",
+        "C7413": "What is C7413? a CAPACITOR.",
+        "U3100": "What is U3100? a CHIP.",
+        "U7400": "What is U7400? a CHIP.",
+        "U3200": "What is U3200? a CHIP.",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "C3208": "What is C3208? a CAPACITOR.",
+        "PPVCCGT_S0_CPU": "What is PPVCCGT_S0_CPU? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 64067,
+            "thread_id": 59887,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> Liquid damage on CPU Phase Mosfets - 20V 0.02A",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2020-08-24 02:03:02",
+            "message": "Hi Folks,\n\nGot this 13MB which had a liquid spillage mainly around <CHIP>U7410</CHIP>/<CAPACITOR>C7413</CAPACITOR> and <CHIP>U7210</CHIP>, everywhere else is OK on the board. After clean I get 20V, but no other response.\n\nWhen USB controller chips seem to be ok, where do we start from?\n\n<SIGNAL>PPBUS_HS_CPU</SIGNAL> - - 1.2Ohm seems to be affected via <SIGNAL>PPBUS_G3H</SIGNAL> or vice versa\n<SIGNAL>PPBUS_G3H</SIGNAL> - Short to the ground - 1.2Ohm on the <RESISTOR>R6907</RESISTOR> side of the F7000\nAs there are so many places this can be is it safe to inject up to 13V here?\n\nThanks"
+        },
+        {
+            "post_id": 64069,
+            "thread_id": 59887,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> Liquid damage on CPU Phase Mosfets - 20V 0.02A",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2020-08-24 05:53:29",
+            "message": "Alright, replaced <CHIP>U7210</CHIP> as a cause for the G3H short, and now turns on. Fans spinning with no picture.\n\nI am still missing CPU PH1/2/3 voltages on L7410/20/30\n\nWhat controls them?. <CHIP>U7410</CHIP> had heavy liquid but has no short. Can PH1 being down brought others down too? Or would they still provide voltage if <CHIP>U7410</CHIP> is faulty?\n\n\nEdit: \nOut of nowhere after, I replaced <CHIP>U7410</CHIP> my 20V is gone down to 5V. \nSeems like <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> / <SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> are having a short. With no liquid or oxidation in the area whatsoever. \n\n<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> - 0.0057Vdc\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> - 0.519Vdc\n<SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> - 0.03Vdc\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 0.55Vdc\n\nLifted up <CAPACITOR>C3208</CAPACITOR> same readings. What are the odds <CHIP>U3200</CHIP> to pack up at the same time as <CHIP>U7400</CHIP> replacement :/ \n\nXA_ <CHIP>U3100</CHIP> readings seem to be ok. No shorts there.\n\nThese USB-C controllers are with underfill. What is the best way to get it cleaned?\nMeasuring remaining ones seems okay, and this one is the one which pulls less current than other 3. Must be bad?"
+        },
+        {
+            "post_id": 64073,
+            "thread_id": 59887,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> Liquid damage on CPU Phase Mosfets - 20V 0.02A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-24 07:58:49",
+            "message": "<SIGNAL>PPVCCGT_S0_CPU</SIGNAL> only appears under high graphics load.\nYou screwed up something else on the board.\nDo NOT make more wrong assumptions on the future...\n\nYou've only checked for video before, didn't think to check USB activity?\n\nDid you inject voltage on <SIGNAL>PPBUS_G3H</SIGNAL> to find hot <CHIP>U7210</CHIP>?"
+        },
+        {
+            "post_id": 64110,
+            "thread_id": 59887,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> Liquid damage on CPU Phase Mosfets - 20V 0.02A",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2020-08-24 15:34:37",
+            "message": "I wonder how <CHIP>U3200</CHIP> got affected. \n\nForgot to mention that, I have Injected 1.2V on <SIGNAL>PPBUS_G3H</SIGNAL> and noticed CPU start increasing heat. From there I suspected <CHIP>U7210</CHIP> being short. \n\nThere were no USB activity or external video when fans were spinning. \n\nThanks for your reply."
+        },
+        {
+            "post_id": 64118,
+            "thread_id": 59887,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> Liquid damage on CPU Phase Mosfets - 20V 0.02A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-24 15:57:32",
+            "message": "1.2V shouldn't affect CPU, but do NOT inject again in such manner.\nSo many time I explained how NOT to inject voltage on <SIGNAL>PPBUS_G3H</SIGNAL> and people still do this :mad:.\n\n<CHIP>U7210</CHIP> could already damaged CPU, when got burnt.\nDo not expect too much from this board.\n\nProbably the heat applied on the board affected USB-C area..."
+        },
+        {
+            "post_id": 64119,
+            "thread_id": 59887,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> Liquid damage on CPU Phase Mosfets - 20V 0.02A",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2020-08-24 16:08:05",
+            "message": "Thanks for that. \n\nYou are absolutely right, haven't seen these treads though. Perhaps a sticky post with common mistakes we have learned will be great. \n\nI got excited when the fans spun up, but there was no activity anywhere else. Does dead CPU allows fans to spin up?\nPerhaps it doesn't worth changing <CHIP>U3200</CHIP> and digging more if dead cpu would show such signs.\n\nI am really after the data on this board, it has a J9600 but I still cannot justify buying the data migration tool due to amount of data recovery jobs I get for these couple compatible models. \nHave you seen any other way of getting data out?"
+        },
+        {
+            "post_id": 64121,
+            "thread_id": 59887,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> Liquid damage on CPU Phase Mosfets - 20V 0.02A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-08-24 16:24:04",
+            "message": "Get the board working, or the data migration tool.\n\nSometime internal SSD can be accessed starting on Target Disk mode, but depends of the fault problem on the board."
+        }
+    ]
+}

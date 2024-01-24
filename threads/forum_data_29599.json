@@ -1,0 +1,229 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "820-00164": "What is 820-00164? a LOGIC BOARD PART NUMBER.",
+        "C7582": "What is C7582? a CAPACITOR.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. ."
+    },
+    "threads": [
+        {
+            "post_id": 29599,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-19 20:27:24",
+            "message": "Got a light on the charger but no power. <SIGNAL>PPBUS_G3H</SIGNAL> not present. I have 8.6V incoming on F7140 but 0V coming out.\nReplaced F7140 and put the board back in the Mac, connected battery and smelt something burning. Upon checking F7140 I had 8.6V going in, 0V coming out. Not sure if it was F7140 that I smelled.\n\nChecked for short to ground on pin 2 of F7140 and got one.\n\nNow I'm injecting power to <SIGNAL>PPBUS_G3H</SIGNAL> (on pad 2 of F7140) but nothing gets hot or even warm. Went up to 8V and 2A but nothing.\n\nWhat would the experts recommend I do/check next?"
+        },
+        {
+            "post_id": 29600,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-12-19 20:34:43",
+            "message": "a few possibilities\n\n1) cpu mosfet is shorted and voltage is going to the CPU, cpu still has heatsink on\n\n2) it is one of the caps near the jtag or near the fuse itself\n\n3) it is in the board and you are screwed."
+        },
+        {
+            "post_id": 29601,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-19 20:41:04",
+            "message": "Louis with the good news special! ;)\nas this is my first time injecting a board, is there a rule as to how high I can go on V/A? Figured 8.6V was at that point anyway so it’s safe but Amps wise I don’t know. \n\nSet to 8V 2A it only outputs 0.022V, is that enough to warm anything?\n\nWill check cpu without heatsink and the mosfets next. Thanks!"
+        },
+        {
+            "post_id": 29603,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-19 21:41:39",
+            "message": "Without heatsink, CPU does not get warm. Checked caps near jtag, don't get warm. No caps near the fuse itself except the ones feeding power into the fuse and those checked out."
+        },
+        {
+            "post_id": 29608,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-12-20 01:58:33",
+            "message": "You need to increase power (watts) for something to heat up.\n\nYou get that by fixing Amps at max and you control gradually voltage.\n\nExample\nMax Amp at 1V, Max Amp at 2V, Max Amp at 3V and so on.\n\nKeep in mind this power rail doesn't go more than 8.6V. It probably can handle a little higher but better to stop at the power rail spec.\n\nNow particularly with this power rail there is another risk of toasting cpu. If it's a shorted mosfet cpu, this means it will let pass 8V to cpu!\n\nIf nothing heats up, maybe internal short or direct metal short connector that will not let you feel any heat. it's rare to blow a <SIGNAL>PPBUS_G3H</SIGNAL> fuse, because the fuse is rated 24v 8A it means 192 Watts.\nSame as sucking 24A at 8V! If it was a chip or cap at fault I think you will notice it completely burned."
+        },
+        {
+            "post_id": 29626,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-20 09:55:08",
+            "message": "Thanks for the explanation jadao. So Amps = always at max, then I start raising the Voltage (just repeating to be sure). Will try that."
+        },
+        {
+            "post_id": 29631,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-12-20 12:08:58",
+            "message": "Yes it's one method of finding shorts among others.\n\nWhen you put Amps at maximum, let say 5A, it doesn't mean 5A are delivered into the circuit, it means 5A are available for the circuit if it needs it, now you will [U]gradually [/U]increase the voltage 0.5V, 1V, 1.5V and so on until you feel something heating without exceeding the limit of the power rail shown in the schematic.\nWhen you gradually increase the voltage you should see and monitor amps display on the PS, it will increase depending on what the circuit is taking (we don't know how much current it will take so we just set it to max and control the voltage). Usually you don't need to reach the maximum amp to find the short except when nothing heats up and you are desperate and think the short is internal to the board.\n\nIt's just a matter of power Watts=Amps X voltage. For axample, if your shorted component on a 12V power rail start to heat at 3V, 1.5A (3*1.5=4.5Watts) someone else could have the same result with the same shorted component starting to heat with 2.25V and 2A (2.25*2=4.5Watts)\n\nNow for normal operation, if you have a known working device at 12Vdc 0.5A, of course you just set the voltage to 12Vdc and limit the current for good practice to 0.5A but even if you put 5A, if the device is not faulty (shorts) it will not take more than 0.5A.\n\nI really hope I didn't bring more confusion :confused:"
+        },
+        {
+            "post_id": 29633,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2017-12-20 12:16:12",
+            "message": "Small correction, you need to increase Amperage. Wattage will not heat things up, its the amparage that will. \nAlways use a as low voltage as possible and only increase the voltage if you can't increase the amps anymore due to the voltage stabilizing"
+        },
+        {
+            "post_id": 29634,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2017-12-20 12:19:12",
+            "message": "I probably should've made a full reply about this, but I just wanted to add that you should always start with the lowest voltage possible and going above ~1.75V on PPBUS lines can be risky in case its leaking away into the GPU or CPU (Which is probably good for 1/5th of the PPBUS shorts). Otherwise good explanation!"
+        },
+        {
+            "post_id": 29641,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-20 13:27:00",
+            "message": "Much appreciate the education guys :)"
+        },
+        {
+            "post_id": 29657,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-12-20 14:37:08",
+            "message": "By increasing Current (Amps) you are increasing the power (watts)!\n\nBy increasing the voltage (Volts) you are increasing the power (watts)!\n\nOf course it's a matter of power dissipation, of heating energy resulting both from voltage AND amperage.\n\nWhen you are looking to find a short you are looking to feel the heat so you are looking to create a power dissipation!\n\nNow, how to create this power dissipation that will let you find your short?\nBy setting a voltage and a current."
+        },
+        {
+            "post_id": 29671,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-20 19:24:11",
+            "message": "Found the short and replaced <CAPACITOR>C7582</CAPACITOR>. No more short but now I'm running into the exact same issue as I describe in this post: [url]https://www.rossmanngroup.com/boards/forum/board-repair-troubleshooting/29660-<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER>-no-power-weird-behavior-on-ppbus-g3h[/url] Waiting to see what's going on in the other board as it likely applies to this one as well."
+        },
+        {
+            "post_id": 29693,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-12-21 10:08:11",
+            "message": "Have you injected too much voltage or polarity swapped? These shorted caps should not cause any other issues."
+        },
+        {
+            "post_id": 29701,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-21 11:37:35",
+            "message": "- to Gnd, + to rail, didn't have to go over 2V to find the short."
+        },
+        {
+            "post_id": 29714,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-12-21 15:37:55",
+            "message": "When you started this post there was 8.6V present. Remove F7140 again and see if it comes back, else something got fucked."
+        },
+        {
+            "post_id": 29732,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-21 19:52:45",
+            "message": "Had to replace F7140 again, now get 8.6V on both sides. The unit now boots as long as the ribbon cable between board and DC board is not connected. With it, no boot, without it, boot. Searching for another cable to test but in the mean time someone may have seen this issue before?\n\nEDIT: Other cable didn't help."
+        },
+        {
+            "post_id": 29754,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-12-22 15:09:04",
+            "message": "Do you have another I/O board to test with?\nWhen the board doesn't boot with I/O board cable plugged in, what is <SIGNAL>PP3V42_G3H</SIGNAL> and <SIGNAL>PPBUS_G3H</SIGNAL>?\nInspect J9500 connector, maybe a signal is pulled down when you plug the cable... Inspect also connector on the I/O board but better to test with a known working board."
+        },
+        {
+            "post_id": 29765,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-22 19:27:12",
+            "message": "Tested with other I/O board, same issue. <SIGNAL>PPBUS_G3H</SIGNAL> = 8.6V. <SIGNAL>PP3V42_G3H</SIGNAL> = 3.4V. (same values with or without cable) and connectors look good on both ends."
+        },
+        {
+            "post_id": 29781,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-12-22 22:05:47",
+            "message": "Green and the orange light is working?\n\nTested with known good IO and cable?"
+        },
+        {
+            "post_id": 29787,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-22 22:20:36",
+            "message": "It is but only with the ribbon cable connected. Without the cable the unit boots but magsafe shows no light."
+        },
+        {
+            "post_id": 29811,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2017-12-23 20:22:20",
+            "message": "This is to be expected, the ribbon cable carries the <SIGNAL>SYS_ONEWIRE</SIGNAL> signal"
+        },
+        {
+            "post_id": 29822,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-12-24 10:47:29",
+            "message": "Again: Tested with known good IO and cable?"
+        },
+        {
+            "post_id": 29832,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 1104,
+            "username": "Jay",
+            "post_date": "2017-12-24 11:38:04",
+            "message": "Yessir, have been using KG board since last time."
+        },
+        {
+            "post_id": 29849,
+            "thread_id": 29599,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> PPBUS-G3H short to ground",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-12-25 18:59:08",
+            "message": "Good board sure, is the cable good? Is it the correct cable and board for 2014 models? Maybe a picture of the whole thing connected?"
+        }
+    ]
+}

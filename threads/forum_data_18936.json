@@ -1,0 +1,130 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00164": "What is 820-00164? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PM_SYSRST_L": "What is PM_SYSRST_L? PM_SYSRST_L is a system reset signal present when it is low, _L means the signal asserts itself when the voltage is low. This signal needs to be high for the system to exit reset mode & turn on properly. .",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "C1031": "What is C1031? a CAPACITOR.",
+        "S0_CPU": "What is S0_CPU? a SIGNAL.",
+        "R7310": "What is R7310? a RESISTOR.",
+        "R7320": "What is R7320? a RESISTOR.",
+        "SYS_PWROK": "What is SYS_PWROK? a SIGNAL.",
+        "R1962": "What is R1962? a RESISTOR.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "CPU_VCORE": "What is CPU_VCORE? Power rail for the CPU. If this is missing the machine will act braindead. .",
+        "PM_SLP_S": "What is PM_SLP_S? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 18936,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-04-22 17:00:11",
+            "message": "I'm looking at this <LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> that came in today. customer states that her daughter spilled a little bit of water near the power button. upon opening it up there is no noticeable signs of liquid damage what so ever. I mean this thing is clean but has the usual dust and fuzz that most do have. i get a green/red light on the charger. noticed it is trying to do quarter fan spin. i can here the fan motor trying to turn over about every 3-5 seconds. i did some checking around with the multimeter and found that all of the s4 rails were pulsing from 0.347v to 3.3v. i also found that <SIGNAL>PM_SLP_S5_L</SIGNAL> is also pulsing the a same 0.347v to 3.3v. <SIGNAL>PM_SYSRST_L</SIGNAL> is also pulsing. \n\nnot sure where to go from here or if i should look somewhere else on the board first?\n\nany ideas?"
+        },
+        {
+            "post_id": 18939,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-04-22 17:48:55",
+            "message": "The usual, is CPU Vcore pulsing too? <CHIP>U6100</CHIP> area? <CHIP>U1950</CHIP>?"
+        },
+        {
+            "post_id": 19033,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-04-24 12:16:27",
+            "message": "cpu vcore is pulsing <CHIP>U6100</CHIP> area is in excellent shape but pin 6 and 7 are also pulsing, <CHIP>U1950</CHIP> pins 1,2,5,6,7 also pulse."
+        },
+        {
+            "post_id": 19035,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-04-24 12:27:17",
+            "message": "i found short to ground on pin 1 of <CAPACITOR>C1031</CAPACITOR> <SIGNAL>PPVCC_S0_CPU</SIGNAL>."
+        },
+        {
+            "post_id": 19046,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-04-24 16:35:06",
+            "message": "What is resistance to GND on <SIGNAL>S0_CPU</SIGNAL>, not diode."
+        },
+        {
+            "post_id": 19051,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-04-24 17:17:00",
+            "message": "on pin 1 of <RESISTOR>R7310</RESISTOR> resistance to GND was 14.4ohms and dropped to 11.3ohm after about 5min. i did remove <RESISTOR>R7310</RESISTOR> and <RESISTOR>R7320</RESISTOR> to see which side the short to ground was on. and its on pin1 of <RESISTOR>R7310</RESISTOR> and pin 2 of <RESISTOR>R7320</RESISTOR>. I'm thinking short on cpu but really it could be anything on this line? i think."
+        },
+        {
+            "post_id": 19054,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-04-24 18:13:09",
+            "message": "So 14.4 Ohm is a short? <SIGNAL>SYS_PWROK</SIGNAL> also pulsing at <RESISTOR>R1962</RESISTOR>? Inspect board for corrosion everywhere"
+        },
+        {
+            "post_id": 19115,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-04-25 15:36:09",
+            "message": "i went to plug the machine in to measure the voltage at <RESISTOR>R1962</RESISTOR> and found that when my hand touch the cpu the machine turned on. i unplugged it/plugged it back in and same thing. so i pressed not hard on the cpu and it powered on again. i let it run for a bit. unplugged it/plugged it back in and it powered up like on its own a few times. i decided to throw it in the ultrasonic to clean the flux mess i made around <RESISTOR>R7310</RESISTOR>, and now no power on on quarter fan spin. \n\ni do get a green light and am missing <SIGNAL>PM_SLP_S4_L</SIGNAL> now. (guess i shouldn't have put in for cleaning). \n\ni suck at <SIGNAL>CPU_VCORE</SIGNAL> obviously. not really sure where to start over now. seems like the original issue was something to do with the cpu or at least a bad solder joint.\nany ideas?"
+        },
+        {
+            "post_id": 19116,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-04-25 15:53:52",
+            "message": "Pretty sure it is just back to power cycling. Check 5V bus for pulses. But if this was really working when pushing on CPU it is not a board you want to mess with anyway."
+        },
+        {
+            "post_id": 19121,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-04-25 17:32:11",
+            "message": "i did check everywhere and i mean everywhere for corrosion. no signs of corrosion. Some one has dropped it at some point as the corner is bent but not enough to even break the screen so i past on that idea until it started turning on when i pressed on the cpu. I'm thinking i might just call this one unfixable and replace the board. \n\nWas just wondering if the <SIGNAL>PM_SLP_S4_L</SIGNAL> and <SIGNAL>PM_SLP_S4_L</SIGNAL> signal comes from the cpu or the smc?"
+        },
+        {
+            "post_id": 19126,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-04-25 17:48:05",
+            "message": "They come from a complicated combination of CPU/PCH/SMC/RTC, so yeah. I doubt this board is worth the effort as it was probably damaged by the drop."
+        },
+        {
+            "post_id": 19128,
+            "thread_id": 18936,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-00164</LOGIC BOARD PART NUMBER> power issue",
+            "user_id": 451,
+            "username": "jgraffis",
+            "post_date": "2017-04-25 18:02:58",
+            "message": "im leaning to the idea that maybe a solder ball was cracked under the cpu. so yea new board time. i don't have the stuff to reball these types of chip nor the desire. Good to know about the the <SIGNAL>PM_SLP_S</SIGNAL>?_L signals.\n\nThanks again. mark as solved or closed."
+        }
+    ]
+}

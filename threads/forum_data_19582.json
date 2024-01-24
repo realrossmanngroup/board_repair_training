@@ -1,0 +1,54 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2850": "What is 820-2850? a LOGIC BOARD PART NUMBER.",
+        "U2700": "What is U2700? a CHIP.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "3V3_S0": "What is 3V3_S0? Abbreviation for PP3V3_S0, a 3.3v power rail present when the machine is in an S0 working state.",
+        "1V05_S0": "What is 1V05_S0? a SIGNAL.",
+        "C9560": "What is C9560? Tantalum capacitor on 820-2850 logic board that often dies and causes intermittent power to framebuffer PP1V8R1V55_S0GPU_ISNS and PP1V8R1V55_S0GPU_ISNS_R rail, causing GPU kernel panics. Replace with non-tantalum if machine is having random black screen or kernel panics.",
+        "CPUVTTS0_EN": "What is CPUVTTS0_EN? a SIGNAL.",
+        "U7600": "What is U7600? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 19582,
+            "thread_id": 19582,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER>, bad SMC?",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-05-02 15:31:21",
+            "message": "Working on an <LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> that might have a bad SMC...\n\n- <LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> board that has <SIGNAL>PP5V_S0</SIGNAL>, but the fans don't spin. <SIGNAL>3V3_S0</SIGNAL>, <SIGNAL>5V_S0</SIGNAL> present; <SIGNAL>1V05_S0</SIGNAL> is only .03v...which might be the reason why the board isn't powering on. Already replaced <CAPACITOR>C9560</CAPACITOR> with poly-film cap.\n- Pin 1 of <CAPACITOR>C9560</CAPACITOR> is 1.5v.\n- Fans will spin in SMC bypass mode, but no chime or boot.\n- Unsure of clock signal--it seems to be called something other than <SIGNAL>PPVRTC_G3H</SIGNAL>? Is it the XOUT pin of <CHIP>U2700</CHIP>?\n- Green light consistently takes several seconds (5-8) to turn on, but once it does, it stays on and is steady. Tried several known-good DC-in boards.\n- CPU/GPU both get warm (normal-warm, not blazing hot), as if they're active, but vcore is not present (0v).\n\nAny ideas? Since I have <SIGNAL>PP5V_S0</SIGNAL> at the fan, but no fan spin, does this mean the SMC isn't communicating properly? Since it controls the fans, etc. No idea how <SIGNAL>PP5V_S0</SIGNAL> and <SIGNAL>PP3V3_S0</SIGNAL> can both be present, but no fan spin? SMC? Sort of a weird one, but it's a 2850, so I'm not surprised...probably a dead CPU or GPU."
+        },
+        {
+            "post_id": 19586,
+            "thread_id": 19582,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER>, bad SMC?",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-05-02 19:11:44",
+            "message": "<SIGNAL>1V05_S0</SIGNAL> is only .03v \n\nThere is the issue. <SIGNAL>CPUVTTS0_EN</SIGNAL> present? Check short on that rail too."
+        },
+        {
+            "post_id": 19605,
+            "thread_id": 19582,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER>, bad SMC?",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-05-03 07:31:28",
+            "message": "Hey Duke, thanks! <SIGNAL>CPUVTTS0_EN</SIGNAL> is present (and no apparent short--.485 diode), as is pin 13/14 of <CHIP>U7600</CHIP>, but pin 9 of <CHIP>U7600</CHIP> is 0v. I suppose I'm missing some input into <CHIP>U7600</CHIP>, resulting in my missing PGOOD. Here are <CHIP>U7600</CHIP> measurements:\n\npin 1: 0v\n2: 0v\n3: 3.3v\n4: .5v\n5: 0v\n6: 0v\n7: 0v\n8: .02v\n9: 0v\n10: 0v\n11: 0v\n12: 4.72v\n13: 5v\n14: 5v\n15: 0v\n16: 0v"
+        },
+        {
+            "post_id": 19626,
+            "thread_id": 19582,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER>, bad SMC?",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-05-03 17:13:58",
+            "message": "Looks like a dead <CHIP>U7600</CHIP> to me if there is no short on L7630."
+        }
+    ]
+}

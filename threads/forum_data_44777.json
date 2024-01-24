@@ -1,0 +1,417 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "PPVIN_SW_T29BST": "What is PPVIN_SW_T29BST? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "Q5040": "What is Q5040? a TRANSISTOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "SMC_DCIN_VSENSE": "What is SMC_DCIN_VSENSE? a SIGNAL.",
+        "R5015": "What is R5015? a RESISTOR.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "ADAPTER_SENSE": "What is ADAPTER_SENSE? This is a line between the onewire circuit and the magsafe charger where the magsafe charger can talk to the SMC(system management controller) on the SYS_ONEWIRE line..",
+        "P3V3S5_LL": "What is P3V3S5_LL? a SIGNAL.",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "SMC_BC_ACOK_VCC": "What is SMC_BC_ACOK_VCC? SMC_BC_ACOK_VCC is a voltage that is created if SMC_BC_ACOK & PP3V42_G3H are both present that powers the chipset for the onewire circuit that allows the SMC to talk to the charger on the SYS_ONEWIRE line. This is necessary for the magsafe charger to have a light on it. .",
+        "C6908": "What is C6908? a CAPACITOR.",
+        "Q7920": "What is Q7920? a TRANSISTOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "U6900": "What is U6900? a CHIP.",
+        "U6901": "What is U6901? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 44777,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-14 13:02:59",
+            "message": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but  not turn on.\nIt was working unit i just changed hinges cover after that not turn on, only green light.\n<SIGNAL>PPBUS_G3H</SIGNAL>=12.57v\nNot turn on with a charged battery.\nPP3V42-GH=3.49V\n<SIGNAL>3V3_S5</SIGNAL>=3.29v\n<SIGNAL>PP5V_S5</SIGNAL>=5v\n<SIGNAL>PPVIN_SW_T29BST</SIGNAL>=2.5v\nAny help please."
+        },
+        {
+            "post_id": 44784,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-14 14:01:44",
+            "message": "Post <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>PM_SLP_SUS_L</SIGNAL>, <SIGNAL>3V3_SUS</SIGNAL>.\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check any reaction at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\nDoes it start in SMC bypass mode?"
+        },
+        {
+            "post_id": 44794,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-14 15:52:43",
+            "message": "<SIGNAL>SMC_ADAPTER_EN</SIGNAL>=3.46v\n<SIGNAL>PM_BATLOW_L</SIGNAL>=unable to measured.\n<SIGNAL>3V3_SUS</SIGNAL>=3.3v\n<SIGNAL>SMC_ONOFF_L</SIGNAL>=3.48v\n<SIGNAL>PM_PWRBTN_L</SIGNAL>=3.47v\n Start in SMC bypass mode , i dont know how to do this check, could you please \nshow me how to do that checking?\nThanks."
+        },
+        {
+            "post_id": 44815,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-15 02:13:54",
+            "message": "\"Start in SMC bypass mode , i dont know how to do this check, could you please\nshow me how to do that checking?\"\n\nGoogle knows that for sure.\nLearn to use online tools and you gain time.\n\nPress power button, connect charger and maintain pressing 5-10s...\n\n<SIGNAL>PM_BATLOW_L</SIGNAL> is available at <TRANSISTOR>Q5040</TRANSISTOR>."
+        },
+        {
+            "post_id": 44826,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-15 12:16:40",
+            "message": "<SIGNAL>PM_BATLOW_L</SIGNAL>=3.24v\nyes ,start in SMC bypass mode"
+        },
+        {
+            "post_id": 44850,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-15 18:23:06",
+            "message": "So you have a sensor issue.\nPost voltage at pins 9 & 15 of <CHIP>U7000</CHIP>, charger and battery connected.\nBe sure <RESISTOR>R7021</RESISTOR>/22 and <RESISTOR>R7051</RESISTOR>/52 have correct value."
+        },
+        {
+            "post_id": 44880,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-16 11:58:39",
+            "message": "Voltage at <CHIP>U7000</CHIP>, charger and battery connected.\npins 9= .47v\npin15=.048v\n\n <RESISTOR>R7021</RESISTOR>/22=16.42v both, 10 ohm both.\n <RESISTOR>R7051</RESISTOR>/52=11.91v both,  2.4 ohm,.2 ohm respectively."
+        },
+        {
+            "post_id": 44885,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-16 12:38:25",
+            "message": "Post now voltage for <SIGNAL>SMC_DCIN_VSENSE</SIGNAL> and <SIGNAL>SMC_PBUS_VSENSE</SIGNAL>."
+        },
+        {
+            "post_id": 44890,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-16 13:47:16",
+            "message": "<SIGNAL>SMC_DCIN_VSENSE</SIGNAL>=2.08v\n<SIGNAL>SMC_PBUS_VSENSE</SIGNAL>=1.45v"
+        },
+        {
+            "post_id": 44901,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-16 18:55:47",
+            "message": "Post the signals on charger mode only, without battery.\n\n\"Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check any reaction at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\"\n???\nCheck for ripped off componentes..."
+        },
+        {
+            "post_id": 44925,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-17 12:45:24",
+            "message": "charger mode only:\n<SIGNAL>SMC_DCIN_VSENSE</SIGNAL>=2.08v\n<SIGNAL>SMC_PBUS_VSENSE</SIGNAL>=1.45v\n\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check any reaction at <SIGNAL>PM_PWRBTN_L</SIGNAL>.\"\nhow to do this checking?\nI could not find any missing components.\nThanks."
+        },
+        {
+            "post_id": 44942,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-17 18:26:28",
+            "message": "\"how to do this checking?\"\nUse <RESISTOR>R5015</RESISTOR>/16 pads for that..."
+        },
+        {
+            "post_id": 44951,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-18 08:54:26",
+            "message": "\"Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> \" it means short  <RESISTOR>R5015</RESISTOR>/16   pins and check the V at <SIGNAL>PM_PWRBTN_L</SIGNAL>.?"
+        },
+        {
+            "post_id": 44957,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-18 09:53:53",
+            "message": "Yes, you must see a drop pulse there.\nSolder a wire on <SIGNAL>SMC_ONOFF_L</SIGNAL> and touch the ground with it..."
+        },
+        {
+            "post_id": 45001,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-19 10:13:14",
+            "message": "I found 350 mv at <SIGNAL>PM_PWRBTN_L</SIGNAL> after Solder a wire on <SIGNAL>SMC_ONOFF_L</SIGNAL>. I dont have ocps so use Fluke 114 True rms."
+        },
+        {
+            "post_id": 45002,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-19 10:56:39",
+            "message": "Just touch the ground for a moment, like pressing power button.\n<SIGNAL>PM_PWRBTN_L</SIGNAL> must drop and go back to high level instantly."
+        },
+        {
+            "post_id": 45062,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-21 12:23:27",
+            "message": "Just touch the ground for a moment, like pressing power button.\n<SIGNAL>PM_PWRBTN_L</SIGNAL> must drop and go back to high level instantly.\n## I found  <SIGNAL>PM_PWRBTN_L</SIGNAL> OL and when touch the ground it goes up quickly 373 mv and drop 353mv very fast."
+        },
+        {
+            "post_id": 45077,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-21 16:21:19",
+            "message": "So you never get 3V at <SIGNAL>PM_PWRBTN_L</SIGNAL>?\nIt should stay high all time.\nOnly drops if <SIGNAL>SMC_ONOFF_L</SIGNAL> is triggered."
+        },
+        {
+            "post_id": 45100,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-22 10:21:16",
+            "message": "I made a mistake ( measured it before in mv). After right measurement i found 3V at  <SIGNAL>PM_PWRBTN_L</SIGNAL> , all times and drop it 0.353v ( stable)  if <SIGNAL>SMC_ONOFF_L</SIGNAL> is triggered."
+        },
+        {
+            "post_id": 45106,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-22 18:57:14",
+            "message": "Check if <SIGNAL>PM_SLP_S4_L</SIGNAL> pulses at the same moment."
+        },
+        {
+            "post_id": 45118,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-23 08:42:42",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> =3.3v stable if trigger then 2.4v"
+        },
+        {
+            "post_id": 45125,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-23 11:53:54",
+            "message": "2.4V at <SIGNAL>PM_SLP_S4_L</SIGNAL> is good enough to enable all S3 voltages; check if all present.\nCheck the same for S0 voltages, if <SIGNAL>PM_SLP_S3_L</SIGNAL> goes also high."
+        },
+        {
+            "post_id": 45203,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-24 13:48:05",
+            "message": "I tried to swap good bios after that now i see no green even i swap again original bios still no green light , PPbus G3H is 12.23v. This is a nightmare now."
+        },
+        {
+            "post_id": 45204,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-24 13:52:11",
+            "message": "Check for ripped/moved resistors near BIOS chip..."
+        },
+        {
+            "post_id": 45208,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-24 15:33:37",
+            "message": "NO RIPPED/MOVED register near bios.\nI checked the following value\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.26V\n<SIGNAL>PP3V42_G3H</SIGNAL> = 3.48V\n<SIGNAL>SMC_RESET_L</SIGNAL> = 3.3v\n<SIGNAL>SMC_BC_ACOK</SIGNAL> = 3.4V\n<SIGNAL>ADAPTER_SENSE</SIGNAL> = 3.4V\n<SIGNAL>P3V3S5_LL</SIGNAL> = 0V\n<SIGNAL>SMC_ONOFF_L</SIGNAL> = 3.4V"
+        },
+        {
+            "post_id": 45213,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-24 18:44:09",
+            "message": "Check if BIOS chip is correctly soldered; pay atention to its orientation."
+        },
+        {
+            "post_id": 45236,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-25 13:22:48",
+            "message": "BIOS chip is correctly soldered 100%. This is not too small component , perfect orientation. looks very good."
+        },
+        {
+            "post_id": 45238,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-25 14:05:00",
+            "message": "Put back original BIOS and report..."
+        },
+        {
+            "post_id": 45435,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-30 10:22:47",
+            "message": "i put it back origianl Bios and get back green light for while when reconnect it no green light\n\n<SIGNAL>PP3V3_S3</SIGNAL>=0v\nppbus-G3H=12.26v\n<SIGNAL>PP3V42_G3H</SIGNAL> at <CAPACITOR>C6908</CAPACITOR>=3.49v\n<SIGNAL>SMC_BC_ACOK_VCC</SIGNAL>=3.49V\n<SIGNAL>ADAPTER_SENSE</SIGNAL>=2.9V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> ( <TRANSISTOR>Q7920</TRANSISTOR> PIN2)=0V"
+        },
+        {
+            "post_id": 45436,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-30 10:56:58",
+            "message": "Pins 4 & 5 of <CHIP>U6900</CHIP> should have both same high voltage, equal with central pin of DCIN board.\n\n\"ppbus-G3H=12.26v\"\nSMC doesn't talk with <CHIP>ISL6259</CHIP>, or something else blocks the I2C bus.\n\nAre you sure about using original Apple 60/85W charger?"
+        },
+        {
+            "post_id": 45442,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-30 14:03:40",
+            "message": "This is known good original adapter.\nPins 4 & 5 of <CHIP>U6900</CHIP>  have both same 3.48v ( before it was wrong)\nso what should i check next"
+        },
+        {
+            "post_id": 45444,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-30 14:29:16",
+            "message": "Do you have same voltage at central pin of DCIN board?\nCheck continuity from <CHIP>U6900</CHIP> to it.\n<SIGNAL>SMC_RESET_L</SIGNAL> voltage?"
+        },
+        {
+            "post_id": 45448,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-30 15:14:35",
+            "message": "<SIGNAL>SMC_RESET_L</SIGNAL> =3.41v\ncentral pin of DCIN board=3.46v\nCheck continuity from <CHIP>U6900</CHIP> to it. is ok\nNow I see green light. but not turn on."
+        },
+        {
+            "post_id": 45449,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-30 15:30:25",
+            "message": "Green light is off when plugin 60w adapter \nGreen light is on when plugin 85w adapter  \nBoth times no fan spinning."
+        },
+        {
+            "post_id": 45455,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-30 19:11:39",
+            "message": "Did you try to start in SMC bypass mode?"
+        },
+        {
+            "post_id": 45470,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-31 08:27:31",
+            "message": "Not start in SMC bypass mode , \ncentral pin of DCIN board v goes down rapidly 0 v and up 2 v , cycle."
+        },
+        {
+            "post_id": 45479,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-31 11:21:49",
+            "message": "If central pin voltage is not stable, there is no good conection to <CHIP>U6900</CHIP>, pin 5.\nPins 4 & 5 of <CHIP>U6900</CHIP> aren't stable too?"
+        },
+        {
+            "post_id": 45485,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-31 11:58:54",
+            "message": "Pins 1 <CHIP>U6900</CHIP> =3.48 TO 3.0V isn't  stable\nPins 4 & 5 of <CHIP>U6900</CHIP> =3.47v to 2.9v  aren't stable too\nI think some component got loose connection bcs it was working unit after i changed hinges cover then this problem arise."
+        },
+        {
+            "post_id": 45486,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-31 12:28:53",
+            "message": "Post <CHIP>U6901</CHIP> voltages,\nCheck solders and traces for <CHIP>U6900</CHIP>/01."
+        },
+        {
+            "post_id": 45488,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-31 13:15:18",
+            "message": "<CHIP>U6901</CHIP> voltages:\npin 1/2=2.87v\npin4=3.49v\npin5=3.49v\nsolders and traces for <CHIP>U6900</CHIP>/01 are ok.\nWhen i plug in it become orange and after few minutes no light."
+        },
+        {
+            "post_id": 45491,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-31 13:27:39",
+            "message": "\"Pins 1 <CHIP>U6900</CHIP> =3.48 TO 3.0V isn't stable\n----------------------------\n(<CHIP>U6901</CHIP>) pin4=3.49v\"\nThat is a common trace..."
+        },
+        {
+            "post_id": 45493,
+            "thread_id": 44777,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> Green light but ?not turn on",
+            "user_id": 1501,
+            "username": "Dewanbd",
+            "post_date": "2019-01-31 13:48:43",
+            "message": "Pins 1 <CHIP>U6900</CHIP> =3.48  is now  stable , after changing my dc jack."
+        }
+    ]
+}

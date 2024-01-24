@@ -1,0 +1,560 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1707": "What is A1707? A1707 is a model number for a 15 inch size MacBook Pro Retina from years Late 2016, Mid 2017 with EMC 3072, that may contain one of these boards depending on the year & configuration: 820-00281, 820-00928..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP1V2_S3": "What is PP1V2_S3? PP1V2_S3 is a 1.2v power rail present when the machine is in an S3 suspend to RAM state.",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "PP1V8_S3": "What is PP1V8_S3? The PP1V8_S3 signal in the MacBook schematic is a power rail that provides a voltage of 1.8 volts during the S3 power state. The S3 state, often referred to as \"suspend to RAM,\" is a low-power mode where the computer saves the session's state to RAM, allowing for quicker wake-up times compared to a full shutdown..",
+        "PPVCCSA_S0_CPU": "What is PPVCCSA_S0_CPU? Main power rail for the CPU. If this is missing the machine will act braindead. This is NOT shorted to ground if it has a low resistance – this is a common mistake people make. A chip that requires high power at a low voltage like a CPU or GPU will have a low measured resistance to ground..",
+        "PPBUS_HS_CPU": "What is PPBUS_HS_CPU? a SIGNAL.",
+        "PP0V6_S0_DDRVTT": "What is PP0V6_S0_DDRVTT? Power rail for RAM. .",
+        "PPVCCGT_S0_CPU": "What is PPVCCGT_S0_CPU? a SIGNAL.",
+        "PP3V0_G3H": "What is PP3V0_G3H? PP3V0_G3H is a 3.0v power rail present when the machine is in a G3H global system hardware off state..",
+        "PPVCCIO_S0_CPU": "What is PPVCCIO_S0_CPU? PPVCCIO_S0_CPU is a power rail responsible for powering the part of the CPU responsible for communicating with other portions of the machine prior to PPVCORE_S0_CPU being present and must be present before vcore, PPVCCIO_S0_CPU is present when the machine is in an on, RUNNING state. .",
+        "PP1V8_SUS": "What is PP1V8_SUS? PP1V8_SUS is a 1.8v power rail active in a suspend state..",
+        "PP1V2_S0SW": "What is PP1V2_S0SW? a SIGNAL.",
+        "PPBUS_HS_OTH5V": "What is PPBUS_HS_OTH5V? a SIGNAL.",
+        "PPBUS_HS_GPU": "What is PPBUS_HS_GPU? a SIGNAL.",
+        "PP1V0_SUS": "What is PP1V0_SUS? a SIGNAL.",
+        "PP1V2_S3_CPUDDR": "What is PP1V2_S3_CPUDDR? a SIGNAL.",
+        "PP5V_S0_T139": "What is PP5V_S0_T139? a SIGNAL.",
+        "PP3V3_S4_SOC_PMU": "What is PP3V3_S4_SOC_PMU? a SIGNAL.",
+        "PP1V0_S0SW": "What is PP1V0_S0SW? a SIGNAL.",
+        "PPBUS_HS_OTH3V3": "What is PPBUS_HS_OTH3V3? a SIGNAL.",
+        "PP1V8_S4": "What is PP1V8_S4? PP1V8_S4 is a 1.8v power rail when the machine is in an S4, suspend to disk state. .",
+        "PPBUS_S4_HS_TPAD": "What is PPBUS_S4_HS_TPAD? a SIGNAL.",
+        "PP1V0_S3": "What is PP1V0_S3? a SIGNAL.",
+        "PP1V8_S3_MEM": "What is PP1V8_S3_MEM? a SIGNAL.",
+        "PP3V3_S5_T139": "What is PP3V3_S5_T139? a SIGNAL.",
+        "PP0V6_S3_MEM_VREFCA_A": "What is PP0V6_S3_MEM_VREFCA_A? a SIGNAL.",
+        "PP5_S4": "What is PP5_S4? This is a typo of PP5V_S4 When you see PP5_S4, assume they meant to type PP5V_S4.",
+        "PP3V3_S4_T151": "What is PP3V3_S4_T151? a SIGNAL.",
+        "PP0V6_S3_MEM_VREFD0_A": "What is PP0V6_S3_MEM_VREFD0_A? a SIGNAL.",
+        "PP0V6_S3_MEM_VREFD0_B": "What is PP0V6_S3_MEM_VREFD0_B? a SIGNAL.",
+        "820-00281": "What is 820-00281? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_PMICLDO": "What is PP3V3_PMICLDO? a SIGNAL.",
+        "PP1V25_PMICVREF": "What is PP1V25_PMICVREF? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "R4911": "What is R4911? a RESISTOR.",
+        "R5226": "What is R5226? a RESISTOR.",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_SLP_SX_L": "What is PM_SLP_SX_L? a SIGNAL.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "R7663": "What is R7663? a RESISTOR.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "R7643": "What is R7643? a RESISTOR.",
+        "U7650": "What is U7650? a CHIP.",
+        "U7800": "What is U7800? a CHIP.",
+        "R8110": "What is R8110? a RESISTOR.",
+        "C7653": "What is C7653? a CAPACITOR.",
+        "C7644": "What is C7644? a CAPACITOR.",
+        "PM_EM_PVXS5": "What is PM_EM_PVXS5? a SIGNAL.",
+        "P5VP3V3_VREG3": "What is P5VP3V3_VREG3? a SIGNAL.",
+        "PM_EN_PVXS5": "What is PM_EN_PVXS5? a SIGNAL.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. ."
+    },
+    "threads": [
+        {
+            "post_id": 59009,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-01 02:32:55",
+            "message": "Hello,\n\nWe have an <MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> that stoped working with no reason. It has no liquid damages or anything else... just stop working. The client reporta the following:\n\n\"For some time now, the computer disconnected almost all usb-c connections with the message that ?The USB accessory is consuming too much energy. The ports were turned off ?, which I imagine may have something to do with this event.\"\n\nHere are the measurements I got:\n\n<SIGNAL>PPBUS_G3H</SIGNAL> = 12.58V\n<SIGNAL>PPBUS_HS_CPU</SIGNAL> = 12.58V\n<SIGNAL>PPBUS_HS_GPU</SIGNAL> = 12.58V\n<SIGNAL>PPBUS_HS_OTH5V</SIGNAL> = 12.58V\n<SIGNAL>PPBUS_HS_OTH3V3</SIGNAL> = 12.58V\n<SIGNAL>PPBUS_S4_HS_TPAD</SIGNAL> = 12.58V\n<SIGNAL>PPVCC_S0_CPU</SIGNAL> = 0V\n<SIGNAL>PPVCCSA_S0_CPU</SIGNAL> = 0V\n<SIGNAL>PPVCCGT_S0_CPU</SIGNAL> = 0V\n<SIGNAL>PPVCCIO_S0_CPU</SIGNAL> = 0V\n<SIGNAL>PP3V3_G3H</SIGNAL> = 3.4V\n<SIGNAL>PP3V0_G3H</SIGNAL> = 3.0V\n<SIGNAL>PP1V2_S3</SIGNAL> = 0V\n<SIGNAL>PP1V2_S3_CPUDDR</SIGNAL> = 0V\n<SIGNAL>PP1V2_S0SW</SIGNAL> = 0V\n<SIGNAL>PP0V6_S0_DDRVTT</SIGNAL> = 0V\n<SIGNAL>PP0V6_S3_MEM_VREFD0_A</SIGNAL> = 0V\n<SIGNAL>PP0V6_S3_MEM_VREFCA_A</SIGNAL> = 0V\n<SIGNAL>PP0V6_S3_MEM_VREFD0_B</SIGNAL> = 0V\n<SIGNAL>PP1V8_SUS</SIGNAL> = Fluctuates between 1.4V and 0.5V\n<SIGNAL>PP1V8_S4</SIGNAL> = 0V\n<SIGNAL>PP1V8_S3</SIGNAL> = 0V\n<SIGNAL>PP1V8_S3_MEM</SIGNAL> = 0V\n<SIGNAL>PP1V8_S0</SIGNAL> = 0V\n<SIGNAL>PP1V0_SUS</SIGNAL> = Fluctuates between 0.6V and 0V\n<SIGNAL>PP1V0_S3</SIGNAL> = 0V\n<SIGNAL>PP1V0_S0SW</SIGNAL> = 0V\n<SIGNAL>PP3V3_S5_T139</SIGNAL> = Fluctuates between 0V and 3.3V\n<SIGNAL>PP3V3_S4_SOC_PMU</SIGNAL> = 0V\n<SIGNAL>PP5V_S0_T139</SIGNAL> = Fluctuates between 1V and 0.5V\n<SIGNAL>PP3V3_S5</SIGNAL> = Fluctuates between 0V and 3.3V\n<SIGNAL>PP3V3_SUS</SIGNAL> = 0V\n<SIGNAL>PP3V3_S4</SIGNAL> = 0V\n<SIGNAL>PP5_S4</SIGNAL> = 0V\n<SIGNAL>PP5V_S0</SIGNAL> = 0.5V\n<SIGNAL>PP3V3_S4_T151</SIGNAL> = 0V\n<SIGNAL>PP3V3_S0</SIGNAL> = Fluctuates between 0V and 0.5V\n<SIGNAL>PP5V_S5</SIGNAL> = Fluctuates between 0V and 5V\n\nThe resistance of the <SIGNAL>PP3V3_SUS</SIGNAL> = 3M Ohm\nThe resistance of the <SIGNAL>PP5V_S4</SIGNAL> = 5M Ohm\n\nCan anyone help?"
+        },
+        {
+            "post_id": 59012,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-01 02:54:35",
+            "message": "Welcome to the forum!\n\nI don't see any reason for such a big listing.\nIf you miss a SUS voltage, no S4 possible; of course no S3 and S0 too.\nIn fact, even S5 is not stable in your case.\n\nLet as know exact 820-xxxx board code..."
+        },
+        {
+            "post_id": 59025,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-01 12:27:48",
+            "message": "Thank you @2informaticos.\nThe board code is <LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-A"
+        },
+        {
+            "post_id": 59026,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-01 12:28:37",
+            "message": "Thank you @2informaticos.\nThe board code is <LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-A"
+        },
+        {
+            "post_id": 59027,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-01 12:29:15",
+            "message": "Thank you @2informaticos.\nThe board code is <LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-A"
+        },
+        {
+            "post_id": 59030,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-01 13:37:56",
+            "message": "Please, maintain forum aestethic.\nDo not comment; always better to write new post.\n\nCheck for stable level at <SIGNAL>PP3V3_PMICLDO</SIGNAL>, <SIGNAL>PP1V25_PMICVREF</SIGNAL>, <SIGNAL>PP3V0_G3H</SIGNAL> and the 3 RTC signals (page 12)."
+        },
+        {
+            "post_id": 59093,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-04 02:54:27",
+            "message": "Hello, sorry for the aestethic. I?m new in the forums...\n\n<SIGNAL>PP3V3_PMICLDO</SIGNAL> = 3.29V stable\n<SIGNAL>PP1V25_PMICVREF</SIGNAL> = 1.24V Stable\n<SIGNAL>PP3V0_G3H</SIGNAL> = 3V Stable\n\nRelated to the RTC Sgnals, I don't have an oscilloscope. Is there any other way to diagnose?"
+        },
+        {
+            "post_id": 59094,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-04 04:35:15",
+            "message": "No need of an o-scope.\nI was refering to 3 DC signals, <SIGNAL>RTC_RESET_L</SIGNAL>, <SIGNAL>PCH_SRTCRST_L</SIGNAL>, <SIGNAL>PCH_INTRUDER_L</SIGNAL>..."
+        },
+        {
+            "post_id": 59097,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-04 04:58:04",
+            "message": "OK, miss understood.\n\n<SIGNAL>RTC_RESET_L</SIGNAL> = 3V\n\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> = 3V\n\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> = 2.8V"
+        },
+        {
+            "post_id": 59100,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-04 05:46:02",
+            "message": "Are you sure no pulse at all at <SIGNAL>PM_SLP_S5_L</SIGNAL>?"
+        },
+        {
+            "post_id": 59104,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-04 06:10:50",
+            "message": "Yes, <SIGNAL>PM_SLP_S5_L</SIGNAL> fluctuates between 0 and 0.2"
+        },
+        {
+            "post_id": 59112,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-04 10:07:31",
+            "message": "Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and see if you catch higger peak value on the fluctuating signals and voltages.\n\nAlso try to start in SMC bypass mode."
+        },
+        {
+            "post_id": 59113,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-04 10:27:32",
+            "message": "I?m not sure if I understood what you mean but in the <SIGNAL>SMC_ONOFF_L</SIGNAL>, mesured at the <RESISTOR>R4911</RESISTOR> I?ve got a steady 3.4V.\nRelated to start in SMC bypass mode, I don't know how to do it. Can you please explain it to me?"
+        },
+        {
+            "post_id": 59120,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-04 13:55:09",
+            "message": "I guess that you're talking about what I know as smc reset (10 seconds on power off button). If so, I already did it."
+        },
+        {
+            "post_id": 59121,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-04 14:14:55",
+            "message": "\"Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>\"\nAs you have to work with board alone on the desk, use SW5200, or <RESISTOR>R5226</RESISTOR> pads, instead of power button.\nIn fact, solder an wire on <SIGNAL>SMC_ONOFF_L</SIGNAL> and touch any metal plate (temporary contact), simulating power button.\n\n\"SMC bypass mode\"\nPut <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground, connect charger, maintain contact 5-10s; board should start when you release <SIGNAL>SMC_ONOFF_L</SIGNAL>.\n\nRemember to work with board alone, nothing connected apart of charger (no battery)."
+        },
+        {
+            "post_id": 59144,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-05 04:53:16",
+            "message": "Thanks for the explanation 2informaticos. I?ve done SMC bypass mode, but with no sucess. Still no boot."
+        },
+        {
+            "post_id": 59147,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-05 05:56:36",
+            "message": "Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> repeatedly and check for reaction (pulse) at all <SIGNAL>PM_SLP_SX_L</SIGNAL>; at same time as simulating power button.\nFirst, be sure to get a drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL> at same time."
+        },
+        {
+            "post_id": 59151,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-05 06:43:34",
+            "message": "I dont get a drop pulse on <SIGNAL>PM_PWRBTN_L</SIGNAL> because it is continous flutoating betewn 3.4 and 0V"
+        },
+        {
+            "post_id": 59161,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-05 09:52:44",
+            "message": "Sorry, I forgot that <SIGNAL>3V3_S5</SIGNAL> fluctuates...\nRemove <RESISTOR>R7663</RESISTOR> and check if stable.\nIf yes, then check <SIGNAL>PM_PWRBTN_L</SIGNAL> reaction."
+        },
+        {
+            "post_id": 59217,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-06 03:17:49",
+            "message": "After removing the <RESISTOR>R7663</RESISTOR>, the <SIGNAL>3V3_S5</SIGNAL> continus to fluctuate. The <SIGNAL>PM_PWRBTN_L</SIGNAL> stays the same"
+        },
+        {
+            "post_id": 59225,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-06 06:19:41",
+            "message": "Remove <RESISTOR>R7643</RESISTOR> too and see if <SIGNAL>SMC_PM_G2_EN</SIGNAL> is stable now; keep <RESISTOR>R7663</RESISTOR> removed."
+        },
+        {
+            "post_id": 59264,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-07 03:13:02",
+            "message": "Hello, yes, <SIGNAL>SMC_PM_G2_EN</SIGNAL> is stable now. 3.4V"
+        },
+        {
+            "post_id": 59266,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-07 03:19:34",
+            "message": "Looks like SMC detects a problem in S5 state and cycles <SIGNAL>SMC_PM_G2_EN</SIGNAL>.\nCheck what happens trying to start in SMC bypass mode."
+        },
+        {
+            "post_id": 59270,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-07 03:49:23",
+            "message": "I already did it. Nothing appends. it starts with 0.12 A and drops to 0A. them start again... 0.12A and 0A. It keeps trying to boot, I think"
+        },
+        {
+            "post_id": 59277,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-07 05:12:32",
+            "message": "Do you have now stable <SIGNAL>3V3_S5</SIGNAL>/SUS voltages?\nWith <RESISTOR>R7643</RESISTOR>/63 both removed..."
+        },
+        {
+            "post_id": 59280,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-07 05:47:51",
+            "message": "No I dont't. They keep dropping"
+        },
+        {
+            "post_id": 59288,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-07 06:12:05",
+            "message": "Post some <CHIP>U7650</CHIP> voltages in this case; pins 23, 12, 13, 22, 29."
+        },
+        {
+            "post_id": 59290,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-07 06:26:21",
+            "message": "<CHIP>U7650</CHIP> Voltages:\n\nPIN 12 = fluctuates between 3.4V nd 0V\nPIN 13 = fluctuates between 3V and 0V\nPIN 22 = 3.297V\nPIN 23 = 12.58V\nPIN 29 = fluctuates between 3.8V and 0V"
+        },
+        {
+            "post_id": 59360,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-11 08:51:20",
+            "message": "Can you help me?"
+        },
+        {
+            "post_id": 59368,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-11 09:50:55",
+            "message": "You should have a problem with SMC, or <CHIP>U7800</CHIP>.\n\nRemove <RESISTOR>R8110</RESISTOR> and run a tiny wire from <CAPACITOR>C7653</CAPACITOR> to <CAPACITOR>C7644</CAPACITOR>.\nSe if you get stable <SIGNAL>3V3_S5</SIGNAL>.\nIf yes, try soldering <RESISTOR>R7663</RESISTOR>."
+        },
+        {
+            "post_id": 59487,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-13 02:18:31",
+            "message": "Hi,\njust to be sure...\n\nI removed the <RESISTOR>R8110</RESISTOR> and now the <SIGNAL>3V3_S5</SIGNAL>  is 0V.\nThere is no <CAPACITOR>C7644</CAPACITOR> (no stuf) and the <CAPACITOR>C7653</CAPACITOR> is 3.298V. \nnow, on  the pad of the R811, i have 3.4V on <SIGNAL>SMC_PM_G2_EN</SIGNAL> and 0V on <SIGNAL>PM_EM_PVXS5</SIGNAL>. \nDo you still want me to jumper both of them?"
+        },
+        {
+            "post_id": 59489,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 04:23:30",
+            "message": "Yes, just for test..."
+        },
+        {
+            "post_id": 59493,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-13 04:46:13",
+            "message": "OK, but from pin 1 to pin 1 and pin 2 to pin 2 of the <CAPACITOR>C7644</CAPACITOR> and <CAPACITOR>C7653</CAPACITOR>?"
+        },
+        {
+            "post_id": 59497,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 06:39:45",
+            "message": "Why do you bother about ground pins?\nDon't you have connection there???"
+        },
+        {
+            "post_id": 59503,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-13 06:53:47",
+            "message": "It was just to be sure. I want to follow your instructions precisely"
+        },
+        {
+            "post_id": 59505,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 06:57:44",
+            "message": "You must be able to follow a schematic man.\nUse the logic, please."
+        },
+        {
+            "post_id": 59510,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-13 07:19:24",
+            "message": "I´ll try it... \nAfter removing <CAPACITOR>C7653</CAPACITOR> and jumping them both, i have 0V in <SIGNAL>PP3V3_S5</SIGNAL>"
+        },
+        {
+            "post_id": 59516,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 08:56:25",
+            "message": "\"After removing <CAPACITOR>C7653</CAPACITOR> \"\nWhy did that???\nYou just need to remove <RESISTOR>R8110</RESISTOR> and inject <SIGNAL>P5VP3V3_VREG3</SIGNAL> to <SIGNAL>PM_EN_PVXS5</SIGNAL>."
+        },
+        {
+            "post_id": 59524,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-13 10:57:58",
+            "message": "Sorry, it was distraction...\n\nAfter soldering <CAPACITOR>C7653</CAPACITOR> back, both <SIGNAL>P5VP3V3_VREG3</SIGNAL>  and <SIGNAL>PM_EN_PVXS5</SIGNAL>  has 3.5V, but <SIGNAL>PP3V3_S5</SIGNAL>  has 0V"
+        },
+        {
+            "post_id": 59531,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 13:41:10",
+            "message": "Post again (mentioned) <CHIP>U7650</CHIP> voltages, in this configuration..."
+        },
+        {
+            "post_id": 59551,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-14 02:21:37",
+            "message": "<CHIP>U7650</CHIP>\n\nPIN 12 =  1.8\nPIN 13 =  0V\nPIN 22 = 3.5V\nPIN 23 = 12.5V\nPIN 29 = 016.7 mV"
+        },
+        {
+            "post_id": 59555,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-14 04:04:42",
+            "message": "Follow schematic and try to understand what I've asked you to do.\nPins 12 and 22 must have the same voltage..."
+        },
+        {
+            "post_id": 59572,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-14 07:33:34",
+            "message": "Well, after soldering back <RESISTOR>R8110</RESISTOR> and <RESISTOR>R7663</RESISTOR> i get the following in <CHIP>U7650</CHIP>:\n\nPIN 12 =  3.3V\nPIN 13 =  1.9V\nPIN 22 = 3.6V\nPIN 23 = 12.5V\nPIN 29 = 05.1V"
+        },
+        {
+            "post_id": 59573,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-14 07:48:02",
+            "message": "All these stable?\nYou should try to resolder <RESISTOR>R7643</RESISTOR> too now.\nDo you resolder <RESISTOR>R8110</RESISTOR> and still keep the mentioned wire between <CAPACITOR>C7653</CAPACITOR> and <SIGNAL>PM_EN_PVXS5</SIGNAL>???"
+        },
+        {
+            "post_id": 59576,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-14 08:11:31",
+            "message": "Yes, i´ve already solder <RESISTOR>R7643</RESISTOR>, and the voltages are all stable.\nNo, i removed the jumper in <CAPACITOR>C7653</CAPACITOR>"
+        },
+        {
+            "post_id": 59577,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-14 08:49:06",
+            "message": "So you have steady <SIGNAL>SMC_PM_G2_EN</SIGNAL>, with <RESISTOR>R8110</RESISTOR> and both <RESISTOR>R7643</RESISTOR>/63 in place?"
+        },
+        {
+            "post_id": 59578,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-14 09:22:35",
+            "message": "Yes, <SIGNAL>SMC_PM_G2_EN</SIGNAL>  is steay at 3.3V"
+        },
+        {
+            "post_id": 59579,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-14 12:11:43",
+            "message": "Then you should have 3V at pin 21/<CHIP>U7650</CHIP> too.\nAnd <SIGNAL>3V3_S5</SIGNAL> should be present at L7660."
+        },
+        {
+            "post_id": 59608,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-15 05:24:45",
+            "message": "Well, right now it seams to be dead. Out of the blue, over night, it died.\nNow in the USB amp it takes 4.98V and 0.14 mA"
+        },
+        {
+            "post_id": 59609,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 06:17:45",
+            "message": "<SIGNAL>SMC_PM_G2_EN</SIGNAL> fluctuates again?\nYou can have problems with SMC, or <CHIP>U7800</CHIP>..."
+        },
+        {
+            "post_id": 59616,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-15 07:25:56",
+            "message": "It doesn´t fluctuate. It's 0V"
+        },
+        {
+            "post_id": 59622,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-15 08:22:56",
+            "message": "Do you get correct <SIGNAL>3V3_G3H</SIGNAL> and <SIGNAL>PPBUS_G3H</SIGNAL> now?"
+        },
+        {
+            "post_id": 59673,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2020-05-16 07:16:27",
+            "message": "Hello,\nNo. We have 0V in both <SIGNAL>3V3_G3H</SIGNAL> and <SIGNAL>PPBUS_G3H</SIGNAL>.\nOn the ampmeter it is pulling only 4.97V and 0.13A"
+        },
+        {
+            "post_id": 59676,
+            "thread_id": 59009,
+            "title": "<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> not powering on",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-16 08:12:13",
+            "message": "0.13A is high current in this conditions.\nDo you get voltage at <RESISTOR>R7020</RESISTOR>?\nCheck LDO outputs of all <CHIP>CD3215</CHIP> chips also."
+        }
+    ]
+}

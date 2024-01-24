@@ -1,0 +1,65 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "R7121": "What is R7121? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7185": "What is R7185? a RESISTOR.",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "Q7155": "What is Q7155? a TRANSISTOR.",
+        "C7185": "What is C7185? a CAPACITOR.",
+        "C7120": "What is C7120? a CAPACITOR.",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "C7130": "What is C7130? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 22603,
+            "thread_id": 22603,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>, Missing <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-07-05 08:55:37",
+            "message": "Received this board with the note, \"Wife plugged aftermarket charger into unit, heard a pop and smelled smoke\". \n\nI got the board out and saw a burn at <TRANSISTOR>Q7130</TRANSISTOR>. I pretty much assumed there would be no green light, and didn't want to plug the board in until replacing <TRANSISTOR>Q7130</TRANSISTOR> and <CHIP>U7100</CHIP>. I replaced <TRANSISTOR>Q7130</TRANSISTOR> and <CHIP>U7100</CHIP> together, and had no green light. I replaced <TRANSISTOR>Q7180</TRANSISTOR>, and got a green light, but no power. I checked <SIGNAL>PPBUS_G3H</SIGNAL> and it was 0v (at F7140). I made sure the fuse wasn't blown, but there's nothing at either pin of L7130 either, so PPBUS is definitely missing. I poked around <CHIP>U7100</CHIP> and found <RESISTOR>R7121</RESISTOR>/7122 blown, so I replaced both of them. Still no <SIGNAL>PPBUS_G3H</SIGNAL>. I found that <RESISTOR>R7185</RESISTOR> was reading as 0ohm when it should be 470k, so I replaced it but the replacement reads 0ohm in-circuit as well (and 470k out of circuit, so it's fine). So is something pulling down the resistance of this resistor? It measures properly on another working board. I have <SIGNAL>PP3V42_G3H</SIGNAL>, and have a steady green --> orange light. No shorts detected (on <SIGNAL>PPBUS_G3H</SIGNAL>), and nothing getting warm otherwise.\n\nSort of lost at this point; I checked all other main resistors around <CHIP>U7100</CHIP>, and they all look/measure fine. I have proper voltages at pin 3 of <CHIP>U7100</CHIP>. Do I need to replace <TRANSISTOR>Q7155</TRANSISTOR>? Does this type of damage (from a cheap/chinese charger) typically take out more than just <CHIP>U7100</CHIP>/<TRANSISTOR>Q7180</TRANSISTOR>/<TRANSISTOR>Q7130</TRANSISTOR> and current-sense resistors? I'm not sure what else to check. I've replaced <CHIP>U7100</CHIP> twice to be safe, but same results each time.\n\nAll help appreciated."
+        },
+        {
+            "post_id": 22605,
+            "thread_id": 22603,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>, Missing <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2017-07-05 11:51:47",
+            "message": "<CAPACITOR>C7185</CAPACITOR> is in parallel with <RESISTOR>R7185</RESISTOR>.\nThis cap must have blown with <TRANSISTOR>Q7180</TRANSISTOR> and is now shorting <RESISTOR>R7185</RESISTOR>.\n\nOtherwise <TRANSISTOR>Q7180</TRANSISTOR> or worst case short in the board."
+        },
+        {
+            "post_id": 22607,
+            "thread_id": 22603,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>, Missing <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-07-05 12:28:40",
+            "message": "Thanks, Jadao. I have some more information:\n\n- I removed <CAPACITOR>C7185</CAPACITOR> to see if it was pulling down <RESISTOR>R7185</RESISTOR>, but it wasn't. I replaced <CAPACITOR>C7185</CAPACITOR> and removed <TRANSISTOR>Q7180</TRANSISTOR>, and the resistor is measuring properly now.\n- I have a short on <CAPACITOR>C7120</CAPACITOR>, pins 1 and 2. I know pin 2 is ground, but it looks like pin 1 might be shorted by <CHIP>U7100</CHIP>.\n\nQuestion; if <TRANSISTOR>Q7180</TRANSISTOR> were bad, would it have killed <CHIP>U7100</CHIP>? I will replace both to be sure, but is there a chance that I would also need to re-replace <TRANSISTOR>Q7130</TRANSISTOR> in all of this? I obviously want to make sure I don't get stuck in a circle of <CHIP>U7100</CHIP> killing my fets then them killing my <CHIP>U7100</CHIP>; should I just replace all three at once? I'm not sure if <CHIP>U7100</CHIP> would kill <TRANSISTOR>Q7130</TRANSISTOR> due to damage from <TRANSISTOR>Q7180</TRANSISTOR>. I'm not sure how all of those work together and affect each other."
+        },
+        {
+            "post_id": 22609,
+            "thread_id": 22603,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>, Missing <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-07-05 12:49:13",
+            "message": "OK, I think I got this one.\n\nShort on <CAPACITOR>C7120</CAPACITOR> led me to a short on <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL>, which turned out to be <CAPACITOR>C7130</CAPACITOR>. Looks like it was <CAPACITOR>C7130</CAPACITOR> that originally shorted out (maybe due to the bad charger), and zapped <TRANSISTOR>Q7130</TRANSISTOR> and everything got killed from there to <CHIP>U7100</CHIP>.\n\nReplaced <CAPACITOR>C7130</CAPACITOR>, got fan spin, and will test board now. Will update thread if anything else comes up."
+        },
+        {
+            "post_id": 22610,
+            "thread_id": 22603,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>, Missing <SIGNAL>PPBUS_G3H</SIGNAL>",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2017-07-05 15:07:11",
+            "message": "Got this one taken care of; <CAPACITOR>C7130</CAPACITOR> was shorted and causing issues. Mark this one \"solved\"--thanks, guys!"
+        }
+    ]
+}

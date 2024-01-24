@@ -1,0 +1,150 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "U7501": "What is U7501? This chip is often responsible for creating PP3V3_S5,  PP3V3_S3,  PP3V3_S0,  PP5V_S5,  PP5V_S4,  PP5V_S0.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "G2_EN": "What is G2_EN? a SIGNAL.",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state."
+    },
+    "threads": [
+        {
+            "post_id": 31623,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-02-15 14:28:10",
+            "message": "Liquid-damage. PPBUS 8.58V. Has MagSafe light. 3V42 is good. <CHIP>U7501</CHIP> enables are at 0V. <SIGNAL>SMC_RESET_L</SIGNAL> is at 3.38V. Not sure where to go next with this."
+        },
+        {
+            "post_id": 31630,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-02-15 16:52:24",
+            "message": "<SIGNAL>G2_EN</SIGNAL> present? Check rails for shorts?"
+        },
+        {
+            "post_id": 32247,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-03-04 20:53:05",
+            "message": "No shorts anywhere. <SIGNAL>SMC_PM_G2_EN</SIGNAL> is not present. It's at 0V. I also just noticed that the MagSafe light is not turning orange. It's staying green."
+        },
+        {
+            "post_id": 32254,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-05 13:24:09",
+            "message": "<SIGNAL>SMC_PM_G2_EN</SIGNAL> not being present, if <SIGNAL>SMC_RESET_L</SIGNAL> is present, is a sign of\n\n1) A dead SMC.\n2) <CHIP>U7501</CHIP> shorting <SIGNAL>SMC_PM_G2_EN</SIGNAL> to ground.\n\nMy bet is on the SMC. \n\nOn the other hand, <SIGNAL>SMC_PM_G2_EN</SIGNAL> missing should NOT result in 1v - or any voltage - on <SIGNAL>PP3V3_S5</SIGNAL>. You should have 0v there. So, now I imagine what could be happening is that <SIGNAL>SMC_PM_G2_EN</SIGNAL> is present but <CHIP>U7501</CHIP> is shorted to ground and pulling it down, and is also pulling down <SIGNAL>PP3V3_S5</SIGNAL> along with it. I also find it odd that with a dead SMC you are getting 8.58v on <SIGNAL>PPBUS_G3H</SIGNAL> instead of the typical 8.15v I would expect with a dead SMC. But still, partially dead SMC is totally possible.\n\nIt's either the SMC or <CHIP>U7501</CHIP> from the data you've provided."
+        },
+        {
+            "post_id": 36353,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-06-28 17:15:08",
+            "message": "Ok, I replaced <CHIP>U7501</CHIP> and I have <SIGNAL>SMC_PM_G2_EN</SIGNAL> at 3.3V now. Also, the MagSafe light goes green to orange like normal. I lost PPBUS though so I'll have to investigate what changed. I noticed that after I saved the first draft of this post otherwise I would delete it until I check on PPBUS. I'll update this after that."
+        },
+        {
+            "post_id": 36357,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-28 17:21:11",
+            "message": "PPBUS voltage still at 8.6V now? I suspect bad soldering or another bad <CHIP>U7501</CHIP>. Also inspect traces especially to the VIN pin. Resistance to GND on <SIGNAL>3V3_S5</SIGNAL>?"
+        },
+        {
+            "post_id": 36358,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-06-28 17:24:26",
+            "message": "Yeah, I save that post and then realized PPBUS was gone. I'll figure it out and update this."
+        },
+        {
+            "post_id": 36404,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-06-29 20:37:01",
+            "message": "Ok, so I switched out a third <CHIP>U7501</CHIP> and it's back to 1V on <SIGNAL>3V3_S5</SIGNAL>, 0V on <SIGNAL>SMC_PM_G2_EN</SIGNAL> and Magsafe stuck on green. So apparently, something in the <CHIP>U7501</CHIP> circuit is killing <SIGNAL>SMC_PM_G2_EN</SIGNAL>. I've checked for shorts and failed components and can't find anything."
+        },
+        {
+            "post_id": 36417,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-30 10:12:46",
+            "message": "PPBUS checked? Green light  on charger would suggest SMC is not running or 3V42 is not present. Crap under SMC possible too."
+        },
+        {
+            "post_id": 36460,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-06-30 22:24:12",
+            "message": "Yes, PPBUS is back to 8.58V. What's odd is that when PPBUS went away, the light switched from green to orange like normal and <SIGNAL>SMC_PM_G2_EN</SIGNAL> came up to 3.3V. It looks like the SMC is working fine until <CHIP>U7501</CHIP> gets power and the rest of the power rails attempt to come up. Or the <CHIP>U7501</CHIP> circuit is shorting the SMC somehow."
+        },
+        {
+            "post_id": 36468,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-01 09:09:36",
+            "message": "Is 3V42 present when <CHIP>U7501</CHIP> is on the board? I don't see any way <CHIP>U7501</CHIP> could affect green/orange light."
+        },
+        {
+            "post_id": 36745,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-07-06 21:36:52",
+            "message": "3V42 is present with <CHIP>U7501</CHIP> on the board. I think it has to do with PPBUS not being present. When there was no PPBUS present, the light went from green to orange. So PPBUS is triggering something that is causing the light to stay green. And at the same time, <SIGNAL>SMC_PM_G2_EN</SIGNAL> is at 0V. And <CHIP>U7501</CHIP> is not able to function normally."
+        },
+        {
+            "post_id": 36828,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-10 04:59:34",
+            "message": "Even if you short out PPBUS the green/orange light should still work. Again I see no way for <CHIP>U7501</CHIP> to affect the light."
+        },
+        {
+            "post_id": 36898,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-07-10 19:24:36",
+            "message": "I don't actually think <CHIP>U7501</CHIP> is affecting the light. It appears that when PPBUS comes up, something comes on that affects the light. <CHIP>U7501</CHIP> is probably completely unrelated, but I measured 1V on <SIGNAL>PP3V3_S5</SIGNAL>, so I looked at <CHIP>U7501</CHIP>. But it looks like the real problem is whatever is causing the Magsafe light to stay green. And also whatever is causing <SIGNAL>SMC_PM_G2_EN</SIGNAL> to stay at 0V. They may be the same thing. Don't know."
+        },
+        {
+            "post_id": 36926,
+            "thread_id": 31623,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> <SIGNAL>3V3_S5</SIGNAL> a 1V",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-11 06:01:59",
+            "message": "Could be crap under the SMC, J6100."
+        }
+    ]
+}

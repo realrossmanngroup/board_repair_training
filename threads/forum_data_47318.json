@@ -1,0 +1,484 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3330": "What is 820-3330? a LOGIC BOARD PART NUMBER.",
+        "PP1V05_TBT": "What is PP1V05_TBT? a SIGNAL.",
+        "U3815": "What is U3815? a CHIP.",
+        "D6990": "What is D6990? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input, can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "CHGR_ACOK": "What is CHGR_ACOK? This is identical to SMC_BC_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "Q7080": "What is Q7080? a TRANSISTOR.",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "C7011": "What is C7011? a CAPACITOR.",
+        "PPDIN_S5_CHGR": "What is PPDIN_S5_CHGR? a SIGNAL.",
+        "R7085": "What is R7085? a RESISTOR.",
+        "R7080": "What is R7080? a RESISTOR.",
+        "PPDCIN_S5_CHGR": "What is PPDCIN_S5_CHGR? a SIGNAL.",
+        "R7086": "What is R7086? a RESISTOR.",
+        "R8071": "What is R8071? a RESISTOR.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7035": "What is Q7035? a TRANSISTOR.",
+        "R7010": "What is R7010? a RESISTOR.",
+        "R7011": "What is R7011? a RESISTOR.",
+        "U7970": "What is U7970? a CHIP.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "5V_S3": "What is 5V_S3? 5V_S3 is an abbreviation of “PP5V_S3” which is a 5 volt power rail present in an S3 state. S3 (Suspend to RAM) is a state where the system saves its context to RAM, a faster but more power-consuming method than S4. The system shuts down most components except for RAM, which remains powered to retain the system state. PM_SLP_S4_L is required for this rail to be present. .",
+        "5V_S5": "What is 5V_S5? 5V_S5 is an abbreviation for “PP5V_S5” which is a 5v power rail that is present when the machine is in an S5 state. .",
+        "3V3_S4": "What is 3V3_S4? This is an abbreviation of PP3V3_S4, a 3.3v power rail when the machine is in an S4 state. .",
+        "3V3_S3": "What is 3V3_S3? a SIGNAL.",
+        "5V_SUS": "What is 5V_SUS? a SIGNAL.",
+        "GHGR_ACIN": "What is GHGR_ACIN? a SIGNAL.",
+        "CHGR_A": "What is CHGR_A? a SIGNAL.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "SMC_BATLOW_L": "What is SMC_BATLOW_L? SMC_BATLOW_L refers to a power management signal that indicates a low battery condition. The \"_L\" suffix suggests that this is an active-low signal, meaning that it becomes low when the battery reaches a low voltage threshold..",
+        "P18V5_DCIN_CONN": "What is P18V5_DCIN_CONN? a SIGNAL.",
+        "R5040": "What is R5040? a RESISTOR.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "R5016": "What is R5016? a RESISTOR.",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off.."
+    },
+    "threads": [
+        {
+            "post_id": 47318,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-12 06:35:01",
+            "message": "This <LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> can work perfektly fine. Unfortunately only randomly it starts and works. The rest of the time its dead with just an green light (orange light is just there it it decides to start) and fan twitch ~ every 1 second. I can hear a clicking noise (i guess from a transistor?!) if the fans twitch.\nI checked a few things and as sometimes even the green light was fading away i replaced ISL and SMC already. Now the green light is there every time (orange light still only if it starts) but still starts only randomly...\nI checked all rails for shorts and <SIGNAL>PP1V05_TBT</SIGNAL> has just 17 Ohms to GND (not sure if thats ok?). If it starts there is 1,1V on that line...\nSo i am confused at this point."
+        },
+        {
+            "post_id": 47332,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-12 16:12:21",
+            "message": "You can remove <CHIP>U3815</CHIP>, if you have any doubt with <SIGNAL>PP1V05_TBT</SIGNAL> rail.\nI don't know which value should get there.\n17 ohms could be normal, beeing Thunderbolt core power rail.\n\nYou must post some voltages, signals level when board doesn't start..."
+        },
+        {
+            "post_id": 47389,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-14 02:40:21",
+            "message": "Thank you for the answer. I didnt know where to start at this. Every Rail except 3V42 was pulsing with a 85W Charger (eg. PPBUS is jumping between 10.X V and 12,6 V) This board should start from a 85W charger without battery if i am right. I tested with customer battery (just in case) but still the same. Just in case i tested a different battery and it seems to work from that battery most of the times but still not from the charger. Also sometimes it turms itshelf right back off after a few seconds (sometimes it chimes - sometimes is turns off earlier. This happens from battery and battery + charger). I traced this back and came to <DIODE>D6990</DIODE> that was leaking charger voltage to the battery (0.2 V in diode mode but it should read OL between pin 1&2) So i replaced <DIODE>D6990</DIODE> (now its reading is OL) And it seems to start and work with the new battery.\nStill sometimes pulsing and fan twitch without batterty sometimes working fine..."
+        },
+        {
+            "post_id": 47390,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-14 03:52:31",
+            "message": "if I correctly understand, machine gives sometime problems on charger only.\nYou must post some voltages in that moment."
+        },
+        {
+            "post_id": 47397,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-03-14 07:02:36",
+            "message": "Yeah check your current sensing circuit too resistance between 17/18 and 27/28 of the ISL"
+        },
+        {
+            "post_id": 47452,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-15 01:20:08",
+            "message": "It gives the problem randomly on charger as well as charger and battery. With battery alone it did not happen.\nCurrent sensing is fine at the ISL pins.\nMy Problem is that every Rail (except 3V42) seems to be present but pulsing. Even <SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> is pulsing between 16.0 V and 16.2 V with charger and battery plugged in but only green light... Same with charger only. 3V42 is the only steady rail at 3.40 V. \nEven <SIGNAL>5V_S0</SIGNAL>, Vcore and DDR rails are pulsing. Some pulse more and some less... (eg. <SIGNAL>5V_S0</SIGNAL> is pulsing between 0.4 V and 1 V - PPBUS is pulsing between 10 V and 12.6 V)\nSo i dont know what to measure/report to you. Have never had anything like this as is works perfektly fine just a moment later..."
+        },
+        {
+            "post_id": 47455,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-15 04:07:25",
+            "message": "OK, so you have charger related issue.\nFirst of all try known good working 85W charger.\nYou can also try bench power supply, with the cable removed from 85W charger.\nChange <TRANSISTOR>Q7080</TRANSISTOR>, just in case.\n\nDo you get steady high <SIGNAL>CHGR_ACOK</SIGNAL> signal?"
+        },
+        {
+            "post_id": 47458,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-15 04:27:13",
+            "message": "Changed <TRANSISTOR>Q7080</TRANSISTOR> - no change. I tryed defferent, known good chargers ( 1x 85W that works with other devices and 1x 60W with customer battery on Bench power supply) \nWith the same chargers it works a moment later randomly...\nIf i plug in a battery everything is fine and it works instantly. Unplug battery and its dead again!?\n<SIGNAL>CHGR_ACIN</SIGNAL> = pulsing 3.8 V - 3.9 V\n<SIGNAL>CHGR_ACOK</SIGNAL> =also pulsing 2.2 V - 2.3 V"
+        },
+        {
+            "post_id": 47460,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-15 04:33:54",
+            "message": "Remove <CAPACITOR>C7011</CAPACITOR>, see if anything change.\nUse o-scope and check how much drop these signals."
+        },
+        {
+            "post_id": 47463,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-15 04:51:09",
+            "message": "Unfortunately the next time i have access to a scope is on monday. I removed <CAPACITOR>C7011</CAPACITOR> and now it works with charger too. But i had this situation already a few times and later the same day the problem returms. Maybe its a heat related problem?\nI'll report back if it dies again and post scope readings on mondey if problem returns.\nThank you."
+        },
+        {
+            "post_id": 47466,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-15 08:47:10",
+            "message": "Unfortunately removing that cap didnt work. Now its back to fan twitch. I?ll report scope readings on monday."
+        },
+        {
+            "post_id": 47565,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-18 08:50:46",
+            "message": "As far as i can tell they drop down all the way to 0V. But it seems like my CRT is having some problems as it istn?t showing 0V if i do not measure anything. Its lower than the screen can show without me measuring something no matter what i do... So i am not sure if they acrually reach 0.0V."
+        },
+        {
+            "post_id": 47749,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-24 09:52:07",
+            "message": "I got another scope and accurate readings now. I measured <SIGNAL>CHGR_ACIN</SIGNAL> and <SIGNAL>CHGR_ACOK</SIGNAL>. As it is still a CRT i attached the waveforms as a handpainted picture.\nWould be really great if you could help me with this.\nThank you."
+        },
+        {
+            "post_id": 47760,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-24 18:10:18",
+            "message": "<SIGNAL>CHGR_ACIN</SIGNAL> drops too much and ACOK drops to 0V because of that.\nPost exact resistance between pins 17/18 and 27/28.\nRemove F7040/41 and tell us if L7030 voltage is stable.\n<SIGNAL>PPDIN_S5_CHGR</SIGNAL> drops too?\nOnly charger, NO battery connected, for all tests.\n\nMeasure <RESISTOR>R7080</RESISTOR>/81 and <RESISTOR>R7085</RESISTOR>/86 onboard, ohm scale."
+        },
+        {
+            "post_id": 47782,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-25 11:09:13",
+            "message": "At the ISL itshelf:\nPin 17-18: 6.2 Ohm\nPin 27-28: 24.3 Ohm\nThis includes ~3.5Ohm from my multimeter probes\n\n<RESISTOR>R7080</RESISTOR>: 99.5 kOhm\n<RESISTOR>R8071</RESISTOR>: 61.9 kOhm\n<RESISTOR>R7085</RESISTOR>: 380.1 kOhm\n<RESISTOR>R7086</RESISTOR>: 297.4 kOhm\n\nYes, <SIGNAL>PPDCIN_S5_CHGR</SIGNAL> is pulsing on multimeter between 16.4 V and 17 V...\n\nWith both fuses removed fans did not twitch and PPBUS is steady 12,55V at L7030. \nSo if i understand this corrrectly there must be some problem at the system side?"
+        },
+        {
+            "post_id": 47783,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-25 12:24:29",
+            "message": "Change <TRANSISTOR>Q7080</TRANSISTOR>."
+        },
+        {
+            "post_id": 47784,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-25 12:33:30",
+            "message": "I did already. Should i do it again? I also already  changed <TRANSISTOR>Q7030</TRANSISTOR> and <TRANSISTOR>Q7035</TRANSISTOR>. Just in case..."
+        },
+        {
+            "post_id": 47785,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-25 12:53:09",
+            "message": "<SIGNAL>PPDCIN_S5_CHGR</SIGNAL> still pulsing when F7040/41 removed?\nDid you try another charger?\nTry also bench power supply with 85W cable."
+        },
+        {
+            "post_id": 47786,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-25 13:13:32",
+            "message": "No, my bad. <SIGNAL>PPDCIN_S5_CHGR</SIGNAL> is only pulsing if fuses are attached. Like every other rail is only pulsing if fuses are attached. Yes, i did try 4 chargers already. Totay i got another 85W original sealed one and same thing. Unfortunately i only have a 60W at bench supply and dont want to cut off one of my original chargers if there is any other way..."
+        },
+        {
+            "post_id": 47789,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-25 18:08:44",
+            "message": "This board will not start with 60W charger alone, without battery.\nBut I doubt you've got 4 bad chargers...\nCheck if board works in SMC bypass mode, on charger only."
+        },
+        {
+            "post_id": 47798,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-26 00:50:56",
+            "message": "No, board is not working in smc bypass mode. If i hold the power button down I noticed that it twitches twice as fast. If i than disconnect and reconnect power it starts to quater fan spin at the \"twitch frequency\" after ~5 sec with the same clicking noise as before. So same thing but fans spin with pulsing speeds instead of twitch.\nnd in between sometimes it randomly works, as before..."
+        },
+        {
+            "post_id": 47806,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-26 04:03:47",
+            "message": "Check if you get 3V42 when <RESISTOR>R7011</RESISTOR> is removed.\nIf yes (not normal for original charger), run a wire from 3V42 to <SIGNAL>CHGR_ACIN</SIGNAL>.\nIt should work with fake charger.\n\nFor original charger, <RESISTOR>R7010</RESISTOR>/11 must remain both connected.\nIn such case, cut off trace to pin 3 and put there 3V42.\n\nAll this supposing 3V42 is always stable..."
+        },
+        {
+            "post_id": 47817,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-26 05:44:37",
+            "message": "While fans twitch 3V42 is 3.393V stable. \nIf <RESISTOR>R7011</RESISTOR> is removed 3V42 is gone too aswell as the green light.\nSo i put iR7011 back on, cut the trace and run a wire from 3v42 to pin 3. Now rails are stable. But the board is not working. Most of the times fans just twitch once now and thats it. Sometimes it turns on but after a few seconds right back off.\nI checked the rails and\n<SIGNAL>5V_S5</SIGNAL>, <SIGNAL>3V3_S5</SIGNAL>, <SIGNAL>5V_SUS</SIGNAL>, <SIGNAL>3V3_SUS</SIGNAL> are present.\n<SIGNAL>5V_S3</SIGNAL> is 0V,\n<SIGNAL>3V3_S4</SIGNAL> and <SIGNAL>3V3_S3</SIGNAL> are 0,7 V and falling. I followed this path and the enable is missing cause <CHIP>U7970</CHIP> has 0V at Pin 1&2. No Short at these two pins and also no short at <SIGNAL>5V_S3</SIGNAL> is, <SIGNAL>3V3_S4</SIGNAL> and <SIGNAL>3V3_S3</SIGNAL>."
+        },
+        {
+            "post_id": 47822,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-26 07:45:36",
+            "message": "Does the board work on battery alone, or battery + charger?"
+        },
+        {
+            "post_id": 47845,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-27 03:56:49",
+            "message": "It starts from battery alone everytime. Battery + charger also. But charger alone is not working very well. (your <SIGNAL>GHGR_ACIN</SIGNAL> mod is still on the board)"
+        },
+        {
+            "post_id": 47847,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-27 04:32:17",
+            "message": "Does it charge the battery?\n\n\"But charger alone is not working very well\"\nSometime works on charger alone?\n\nKeep the ACIN mode for the moment.\nPost <SIGNAL>CHGR_A</SIGNAL>/BMON when doesn't want to work.\nACOK steady now?\nAlso run ASD EFI and look for any error; charger and battery connected."
+        },
+        {
+            "post_id": 47848,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-27 05:37:02",
+            "message": "Yes, it charges the battery with orange light and last battery indicator light blinking too. On charger it only works sometimes randomly/intermitting. But mostly its dead. As it was from the beginning. \nWith charger only plugged in, green light and dead:\nACOK: 2,24 V steady\nAMON: 0.03 V\nBMON: 0.04 V\nIf i then plug in the battery and charger it starts, light turns orange AMON goes up to 0,4 V and BMON stays low ~0,05V but it works and shows question mark folder.\nASD results follow as soon as possible."
+        },
+        {
+            "post_id": 47892,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-28 03:20:12",
+            "message": "Unfortunately i can run ASD on monday next time as i am not at work until than. Just took the board with me and dont have a 2012 screen here - just one for 2011 model... So i post ASD results on monday. Is there anything else i can do until than with the mesurements from above?"
+        },
+        {
+            "post_id": 47897,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-28 05:23:04",
+            "message": "Post exact resistance between pins 17/18 and 27/28 in ohm scale.\nCheck for corrosion around <CHIP>ISL6259</CHIP>..."
+        },
+        {
+            "post_id": 47903,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-28 05:44:03",
+            "message": "At the ISL itshelf:\nPin 17-18: 6.2 Ohm\nPin 27-28: 24.3 Ohm\nThis includes ~3.5Ohm from my multimeter probes.\nI changed the ISL already so there is flux around it but there was no sign of corrosion anywhere on the board and inside the device as i started with this."
+        },
+        {
+            "post_id": 47904,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-28 06:37:45",
+            "message": "Should be good to test with PSU and 85W cable.\nOr at least fake charger.\nThis way you can discard leakage issue on charging circuit.\nOriginal charger detects leakage and can get blocked..."
+        },
+        {
+            "post_id": 47927,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-28 11:22:17",
+            "message": "Thank you.\nI tested a 60W charger on PSU with battery and a fake 85W charger but no change."
+        },
+        {
+            "post_id": 47929,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-28 11:28:19",
+            "message": "60W will not help, as it needs to connect battery too.\nDoes it start in SMC bypass with 85W fake charger?"
+        },
+        {
+            "post_id": 47943,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-29 00:25:13",
+            "message": "No, that dosn't help aswell. Same behaviour as with the original charger in SMC bypass mode."
+        },
+        {
+            "post_id": 47944,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-29 02:41:38",
+            "message": "The thread is split in so many posts, dificil to find signal values...\nPlease post again basic signals and exact voltages, on original 85W charger (no battery).\nDon't forget <SIGNAL>SMC_ADAPTER_EN</SIGNAL> and SMC/<SIGNAL>PM_BATLOW_L</SIGNAL>."
+        },
+        {
+            "post_id": 47947,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-29 03:59:01",
+            "message": "Yeah this thread is way to big alredy and this board is really killing me... Thank you for your patience!\nSince your <SIGNAL>CHGR_ACIN</SIGNAL> mod is on the board signals are steady now. Now it turns on ~50% of the time but turns off after a few secomds moslty. Its rare that it stays on. If it wont start at all fans twitch one time ant thats it. Green light is there. I get with board outside the case, original 85W charger and no battery at the moment its dead:\n\n<SIGNAL>PPBUS_G3H</SIGNAL>: 12.54 V\n<SIGNAL>P18V5_DCIN_CONN</SIGNAL>: 16,96 V\n<SIGNAL>PP3V42_G3H</SIGNAL>: 3.40 V\n<SIGNAL>PPVRTC_G3H</SIGNAL>: 3,33 V\n<SIGNAL>5V_S5</SIGNAL>: 5.03 V\n<SIGNAL>3V3_S5</SIGNAL>: 3.30 V\n<SIGNAL>5V_SUS</SIGNAL>: 5.03 V\n<SIGNAL>3V3_SUS</SIGNAL>: 3.33 V\n[B]<SIGNAL>3V3_S4</SIGNAL>: Jumps up if i plug in the cable and falls slowly down to 0 V after that one spike. So theres something wrong here i suspect\n<SIGNAL>5V_S3</SIGNAL>: 0.00 V\n<SIGNAL>3V3_S3</SIGNAL>: Same as <SIGNAL>3V3_S4</SIGNAL> as commected to is via L3505[/B]\n\nI followed <SIGNAL>3V3_S4</SIGNAL> and the enable is missing cause <CHIP>U7970</CHIP> has 0 V at Pin 1&2. No Short at these two pins and also no short at <SIGNAL>5V_S3</SIGNAL> is, <SIGNAL>3V3_S4</SIGNAL> and <SIGNAL>3V3_S3</SIGNAL>.\n\n<SIGNAL>SMC_BATLOW_L</SIGNAL>: 3.06 V  (is that ok? - <RESISTOR>R5040</RESISTOR> is 98 kOhm)\n<SIGNAL>PM_BATLOW_L</SIGNAL>: 3,29 V\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 3,36 V\n\nAny importent signal missed so far?"
+        },
+        {
+            "post_id": 47948,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-29 05:41:12",
+            "message": "Don't you get a pulse at L7220?\nIf cannot see anything when connect charger, then trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check reaction at L7220 and <SIGNAL>PM_PWRBTN_L</SIGNAL>.\nDo you always get steady high level for <SIGNAL>PM_RSMRST_L</SIGNAL> and <SIGNAL>PM_PWRBTN_L</SIGNAL> when charger connected?\nI'm especially inetrested for signal levels when board doesn't start..."
+        },
+        {
+            "post_id": 47949,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-29 06:35:50",
+            "message": "I do get a pulse at L7220 if i connect the charger and board doesnt wanna work (fan twitch). If the board starts up it jumps to 4.3 V and back down to 0 V is the board turns back off. If it starts up and works fine it jumps to 5.03 V.\n<SIGNAL>PM_PWRBTN_L</SIGNAL> jumps to 3,38 V and stays there even if the board turns back off. Same behaviour for <SIGNAL>PM_RSMRST_L</SIGNAL> but it reaches only 3.02 V.\nSignal levels are the same it the board doesn?t start at all(fan twitch) and if it starts but turns off again after a few seconds.\n\nI also noticed that sometimes the light in the charger turns on if i connect it, than off for a second and back on. Maybe thats cause i connect the charger 10x in one minunte of maybe its important..."
+        },
+        {
+            "post_id": 47960,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-29 13:07:28",
+            "message": "If you trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> always fan twitch?\nIf board always try to start and goes off instantly (or in seconds), looks like some SMC sensor issue.\nBut in such case, it should always start in SMC bypass.\nDid you start correctly in that mode?\nConnect battery and charger, run corresponding ASD and report if any error pops up.\nSe On Error Mode to Continue and unmark HDD and Memory tests..."
+        },
+        {
+            "post_id": 47993,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-03-30 08:50:44",
+            "message": "If it works power button works fine - even on keyboard. If its dead shorting <RESISTOR>R5016</RESISTOR> pads does not result in fan twitch - no reaction at all.\nI did SMC bypass like that: With charger connectec i hold power button, unpluged charger, plugged it back in while still holding power for 10 more seconds. I did not need to wait for 10 seconds. The board starts earlier and as i described it shows slightly other symptoms (like quater fan spin instead of just fan twitch) if i did that. So i guess it worked.\nIf i am right i should release power for 2 seconds and hold it for additional 2 seconds after the 10 seconds after plugging the charger back in. But as it already starts up i did not see the need for that.\nNot sure if thats a problem/ my fault...\nThank you. I'll run ASD on monday and report back."
+        },
+        {
+            "post_id": 48060,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-04-02 02:53:24",
+            "message": "I could not get it to run ASD. It just doesn`t wanna start normally now. Just quater fan spin or fan twitch... Also sometimes with green, sometimes with orange light and charging and sometimes even with no light in the charger at all (with battery connected)... So not sure what we can do here..."
+        },
+        {
+            "post_id": 48062,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-02 03:02:44",
+            "message": "Try known good DCIN board.\nCheck if charges battery at least."
+        },
+        {
+            "post_id": 48063,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-04-02 03:48:46",
+            "message": "I already used a couple different DCIN boards with no change. Battery charges as randomly as it turns on. But is has the ability to charge it."
+        },
+        {
+            "post_id": 48064,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-02 04:25:16",
+            "message": "Post some of previous signals when no Magsafe light.\nPay atention to <SIGNAL>CHGR_ACOK</SIGNAL> and <SIGNAL>SYS_ONEWIRE</SIGNAL> level."
+        },
+        {
+            "post_id": 48067,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-04-02 06:32:47",
+            "message": "Voltages did not change. Still everything present until i reach <SIGNAL>PP3V3_S4</SIGNAL>. <SIGNAL>5V_S3</SIGNAL> and <SIGNAL>3V3_S3</SIGNAL> ~ 0,5 V. Also straight 3,3V at scope for various time scales on <SIGNAL>SYS_ONEWIRE</SIGNAL> and <SIGNAL>CHGR_ACOK</SIGNAL> (with the mod still applied)."
+        },
+        {
+            "post_id": 48068,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2019-04-02 06:39:26",
+            "message": "Have you confirmed the board doesn't have any cracks/breaks? Specifically along I/O side...USB ports commonly cracked at the board. There are many lines running along right-side edge of board, so any damage there can cause funky issues relating to power/charge/etc. Just a thought...this thread seems to be getting long. Also check for any missing/damaged components."
+        },
+        {
+            "post_id": 48092,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 149,
+            "username": "Fizzl92",
+            "post_date": "2019-04-03 01:26:38",
+            "message": "I cant see anything bad looking on the board but i know what you mean. Especially if the heatsink \"burns\" itshelf to the keyboard backlight and when for what ever reason the speaker/mic assemply sticks really hard to the upper case. So it may just be flex damage - even if The4 keyboard backlight and the speaker assembly look fine too. I had alot of there boards that wont come out of the case but never had issues like that.\nThis one was already removed at least once until i got to it..."
+        },
+        {
+            "post_id": 48095,
+            "thread_id": 47318,
+            "title": "<LOGIC BOARD PART NUMBER>820-3330</LOGIC BOARD PART NUMBER> intermitting startup and orange light - fan twitch if dead",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-04-03 03:04:43",
+            "message": "Your problems could be generated by cracked traces.\nSeems that board has more than one issue which also appear randomly.\nIt is probably no worth to spend more time on it..."
+        }
+    ]
+}

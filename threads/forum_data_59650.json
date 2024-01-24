@@ -1,0 +1,222 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "PPVCC_S0_CPU": "What is PPVCC_S0_CPU? The \"PPVCC_S0_CPU\" power rail is responsible for supplying power to the CPU when the MacBook is fully on, or in the S0 state. This rail is one of the main voltages that the CPU requires for operation. .",
+        "PP3V3_S4": "What is PP3V3_S4? The \"PP3V3_S4\" power rail in a MacBook is used to supply 3.3 volts to certain components when the system is in the S4 power state, also known as \"suspend to disk\" or \"hibernate.\" This rail is active when the MacBook is not fully off but not in an awake state, allowing for faster startup times compared to a full boot sequence. The S4 power state means Suspend to Disk: This is a low-power state where the system context is saved to disk, allowing the system to be powered down almost entirely. Upon waking, the system can restore its state from the disk, effectively resuming where it left off..",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "CHGR_RST_L": "What is CHGR_RST_L? a SIGNAL.",
+        "CPU_PWRGD": "What is CPU_PWRGD? a SIGNAL.",
+        "PCH_PM_SLP_S0_L": "What is PCH_PM_SLP_S0_L? a SIGNAL.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "SYS_PWROK_R": "What is SYS_PWROK_R? a SIGNAL.",
+        "820-4924A": "What is 820-4924A? a LOGIC BOARD PART NUMBER.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on.."
+    },
+    "threads": [
+        {
+            "post_id": 62231,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-10 14:36:51",
+            "message": "Hello everyone,\n\nI have a board (<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A) without any signs of corrosion and no liquid spilled on it. From one day to another it didn't turn on.\nThe light of the Magsafe connector turns green and then orange. The board draws 350mA with a disconnected battery.\nI have measured the following signals so far:\n\n[ICODE]<SIGNAL>PPBUS_G3H</SIGNAL>     12.5V\n<SIGNAL>PP5V_S0</SIGNAL>        5V\n<SIGNAL>PP3V3_S0</SIGNAL>    3.3V\n<SIGNAL>PP3V3_S4</SIGNAL>    3.3V\n<SIGNAL>PP5V_S4</SIGNAL>        5V\n<SIGNAL>PM_SLP_S4_L</SIGNAL>    3.3V\n<SIGNAL>PM_SLP_S3_L</SIGNAL>    3.3V\n<SIGNAL>PM_SLP_S5_L</SIGNAL>    3.3V\n<SIGNAL>PP3V3_S5</SIGNAL>    3.3V\n<SIGNAL>PP5V_S5</SIGNAL>        5V\n<SIGNAL>PP5V_S3</SIGNAL>        5V\n<SIGNAL>PP3V3_S3</SIGNAL>    3.3V\n<SIGNAL>S4_PWR_EN</SIGNAL>    3.3V\n<SIGNAL>PPVCC_S0_CPU</SIGNAL>    1.86V\n<SIGNAL>CHGR_RST_L</SIGNAL>    3.3V\n<SIGNAL>PM_SLP_SUS_L</SIGNAL>    3.3V\n<SIGNAL>PCH_PM_SLP_S0_L</SIGNAL> 3.3V\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL>    3.3V\n<SIGNAL>CPU_PWRGD</SIGNAL>    1.048V\n<SIGNAL>PPVRTC_G3H</SIGNAL>    3.3V\n[/ICODE]\n\nWhat should I test next?"
+        },
+        {
+            "post_id": 62232,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-10 14:47:00",
+            "message": "First of all, welcome to the forum!\n\nCheck for 3V presence at pin 3/<CHIP>U1950</CHIP> and <SIGNAL>PLT_RESET_L</SIGNAL>.\nIf yes, then try new full BIOS.\n\nDid you test USB activity?"
+        },
+        {
+            "post_id": 62234,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-10 15:03:58",
+            "message": "Thank you for welcoming me!\n\nOkay, I measured the following:\n\n[ICODE]<SIGNAL>SYS_PWROK_R</SIGNAL>    3.419V (pin 3/<CHIP>U1950</CHIP>)\n<SIGNAL>PLT_RESET_L</SIGNAL>    3.333V[/ICODE]\n\nWhat exactly do you mean by USB activity? I just connected a USB mouse and the lights turn on, so power seems to be delivered."
+        },
+        {
+            "post_id": 62237,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-10 16:58:30",
+            "message": "Mouse gets steady light if connected when board is turned on?\nIn such case, should be activity.\nAlways better to confirm with an OSX pendrive/HDD; if Link LED flashes, that is.\n\nYou still have to test LIO board/flex to finish the repair."
+        },
+        {
+            "post_id": 62249,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-11 13:27:36",
+            "message": "You're right, no steady light on the mouse and I also tested with an OSX pendrive and the Link LED is not blinking, so it seems its not communicating...\nFor testing i've been using the USB port on the side of the magsafe connector."
+        },
+        {
+            "post_id": 62252,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-11 14:12:33",
+            "message": "Aaaa, this 4924 board, no LIO board there.\nI mixed the threads somehow; to much heat here...\n\nTry new BIOS file now."
+        },
+        {
+            "post_id": 62256,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-11 14:22:41",
+            "message": "As I'm just a normal guy trying to repair his macbook I do not have all the accessories that a macbook repair shop has.\nWhat would be the cheapest way for me to flash the bios chip? The \"CMIzapper Medusa 2\" would cost me around 300€..."
+        },
+        {
+            "post_id": 62258,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-11 14:48:57",
+            "message": "I don't understand what could have happened to the bios chip, that it needs to be flashed a new firmware."
+        },
+        {
+            "post_id": 62289,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-13 10:10:45",
+            "message": "Is there anything else I can test, before ordering the utilities to flash the bios?"
+        },
+        {
+            "post_id": 62291,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-13 10:13:03",
+            "message": "CH341 costs 5 bucks.\nYou will need to remove/resolder the chip..."
+        },
+        {
+            "post_id": 62692,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-22 06:53:55",
+            "message": "I finally got the CH341 and could read out the BIOS chip. But where do I get a fresh version?"
+        },
+        {
+            "post_id": 62700,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-22 07:28:39",
+            "message": "We should have some link already posted on the forum.\nUpload your BIOS backup somewhere too."
+        },
+        {
+            "post_id": 62705,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-22 08:47:50",
+            "message": "Okay, I took the binary from this post: [URL]https://boards.rossmanngroup.com/threads/<LOGIC BOARD PART NUMBER>820-4924A</LOGIC BOARD PART NUMBER>-doesnt-boot.59550/#post-61489[/URL]\nNow the board seems to boot, at least I'm getting a current of over 550mA."
+        },
+        {
+            "post_id": 62706,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-22 09:00:23",
+            "message": "I just connected the display and the OSX pendrive and an apple logo is showing up! Yay!\nCan I stay with that BIOS or do I need a customized one with my serial number?"
+        },
+        {
+            "post_id": 62709,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-22 10:01:41",
+            "message": "Is better to preserve original serial number.\nSwap Fsys region with the one from your backup; Fsys --> $SVS."
+        },
+        {
+            "post_id": 62719,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-22 12:44:40",
+            "message": "Did it and booted once from OSX pendrive. Then I shut it down via GUI and now it's not turning on again..... it draws again 350mA then restart after a few seconds and again draws 350mA... No apple logo no boot sound..."
+        },
+        {
+            "post_id": 62722,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-22 13:34:00",
+            "message": "Try SMC bypass mode.\n\nWrite again working BIOS, without changing serial number."
+        },
+        {
+            "post_id": 62723,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-22 13:36:27",
+            "message": "I just flashed the BIOS again. This time the \"original\" version from the other thread (without changing serial). And it happend again. Started once and then not more."
+        },
+        {
+            "post_id": 62729,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-22 15:36:44",
+            "message": "Heat <CHIP>U6100</CHIP> and check if board boots then."
+        },
+        {
+            "post_id": 62746,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 26896,
+            "username": "c0dix",
+            "post_date": "2020-07-23 00:57:03",
+            "message": "Heating up the chip did not help... I've read out the contents of the BIOS chip after booting and it changed. Is this normal behavior?\n\nSo the current situation is, that flashing the BIOS makes the system boot, but only once. Then it's broken again and drawing 350mA"
+        },
+        {
+            "post_id": 62750,
+            "thread_id": 59650,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER>-A not turning on (draws 350mA)",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-23 03:50:23",
+            "message": "Change BIOS chip.\nIs normal that BIOS content is changed after boot; especially if you wrote clean ME."
+        }
+    ]
+}

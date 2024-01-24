@@ -1,0 +1,118 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "Q7155": "What is Q7155? a TRANSISTOR.",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "R5429": "What is R5429? a RESISTOR.",
+        "R4439": "What is R4439? a RESISTOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U7190": "What is U7190? a CHIP.",
+        "R7192": "What is R7192? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 41935,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-11-08 23:13:32",
+            "message": "This will work completely fine either way, but if you have the battery plugged in and then plug in the power adapter the MagSafe light goes out and it will just run on battery. It will run fine though plugged in with no battery attached. I've replaced the ISL. PPBUS is at 12.63V. Battery is at 11.3V which is the same on a known-good board. Board was liquid-damaged and originally had 1.5V on PPBUS. I changed the ISL and that fixed that. I've measured every component in the power circuit and checked for any shorts or incorrect diode measurements compared to a good board. No difference that I can find. I've replaced <TRANSISTOR>Q7155</TRANSISTOR>, <TRANSISTOR>Q7130</TRANSISTOR> and <TRANSISTOR>Q7180</TRANSISTOR>. Not sure what I'm missing."
+        },
+        {
+            "post_id": 41938,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-09 01:21:28",
+            "message": "Post <SIGNAL>CHGR_AMON</SIGNAL> and <SIGNAL>CHGR_BMON</SIGNAL> with charger and battery both connected.\nDid you try to start in SMC bypass mode?\nCheck resistance to ground for SCL/SDA lines on battery bus; diode mode, red probe to ground."
+        },
+        {
+            "post_id": 41965,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-09 06:58:52",
+            "message": "Current sensing for sure fine?"
+        },
+        {
+            "post_id": 41978,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-11-09 10:48:46",
+            "message": "I’ve tested the usual spots many times as I’ve had to keep going over things to try to find an answer. Current sensing, data lines, diode measurements on pins on ISL, surrounding component values and diode measurements - nothing is off.\n\nThe MagSafe light dies immediately when I plug it in. The power adapter is not happy. My main test adapter is not coming back on, even after sitting unplugged overnight. Looks like it was killed by the board. My other ones are managing to recover once I let them sit unplugged for about 10 minutes.\n\nSMC-bypass works fine without battery but does nothing with it plugged in. No power. Same situation as normal mode.\n\nSDA on battery connector: .502\nSCL on battery connector: .504\n<RESISTOR>R4439</RESISTOR> and <RESISTOR>R5429</RESISTOR> are measuring fine. Diode measurements are good also.\n\n<SIGNAL>CHGR_AMON</SIGNAL> is at 0V with battery and adapter plugged in.\n<SIGNAL>CHGR_BMON</SIGNAL> is at .052V\n\nDiode measurements on both AMON and BMON are both normal at .712 and .722 respectively.\n\nPPBUS (battery only): 11.34V\nPPBUS (power adapter only): 12.63V\nPPBUS during SMC-bypass (without battery plugged in): 12.32V\n\n———————————\n\nFor Reference:\n\nWith Known-Good Board (and same battery)\n<SIGNAL>CHGR_AMON</SIGNAL>: 1.367V\n.712 in diode mode\n\n<SIGNAL>CHGR_BMON</SIGNAL>: .052V\n . 724 in diode mode\n\nPPBUS (battery only) 11.34V\nPPBUS (power adapter only) 12.55V\n\nSMC bypass works fine with and without battery plugged in. Fan spins up high and PPBUS voltage drops to 12.24V"
+        },
+        {
+            "post_id": 41981,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-11-09 11:28:58",
+            "message": "Check resistance between pins 17/18 and 27/28 of the <CHIP>ISL6259</CHIP>"
+        },
+        {
+            "post_id": 41982,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-09 11:29:13",
+            "message": "\"<SIGNAL>CHGR_AMON</SIGNAL> is at 0V with battery and adapter plugged in.\n<SIGNAL>CHGR_BMON</SIGNAL> is at .052V\"\nLooks like no consumption at all from charger.\nSystem sinks aprox 0.3A from battery...\n\nPost pins 1 & 26 of <CHIP>U7100</CHIP> in this case.\nMaybe need to change <TRANSISTOR>Q7180</TRANSISTOR>."
+        },
+        {
+            "post_id": 41984,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-11-09 11:42:21",
+            "message": "Pin 1: .636 in diode mode\nPin 26: .634\n\nI did change <TRANSISTOR>Q7180</TRANSISTOR> once already.\n\nAs far as voltage coming from the adapter, it's dying immediately. It's going into some type of serious shutdown/failure. I just lost two more. They won't come back after letting them sit unplugged for about 30 minutes. It's a nice i7 16GB board but I might have to pull the plug on this soon. I can't keep losing good 85 watt adapters."
+        },
+        {
+            "post_id": 41989,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-11-09 12:51:41",
+            "message": "Need voltages at these pins; sorry for mistyping...\nAlso post PPBUS with both charger and battery connected."
+        },
+        {
+            "post_id": 42033,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-11-09 19:48:21",
+            "message": "PPBUS is the same as when the adapter is not plugged in. 11.32V.\nPin 26: 10.8V\nPin 1: 0V\n\nKeep in mind though, the adapter is literally getting friend the moment I plug it in. These measurements might not be affected at all by the adapter being plugged in. Not sure though. You'll know better than me. My grasp of the circuit is limited. It does trigger the auto-turn-on so something is happening when you plug it in."
+        },
+        {
+            "post_id": 42036,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-11-09 23:34:38",
+            "message": "I just noticed that <CHIP>U7100</CHIP> is getting extremely hot, right up near 100°C. I didn't have the battery plugged in. Any idea what would cause that?"
+        },
+        {
+            "post_id": 42037,
+            "thread_id": 41935,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Works fine on battery or plugged in, but not together",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-11-10 00:15:14",
+            "message": "Well, not quite sure what was happening, but <RESISTOR>R7192</RESISTOR> looked a little crooked. I resoldered it and reflowed <CHIP>U7190</CHIP> a little and the temperatures came way back down to normal. Board is charging normally now. Done. Thanks for the help."
+        }
+    ]
+}

@@ -1,0 +1,251 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1708": "What is A1708? A1708 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2017, 2016 with EMC 3164, that may contain one of these boards depending on the year & configuration: 820-00840, 820-00875..",
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "LID_CLOSE": "What is LID_CLOSE? a SIGNAL.",
+        "SMC_LID_RIGHT": "What is SMC_LID_RIGHT? SMC_LID_RIGHT is a signal that tells the system if the lid is closed from the right LID sensor. If it is low, the system thinks the lid is closed – if it is 3.3v, the system thinks the machine is open. SMC_LID_RIGHT needs to be high for the machine to stay awake and have a backlight. .",
+        "LID_OPEN": "What is LID_OPEN? a SIGNAL.",
+        "HALL_SENSOR_LEFT": "What is HALL_SENSOR_LEFT? HALL_SENSOR_LEFT is a signal from the hall sensor on the left side of the machine that indicates that the lid has been closed. This is necessary for setting SMC_LID properly so the machine knows whether it is closed or open. When this is low, the machine will think it is closed which may cause it to go to sleep or have no backlight on the screen.",
+        "HALL_SENSOR_RIGHT": "What is HALL_SENSOR_RIGHT? HALL_SENSOR_RIGHT is a signal from the hall sensor on the RIGHT side of the machine that indicates that the lid has been closed. This is necessary for setting SMC_LID properly so the machine knows whether it is closed or open. When this is low, the machine will think it is closed which may cause it to go to sleep or have no backlight on the screen.",
+        "HALL_SENSOR": "What is HALL_SENSOR? a SIGNAL.",
+        "HALL_SENSORS": "What is HALL_SENSORS? a SIGNAL.",
+        "OPEN_LID": "What is OPEN_LID? a SIGNAL.",
+        "U5255": "What is U5255? a CHIP.",
+        "R5257": "What is R5257? a RESISTOR.",
+        "SMC_LID_LEFT_R": "What is SMC_LID_LEFT_R? a SIGNAL.",
+        "SMC_LID_LEFT": "What is SMC_LID_LEFT? SMC_LID_LEFT is a signal that tells the system if the lid is closed from the left LID sensor. If it is low, the system thinks the lid is closed – if it is 3.3v, the system thinks the machine is open. SMC_LID_LEFT needs to be high for the machine to stay awake and have a backlight. .",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "R5253": "What is R5253? a RESISTOR.",
+        "R5254": "What is R5254? a RESISTOR.",
+        "TP_HALL_SENSOR_RIGHT": "What is TP_HALL_SENSOR_RIGHT? a SIGNAL.",
+        "SENSOR_RIGHT": "What is SENSOR_RIGHT? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 91012,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-13 01:36:49",
+            "message": "Hello,\n\nI'm new to macbook repair but after spilling some water on my macbook I did an ultrasonic bath of the motherboard already.\nEverything works fine except after closing lid.\nFrom the schematic, I see that there is 2 hall sensors, but playing with magnets, I can put the mac to sleep only with 1 magnet triggering the sensor on the left.\n\nI've been wanting to dig in a bit by playing with TP for sensor and <SIGNAL>LID_OPEN</SIGNAL> but I'm not sure how to do that cause the test point are not visible when the MB is fixed to the case. Should I just try to plug the battery to the motherboard and nothing else so I can play with <SIGNAL>HALL_SENSOR</SIGNAL> TP and <SIGNAL>OPEN_LID</SIGNAL> TP?\n\nAlso just to make sure I'm on the right track, the way I understand it:\nCLAMSHELL should be detected as closed if I have LOW signal on both <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> and <SIGNAL>HALL_SENSOR_LEFT</SIGNAL>, correct? Meaning if no magnet is applied, those <SIGNAL>HALL_SENSORS</SIGNAL> should yield \"high\" voltage?\nCLAMSHELL should be detected as OPEN if <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> OR <SIGNAL>HALL_SENSOR_LEFT</SIGNAL> is HIGH so that <SIGNAL>LID_OPEN</SIGNAL> is high?\n\nThe fact that I can trigger sleep mode with 1 magnet on the left makes me think that somehow <SIGNAL>SMC_LID_RIGHT</SIGNAL> is already low... but what I don't get is, when I remove the magnet, <SIGNAL>HALL_SENSOR_LEFT</SIGNAL> HIGH should be enough for the OR gate to yield <SIGNAL>LID_OPEN</SIGNAL>.\n(Just want to make sure I'm understanding correctly how this should work)\n\nAdditional information: I ran ioreg -r -k AppleClamshellState with an external monitor plugged in and it confirms.\nEverything starts with \"AppleClamshellState\" = No\nThen if I close the macbook \"AppleClamshellState\" = Yes\nThen if I re-open the lid, it stays \"AppleClamshellState\" = Yes\n\nFinal question, is it possible that the problem doesn't come at all from the <SIGNAL>HALL_SENSORS</SIGNAL> or the logics around it? (One repair store told me I needed to change my screen cause the video card might be faulty... But I fail to see how a faulty screen could explain what I'm experiencing with magnets, etc)\n\nThank you"
+        },
+        {
+            "post_id": 91015,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-13 03:04:00",
+            "message": "First of all, welcome to the forum!\n\nAs per schematic, right sensor is placed on audio flex and I bet was affected by liquid spill.\n\nSeems that you've understood how <CHIP>U5255</CHIP> works.\nOne high level sensor is enough to get high level output.\nIt goes low only if both inputs are low too; check associated note.\n\nRemove <RESISTOR>R5257</RESISTOR> and tie together <CHIP>U5255</CHIP> inputs.\nIf machines works good, leave it as is."
+        },
+        {
+            "post_id": 91017,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-13 03:24:36",
+            "message": "Thanks. I'll see how I can try that. (don't have much experience with micro-soldering etc). If there is anyway to check/test the audioflex sensor, it might be less complex for me without micro-soldering to just change the audioflex completely?\n\nIn the meantime if I look at schematic, I'm not sure of one thing though. If my left sensor is working correctly, it should be \"enough\" to wake the machine right?\n\nBecause if I'm understanding correctly what you're trying to suggest, you want to remove signal coming from <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> and have <SIGNAL>SMC_LID_RIGHT</SIGNAL> = <SIGNAL>SMC_LID_LEFT_R</SIGNAL>\n\nSo I'm not sure exactly what is the reasoning behind it, if you care to give me more insights ;)\nCause I also tried to unplug the audio flex and nothing happened. (probably rightfully so, cause if the expected behavior is to have current in <SIGNAL>SMC_LID_RIGHT</SIGNAL> when OPEN, unplugging the audio flex would not change that.\n\nI guess my question is, do we need <SIGNAL>SMC_LID_RIGHT</SIGNAL> to be \"high\" for the computer to \"WAKE\"? ==> if  <SIGNAL>SMC_LID_LEFT_R</SIGNAL> is high and <SIGNAL>LID_OPEN</SIGNAL> is HIGH (thanks to the or logic gate), it's not enough to wake the machine?"
+        },
+        {
+            "post_id": 91019,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-13 04:22:11",
+            "message": "\"I guess my question is, do we need <SIGNAL>SMC_LID_RIGHT</SIGNAL> to be \"high\" for the computer to \"WAKE\"? ==> if  <SIGNAL>SMC_LID_LEFT_R</SIGNAL> is high and <SIGNAL>LID_OPEN</SIGNAL> is HIGH (thanks to the or logic gate), it's not enough to wake the machine?\"\nBoth hall sensors are connected to SMC too; not just to <CHIP>U5255</CHIP>.\n\n\"Cause I also tried to unplug the audio flex and nothing happened. (probably rightfully so, cause if the expected behavior is to have current in <SIGNAL>SMC_LID_RIGHT</SIGNAL> when OPEN, unplugging the audio flex would not change that.\"\nThe pull-up resistors are on the sensors side, not on the MLB.\n\nOf course, correct repair requires changing bad hall sensor...\n\nWrite directly on the reply box, instead of clicking Reply button.\nI don't see any reason to quote an entire post, visible few centimeters above.\nPlease, maintain forum aesthetic."
+        },
+        {
+            "post_id": 91021,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-13 06:12:11",
+            "message": "Sorry for the esthetics.\n\"Both hall sensors are connected to SMC too\" => Ok so you are saying that it's expected that we need 2 hall sensors with high signal to wake the computer right?\nCan I try the fix above without removing anything and just connecting TP <SIGNAL>SMC_LID_RIGHT</SIGNAL> with TP <SIGNAL>SMC_LID_LEFT</SIGNAL>? If it works does it mean I can probably just change the audio flex (the problem would be isolated to it?)\n\nThank you"
+        },
+        {
+            "post_id": 91022,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-13 07:39:44",
+            "message": "Corrosion on right hall sensor will kill then <SIGNAL>HALL_SENSOR_LEFT</SIGNAL> signal too.\nYou must remove <RESISTOR>R5257</RESISTOR> to prevent this."
+        },
+        {
+            "post_id": 91023,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-13 07:41:26",
+            "message": "Ok thanks I'll see what I can do ;)"
+        },
+        {
+            "post_id": 91024,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-13 07:58:39",
+            "message": "Cause I don't have experience with micro soldering and don't want to mess it up, can I actually unplug the corroded right sensor by unpluging the audio connector on J6600 and then connecting the 2 TP TP <SIGNAL>SMC_LID_RIGHT</SIGNAL> with TP <SIGNAL>SMC_LID_LEFT</SIGNAL> ? Can this work to isolate the problem?"
+        },
+        {
+            "post_id": 91025,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-13 09:34:54",
+            "message": "I already explained you, pull-up resistor for <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> signal is placed on the sensor side.\nIf you disconnect it, need to solder such resistor on the MLB, to <SIGNAL>3V3_G3H</SIGNAL>; similar with <RESISTOR>R5253</RESISTOR>, used for <SIGNAL>HALL_SENSOR_LEFT</SIGNAL>.\n\nDon't need special soldering experience to desolder <RESISTOR>R5257</RESISTOR>; maybe to put it back."
+        },
+        {
+            "post_id": 91124,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-16 06:21:08",
+            "message": "Hi,\nSo update on this. I have tried with a brand new audio flex thinking the right sensor was faulty. But no improvement at all. I still can put my mac to sleep only with left sensor… as if I haven’t changed anything.\n\nI did a few measure and I do have 3.3v on TP <SIGNAL>LID_OPEN</SIGNAL> and TP <SIGNAL>SMC_LID_LEFT</SIGNAL>.\nWith old and new audio flex (only the flex and the board connected with nothing else), I get 0.03v on TP <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL>.\n\nThere is still a chance that the new audio flex is broken as well, but that led me to think I'm not sure I understand what voltage I'm supposed to get from this sensor.\nBasically when there is nothing connected but the board and the audio flex (+power of course), am I supposed to get high voltage on TP <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> (similar to what I'm getting from <SIGNAL>HALL_SENSOR_LEFT</SIGNAL>) if it's working properly?\n\nBy the way <RESISTOR>R5254</RESISTOR> is supposed to be 1M Ohm but I measure only  200 to 300k... weird. Not sure it impacts anything but I’d rather say in case \n\nPS : I understand the fix about desoldering <RESISTOR>R5257</RESISTOR> but as I'm looking for the long term solution with both sensor playing their part, I'm trying to understand what is wrong with this line first."
+        },
+        {
+            "post_id": 91129,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-16 14:48:34",
+            "message": "Did you locate the right hall sensor on that flex?\nIt receives <SIGNAL>3V3_G3H</SIGNAL> voltage and has a pull-up resistor there too.\n\nIf you changed the audio flex and issue persists, check J6600 solder on pin 25."
+        },
+        {
+            "post_id": 91142,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-17 12:11:49",
+            "message": "Ok so I do locate the sensor on both flex, but it's covered/protected in some sort of silicon. so I can't really access it, without removing it. I'll try to do that on the old one just to see if I can measure stuff there directly. \nOther than that I did measure voltage on J6600 pin 27 and pin 25 doesn't seem broken or anything from the look of it."
+        },
+        {
+            "post_id": 91147,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-17 14:26:44",
+            "message": "A pull-up resistor (mounted on the sensor), must bring 3V at pin 25; powered from <SIGNAL>3V3_G3H</SIGNAL> at pin 27.\nIf you get 3V on both pins, sensor should be good.\nYou can check its reaction aproaching a magnet; pin 25 should drop to 0V.\nThis signal goes to <CHIP>U5255</CHIP> and SMC via <RESISTOR>R5257</RESISTOR>.\nIf this resistor is broken, or sensor corroded, it will be always 0V."
+        },
+        {
+            "post_id": 91152,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-17 23:47:15",
+            "message": "any tips to measure those voltage when the audio flex is connected? Cause there is no tp and the pins are not easily accessible… \n\nwhen the audio flex is not connected, I do get 3v on pin 27.\nRegarding pin 25, why measuring from it rather than TP <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> should be different? There is 0 ohm between them (measured when audio flex not connected) \n\ni find it very weird that I just bought a broken audio flex. Is there any remote way that the pb can be caused by something else elsewhere?\n\nps : I also made sure there is no short by measuring resistance from <SIGNAL>TP_HALL_SENSOR_RIGHT</SIGNAL> and ground base. Doesn’t seem like a short"
+        },
+        {
+            "post_id": 91153,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-18 00:52:23",
+            "message": "I mentioned pin 25, to know what signal to check on MLB; doesn't matter, where, if is the same line.\nYou can test the board alone on the desk, just audio cable connected; and charger, of course.\n\nPull-up resistor is high value (100K-1M), similar to <RESISTOR>R5253</RESISTOR>.\nEven slight corrosion to ground, will kill the signal."
+        },
+        {
+            "post_id": 91155,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-18 01:03:18",
+            "message": "Ok that’s what I thought. Do we agree that if there was corrosion to ground I would measure 0 Ohm between <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> and ground? If that’s not the case we can safely assume it’s not a short, correct?\nOr is ground not the same circuit accross the MLB?"
+        },
+        {
+            "post_id": 91160,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-18 04:44:56",
+            "message": "\"Do we agree that if there was corrosion to ground I would measure 0 Ohm between <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> and ground?\"\nNO!\n\nIf pull-up resistor is 100K, parasitic 10K resistance to ground (caused by corrosion), will drop voltage to almost 0V.\nEven 50K will drop signal to aprox 1.5V, which is prohibited level; 2.1V is low limit for high level.\nIf pull-up resistor is open (corroded), no voltage at all there; without detecting any short, or low resistance to ground."
+        },
+        {
+            "post_id": 91163,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-18 05:18:34",
+            "message": "Ok but I’m measuring 300k ohm…  (even though I should measure 1meg based on the schematic) \nAnd I tried linking tp <SIGNAL>HALL_SENSOR_RIGHT</SIGNAL> + tp <SIGNAL>HALL_SENSOR_LEFT</SIGNAL> and the signal doesn’t die and stays at 3v on both tp (Even with audio flex plugged in and touching no other resistors) \nSo what do we conclude? Do I have corrosion? Or just 2 non functioning sensor?"
+        },
+        {
+            "post_id": 91168,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-18 07:02:47",
+            "message": "300K between pins 25 & 27?\nCheck value on both directions.\nIf pull-up resistor is 1M, the reading could be good.\n\nI already explained you how to check if original right sensor works.\nWhy don't check???"
+        },
+        {
+            "post_id": 91169,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-18 08:42:42",
+            "message": "\"I already explained you how to check if original right sensor works.\nWhy don't check???\"\n\n===> I'm under the impression that I've checked everything you shared already. please tell me, what did I miss? What haven't I tested already?\n\nBy the way I tried with 2 other audio flex (so 3 new in total) and they hall yield the same problem. No voltage on TP <SIGNAL>SENSOR_RIGHT</SIGNAL>. But strangely if I bootup my computer mic is not working on any of the new audio flex but is working on the old supposedly broken one. \n\nSo either the 3 new audio flex are broken OR there is something weird happening with the Motherboard where with a working audio flex, nothing works..."
+        },
+        {
+            "post_id": 91175,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-18 09:34:11",
+            "message": "\"You can check its reaction aproaching a magnet; pin 25 should drop to 0V.\"\nOf course, this doesn't help if you don't get first 3V on the signal; in normal mode, lid open.\n\nRemove <RESISTOR>R5257</RESISTOR> and check voltage on its pad 1 (going to pin 25 of J6600).\nIn this way you can see if problem comes from audio flex, or MLB."
+        },
+        {
+            "post_id": 91177,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-18 10:10:19",
+            "message": "So indeed I never get 3Volt on pin 25 as far as I can measure… so I haven’t tried the magnet indeed… \nFor now based on what’s happening with the brand new audio flex I’m thinking there is a problem with MLB I’ll retry a second ultrasonic bath and if nothing happens I’ll bring it to someone with proper micro (de)soldering experience. I don’t have the equipment to do that properly.\n\nby the way the fluid you recommend to do ultrasonic bath is not available in France. Do you know of any good alternative? I was going to go for 100% isopropanol in the bath."
+        },
+        {
+            "post_id": 91178,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-18 10:22:24",
+            "message": "Don't waste the time with ultrasonic cleaner now; you can generate more damage.\nYou must diagnose first where the problem is; MLB, or audio flex/connector.\n\nIf you was able to get acces on old hall sensor (removing the silicon), check continuity from its pins to corresponding MLB points."
+        },
+        {
+            "post_id": 91180,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 39985,
+            "username": "jhk753",
+            "post_date": "2022-07-18 11:40:47",
+            "message": "Ok any tips to scratch the silicon without breaking everything? Should I try to heat it with a hairdryer or something?"
+        },
+        {
+            "post_id": 91186,
+            "thread_id": 62888,
+            "title": "<MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER>-A Needs SMC reset to start macbook after <SIGNAL>LID_CLOSE</SIGNAL>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-07-18 14:04:26",
+            "message": "If you can't detect corrosion there, better don't touch it.\nInspect J6600 solders and contacts.\n\n\"Remove <RESISTOR>R5257</RESISTOR> and check voltage on its pad 1 (going to pin 25 of J6600).\"\nFind someone who can do this for you.\nCheck with audio flex connected, of course."
+        }
+    ]
+}

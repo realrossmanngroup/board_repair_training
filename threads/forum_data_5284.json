@@ -1,0 +1,213 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "U6990": "What is U6990? a CHIP.",
+        "PP4V42_G3H": "What is PP4V42_G3H? a SIGNAL.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7035": "What is Q7035? a TRANSISTOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H."
+    },
+    "threads": [
+        {
+            "post_id": 5284,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-11 11:52:10",
+            "message": "Hey Guys, I got a <LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> that came in with no power and no water damage history. When I connect the charger to the macbook it flashes green and orange very rapidly. I checked the main power rails and got the following readings <SIGNAL>PPBUS_G3H</SIGNAL> 0.45v, <SIGNAL>PPDCIN_G3H</SIGNAL> 17.06v, <SIGNAL>PP3V42_G3H</SIGNAL> 0.02v. I did some inspection around <CHIP>U7000</CHIP> and notice that im receiving 3.44v at <SIGNAL>CHGR_ACIN</SIGNAL> but I'm missing all the output voltages <SIGNAL>CHGR_AMON</SIGNAL> 0.004v, <SIGNAL>CHGR_BMON</SIGNAL> 0.003v, <SIGNAL>SMC_BC_ACOK</SIGNAL> 0v.  My instinct tells me that <CHIP>U7000</CHIP> is dead. Can this be the case? Should i check voltages anywhere else? This circuit always confuses me -___-\n\nThanks,"
+        },
+        {
+            "post_id": 5288,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-11 12:56:33",
+            "message": "You need to have a stable 3V42 first. Is there a short or low resistance to GND on 3V42 bus?"
+        },
+        {
+            "post_id": 5293,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-11 14:46:24",
+            "message": "No Title\n\n[QUOTE=\"dukefawks, post: 5288\"]You need to have a stable 3V42 first. Is there a short or low resistance to GND on 3V42 bus?[/QUOTE]\n\nNo beep at probe 422 of <SIGNAL>PP3V42_G3H</SIGNAL>. If i put my meter in diode mode, my black probe on <SIGNAL>PP3V42_G3H</SIGNAL> and my red on GND it gives me the value of 0.260. Since i needed a stable 3v42 i decided to take some measurements on <CHIP>U6990</CHIP>. It looks like PP3V42 its not being produced by this ic."
+        },
+        {
+            "post_id": 5297,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-11 15:35:58",
+            "message": "What is the \"ohm\" resistance to GND on 3V42 bus not diode?"
+        },
+        {
+            "post_id": 5299,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-11 16:14:49",
+            "message": "No Title\n\n[QUOTE=\"dukefawks, post: 5297\"]What is the \"ohm\" resistance to GND on 3V42 bus not diode?[/QUOTE]\n\nHello duke, thanks for your response. Sorry i didnt take the reading correctly. Do u mind telling me how tp take it properly? Is it suppose to be like the pic attached? If this is true, my reading is 0.569 ohms"
+        },
+        {
+            "post_id": 5302,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-11 16:43:25",
+            "message": "I don't know how that meter works sorry. I only see you range set to Mohm. Maybe you should read the manual on it and figure out how a multimeter works first."
+        },
+        {
+            "post_id": 5303,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-11 17:19:04",
+            "message": "[QUOTE=\"dukefawks, post: 5302\"]I don't know how that meter works sorry. I only see you range set to Mohm. Maybe you should read the manual on it and figure out how a multimeter works first.[/QUOTE]\n\nThats lame which one do you use? This is the same multimeter we used at his class _-  just trying to learn"
+        },
+        {
+            "post_id": 5304,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-11 20:05:02",
+            "message": "the meter is going to say no letter, k or M on it.\n\nthink of this like drugs.\n\n100k = 100 kilos = 100 thousand\n\nM is million\n\nso if you see a number with no letter, that's it. 5 ohms.\n\nif you see a number with a k, that's the number times 1000\n\nif you see a number with an M, that's the number times 1,000,000. \n\nso 0.569, with an M, I would guess is 569,000 ohms, but this is a guess since I did not see if it was in that mode when you made the measurement. \n\nIf we make guesses as to what you measure we will be giving you advice on guesses, and that would be shit. \n\nTo be clear, we will answer questions and give advice based on answers, but we need to be able to get answers to these questions, and at the risk of being a dick - we expect multimeter proficiency by the time you've signed up. same with soldering, some threads here are asking \"how do I bring the signal from X to Y?\" and when we say run it there they say \"how?\" - we need you to be at the level of knowing what that means! if this means reading the manual for the tool, then this is what I'd suggest doing!\n\nThis will be covered in a sticky eventually."
+        },
+        {
+            "post_id": 5305,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-11 20:28:04",
+            "message": "Thanks for the clarification louis. Was just confused; sometimes i over think stuff.  To answer dukes question my resistance to ground on <SIGNAL>PP3V42_G3H</SIGNAL> is 569 ohms."
+        },
+        {
+            "post_id": 5306,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-11 20:33:52",
+            "message": "569 ohm is waaaay to low. It also is not low enough to find a component heating up by injecting 3V.\n\nI would go ahead and inject 3.4V on the bus and see if you get a stable green light. An external power supply should be able to deliver enough current to compensate for the 569 ohm load. Once you have a green light we can see if there are more clues to what may be causing the low resistance."
+        },
+        {
+            "post_id": 5375,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-13 14:12:31",
+            "message": "No Title\n\n[QUOTE=\"dukefawks, post: 5306\"]569 ohm is waaaay to low. It also is not low enough to find a component heating up by injecting 3V.\n\nI would go ahead and inject 3.4V on the bus and see if you get a stable green light. An external power supply should be able to deliver enough current to compensate for the 569 ohm load. Once you have a green light we can see if there are more clues to what may be causing the low resistance.[/QUOTE]\n\nSo i have manage to get <SIGNAL>PP4V42_G3H</SIGNAL> (3.46v) but now Im missing <SIGNAL>PPBUS_G3H</SIGNAL> (0.30v). I have 17.08v at <SIGNAL>PPDCIN_G3H</SIGNAL>. When I connect the charger to the macbook I get a fainted green light. My resistance to ground on <SIGNAL>PPBUS_G3H</SIGNAL> on the bad board is  18.05 mega  ohms . It looks like my problem might be <CHIP>U7000</CHIP>, <TRANSISTOR>Q7030</TRANSISTOR>, <TRANSISTOR>Q7035</TRANSISTOR>. I have taken some measurements on <CHIP>U7000</CHIP> and im missing all the output voltages. I think ill go ahead and replace this. I have attached a pic of the <CHIP>U7000</CHIP> area"
+        },
+        {
+            "post_id": 5380,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-13 15:15:36",
+            "message": "You're missing ACOK to start with. But why is 3V42 good now? If 3V42 is messed up nothing is going to work."
+        },
+        {
+            "post_id": 5383,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-13 16:27:07",
+            "message": "1) How did you bring back <SIGNAL>PP3V42_G3H</SIGNAL>?\n\n2) What do you get on <SIGNAL>CHGR_ACIN</SIGNAL> of <CHIP>ISL6259</CHIP>?\n\n3) What is the resistance of <RESISTOR>R7005</RESISTOR>?\n\n4) What voltage do you measure on <SIGNAL>CHGR_DCIN</SIGNAL>?\n\n5) What is the resistance between pins 17/18 of <CHIP>U7000</CHIP>?\n\n6) What is the resistance between pins 27/28 of <CHIP>U7000</CHIP>?"
+        },
+        {
+            "post_id": 5463,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-15 19:46:49",
+            "message": "[QUOTE=\"larossmann, post: 5383\"]1) How did you bring back <SIGNAL>PP3V42_G3H</SIGNAL>?\n\n2) What do you get on <SIGNAL>CHGR_ACIN</SIGNAL> of <CHIP>ISL6259</CHIP>?\n\n3) What is the resistance of <RESISTOR>R7005</RESISTOR>?\n\n4) What voltage do you measure on <SIGNAL>CHGR_DCIN</SIGNAL>?\n\n5) What is the resistance between pins 17/18 of <CHIP>U7000</CHIP>?\n\n6) What is the resistance between pins 27/28 of <CHIP>U7000</CHIP>?[/QUOTE]\n\nThanks for the help guys :) Let me know if you need me to take any other measurements. \n\n1) Not sure. It just appeared before following dukes suggestions of injecting 3.42v from a external PSU. I'm happy to say that I have <SIGNAL>PP3V42_G3H</SIGNAL> at L6995. Green light appears dimmed thou. \n\n2) I get 3.81v at <SIGNAL>CHGR_ACIN</SIGNAL> of <CHIP>ISL6259</CHIP>\n\n3) 431 Ohms\n\n4) Im measuring the voltage that is coming from the adapter and going into <CHIP>ISL6259</CHIP>.\n\n5) 3.3. Ohms\n\n6) 20.3 Oh"
+        },
+        {
+            "post_id": 5473,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-08-16 01:19:41",
+            "message": "Number 3 not make you wonder?? Oh and ISL may be dead too then"
+        },
+        {
+            "post_id": 5518,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-16 13:45:17",
+            "message": "[QUOTE=\"dukefawks, post: 5473\"]Number 3 not make you wonder?? Oh and ISL may be dead too then[/QUOTE]\n\n\nHey Duke, I finally got a solid green light after after replacing <CHIP>U7000</CHIP>. The only crappy part is that my fan doesn't spin. I re-measured everything and notice that <SIGNAL>PPBUS_G3H</SIGNAL> was only 2.26v instead of 12.8v. Any idea what can be causing this? can a short in a different power rail cause the voltage to drop that low? I will keep trying to check the schematics and figure out the problem. Thanks for your help :)"
+        },
+        {
+            "post_id": 5526,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-16 17:39:33",
+            "message": "Did you replace <RESISTOR>R7005</RESISTOR>? It's specced at 20 ohms, and you measured 431 ohms."
+        },
+        {
+            "post_id": 5581,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-17 13:06:49",
+            "message": "[QUOTE=\"larossmann, post: 5526\"]Did you replace <RESISTOR>R7005</RESISTOR>? It's specced at 20 ohms, and you measured 431 ohms.[/QUOTE]\n\nYes I did Louis. It's value is 19.6Ohms (<RESISTOR>R7005</RESISTOR>). Here is a recap of my readings after replace <CHIP>ISL6259</CHIP> (<CHIP>U7000</CHIP>) and <RESISTOR>R7005</RESISTOR>.  My U700 came from a functional donor board. At the moment, my board (<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>) has a solid green light with no power. Any idea what can be bringing my <SIGNAL>PPBUS_G3H</SIGNAL>? I check the voltage at Pin 1 of L7030 and I got 2.35v\n\n<SIGNAL>PPBUS_G3H</SIGNAL> 2.35v\n<SIGNAL>PPDCIN_G3H</SIGNAL> 17.06v\n<SIGNAL>PP3V42_G3H</SIGNAL> 3.46v\n\n<CHIP>U7000</CHIP> Pin3 (ACIN) 3.72v, Pin 23 (<SIGNAL>CHGR_PHASE</SIGNAL>) 2.30v, Pin 9 (<SIGNAL>CHGR_AMON</SIGNAL>) 0.03v, Pin 15 (<SIGNAL>CHGR_BMON</SIGNAL>) 0.08v, Pin 14 (<SIGNAL>SMC_BC_ACOK</SIGNAL>) 0.63.\n\n[I]The resistance between pins 17/18 of <CHIP>U7000</CHIP> is 3.6 Ohms[/I]\n\n[I]The resistance between pins 27/28 of <CHIP>U7000</CHIP> is 20.1 Ohms[/I]"
+        },
+        {
+            "post_id": 5660,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-18 17:15:16",
+            "message": "[QUOTE=\"dukefawks, post: 5473\"]Number 3 not make you wonder?? Oh and ISL may be dead too then[/QUOTE]\n \nwhat do you think might be the problem? Your help is greatly appreciated"
+        },
+        {
+            "post_id": 5666,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-08-18 19:35:57",
+            "message": "90% of the time this is going to be improper soldering on the <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 5803,
+            "thread_id": 5284,
+            "title": "<LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER> no power; flashing orage/green very rapidly",
+            "user_id": 128,
+            "username": "elcapitan",
+            "post_date": "2016-08-21 12:59:52",
+            "message": "No Title\n\n[QUOTE=\"larossmann, post: 5666\"]90% of the time this is going to be improper soldering on the <CHIP>U7000</CHIP>.[/QUOTE]\n\nYou were right Louis!! I was able to get a fan spinning by resoldering the <CHIP>ISL6259</CHIP> properly. Thanks for the advice."
+        }
+    ]
+}

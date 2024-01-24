@@ -1,0 +1,58 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U9701": "What is U9701? a CHIP.",
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPVIN_SW_T29BST": "What is PPVIN_SW_T29BST? a SIGNAL.",
+        "D9701": "What is D9701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. ."
+    },
+    "threads": [
+        {
+            "post_id": 46599,
+            "thread_id": 46599,
+            "title": "No backlight after liquid damage",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2019-02-22 06:57:49",
+            "message": "Hi, \n\nI have <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> logic board that boots and all is ok except of backlight. There were some water damaged componentes with wrong values aroung  <CHIP>U9701</CHIP> so changed them and <CHIP>U9701</CHIP> too and backlight turned on. After a couple of hours it was off again. Checked and seems that all values are correct. The only thing i can see is that <SIGNAL>PPVIN_SW_T29BST</SIGNAL> line is shitted, some components has pins like black but there is no short to ground. \n\n<SIGNAL>PPVIN_SW_T29BST</SIGNAL> - 2.6V\n\n\nMy question is <SIGNAL>PPVIN_SW_T29BST</SIGNAL> can make backlight not work propery?"
+        },
+        {
+            "post_id": 46601,
+            "thread_id": 46599,
+            "title": "No backlight after liquid damage",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-02-22 07:10:22",
+            "message": "<SIGNAL>PPVIN_SW_T29BST</SIGNAL> is Thunderbolt power rail and is not even enabled, untill something is connected on the dedicated connector.\n\nI suspect bad solders under <CHIP>U9701</CHIP>; reflow it.\nHowever, I recommend to measure some voltage around it first.\nCheck <SIGNAL>BKL_EN</SIGNAL>, <SIGNAL>BKL_PWM</SIGNAL>, 3/5V power, voltage both pins of <DIODE>D9701</DIODE>.\nCheck continuity from <DIODE>D9701</DIODE> to ball A5 of <CHIP>U9701</CHIP>.\nAlso look if all resistors have good value and terminals..."
+        },
+        {
+            "post_id": 46606,
+            "thread_id": 46599,
+            "title": "No backlight after liquid damage",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-02-22 08:17:11",
+            "message": "What voltage currently on BKLT output? I'm with 2informaticos sounds like bad soldering."
+        },
+        {
+            "post_id": 46608,
+            "thread_id": 46599,
+            "title": "No backlight after liquid damage",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2019-02-22 08:47:02",
+            "message": "Checked again. all componentes around <CHIP>U9701</CHIP> and it's all ok. \n\n<SIGNAL>BKL_EN</SIGNAL>  - 3.1 V\n<SIGNAL>BKL_PWM</SIGNAL> - 3.3V\nTHere is continuity between <DIODE>D9701</DIODE> to A5\n\nWill try to change <CHIP>U9701</CHIP> by new one."
+        },
+        {
+            "post_id": 46610,
+            "thread_id": 46599,
+            "title": "No backlight after liquid damage",
+            "user_id": 1482,
+            "username": "BCN_Techs",
+            "post_date": "2019-02-22 09:04:13",
+            "message": "The voltage on out is 12,57V\n\nFixed. 2informaticos was right:) \n\nIt was continuity from A5 to <DIODE>D9701</DIODE>. The problem is that the trace was damaged righ near a5 under the chip so i didnt see it before. Restored and now working. Thanks a lot"
+        }
+    ]
+}

@@ -1,0 +1,179 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "U6900": "What is U6900? a CHIP.",
+        "U6901": "What is U6901? a CHIP.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "CHGR_RST_L": "What is CHGR_RST_L? a SIGNAL.",
+        "CHGR_VFRQ": "What is CHGR_VFRQ? a SIGNAL.",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7021": "What is R7021? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7022": "What is R7022? Current sense resistor between charger current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being drawn from the charger, which will cause the ISL6259 to stop drawing power from the charger as a safety precaution. Symptoms are low voltage on PPBUS_G3H around 4v, quarter fan spin, or battery not charging..",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R5281": "What is R5281? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SCL which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "R4901": "What is R4901? a RESISTOR.",
+        "U1800": "What is U1800? a CHIP.",
+        "R6929": "What is R6929? a RESISTOR.",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "U5010": "What is U5010? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 61468,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-26 07:42:29",
+            "message": "Hey Guys, \n\nWorking on 820 2936-B with no green light, not recognized battery also, no visible water damage.\nAlready replace <CHIP>ISL6259</CHIP> and SMC (twice) from donor board, No changes !!\n\nThis Mac draws 0.020-0.023 Amps at 16.5V, <SIGNAL>PPBUS_G3H</SIGNAL> 12.28~12.30v, what more could be the problem of 12.30v ?!\n\n\nHere my measures:\n\n<SIGNAL>PPDCIN_G3H</SIGNAL> : 16.48v\n<SIGNAL>PPBUS_G3H</SIGNAL> : 12.28~12.30v\n<SIGNAL>PP3V42_G3H</SIGNAL> : 3.475v\n<SIGNAL>PPVRTC_G3H</SIGNAL> : 3.475v\n<SIGNAL>PP3V3_S5</SIGNAL> : 0v\n<SIGNAL>PP5V_S5</SIGNAL> : 0v\n\n<CHIP>U6900</CHIP>: \nPin 1: 3.472v\nPin 4: 2.898v\nPin 5: 2.889v\n\n\n<CHIP>U6901</CHIP>\nPin 1: 3.330v (<SIGNAL>SMC_BC_ACOK</SIGNAL>)\nPin 4: 3.472v\nPin 5: 3.475v\n\n\n<CHIP>U7000</CHIP>\nPin 2: 16.11v (<SIGNAL>CHGR_DCIN</SIGNAL>)\nPin 3: 3.912v (<SIGNAL>CHGR_ACIN</SIGNAL>)\nPin 4: 3.473v (<SIGNAL>CHGR_VFRQ</SIGNAL>)\nPin 12: 3.475v (<SIGNAL>PP3V42_G3H</SIGNAL>)\nPin 13: 3.475v (<SIGNAL>CHGR_RST_L</SIGNAL>)\nPin 14: 3.331v (<SIGNAL>SMC_BC_ACOK</SIGNAL>)\n\nGot really weird issue here, with pin14 <CHIP>U7000</CHIP> give 3.3v, try replacing <CHIP>U7000</CHIP> & SMC (twice from donor board) still no good result.\n\nChecked <RESISTOR>R7051</RESISTOR>, <RESISTOR>R7052</RESISTOR>, <RESISTOR>R7021</RESISTOR>, <RESISTOR>R7022</RESISTOR> all value normal"
+        },
+        {
+            "post_id": 61471,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-26 07:56:30",
+            "message": "First of all, welcome to the forum!\n\nAre you using original 60/85W charger?\nDid you check <SIGNAL>PPBUS_G3H</SIGNAL> with board alone on the desk?\n\nPost voltage and diode mode to ground at SCL/SDA lines of battery bus."
+        },
+        {
+            "post_id": 61480,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-26 08:45:55",
+            "message": "[QUOTE=\"2informaticos, post: 61471, member: 682\"]\nFirst of all, welcome to the forum!\n\nAre you using original 60/85W charger?\nDid you check <SIGNAL>PPBUS_G3H</SIGNAL> with board alone on the desk?\n\nPost voltage and diode mode to ground at SCL/SDA lines of battery bus.\n[/QUOTE]\nI'm using original apple MagSafe 60W\nYes, I'm checkin <SIGNAL>PPBUS_G3H</SIGNAL> LogicBoard alone on the desk.\n\nVoltage & Diode mode to GND SCL/SDA lines of battery bus\n<RESISTOR>R5280</RESISTOR>: 0.506 / value 2K / 3.475v (pin 2)\n<RESISTOR>R5281</RESISTOR>: 0.507 / value 2K / 3.475v (pin 2)\n\nTry using with full charge battery, BIL connector and LogicBoard still not turn on"
+        },
+        {
+            "post_id": 61487,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-26 10:53:44",
+            "message": "Do not quote an entire post, visible few centimeters above.\nMaintain forum aesthetic please.\n\nLet BIL disconnected, until get the board working correctly.\nDid you try another DCIN board?\nCheck continuity from <CHIP>U6900</CHIP> to central pin of Magsafe connector on DCIN board."
+        },
+        {
+            "post_id": 61503,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-26 23:23:48",
+            "message": "Try it with another DCIN board still no good result.\n\nThere's continuity from <CHIP>U6900</CHIP> (pin5) to central pin MagSafe DCIN board.\n\n<SIGNAL>SMC_RESET_L</SIGNAL> - 3.475v\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> - 0v"
+        },
+        {
+            "post_id": 61507,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-27 03:52:39",
+            "message": "Looks like SMC issue.\nCheck <RESISTOR>R4901</RESISTOR>/09/99.\nBe sure to get oscillation at Y5010."
+        },
+        {
+            "post_id": 61517,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-27 09:42:13",
+            "message": "Checked <RESISTOR>R4901</RESISTOR>/09/99 all value normal.\nI can't check Y5010 because don't have oscilloscope but voltage at both pins 1.6v\n\nTry replacing SMC for last time from donor, issues still persist. PPBUS still 12.29v\nI'm suspicious with <CHIP>U1800</CHIP> (MPCH), looks like i'm gonna give up for this board.\n\nIDK what else to do..."
+        },
+        {
+            "post_id": 61519,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-27 11:59:26",
+            "message": "Mising Magsafe light and incorrect <SIGNAL>PPBUS_G3H</SIGNAL> at same time, points to SMC problem.\nPCH is not involved in these.\n\nCheck correct ohm value for <RESISTOR>R6929</RESISTOR>."
+        },
+        {
+            "post_id": 61524,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-27 13:09:24",
+            "message": "<RESISTOR>R6929</RESISTOR> value 2K, with 2.894v pin1 and 3.467v pin2"
+        },
+        {
+            "post_id": 61525,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-27 13:21:07",
+            "message": "Now it's weird <SIGNAL>SMC_PM_G2_EN</SIGNAL> - 3.445v, and taken 0.038 Amps from PSU"
+        },
+        {
+            "post_id": 61526,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-27 15:06:03",
+            "message": "Replace <CHIP>U6900</CHIP>..."
+        },
+        {
+            "post_id": 61539,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-28 01:32:24",
+            "message": "<CHIP>U6900</CHIP> replaced, issues still persist...:("
+        },
+        {
+            "post_id": 61542,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-28 01:51:15",
+            "message": "Possibly leakage inside copper layers.\n<SIGNAL>SYS_ONEWIRE</SIGNAL> should be higher, 3.3V aprox.\nDisconnect DCIN board and check again voltage at pins 4 & 5 of <CHIP>U6900</CHIP>."
+        },
+        {
+            "post_id": 61554,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-28 05:44:19",
+            "message": "Disconnect DCIN board and change it with other DCIN board.\n\n<CHIP>U6900</CHIP>\npin4 2.894v\npin5 2.884v\n\nTry compare with working board, <CHIP>U6900</CHIP> pin4 2.923v / pin5 2.915v\n\nTaking 0.030 Amps now and <SIGNAL>SMC_PM_G2_EN</SIGNAL> - 0.145v"
+        },
+        {
+            "post_id": 61560,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-28 08:55:32",
+            "message": "Missing <SIGNAL>SMC_PM_G2_EN</SIGNAL> is also SMC related.\nDo you have <SIGNAL>SMC_RESET_L</SIGNAL> now?"
+        },
+        {
+            "post_id": 61564,
+            "thread_id": 59553,
+            "title": "820 2936-B no green light, <SIGNAL>PPBUS_G3H</SIGNAL> 12.29v",
+            "user_id": 2485,
+            "username": "guzq",
+            "post_date": "2020-06-28 10:07:16",
+            "message": "[QUOTE=\"2informaticos, post: 61560, member: 682\"]\nDo you have <SIGNAL>SMC_RESET_L</SIGNAL> now?\n[/QUOTE]\n\nYes, i have it...steady 3.4v\n\n<CHIP>U5010</CHIP> measures:\npin1: 3.470v\npin4: 2.829v\npin5: 3.472v\npin6: 3.472v\npin7: 3.467v\npin8: 3.3v\n\nI replaced SMC again, still no light, PPBUS still 12.28v\n\nI try reball SMC to another board to test it, green light and fan spinning...\nI ran out of ideas what should i check next..."
+        }
+    ]
+}

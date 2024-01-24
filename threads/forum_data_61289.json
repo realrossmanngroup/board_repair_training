@@ -1,0 +1,677 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2915": "What is 820-2915? a LOGIC BOARD PART NUMBER.",
+        "TPS51980": "What is TPS51980? This is a power chip responsible for the PP3V3_S5,  PP5V_S5,  and PP5V_S3 power rails on many A1286 Macbook Pros,  A1297 Macbook Pros,  A1369 Macbook Airs,  A1466 Macbook Airs,  A1370 Macbook Airs,  and A1465 Macbook Airs.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "PP5V_SUS": "What is PP5V_SUS? a SIGNAL.",
+        "PP3V3_S5_AVREF_SMC": "What is PP3V3_S5_AVREF_SMC? PP3V3_S5_AVREF_SMC Is a reference voltage for the SMC’s voltage sensors & other sensors..",
+        "PP3V3_ENET": "What is PP3V3_ENET? a SIGNAL.",
+        "PP3V3_S5_EN": "What is PP3V3_S5_EN? a SIGNAL.",
+        "SMC_ADAPTER": "What is SMC_ADAPTER? SMC_ADAPTER_EN is an abbreviation of SMC_ADAPTER_EN, which enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "G3_POWERON_L": "What is G3_POWERON_L? a SIGNAL.",
+        "PP3V3_S5_SMC_AVCC": "What is PP3V3_S5_SMC_AVCC? a SIGNAL.",
+        "5V_S3": "What is 5V_S3? 5V_S3 is an abbreviation of “PP5V_S3” which is a 5 volt power rail present in an S3 state. S3 (Suspend to RAM) is a state where the system saves its context to RAM, a faster but more power-consuming method than S4. The system shuts down most components except for RAM, which remains powered to retain the system state. PM_SLP_S4_L is required for this rail to be present. .",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "C4690": "What is C4690? a CAPACITOR.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "SMC_ONOFF": "What is SMC_ONOFF? SMC_ONOFF is a signal that tells the machine that the power button has been pressed so it knows to turn on, or turn off. .",
+        "R5015": "What is R5015? a RESISTOR.",
+        "L7260_1_1": "What is L7260_1_1? a SIGNAL.",
+        "L7260_1_2": "What is L7260_1_2? a SIGNAL.",
+        "L7260_2": "What is L7260_2? a SIGNAL.",
+        "C7290": "What is C7290? a CAPACITOR.",
+        "3V42_G3H": "What is 3V42_G3H? This is shorthand for PP3V42_G3H which is one of the first power rails that must turn on in older Macbooks that use a magsafe charger in order for them to get a light on the charger. This power rail powers the onewire circuit and the SMC, which are necessary for the machine to communicate with the charger and get it to turn on, as well as begin the bootup sequence. .",
+        "RESET_L": "What is RESET_L? a SIGNAL.",
+        "R7940": "What is R7940? a RESISTOR.",
+        "C7942": "What is C7942? a CAPACITOR.",
+        "R7941": "What is R7941? a RESISTOR.",
+        "C9487": "What is C9487? a CAPACITOR.",
+        "U7201": "What is U7201? U7201 is responsible for the 3.3v and 5v power rails on many devices..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "C7040": "What is C7040? a CAPACITOR.",
+        "R7260": "What is R7260? a RESISTOR.",
+        "R7263": "What is R7263? a RESISTOR.",
+        "C7264": "What is C7264? a CAPACITOR.",
+        "P3V3S5_DRVH": "What is P3V3S5_DRVH? a SIGNAL.",
+        "P3V3S5_TG": "What is P3V3S5_TG? a SIGNAL.",
+        "P3V3S5_VFBR_R": "What is P3V3S5_VFBR_R? a SIGNAL.",
+        "P3V3S5_VFBR": "What is P3V3S5_VFBR? a SIGNAL.",
+        "R7978": "What is R7978? a RESISTOR.",
+        "P3V3S5_VFB2": "What is P3V3S5_VFB2? a SIGNAL.",
+        "P3V3S5_VFB2_R": "What is P3V3S5_VFB2_R? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 76306,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-08 10:25:25",
+            "message": "I have a <LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a (2011 MacBook Pro 15) that was running a memtest86 when it spontaneously shutdown. It will not start up again. The power connector stays green, even though the battery is at ~10% charge. \nSMC reset does not work. \nSMC bypass does not work.\nLeft battery disconnected overnight, then plugged in power cable: no fan spin.\nPlugged in after disconnected all peripherals from logic board except fans: no fan spin.\nNo water damage.\nLogic board was replaced by Apple maybe... 4 years back? For GPU failure.\n\nProbed the following:\n<SIGNAL>PPDCIN_G3H</SIGNAL> - 16.7V\n<SIGNAL>PPBUS_G3H</SIGNAL> - 12.5V\n<SIGNAL>PP3V42_G3H</SIGNAL> - 3.48V\n<SIGNAL>PPVRTC_G3H</SIGNAL> - 3.4V\n<SIGNAL>PP5V_S5</SIGNAL> - [B]pulsing[/B] 0-5V ~2Hz\n<SIGNAL>PP5V_SUS</SIGNAL> - [B]pulsing[/B] 0-5V\n<SIGNAL>PP3V3_S5</SIGNAL> - [B]pulsing[/B] 0-3.5V\n<SIGNAL>PP3V3_ENET</SIGNAL> - 0V\n<SIGNAL>PP3V3_S5_AVREF_SMC</SIGNAL> - 3.3V\n<SIGNAL>PP3V3_S5_SMC_AVCC</SIGNAL> - 3.5V\n<SIGNAL>PP3V3_S5_EN</SIGNAL> - [B]pulsing[/B] 0-3.5V\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> - [B]pulsing[/B] 0-3.5V\n<SIGNAL>S5_PWRGD</SIGNAL> - [B]pulsing[/B] 0-3.4V\n<SIGNAL>SMC_RESET_L</SIGNAL> - 3.4V\n<SIGNAL>SMC_ADAPTER</SIGNAL> - [B]pulsing[/B] 0 - 3.46V\n<SIGNAL>PM_SLP_S5_L</SIGNAL> - 0V\n<SIGNAL>G3_POWERON_L</SIGNAL> - 0V\n\nMy best guess is SMC or <CHIP>TPS51980</CHIP>? Any ideas if I am on the right track / have the right issue nailed down? I don't want to blindly jump into replacing the SMC if I don't have to... it looks like a pain.\n\nThanks."
+        },
+        {
+            "post_id": 76310,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-08 13:22:29",
+            "message": "First of all, welcome to the forum!\n\nBe sure to use original 85W charger.\nBattery should charge even in off state.\nIf Magsafe stuck in green light, there may be a problem with SMC, or battery.\n\nCheck diode mode to ground on all big coils; starting with L7220/60."
+        },
+        {
+            "post_id": 76312,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-08 13:31:00",
+            "message": "Thanks!\n\nI am using the original charger that came with the laptop (its a new one that apple replaced cause my old one frayed).\n\nThe battery was replaced at the same time as the motherboard so it is relatively new; also I don't have that many cycles on it (maybe 100?) It does not charge at all. I left it plugged in for about 2 hours and the MagSafe stayed green the whole time and the battery indicator light did not change.\n\nI will check the coils."
+        },
+        {
+            "post_id": 76320,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-08 14:07:06",
+            "message": "Please write directly on the Reply Box.\nI don't see a real reason to quote an entire post, visible few centimeters above.\nPlease, maintain forum aesthetic.\n\nCheck voltage and diode mode to ground at SCL/SDA lines of battery bus.\nDisconnect BIL and see if starts charging."
+        },
+        {
+            "post_id": 76331,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-08 15:59:01",
+            "message": "DIODE\nL9701 - 0.426 V\nL7220 - 0.001 V\nL7260 - 0.138 V\nL7550 - 0.006 V\nL7510 - 0.007 V\nL7520 - 0.007 V\nL7530 - 0.007 V\nL7630 - 0.022 V\nL9560 - 0.033 V\nL9510 - 0.122 V\nL7330 - 0.457 V\nL8920 - 0.006 V\nL3895 - 0.522 V\nL7770 - 0.330 V\nL7720 - 0.228 V\n\nBattery\nSCL - 0.524V (diode) 3.473V (volt)\nSDA - 0.522V (diode) 4.473V (volt)\n\nDisconnecting battery indicator light seems to have no effect, still not charging (MagSafe stays green)."
+        },
+        {
+            "post_id": 76332,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-08 16:49:28",
+            "message": "\"L7220 - 0.001 V\"\nThere is a short circuit.\nLeft the coil one side and check where the short remains."
+        },
+        {
+            "post_id": 76335,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-08 17:15:32",
+            "message": "Not sure what you mean by left the coil one side.\n\nedit: do you mean desolder one side?"
+        },
+        {
+            "post_id": 76336,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-08 17:46:21",
+            "message": "Sorry for misstyping; yes, I meant LIFT..."
+        },
+        {
+            "post_id": 76442,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-10 10:14:13",
+            "message": "Removed the coil. Diode readings:\nPad 1 - 0.001V\nPad 2 - 0.483V\n\nRemoved caps 7252 and 7250. Both 0.001V diode readings."
+        },
+        {
+            "post_id": 76454,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-10 13:06:01",
+            "message": "Pure short to ground on <SIGNAL>5V_S3</SIGNAL> power rail.\nVoltage injection method will help you to find the culprit.\nRead more on the forum, before applying voltage."
+        },
+        {
+            "post_id": 76980,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-24 16:25:09",
+            "message": "Tracked down the short to <CAPACITOR>C4690</CAPACITOR>. Replaced cap and no more evaporating alcohol / current draw. However, there is still no fan spin. <SIGNAL>PP5V_S3</SIGNAL> still pulses up and down."
+        },
+        {
+            "post_id": 76983,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-24 17:27:58",
+            "message": "<SIGNAL>3V3_S5</SIGNAL> is stable now?"
+        },
+        {
+            "post_id": 76984,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-24 17:51:36",
+            "message": "Negative. <SIGNAL>3V3_S5</SIGNAL> still pulsing."
+        },
+        {
+            "post_id": 76989,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-24 23:27:58",
+            "message": "Did you try again SMC bypass?\nTurns on with both charger and battery connected?\nIs the battery charging now?"
+        },
+        {
+            "post_id": 76999,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-25 10:12:51",
+            "message": "No change with SMC bypass. Still does not turn on.\n\nBattery does not charge"
+        },
+        {
+            "post_id": 77004,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-25 12:02:26",
+            "message": "Check for pulse at all big coils; triggering <SIGNAL>SMC_ONOFF_L</SIGNAL>."
+        },
+        {
+            "post_id": 77009,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-25 13:37:09",
+            "message": "L3895 - 0V\nL7030 - 0V\nL7100 - 0V\nL7260 - pulsing 0 - 3.35V plotted in attachment\nL7330 - 0V\nL7510, L7520, L7530, L7550 - 0V\nL7630 - 0V\nL7720, L7770 - pulsing 0 - 1.5V L7770 plotted in attachment\nL7901 - 0V\nL9510, L9560 - 0V\n\n\n<SIGNAL>SMC_ONOFF_L</SIGNAL> is stable at 3.48V"
+        },
+        {
+            "post_id": 77013,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-25 15:21:43",
+            "message": "Did you check the coils at same time when trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>???"
+        },
+        {
+            "post_id": 77016,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-25 15:49:05",
+            "message": "I am not sure what you mean by \"trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>\". The <SIGNAL>SMC_ONOFF_L</SIGNAL> is at 3.48V the whole time the MagSafe is plugged in."
+        },
+        {
+            "post_id": 77017,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-25 16:44:42",
+            "message": "Read \"HOW TO collection\" thread please..."
+        },
+        {
+            "post_id": 77020,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-25 22:56:12",
+            "message": "The pulsing inductors measured above continue pulsing when I ground the <SIGNAL>SMC_ONOFF</SIGNAL>. However, the pulsing frequency approximately doubles while <SIGNAL>SMC_ONOFF</SIGNAL> is grounded, and afterwards when I disconnect the <SIGNAL>SMC_ONOFF</SIGNAL>, it goes back to its previous frequency."
+        },
+        {
+            "post_id": 77021,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-26 02:21:21",
+            "message": "Don't ground <SIGNAL>SMC_ONOFF_L</SIGNAL>, trigger it; like when pressing power button, less than 1s.\nUse <RESISTOR>R5015</RESISTOR>/16 pads, instead of power button; when work with the board alone on the desk.\nYou must check signals and voltages reaction at the same moment.\n\nIn fact, solder an wire on <SIGNAL>SMC_ONOFF_L</SIGNAL> and touch any metal plate, simulating power button."
+        },
+        {
+            "post_id": 77044,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-26 07:32:19",
+            "message": "Understood. Please see the attached images for what I mean by grounding. The blue line is the scope of the \"trigger\". The pulsing is still there."
+        },
+        {
+            "post_id": 77045,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-26 07:59:54",
+            "message": "When using o-scope, check for DC pulse at output pin of the coil; where the filter cap is connected."
+        },
+        {
+            "post_id": 77052,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-26 13:46:59",
+            "message": "The plots were taken with probe on pin 2 of inductors L7260 and L7770."
+        },
+        {
+            "post_id": 77054,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-26 16:16:01",
+            "message": "Very strange pulses.\nIf you hold down (to ground) <SIGNAL>SMC_ONOFF_L</SIGNAL> for 5s, still get pulse on these coils?"
+        },
+        {
+            "post_id": 77057,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-26 23:15:37",
+            "message": "yep still pulses, as shown in attached images"
+        },
+        {
+            "post_id": 77063,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-27 03:45:13",
+            "message": "Keep <SIGNAL>SMC_ONOFF_L</SIGNAL> down more time, it should turn off the board.\nOnly <SIGNAL>3V3_S5</SIGNAL> must remain present after and no pulse on other coils."
+        },
+        {
+            "post_id": 77066,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31181,
+            "username": "Yalnif",
+            "post_date": "2021-06-27 04:13:00",
+            "message": "I do love the way that you say 'Read HOW TO collection'\n\nDo you know that new members such as me have no idea where that section is,. Cannot see it, cannot search for ''how to' as that brings up an error. \n\nHiw about you simply paste in the link to help new mebers?"
+        },
+        {
+            "post_id": 77069,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-27 11:00:24",
+            "message": "Not sure what happened but the behavior changed. So this is the process:\n\nPower cycle\n<SIGNAL>L7260_1_1</SIGNAL>\nDisconnect <SIGNAL>SMC_ONOFF_L</SIGNAL>\n<SIGNAL>L7260_1_2</SIGNAL>\nPower cycle\n<SIGNAL>L7260_2</SIGNAL>\n\nSo it looks like the behavior changed after the first long press of <SIGNAL>SMC_ONOFF_L</SIGNAL>. Now it seems like grounding <SIGNAL>SMC_ONOFF_L</SIGNAL> causes the <SIGNAL>PP3V3_S5</SIGNAL> to go to 2.5V as opposed to pulsing. Then after grounding is removed, the voltage stays constant at 0.5V. The pulsing does not return until the board is power cycled again."
+        },
+        {
+            "post_id": 77070,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-27 11:05:27",
+            "message": "Not sure what happened but the behavior changed. So this is the process:\n\nPower cycle\n<SIGNAL>L7260_1_1</SIGNAL>\nDisconnect <SIGNAL>SMC_ONOFF_L</SIGNAL>\n<SIGNAL>L7260_1_2</SIGNAL>\nPower cycle\n<SIGNAL>L7260_2</SIGNAL>\n\nSo it looks like the behavior changed after the first long press of <SIGNAL>SMC_ONOFF_L</SIGNAL>. Now it seems like grounding <SIGNAL>SMC_ONOFF_L</SIGNAL> causes the <SIGNAL>PP3V3_S5</SIGNAL> to go to 2.5V as opposed to pulsing. Then after grounding is removed, the voltage stays constant at 0.5V. The pulsing does not return until the board is power cycled again.\n\nAfter power cycling, the pulsing starts again. During that time, the other coils that show pulsing (L7770 for example) continue to pulse. However, after the pulsing stops (after holding <SIGNAL>SMC_ONOFF_L</SIGNAL> for more than 1 second, as stated above), those lines go to 0V.\n\nAlso, not shown here, after power cycle, and while it is pulsing, when I do a short \"press\" of <SIGNAL>SMC_ONOFF_L</SIGNAL>, grounding for maybe 1 second? the voltage jumps to ~2.4, and then when ungrounded it stays at 0.5V. However, if I just \"tap\" <SIGNAL>SMC_ONOFF_L</SIGNAL>, grounding maybe 0.1seconds?, the voltage jumps to ~2.4, but when ungrounded goes back to pulsing."
+        },
+        {
+            "post_id": 77071,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-27 14:37:25",
+            "message": "Once Magsafe is connected, <SIGNAL>3V3_S5</SIGNAL> must get stable (<CAPACITOR>C7290</CAPACITOR>), no matters board is on or off.\nConfirm your actual case."
+        },
+        {
+            "post_id": 77074,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-27 22:52:34",
+            "message": "it is stable at 3.3V"
+        },
+        {
+            "post_id": 77075,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-27 22:54:57",
+            "message": "voltage pulses at <CAPACITOR>C7290</CAPACITOR>, same as L7260, once MagSafe is connected. once <SIGNAL>SMC_ONOFF_L</SIGNAL> is grounded for 1-2 seconds and then ungrounded, it stays stable at 0.75V, the same as L7260 from above."
+        },
+        {
+            "post_id": 77076,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-27 23:34:22",
+            "message": "I think in early post you've said to have steady <SIGNAL>3V3_S5</SIGNAL> voltage.\nCheck now <SIGNAL>PPBUS_G3H</SIGNAL>, <SIGNAL>3V42_G3H</SIGNAL>, SMC <SIGNAL>RESET_L</SIGNAL> and <SIGNAL>SMC_PM_G2_EN</SIGNAL>."
+        },
+        {
+            "post_id": 77101,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-28 09:07:32",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> -12.48V\n<SIGNAL>3V42_G3H</SIGNAL> - 3.48V\n<SIGNAL>SMC_RESET_L</SIGNAL> - 3.48\n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL>:\n[LIST]\n[*]after MagSafe connection: pulsing 0 - 3.5V\n[*]after holding <SIGNAL>SMC_ONOFF_L</SIGNAL> for 3s: stable at 3.5V\n[/LIST]\nAll behavior above, with the exception of <SIGNAL>SMC_PM_G2_EN</SIGNAL> after holding <SIGNAL>SMC_ONOFF_L</SIGNAL>, is the exact same as it was initially.\n\n<SIGNAL>PP3V3_S5</SIGNAL> has never been stable at 3.3V. Once MagSafe is connected it pulses from 0 - 3.5V. The only time it is stable is after the <SIGNAL>SMC_ONOFF_L</SIGNAL> long hold to ground, after which it settles at 0.75V."
+        },
+        {
+            "post_id": 77102,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-28 09:58:51",
+            "message": "You cannot get <SIGNAL>3V3_S5</SIGNAL> untill <SIGNAL>SMC_PM_G2_EN</SIGNAL> is stable.\nRemove <RESISTOR>R7940</RESISTOR> and run a wire from <SIGNAL>3V42_G3H</SIGNAL> to <CAPACITOR>C7942</CAPACITOR>.\nCheck if <SIGNAL>3V3_S5</SIGNAL> gets steady voltage then."
+        },
+        {
+            "post_id": 77118,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-28 18:14:52",
+            "message": "removed <RESISTOR>R7940</RESISTOR>, soldered a wire from pin 2 of where <RESISTOR>R7940</RESISTOR> used to be (<SIGNAL>PP3V3_S5_EN</SIGNAL>) and also happens to be pin 1 of <CAPACITOR>C7942</CAPACITOR>, to pin 1 of <RESISTOR>R7941</RESISTOR> (<SIGNAL>PP3V42_G3H</SIGNAL>).\n\n<SIGNAL>PP3V3_S5</SIGNAL> at <CAPACITOR>C9487</CAPACITOR> pulsing 0 - 3.5V as usual."
+        },
+        {
+            "post_id": 77121,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-29 00:13:22",
+            "message": "Post basic voltages of <CHIP>U7201</CHIP> now; pins 23, 12, 13, 22, 29, 21."
+        },
+        {
+            "post_id": 77140,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-29 09:17:49",
+            "message": "Pulsing behavior on some pins."
+        },
+        {
+            "post_id": 77141,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-29 09:22:42",
+            "message": "I asked about DC voltages!\nPLEASE, hide the o-scope somewhere..."
+        },
+        {
+            "post_id": 77142,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-29 09:41:50",
+            "message": "The voltage is on the left axis of each image.\nPin 12 - Pulse 0-3.5V\nPin 13 - Pulse 0-2V\nPin 21 - 3.5V\nPin 22 - 3.35V\nPin 23 - 12.25 - 12.75V ... weird interference, matches pulse frequency\nPin 29 - Pulse 0.9 - 5V"
+        },
+        {
+            "post_id": 77145,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-29 09:57:31",
+            "message": "I understand <SIGNAL>SMC_PM_G2_EN</SIGNAL> is still pulsing.\nThere should be a problem with SMC, or some of its sensors.\n\nCheck exact ohm resistance between pins 17/18 and 27/28 of <CHIP>U7000</CHIP>.\nRemove F7040/41 and check the voltage at <CAPACITOR>C7040</CAPACITOR>."
+        },
+        {
+            "post_id": 77150,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-29 11:33:30",
+            "message": "Pin 17/18 - 3 ohm\nPin 27/28 - 20 ohm\n<CAPACITOR>C7040</CAPACITOR> 12.58V"
+        },
+        {
+            "post_id": 77158,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-29 16:37:04",
+            "message": "So <SIGNAL>PPBUS_G3H</SIGNAL> only fluctuates when F7040/41 are soldered in place?\nLooks like SMC issue..."
+        },
+        {
+            "post_id": 77163,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-29 16:49:46",
+            "message": "Wait hold on I feel like im missing something here. <SIGNAL>PPBUS_G3H</SIGNAL> never fluctuated at any point. Even in the beginning before removing any components, <SIGNAL>PPBUS_G3H</SIGNAL> was stable at 12.5V (post #1)."
+        },
+        {
+            "post_id": 77165,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-29 16:59:57",
+            "message": "\"Pin 23 - 12.25 - 12.75V ... weird interference, matches pulse frequency\"\nDropping to 12.25V is sign of non working SMC, or communication problem between SMC and <CHIP>U7000</CHIP>.\nPlease clarify actual situation.\nOnly DC readings, forget the o-scope.\nTrying to write down too much information, is not always helpful.\nSometime make us to lose the focus."
+        },
+        {
+            "post_id": 77166,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-29 17:19:51",
+            "message": "Ok so with the multimeter, which doesn't really update very quickly, it looks around 12.6V on Pin23, though the number moves around a little bit. This is similar to the DC voltage randomly jumping from 0V -> 2.3V -> 0.7V -> 0.2V -> etc etc for pulsing pins."
+        },
+        {
+            "post_id": 77183,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-30 03:58:04",
+            "message": "Fluctuating like 12.4-12.7V will not be a big problem.\nBut dropping to 12.25V is very bad.\nHowever, you didn't mention such fluctuation at <SIGNAL>PPBUS_G3H</SIGNAL>."
+        },
+        {
+            "post_id": 77199,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-30 08:57:24",
+            "message": "Got it. So since it is in the 12.4 - 12.7V range, what is the next step?"
+        },
+        {
+            "post_id": 77200,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-30 09:24:36",
+            "message": "Get steady <SIGNAL>SMC_PM_G2_EN</SIGNAL>..."
+        },
+        {
+            "post_id": 77208,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-06-30 10:56:47",
+            "message": "So based on what you said earlier about the <CHIP>U7000</CHIP> and SMC, are you suggesting the next thing to do is to replace both components or something? The last concrete step was to remove the fuses."
+        },
+        {
+            "post_id": 77213,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-06-30 13:40:59",
+            "message": "Check if is possible to cut off trace for pin 12/<CHIP>U7201</CHIP>.\nThen check if <SIGNAL>SMC_PM_G2_EN</SIGNAL> gets steady high."
+        },
+        {
+            "post_id": 77823,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-16 13:21:21",
+            "message": "It seems like the trace goes under the chip. There is no trace leading out from pin 12 of the <CHIP>U7201</CHIP>."
+        },
+        {
+            "post_id": 77824,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-16 13:47:11",
+            "message": "In an earlier post, you've said to get steady 3V at <SIGNAL>SMC_PM_G2_EN</SIGNAL>, if press <SIGNAL>SMC_ONOFF_L</SIGNAL> for 3s.\nIs that still true?\nIf yes, check if <SIGNAL>3V3_S5</SIGNAL> gets steady at same time."
+        },
+        {
+            "post_id": 77830,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-16 15:13:21",
+            "message": "I am super confused what is going on now because the pulsing frequency has now changed to what looks like 0.2Hz.\n\nSo what you stated is true, if I press <SIGNAL>SMC_ONOFF_L</SIGNAL> for about 1s (3s would be the same), <SIGNAL>SMC_PM_G2_EN</SIGNAL> gets solid 3.5V. <SIGNAL>3V3_S5</SIGNAL> gets solid 2.1V. <SIGNAL>3V3_S5</SIGNAL> doesn't look right only having 2.1V...\n\nI have attached 3 images. <SIGNAL>SMC_ONOFF_L</SIGNAL> is the blue line in the images, while the yellow is the tested pin.\n\n<SIGNAL>3V3_S5</SIGNAL>.png - data capture after a power cycle, and then pressing the <SIGNAL>SMC_ONOFF_L</SIGNAL>\n<SIGNAL>SMC_PM_G2_EN</SIGNAL>.png - after a power cycle, and then pressing the <SIGNAL>SMC_ONOFF_L</SIGNAL>\n3V3_S5_POWERCYCLE.png - <SIGNAL>3V3_S5</SIGNAL> immediately after MagSafe power cycle, no <SIGNAL>SMC_ONOFF_L</SIGNAL> triggering\nSMC_PM_G2_EN_POWERCYCLE.png - <SIGNAL>SMC_PM_G2_EN</SIGNAL> immediately after MagSafe power cycle, no <SIGNAL>SMC_ONOFF_L</SIGNAL> triggering"
+        },
+        {
+            "post_id": 77834,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-16 15:49:59",
+            "message": "Please, let o-scope aside; do not complicate the job more than needed.\n\nPost <CHIP>U7201</CHIP> voltages, when you get steady <SIGNAL>SMC_PM_G2_EN</SIGNAL>; pins 23, 12, 13, 22, 29, 21.\nIf you don't get correct <SIGNAL>3V3_S5</SIGNAL> in that case, there's something wrong in <CHIP>U7201</CHIP> area.\nInspect all surrounding resistors and traces; pay atention to <RESISTOR>R7260</RESISTOR>/61, <RESISTOR>R7263</RESISTOR> and <CAPACITOR>C7264</CAPACITOR>."
+        },
+        {
+            "post_id": 77941,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-19 16:34:21",
+            "message": "Note for all \"cycling\" pins the numbers are all approximate (value changes quickly so its whatever I could see at max).\n\n12 - 3.48V\n13 - .158V\n21 - 3.48V\n22 - 1.8 down to 1.7V then cycles 0.25Hz\n23 - 1.9 down to 1.7V cycles 0.25Hz\n29 - 1V cycles down to 0.8V 0.25Hz\n\n<SIGNAL>P3V3S5_VFBR_R</SIGNAL> - spikes to 2V drops to 0V 0.25Hz\n<SIGNAL>P3V3S5_VFBR</SIGNAL> - spikes 0.6V \"  \"\n<SIGNAL>P3V3S5_DRVH</SIGNAL> - spikes 1.6V \"  \"\n<SIGNAL>P3V3S5_TG</SIGNAL> - spikes 2V \"  \"\n\nI don't see anything obviously wrong with components in this area."
+        },
+        {
+            "post_id": 77946,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-19 17:36:43",
+            "message": "Remove <RESISTOR>R7978</RESISTOR>.\nCheck if symptom changes."
+        },
+        {
+            "post_id": 77949,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-19 21:14:56",
+            "message": "12, 13, 21 same as before\n\n22 - 0V\n23 - 1.51V solid\n29 - 1.7V solid\n\n<SIGNAL>P3V3S5_VFB2_R</SIGNAL> - 1.9V solid\n<SIGNAL>P3V3S5_VFB2</SIGNAL> - 0.58V solid\n<SIGNAL>P3V3S5_DRVH</SIGNAL> - 1.9V solid\n<SIGNAL>P3V3S5_TG</SIGNAL> - 1.9V solid"
+        },
+        {
+            "post_id": 77951,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-20 01:34:55",
+            "message": "Did you ever get steady <SIGNAL>SMC_PM_G2_EN</SIGNAL>?"
+        },
+        {
+            "post_id": 77961,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-20 08:28:39",
+            "message": "Yes. <SIGNAL>SMC_PM_G2_EN</SIGNAL> is steady at 3.48V as measured from pin 12 of <CHIP>U7201</CHIP>. Just to note, before and after <RESISTOR>R7978</RESISTOR> removal, pin 12 was at 3.48V solid."
+        },
+        {
+            "post_id": 77962,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-20 08:51:24",
+            "message": "Then <SIGNAL>PPBUS_G3H</SIGNAL> is not stable at 12.5V?"
+        },
+        {
+            "post_id": 77964,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-20 09:08:25",
+            "message": "Nope it is solid right now at 1.5V. It did used to be around 12.5V with some fluctuations but since then we have removed a few components so not sure if that should be expected."
+        },
+        {
+            "post_id": 77965,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-20 09:13:14",
+            "message": "OK, we start from scratch then.\nRemove F7040/1 and check if get stable <CAPACITOR>C7040</CAPACITOR> voltage.\n\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> should stay at 3V."
+        },
+        {
+            "post_id": 77966,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-20 09:25:16",
+            "message": "F7040/1 were removed since post #40.\n\n<CAPACITOR>C7040</CAPACITOR> is solid 12.58V\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> solid 3.48V"
+        },
+        {
+            "post_id": 77968,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-20 09:43:26",
+            "message": "\"F7040/1 were removed since post #40.\"\nWait, you say that we lost so many days without <SIGNAL>PPBUS_G3H</SIGNAL> on the board???\n\nI asked you to do that for test purpose only.\nI never could imagine you didn't solder back the fuses..."
+        },
+        {
+            "post_id": 77970,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 31154,
+            "username": "JustAnotherGuy",
+            "post_date": "2021-07-20 09:55:42",
+            "message": "So the changes I have noted so far are:\n\nPost 34 - Remove <RESISTOR>R7940</RESISTOR> and run a wire from <SIGNAL>3V42_G3H</SIGNAL> to <CAPACITOR>C7942</CAPACITOR>\nPost 40 - Remove F7040/41\nPost 56 - Remove <RESISTOR>R7978</RESISTOR>\n\nSo what you are saying is undo all previous changes, except removing the fuses per post 64? None of the component removals / jumpering were reversed up to this point."
+        },
+        {
+            "post_id": 77971,
+            "thread_id": 61289,
+            "title": "<LOGIC BOARD PART NUMBER>820-2915</LOGIC BOARD PART NUMBER>-a Spontaneous Shutdown, No Startup",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-07-20 10:02:01",
+            "message": "We really have to start from zero...\nPut back all components, in original configuration.\nThen post again voltages and signals from power on sequence.\n\nBTW, let the o-scope aside, we don't need it."
+        }
+    ]
+}

@@ -1,0 +1,75 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-4924": "What is 820-4924? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "SMC_DCIN_VSENSE": "What is SMC_DCIN_VSENSE? a SIGNAL.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_AGATE_DIV": "What is CHGR_AGATE_DIV? a SIGNAL.",
+        "CHGR_SGATE_DIV": "What is CHGR_SGATE_DIV? a SIGNAL.",
+        "R7186": "What is R7186? a RESISTOR.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "Q5480": "What is Q5480? a TRANSISTOR.",
+        "Q5490": "What is Q5490? a TRANSISTOR.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. ."
+    },
+    "threads": [
+        {
+            "post_id": 32078,
+            "thread_id": 32078,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Charger LED green then orange, no battery connected, no power on",
+            "user_id": 1383,
+            "username": "PDXlaptopRepair",
+            "post_date": "2018-02-27 16:59:56",
+            "message": "This board is new to me and I'm not really sure where to start troubleshooting. As a side note for background, the laptop was dropped what was described as less than 6 inches causing this issue. This board is mine now, I prefer not to learn on customer boards.\n\nIt might be obvious but I will state it anyway:\ng3 hot: present\nPP3V42: reads 3.38v (slightly varies depending on where I measure but no more than .02v - .03v)\nPPDCIN: reads 16.5v ish"
+        },
+        {
+            "post_id": 32084,
+            "thread_id": 32078,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Charger LED green then orange, no battery connected, no power on",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-02-27 19:55:01",
+            "message": "A drop typically points to a damaged BGA or a crack inside the board internally which you will not be able to see which makes it a bad candidate for learning. Even for more experienced people like Duke & I these usually wind up in the trash heap.\n\nThat being said, troubleshooting should begin by checking all the rails and seeing what is missing. See if any of them have short circuits on them, come back with what is missing. Does <SIGNAL>PM_SLP_S4_L</SIGNAL> pulse when you plug the charger in? It will be very quick so you'll want to have someone else plug it in while you have your hands on the meter probes to catch it."
+        },
+        {
+            "post_id": 32111,
+            "thread_id": 32078,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Charger LED green then orange, no battery connected, no power on",
+            "user_id": 1383,
+            "username": "PDXlaptopRepair",
+            "post_date": "2018-02-28 13:51:56",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> briefly jumps .3mv then .7mv then sits at .1mv. If this is the pulse you refer to then yes.\n\nadditional testing:\n\n<TRANSISTOR>Q7180</TRANSISTOR> Pin3 (<SIGNAL>CHGR_AGATE_DIV</SIGNAL>) 6.93v\nPin6 (<SIGNAL>CHGR_SGATE_DIV</SIGNAL>) 16.29v\n\nIs this normal?\n\n<SIGNAL>CHGR_AGATE</SIGNAL> goes through <RESISTOR>R7186</RESISTOR> then drops to 3.8mV for connection to pin 1 on <CHIP>U7100</CHIP> (That doesn't seem right to me, not sure)\n\na new wrinkle.....I was probing different points around the SMC investigating <SIGNAL>SMC_DCIN_VSENSE</SIGNAL>, I had to walk away for a minute and when I came back the fan was spinning and the CPU was definitely getting warm.\n\nSince the system powered on once now I only get charger LED for about 30 seconds then it goes off. (Edit: this was a problem with the magsafe charger I was using)\n\nI'm going to troubleshoot ONEWIRE circuit now and see if anything come to light. (Edit: all seems correct)"
+        },
+        {
+            "post_id": 32143,
+            "thread_id": 32078,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Charger LED green then orange, no battery connected, no power on",
+            "user_id": 1383,
+            "username": "PDXlaptopRepair",
+            "post_date": "2018-03-01 11:29:41",
+            "message": "Now I think I'm getting somewhere.\n\nno voltage present on <TRANSISTOR>Q5480</TRANSISTOR> Pin 2 (PBUSVSENSE_EN)\nI do have voltage on <TRANSISTOR>Q5490</TRANSISTOR> Pin 2 (DCINVSENSE_EN)\n\nfrom what I'm able to figure out, it seems that PBUSVSENSE_EN is generated by the SMC.\n\nIf that is correct then my root cause must lie with the SMC itself, please confirm."
+        },
+        {
+            "post_id": 32180,
+            "thread_id": 32078,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Charger LED green then orange, no battery connected, no power on",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-02 12:26:01",
+            "message": "All of those sensors have nothing to do with the problem. PBUSVSENSE_EN says \"Enables PBUS Vsense divider when in S0.\" S0 means on. PBUSVSENSE_EN not being present means it is not on.\n\nIt's like not having your sense of smell while in a coma. You fix the coma first, not the sense of smell.\n\n1) what does pin 8 of <CHIP>U1950</CHIP> look like under a microscope?\n\n2) Is <SIGNAL>PPVRTC_G3H</SIGNAL> present when it is unable to turn on?\n\n3) Is <SIGNAL>PPBUS_G3H</SIGNAL> present when it is unable to turn on? If it is, is it 12.56v or 12.23v?"
+        },
+        {
+            "post_id": 32206,
+            "thread_id": 32078,
+            "title": "<LOGIC BOARD PART NUMBER>820-4924</LOGIC BOARD PART NUMBER> Charger LED green then orange, no battery connected, no power on",
+            "user_id": 1383,
+            "username": "PDXlaptopRepair",
+            "post_date": "2018-03-02 19:06:02",
+            "message": "No Title\n\n1) what does pin 8 of <CHIP>U1950</CHIP> look like under a [URL=\"https://store.rossmanngroup.com/soldering-diy/microscopes.html\"]microscope[/URL]? Not bad as far as I can tell, getting 3.39v. I added a pic. (my microscope is crap)\n\n2) Is <SIGNAL>PPVRTC_G3H</SIGNAL> present when it is unable to turn on?   Yes\n\n3) Is <SIGNAL>PPBUS_G3H</SIGNAL> present when it is unable to turn on? If it is, is it 12.56v or 12.23v?    Yes and it reads 12.58v"
+        }
+    ]
+}

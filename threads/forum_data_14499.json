@@ -1,0 +1,82 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2914": "What is 820-2914? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U6900": "What is U6900? a CHIP.",
+        "U6901": "What is U6901? a CHIP.",
+        "U4900": "What is U4900? This is the System Management Controller(SMC) in older(pre-2013) macbooks.",
+        "820-2565": "What is 820-2565? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "R7001": "What is R7001? a RESISTOR.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. ."
+    },
+    "threads": [
+        {
+            "post_id": 14499,
+            "thread_id": 14499,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2914</LOGIC BOARD PART NUMBER> dim green light (powered on once)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-02-07 22:53:15",
+            "message": "I got this 17\" 2011 MBP sent from another repair shop with this note.\n\"Magsafe adapter fades to black after a few seconds and the device won't power on. Tried SMC bypass with no luck. Replaced dc board but still the same symptoms\"\n\nWhen I initially plugged in my charger the fans started spinning and the magsafe light was bright green. After a second or two the fans stopped spinning then they spun again and the machine chimed and booted and I was able to login and play with a few things like internet and camera. The battery was charging then all of a sudden it stopped charging and the magsafe light went dim and soon after it shut down and I haven't been able to get it back on.\n\nI am using a genuine Apple 85w charger.\n\nI've tried plugging in 2 other <LOGIC BOARD PART NUMBER>820-2565</LOGIC BOARD PART NUMBER> magsafe boards(not sure if there compatible) and still the light is dim green.\nWhen I take a look at the logic board I can see discolored probe points as if there was liquid damage that got cleaned up. Some by the SMC(<CHIP>U4900</CHIP>)\n\n<SIGNAL>PP3V42_G3H</SIGNAL> - 3.45v'\n<SIGNAL>SMC_RESET_L</SIGNAL> - fluctuates quickly between 2.9v to 3.4v\n<SIGNAL>PPBUS_G3H</SIGNAL> - 0.48v (With battery and charger plugged in 10.4v)\nPins1/2 of <CHIP>U6901</CHIP>(<SIGNAL>SMC_BC_ACOK</SIGNAL>) - 0v\nPin 5 <CHIP>U6900</CHIP> (Adapter Sense) - 0v\n\nPins 19/20 of <CHIP>U7000</CHIP> (VDD Pins) - 2.5v (<RESISTOR>R7001</RESISTOR> measured proper resistance)\nResistance Pins 17/18 - 3.6ohms - Pins 27/28 - 21ohms\n\nShouldn't that be 5.1v and where is it created? I believe in the newer schematics that is created by the 3v42 circuit"
+        },
+        {
+            "post_id": 14500,
+            "thread_id": 14499,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2914</LOGIC BOARD PART NUMBER> dim green light (powered on once)",
+            "user_id": 558,
+            "username": "arghhh",
+            "post_date": "2017-02-07 23:13:52",
+            "message": "Voltage on pin 2 and 3 of <CHIP>U7000</CHIP>?"
+        },
+        {
+            "post_id": 14502,
+            "thread_id": 14499,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2914</LOGIC BOARD PART NUMBER> dim green light (powered on once)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-02-07 23:18:10",
+            "message": "<CHIP>U7000</CHIP>\nPin 2 - 2.55v\nPin 3 - 3.99v"
+        },
+        {
+            "post_id": 14503,
+            "thread_id": 14499,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2914</LOGIC BOARD PART NUMBER> dim green light (powered on once)",
+            "user_id": 558,
+            "username": "arghhh",
+            "post_date": "2017-02-07 23:21:40",
+            "message": "Resistance to ground on pin 2?"
+        },
+        {
+            "post_id": 14504,
+            "thread_id": 14499,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2914</LOGIC BOARD PART NUMBER> dim green light (powered on once)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-02-07 23:26:18",
+            "message": "Pin 1 of <RESISTOR>R7005</RESISTOR> fluctuates quickly from 15.97 to 16.68v\nResistance of <RESISTOR>R7005</RESISTOR> is 13kohms. I should replace that right?\n\nResistance to ground on Pin 2 of <CHIP>U7000</CHIP> is showing around 6 Mega ohms"
+        },
+        {
+            "post_id": 14505,
+            "thread_id": 14499,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2914</LOGIC BOARD PART NUMBER> dim green light (powered on once)",
+            "user_id": 558,
+            "username": "arghhh",
+            "post_date": "2017-02-07 23:28:43",
+            "message": "Replace <RESISTOR>R7005</RESISTOR>."
+        },
+        {
+            "post_id": 14509,
+            "thread_id": 14499,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-2914</LOGIC BOARD PART NUMBER> dim green light (powered on once)",
+            "user_id": 90,
+            "username": "ytesfay80",
+            "post_date": "2017-02-08 02:41:35",
+            "message": "Replaced it now the machine is back working. Thanks a lot.\n\nThis topic can be marked solved."
+        }
+    ]
+}

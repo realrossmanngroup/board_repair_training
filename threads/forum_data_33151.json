@@ -1,0 +1,97 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "PPHV_S0SW_LCDBKLT": "What is PPHV_S0SW_LCDBKLT? PPHV_S0SW_LCDBKLT is a power rail that powers the backlight on the LCD screen, this is necessary to get the screen to light up..",
+        "LCDBKLT_BOOST": "What is LCDBKLT_BOOST? LCDBKLT_BOOST is connected to the SWITCH(SW) pin of the LED driver and is switched to ground quickly after the inductor in the DC to DC boost circuit that boosts PPBUS_G3H to backlight voltage for the screen. .",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKLT_EN": "What is BKLT_EN? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKLT” before “_EN”. “BKLT” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "R7717": "What is R7717? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 33151,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-04-01 16:11:31",
+            "message": "System had water damage replace lcd connector a bunch of corroded components pertaining to lcd backlight. And ran some wires for broken traces on backlight boost. Replaced led driver im assuming if i had bridged any balls on led driver the system wouldnt turn on? I do get an image on screen and <SIGNAL>SMC_LID</SIGNAL> is high my only guess to why i dont get a backlight at this point is that <SIGNAL>BKL_EN</SIGNAL> is not getting proper voltage?\n\n<SIGNAL>PPHV_S0SW_LCDBKLT</SIGNAL> = 8.56v\npin 3/4 of lcd connector get 8.56v\n<SIGNAL>LCDBKLT_BOOST</SIGNAL> = 8.56v\n<SIGNAL>BKL_EN</SIGNAL> = 2.8v\n\nany ideas?"
+        },
+        {
+            "post_id": 33190,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-03 12:23:12",
+            "message": "First suspect would be the feedback trace to ball A5. PWM signal present? Bad soldering on <CHIP>LP8550</CHIP>?"
+        },
+        {
+            "post_id": 33225,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-04-04 00:35:10",
+            "message": "Yes there was no continuity to ball a5 from feedback trace test poiny. it also came straight off when trying to add solder to it. Ill have to run a wire from test point of FB to A5 ball. PWM signal is present but at 1.4v\n\nill have to wait for my LED drivers to come in before i continue.\n\nis it smart to try and dig out a pad on A5 or is it useless once it comes off?"
+        },
+        {
+            "post_id": 33234,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-04 02:45:28",
+            "message": "If A5 pad is gone it is best just to run a small wire."
+        },
+        {
+            "post_id": 33380,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-04-06 22:57:07",
+            "message": "I replaced led driver again ran a small wire from a5 to <SIGNAL>PPHV_S0SW_LCDBKLT</SIGNAL> since the FB trace was pretty useless. I get 8.5v on that wire now but i still get no backlight is it because <SIGNAL>BKL_PWM</SIGNAL> remains at 1.4v and <SIGNAL>BKLT_EN</SIGNAL> is at 2.8v? Im stumped at this point.\n\nUpdate: found the issue i ran a wire to the wrong point removed and all is working. I do however get this theater light effect on the bottom right side of the screen also when turning the brightness down the left side gets darker than the right Its not a big deal but im wondering if its the screen itself from the water damage or the isens resistors at fault?"
+        },
+        {
+            "post_id": 33385,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-07 06:08:29",
+            "message": "One or more of the LED return lines are not good. Check <RESISTOR>R7717</RESISTOR>-22, could also be bad soldering on the <CHIP>LP8550</CHIP>."
+        },
+        {
+            "post_id": 33401,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-04-07 12:23:21",
+            "message": "<RESISTOR>R7717</RESISTOR> seems to be shorted to ground its trace goes under all the damage not sure if thats why? I removed it and it actually looks a lot better without it. Will there be an issue down the road without it?"
+        },
+        {
+            "post_id": 33414,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-08 06:46:50",
+            "message": "No idea, could be shorted under the <CHIP>LP8550</CHIP> or in the board of course. See if there is a GND ball next to the one <RESISTOR>R7717</RESISTOR> is going to. I think it should be ok to leave it as -is if the short is in the board. It will just look shit on the LCD."
+        },
+        {
+            "post_id": 33454,
+            "thread_id": 33151,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER> no backlight",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-04-09 14:39:06",
+            "message": "Decided to leave it as is since it looks way better without it than before anyways."
+        }
+    ]
+}

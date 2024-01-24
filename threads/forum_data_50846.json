@@ -1,0 +1,120 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437B": "What is 820-3437B? a LOGIC BOARD PART NUMBER.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PP3V_S5": "What is PP3V_S5? a SIGNAL.",
+        "PPRTC_G3H": "What is PPRTC_G3H? This is a typo of PPVRTC_G3H When you see PPRTC_G3H, assume they meant to type PPVRTC_G3H.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "PP1V5_S0": "What is PP1V5_S0? PP1V5_S0 is a 1.5v power rail present when the machine is in an S0 working state.",
+        "PP1V05_SUS": "What is PP1V05_SUS? The PP1V05_SUS signal in the MacBook schematic is a power rail that supplies 1.05 volts, typically used in a suspended (SUS) state of the laptop. This state is a low-power mode where essential system functions are maintained, but the majority of the system is powered down..",
+        "PP3V3_S4SW_SNS": "What is PP3V3_S4SW_SNS? a SIGNAL.",
+        "S4_PWR_EN": "What is S4_PWR_EN? S4_PWR_EN turns on the S4 power rails. Signals ending in _EN enable whatever came before _EN in the signal name when the voltage of the signal is high. .",
+        "P5VS0_EN": "What is P5VS0_EN? This signal enables the PP5V_S0 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "P3V3S0_EN": "What is P3V3S0_EN? This signal enables the PP3V3_S0 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "SMC_SENSOR_PWR_EN": "What is SMC_SENSOR_PWR_EN? a SIGNAL.",
+        "PP1V05_S0SW_PCH_HSIO": "What is PP1V05_S0SW_PCH_HSIO? a SIGNAL.",
+        "P3V3S3_EN": "What is P3V3S3_EN? P3V3S3_EN is a signal that turns on the PP3V3_S3 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PP3V3_S0SW_SSD": "What is PP3V3_S0SW_SSD? a SIGNAL.",
+        "PP1V5_S0SW_AUDIO_HDA": "What is PP1V5_S0SW_AUDIO_HDA? a SIGNAL.",
+        "P1V8S3_EN": "What is P1V8S3_EN? P1V8S3_EN is a signal that enables the PP1V8_S3 line when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "PP3V3_S3_FET_R": "What is PP3V3_S3_FET_R? a SIGNAL.",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "BUF_PLT_RST_L": "What is BUF_PLT_RST_L? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 50846,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-19 02:40:57",
+            "message": "Hi team,\n\n<SIGNAL>PPBUS_G3H</SIGNAL>:  8.59V\nPP3V42:  3.401V\n<SIGNAL>PPRTC_G3H</SIGNAL>: 3.310V\n<SIGNAL>PP5V_S5</SIGNAL>: 4.994V\n<SIGNAL>PP3V_S5</SIGNAL>: 3.310V\nS4 State pulsing\n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> : 3.366V\n<SIGNAL>PM_BATLOW_L</SIGNAL> : 3.305V\n<SIGNAL>PM_DSW_PWRGD</SIGNAL>: 3.398V\n<SIGNAL>SMC_PM_G2_EN</SIGNAL>: 3.396V\n\nChecked all SPI Bus Series Termination traces and resistors\nPut flux and heated SMC and SPI\n\nRe programmed <CHIP>U6100</CHIP> with medusa: NOK\nReplaced <CHIP>U6100</CHIP> and re programmed (Cleaned Pram, ME, SN Crc ): Not Ok\nStill quarter Fan Spin\nSometimes When the medusa is connected fan starts running normally.\nRe programmed with 00165 Dump bios just for try : Board Starts but no Chime, No backlight and No display.\nBack to 3437B bios and pulsing state\nMaybe not SPI finally"
+        },
+        {
+            "post_id": 50849,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-19 05:12:06",
+            "message": "All big coils pulse too?\nAlso check <SIGNAL>ALL_SYS_PWRGD</SIGNAL> and pins 3/7 of <CHIP>U1950</CHIP>.\n\nDid you try SMC bypass?"
+        },
+        {
+            "post_id": 50852,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-07-19 06:13:53",
+            "message": "?sometimes runs normal with Medusa connected? any signs of corrosion on J6100?"
+        },
+        {
+            "post_id": 50854,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-19 07:52:03",
+            "message": "@2Informaticos:\n\nAll big coils pulse too?\n[COLOR=#0000FF]YES[/COLOR]\nAlso check <SIGNAL>ALL_SYS_PWRGD</SIGNAL> and pins 3/7 of <CHIP>U1950</CHIP>.\n[COLOR=#0000FF]Pulsing Too , everything pulses to Vcore[/COLOR]\n\nDid you try SMC bypass?\n[COLOR=#0000FF]YES: Pusles too : forces the fan to enter in quarter Spin loop[/COLOR]\n\n@JohnB:\n\n[COLOR=#0000FF]Yes checked and resoldered all pins : No sign of corrosion directely on the J6100 but Tests Points around have the gold color turned to brown[/COLOR]\n\nBoard Starts only when the Medusa is writing which is very ennoying , I have to disconnect reconnect the charger many times during the process for the medusa to finish writing."
+        },
+        {
+            "post_id": 50855,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-19 08:02:20",
+            "message": "Maybe Crap under CPU preventing <SIGNAL>PM_SLP_S4_L</SIGNAL> to be high?"
+        },
+        {
+            "post_id": 50856,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-19 11:10:46",
+            "message": "If coils pulse, means <SIGNAL>PM_SLP_S4_L</SIGNAL> pulses too.\n\n\"Board Starts only when the Medusa is writing\"\nYesh, stays on, but doesn't work.\nTo avoid future problems with Medusa, dosn't use MacBook charger.\nInject external 3.3V on <SIGNAL>3V3_SUS</SIGNAL> rail and never get problems again.\n\nIn this case, when the board stays on because of Medusa \"help\", check all voltages from pages 57/58."
+        },
+        {
+            "post_id": 50938,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-23 03:47:00",
+            "message": "What's your idea reagrding: all voltages from pages 57/58?\ndo you think that one of those is shorted to gnd and drops down the <SIGNAL>PP3V3_S5</SIGNAL>?"
+        },
+        {
+            "post_id": 50939,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-07-23 04:26:07",
+            "message": "[B]Page 57:[/B]\n\n1.8V S3 REGULATOR:\n1.8V Pulsing because <SIGNAL>P1V8S3_EN</SIGNAL> pulsing too.\n\n1.5V S0 LDO:\n\n<SIGNAL>PP1V5_S0</SIGNAL> Pulsing as it's directely depending of 1.8V S3\n\n1.05V SUS LDO:\n<SIGNAL>PP1V05_SUS</SIGNAL>: 1.061V OK\n\n[B]Page 58:[/B]\n\n<SIGNAL>PP1V5_S0SW_AUDIO_HDA</SIGNAL> Pulsing\n\n3.3V SUS Switch OK\n\n3.3V S4 Switch: Pulsing as depending <SIGNAL>S4_PWR_EN</SIGNAL> (Pulsing)\n\n<SIGNAL>PP3V3_S3_FET_R</SIGNAL> Pulsing as <SIGNAL>P3V3S3_EN</SIGNAL> Pulsing too\n\n3.3V S0 and <SIGNAL>PP3V3_S0SW_SSD</SIGNAL> pulsing as <SIGNAL>P3V3S0_EN</SIGNAL> pulsing\n\n<SIGNAL>PP3V3_S4SW_SNS</SIGNAL> pulsing as <SIGNAL>SMC_SENSOR_PWR_EN</SIGNAL> pulsing\n\n<SIGNAL>PP5V_S0</SIGNAL> Pulsing as <SIGNAL>P5VS0_EN</SIGNAL> pulsing too\n\n<SIGNAL>PP1V05_S0SW_PCH_HSIO</SIGNAL> pulsing as depending of <SIGNAL>PP5V_S0</SIGNAL>\n\n<SIGNAL>PP1V05_S0</SIGNAL> Pulsing"
+        },
+        {
+            "post_id": 50949,
+            "thread_id": 50846,
+            "title": "<LOGIC BOARD PART NUMBER>820-3437B</LOGIC BOARD PART NUMBER> quarter fan in loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-07-23 07:54:22",
+            "message": "If power sequence is OK, then should be communication problem between some blocks, maybe bad CPU.\nCheck if <SIGNAL>PLT_RESET_L</SIGNAL> and <SIGNAL>BUF_PLT_RST_L</SIGNAL> pulse both high."
+        }
+    ]
+}

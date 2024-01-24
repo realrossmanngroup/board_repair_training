@@ -1,0 +1,411 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00281": "What is 820-00281? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U3100": "What is U3100? a CHIP.",
+        "U3200": "What is U3200? a CHIP.",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "PPBUS_3GH": "What is PPBUS_3GH? PPBUS_3GH is a typo of PPBUS_G3H. If you see someone type PPBUS_3GH assume they meant to type PPBUS_G3H.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "PP1V1_UPC_TB_LDO_BMC": "What is PP1V1_UPC_TB_LDO_BMC? a SIGNAL.",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP3V3_UPC_XA_LDO": "What is PP3V3_UPC_XA_LDO? PP3V3_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "PP1V8_UPC_XB_LDOD": "What is PP1V8_UPC_XB_LDOD? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XA_LDO_BMC": "What is PP1V1_UPC_XA_LDO_BMC? PP1V1_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "PP1V8_UPC_XA_LDOD": "What is PP1V8_UPC_XA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_XA_LDOA": "What is PP1V8_UPC_XA_LDOA? a SIGNAL.",
+        "PP3V3_UPC_TA_LDO": "What is PP3V3_UPC_TA_LDO? PP3V3_UPC_TA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_TA_LDO_BMC": "What is PP1V1_UPC_TA_LDO_BMC? a SIGNAL.",
+        "PP3V3_UPC_TB_LDO": "What is PP3V3_UPC_TB_LDO? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOD": "What is PP1V8_UPC_TB_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOA": "What is PP1V8_UPC_TA_LDOA? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOD": "What is PP1V8_UPC_TA_LDOD? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOA": "What is PP1V8_UPC_TB_LDOA? a SIGNAL.",
+        "U2800": "What is U2800? a CHIP.",
+        "U4200": "What is U4200? a CHIP.",
+        "P3V3_S4_SOC_PMU": "What is P3V3_S4_SOC_PMU? a SIGNAL.",
+        "PP3V0_MESSA": "What is PP3V0_MESSA? a SIGNAL.",
+        "C4916": "What is C4916? a CAPACITOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V0_MESA": "What is PP3V0_MESA? a SIGNAL.",
+        "U2890": "What is U2890? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 57653,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-20 01:58:17",
+            "message": "hi, i have <LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a dead, water damage at <CHIP>U3200</CHIP> area (<CHIP>U3200</CHIP> replaced) and at area <CHIP>U3100</CHIP>(replaced too) i was also replace <CHIP>U7000</CHIP> and <CHIP>U6903</CHIP>..now its give me 5v loop at charger i was look for short on <SIGNAL>PPBUS_3GH</SIGNAL>(0.9v) but cant find any....any idea?\nthanks!"
+        },
+        {
+            "post_id": 57656,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-20 02:46:01",
+            "message": "Do you get <SIGNAL>3V3_G3H</SIGNAL>?\nAlso check <SIGNAL>SMC_RESET_L</SIGNAL> and <SIGNAL>BUF_SMC_RESET_L</SIGNAL>.\n\nInspect the other two USB-C ports; all four <CHIP>CD3215</CHIP> chips must talk with SMC.\nCheck if all LDO voltages come out from these chips.\nAlso compare diode mode readings on all of their power rails."
+        },
+        {
+            "post_id": 57659,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-20 03:39:44",
+            "message": "<SIGNAL>3V3_G3H</SIGNAL> - 3.4V\n<SIGNAL>SMC_RESET_L</SIGNAL>- 3.4V\n<SIGNAL>BUF_SMC_RESET_L</SIGNAL>. -3.3V\n\nAt all 4 its the same (5v - 5s loop)\nalll the LDO voltage are O.K except <SIGNAL>PP1V1_UPC_TB_LDO_BMC</SIGNAL> from UB400 AND ub300."
+        },
+        {
+            "post_id": 57662,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-20 03:46:14",
+            "message": "im also dont get <SIGNAL>PP5V_S4</SIGNAL> - 0V"
+        },
+        {
+            "post_id": 57664,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-20 05:03:36",
+            "message": "You must get all LDO voltages.\nBe aware, you must connect the charger on the corresponding port.\n\nCompare diode mode readings on LDO lines, between the 4 <CHIP>CD3215</CHIP> chips."
+        },
+        {
+            "post_id": 57725,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-23 09:15:37",
+            "message": "<CHIP>U3200</CHIP>\n<SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> - 3.4v dido mode----505\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> - 1.8v ---480\n<SIGNAL>PP1V8_UPC_XB_LDOD</SIGNAL> - 1.8v---480\n<SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> - 1.0v---505\n\n<CHIP>U3100</CHIP>\n<SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL> -3.3v ---505\n<SIGNAL>PP1V8_UPC_XA_LDOA</SIGNAL> -1.8v----1270\n<SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL> -0v----1\n<SIGNAL>PP1V8_UPC_XA_LDOD</SIGNAL> -1.8v---480\n\nUB300\n<SIGNAL>PP3V3_UPC_TA_LDO</SIGNAL> - 3.4v----506\n<SIGNAL>PP1V8_UPC_TA_LDOA</SIGNAL> -1.8V----1303\n<SIGNAL>PP1V8_UPC_TA_LDOD</SIGNAL> -1.8V----480\n<SIGNAL>PP1V1_UPC_TA_LDO_BMC</SIGNAL>-1.0V---1750\n\nUB400\n<SIGNAL>PP3V3_UPC_TB_LDO</SIGNAL> -3.4V----503\n<SIGNAL>PP1V8_UPC_TB_LDOA</SIGNAL> -0V----514\n<SIGNAL>PP1V8_UPC_TB_LDOD</SIGNAL> -1.8V----480\n<SIGNAL>PP1V1_UPC_TB_LDO_BMC</SIGNAL> - 0V----730"
+        },
+        {
+            "post_id": 57730,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-23 11:27:25",
+            "message": "Looks to have problems with <CHIP>U3100</CHIP> and UB400..."
+        },
+        {
+            "post_id": 57731,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-23 11:37:47",
+            "message": "I will replace them, and post result..thanks!"
+        },
+        {
+            "post_id": 57844,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-29 08:34:35",
+            "message": "some update..i was replaced <CHIP>U3100</CHIP> AND UB400, at the <CHIP>U3100</CHIP>/3200 still 5v loop, at the UB400/300 one still 5v loop and one 5v stable...."
+        },
+        {
+            "post_id": 57846,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-29 10:22:38",
+            "message": "You still have problems on USB-C areas.\nA common problem (after these areas), will cause the same behaviour on all ports."
+        },
+        {
+            "post_id": 57865,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-30 04:20:21",
+            "message": "so.. still one of the <CHIP>CD3215</CHIP> is make the problem ?"
+        },
+        {
+            "post_id": 57868,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-30 05:33:08",
+            "message": "Or other thing connected to <CHIP>CD3215</CHIP> chips, like <CHIP>U2800</CHIP>/90..."
+        },
+        {
+            "post_id": 57872,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-30 06:57:28",
+            "message": "there is a way to check what can cause the problems?"
+        },
+        {
+            "post_id": 57873,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-03-30 07:01:06",
+            "message": "If you don't get all LDO outputs, should be <CHIP>CD3215</CHIP> issue.\nDid you solder new chips, or refurbished?"
+        },
+        {
+            "post_id": 57875,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-03-30 07:21:30",
+            "message": "2 new but i dont know if they good i was order now more"
+        },
+        {
+            "post_id": 58591,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 02:49:06",
+            "message": "update, i was just got 4 new ones...i was replaced all 4, at the <CHIP>U3100</CHIP>/3200 still 5v stable, at the UB400/300 still 5v loop...so its from other place, i think..what can i check next?"
+        },
+        {
+            "post_id": 58598,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-22 03:08:48",
+            "message": "You cannot have different behaviour from an issue on a common point.\nUSB-C areas have more chips, not only <CHIP>CD3215</CHIP>.\nCheck for corrosion on the corresponding ROMs and Thunderbolt chips."
+        },
+        {
+            "post_id": 58601,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 04:01:55",
+            "message": "there was corrosion near <CHIP>U4200</CHIP> and some V are missing like <SIGNAL>P3V3_S4_SOC_PMU</SIGNAL>, i was put some flux and move it..but the same, reball/ replace?\nthis cup are missing <CAPACITOR>C4916</CAPACITOR> <SIGNAL>PP3V0_MESSA</SIGNAL>, importent for this problem?"
+        },
+        {
+            "post_id": 58603,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-22 04:47:24",
+            "message": "<CAPACITOR>C4916</CAPACITOR> is not important to get <SIGNAL>PPBUS_G3H</SIGNAL>; <SIGNAL>PP3V0_MESA</SIGNAL> is not in S5 state."
+        },
+        {
+            "post_id": 58604,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-04-22 05:36:53",
+            "message": "what next please?"
+        },
+        {
+            "post_id": 58614,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-04-22 08:07:59",
+            "message": "Inspect entire USB-C areas for corrosion, not only <CHIP>CD3215</CHIP> chips.\nPay atention to <CHIP>U2800</CHIP>/90, UB000/90 and surrounding resistors."
+        },
+        {
+            "post_id": 58990,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-04-30 14:13:05",
+            "message": "following because im having this issue with the missing BMC LDO..."
+        },
+        {
+            "post_id": 59018,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-05-01 06:34:19",
+            "message": "still the same...\n<SIGNAL>PP1V1_UPC_TA_LDO_BMC</SIGNAL> 0v at <CHIP>U3100</CHIP> and <SIGNAL>PP1V1_UPC_TB_LDO_BMC</SIGNAL> at UB400.\ncheck <CHIP>U2800</CHIP>/90 all look good"
+        },
+        {
+            "post_id": 59021,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-01 07:09:44",
+            "message": "Compare diode mode readings for all LDO rails between all <CHIP>CD3215</CHIP> chips.\nBetter if you have working board for comparison."
+        },
+        {
+            "post_id": 59268,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-07 03:41:14",
+            "message": "OK, just wanted to let you know i have resolved all of these with a missing BMC LDO by replacing the TBT ROM (<CHIP>U2890</CHIP> on a 00840 board). In all of them, the BMC LDOs came back and i got 20v back."
+        },
+        {
+            "post_id": 59279,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-07 05:16:04",
+            "message": "Upload working ROM somewhere please.\nThis will really help..."
+        },
+        {
+            "post_id": 59282,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-07 05:56:16",
+            "message": "yeah ill give it a shot.\ni have a TL866II reader, but i dont have any fitting adapters for this. i think the chip is in 8pin uson package. Do you know of a good adapter? i could of course solder wires but if theres anything avalable...."
+        },
+        {
+            "post_id": 59285,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-07 06:08:01",
+            "message": "Best options here...\n[url]http://www.cmizapper.com/products/t2-chip-stuff.html[/url]"
+        },
+        {
+            "post_id": 59410,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-12 02:01:59",
+            "message": "crap, so i got a solderboard (a levelshifter board, but can use it in 3v3 mode as well) that the chip fits onto, but customer needed his machine back early so had to close it up. I do have another repaired board in, i could take the dump off of that?"
+        },
+        {
+            "post_id": 59413,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-12 02:18:10",
+            "message": "Only a problem on USB-C areas can generate different behaviour, depending of wich port is connected to charger.\nCan be one of the chips above mentioned, or resistors, traces, even protection diodes from data lines.\n\nThe dump from exact board model should probably work..."
+        },
+        {
+            "post_id": 59507,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-13 07:03:12",
+            "message": "hey 2informaticos, i've got the rom soldered on to this board: A4069 from this link: [URL]http://www.cmizapper.com/buy/medusa-accessories.html[/URL]\ni have it hooked up to my reader (A TL866 II), but the software doesn't have the right Device ID to read from the chip. all connections are good to the reader (have checked with multimeter) \nI have selected W25Q80DV @ WSON8  as device-id, since i think its the closest match, but it won't work (gives me a message saying incorrect package).\nI think i need a W25Q80DV @ USON8 (since it's a USON package) but my software doesnt have this particular device-id.\nsoftware i'm using is XGPro 8.51, maybe you have an idea of other software to read it?\n\nI'm probably going to give it up if i cant figure it out over the next days since the machine has to go back."
+        },
+        {
+            "post_id": 59518,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 09:26:03",
+            "message": "A4069 has 2 connection ways; use 3V3 side for this chip.\nCheck chip to DIL8 adapter pin correspondence.\n\nI ordered A4069/70 adapters, but didn't get them yet to test..."
+        },
+        {
+            "post_id": 59521,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-13 10:03:15",
+            "message": "I think it specifically says to connect it to the port that’s labelled as the 1v8 side (normally used to connect a 1v8 ROM, in that case,the other 3v3-port then connects to the medusa).\n\nThe port labelled 1v8 bypasses the levelshifter i.e: the only thing between port and soldered chip is traces.\n\nby the way, there’s a dot on the board to help with orientation. It is correctly oriented on my board now.\nmy thought was now that my TL866 is not reading the chip because of the wrong deviceID in the software.\ndo you know if W25Q80DV @ WSON8 matches this chip?"
+        },
+        {
+            "post_id": 59534,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-13 14:21:50",
+            "message": "TL866 doesn't support 1V8 chips directly.\nSo you need to use the level shifter.\n\nManually set different codes and see what you can read..."
+        },
+        {
+            "post_id": 59549,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-14 01:05:55",
+            "message": "yeah this is a 3.3 volts ic though.\n\ni have tried all the possible device IDs this thing has, but no dice.. gonna give up, sorry."
+        },
+        {
+            "post_id": 59552,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-05-14 02:29:29",
+            "message": "so you think that my problem is TBT ROM (<CHIP>U2890</CHIP>), there was a tine liquid near to him.."
+        },
+        {
+            "post_id": 59556,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-05-14 04:14:44",
+            "message": "Could be bad chip, easy to discard trying to read one from other board.\nCan be just corrupted dump, or some broken trace of it."
+        },
+        {
+            "post_id": 59559,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-14 04:19:26",
+            "message": "well the chip's not bad; it's back on its board now and the machine is fully working again.\ni've beeped out the sides of the chip (when it was soldered on the solderboard) to the DIL-legs: everything was correctly connected.\nyou said you've got a solderboard on the way, right? Maybe try it out when you get it."
+        },
+        {
+            "post_id": 59602,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-05-15 02:42:43",
+            "message": "so you think that my problem is TBT ROM (<CHIP>U2890</CHIP>), there was a tine liquid near to him.."
+        },
+        {
+            "post_id": 59687,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 1423,
+            "username": "captainmac",
+            "post_date": "2020-05-16 12:34:43",
+            "message": "Yeah could be. I also think there is a large amount of fake and fucked CD3215s for sale. In my experience, all the ones i've bought separately off aliexpress were all shit, and i've bought from 5 different sellers so far. \nI only order donorboards now that i take them off of and reball them/ also ordered from louis, but that shit is expensive."
+        },
+        {
+            "post_id": 59713,
+            "thread_id": 57653,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER>-a 5v loop",
+            "user_id": 19708,
+            "username": "yair37",
+            "post_date": "2020-05-16 23:50:40",
+            "message": "thanks, im also thinks that <CHIP>CD3215</CHIP> from Ali is shit...i will try to find a bad board to take from..thanks!"
+        }
+    ]
+}

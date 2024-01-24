@@ -1,0 +1,84 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7940": "What is U7940? a CHIP.",
+        "U3890": "What is U3890? a CHIP.",
+        "U7930": "What is U7930? a CHIP.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PP5V_SUS": "What is PP5V_SUS? a SIGNAL.",
+        "SMC_BATLOW_L": "What is SMC_BATLOW_L? SMC_BATLOW_L refers to a power management signal that indicates a low battery condition. The \"_L\" suffix suggests that this is an active-low signal, meaning that it becomes low when the battery reaches a low voltage threshold..",
+        "P5V_3V3_SUS_EN": "What is P5V_3V3_SUS_EN? a SIGNAL.",
+        "Q5040": "What is Q5040? a TRANSISTOR.",
+        "Q3880": "What is Q3880? a TRANSISTOR.",
+        "Q7822": "What is Q7822? a TRANSISTOR.",
+        "U2600": "What is U2600? a CHIP.",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "SYSCLK_CLK32K_RTC": "What is SYSCLK_CLK32K_RTC? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 45264,
+            "thread_id": 45264,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> not turning on, doesn't enter S4 state",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2019-01-26 16:45:20",
+            "message": "Okay, this board was nasty around <CHIP>U3890</CHIP> so I put it in through UC (first bath UC, finally). PPBUS was shorted so I removed <TRANSISTOR>Q3880</TRANSISTOR> and short was gone. Other stuff should also be replaced, but that can wait I think.\n\nAlways present rails are good. PP3V42 and PPBUS are 3.42V and 12.59V.\n\nThen I proceeded to check other rails, <SIGNAL>PP5V_S5</SIGNAL> and <SIGNAL>PP3V3_S5</SIGNAL> are also good. That's about it for the rails. <SIGNAL>PP5V_SUS</SIGNAL> and <SIGNAL>PP3V3_SUS</SIGNAL> are not present. They share <TRANSISTOR>Q7822</TRANSISTOR>, which fails because <SIGNAL>P5V_3V3_SUS_EN</SIGNAL> is not present. It is created by <CHIP>U7940</CHIP>. <CHIP>U7940</CHIP> VCC Pin and <SIGNAL>SMC_BATLOW_L</SIGNAL> are present. <SIGNAL>PM_SLP_SUS_L</SIGNAL> is not present. It comes from PCH. Checked input signals and found only <SIGNAL>SMC_ADAPTER_EN</SIGNAL> present. <SIGNAL>PM_RSMRST_L</SIGNAL> is not present.\n\nTraced that back and got to <CHIP>U7930</CHIP>.\n\nPin 1 RESET ----- 0V\nPin 2 GND ------- 0V\nPin 3 NC --------- 3.3V?\nPin 4 CT --------- 0.08V\nPin 5 SENSE --- 0V\nPin 6 VDD ------- 3.3V\n\nProbably should have just written rail names. Okay, so, I've replaced it with another one, same results.\n\n<TRANSISTOR>Q5040</TRANSISTOR>:\n<SIGNAL>SMC_BATLOW_L</SIGNAL> is 3.3V\n<SIGNAL>PM_BATLOW_L</SIGNAL> is 0V\n<SIGNAL>PP3V3_SUS</SIGNAL> is 0V\n\nReading datasheet about it says that Pin 1 Reset RESET remains low (asserted) for the reset period after both SENSE is above VIT and MR is set to a logic high. A pull-up resistor from 10 k? to 1 M? should be used on this pin, and allows the reset pin to attain voltages higher than VDD.\n\nTell me please I am in a wrong rabbit hole.\n\nI?m using 2 original 60W and 85W chargers."
+        },
+        {
+            "post_id": 45277,
+            "thread_id": 45264,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> not turning on, doesn't enter S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-27 03:41:09",
+            "message": "You're missing <SIGNAL>3V3_SUS</SIGNAL>, don't watse time around <CHIP>U7930</CHIP>.\n<SIGNAL>PM_RSMRST_L</SIGNAL> requires <SIGNAL>3V3_SUS</SIGNAL> to goes high...\n\nCheck <SIGNAL>S5_PWRGD</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL> and the 4 RTC signals (page 16).\n32KHz should come out from <CHIP>U2600</CHIP> too."
+        },
+        {
+            "post_id": 45285,
+            "thread_id": 45264,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> not turning on, doesn't enter S4 state",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2019-01-27 05:22:13",
+            "message": "\"Check <SIGNAL>S5_PWRGD</SIGNAL>, <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL> and the 4 RTC signals (page 16).\" -- They are all present around 3-3.3V.\n\n\"32KHz should come out from <CHIP>U2600</CHIP> too\" -- I don't have an oscilloscope to catch that, but DMM has apparently options to check frequency, which I haven't figured out how to use, even after googling and trying to use it on another good board. Model is BM829s. \n\n<CHIP>U2600</CHIP> pin 12 <SIGNAL>SYSCLK_CLK32K_RTC</SIGNAL> voltage present is 0.920V. That's 32 kHz pin?"
+        },
+        {
+            "post_id": 45286,
+            "thread_id": 45264,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> not turning on, doesn't enter S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-27 05:39:22",
+            "message": "\"the 4 RTC signals\"\nPlease confirm each one you tested by separate.\nI want to be sure don't miss any, nor confused with other thing...\n\n32KHz output has usually 0.45V DC; that cannot confirm correct oscillation 100%.\n\n\"<SIGNAL>PM_BATLOW_L</SIGNAL> is 0V\"\nI forgot that; it should be high too.\nPut good flux and heat PCH, to burn crap under."
+        },
+        {
+            "post_id": 46170,
+            "thread_id": 45264,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> not turning on, doesn't enter S4 state",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2019-02-13 14:30:25",
+            "message": "Shall I proceed with flux and heat on PCH?"
+        },
+        {
+            "post_id": 46172,
+            "thread_id": 45264,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> not turning on, doesn't enter S4 state",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-02-13 14:35:44",
+            "message": "Yes, but carefully; don't kill it.\nNo more than 180-200 degrees, you don't need to melt the balls..."
+        }
+    ]
+}

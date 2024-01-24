@@ -1,0 +1,65 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3023": "What is 820-3023? a LOGIC BOARD PART NUMBER.",
+        "CPUIMVP_TON": "What is CPUIMVP_TON? a SIGNAL.",
+        "U7400": "What is U7400? a CHIP.",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "CPUIMVP_VR_ON": "What is CPUIMVP_VR_ON? CPUIMVP_VR_ON is a signal that tells the buck converter responsible for PPVCORE_S0_CPU to turn on and create CPU vcore voltage. This comes from ALL_SYS_PWRGD – once ALL_SYS_PWRGD is present, CPUIMVP_VR_ON will be present. .",
+        "PPVCORE_S0_AXG_R": "What is PPVCORE_S0_AXG_R? a SIGNAL.",
+        "PPDDR_S3_REG_R": "What is PPDDR_S3_REG_R? a SIGNAL.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "R7812": "What is R7812? a RESISTOR.",
+        "C6100": "What is C6100? a CAPACITOR.",
+        "C7811": "What is C7811? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 22840,
+            "thread_id": 22840,
+            "title": "[SOLVED][<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER>] ~0.5s fan spin on loop - Keeps power cycling - <SIGNAL>CPUIMVP_TON</SIGNAL> keeps going low",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2017-07-11 16:30:02",
+            "message": "[PLAIN][SOLVED][<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER>] ~0.5s fan spin on loop - Keeps power cycling - <SIGNAL>CPUIMVP_TON</SIGNAL> keeps going low[/PLAIN]\n\nHey everyone\n\nGoing on a nice vacation in a few days, just want to finish this last laptop before I close off and enjoy a break\n\nLaptop has been touched by idiots before, but no signs of soldering or ultrasonic. But they managed to pull off the screw holder for the SSD (How even? You'd have to pull really hard). No short on the surrounding pads and the damage is right now mostly cosmetical.\n\nThe laptop has very localized water damage, nothing got dropped over it known but I suspect a few droplets got in with the fan. The corroded parts only affect thunderbolt which should not be needed for a POST. I removed the few corroded caps and resistors from the thunderbolt. Made sure there are no shorts. So its not the issue\n\n<SIGNAL>CPUIMVP_VR_ON</SIGNAL> turns HIGH for about 100ms before it pulled low again (Probably because the system resets?)\n<SIGNAL>CPUIMVP_TON</SIGNAL> stays 8V, but when the system powers on it turns to below 3V (Maybe even 0V, but my multimeter is slow) and then turns back to 8V when the fan starts to stop again. <RESISTOR>R7402</RESISTOR> on pin 2 does not gets pulled down. Its the chip that does it. <RESISTOR>R7402</RESISTOR> is within its 1% allowance\n\n<SIGNAL>PPVCORE_S0_CPU</SIGNAL> and <SIGNAL>PPVCORE_S0_AXG_R</SIGNAL> stays 0V on the multimeter. But maybe its just too fast for the multimeter to notice. There is no short to ground on these lines, although there is low resistance but thats normal\n<SIGNAL>PPDDR_S3_REG_R</SIGNAL> quickly turns to about 1.45V before it moves down to less then 0.1V, this keeps going up and down every time the CPU tries to boot. Indicating it goes back down to S4 or less\n\nAny idea's where to look? Thinking about replacing <CHIP>U7400</CHIP> but I'm always told this chip never dies. Which makes me assume its somewhere else\nI don't remember having in any boards with this issue before haha\n\nThanks again! Let me know if you want me to measure anything"
+        },
+        {
+            "post_id": 22857,
+            "thread_id": 22840,
+            "title": "[SOLVED][<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER>] ~0.5s fan spin on loop - Keeps power cycling - <SIGNAL>CPUIMVP_TON</SIGNAL> keeps going low",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-07-11 17:07:29",
+            "message": "It's power cycling so it could be anything, the last thing would be <CHIP>U7400</CHIP>. The usual suspects apply <CHIP>U6100</CHIP>/termination resistors/traces/clock chip. Also any knocked off component. Corrosion under SMC...."
+        },
+        {
+            "post_id": 22858,
+            "thread_id": 22840,
+            "title": "[SOLVED][<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER>] ~0.5s fan spin on loop - Keeps power cycling - <SIGNAL>CPUIMVP_TON</SIGNAL> keeps going low",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2017-07-11 17:25:48",
+            "message": "<SIGNAL>PP3V3_S5</SIGNAL> is 2V, since it also powers <CHIP>U6100</CHIP> makes it a obvious reason for it not working\n\nCan't believe I overlooked this, will report back"
+        },
+        {
+            "post_id": 22859,
+            "thread_id": 22840,
+            "title": "[SOLVED][<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER>] ~0.5s fan spin on loop - Keeps power cycling - <SIGNAL>CPUIMVP_TON</SIGNAL> keeps going low",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2017-07-11 17:51:56",
+            "message": "over 200kohm of resistance from <CAPACITOR>C7811</CAPACITOR>/<RESISTOR>R7812</RESISTOR>'s <SIGNAL>PP3V3_S5</SIGNAL> (Where its still 3.3V) to <CAPACITOR>C6100</CAPACITOR>. Broken trace somewhere? Will pull wire and see if that solves it"
+        },
+        {
+            "post_id": 22860,
+            "thread_id": 22840,
+            "title": "[SOLVED][<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER>] ~0.5s fan spin on loop - Keeps power cycling - <SIGNAL>CPUIMVP_TON</SIGNAL> keeps going low",
+            "user_id": 289,
+            "username": "smiba",
+            "post_date": "2017-07-11 17:58:53",
+            "message": "And we have fan spin :)\n\nExplains why I didn't notice it on the initial diagnose, since it was alright on every spot except the bios\n\nEDIT: And it POSTS, solved! Thanks"
+        }
+    ]
+}

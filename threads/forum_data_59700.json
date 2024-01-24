@@ -1,0 +1,108 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00426A": "What is 820-00426A? a LOGIC BOARD PART NUMBER.",
+        "A1398": "What is A1398? A1398 is a model number for a 15 inch size MacBook Pro Retina from years Mid 2015, Mid 2012, Early 2013, Late 2013, Mid 2014 with EMC 2909, that may contain one of these boards depending on the year & configuration: 820-00138, 820-00163, 820-00426, 820-3332, 820-3662, 820-3787..",
+        "BKLT_EN_R": "What is BKLT_EN_R? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. The “_R” suffix means that the signal is asserted when it is high, as in 3.3v, which is the opposite of the “_L”  suffix.",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "U8300": "What is U8300? a CHIP.",
+        "BKL_SW": "What is BKL_SW? BKL_SW means “BACKLIGHT SWITCH” – DC to DC boost circuits increase voltage by putting a lower voltage, like 8 volts, through an inductor. On the other side of the inductor, it is switched to ground rapidly - on this side, you will end up with an increased voltage as a result of the switching. BKL_SW usually refers to the pin on the LED driver that is attached to the inductor. .",
+        "BKL_FET_CRTL_R": "What is BKL_FET_CRTL_R? a SIGNAL.",
+        "Q7701": "What is Q7701? a TRANSISTOR.",
+        "LCD_BKLT_EN": "What is LCD_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “LCD_BKLT” which stands for “LCD screen backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "U7701": "What is U7701? a CHIP.",
+        "R7742": "What is R7742? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 62669,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-21 23:47:05",
+            "message": "Hi\n\nClient claims laptop was water damaged and he ordered a new board from overseas. \n\nWith this new board he has no backlight.  I've tested a different screen on this computer there is also no backlight. \n\n<MACBOOK MODEL NUMBER>A1398</MACBOOK MODEL NUMBER> EMC2909 (original model) \n\nI assume I would start by checking backlight circuit output etc?\n\nBasic stuff I've tried SMC reset etc."
+        },
+        {
+            "post_id": 62674,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-22 02:16:53",
+            "message": "Image present, only missing backlight?"
+        },
+        {
+            "post_id": 62741,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-22 18:57:18",
+            "message": "correct. image booting perfectly."
+        },
+        {
+            "post_id": 62745,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-22 22:39:24",
+            "message": "I have replaced battery with no change. User battery swollen"
+        },
+        {
+            "post_id": 62751,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-23 03:53:12",
+            "message": "Do you get any voltage at pin 1 of J8300?\nPost <SIGNAL>BKLT_EN_R</SIGNAL> and <SIGNAL>BKLT_SD</SIGNAL>."
+        },
+        {
+            "post_id": 62903,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-26 20:55:01",
+            "message": "Pin 1 - 2mv\n<SIGNAL>BKLT_EN_R</SIGNAL> - 1.9mv\n<SIGNAL>BKLT_SD</SIGNAL> 5.03v\n\nI took a look at the schematic and working my way back on the backlight circuit I've checked ...\n\n<CHIP>U8300</CHIP> Pin 1 PPV5S4 5.04v\nPPV5 FETCAP LCD 5v\nPPV5 SW LCD ISNS 5v\n\n<TRANSISTOR>Q7701</TRANSISTOR> (Si7812DN N Channel Mosfet)\n<SIGNAL>BKL_SW</SIGNAL> 54mv\n<SIGNAL>BKL_FET_CRTL_R</SIGNAL> 0v ... which I think may be the problem ? \n\nIn this scenario is Pin 4 the gate? \n\n[ATTACH type=\"full\"]59340[/ATTACH]\n\n\nThanks in advance,\n\nJames"
+        },
+        {
+            "post_id": 62911,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-27 04:13:42",
+            "message": "Do not touch backlight circuit, is not enabled yet.\n<SIGNAL>LCD_BKLT_EN</SIGNAL> is present?\nIf yes, check 7742."
+        },
+        {
+            "post_id": 62952,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-27 22:53:36",
+            "message": "<SIGNAL>LCD_BKLT_EN</SIGNAL> is present? - 1.6mv. \n1.5mv on <RESISTOR>R7742</RESISTOR> BKLT EN R \n\nI assume you mean the resistor connected to Pin 17 of <CHIP>U7701</CHIP>."
+        },
+        {
+            "post_id": 62953,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 26818,
+            "username": "LCDR2",
+            "post_date": "2020-07-27 23:07:32",
+            "message": "Could this be a motherboard / screen compatibility issue? Client has also informed me that the webcam also does not work."
+        },
+        {
+            "post_id": 62957,
+            "thread_id": 59700,
+            "title": "No Backlight - <LOGIC BOARD PART NUMBER>820-00426A</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-07-28 00:52:34",
+            "message": "Be sure to test with compatible screen, same year model..."
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U7204": "What is U7204? a CHIP.",
+        "D2502": "What is D2502? a DIODE.",
+        "TPS51393": "What is TPS51393? a CHIP.",
+        "3D3V_AUX_S5": "What is 3D3V_AUX_S5? a SIGNAL.",
+        "R2425": "What is R2425? a RESISTOR.",
+        "TPS51395": "What is TPS51395? a CHIP.",
+        "3D3V_RTC_AUX": "What is 3D3V_RTC_AUX? a SIGNAL.",
+        "3D3V_AUX": "What is 3D3V_AUX? a SIGNAL.",
+        "3V3V_AUX_S5": "What is 3V3V_AUX_S5? a SIGNAL.",
+        "3D3_RTC_AUX": "What is 3D3_RTC_AUX? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 99374,
+            "thread_id": 63909,
+            "title": "Lenovo Flex 5 LC56-14T blown after connecting USBc charger - 19V 0.04A",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2023-05-21 01:29:06",
+            "message": "Hi Guys, I know this is an Apple sub, but not sure if you can help me with this one too. I got a schematic and boardview for a close model. location of the parts on the board are a bit shuffled, but schematic ics seem to match. Here link to the Schematic and Boardview -  [URL='https://1drv.ms/f/s!AqUpFIbofx3Hl5wJE05zzzeM_VvZdA?e=bqp3bc']Lenovo FLEX 5-14ALC05 – LC56-14A SVT[/URL]\n\nI got two of these, both have been connected to the same (doggy?) usbc, which blew them one by one. \nI have detected a short on the 5V line and traced it down to <CHIP>U7204</CHIP> (which was glowing at 1V over 5V line). Replaced it, and the short is gone. However, I cannot get 3.3 and 5V lines to fire up.\n\nPU4501 is heating up slightly and was dropping the DCBATOUT voltage from 19 to 9 V. After replacement, it now stays at 19V with no drop.\nNow still slight heat signature on PU4501 bench shows 19V/0.04A\n\n\n\n[ATTACH type=\"full\" width=\"1149px\"]61161[/ATTACH]\n[ATTACH type=\"full\"]61163[/ATTACH]\n\n[ATTACH type=\"full\"]61162[/ATTACH]\n\nPU4501/4551, same voltages\nP1 - 4.5V\nP2 - 19V\nP6 - 0V\nP9 - 0V\nP11 - 4.7V\nP12 - 0V\nP13 - 0V\nP14 - 0V\nP15 - 5V / 2.7V\nP17 - 5V"
+        },
+        {
+            "post_id": 99376,
+            "thread_id": 63909,
+            "title": "Lenovo Flex 5 LC56-14T blown after connecting USBc charger - 19V 0.04A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-21 05:32:57",
+            "message": "\"P15 - 5V / 2.7V\"\n5V at pin 15 of PU4501???\nDid you solder <CHIP>TPS51393</CHIP> for sure?\n\n2.7V also not good for this pin.\nThis points to overcurrent on the <SIGNAL>3D3V_AUX_S5</SIGNAL> rail.\nRemove <RESISTOR>R2425</RESISTOR> and check if goes up to 3.3V.\nIf still the same, remove <DIODE>D2502</DIODE> and check again.\n\nUse this schematic.\n[URL unfurl=\"true\"]https://drive.google.com/file/d/1SPCqgfN94u9TeP5T3mJp6ZH-uU1EPozH/view?usp=share_link[/URL]"
+        },
+        {
+            "post_id": 99381,
+            "thread_id": 63909,
+            "title": "Lenovo Flex 5 LC56-14T blown after connecting USBc charger - 19V 0.04A",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2023-05-21 16:14:03",
+            "message": "Yes  <CHIP>TPS51393</CHIP> for sure, but I had one from the donor board, which is the other failed board. So how reliable not sure. And I don't have this chip. \n\nI would have thought that 5V and 3.,3 fire separately. Could missing both voltages at the same time would be still faulty <CHIP>TPS51395</CHIP>/3\n\n[ATTACH type=\"full\" alt=\"1684710780702.png\"]61164[/ATTACH]\n\nHow can you spot which component is it without an accurate boardview? Seems to be a bigger size one? 0603?\n\nOnly one in that package size seems to be missing on the left of <DIODE>D2502</DIODE>.\n[ATTACH type=\"full\"]61166[/ATTACH]\n\n<SIGNAL>3D3V_RTC_AUX</SIGNAL> - 3.3V\n<SIGNAL>3D3V_AUX</SIGNAL> - 2.7V\n\n\nRemoved the Diode (if that is the one) and I get 2.70 on <SIGNAL>3V3V_AUX_S5</SIGNAL> and lost <SIGNAL>3D3_RTC_AUX</SIGNAL> which was 3.3V with the diode."
+        },
+        {
+            "post_id": 99385,
+            "thread_id": 63909,
+            "title": "Lenovo Flex 5 LC56-14T blown after connecting USBc charger - 19V 0.04A",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-22 02:06:50",
+            "message": "Then the problem doesn't come from RTC area; put back <DIODE>D2502</DIODE>.\n\n<RESISTOR>R2425</RESISTOR> not used probably; free pads next to <DIODE>D2502</DIODE>.\n\nIf you change PU4501 and still 2.7V there, then bad KBC."
+        }
+    ]
+}

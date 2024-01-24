@@ -1,0 +1,109 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-02016": "What is 820-02016? a LOGIC BOARD PART NUMBER.",
+        "D5150": "What is D5150? a DIODE.",
+        "I2C_SMC_PWR_3V3_SCL": "What is I2C_SMC_PWR_3V3_SCL? a SIGNAL.",
+        "I2C_SMC_PWR_3V3_SDA": "What is I2C_SMC_PWR_3V3_SDA? a SIGNAL.",
+        "I2C_SMC_PWR_SCL": "What is I2C_SMC_PWR_SCL? a SIGNAL.",
+        "I2C_SMC_PWR_SDA": "What is I2C_SMC_PWR_SDA? a SIGNAL.",
+        "I2C_SMC_PWR_1V8_SDA": "What is I2C_SMC_PWR_1V8_SDA? a SIGNAL.",
+        "I2C_SMC_PWR_1V8_SCL": "What is I2C_SMC_PWR_1V8_SCL? a SIGNAL.",
+        "U5200": "What is U5200? a CHIP.",
+        "3V3_SDA": "What is 3V3_SDA? a SIGNAL.",
+        "CD3217": "What is CD3217? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "I2C_SMC_UPC_SDA": "What is I2C_SMC_UPC_SDA? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 99997,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 1358,
+            "username": "mccafe",
+            "post_date": "2023-06-16 10:54:04",
+            "message": "Hello,\n\nI have a MacBook Air that does not charge. Amp meter showed 5 volts for both ports, 0 amps. Changed both Type C chips and now we get 20 volts and 0.28-0.32 amps. It turns the computer on, but does not charge the battery. Tried new battery and it is still not charging.\n\nAny advice? Thanks!"
+        },
+        {
+            "post_id": 100000,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-16 16:09:56",
+            "message": "Is the battery recognized by macOS?\n\nCheck voltage and diode mode to ground on all SCL/SDA lines of UD200/1.\n<DIODE>D5150</DIODE> is the first suspect."
+        },
+        {
+            "post_id": 100093,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 1358,
+            "username": "mccafe",
+            "post_date": "2023-06-20 11:57:33",
+            "message": "Voltage while charger and battery connected. (Diode mode - board only)\n<SIGNAL>I2C_SMC_PWR_SCL</SIGNAL> = 0.008v (0.003)\n<SIGNAL>I2C_SMC_PWR_SDA</SIGNAL> = 1.2v (0.300)\n<SIGNAL>I2C_SMC_PWR_1V8_SCL</SIGNAL> = 0.008v (0.450)\n<SIGNAL>I2C_SMC_PWR_1V8_SDA</SIGNAL> = 1.8v (0.490)\n\n<DIODE>D5150</DIODE>\nPin 2 = <SIGNAL>I2C_SMC_PWR_3V3_SDA</SIGNAL> (0.488)\nPin 1 = <SIGNAL>I2C_SMC_PWR_3V3_SCL</SIGNAL> (0.008)\n- I temporarily removed <DIODE>D5150</DIODE> and I still see the same diode measurements.\n\nI compared J5150\nKnown good board for the two data lines = 0.500 on diode mode.\nBad board shows <SIGNAL>I2C_SMC_PWR_3V3_SCL</SIGNAL> = 0.850 on diode mode and <SIGNAL>I2C_SMC_PWR_3V3_SDA</SIGNAL> = 0.500 on diode mode.\n\nI am unable to determine if battery is being detected. With and without the battery, the home screen shows a battery symbol with like 5% charge. I am unable to login or go into Diagnostic because the MacBook would just restart."
+        },
+        {
+            "post_id": 100095,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-20 13:43:44",
+            "message": "\"Pin 1 = <SIGNAL>I2C_SMC_PWR_3V3_SCL</SIGNAL> (0.008)\"\nIs that is diode mode reading?\n\"Bad board shows <SIGNAL>I2C_SMC_PWR_3V3_SCL</SIGNAL> = 0.850\"\nAnd what's this then?\n\nPlease, post accurate information.\nYou may need to change both UD200/1.\nBe sure first, all their pull-up resistors are good."
+        },
+        {
+            "post_id": 100100,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 1358,
+            "username": "mccafe",
+            "post_date": "2023-06-20 13:56:38",
+            "message": "I am not sure how I got 0.008 for <SIGNAL>I2C_SMC_PWR_3V3_SCL</SIGNAL> I was almost certain that was the measurements. I am now only seeing 0.850. All pull-up resistors for the data lines check out. I'll need to source out UD200/1 and hopefully it does the trick.\n\nRD200 actually has low resistance 1.6K Ohms, so UD200/1 is probably bad."
+        },
+        {
+            "post_id": 100135,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 1358,
+            "username": "mccafe",
+            "post_date": "2023-06-21 15:42:15",
+            "message": "Replaced both UD200 and UD201 and the voltages remain the same. Still not charging the battery. I also replaced <CHIP>U5200</CHIP>.\n\nUD200\n<SIGNAL>I2C_SMC_PWR_1V8_SCL</SIGNAL> = 0v (0.480)\n<SIGNAL>I2C_SMC_PWR_1V8_SDA</SIGNAL> = 1.8v (0.490)\n\n<SIGNAL>I2C_SMC_PWR_SDA</SIGNAL> = 1.2v (0.300)\n<SIGNAL>I2C_SMC_PWR_SCL</SIGNAL> = 0v (0.004)\n\nUD201\n<SIGNAL>I2C_SMC_PWR_3V3_SDA</SIGNAL> = 2.8v (0.480)\n<SIGNAL>I2C_SMC_PWR_3V3_SCL</SIGNAL> = 0v (0.480)\n\n<DIODE>D5150</DIODE> (same measurements with it replaced or removed altogether)\n<SIGNAL>I2C_SMC_PWR_3V3_SDA</SIGNAL> = 2.8v (0.480)\n<SIGNAL>I2C_SMC_PWR_3V3_SCL</SIGNAL> = 0v (0.480)\n\nThe board however now shows 0.480 on diode mode for the <SIGNAL>3V3_SDA</SIGNAL> / SCL lines. Previously, SCL was higher at 0.850."
+        },
+        {
+            "post_id": 100137,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 1358,
+            "username": "mccafe",
+            "post_date": "2023-06-21 17:13:14",
+            "message": "I was able to attach a battery that had a charge and the MacBook would boot all the way and run off it, however the system does not detect it. It is showing an X in the battery symbol. I replaced RD200 / 201 another time with no change. I removed RD200/201 and made some measurements. All resistors and voltages check out except <SIGNAL>I2C_SMC_PWR_SCL</SIGNAL> seems to be pulled down by the CPU."
+        },
+        {
+            "post_id": 100144,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-22 01:12:39",
+            "message": "\"<SIGNAL>I2C_SMC_PWR_SCL</SIGNAL> = 0v (0.004)\"\nThere is short to ground; impossible to have communication.\n\nApart of UD200/1, only M1 remains there.\n\nBTW, none of RD20x resistors could cause short to ground.\nDon't waste time removing and testing them.\nPull-up resistors may be suspected when you have missing voltage, but without short, or low resistance to ground."
+        },
+        {
+            "post_id": 100314,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 1358,
+            "username": "mccafe",
+            "post_date": "2023-06-28 08:31:24",
+            "message": "Oops sorry, yes I meant to say I removed UD200/201 and not RD200/201. I am guessing this one is going to be unrepairable. Super unfortunate considering the MacBook turns on and works fine with a charged battery. Is it possible that something else is causing the M1 to short this specific line down? These two data lines go to BC3 and BC2 on the M1 chip. Just below is BB2 which is <SIGNAL>I2C_SMC_UPC_SDA</SIGNAL> (0.300 on diode) and it connects to the two <CHIP>CD3217</CHIP> chips that had to be replaced earlier."
+        },
+        {
+            "post_id": 100322,
+            "thread_id": 63982,
+            "title": "<LOGIC BOARD PART NUMBER>820-02016</LOGIC BOARD PART NUMBER> - MacBook Air Not Charging - Changed Two Type C Chips",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-06-28 12:48:48",
+            "message": "If that lines is shorted to ground with only M1 connected, then nothing to do."
+        }
+    ]
+}

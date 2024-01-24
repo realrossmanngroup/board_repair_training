@@ -1,0 +1,90 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00138": "What is 820-00138? a LOGIC BOARD PART NUMBER.",
+        "D7010": "What is D7010? Diode between ground and gate of Q7010 on 2013-2015 year retina model macbook pros, necessary for Q7010 to allow PPDCIN_G3H to flow through to PP3V42_G3H power supply input. When this diode dies or corrodes, PP3V42_G3H input will not have any voltage, and chargers will not turn on. This can often be the problem if a system only works with a knockoff charger/bench power supply. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "R5187": "What is R5187? a RESISTOR.",
+        "Q7180": "What is Q7180? Inrush limiter transistor that must be told by the ISL6259 that it is safe to allow charger voltage to pass through to the computer. This needs CHGR_AGATE and CHGR_SGATE to be pulled down in order for it to close and allow voltage through to the system, current sensing failures as well as ISL6259 failures can cause this to happen. .",
+        "Q7010": "What is Q7010? Q7010 controls whether or not PPDCIN_G3H will be let through to the PP3V42_G3H power supply, often this circuit area is not working because D7010 has died or corroded. .",
+        "ADAPTER_SENSE": "What is ADAPTER_SENSE? This is a line between the onewire circuit and the magsafe charger where the magsafe charger can talk to the SMC(system management controller) on the SYS_ONEWIRE line..",
+        "Q7080": "What is Q7080? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 55836,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2020-01-16 12:12:24",
+            "message": "Got one that has me stumped; first one in a while of this type!\n\n1. <LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER>, no liquid, no damage from aftermarket charger or anything at all. Board powers on and boots, but has no green light.\n2. Confirmed <SIGNAL>SMC_BC_ACOK</SIGNAL>, <SIGNAL>SYS_ONEWIRE</SIGNAL>, 3v42, etc, are all present across board and near SMC.\n3. <SIGNAL>SMC_RESET_L</SIGNAL> is high, as system boots/works.\n4. Board does power on with charger only, just has no green light.\n5. Inspected entirety of ISOL circuitry, replaced <TRANSISTOR>Q7010</TRANSISTOR>, <TRANSISTOR>Q7180</TRANSISTOR>, and <DIODE>D7010</DIODE>, as I've seen those cause funky issues like this, despite everything measuring fine. No change.\n6. Replaced ISL before finally replacing SMC, and no change.\n7. Replaced <CHIP>U7000</CHIP>/7001 to be safe. No change.\n8. Removed JTAG, no change.\n9. Confirmed continuity from ISL --> SMC and confirmed diode readings with working board throughout <SIGNAL>SYS_ONEWIRE</SIGNAL> circuitry.\n10. Pull up for <SIGNAL>SMC_BC_ACOK</SIGNAL> good near SMC (<RESISTOR>R5187</RESISTOR>).\n11. No bent/cracked ports on PCB or anything causing weird shorts, and all continuity is confirmed between <SIGNAL>SYS_ONEWIRE</SIGNAL>/ISL/SMC/etc.\n\nNo clue from here; any help would be appreciated. Board isn't turning charger off because it powers...so not sure. It's probably a random resistor I haven't checked or something, but everything is pristine. All help appreciated!"
+        },
+        {
+            "post_id": 55840,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-16 16:52:02",
+            "message": "Did you try known good DCIN board?\nThere is a small resistor/coil in serie with <SIGNAL>ADAPTER_SENSE</SIGNAL> signal.\nAnd one TVS diode which can burnt it..."
+        },
+        {
+            "post_id": 55842,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2020-01-16 17:36:59",
+            "message": "Yeah, tried about a dozen. No luck. Thinking this one might be a PCB fault, but no cracks or damage visible. Might go ahead and call it quits on this one in the interest of time."
+        },
+        {
+            "post_id": 55843,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-16 17:47:00",
+            "message": "Do you have good continuity from <CHIP>U7000</CHIP> to central pin of Magsafe?\nPossibly broken pin at J7000..."
+        },
+        {
+            "post_id": 55870,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2020-01-17 07:24:45",
+            "message": "Yes :(\n\nThinking a PCB issue at this point. Literally everything else works except charging and green light. Board runs from charger, and will run from charged battery. All functions normal, but no green light and no charging (\"battery is not charging\"). All signals present and normal; ONEWIRE, <SIGNAL>SMC_BC_ACOK</SIGNAL>, 3v42, all present and steady with no shorts and full-continuity from charger --> <CHIP>U7000</CHIP>/1 --> <TRANSISTOR>Q7080</TRANSISTOR>/ISOL --> ISL --> SMC."
+        },
+        {
+            "post_id": 55871,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-17 07:43:51",
+            "message": "For some reason, you don't have communication between SMC and charger.\nMake short between IN-OUT of <CHIP>U7000</CHIP> and see if change something.\nBe sure to have correct Magsafe 2 charger.\n\nWhat you see on power options in system report?"
+        },
+        {
+            "post_id": 55873,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 515,
+            "username": "SMMRepair",
+            "post_date": "2020-01-17 08:05:09",
+            "message": "Using genuine 85W magsafe2 charger, yeah; tried 3 different ones.\n\nI just bridged pins 4/5 of <CHIP>U7000</CHIP> and no change. :(\n\nI will check system report and report back soon; I might throw another SMC on there to be sure. I did pull from a parts board, so who knows. Would be wild if it had the exact same fault as the original, though, so doubtful. Will report back soon. Thanks, Vali."
+        },
+        {
+            "post_id": 55881,
+            "thread_id": 55836,
+            "title": "<LOGIC BOARD PART NUMBER>820-00138</LOGIC BOARD PART NUMBER> Powers and boots, but no green light.",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-17 09:53:20",
+            "message": "Once SMC is removed, check continuity from its corresponding pad to <CHIP>U7000</CHIP>."
+        }
+    ]
+}

@@ -1,0 +1,127 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U7701": "What is U7701? a CHIP.",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "PPHV_S0SW_LCDBKLT": "What is PPHV_S0SW_LCDBKLT? PPHV_S0SW_LCDBKLT is a power rail that powers the backlight on the LCD screen, this is necessary to get the screen to light up..",
+        "R7704": "What is R7704? a RESISTOR.",
+        "EDP_BKLT_PWM": "What is EDP_BKLT_PWM? EDP_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "C7704": "What is C7704? a CAPACITOR.",
+        "EDP_BKLT": "What is EDP_BKLT? a SIGNAL.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "U7710": "What is U7710? a CHIP."
+    },
+    "threads": [
+        {
+            "post_id": 73752,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2021-03-31 04:16:31",
+            "message": "A beer damage board turns on with no backlight. Tried SMC reset, capslock is active and there is USB activity\nThe backlight blinks for a second once when turns on.\n\n<DIODE>D7701</DIODE> - 8.6v both sides\nXW7720 - 8.6v and clean\n<SIGNAL>BKL_EN</SIGNAL> - 2.83v\n<SIGNAL>BKL_PWM</SIGNAL> - 0v\nAll Return resistors 0.6Vdc\n\nRemoved <RESISTOR>R7704</RESISTOR> and tied together <SIGNAL>BKL_EN</SIGNAL> and <SIGNAL>BKL_PWM</SIGNAL> and backlight stays on.\nWith the jumper, <SIGNAL>PPHV_S0SW_LCDBKLT</SIGNAL> is 24.4V\n\n\nDoes not seems to be <CHIP>U7701</CHIP>, <SIGNAL>BKL_PWM</SIGNAL> comes from SMC, reflow?"
+        },
+        {
+            "post_id": 73755,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-31 05:06:28",
+            "message": "<SIGNAL>EDP_BKLT_PWM</SIGNAL> comes our from PCH.\nSMC output is not connected...\n\nTry PRAM reset 2-3 times.\nBe sure <RESISTOR>R7704</RESISTOR> and its traces OK."
+        },
+        {
+            "post_id": 73756,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2021-03-31 05:09:43",
+            "message": "With a soldered jumper backlight stays on but when I do a couple of PRAM reset's it goes off. Doesn't it suppose to get forced to stay on?\n\n<RESISTOR>R7704</RESISTOR> to <CAPACITOR>C7704</CAPACITOR> seems fine, cannot test to Ball 4 on <CHIP>U7701</CHIP> though. Also cannot test <SIGNAL>EDP_BKLT_PWM</SIGNAL> to PCH either (TP1 on <SIGNAL>EDP_BKLT_PWM</SIGNAL>  seems to be non-existent). Reflowed the <CHIP>U7701</CHIP> with no effect."
+        },
+        {
+            "post_id": 73757,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-31 05:45:00",
+            "message": "Are you sure <RESISTOR>R7704</RESISTOR> is good?\nIn the picture looks more like a cap; does it have 33 ohm?\nYou can just replace it with a short.\nAlso check continuity of its traces; right test point, for example."
+        },
+        {
+            "post_id": 73758,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2021-03-31 05:54:41",
+            "message": "Must have flipped the other way around while resoldering, but yeah measures to 33Ohm between <SIGNAL>EDP_BKLT</SIGNAL>+PWM and <CAPACITOR>C7704</CAPACITOR>. Also all traces are connected all the way to the test point."
+        },
+        {
+            "post_id": 73760,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-03-31 07:05:27",
+            "message": "Do you have backlight forcing PWM now?\nIf yes, do PRAM reset, rebuild original configuration and test again."
+        },
+        {
+            "post_id": 73795,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2021-04-01 01:42:10",
+            "message": "Soldered jumper forcing PWM, backlight stays on until I do couple PRAM resets. Then I lose it again. \nWith the original configuration same thing, blinks once initially then no backlight."
+        },
+        {
+            "post_id": 73798,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-04-01 02:12:20",
+            "message": "Replace <CHIP>U7701</CHIP> and test again."
+        },
+        {
+            "post_id": 73808,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 1057,
+            "username": "piernov",
+            "post_date": "2021-04-01 06:12:59",
+            "message": "<SIGNAL>SMC_LID</SIGNAL>?"
+        },
+        {
+            "post_id": 74059,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2021-04-08 01:27:44",
+            "message": "[QUOTE=\"piernov, post: 73808, member: 1057\"]\n<SIGNAL>SMC_LID</SIGNAL>?\n[/QUOTE]\n\n\n<SIGNAL>SMC_LID</SIGNAL> = 3.4V \n\nShall I go for <CHIP>U7710</CHIP> ?"
+        },
+        {
+            "post_id": 74060,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-04-08 01:53:18",
+            "message": "Should be good to change it."
+        },
+        {
+            "post_id": 74210,
+            "thread_id": 60996,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> No Backlight",
+            "user_id": 25485,
+            "username": "it-solve",
+            "post_date": "2021-04-10 16:08:47",
+            "message": "Thanks, it resolved the issue."
+        }
+    ]
+}

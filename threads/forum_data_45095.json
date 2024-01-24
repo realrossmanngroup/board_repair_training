@@ -1,0 +1,163 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U1900": "What is U1900? a CHIP.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PM_SYSRST_L": "What is PM_SYSRST_L? PM_SYSRST_L is a system reset signal present when it is low, _L means the signal asserts itself when the voltage is low. This signal needs to be high for the system to exit reset mode & turn on properly. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_PCH_PWRO": "What is PM_PCH_PWRO? a SIGNAL.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "R5115": "What is R5115? a RESISTOR.",
+        "PM_PWRBTL_L": "What is PM_PWRBTL_L? a SIGNAL.",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_RESER_L": "What is SMC_RESER_L? a SIGNAL.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running.."
+    },
+    "threads": [
+        {
+            "post_id": 45095,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-22 07:13:49",
+            "message": "I have a board with no obvious signs of water damage. Part of me thinks it may have been cleaned at another shop. I am not getting my s4 rails to come on. Here is what I know\n\nI am using a genuine 85 watt charger\n\nI have these rails present\n[B]8.6 [I]ppbus[/I][/B]\n[B]3.42 pp3v42[/B]\n[B]3.3 <SIGNAL>PP3V3_S5</SIGNAL>[/B]\n[B]5.0 <SIGNAL>PP5V_S5</SIGNAL>[/B]\n\n\nI have some but not all of the following signals which I have been told are important for s4 states\n[B]0.0 <SIGNAL>PM_SYSRST_L</SIGNAL>[/B]\n[B]0.0 <SIGNAL>PM_PCH_PWROK</SIGNAL>[/B]\n\n[B]3.3 <SIGNAL>PM_RSMRST_L</SIGNAL>[/B]\n[B]3.4 <SIGNAL>PM_PWRBTN_L</SIGNAL>[/B]\n[B]3.4 <SIGNAL>SMC_ADAPTER_EN</SIGNAL>[/B]\n[B]3.3 <SIGNAL>PM_BATLOW_L</SIGNAL>[/B]\n\nI have tested <CHIP>U1900</CHIP> with an oscilloscope and do have a clock signal\n\n<CHIP>U1950</CHIP> looks perfect and I have power to it, but no output\n[B]3.42v on pin 8[/B]\nI do [B]NOT[/B] have any voltage at <SIGNAL>PM_PCH_PWROK</SIGNAL>\n\n\nI have no corrosion around the bios chip and the test points look good\n\nthe issue seems to be at <CHIP>U1950</CHIP>, but don't understand what enables it"
+        },
+        {
+            "post_id": 45097,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-22 08:52:10",
+            "message": "Trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> signal and check if <SIGNAL>PM_PWRBTN_L</SIGNAL> drops to 0V at same moment.\nIt should come back to 3V when <SIGNAL>SMC_ONOFF_L</SIGNAL> is released.\nIf it reacts, then check if <SIGNAL>PM_SLP_S4_L</SIGNAL> pulses at least in that moment.\n\nBe aware of wrong assumptions; these are S0 signals...\n\"I have some but not all of the following signals which I have been told are important for s4 states\n[B]0.0 <SIGNAL>PM_SYSRST_L</SIGNAL>[/B]\n[B]0.0 <SIGNAL>PM_PCH_PWRO</SIGNAL>\"[/B]"
+        },
+        {
+            "post_id": 45099,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-22 09:59:18",
+            "message": "Thanks 2informaticos!\n\nhow would I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>?\n\nSo I understand the bigger picture, Is <CHIP>U1950</CHIP> needed for s4 power state? I thought, maybe incorrectly, it was, but if its main signal outputs are for an s0 state that does not seem to be the case."
+        },
+        {
+            "post_id": 45107,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-22 19:00:50",
+            "message": "\"how would I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL>?\"\nSolder a wire at <SIGNAL>SMC_ONOFF_L</SIGNAL> line and touch the ground with it; <RESISTOR>R5115</RESISTOR>/16 pads can be used.\n\n<CHIP>U1950</CHIP> has <SIGNAL>ALL_SYS_PWRGD</SIGNAL> as main input; which appears in S0 state, just before the VCORE."
+        },
+        {
+            "post_id": 45120,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-23 10:11:09",
+            "message": "when I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> it does cut the power to <SIGNAL>PM_PWRBTL_L</SIGNAL> and it also causes a pulse on <SIGNAL>PM_SLP_S4_L</SIGNAL> when looking on the oscilloscope. What does this mean? Just trying to understand"
+        },
+        {
+            "post_id": 45123,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-23 11:48:31",
+            "message": "Check for pulse on all big coils.\nIf <SIGNAL>PM_SLP_S4_L</SIGNAL> pulse, all S3 volatges must pulse too.\n<SIGNAL>PM_SLP_S3_L</SIGNAL> should also pulse, check that.\nIf yes, S0 voltages must pulse at least.\nCheck if <SIGNAL>ALL_SYS_PWRGD</SIGNAL> pulses too.\nIs better to use o-scope to catch any fast pulse."
+        },
+        {
+            "post_id": 45128,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-23 13:46:34",
+            "message": "[QUOTE=\"2informaticos, post: 45123\"]Check for pulse on all big coils.\nIf <SIGNAL>PM_SLP_S4_L</SIGNAL> pulse, all S3 volatges must pulse too.\n<SIGNAL>PM_SLP_S3_L</SIGNAL> should also pulse, check that.\nIf yes, S0 voltages must pulse at least.\nCheck if <SIGNAL>ALL_SYS_PWRGD</SIGNAL> pulses too\nIs better to use o-scope to catch any fast pulse.[/QUOTE]\n\njust curious. what are we trying to figure out?\n\nedit added later//\nI wonder if I somehow made things worse. Now <SIGNAL>PM_PWRBTN_L</SIGNAL> is 0 volts. I am also no longer getting any pulsing on <SIGNAL>PM_SLP_S4_L</SIGNAL> when shorting <SIGNAL>SMC_ONOFF_L</SIGNAL>\n\nedit added later//\nnow I noticed the green light is off and my ppbus just dropped to 8.1v\n\nI wonder if I shorted something or I have a wire soldered to <SIGNAL>SMC_ONOFF_L</SIGNAL> and maybe it hit something it should not have(just a signal with low amperage)?\n\nOn a positive note, this was my board and no real harm done."
+        },
+        {
+            "post_id": 45136,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-23 19:01:18",
+            "message": "Do not tied <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground; just touch the ground for an instance, like pressing power button..."
+        },
+        {
+            "post_id": 45138,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-23 19:28:24",
+            "message": "[QUOTE=\"2informaticos, post: 45136\"]Do not tied <SIGNAL>SMC_ONOFF_L</SIGNAL> to ground; just touch the ground for an instance, like pressing power button...[/QUOTE]\n\nI only attached a wire to <SIGNAL>SMC_ONOFF_L</SIGNAL> then tapped the other side of the wire to ground when I wanted to trigger it. Something else is keeping the smc off :-{"
+        },
+        {
+            "post_id": 45142,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-23 19:53:30",
+            "message": "My <SIGNAL>SMC_RESER_L</SIGNAL> has voltage. Does that implie the smc may be bad since I only have 8.1 volts on <SIGNAL>PPBUS_G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 45152,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-24 03:17:55",
+            "message": "<SIGNAL>SMC_RESET_L</SIGNAL> is OK, as you have correct <SIGNAL>PPBUS_G3H</SIGNAL> and Magsafe light even.\nUnelss the actual situation is different; please confirm.\n\"now I noticed the green light is off and my ppbus just dropped to 8.1v\"\n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> should go back to high level, when <SIGNAL>SMC_ONOFF_L</SIGNAL> is released.\n\nBTW, do NOT quote an entire post from few cm above; is not aesthetic..."
+        },
+        {
+            "post_id": 45158,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-24 05:11:39",
+            "message": "1. something changed, my ppbus is now just 8.1 and I have no light\n2. I no longer have <SIGNAL>PM_PWRBTN_L</SIGNAL> voltage (probably related to the smc not turning on)"
+        },
+        {
+            "post_id": 45162,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-24 06:57:57",
+            "message": "Recheck all the points you tocuhed before <SIGNAL>PPBUS_G3H</SIGNAL> went down.\nDo you get 3V at <SIGNAL>SMC_RESET_L</SIGNAL>?\nIf not, solve that..."
+        },
+        {
+            "post_id": 45193,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2019-01-24 09:43:05",
+            "message": "I am getting 3.4 at <SIGNAL>SMC_RESET_L</SIGNAL> is that normal?"
+        },
+        {
+            "post_id": 45195,
+            "thread_id": 45095,
+            "title": "<SIGNAL>PM_SLP_S4_L</SIGNAL>   missing <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-01-24 11:34:56",
+            "message": "Yeah, is correct.\nPosta again all the signal value..."
+        }
+    ]
+}

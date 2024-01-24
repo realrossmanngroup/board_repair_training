@@ -1,0 +1,102 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1534": "What is A1534? A1534 is a model number for a 12 inch size Macbook  from years 2015, 2016 with EMC 2746, that may contain one of these boards depending on the year & configuration: 820-00045, 820-00244..",
+        "820-00244": "What is 820-00244? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP1V1_UPC_XA_LDO_BMC": "What is PP1V1_UPC_XA_LDO_BMC? PP1V1_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "C6900": "What is C6900? a CAPACITOR.",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "C6994": "What is C6994? a CAPACITOR.",
+        "R6994": "What is R6994? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 80230,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-09-16 08:06:49",
+            "message": "HI,\nI have an  <MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> that has no power.\n\nAt first it pulled 19.9V from ampmetter, but no amp.\nI notice that <SIGNAL>PPBUS_G3H</SIGNAL> was low and so I replaced <CHIP>U7000</CHIP> = ISL95530HIZ-TR5664 for an <CHIP>U7100</CHIP> = ISL95530HIZ-TR5655 (not sure if compatible but I got none ISL95530HIZ-TR5664). For a while I geted the 8.7V on <SIGNAL>PPBUS_G3H</SIGNAL> but after a while it failed, and now only get 4.9V from ampmeter, and already replaced <CHIP>CD3215</CHIP> but with the same result (4.9V).\n\nCan you help?"
+        },
+        {
+            "post_id": 80231,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-16 09:16:08",
+            "message": "Maybe bad solders under <CHIP>U7000</CHIP>.\nDo you get 1V1 LDO for the <CHIP>CD3215</CHIP> chips?\n<SIGNAL>3V3_G3H</SIGNAL> comes on?"
+        },
+        {
+            "post_id": 80238,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-09-16 10:50:50",
+            "message": "HI,\nI get 1.1V on <SIGNAL>PP1V1_UPC_XA_LDO_BMC</SIGNAL>, but <SIGNAL>PP3V3_G3H</SIGNAL> only gets 2.8V\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> has 5.2V on <CAPACITOR>C6900</CAPACITOR>. Is this ok?"
+        },
+        {
+            "post_id": 80239,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-16 12:33:56",
+            "message": "1V1 LDO appears only on the powered port.\nIf you can't get it on the other <CHIP>CD3215</CHIP> chip (when powered), there is a problem."
+        },
+        {
+            "post_id": 80241,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-09-16 12:38:20",
+            "message": "But the 1534 only has one port..."
+        },
+        {
+            "post_id": 80243,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-16 12:39:32",
+            "message": "Yeah, sorry...\n\nSeems to have overload at <SIGNAL>3V3_G3H</SIGNAL>.\nCan you check the board with thermal cam?"
+        },
+        {
+            "post_id": 80244,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-09-16 12:41:50",
+            "message": "Yes, I can. shall I look for a shorted component on <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 80251,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-16 13:32:26",
+            "message": "Why?\nYou can't get there more than the voltage provided by charger.\nBe sure <RESISTOR>R6990</RESISTOR> and R/<CAPACITOR>C6994</CAPACITOR> are good.\nCompare diode mode to ground at <SIGNAL>3V3_G3H</SIGNAL> with good board.\n\nYou should try another <CHIP>CD3215</CHIP> chip."
+        },
+        {
+            "post_id": 80258,
+            "thread_id": 61716,
+            "title": "<MACBOOK MODEL NUMBER>A1534</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> no power",
+            "user_id": 25466,
+            "username": "hgoncalves",
+            "post_date": "2021-09-16 13:49:07",
+            "message": "<RESISTOR>R6990</RESISTOR> has 9.9 ohm and <RESISTOR>R6994</RESISTOR> has 0.06 ohm. <CAPACITOR>C6994</CAPACITOR> seams to be ok, and the traces arte fine too.\nI don't have other <LOGIC BOARD PART NUMBER>820-00244</LOGIC BOARD PART NUMBER> to compare, and I already replaced 3 <CHIP>CD3215</CHIP> just to be sure, but the same result.\nCan you give me a diode reference value of <SIGNAL>PP3V3_G3H</SIGNAL>? On my board I get 0.383V"
+        }
+    ]
+}

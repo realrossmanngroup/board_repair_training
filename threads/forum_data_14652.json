@@ -1,0 +1,68 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3437": "What is 820-3437? a LOGIC BOARD PART NUMBER.",
+        "U7501": "What is U7501? This chip is often responsible for creating PP3V3_S5,  PP3V3_S3,  PP3V3_S0,  PP5V_S5,  PP5V_S4,  PP5V_S0.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP5V_S4RS3": "What is PP5V_S4RS3? PP5V_S4RS3 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "Q7560": "What is Q7560? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 14652,
+            "thread_id": 14652,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-B Green/Amber Light no fan",
+            "user_id": 61,
+            "username": "wrbailey",
+            "post_date": "2017-02-10 20:00:11",
+            "message": "2013 Air board1.4ghz\n\nGreen Light/Switches to amber, no fan.\n\nAll rails present up to <SIGNAL>PP5V_S5</SIGNAL> which measures at 1.72V \n\ndiode measurement at <SIGNAL>PP5V_S5</SIGNAL> is 0.438\n\nChecked around <CHIP>U7501</CHIP> and it all \"looks\" fine. No obvious liquid damage to board. \n\n<SIGNAL>PP5V_S4RS3</SIGNAL> is next on the power rails, but doesn't that come from the I/O board? it is 0V (diode 0.421).\n\nKnown working I/O board, measures fine on another board.\n\nAny help or ideas?"
+        },
+        {
+            "post_id": 14653,
+            "thread_id": 14652,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-B Green/Amber Light no fan",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-02-10 20:41:18",
+            "message": "Before we get to troubleshooting <SIGNAL>PP5V_S5</SIGNAL> missing, let's go over <SIGNAL>PP5V_S4RS3</SIGNAL>: it's your job to tell me why that rail's creation has nothing to do with the I/O board.\n\nOnto <SIGNAL>PP5V_S5</SIGNAL>, which is main issue.\n\n1) Is <CHIP>U7501</CHIP> receiving 8.4v on pin 23? This is required to power the chip. If 8.4v is NOT on pin 23, blown internal board via/trace. Fix with wire.\n2) Is <CHIP>U7501</CHIP> receiving 3.3v on pin 12? This <SIGNAL>SMC_PM_G2_EN</SIGNAL> signal tells the chip after it has turned on, that it should enable the <SIGNAL>PP5V_S5</SIGNAL> rail. If not, then perhaps <CHIP>U7501</CHIP> is bad and pulling it down, OR SMC is not creating it. Bad SMC perhaps.\n\nIf answers are both yes, then it's time to figure out why <SIGNAL>PP5V_S5</SIGNAL> is low. You have ruled out a short to ground, which means bad chip. Replace <CHIP>U7501</CHIP>."
+        },
+        {
+            "post_id": 14654,
+            "thread_id": 14652,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-B Green/Amber Light no fan",
+            "user_id": 61,
+            "username": "wrbailey",
+            "post_date": "2017-02-10 21:32:01",
+            "message": "PIN 23 - 8.57V\nPIN 12 - 3.4V\n\nSo I am going with bad <CHIP>U7501</CHIP>.\n\nIt does look as though <CHIP>U7501</CHIP> creates <SIGNAL>PP5V_S4RS3</SIGNAL> as well... does it go to the i/o board for USB power?"
+        },
+        {
+            "post_id": 14655,
+            "thread_id": 14652,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-B Green/Amber Light no fan",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2017-02-10 22:30:33",
+            "message": "Ding ding ding."
+        },
+        {
+            "post_id": 14659,
+            "thread_id": 14652,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-B Green/Amber Light no fan",
+            "user_id": 61,
+            "username": "wrbailey",
+            "post_date": "2017-02-11 07:22:21",
+            "message": "Ha. Thanks. Any tips on replacing the <CHIP>U7501</CHIP>? Pretty much just like an ISL/<CHIP>U7000</CHIP>?"
+        },
+        {
+            "post_id": 14676,
+            "thread_id": 14652,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3437</LOGIC BOARD PART NUMBER>-B Green/Amber Light no fan",
+            "user_id": 61,
+            "username": "wrbailey",
+            "post_date": "2017-02-11 20:25:00",
+            "message": "You'll be proud Louis... I had to use my brain! Haha. \n\nReplaced <CHIP>U7501</CHIP> twice. 5v was not showing up either time (1.7v.) The chip was getting hot... I finally took diode measurements of all the pins on the board where the <CHIP>U7501</CHIP> goes. I figured out the 3.3 lines were shorted to ground by <TRANSISTOR>Q7560</TRANSISTOR>. I replaced that and the short went away. Replaced the <CHIP>U7501</CHIP> one more time and fan spins and passes ASD and boots, etc... \n\nThanks again for all your help and your \"teaching\" moment. The forum is an awesome resource and I hope you and Duke and all the other contributors stick around for quite a while!\n\nOn a side note, if you read this post. Do you still offer the week of training/teaching in your NYC office? I'd still be interested in that...\n\nThanks!\n\nWill Bailey"
+        }
+    ]
+}

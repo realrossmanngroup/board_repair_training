@@ -1,0 +1,112 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PP1V8_S0": "What is PP1V8_S0? PP1V8_S0 is a power rail that is present when the machine is in an S0 state, meaning it is fully turned on, not sleeping or hiberating .",
+        "SMC_ON_OFF_L": "What is SMC_ON_OFF_L? a SIGNAL.",
+        "PPVCORE_S0_AXG": "What is PPVCORE_S0_AXG? This is vcore going to the CPU’s integrated graphics processor for CPUs that have an integrated GPU. When this is missing on a device that has an integrated GPU and no discrete GPU, it usually means either no screen is detected, or the GPU integrated into the CPU is dead..",
+        "SMCONOFF_L": "What is SMCONOFF_L? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 55750,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-11 03:26:34",
+            "message": "customer brought it in, no liquid damage, I got green light on charger\nit can turn on, normally, after a few minutes of use, it will suddenly shut down\ntried with booting from usb drive, still sudden dead\nafter a bit of testing and trying, its life slowly lessened, it will only boot to login screen, and then poof dead\nafter that, it only boot to apple halfway and then dead, and after that, it can't even be turn on anymore\nI have tried reballing smc, still the same\n\nis this pch problem ?"
+        },
+        {
+            "post_id": 55757,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-11 06:31:41",
+            "message": "Check if starts in SMC bypass mode first.\nIf not, post some voltages and signals for power on sequence.\nDon't forget to check resistance between pins 17/18 and 27/28 of <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 55854,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-17 00:53:51",
+            "message": "smc bypass does nothing\n17/18 : 3 ohm\n27/28 : 20 ohm\ncompared to working board, seems normal\n\n<SIGNAL>PPBUS_G3H</SIGNAL> 12.6v\n<SIGNAL>PP3V42_G3H</SIGNAL> 3.42 v\n<SIGNAL>PPVRTC_G3H</SIGNAL> : 3.3v\n<SIGNAL>PP5V_S5</SIGNAL> : 5v\n<SIGNAL>PP3V3_S5</SIGNAL> : 3.3v\n<SIGNAL>PP5V_S4</SIGNAL> is 0.6v\nif s4 doesnt even come, no need to check <SIGNAL>PP1V8_S0</SIGNAL> stuff etc right ?\n\nif i <SIGNAL>SMC_ON_OFF_L</SIGNAL> , <SIGNAL>PM_SLP_S4_L</SIGNAL> doesnt go low\ni have <SIGNAL>PM_SLP_S3_L</SIGNAL>\nprocessor is getting warm, fan ocassionally twitching\n\nupdate : i have <SIGNAL>ALL_SYS_PWRGD</SIGNAL> at 3.3v, but keep cycling on and off every few second"
+        },
+        {
+            "post_id": 55859,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-17 04:13:20",
+            "message": "If you get <SIGNAL>ALL_SYS_PWRGD</SIGNAL>, then you must get some S3 and S0 voltages; maybe not VCORE.\nSo check if VCORE pulses at least.\nCheck if board stays on without RAM."
+        },
+        {
+            "post_id": 55888,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-17 23:46:01",
+            "message": "<SIGNAL>PPVCORE_S0_AXG</SIGNAL> 0V, doesnt even pulse..\n<SIGNAL>PPVCORE_S0_AXG</SIGNAL> resistance to ground is 2.6 ohm, is that normal ?\ni don't know what do you mean by board stay on, it doesnt even turned on, or do you mean the green light ?\n\nby the value of the voltage, can i assume at least the smc is not the problem ?"
+        },
+        {
+            "post_id": 55896,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-18 08:40:35",
+            "message": "AXG and VCORE are very low values as normal for Ivy Bridge CPU.\n\n\"<SIGNAL>PM_SLP_S4_L</SIGNAL> doesnt go low\"\nMust stay high when board is turned on.\nIt should go off if you maintain power button pressed 4s.\n\n\"i have <SIGNAL>PM_SLP_S3_L</SIGNAL>\"\nSo secondary power supplies controled by this signal can be on; check that."
+        },
+        {
+            "post_id": 55933,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-19 13:22:14",
+            "message": "<SIGNAL>PM_SLP_S4_L</SIGNAL> doesnt go low even after holding <SIGNAL>SMCONOFF_L</SIGNAL>\nSorry i don understand <SIGNAL>PM_SLP_S3_L</SIGNAL> instruction.."
+        },
+        {
+            "post_id": 55934,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-19 16:14:54",
+            "message": "\"\"i have <SIGNAL>PM_SLP_S3_L</SIGNAL>\"\nSo secondary power supplies controled by this signal can be on; check that.\"\nWhich is the exact level of <SIGNAL>PM_SLP_S3_L</SIGNAL>?\nCheck all the secondary power supplies enabled by this signal."
+        },
+        {
+            "post_id": 55938,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 5109,
+            "username": "Yoel Ren",
+            "post_date": "2020-01-19 21:49:22",
+            "message": "this customer change battery before, but come back after 1 week for sudden shutdown issue\nhe doesnt want to wait anymore so i refund him his money, got a little mad because its completely dead now,\nyou can closed this thread, but i just want to ask, how do you prevent or handle situation like this ?"
+        },
+        {
+            "post_id": 55952,
+            "thread_id": 55750,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> randomly shutdown",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-01-20 03:53:59",
+            "message": "You need different voltage readings to diagnose the board.\nCould be a problem generated by fake chinese battery..."
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "D7701": "What is D7701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U7701": "What is U7701? a CHIP.",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "PPHV_S0SW_LCDBKLT": "What is PPHV_S0SW_LCDBKLT? PPHV_S0SW_LCDBKLT is a power rail that powers the backlight on the LCD screen, this is necessary to get the screen to light up..",
+        "LCDBKLT_BOOST": "What is LCDBKLT_BOOST? LCDBKLT_BOOST is connected to the SWITCH(SW) pin of the LED driver and is switched to ground quickly after the inductor in the DC to DC boost circuit that boosts PPBUS_G3H to backlight voltage for the screen. .",
+        "LCDBKLT_EN_DIV_L": "What is LCDBKLT_EN_DIV_L? a SIGNAL.",
+        "LED_RETURN1": "What is LED_RETURN1? a SIGNAL.",
+        "R7741": "What is R7741? a RESISTOR.",
+        "R7714": "What is R7714? a RESISTOR.",
+        "BKL_PWM": "What is BKL_PWM? BKL_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly..",
+        "BKL_EN": "What is BKL_EN? BKL_EN enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "R7731": "What is R7731? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 53584,
+            "thread_id": 53584,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Backlight",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2019-10-17 12:19:10",
+            "message": "Having an absolute nightmare trying to restore backlight to an <LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> which was liquid damaged. I had a small around of corrosion around the LCD connector which has cleaned up fine - most of the corrosion was around the backlight driver <CHIP>U7701</CHIP> and its accompanying resistors. Having pulled the backlight driver and confirmed it looked burned out under the microscope have checked all pads underneath the backlight driver were connected to where they should be. Found all were connected with the following exceptions - Pin 12 wasn't connected to <RESISTOR>R7741</RESISTOR> so i've scratched and fixed that, same with pin 8 and <RESISTOR>R7714</RESISTOR>. I've also replaced a couple of resistors next to <CHIP>U7701</CHIP> as they were not reading correctly. Can also confirm Feedback Pin #5 is connected to pin 2 of <DIODE>D7701</DIODE> - i've seen that line be blown before but not this time!\n\nObservations - \nGetting around 3.3v on <SIGNAL>EDP_BKLT_EN</SIGNAL>\nGetting 0v on <SIGNAL>LCDBKLT_EN_L</SIGNAL>\nGetting 2.8V on <SIGNAL>LCDBKLT_EN_DIV_L</SIGNAL>\nGetting PPBUS voltage or 8.5V on  <SIGNAL>LCDBKLT_BOOST</SIGNAL>, <SIGNAL>PPHV_S0SW_LCDBKLT</SIGNAL> \nResistors for <SIGNAL>LED_RETURN1</SIGNAL>,2,3,4,5,6 are all reading 0hms and connected to LCD Connector.\nTried another screen same result. \n\nI think i've covered everything i've tried but is there something i've missed - should also add i've tried now 3 new <CHIP>LP8550</CHIP> drivers and i'm getting the same behavior with each which leads me to conclude that either im very unlucky and have a faulty batch of LED drivers or i've missed something!"
+        },
+        {
+            "post_id": 53586,
+            "thread_id": 53584,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-10-17 12:43:11",
+            "message": "You didn't mention anything about image presence.\nWhat about <SIGNAL>BKL_PWM</SIGNAL>/EN levels?\nDid you try PRAM reset?\nPost diode mode (red probe at ground) on both pins of <DIODE>D7701</DIODE> and all return resistors."
+        },
+        {
+            "post_id": 53598,
+            "thread_id": 53584,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> Backlight",
+            "user_id": 1547,
+            "username": "CRC2018",
+            "post_date": "2019-10-18 03:30:36",
+            "message": "Hi\n\nThanks for your suggestion! <SIGNAL>BKL_EN</SIGNAL> was 0V traced the problem down to the Pad under <RESISTOR>R7731</RESISTOR> was corroded - not at all visible from the top! have since repaired the pad and put a new 200k resistor there and now backlight restored!"
+        }
+    ]
+}

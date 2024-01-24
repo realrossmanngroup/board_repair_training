@@ -1,0 +1,76 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1502": "What is A1502? A1502 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2014, Late 2013, Early 2015 with EMC 2875, that may contain one of these boards depending on the year & configuration: 820-3476, 820-3536, 820-4924..",
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "R7050": "What is R7050? Current sense shunt resistor for the battery, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 17/18 on ISL6259 should give you 2.02 ohms. .",
+        "D7050": "What is D7050? Diodes between SMBUS_SMC_5_G3_SDA and SMBUS_SMC_5_G3_SCL and ground, these data lines allow the battery to communicate with the battery charging chip and the SMC..",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present."
+    },
+    "threads": [
+        {
+            "post_id": 61239,
+            "thread_id": 59523,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> not charging, later no battery detected",
+            "user_id": 26695,
+            "username": "jrriemann",
+            "post_date": "2020-06-19 20:12:30",
+            "message": "The computer stopped charging properly after I start using Oracle Virtual Box with heavy configuration, I guess something somewhere overheated. Initially the problem was that the battery was not charging even though the mac works fine using the charger only, without the battery. Since the status of the battery was \"replace soon\", I purchased a new one. The new one was not charging as well, so I guess the problem is in the board. I took the mac to a \"friend\" who works with iphones only, but  he said he \"could handle this problem\", well he didn't, and worse, after I pick it up and turn it on it was not even recognising the battery anymore and the battery status is not in the menu bar anymore (If I check the box to show it it unchecks itself). He must've added another problem trying to fix the problem, since he was nervous when he handed it back and didn't charge anything. I know some basics electronics and have a multimeter so I would like to understand what is causing this. Could you please point me to possible faulty components that could cause this (e.g check <RESISTOR>R7005</RESISTOR> and so on)? Many thanks."
+        },
+        {
+            "post_id": 61242,
+            "thread_id": 59523,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> not charging, later no battery detected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-20 03:34:07",
+            "message": "First of all, welcome to the forum!\n\nIf new battery didn't work from the beggining, should still have a charge on it.\nSo post first exact voltage at F7140 on battery alone, no charger.\nIf nothing, check at pins 10-12/J7050 too.\nAlso post voltage and diode mode to ground at pins 13 & 14.\nBe sure <RESISTOR>R7050</RESISTOR> is good."
+        },
+        {
+            "post_id": 61262,
+            "thread_id": 59523,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> not charging, later no battery detected",
+            "user_id": 26695,
+            "username": "jrriemann",
+            "post_date": "2020-06-20 17:57:34",
+            "message": "Thanks for your reply. The battery came with 50% charge and it worked without the charger, the only problem was that it wasn't charging. Since the store who sold me the battery ask me to send it back, I sent it  to them a few days ago. But I doubt it was a faulty one.\n\n<RESISTOR>R7050</RESISTOR> looks good when tested with multimeter on diode mode."
+        },
+        {
+            "post_id": 61263,
+            "thread_id": 59523,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> not charging, later no battery detected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-21 03:21:01",
+            "message": "I don't know how can you test 10K resistor in diode mode.\nHowever it is good, if the machine worked on battery alone."
+        },
+        {
+            "post_id": 61266,
+            "thread_id": 59523,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> not charging, later no battery detected",
+            "user_id": 26695,
+            "username": "jrriemann",
+            "post_date": "2020-06-21 07:54:50",
+            "message": "I guess I was measuring something else, I'm sorry.\nI measured <RESISTOR>R7050</RESISTOR> and got 9.99kohm, so I guess it's working fine.\nReadings J7050:\npin 10 - 0L\npin 12 - 0L\npin 13 - 500\npin 14 - 655\nWhat would be the next components to check, if the problem was indeed not the battery?"
+        },
+        {
+            "post_id": 61276,
+            "thread_id": 59523,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> not charging, later no battery detected",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-06-21 16:05:52",
+            "message": "\"pin 13 - 500\npin 14 - 655\"\nVery big difference; I hope you checked both with red probe at ground.\n\nSeems to have a problem on SCL line.\nRemove <DIODE>D7050</DIODE> (if present) and check again the value.\nNext only remains <CHIP>U7100</CHIP> and SMC connected there.\nSometime the battery connector fails too..."
+        },
+        {
+            "post_id": 61338,
+            "thread_id": 59523,
+            "title": "<MACBOOK MODEL NUMBER>A1502</MACBOOK MODEL NUMBER> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> not charging, later no battery detected",
+            "user_id": 26695,
+            "username": "jrriemann",
+            "post_date": "2020-06-23 18:30:06",
+            "message": "yes, I've checked both with red at ground.\nIs there a way of checking without having to physically remove <DIODE>D7050</DIODE>? Like blocking it somehow? I apologize if this is a dumb question. I used the new battery without the charger, if the connector was faulty would that be possible?\nBy the way, is there any reference sheet online with correct reference values for measures (in diode mode)? Thanks."
+        }
+    ]
+}

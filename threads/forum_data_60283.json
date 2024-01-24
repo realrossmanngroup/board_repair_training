@@ -1,0 +1,111 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00239": "What is 820-00239? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "PP3V3_UPC": "What is PP3V3_UPC? a SIGNAL.",
+        "C3208": "What is C3208? a CAPACITOR.",
+        "C3200": "What is C3200? a CAPACITOR.",
+        "C6906": "What is C6906? a CAPACITOR.",
+        "C3201": "What is C3201? a CAPACITOR.",
+        "D6902": "What is D6902? a DIODE.",
+        "R6902": "What is R6902? a RESISTOR.",
+        "R6907": "What is R6907? a RESISTOR.",
+        "C6905": "What is C6905? Capacitor to ground on charger input, if this shorts to ground the charger will not put out any power. .",
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER."
+    },
+    "threads": [
+        {
+            "post_id": 67504,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 27167,
+            "username": "drmacbookth",
+            "post_date": "2020-11-04 19:51:22",
+            "message": "Hi guys, I have an <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER>, customer said it stopped working after an update. Since this is not a T2 chip version I dont think its a software issue. The machine takes no charge 5.12v, no amp on all ports. I measure as follows:\n\nPP20V on <CAPACITOR>C3201</CAPACITOR>: 5V\n<SIGNAL>PP3V3_UPC</SIGNAL> on <CAPACITOR>C3208</CAPACITOR>: 3.3v \n<SIGNAL>PP3V3_G3H</SIGNAL> on <CAPACITOR>C3200</CAPACITOR>: 0v (no short)\nPPBUS: 0.014v (no short)\n\nNext I checked <CHIP>U6903</CHIP>\nL6900: 0V (no short)\nPPVIN <CAPACITOR>C6906</CAPACITOR>: 1.33 (no short)\nEnable signal: 2.22v (Assume this means <CHIP>U7000</CHIP> is OK?)\n\nNext I checked <CHIP>U7000</CHIP>:\nall resistor measure OK and looks very clean\nI have tried to replace it, as a lucky shot but all values remain the same as above.\n\nI cannot find any short on all big coils as well. Suggestions as what to check next, or if I forgot something in my work flow above?"
+        },
+        {
+            "post_id": 67509,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-05 04:16:09",
+            "message": "\"PPVIN <CAPACITOR>C6906</CAPACITOR>: 1.33 (no short)\"\nPost diode mode reading, red probe connected to ground.\nDo NOT assume that only pure short is bad!\n\nCheck R/<DIODE>D6902</DIODE>; post their voltages."
+        },
+        {
+            "post_id": 67511,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 27167,
+            "username": "drmacbookth",
+            "post_date": "2020-11-05 05:02:09",
+            "message": "Here you go:\n\nDiode reading: 0.135\n<RESISTOR>R6902</RESISTOR>: 0 ohm, 5.18v\n<DIODE>D6902</DIODE> pin 1: 0v\npin 2: 5.18v\npin 3: 1.31v"
+        },
+        {
+            "post_id": 67512,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 27167,
+            "username": "drmacbookth",
+            "post_date": "2020-11-05 05:07:04",
+            "message": "Here also the other diode readings for <DIODE>D6902</DIODE>:\nPin 1: 0.455\nPin 2: 0.542"
+        },
+        {
+            "post_id": 67513,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 27167,
+            "username": "drmacbookth",
+            "post_date": "2020-11-05 05:17:57",
+            "message": "I found <RESISTOR>R6907</RESISTOR> was at 22ohm, replaced it and now back to 2.2ohm, didnt fix it though:P"
+        },
+        {
+            "post_id": 67525,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-05 07:31:52",
+            "message": "\"Diode reading: 0.135\"\nAs expected, too low value!\nRemove <CAPACITOR>C6905</CAPACITOR>/6.\nIf still low, replace <CHIP>U6903</CHIP>.\n<DIODE>D6902</DIODE> MUST be replaced too; is now burnt."
+        },
+        {
+            "post_id": 67554,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 27167,
+            "username": "drmacbookth",
+            "post_date": "2020-11-05 20:02:57",
+            "message": "Values seem OK after removing the 2 capacitors. Only issue is my only donor board has no <DIODE>D6902</DIODE>, will report back when I get my hands on one."
+        },
+        {
+            "post_id": 67555,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 27167,
+            "username": "drmacbookth",
+            "post_date": "2020-11-05 20:09:58",
+            "message": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> seems to have the same spec, so I used that one and, it works:) thanks bro your a genius!"
+        },
+        {
+            "post_id": 67561,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-06 02:48:15",
+            "message": "I bet only one cap was bad.\nFor the future, remove components one by one and check every time the result."
+        },
+        {
+            "post_id": 67613,
+            "thread_id": 60283,
+            "title": "Macbook <LOGIC BOARD PART NUMBER>820-00239</LOGIC BOARD PART NUMBER> missing PPBUS",
+            "user_id": 27167,
+            "username": "drmacbookth",
+            "post_date": "2020-11-06 22:08:23",
+            "message": "Yes the one near the IC. Got another one today with a bad cap in the same line and easy fix using the same strategy, thanks again!"
+        }
+    ]
+}

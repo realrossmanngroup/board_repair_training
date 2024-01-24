@@ -1,0 +1,99 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "PP5V_S5_REG": "What is PP5V_S5_REG? a SIGNAL.",
+        "U6915": "What is U6915? a CHIP.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_ACOK": "What is CHGR_ACOK? This is identical to SMC_BC_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "ONEWIRE_EN": "What is ONEWIRE_EN? a SIGNAL.",
+        "R7010": "What is R7010? a RESISTOR.",
+        "R7011": "What is R7011? a RESISTOR.",
+        "R5087": "What is R5087? a RESISTOR.",
+        "R6912": "What is R6912? a RESISTOR.",
+        "R6911": "What is R6911? a RESISTOR.",
+        "R6917": "What is R6917? a RESISTOR.",
+        "R6918": "What is R6918? a RESISTOR.",
+        "Q6910": "What is Q6910? a TRANSISTOR.",
+        "Q6915": "What is Q6915? a TRANSISTOR.",
+        "Q6920": "What is Q6920? a TRANSISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. ."
+    },
+    "threads": [
+        {
+            "post_id": 6984,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2016-09-20 09:31:07",
+            "message": "Hi guys, \n\nHave a board 820 2330-A what i dont have green light.\nhave all voltages any less <SIGNAL>PP5V_S5_REG</SIGNAL>.. This lane have a short to ground ...\n\nany ideas what i look for?"
+        },
+        {
+            "post_id": 6994,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-09-20 13:34:25",
+            "message": "Green light is first thing you need. Voltage on pin 5 of <CHIP>U6915</CHIP>? I assume 3V42 is present on L6995!"
+        },
+        {
+            "post_id": 7022,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2016-09-21 06:36:38",
+            "message": "ya i know. But this 1 wire circuit i don't understand very much. is different for example bard 820 - 2879 ... i have 17v pin 5 of <CHIP>U6915</CHIP>. and ya i have 3V42 on L6995."
+        },
+        {
+            "post_id": 7027,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-21 09:37:01",
+            "message": "<TRANSISTOR>Q6920</TRANSISTOR> is going to let the SMC talk to the DC in board. In order for <TRANSISTOR>Q6920</TRANSISTOR> to let this occur, being an N channel MOSFET, you want equal or higher voltage on the gate than on the source, so you want voltage to be there.\n\nWhat places voltage on <TRANSISTOR>Q6920</TRANSISTOR>? The voltage divider of <RESISTOR>R6917</RESISTOR>/<RESISTOR>R6918</RESISTOR>. It'll lower the 16v from the charger to something like 8-9v. This is when all is working as it should. So, with a known good DC in board, measure pin 2/5 of <TRANSISTOR>Q6920</TRANSISTOR>. Do you get 8-9v? Then this part of the circuit is doing its job - go away and check the SMC. Is <SIGNAL>PP3V42_G3H</SIGNAL> present? <SIGNAL>PP3V42_G3H</SIGNAL> is required for the SMC to turn on. Is the SMC turning on? <SIGNAL>SMC_RESET_L</SIGNAL> is required for the SMC to turn on.\n\nIf you do not have 8-9v on pins 2/5 of <TRANSISTOR>Q6920</TRANSISTOR>, then we have a problem with the onewire circuit. So let's take a look and walk through this clusterfuck of a mess, because it is intimidating if you are used to the newer onewire circuit.\n\nIt all begins at <CHIP>U7000</CHIP>. Look at <RESISTOR>R7010</RESISTOR>/<RESISTOR>R7011</RESISTOR> - this voltage divider takes the 16v from the charger and turns it into 4v for the <SIGNAL>CHGR_ACIN</SIGNAL> pin of <CHIP>U7000</CHIP>. When <SIGNAL>CHGR_ACIN</SIGNAL> of <CHIP>U7000</CHIP> has 4v, it allows <SIGNAL>CHGR_ACOK</SIGNAL> to remain at a high voltage. <SIGNAL>CHGR_ACOK</SIGNAL> is pulled up by <RESISTOR>R5087</RESISTOR>, and can be pulled down by <CHIP>U7000</CHIP> if something isn't right. If <SIGNAL>CHGR_ACIN</SIGNAL> is coming into <CHIP>U7000</CHIP>, and you have <SIGNAL>CHGR_ACOK</SIGNAL> on output, then we're 90% of the way there. Occasionally <CHIP>U7000</CHIP> will pull down <SIGNAL>CHGR_ACOK</SIGNAL> if current sensing circuit is not working, such as resistance between pins 17/18 being over 4 ohms or resistance between pins 27/28 being over 21 ohms, but that is not likely here. We can move on and check other things.\n\nIf <SIGNAL>CHGR_ACOK</SIGNAL> is present, let's go back to the onewire circuit, where they call it <SIGNAL>SMC_BC_ACOK</SIGNAL>. Remember <TRANSISTOR>Q6910</TRANSISTOR>, which we need to open to send charger power to the onewire circuit? This is a P channel MOSFET, which will open when the voltage on the gate is lower than the source. So let's see... <RESISTOR>R6911</RESISTOR> takes the charger voltage and puts it straight on the gate. Gah, this will never open now! We have 16v on the source [I]and[/I] the gate! However, <RESISTOR>R6912</RESISTOR> turns this circuit into a [I]voltage divider![/I] When <RESISTOR>R6912</RESISTOR> has a path to ground, it will [I]lower [/I]the voltage on the gate of <TRANSISTOR>Q6910</TRANSISTOR>!\n\nWhat gives <RESISTOR>R6912</RESISTOR> a path to ground? <TRANSISTOR>Q6915</TRANSISTOR>. <TRANSISTOR>Q6915</TRANSISTOR> is an N channel MOSFET[I](dual, actually, there's 2 transistors inside one package)[/I], which will open when the voltage on the gate is higher than the source. So let's check pins 1 and 2 of <TRANSISTOR>Q6915</TRANSISTOR>. Pin 1 is ground(0v). Pin 2 is <SIGNAL>SMC_BC_ACOK</SIGNAL> - so as long as <SIGNAL>SMC_BC_ACOK</SIGNAL> is higher than 2v or so, it will open and allow our <RESISTOR>R6911</RESISTOR>/<RESISTOR>R6912</RESISTOR> voltage divider to work, which will allow <TRANSISTOR>Q6910</TRANSISTOR> to pass power through.\n\n[B]COMMON FAULT: <TRANSISTOR>Q6910</TRANSISTOR> fails internally and shorts pins 1/2 together, which fucks up the voltage divider. [/B]Check resistance between pins 1 & 2 of <TRANSISTOR>Q6910</TRANSISTOR>, if you get anything lower than 400kohms it's fucked. 250 ohms is common measurement for a fucked <TRANSISTOR>Q6910</TRANSISTOR>.\n\nNow, if this is all checking out so far, let's go over to <RESISTOR>R6917</RESISTOR>/<RESISTOR>R6918</RESISTOR>. This voltage divider has a path to ground, by default, no transistor required to give it a path to ground like <RESISTOR>R6912</RESISTOR>/<TRANSISTOR>Q6915</TRANSISTOR>. At pin 2 of <RESISTOR>R6917</RESISTOR> is the output of this voltage divider which should dump 8-9v into <TRANSISTOR>Q6920</TRANSISTOR>'s gate and allow it to open. This is simple and straightforward. Do you have 8-9v here? If you do, check everything I stated in the beginning about SMC/<SIGNAL>PP3V42_G3H</SIGNAL>/<SIGNAL>SMC_RESET_L</SIGNAL>. If you [I]DON'T [/I]have anything here, then I want you to answer this question for me: what can take away the voltage from <RESISTOR>R6917</RESISTOR> and send it to ground? No, not a bad <RESISTOR>R6917</RESISTOR>.. that is never the case. You're welcome to measure to confirm. ;)\n\nLook around, follow the lines... yes, <TRANSISTOR>Q6915</TRANSISTOR>! <TRANSISTOR>Q6915</TRANSISTOR>, our N channel MOSFET, provides a direct path from <RESISTOR>R6917</RESISTOR> to ground, from pin 3 of <TRANSISTOR>Q6915</TRANSISTOR> to pin 4. If pin 5, the gate, of <TRANSISTOR>Q6915</TRANSISTOR> has a high voltage on it, it will send <SIGNAL>ONEWIRE_EN</SIGNAL> directly to ground. What causes this? Usually a fucked up <CHIP>U6915</CHIP> from someone plugging the charger in and touching wrong contacts somewhere.\n\nYou will have to go through and troubleshoot this to figure out what is actually wrong."
+        },
+        {
+            "post_id": 7035,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-09-21 09:51:18",
+            "message": "17V is ok. SMC might not be running, what is your PPBUS voltage 12.3 or 12.56?"
+        },
+        {
+            "post_id": 7094,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 423,
+            "username": "Noguinfor",
+            "post_date": "2016-09-22 02:33:21",
+            "message": "First off all tank you for answering, \n\nLouis is right, the problem is it the fuking <CHIP>U6915</CHIP> ... i have a high voltage on pin 5 <TRANSISTOR>Q6915</TRANSISTOR>.. :( , i dont have the component in stock and dead boards.. i will have to wait 2/3 weeks for component.\n\nDuke i have 12.69 on PPBUS. Its dead SMC?"
+        },
+        {
+            "post_id": 7112,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-22 08:55:09",
+            "message": "12.56-12.6v on <SIGNAL>PPBUS_G3H</SIGNAL> is good. the SMC sets the final voltage for <SIGNAL>PPBUS_G3H</SIGNAL> after <CHIP>U7000</CHIP> turns on, it's only when it's 3% lower than it usually is that the SMC is not on.\n\nIf you want to just see if this will work before new parts come in, remove <CHIP>U6915</CHIP>/<TRANSISTOR>Q6915</TRANSISTOR>/<TRANSISTOR>Q6910</TRANSISTOR> and put a 100k resistor between pins 1 and 6 of <TRANSISTOR>Q6910</TRANSISTOR>.\n\n[B]Obviously do not give it back to the customer like this[/B], but this at least lets you give a status update to them if they call while you're waiting for parts that the rest of the machine works. If the rest of it is fucked or it beeps or something then no point in ordering parts for it."
+        },
+        {
+            "post_id": 7122,
+            "thread_id": 6984,
+            "title": "Macbook pro 15, 820 2330-A, no green light and no turn on",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-09-22 10:00:51",
+            "message": "<CHIP>U6915</CHIP> can be found on every macbook board from 2009 or earlier. It's also on the old A1181 white macbook board."
+        }
+    ]
+}

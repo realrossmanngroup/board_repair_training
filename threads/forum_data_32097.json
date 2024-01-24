@@ -1,0 +1,55 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2850": "What is 820-2850? a LOGIC BOARD PART NUMBER.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "U6990": "What is U6990? a CHIP.",
+        "PPDCIN_G3H_OR_PBUS": "What is PPDCIN_G3H_OR_PBUS? a SIGNAL.",
+        "R6990": "What is R6990? Resistor between charger voltage and input to PP3V42_G3H power supply on Macbooks from around the year 2012. This resistor blows when C6990 has shorted to ground or U6990 has shorted to ground, and will result in PP3V42_G3H missing and the magsafe charger not having a light since PP3V42_G3H is necessary for the SMC to turn on and the onewire circuit to turn on..",
+        "R6993": "What is R6993? a RESISTOR.",
+        "C6990": "What is C6990? Capacitor to ground on input to PP3V42_G3H power supply. PP3V42_G3H power supply turns 18.5v from charger or 8.5v-12.5v PPBUS_G3H from the battery into PP3V42_G3H. This capacitor can short to ground and keep PP3V42_G3H from turning on which would keep the machine from having a light on the magsafe charger.",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PP3V3_S5_AVREF_SMC": "What is PP3V3_S5_AVREF_SMC? PP3V3_S5_AVREF_SMC Is a reference voltage for the SMC’s voltage sensors & other sensors..",
+        "PP3V3_S5_SMC_AVCC": "What is PP3V3_S5_SMC_AVCC? a SIGNAL.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low)."
+    },
+    "threads": [
+        {
+            "post_id": 32097,
+            "thread_id": 32097,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> no green light no <SIGNAL>PP3V42_G3H</SIGNAL>",
+            "user_id": 1292,
+            "username": "stephsa",
+            "post_date": "2018-02-28 08:10:18",
+            "message": "hi,\nI found this values on <CHIP>U6990</CHIP>\n\n1 : 0,4v\n2 : 16,3v\n3 : 3,06v\n6 : 1,2v\n7 : 2,3v\n8 : 1,2v\n10 : 0,6v\n\nany idea ? :-) please"
+        },
+        {
+            "post_id": 32113,
+            "thread_id": 32097,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> no green light no <SIGNAL>PP3V42_G3H</SIGNAL>",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-02-28 14:01:14",
+            "message": "Pin 3 is the VIN, voltage in pin. We expect here DC in voltage or battery voltage. The battery is 11-12v, the DC in voltage should be 16v.\n\n<SIGNAL>PPDCIN_G3H_OR_PBUS</SIGNAL> goes through <RESISTOR>R6990</RESISTOR> to send 16v to the voltage in pin. It also goes through <RESISTOR>R6993</RESISTOR> to enable the chip to turn on.\n\nSince pin 2 is 16v, I can assume that <SIGNAL>PPDCIN_G3H_OR_PBUS</SIGNAL> is present. \n\nSince pin 3 is 3v, I can assume that either one of two things is true.\n\n1) <CAPACITOR>C6990</CAPACITOR> is short circuiting pin 3 of <CHIP>U6990</CHIP> to ground.\n2) <RESISTOR>R6990</RESISTOR> is blown.\n\nIt is possible both of the above are true. What is the resistance of <RESISTOR>R6990</RESISTOR>? What is the resistance to ground at pin 3 of <CHIP>U6990</CHIP>? Measure without power applied of course."
+        },
+        {
+            "post_id": 32147,
+            "thread_id": 32097,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> no green light no <SIGNAL>PP3V42_G3H</SIGNAL>",
+            "user_id": 1292,
+            "username": "stephsa",
+            "post_date": "2018-03-01 12:24:41",
+            "message": "many thanks :-) (Louis ?) :-)\nYes the <RESISTOR>R6990</RESISTOR> was blown.. now I have the green light but no boot.\nI found 3v3 on <SIGNAL>PP3V3_S5_AVREF_SMC</SIGNAL> and 3v41 on <SIGNAL>PP3V3_S5_SMC_AVCC</SIGNAL>\nand 3v4 on <SIGNAL>SMC_ADAPTER_EN</SIGNAL>\nwhat's wrong ?"
+        },
+        {
+            "post_id": 32181,
+            "thread_id": 32097,
+            "title": "<LOGIC BOARD PART NUMBER>820-2850</LOGIC BOARD PART NUMBER> no green light no <SIGNAL>PP3V42_G3H</SIGNAL>",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2018-03-02 12:28:12",
+            "message": "1) What voltage is <SIGNAL>PPBUS_G3H</SIGNAL>?\n\n2) If you measure the list of rails on page 7 of the schematic, what rails are present? What rails are missing?\n\nDoes <SIGNAL>PM_SLP_S4_L</SIGNAL> pulse when you plug in the charger? \n\n3) Are you using an original 85w charger?"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3332": "What is 820-3332? a LOGIC BOARD PART NUMBER.",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "C7026": "What is C7026? a CAPACITOR.",
+        "Q7080": "What is Q7080? a TRANSISTOR.",
+        "U6901": "What is U6901? a CHIP.",
+        "Q7030": "What is Q7030? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 74984,
+            "thread_id": 61131,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL> current sensing issue",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-05-03 10:39:55",
+            "message": "Hi there, \n\nBOard came in and upon inspection, <CAPACITOR>C7026</CAPACITOR> and <CAPACITOR>C7050</CAPACITOR> were broken from board. I believe they must've caught on the edge of the battery when installing the logic and somehow just now finished off after some time as this mac was running for few months. Those have been replaced and so has the ISL (3 times now) as all other voltages around ISL seem correct and resistance looks good:\n\npin 1 - 0v\npin 2 - 16.5V\npin 3 - 4V\npin 9=0V\nPin 12 =3.4V\npin 13 = 3.1V\npin 14 = 0V\npin 17 =12.3V\npin 20 = 5.5V\npin 27= 16.1V\n\nresistance pins 17/18 at ISL pins is 3.9 ohms and 27/28 is 21.6 ohms. \n\nI noticed <RESISTOR>R7051</RESISTOR> was discovered to be high and replaced and again did the same so not sure if that was related to bad ISL but seems to be ok now. \n\nI replaced <TRANSISTOR>Q7080</TRANSISTOR> also. My best guess is there's detected current sense issue. <SIGNAL>SMC_BC_ACOK</SIGNAL> diode red to ground is .45V.,"
+        },
+        {
+            "post_id": 74986,
+            "thread_id": 61131,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL> current sensing issue",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-03 11:06:19",
+            "message": "ACOK signal informs SMC about charger presence; is not current sensor related.\n\nPost voltage and diode mode to ground on SCL/SDA lines of battery bus,\nBe sure to use original 85W charger."
+        },
+        {
+            "post_id": 74989,
+            "thread_id": 61131,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL> current sensing issue",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-05-03 11:13:49",
+            "message": "Oh ok. I guess I thought the ISL wouldn't send smc BC ACOK unless current sensing was correct.\n\nboth lines show 3.41v.\n\ndiode red to ground SCL is .525V SDA is .521."
+        },
+        {
+            "post_id": 74996,
+            "thread_id": 61131,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL> current sensing issue",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-05-03 13:09:01",
+            "message": "This board can kiss my ass. Issue was related to <CHIP>U6901</CHIP> apparently was pulling down SMC BC ACOK? once powered? Anyway after pulling it and putting it back I got intermittent <SIGNAL>SMC_BC_ACOK</SIGNAL> signal. Replaced it and signal was solid 3.3V but then pPBUS GH was no longer 12.3V and flaking around 5V. I thought it was related to <TRANSISTOR>Q7030</TRANSISTOR>/5 so swapped those out with no change... changed the ISL AGAIN and board starts and boots. FUck this board. haha"
+        },
+        {
+            "post_id": 75006,
+            "thread_id": 61131,
+            "title": "<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No <SIGNAL>SMC_BC_ACOK</SIGNAL> current sensing issue",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2021-05-03 19:03:08",
+            "message": "This one got the last laugh as it turned out it was not fixed after all. I ended up swapping the SMC. I would really like to kick this thing into the parking lot. :)"
+        }
+    ]
+}

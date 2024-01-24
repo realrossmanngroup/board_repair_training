@@ -1,0 +1,53 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1708": "What is A1708? A1708 is a model number for a 13 inch size MacBook Pro Retina from years Mid 2017, 2016 with EMC 3164, that may contain one of these boards depending on the year & configuration: 820-00840, 820-00875..",
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "D6950": "What is D6950? a DIODE.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "U7800": "What is U7800? a CHIP.",
+        "U6990": "What is U6990? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "PM_EN_P3V3_G3H": "What is PM_EN_P3V3_G3H? PM_EN_P3V3_G3H is a signal that enables the PP3V3_G3H rail to turn on. This comes out of ISL9239 or ISL9240 chip; when missing, often is missing because of a bad ISL9239 or ISL9240 chip. .",
+        "PP5V_LDO5V": "What is PP5V_LDO5V? a SIGNAL.",
+        "SMBUS_SMC_5_G3H_SCL": "What is SMBUS_SMC_5_G3H_SCL? a SIGNAL.",
+        "R6999": "What is R6999? a RESISTOR.",
+        "R5381": "What is R5381? a RESISTOR.",
+        "C6990": "What is C6990? Capacitor to ground on input to PP3V42_G3H power supply. PP3V42_G3H power supply turns 18.5v from charger or 8.5v-12.5v PPBUS_G3H from the battery into PP3V42_G3H. This capacitor can short to ground and keep PP3V42_G3H from turning on which would keep the machine from having a light on the magsafe charger.",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. .",
+        "D6905": "What is D6905? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input on very old Macbooks(before 2011), can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "TPS51980": "What is TPS51980? This is a power chip responsible for the PP3V3_S5,  PP5V_S5,  and PP5V_S3 power rails on many A1286 Macbook Pros,  A1297 Macbook Pros,  A1369 Macbook Airs,  A1466 Macbook Airs,  A1370 Macbook Airs,  and A1465 Macbook Airs.",
+        "5V_LDO": "What is 5V_LDO? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 97032,
+            "thread_id": 63643,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <SIGNAL>PP3V3_G3H</SIGNAL> pulled down",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2023-02-26 17:59:47",
+            "message": "Liquid damage on this one, I found it difficult and time consuming.\n\n1) It had a full short on <CAPACITOR>C6990</CAPACITOR> <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>, replaced the cap and short gone.\n\n2)Next, it had <SIGNAL>PP3V3_G3H</SIGNAL> low voltage around 2.2V. Diode mode was showing 0.340 very similar to other working boards however resistance to ground was reading 1.9KOhm.\nThis was pointing to a 2kohms resistance with other end shorted to ground, indeed I found <RESISTOR>R5381</RESISTOR>-pin2 <SIGNAL>SMBUS_SMC_5_G3H_SCL</SIGNAL> full shorted to ground. Turned out to be <DIODE>D6950</DIODE> shorting the signal.\n\n3)<SIGNAL>SMBUS_SMC_5_G3H_SCL</SIGNAL> was still reading a low short this time 0.041 in diode mode, additionnaly <SIGNAL>PP5V_LDO5V</SIGNAL> was shorted to ground, this time it turned out to be <CHIP>U7800</CHIP> PMIC witch I replaced.\n\nNow on <SIGNAL>PP3V3_G3H</SIGNAL> I have normal readings compare to other boards 0.340 in diode mode and 21kOhm to ground\n<SIGNAL>PP5V_LDO5V</SIGNAL> is also 0,425 diode mode\n\nMy issue: I still have 2.29V on <SIGNAL>PP3V3_G3H</SIGNAL>.\nIf I remove <RESISTOR>R6999</RESISTOR> I can see <CHIP>U6990</CHIP> outputing 3.4V If I put back <RESISTOR>R6999</RESISTOR> it is pulled down to 2,29V. <RESISTOR>R6999</RESISTOR> measures fine 0 ohm.\nIf I inject 3,4V on system side I have 14mA draw exactly same with working board.\n\nCan I assume <CHIP>U6990</CHIP> and <CHIP>U7000</CHIP> are ok since I get  3,4V on <SIGNAL>PP3V3_G3H</SIGNAL> when <RESISTOR>R6999</RESISTOR> is removed? Or I am wrong as I perhaps get 3,4V only because there is no load?\n\n<SIGNAL>PM_EN_P3V3_G3H</SIGNAL> is 4,8V and <SIGNAL>PPBUS_G3H</SIGNAL> is 30mV with no short at all.\n\nI am out of idea and thats why I am here!\nThanks"
+        },
+        {
+            "post_id": 97037,
+            "thread_id": 63643,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <SIGNAL>PP3V3_G3H</SIGNAL> pulled down",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-02-27 01:15:12",
+            "message": "<CHIP>U7000</CHIP> needs to talk with SMC, in order to generate <SIGNAL>PPBUS_G3H</SIGNAL>.\n0.340 in diode mode at <SIGNAL>3V3_G3H</SIGNAL> looks good, but you should check reverse way measurment too.\n\n\"<SIGNAL>SMBUS_SMC_5_G3H_SCL</SIGNAL> was still reading a low short this time 0.041\"\nWas this problem solved?\nMust get very similar readings on both SCL/SDA lines."
+        },
+        {
+            "post_id": 97076,
+            "thread_id": 63643,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> <MACBOOK MODEL NUMBER>A1708</MACBOOK MODEL NUMBER> <SIGNAL>PP3V3_G3H</SIGNAL> pulled down",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2023-02-27 17:13:11",
+            "message": "Reverse diode mode reading on <SIGNAL>3V3_G3H</SIGNAL> is normal 1.240 and comparable with other working boards.\n\nYes diode mode 0.041 on  <SIGNAL>SMBUS_SMC_5_G3H_SCL</SIGNAL>  was solved it was <DIODE>D6950</DIODE> shorting partially to ground.\n\nI decided to inject 5V on <CHIP>U6990</CHIP> Vin and enable. It produced 3,4V when 5V was applied after <DIODE>D6905</DIODE>, I mean pin 3 of <DIODE>D6905</DIODE>.\nIt produced 2.2V when 5V was applied before <DIODE>D6905</DIODE> (<DIODE>D6905</DIODE>-Pin2).\n\nAt that point I knew something was wrong upstream from <DIODE>D6905</DIODE>-Pin2.\nI found out odd diode mode reading on <DIODE>D6905</DIODE>.\n\nBlack probe on pin3 Red proble on pin 1: Diode mode reading 0.201 ok\nBlack probe on pin3 Red proble on pin 2: Diode mode reading 0.569 -> should be 0,201 compared to other boards\n\nReverse diode mesurement was ok.\nReplaced <DIODE>D6905</DIODE> and got stable 3.4V on <SIGNAL>PP3V3_G3H</SIGNAL> and nice 13,5V on <SIGNAL>PPBUS_G3H</SIGNAL>. didn't know this would affect <SIGNAL>PPBUS_G3H</SIGNAL> at that point!\n\nAfter that: I had to replace <CHIP>TPS51980</CHIP> because it simply never produced <SIGNAL>5V_LDO</SIGNAL>...\n\nNow board fully boots, I have to solve battery detected but not charging...\n\nThis is a very nice nightmare practice board with almost 6 different faults completely unrelated on each other..."
+        }
+    ]
+}

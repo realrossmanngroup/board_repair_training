@@ -1,0 +1,292 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "U7100": "What is U7100? U7100 refers to the ISL6259 or ISL9239 charging IC on Macbooks from 2013 to the present.",
+        "U7090": "What is U7090? This chip is often responsible for creating PP3V42_G3H.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "CHGR_ACIN": "What is CHGR_ACIN? CHGR_ACIN is a signal that is created by a voltage divider between the charger and ground that goes into the ISL6258, ISL6259, ISL9239, or ISL9240 chip that creates PPBUS_G3H. It is necessary for SMC_BC_ACOK & CHGR_ACOK to be present so that the onewire circuit is told to turn on & allow the SMC to speak to the charger..",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "CHGR_DCIN": "What is CHGR_DCIN? CHGR_DCIN comes directly from charger into ISL6258 or ISL6259, the resistor before it can be blown when there are surges. Should be checked when PPBUS_G3H is missing.",
+        "CHGR_AGATE": "What is CHGR_AGATE? a SIGNAL.",
+        "CHGR_ICOMP": "What is CHGR_ICOMP? a SIGNAL.",
+        "CHGR_CELL": "What is CHGR_CELL? CHGR_CELL is a signal going to the ISL6258, ISL6259, ISL9239, or ISL9240 battery charging chip that sets PPBUS_G3H voltage. Macbook Airs with 2 cells in series  in their batteries will have PPBUS_G3H voltages of 8.15v to 8.55v, Macbooks & Macbook Pros with 3 cells in series in their batteries will have PPBUS_G3H voltages of 12.23 to 12.56v..",
+        "CHGR_VCOMP": "What is CHGR_VCOMP? a SIGNAL.",
+        "CHGR_VFRQ": "What is CHGR_VFRQ? a SIGNAL.",
+        "CHGR_VNEG": "What is CHGR_VNEG? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "Q7010": "What is Q7010? Q7010 controls whether or not PPDCIN_G3H will be let through to the PP3V42_G3H power supply, often this circuit area is not working because D7010 has died or corroded. .",
+        "D7005": "What is D7005? a DIODE.",
+        "R7095": "What is R7095? a RESISTOR.",
+        "C7090": "What is C7090? a CAPACITOR.",
+        "Q7130": "What is Q7130? a TRANSISTOR.",
+        "R7096": "What is R7096? a RESISTOR.",
+        "PPVIN_G3H_P3V42G3H": "What is PPVIN_G3H_P3V42G3H? PPVIN_G3H_P3V42G3H is the input voltage to the PP3V42_G3H buck converter circuit, it can be either charger voltage or battery voltage depending on what the system power source is. This often shorts to ground when one of the input capacitors dies. .",
+        "C7095": "What is C7095? a CAPACITOR.",
+        "C7094": "What is C7094? a CAPACITOR.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7080": "What is Q7080? a TRANSISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "R7005": "What is R7005? resistor between charger and CHGR_DCIN pin of ISL6259, if CHGR_DCIN is low then this resistor is probably blown. When PPBUS_G3H is low or missing this is something to check if your model has CHGR_DCIN along R7005. .",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "SYS_ONEWIRE": "What is SYS_ONEWIRE? This is a bidirectional communication line between the system management controller(SMC) and the charger that allows the charger to communicate with the SMC. This must be working for the light to come on on the magsafe charger. .",
+        "ADAPTER_SENSE": "What is ADAPTER_SENSE? This is a line between the onewire circuit and the magsafe charger where the magsafe charger can talk to the SMC(system management controller) on the SYS_ONEWIRE line..",
+        "SMC_BC_ACOK_VCC": "What is SMC_BC_ACOK_VCC? SMC_BC_ACOK_VCC is a voltage that is created if SMC_BC_ACOK & PP3V42_G3H are both present that powers the chipset for the onewire circuit that allows the SMC to talk to the charger on the SYS_ONEWIRE line. This is necessary for the magsafe charger to have a light on it. .",
+        "R7090": "What is R7090? a RESISTOR.",
+        "U1900": "What is U1900? a CHIP.",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "CHGR_BGATE": "What is CHGR_BGATE? a SIGNAL.",
+        "CHGR_PHASE": "What is CHGR_PHASE? CHGR_PHASE is charger voltage chopped up into individual slices prior to smoothing where it becomes PPBUS_G3H.",
+        "CHGR_UGATE": "What is CHGR_UGATE? a SIGNAL.",
+        "CHGR_RST_L": "What is CHGR_RST_L? a SIGNAL.",
+        "CHGR_LGATE": "What is CHGR_LGATE? a SIGNAL.",
+        "PP5V1_CHGR_VDD": "What is PP5V1_CHGR_VDD? a SIGNAL.",
+        "CHGR_CSO_N": "What is CHGR_CSO_N? CHGR_CSO_N is one of the current sense lines for the battery. Resistance between CHGR_CSO_N and CHGR_CSO_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 2.2 ohms.",
+        "PP5V1_CHGR_VDDP": "What is PP5V1_CHGR_VDDP? a SIGNAL.",
+        "CHGR_CSO_P": "What is CHGR_CSO_P? CHGR_CSO_P is one of the current sense lines for the battery. Resistance between CHGR_CSO_P and CHGR_CSO_N should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 2.2 ohms.",
+        "CHGR_CSI_N": "What is CHGR_CSI_N? CHGR_CSI_N is one of the current sense lines for the charger. Resistance between CHGR_CSI_N and CHGR_CSI_P should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_CSI_P": "What is CHGR_CSI_P? CHGR_CSI_P is one of the current sense lines for the charger. Resistance between CHGR_CSI_P and CHGR_CSI_N should be the resistance should be the total series resistance of the current sense resistors in the circuit, usually about 20.02 ohms.",
+        "CHGR_SGATE": "What is CHGR_SGATE? a SIGNAL.",
+        "CHGR_BOOT": "What is CHGR_BOOT? a SIGNAL.",
+        "C5002": "What is C5002? a CAPACITOR.",
+        "820-3787": "What is 820-3787? a LOGIC BOARD PART NUMBER."
+    },
+    "threads": [
+        {
+            "post_id": 47442,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-14 17:42:01",
+            "message": "Doesn't Turn ON no Green Light No History\n\n<TRANSISTOR>Q7010</TRANSISTOR> and <RESISTOR>R7020</RESISTOR> Burning Hot\nReplaced <CHIP>U7090</CHIP>: OK not burning anymore\n\nPPBUS: 0V\n\nR17/18:OK\nR27/28: OK\n\nChecked the voltages at <CHIP>U7100</CHIP>:\n1: <SIGNAL>CHGR_AGATE</SIGNAL> 0V\n2: <SIGNAL>CHGR_DCIN</SIGNAL> 16.30V\n3: <SIGNAL>CHGR_ACIN</SIGNAL> 3.950V\n4: <SIGNAL>CHGR_VFRQ</SIGNAL> 0.170 VS\n5: <SIGNAL>CHGR_ICOMP</SIGNAL> 0V\n6: <SIGNAL>CHGR_CELL</SIGNAL> 0.170V\n7: <SIGNAL>CHGR_VCOMP</SIGNAL> 0V\n8: <SIGNAL>CHGR_VNEG</SIGNAL> 0V\n9: <SIGNAL>CHGR_AMON</SIGNAL> 0.031V 0.031V\n10: <SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL> 0V\n11: <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> 0V\n12: [B]<SIGNAL>PP3V42_G3H</SIGNAL> 0.177V [/B]\n\nSo I checked my soldering job at <CHIP>U7090</CHIP>:\nI've re heated with the hot air, it moved a little bit then the PP3V42 voltage rised to 2.5V\nbut on Pin 6 the voltage dropped from 16.5V to 3.7V -3.21V\n\nChecked again <RESISTOR>R7020</RESISTOR>: Burning hot again.\n\nI think my <CHIP>U7090</CHIP> is bad again, if so , why?\n\nStupid Question: Which rail should be present first PPBUS or PP3V42?\nI would say both at the same time, which would mean that I have 2 issues so far on that board?\nMaybe <CHIP>U7100</CHIP> is pulling down PP3V42?"
+        },
+        {
+            "post_id": 47445,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-14 17:54:59",
+            "message": "First of all, check diode mode to ground at L7095 and L7130.\nIf you found <RESISTOR>R7020</RESISTOR> burnt, check if <DIODE>D7005</DIODE> is not shorted (both sections).\nCheck al caps <CAPACITOR>C7090</CAPACITOR>-92.\nBe sure <RESISTOR>R7095</RESISTOR>/96 are both OK."
+        },
+        {
+            "post_id": 47447,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-14 18:45:54",
+            "message": "Hi 2Informaticos,\nI've already did all those checking but because of you, I've redone them and [B]thank you[/B] because I've read 0.140V at F7140 (removed) but in the rush I've swapped the pins so I went in the wrong direction.\nthis value is in the direction of L7130 and <CHIP>U7100</CHIP>, by the way this one (<CHIP>U7100</CHIP>) is removed, so I would suspect <TRANSISTOR>Q7130</TRANSISTOR> because I still have 0.146V at Pin 1 of L7130 with this one removed. \nWhat do you think?"
+        },
+        {
+            "post_id": 47450,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-14 19:25:34",
+            "message": "Replaced <TRANSISTOR>Q7130</TRANSISTOR> but still the same reading value of 0.140V, so I checked some other motherboard of the same generation, and it appear that at L7130 they all read the same value.\nSo now I'm confused because on pin 2 of F7140 i'm reading 0.465V.\nAnd No short on <CAPACITOR>C7090</CAPACITOR>-92, no short at <DIODE>D7005</DIODE>.\n<RESISTOR>R7095</RESISTOR> reads 190KOhms and <RESISTOR>R7096</RESISTOR> 155kOhms both are low compared to the schematics but wompared to some other boards I have more or less the same reading."
+        },
+        {
+            "post_id": 47451,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-03-14 19:28:40",
+            "message": "3v42 MUST be present before PPBUS is 3v42 3.42? If no probably bad <CHIP>U7090</CHIP>."
+        },
+        {
+            "post_id": 47453,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-15 03:19:16",
+            "message": "Replaced <CHIP>U7090</CHIP> 3 times now, still <SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL> dropping from 16.5V to 3.2V and <RESISTOR>R7020</RESISTOR> burning hot.\nReplaced <CAPACITOR>C7095</CAPACITOR>, <RESISTOR>R7095</RESISTOR>, <RESISTOR>R7096</RESISTOR>.\nWhen removing <CHIP>U7090</CHIP> <SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL> : 16.5V\nI'm confused any clue?\n<CHIP>U7100</CHIP> is removed also."
+        },
+        {
+            "post_id": 47454,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-15 03:56:10",
+            "message": "Did you place <CHIP>U7090</CHIP> in correct way?\nBe sure <CAPACITOR>C7094</CAPACITOR> is OK and has good contacts.\nIf not, <CHIP>U7090</CHIP> gets fried.\n\nLow-side MOSFET from <TRANSISTOR>Q7030</TRANSISTOR> is Schottky, so diode mode to ground value is correct."
+        },
+        {
+            "post_id": 47462,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-15 04:47:46",
+            "message": "yes <CHIP>U7090</CHIP> is soldered corretly, when you turn it upside down there is a mark on the ground pad that matches to the ground pad on the motherboard.\nI've put another LT3470 from a donor board and still the same ( now 4 + the original one that I've put in the trash)."
+        },
+        {
+            "post_id": 47464,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-03-15 05:25:30",
+            "message": "Your VIN pin should not be fluctuating something is wrong there. Check that pin for a short could have problems before or after the diode. <TRANSISTOR>Q7080</TRANSISTOR> is also suspect here. Make sure traces to <CHIP>U7090</CHIP> are good as well"
+        },
+        {
+            "post_id": 47538,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-17 08:08:48",
+            "message": "Hi JohnB8812,\n\nSorry but my Vin,is not fluctuating, it's just that when I've writen that it's \"dropping\", I would better write : I'm mesuring 3.2V instead of 16.5V when <CHIP>U7090</CHIP> is soldered. \nSomething is pulling down my Vin, and that thing is not on the <SIGNAL>PPBUS_G3H</SIGNAL> side but on the Pp3v42 side when looking from the diode \"Y\" path. \nMaybe I should start by that DIODE <DIODE>D7005</DIODE> ?"
+        },
+        {
+            "post_id": 47539,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 296,
+            "username": "jadao",
+            "post_date": "2019-03-17 09:00:22",
+            "message": "For your VIN being low, something is going wrong on 3V42 circuit, check carefully all resistors caps around <CHIP>U7090</CHIP>.\n\nNothing wrong, no short with <SIGNAL>PP3V42_G3H</SIGNAL> rail?\n\nYes you can disconnect <RESISTOR>R7005</RESISTOR> to isolate <SIGNAL>PPBUS_G3H</SIGNAL>. You can also remove <DIODE>D7005</DIODE> and inject 16,5V on pad 3 of removed <DIODE>D7005</DIODE> and check how PP3V42 circuit behave."
+        },
+        {
+            "post_id": 47540,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-17 11:05:49",
+            "message": "Did you put correct (47 ohms) for <RESISTOR>R7020</RESISTOR>?\nCheck if is not 47 ohms, or 47K."
+        },
+        {
+            "post_id": 47557,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-18 07:45:01",
+            "message": "[ATTACH type=\"full\" width=\"15%\"]47558._xfImport[/ATTACH] Sure, It's a 47 Ohms <RESISTOR>R7020</RESISTOR> reading 47.6 Ohms that I've already replaced because the original one was OK but started to turn brown because of over heating.\nAlso just replaced <DIODE>D7005</DIODE> just in case, but didn't change anything.\nI think I'm missing something obsvious but can't see what.\nI took an <CHIP>U7090</CHIP> from a known good board and still the same:\nPP3V42: 2.5V\n<SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL>: 3.31V\n<RESISTOR>R7020</RESISTOR> burning Hot\nChecked all the tracks around <CHIP>U7090</CHIP>, replaced almost all the components around <CHIP>U7090</CHIP>.\nAgain if I remove <CHIP>U7090</CHIP> <RESISTOR>R7090</RESISTOR> is NOT heating and <SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL> is 16.5V\nPP3V42 is NOT shorted to Gnd as in diode mode I read 0.313V\nI'm out of ideas.\nAlso I did te following test:\nRemoved <CHIP>U7090</CHIP>, injected 3.42V (300mA)\nPlugged In the charger\nI Still I had No <SIGNAL>PPBUS_G3H</SIGNAL> but SMC looks like OK becuse I have <SIGNAL>SMC_BC_ACOK</SIGNAL>, <SIGNAL>SMC_BC_ACOK_VCC</SIGNAL>, <SIGNAL>SYS_ONEWIRE</SIGNAL> and <SIGNAL>ADAPTER_SENSE</SIGNAL> present.\nThe green Light is very DIMM\nMaybe I should try to fix <SIGNAL>PPBUS_G3H</SIGNAL> and then come back to PP3V42"
+        },
+        {
+            "post_id": 47559,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2019-03-18 07:50:25",
+            "message": "I think something is messed up on your PP3v42 line or PPBUS line. I once had one like this where <CHIP>U1900</CHIP> was causing <RESISTOR>R7020</RESISTOR> to get scorching hot as well and was pulling down PP3v42. This could be a similar situation for you, but start by removing <CHIP>U7090</CHIP> and injecting 3.42 volts into PP3v42. See if there is any amperage draw."
+        },
+        {
+            "post_id": 47561,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-18 08:05:37",
+            "message": "Replace L7095, could have internal short between turns.\nAlso change <CAPACITOR>C7094</CAPACITOR>."
+        },
+        {
+            "post_id": 47566,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-18 09:01:05",
+            "message": "Here my reading at <CHIP>U7100</CHIP>\n\n1: <SIGNAL>CHGR_AGATE</SIGNAL>  0V    \n2: <SIGNAL>CHGR_DCIN</SIGNAL>  16.45V\n3: <SIGNAL>CHGR_ACIN</SIGNAL> 4.0V\n4: <SIGNAL>CHGR_VFRQ</SIGNAL>  3.322V        VS  0.170  \n5: <SIGNAL>CHGR_ICOMP</SIGNAL>  2.851V     VS    0V             \n6: <SIGNAL>CHGR_CELL</SIGNAL>  3.412V         VS  0.170V      \n7: <SIGNAL>CHGR_VCOMP</SIGNAL>  2.843V    VS  0V          \n8: <SIGNAL>CHGR_VNEG</SIGNAL>  0.890V        VS 0V          \n9: <SIGNAL>CHGR_AMON</SIGNAL>  0.034V     0.033V\n10: <SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL>  3.32V\n11: <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL>  3.62V\n12: <SIGNAL>PP3V42_G3H</SIGNAL>  0.177V          3.393V\n13: <SIGNAL>CHGR_RST_L</SIGNAL>  0.155V          3.336V\n14: <SIGNAL>SMC_BC_ACOK</SIGNAL> 3.333V\n15: <SIGNAL>CHGR_BMON</SIGNAL>  0.047V\n16: <SIGNAL>CHGR_BGATE</SIGNAL>  5.354V\n17: <SIGNAL>CHGR_CSO_N</SIGNAL>  5.366V\n18: <SIGNAL>CHGR_CSO_P</SIGNAL>  5.370V\n19: <SIGNAL>PP5V1_CHGR_VDD</SIGNAL>  5.425V\n20: <SIGNAL>PP5V1_CHGR_VDDP</SIGNAL>  5.433V\n21: <SIGNAL>CHGR_LGATE</SIGNAL>  0.00V   Pulsing at the scope see picture\n22: GND\n23: <SIGNAL>CHGR_PHASE</SIGNAL>   5.312V\n24: <SIGNAL>CHGR_UGATE</SIGNAL>  5.077V Pulsing at the scope see picture\n25: <SIGNAL>CHGR_BOOT</SIGNAL>  5.336V\n26: <SIGNAL>CHGR_SGATE</SIGNAL>  16.04V\n27: <SIGNAL>CHGR_CSI_N</SIGNAL>  16.28V\n28: <SIGNAL>CHGR_CSI_P</SIGNAL>  16.28V"
+        },
+        {
+            "post_id": 47569,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-18 09:55:42",
+            "message": "Replaced both L7095 and <CAPACITOR>C7094</CAPACITOR> ( twice):\nStill same readings\nPP3V42: 2.5V\n<SIGNAL>PPVIN_G3H_P3V42G3H</SIGNAL>: 3.31V\n\n@[B][URL=\"https://boards.rossmanngroup.com/member/1153-johnb8812\"]JohnB8812[/URL][/B]\n[URL=\"https://boards.rossmanngroup.com/member/1153-johnb8812\"][COLOR=#000000]I've already removed and injected 3.42V at L7095 pin 2, and it was pulling something like almost 300mA ( 293mA ) , on the Lab Power Supply , Exactly the same amperage with the magsafe plugged in.                               [/COLOR][/URL]"
+        },
+        {
+            "post_id": 47570,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-18 10:01:26",
+            "message": "\"12: <SIGNAL>PP3V42_G3H</SIGNAL> 0.177V 3.393V\n-------------------------------\nPP3V42: 2.5V\"\nMmmmh, can you confirm what happens there???\n\nPlease provide accurate information, or the help is useless..."
+        },
+        {
+            "post_id": 47571,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-18 10:23:25",
+            "message": "Sorry It's a misunderstanding\n\n12: <SIGNAL>PP3V42_G3H</SIGNAL>     3.393V\n13: <SIGNAL>CHGR_RST_L</SIGNAL>    3.336V   These values are with <CHIP>U7090</CHIP> Removed and 3.42V injected  at L7095 pin2\n\n[COLOR=#FF0000]12: <SIGNAL>PP3V42_G3H</SIGNAL>  0.177V    \n13: <SIGNAL>CHGR_RST_L</SIGNAL>  0.155V   [/COLOR]   [COLOR=#FF0000] These values were before I replace <CHIP>U7100</CHIP>[/COLOR]\n\nPP3V42: 2.5V is with <CHIP>U7090</CHIP> soldered in place."
+        },
+        {
+            "post_id": 47584,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-18 18:01:25",
+            "message": "I think my issue is coming from the SMC:\n\nI've re-heated the SMC with the charger plugged in and with my fluke probe on PP3V42.\nI had PP3V42 at 3.410V during the heating process but as soon as I removed the heat gun it turned back to 2.7V.\n\nSo I will try to reball it or replace it if I found the exact same donor board."
+        },
+        {
+            "post_id": 48017,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-31 13:22:20",
+            "message": "Hi team,\nhere are the last news regarding that board:\nI removed the SMC and I had a nice 3.42V\n\nReballed another smc, installed it and I have again the same issue\nPP3V42G3H at 2.5V and slowly increasing , but if I reheat the smc area it goes quickly to 3.4V\nthe board is pulling around 270 mA and <RESISTOR>R7020</RESISTOR> burning hot.\n\nI'm suspecting 2 things:\nbad capacitor around the smc (<CAPACITOR>C5002</CAPACITOR>/3/7/8/9) or bad via ( trace in the layers of the board )\n\nPlease advise"
+        },
+        {
+            "post_id": 48018,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-31 13:52:58",
+            "message": "removed <CAPACITOR>C5002</CAPACITOR>/3/7/8/9 still the same issue"
+        },
+        {
+            "post_id": 48020,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-31 16:18:43",
+            "message": "I've let it plugged something like 10 -15 min, and now pp3v42 is 3.33V ( it went slowly from 2.5v to 3.33v  and ppbus went slowly to 2V then decreased to 0.7V)\nBut now if I unplug it and replug it it goes straight to 3.33v which is a good thing but ppbus stays at 0.7V.\n\n3.33V is it too low? it's only 0.09V under what pp3V42 should be:\nI'm asking that because I would like to know if I continue troubleshooting pp3v42 or try to fix ppbus"
+        },
+        {
+            "post_id": 48021,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-31 16:55:27",
+            "message": "I think i know why :\nI've read in a post that someone put a wronfg SMC and had very low ppbus just like me.\nI my case i've a <LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> SMC because I didn't have a <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>, I know tat it has to be the exact same board but justed tried in case of.......\nNothing to do except waiting to find a 3476 board......."
+        },
+        {
+            "post_id": 48022,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2019-03-31 17:42:34",
+            "message": "You need SMC from donor board, same model.\nDo NOT waste time trying other SMC...\nHowever, you should get 8.2V at <SIGNAL>PPBUS_G3H</SIGNAL> without SMC even."
+        },
+        {
+            "post_id": 48027,
+            "thread_id": 47442,
+            "title": "<LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER> No PPBUS  No PP3V42",
+            "user_id": 1464,
+            "username": "Bouba148",
+            "post_date": "2019-03-31 18:12:09",
+            "message": "didn't payed attention for ppbus without SMC....I'll try\nas usuall gracias 2informaticos"
+        }
+    ]
+}

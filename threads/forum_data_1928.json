@@ -1,0 +1,54 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3023": "What is 820-3023? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PM_MEM_PWRGD": "What is PM_MEM_PWRGD? a SIGNAL.",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7002": "What is R7002? a RESISTOR.",
+        "R2822": "What is R2822? a RESISTOR.",
+        "R2801": "What is R2801? a RESISTOR.",
+        "Q2820": "What is Q2820? a TRANSISTOR.",
+        "PP5V_S0_CPU_VCCIO": "What is PP5V_S0_CPU_VCCIO? a SIGNAL.",
+        "PM_MEM_PWRGD_L": "What is PM_MEM_PWRGD_L? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 1928,
+            "thread_id": 1928,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> green light, warm cpu",
+            "user_id": 86,
+            "username": "samiam",
+            "post_date": "2016-04-23 18:07:59",
+            "message": "[FONT=Helvetica]figured i'd ask before i spend another few hours messing around with it[/FONT]\n  [FONT=Helvetica]have a 13\" <LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> which had liquid damage, cleaned[/FONT]\n  [FONT=Helvetica] [/FONT]\n  [FONT=Helvetica]initially <SIGNAL>PPBUS_G3H</SIGNAL> was jumping around between 8.5 and 3.4V, so I replaced <RESISTOR>R7051</RESISTOR>, <RESISTOR>R7052</RESISTOR>, and <RESISTOR>R7002</RESISTOR>[/FONT]\n  [FONT=Helvetica] [/FONT]\n  [FONT=Helvetica]magsafe is green and CPU gets warm within about a minute but doesn't get as far enough for fans to spin[/FONT]\n  [FONT=Helvetica] [/FONT]\n  [FONT=Helvetica]saw visual damage and put a wire between <RESISTOR>R2822</RESISTOR> and <TRANSISTOR>Q2820</TRANSISTOR> ([SIZE=9px]<SIGNAL>PM_MEM_PWRGD</SIGNAL>)[/SIZE][/FONT]\n  [FONT=Helvetica] [/FONT]\n  [FONT=Helvetica]wasn't sure if I should still be looking around there and whether that voltage divider wasn't working right because they read as 15k in circuit[/FONT]\n  [FONT=Helvetica] [/FONT]\n  [FONT=Helvetica]getting diode reading .000 on <RESISTOR>R2801</RESISTOR> pin 1[/FONT]\n  [FONT=Helvetica]my working comparison board is giving .081[/FONT]\n  [FONT=Helvetica] [/FONT]\n  [FONT=Helvetica]or should i be look at other S5 and S0 rails?[/FONT]"
+        },
+        {
+            "post_id": 1929,
+            "thread_id": 1928,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> green light, warm cpu",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-23 18:10:35",
+            "message": "i'm guessing a CPU mosfet or cap in that area is shorted. Is <SIGNAL>PPBUS_G3H</SIGNAL> a steady 8.5v now? Is the machine in an S0 state, meaning S0 rails are present?"
+        },
+        {
+            "post_id": 1943,
+            "thread_id": 1928,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> green light, warm cpu",
+            "user_id": 86,
+            "username": "samiam",
+            "post_date": "2016-04-24 08:24:38",
+            "message": "g3h is steady now, yes def in S0 state\ngetting 5.17V on <SIGNAL>PP5V_S0_CPU_VCCIO</SIGNAL> probe 371\n\nyou even hear the board make a super faint little power squeak as it tries to turn on\n\nnot getting the 1.5V on <SIGNAL>PM_MEM_PWRGD</SIGNAL> probe 379\n\nyou think it's <TRANSISTOR>Q2820</TRANSISTOR> shorting it to ground? or something else.  not really any caps in that area, just a whole bunch of mosfet gates"
+        },
+        {
+            "post_id": 1948,
+            "thread_id": 1928,
+            "title": "<LOGIC BOARD PART NUMBER>820-3023</LOGIC BOARD PART NUMBER> green light, warm cpu",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-04-24 13:48:38",
+            "message": "Let's look at this logically. <TRANSISTOR>Q2820</TRANSISTOR> is going to short <SIGNAL>PM_MEM_PWRGD</SIGNAL> to ground if voltage on pin 2 is too high. \n\nSo what is <SIGNAL>PM_MEM_PWRGD_L</SIGNAL> measuring? This means <SIGNAL>PM_MEM_PWRGD</SIGNAL> is present when the signal is LOW, so when it's HIGH it will short it to ground."
+        }
+    ]
+}

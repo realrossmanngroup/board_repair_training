@@ -1,0 +1,123 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "U2890": "What is U2890? a CHIP.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "PM_EN_P3V3_G3H": "What is PM_EN_P3V3_G3H? PM_EN_P3V3_G3H is a signal that enables the PP3V3_G3H rail to turn on. This comes out of ISL9239 or ISL9240 chip; when missing, often is missing because of a bad ISL9239 or ISL9240 chip. .",
+        "TBA_VDDA": "What is TBA_VDDA? a SIGNAL.",
+        "TBA_AUX_DET": "What is TBA_AUX_DET? a SIGNAL.",
+        "SMC_USBC_INT_L": "What is SMC_USBC_INT_L? a SIGNAL.",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "LDO_BMC": "What is LDO_BMC? a SIGNAL.",
+        "R5320": "What is R5320? a RESISTOR.",
+        "U5000": "What is U5000? This is the System Management Controller(SMC) in macbooks from 2013-2015."
+    },
+    "threads": [
+        {
+            "post_id": 99240,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2023-05-18 05:09:09",
+            "message": "Cant find any corrosion on board.\n\nPPBUS - 0V (not shorted)\n<SIGNAL>PPDCIN_G3H</SIGNAL> - 5.2V\n<SIGNAL>BUF_SMC_RESET_L</SIGNAL> - 3.4V\n<SIGNAL>SMC_RESET_L</SIGNAL> - 3.4V\n<SIGNAL>PP3V3_G3H</SIGNAL> - 3.4V\n\nLDOs value on both <CHIP>CD3215</CHIP> are correct.\n\n<SIGNAL>TBA_AUX_DET</SIGNAL> - 1.28V\n<SIGNAL>TBA_VDDA</SIGNAL>/P - 5V\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> - 4.78V\n<SIGNAL>PM_EN_P3V3_G3H</SIGNAL> - 5.05V\n\nFlashed <CHIP>U2890</CHIP> but no luck.\n\nAny other idea?"
+        },
+        {
+            "post_id": 99248,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-18 07:48:13",
+            "message": "Remove F7000 and check <CAPACITOR>C7050</CAPACITOR> voltage.\nIf missing, check <SIGNAL>SMC_USBC_INT_L</SIGNAL> signal."
+        },
+        {
+            "post_id": 99256,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2023-05-18 08:34:47",
+            "message": "<CAPACITOR>C7050</CAPACITOR> - 0.06V\n<SIGNAL>SMC_USBC_INT_L</SIGNAL> - 0.005V"
+        },
+        {
+            "post_id": 99262,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-18 10:14:03",
+            "message": "There is a problem on USB-C area then.\nCheck <SIGNAL>PPBUS_G3H</SIGNAL> with both charger and battery connected.\n\nAlso check all LDOs on both <CHIP>CD3215</CHIP> chips; voltage and diode mode.\nCompare with good board, if possible."
+        },
+        {
+            "post_id": 99296,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2023-05-19 04:04:45",
+            "message": "<SIGNAL>PPBUS_G3H</SIGNAL> with charger and battery connected 11.51V (20V and 0A on charger)\n<SIGNAL>PPBUS_G3H</SIGNAL> with Battery only 11.50V\n\nLDOs on both <CHIP>CD3215</CHIP> are both the same and correct in diode mode and voltage."
+        },
+        {
+            "post_id": 99301,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-19 05:11:54",
+            "message": "Do you get 1V1 <SIGNAL>LDO_BMC</SIGNAL> on the powered port?"
+        },
+        {
+            "post_id": 99309,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2023-05-19 08:18:15",
+            "message": "Yes, got 1.1V that on powered port."
+        },
+        {
+            "post_id": 99310,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-19 08:29:09",
+            "message": "Check <RESISTOR>R5320</RESISTOR>-22..."
+        },
+        {
+            "post_id": 99346,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2023-05-20 05:49:59",
+            "message": "<RESISTOR>R5320</RESISTOR>-22 are good."
+        },
+        {
+            "post_id": 99353,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-05-20 07:07:18",
+            "message": "Try changing SMC.\nCheck first <CHIP>U5000</CHIP> (SYM 2 OF 2) signals and voltages (page 39)."
+        },
+        {
+            "post_id": 99392,
+            "thread_id": 63898,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> 5V 0.05A on charger",
+            "user_id": 73,
+            "username": "ajdoc",
+            "post_date": "2023-05-22 09:02:44",
+            "message": "Checked signals and voltage and all was OK.\n\nReplaced SMC and all works fine.\nMany many thanks for all the ideas :)"
+        }
+    ]
+}

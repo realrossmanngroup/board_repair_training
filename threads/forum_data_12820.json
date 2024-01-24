@@ -1,0 +1,59 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-2936": "What is 820-2936? a LOGIC BOARD PART NUMBER.",
+        "U9000": "What is U9000? a CHIP.",
+        "U1800": "What is U1800? a CHIP.",
+        "LCD_IG_PWR_EN": "What is LCD_IG_PWR_EN? a SIGNAL.",
+        "PPVOUT_SW_LCDBKLT": "What is PPVOUT_SW_LCDBKLT? PPVOUT_SW_LCDBKLT is the voltage rail for the backlight of the LCD screen. .",
+        "LVDS_DDC_CLK": "What is LVDS_DDC_CLK? LVDS_DDC_CLK Is the DDC clock line between the graphics processor and the screen. DDC is a protocol for identifying a screen so that you know what resolution/refresh rate it wants. This is necessary for screen detection, inductor on this data line must be good and DDC voltage must be going to the LCD screen for it to work. .",
+        "LVDS_DDC_DATA": "What is LVDS_DDC_DATA? LVDS_DDC_DATA Is the DDC data line between the graphics processor and the screen. DDC is a protocol for identifying a screen so that you know what resolution/refresh rate it wants. This is necessary for screen detection, inductor on this data line must be good and DDC voltage must be going to the LCD screen for it to work. .",
+        "PP3V3_LCDVDD_SW_F": "What is PP3V3_LCDVDD_SW_F? a SIGNAL.",
+        "PP3V3_S0_LCD_F": "What is PP3V3_S0_LCD_F? a SIGNAL.",
+        "U5805": "What is U5805? a CHIP.",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP18V5_S5": "What is PP18V5_S5? a SIGNAL.",
+        "SMBUS_SMC_A_S3_SCL": "What is SMBUS_SMC_A_S3_SCL? a SIGNAL.",
+        "PP18V5_S5_FB": "What is PP18V5_S5_FB? a SIGNAL.",
+        "LP8550": "What is LP8550? This is an LED driver responsible for creating the backlight on the LCD screen of Macbooks from 2011 through 2015.",
+        "3V3_S0": "What is 3V3_S0? Abbreviation for PP3V3_S0, a 3.3v power rail present when the machine is in an S0 working state."
+    },
+    "threads": [
+        {
+            "post_id": 12820,
+            "thread_id": 12820,
+            "title": "[SOLVED] <LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B - water damage. no image",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2017-01-13 04:22:17",
+            "message": "Corrosion all over the place (see images).\n\n[B]Symptoms[/B]\nI get a green light on the charger, machine switches on and fan starts spinning. After about 10 seconds, the fan speeds up to max RPM (heatsinks are in place)\nIf I have a stick of ram in the top slot, I get the gong to play, but no display (internal or external)\nIf I put a stick in the bottom ram slot, I get 3 beeps.\n\nI checked the LVDS connector and, with the machine running, got no voltage on all the below pins:\n\n<SIGNAL>PP3V3_LCDVDD_SW_F</SIGNAL>\n<SIGNAL>PP3V3_S0_LCD_F</SIGNAL>\n<SIGNAL>LVDS_DDC_CLK</SIGNAL>\n<SIGNAL>LVDS_DDC_DATA</SIGNAL>\n<SIGNAL>PPVOUT_SW_LCDBKLT</SIGNAL>\n<SIGNAL>PPVOUT_SW_LCDBKLT</SIGNAL>\n\nI looked at <CHIP>U9000</CHIP> and noticed <SIGNAL>LCD_IG_PWR_EN</SIGNAL> is missing also.\nResistance from <SIGNAL>LCD_IG_PWR_EN</SIGNAL> to ground is 88 kOhms\n<SIGNAL>LCD_IG_PWR_EN</SIGNAL> comes from <CHIP>U1800</CHIP>, not sure how to proceed from here."
+        },
+        {
+            "post_id": 12830,
+            "thread_id": 12820,
+            "title": "[SOLVED] <LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B - water damage. no image",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2017-01-13 04:53:05",
+            "message": "update:\n\nJust noticed that J5800 has two blackened pins; 19 and 21.\n21 has no voltage, should be <SIGNAL>PP18V5_S5</SIGNAL>.\n19 has <SIGNAL>SMBUS_SMC_A_S3_SCL</SIGNAL> = 3.3V, which I assume to be okay.\n\nI looked at <SIGNAL>PP18V5_S5</SIGNAL>, it starts at <CHIP>U5805</CHIP> as <SIGNAL>PP18V5_S5_FB</SIGNAL>\n\n<CHIP>U5805</CHIP> has nothing on pins 1, 4, 5 and 8.\nPin2 (<SIGNAL>PP5V_S5</SIGNAL>) = 5.02V\n\nreplaced <CHIP>U5805</CHIP> - no change"
+        },
+        {
+            "post_id": 12833,
+            "thread_id": 12820,
+            "title": "[SOLVED] <LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B - water damage. no image",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2017-01-13 05:22:12",
+            "message": "Obviously the LCD connector is totally fucked for a start, <CHIP>LP8550</CHIP> looks pretty sad too.\n<SIGNAL>PP3V3_S0_LCD_F</SIGNAL> should be present as it is connected straight to <SIGNAL>3V3_S0</SIGNAL> through L9008, check L9008 and traces.\nLCD cable is probably fried also if the connector looks that bad."
+        },
+        {
+            "post_id": 12842,
+            "thread_id": 12820,
+            "title": "[SOLVED] <LOGIC BOARD PART NUMBER>820-2936</LOGIC BOARD PART NUMBER>-B - water damage. no image",
+            "user_id": 612,
+            "username": "Atomrepair",
+            "post_date": "2017-01-13 08:20:04",
+            "message": "I've replaced the LVDS connector and <CHIP>LP8550</CHIP>. Tested it with a functional screen and cable, screen works!\nThe LVDS cable in the water damaged mac actually looked clean, so I decided to risk it and try it in the case it came out of, and it works too.\nRam slots are working fine too, turns out it was a bad ram stick which worked 'sometimes'.\n\nThis is only my third logic board repair (I've only done 'windows' laptops before) so I'm stoked!\nThanks, Duke!"
+        }
+    ]
+}

@@ -1,0 +1,100 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00923": "What is 820-00923? a LOGIC BOARD PART NUMBER.",
+        "R7061": "What is R7061? a RESISTOR.",
+        "R7062": "What is R7062? a RESISTOR.",
+        "U6200": "What is U6200? a CHIP.",
+        "HDA_SDOUT_R": "What is HDA_SDOUT_R? a SIGNAL.",
+        "HDA_BIT_CLK_R": "What is HDA_BIT_CLK_R? a SIGNAL.",
+        "HDA_SYNC_R": "What is HDA_SYNC_R? a SIGNAL.",
+        "HDA_RST_R_L": "What is HDA_RST_R_L? a SIGNAL.",
+        "820-3662": "What is 820-3662? a LOGIC BOARD PART NUMBER.",
+        "U6300": "What is U6300? a CHIP.",
+        "C6203": "What is C6203? a CAPACITOR.",
+        "C6301": "What is C6301? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 36197,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-06-26 11:35:59",
+            "message": "This board started working after replacing the sense resistors <RESISTOR>R7061</RESISTOR> and <RESISTOR>R7062</RESISTOR>. The only issue I'm having now is that it registers no audio device. I've scoured everything on the board I can think of. Any thoughts where to look next? I attached pre-ultrasonic cleaning pictures."
+        },
+        {
+            "post_id": 36222,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-26 19:09:09",
+            "message": "HDA data lines have resistors in them to <CHIP>U6200</CHIP>. I don't think I even have the schematic/BV for this board. Power to <CHIP>U6200</CHIP> is also suspect of course."
+        },
+        {
+            "post_id": 36230,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-06-26 21:30:58",
+            "message": "The diode measurement on the HDA lines was around .530 instead of .730. I pulled a few of the HDA resistors to isolate the cause of the lower voltage drop to ground and it ends up it's on the CPU side. Does that mean I'm done? <SIGNAL>HDA_BIT_CLK_R</SIGNAL>, <SIGNAL>HDA_SDOUT_R</SIGNAL>, <SIGNAL>HDA_SYNC_R</SIGNAL> and <SIGNAL>HDA_RST_R_L</SIGNAL> are all around .530 instead of .730 on the CPU side of the resistors."
+        },
+        {
+            "post_id": 36233,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 1601,
+            "username": "cobragfox",
+            "post_date": "2018-06-26 22:21:01",
+            "message": "Hello don't know if this will help, on a <LOGIC BOARD PART NUMBER>820-3662</LOGIC BOARD PART NUMBER>, had the same issue where it doesn't register any audio device. it ended up being the audio codec chip. You may want to try looking around that area, make sure its getting all it's power."
+        },
+        {
+            "post_id": 36265,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-06-27 16:49:34",
+            "message": ".530 seems fine to me, why do you want to see .730 there? The only thing needed are those data lines and power to the codec for the system to see the chip. If you can find all the resistors you can pull them and check if both sides have a diode mode reading confirming traces are good. I assume you checked power to the codec?"
+        },
+        {
+            "post_id": 36568,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-07-03 21:02:33",
+            "message": "I'm not really sure which chip is the codec chip but <CHIP>U6200</CHIP> and <CHIP>U6300</CHIP> have 1.8V on <CAPACITOR>C6203</CAPACITOR> and <CAPACITOR>C6301</CAPACITOR>. The reason I was looking for something closer to .730 on the CPU side of the resistors is because that's what I'm measuring on a good board."
+        },
+        {
+            "post_id": 36574,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-04 01:01:05",
+            "message": "<CHIP>U6200</CHIP> is the codec. If that one has power and all HDA lines have at least a diode mode reading on both sides of the resistor it should recognize the chip in OSX.\n\nSee if it really is no audio device in OSX or no output device."
+        },
+        {
+            "post_id": 37162,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-07-17 03:41:35",
+            "message": "In the System Report under Audio it says Devices: with nothing after it. Intel High Definition Audio has only Audio ID: 0 under it. In the Output section in Sound in System Preferences is says No output devices found. Input says No input devices found. It looks like <CHIP>U6200</CHIP> is not being recognized."
+        },
+        {
+            "post_id": 37173,
+            "thread_id": 36197,
+            "title": "<LOGIC BOARD PART NUMBER>820-00923</LOGIC BOARD PART NUMBER> No audio device. Otherwise fine.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-07-17 07:38:27",
+            "message": "Have you replaced <CHIP>U6200</CHIP> yet? If all voltages are present and HDA lines are good it must work."
+        }
+    ]
+}

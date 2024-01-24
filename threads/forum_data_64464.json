@@ -1,0 +1,132 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00840": "What is 820-00840? a LOGIC BOARD PART NUMBER.",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "R6999": "What is R6999? a RESISTOR.",
+        "CD3215": "What is CD3215? This is a USB-C muxing chip responsible for USB-C communication with devices such as the laptop charger. The most common issue this chip is involved in is when a Macbook won’t charge or the charger is stuck at 5v instead of going to 20v..",
+        "PP3V3_UPC_XB_LDO": "What is PP3V3_UPC_XB_LDO? PP3V3_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on..",
+        "PP3V3_UPC_XA_LDO": "What is PP3V3_UPC_XA_LDO? PP3V3_UPC_XA_LDO is an LDO coming out of the CD3215 USB-C muxing chip. When this is missing, either a capacitor on the line has shorted, PP3V3_G3H is missing, or the CD3215 is bad..",
+        "PP1V1_UPC_XB_LDO_BMC": "What is PP1V1_UPC_XB_LDO_BMC? PP1V1_UPC_XB_LDO is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad..",
+        "3V3_G3H": "What is 3V3_G3H? This is one of the first power rails that must turn on for Macbooks that use USB-C for charging. This power rail powers the CD3215 chip that controls the USB-C charger, speaks to the USB-C charger, and requests 20 volts up from the default 5 volts that the USB-C charger puts out when initially connected to an unknown device. ."
+    },
+    "threads": [
+        {
+            "post_id": 103809,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 53147,
+            "username": "Pavel",
+            "post_date": "2024-01-17 01:50:02",
+            "message": "Hello everybody !\n\nThe charger is stuck at 5V - 0amps.\n\n<SIGNAL>PP3V3_G3H</SIGNAL> gets dragged down to 2.26v for an unknow reason. If I remove the resistor <RESISTOR>R6999</RESISTOR>, pin 1 gives me 3.4v. Resistance in diode mode (red probe on ground) on pin 2 is 0.395 and another way (black probe on ground) is 0.822\n\nI've tried voltage injection, but it's not drawing any current. \n\nAny idea ,what's going on?"
+        },
+        {
+            "post_id": 103811,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-17 08:58:43",
+            "message": "Check diode mode to ground around <CHIP>CD3215</CHIP> chips.\nStart with their LDOs."
+        },
+        {
+            "post_id": 103812,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 53147,
+            "username": "Pavel",
+            "post_date": "2024-01-17 09:59:59",
+            "message": "Thank you for your answer!\nWhich LDOs do you mean ?"
+        },
+        {
+            "post_id": 103815,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-17 13:08:00",
+            "message": "Look at pages 29/30 in schematic.\nI'm pretty sure you will find some lines with \"LDO\" in their names..."
+        },
+        {
+            "post_id": 103820,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 53147,
+            "username": "Pavel",
+            "post_date": "2024-01-18 00:47:07",
+            "message": "Thank you! I was. So\nI don't have <SIGNAL>PP1V1_UPC_XB_LDO_BMC</SIGNAL> for both ports and strange with <SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL> and <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL>\nI have got <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> is 2.2v and <SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL> is 3.3v for one port \nAnd  <SIGNAL>PP3V3_UPC_XB_LDO</SIGNAL> is 3.3v and <SIGNAL>PP3V3_UPC_XA_LDO</SIGNAL> is 2.2v for another"
+        },
+        {
+            "post_id": 103821,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-18 01:29:11",
+            "message": "\"Check diode mode to ground...\"\nPay atention when read the posts.\n\nBTW, 1V1 LDO voltage should appear only on the powered port."
+        },
+        {
+            "post_id": 103822,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 53147,
+            "username": "Pavel",
+            "post_date": "2024-01-18 03:14:01",
+            "message": "sorry for my stooped question 🙈I have compered main lines with another board and nothing difference ....\nany idea?"
+        },
+        {
+            "post_id": 103823,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-18 04:51:43",
+            "message": "Then the low reading on <SIGNAL>3V3_G3H</SIGNAL> should be caused by other chip, not <CHIP>CD3215</CHIP>.\nThat will be more dificult to locate..."
+        },
+        {
+            "post_id": 103824,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 53147,
+            "username": "Pavel",
+            "post_date": "2024-01-18 05:21:45",
+            "message": "no idea ?"
+        },
+        {
+            "post_id": 103825,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-18 07:07:06",
+            "message": "Inject 3.5V and use thermal camera.\nMay need to wait several minutes."
+        },
+        {
+            "post_id": 103830,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 53147,
+            "username": "Pavel",
+            "post_date": "2024-01-18 08:40:46",
+            "message": "Just 11 mA if I inject 3.4v on L6995 and nothing ....\nCant see any hot in thermal camera of cause"
+        },
+        {
+            "post_id": 103831,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2024-01-18 09:22:26",
+            "message": "Did you resolder <RESISTOR>R6999</RESISTOR>???"
+        },
+        {
+            "post_id": 103836,
+            "thread_id": 64464,
+            "title": "<LOGIC BOARD PART NUMBER>820-00840</LOGIC BOARD PART NUMBER> - <SIGNAL>PP3V3_G3H</SIGNAL> at 2.26V",
+            "user_id": 53147,
+            "username": "Pavel",
+            "post_date": "2024-01-18 10:33:55",
+            "message": "I did it before, it was the same.\nNow i inject with <RESISTOR>R6999</RESISTOR>"
+        }
+    ]
+}

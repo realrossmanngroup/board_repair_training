@@ -1,0 +1,119 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V42_G3H": "What is PP3V42_G3H? PP3V42_G3H is a power rail present when the machine is in a G3H global system hardware off state and is the first rail that should be generated in Macbooks that use it. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PP5V_S0": "What is PP5V_S0? PP5V_S0 is a 5v power rail present when the system is in an S0 working state..",
+        "PP5V_S3": "What is PP5V_S3? PP5V_S3 is a 5v power rail present when the system is in an S3 suspend to RAM state..",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP5V_SUS": "What is PP5V_SUS? a SIGNAL.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PLT_RESET_L": "What is PLT_RESET_L? PLT_RESET_L is platform reset, this signal keeps the system from POSTing. _L means the signal is asserted when its voltage is low. .",
+        "PPVCCSA_S0_CPU": "What is PPVCCSA_S0_CPU? Main power rail for the CPU. If this is missing the machine will act braindead. This is NOT shorted to ground if it has a low resistance – this is a common mistake people make. A chip that requires high power at a low voltage like a CPU or GPU will have a low measured resistance to ground..",
+        "CPUIMVP_TONA": "What is CPUIMVP_TONA? a SIGNAL.",
+        "CPUIMVP_TONB": "What is CPUIMVP_TONB? a SIGNAL.",
+        "PPVCORE_S0_CPU_REG": "What is PPVCORE_S0_CPU_REG? PPVCORE_S0_CPU_REG is a single phase of CPU VCORE before it is combined into PPVCORE_S0_CPU .",
+        "PPVCORE_S0_CPU": "What is PPVCORE_S0_CPU? This is the primary power rail for the CPU that powers the CPU, known as CPU vcore. Without this, the machine will be braindead. .",
+        "PPVCORE_S0_CPU_PH1": "What is PPVCORE_S0_CPU_PH1? a SIGNAL.",
+        "PPVCORE_S0_CPU_PH2": "What is PPVCORE_S0_CPU_PH2? a SIGNAL.",
+        "PPVCORE_S0_CPU_PH1_L": "What is PPVCORE_S0_CPU_PH1_L? a SIGNAL.",
+        "PPVCORE_S0_CPU_PH2_L": "What is PPVCORE_S0_CPU_PH2_L? a SIGNAL.",
+        "R7402": "What is R7402? Resistor between PPVIN_S0_CPUIMVP and CPUIMVP_TON. TON stands for TIME ON – CPUIMVP_TON configures the buck converter for the CPU based on its input power supply. If this resistor is blown, the machine will turn on but not have any image, chime, or POST, because CPU vcore will be missing. This resistor is often the first to corrode because it is along a high voltage rail and it is right on the edge of the board, check this on 2011-2012 model Macbook Pros that turn on and do not chime. .",
+        "R7403": "What is R7403? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 69305,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 28978,
+            "username": "dhz1nn",
+            "post_date": "2020-12-18 18:41:15",
+            "message": "I have a <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B with me, it does have a green light, the fan spins on and off every 2 seconds.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> - 12.63V\n<SIGNAL>PP3V42_G3H</SIGNAL> - 3.49V\n<SIGNAL>PP5V_SUS</SIGNAL> - 5.077V (goes to 5.133 when it tries to turn on)\n<SIGNAL>PP5V_S3</SIGNAL> 0V (goes to 2.6 - 5v when it tries to turn on)\n<SIGNAL>PP5V_S5</SIGNAL> - 5.077V (goes to 5.133 when it tries to turn on)\n<SIGNAL>PP5V_S0</SIGNAL> - 0.01V (goes to 5.1 for 1 second when it tries to turn on)\n<SIGNAL>PP3V3_S5</SIGNAL> - 3.33V\n<SIGNAL>SMC_PM_G2_EN</SIGNAL> - 3.48V\n\nIt is drawing 0.017 amps from my power supply and 0.198 when it tries to turn on.\n\nNo water damage or visible damages on the board.\n\nCan someone help me solving that problem? \n\nThanks"
+        },
+        {
+            "post_id": 69314,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-19 11:42:02",
+            "message": "First of all, welcome to the forum!\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> pulsing too?\nTry to start in SMC bypass.\nAlso try the board alone on the desk; no cables connected, apart of DCIN board."
+        },
+        {
+            "post_id": 69353,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 28978,
+            "username": "dhz1nn",
+            "post_date": "2020-12-19 19:21:29",
+            "message": "Thank you for the welcome.\n\nI tried starting it in SMC bypass as well as the board alone on the desk but it did not work.\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> is pulsing 0 - 3.327V"
+        },
+        {
+            "post_id": 69354,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-20 01:55:24",
+            "message": "CPU VCORE pulses too?\nWhat about <SIGNAL>PLT_RESET_L</SIGNAL>?"
+        },
+        {
+            "post_id": 69363,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 28978,
+            "username": "dhz1nn",
+            "post_date": "2020-12-20 07:53:01",
+            "message": "<SIGNAL>PPVCCSA_S0_CPU</SIGNAL> - pulsing from 0 - 0.908v\n<SIGNAL>PLT_RESET_L</SIGNAL> - pulses from 0 to 0.131v\n<SIGNAL>CPUIMVP_TONA</SIGNAL> - 12.45v\n<SIGNAL>CPUIMVP_TONB</SIGNAL> - 12.41v"
+        },
+        {
+            "post_id": 69367,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-20 15:03:11",
+            "message": "=<SIGNAL>PPVCORE_S0_CPU_REG</SIGNAL> sounds more like VCORE power rail than  <SIGNAL>PPVCCSA_S0_CPU</SIGNAL> ."
+        },
+        {
+            "post_id": 69369,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 28978,
+            "username": "dhz1nn",
+            "post_date": "2020-12-20 15:15:40",
+            "message": "<SIGNAL>PPVCORE_S0_CPU</SIGNAL> - 0V\n<SIGNAL>PPVCORE_S0_CPU_PH1</SIGNAL>- 0V\n<SIGNAL>PPVCORE_S0_CPU_PH1_L</SIGNAL> - 0V\n<SIGNAL>PPVCORE_S0_CPU_PH2</SIGNAL> - 0V\n<SIGNAL>PPVCORE_S0_CPU_PH2_L</SIGNAL> - 0V"
+        },
+        {
+            "post_id": 69383,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-21 03:18:08",
+            "message": "One test point is morte than enough.\nDo not waste time measuring same thing in more points...\n\nCheck <RESISTOR>R7402</RESISTOR>/03."
+        },
+        {
+            "post_id": 69388,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 28978,
+            "username": "dhz1nn",
+            "post_date": "2020-12-21 07:10:50",
+            "message": "<RESISTOR>R7402</RESISTOR> - 149.4K pin 1 - 12.45V, drops to 0.619 when it tries to boot up // pin 2 - 12.64V (after around 10 seconds, it drops to 0V and goes back to 12.64)\n<RESISTOR>R7403</RESISTOR> - 181.7K pin 1 - 12.41V, drops to 6.45 when booting up // pin 2 - 12.64V (after around 10 seconds, it drops to 0V and goes back to 12.64)"
+        },
+        {
+            "post_id": 69410,
+            "thread_id": 60509,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B power loop",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-21 13:15:29",
+            "message": "Compare diode mode readings on CPU coils with good board.\nBoards stays on if RAM is removed?"
+        }
+    ]
+}

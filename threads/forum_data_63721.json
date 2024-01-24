@@ -1,0 +1,119 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "U8400": "What is U8400? a CHIP.",
+        "U8500": "What is U8500? a CHIP.",
+        "EDP_BKLT_EN": "What is EDP_BKLT_EN? This is an enable signal. Anytime you see “_EN”, it means when the voltage is high(3.3 volts), whatever it is going to is being turned on or enabled. Here, “EDP_BKLT” which stands for “embedded displayport backlight” is being enabled. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "R9827": "What is R9827? a RESISTOR.",
+        "C8504": "What is C8504? a CAPACITOR.",
+        "U5255": "What is U5255? a CHIP.",
+        "R8450": "What is R8450? a RESISTOR.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "PP5V_S0SW_LCD": "What is PP5V_S0SW_LCD? a SIGNAL.",
+        "C8509": "What is C8509? a CAPACITOR.",
+        "U9800": "What is U9800? a CHIP.",
+        "EDP_IG_BKLT_EN": "What is EDP_IG_BKLT_EN? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 97646,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-16 17:43:32",
+            "message": "I've tested this with known good screen and also different LCD cable. At first I thought simple <CHIP>U8400</CHIP> issue so replaced. No change as <SIGNAL>LCDBKLT_EN_L</SIGNAL> is not getting pulled down. SDA/SCL lines diode tests good and resistors are good.\n\nNo <SIGNAL>EDP_BKLT_EN</SIGNAL>. Discovered cap broken but still present next to <CHIP>U8500</CHIP>. Replaced it <CAPACITOR>C8504</CAPACITOR> and <CHIP>U8500</CHIP>. Getting 5V on pin 6 <CHIP>U8500</CHIP>. \n\nAlso diode of L8410 .8 with screen connected.\n\nChecked resistance <RESISTOR>R9827</RESISTOR> it is good.no signs of liquid or anything odd at SMC."
+        },
+        {
+            "post_id": 97653,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-17 02:17:55",
+            "message": "Tried PRAM and SMC reset?\n\nLid sensor problem should block image too, but is better to check <CHIP>U5255</CHIP> signals.\nAlso check <RESISTOR>R8450</RESISTOR>-53 and their traces.\nPost voltage and diode mode on SCL/SDA lines.\n\nBe sure to get 5V at pin 45 of J8500.\nUse schematic for refference.\nI don't see <CHIP>U8500</CHIP> pin 6 and <CAPACITOR>C8504</CAPACITOR> there."
+        },
+        {
+            "post_id": 97665,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-17 07:54:45",
+            "message": "Pin 6 of <CHIP>U8500</CHIP> is <SIGNAL>PP5V_S0SW_LCD</SIGNAL> also I do get 5V at J8500-45 I misread my notes the cap that was broken off solders but still next to them that i replaced =<CAPACITOR>C8509</CAPACITOR>\n\nI get 3V42 for left and right <SIGNAL>SMC_LID</SIGNAL>\n\nNeither resets helped <RESISTOR>R8450</RESISTOR>-3 all check out. Diode for SDA/SCL @<CHIP>U8400</CHIP> = .504 for both."
+        },
+        {
+            "post_id": 97672,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-17 09:41:31",
+            "message": "You may have problems with <CHIP>U9800</CHIP>, or PCH.\n<SIGNAL>EDP_IG_BKLT_EN</SIGNAL> goes high?"
+        },
+        {
+            "post_id": 97677,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-17 10:31:17",
+            "message": "No, I mentioned in original post that <SIGNAL>EDP_IG_BKLT_EN</SIGNAL> is not present."
+        },
+        {
+            "post_id": 97689,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-17 17:34:28",
+            "message": "Are you really sure???\n\"No <SIGNAL>EDP_BKLT_EN</SIGNAL>\"\nPay atention to signal names..."
+        },
+        {
+            "post_id": 97706,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-18 07:50:28",
+            "message": "Ahhh. got it thanks. Nothing there either. I checked diode is .62 there."
+        },
+        {
+            "post_id": 97723,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-18 13:32:13",
+            "message": "I swapped <CHIP>U9800</CHIP> and still image no backlight. Is this one a lost cause you think?"
+        },
+        {
+            "post_id": 97726,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-18 14:44:10",
+            "message": "Seems that <CHIP>U9800</CHIP> doesn't receive backlight enable from PCH.\nThis is strange, if you get image on its LCD.\nThere may a bad communication between PCH/SMC/<CHIP>U9800</CHIP> and T-CON."
+        },
+        {
+            "post_id": 97729,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 26621,
+            "username": "grmacs",
+            "post_date": "2023-03-18 16:32:34",
+            "message": "Is there another signal I could use to trigger backlight instead? Customer would be happy if I could get backlight working even if it changed power consumption or it stayed on when it normally wouldn't. Could I pull enable on <CHIP>U8500</CHIP> from LID or wake signal?"
+        },
+        {
+            "post_id": 97730,
+            "thread_id": 63721,
+            "title": "00928 image but no backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2023-03-18 16:46:13",
+            "message": "No way like that.\nBacklight requires more than simple enable signal.\n<CHIP>U8400</CHIP> must talk with T-CON through I2C bus; J8500 pins 24 & 26.\nPWM backlight adjust lines go from T-CON to <CHIP>U9800</CHIP> and SMC; pins 14 & 16 of J8500."
+        }
+    ]
+}

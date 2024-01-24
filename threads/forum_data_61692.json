@@ -1,0 +1,169 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3476": "What is 820-3476? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U1900": "What is U1900? a CHIP.",
+        "U8030": "What is U8030? a CHIP.",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PM_SYSRST_L": "What is PM_SYSRST_L? PM_SYSRST_L is a system reset signal present when it is low, _L means the signal asserts itself when the voltage is low. This signal needs to be high for the system to exit reset mode & turn on properly. .",
+        "P3V3S0_EN": "What is P3V3S0_EN? This signal enables the PP3V3_S0 power rail when it is high. Signals with _EN on the end enable whatever came before the _EN if the signal is high. .",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself.."
+    },
+    "threads": [
+        {
+            "post_id": 79931,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-09-09 14:13:14",
+            "message": "I am working through a missing <SIGNAL>PM_SLP_S4_L</SIGNAL> on an <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>. The board appears clean.\n\nhere are the following readings\n<SIGNAL>PPVRTC_G3H</SIGNAL> : 3.3v\n<SIGNAL>PM_SYSRST_L</SIGNAL> :1.9v LOW?\n<SIGNAL>PM_PCH_PWROK</SIGNAL>:  MISSING\n<SIGNAL>PM_RSMRST_L</SIGNAL>: 3.3v\n<SIGNAL>PM_PWRBTN_L</SIGNAL>: 3.3v\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 3.3v\n<SIGNAL>PM_BATLOW_L</SIGNAL>: 3.3v\n\nOne of the issues seems to be <SIGNAL>PM_SYSRST_L</SIGNAL> is only 1.9v. That line is powered by <SIGNAL>PP3V3_S0</SIGNAL>, which is also 1.9v.\nI am missing my <SIGNAL>P3V3S0_EN</SIGNAL> to turn on <CHIP>U8030</CHIP> which produces my needed <SIGNAL>PP3V3_S0</SIGNAL>.\nTo produce <SIGNAL>P3V3S0_EN</SIGNAL> I need <SIGNAL>PM_SLP_S3_L</SIGNAL> which is 0v. Now I am unsure where that gets produced or maybe my logic is just way off on this whole path I am following. Thanks for any help. Shane\n\nedit added later//\nI did replace <CHIP>U8030</CHIP>, along with <CHIP>U1900</CHIP>, <CHIP>U1950</CHIP>"
+        },
+        {
+            "post_id": 79932,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-09 14:58:03",
+            "message": "You cannot pursuit <SIGNAL>PM_SLP_S3_L</SIGNAL> before getting <SIGNAL>PM_SLP_S4_L</SIGNAL>.\n\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL> (at same time)."
+        },
+        {
+            "post_id": 79939,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-09-09 17:30:04",
+            "message": "[QUOTE=\"2informaticos, post: 79932, member: 682\"]\nYou cannot pursuit <SIGNAL>PM_SLP_S3_L</SIGNAL> before getting <SIGNAL>PM_SLP_S4_L</SIGNAL>.\n\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL> (at same time).\n[/QUOTE]\nThanks. I am assuming trigger must mean short to ground. Can I check for a drop pulse by just holding a voltage meter on <SIGNAL>PM_PWRBTN_L</SIGNAL>?\n\ncan I ask another question? how come I have 1.9volts on <SIGNAL>PP3V3_S0</SIGNAL>? Is that even possible without <SIGNAL>PM_SLP_S4_L</SIGNAL>?"
+        },
+        {
+            "post_id": 79941,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-09 18:05:10",
+            "message": "\"I am assuming trigger must mean short to ground.\"\nMore information available here:\n[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]\n\n\"how come I have 1.9volts on <SIGNAL>PP3V3_S0</SIGNAL>?\"\nDon't waste time with that...\n\nDo not quote an entire post, visible few centimeters above.\nWrite directly into Reply box, instead of clicking Reply button.\nPlease, mainatain forum aesthetic."
+        },
+        {
+            "post_id": 80604,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-09-25 08:21:26",
+            "message": "[QUOTE=\"2informaticos, post: 79932, member: 682\"]\nTrigger <SIGNAL>SMC_ONOFF_L</SIGNAL> and check for drop pulse at <SIGNAL>PM_PWRBTN_L</SIGNAL> (at same time).\n[/QUOTE]\nwhen I trigger  <SIGNAL>SMC_ONOFF_L</SIGNAL>  <SIGNAL>PM_PWRBTN_L</SIGNAL>  drops fromm 3.4 volts to .3volts\n\nMay I ask what this is helping us figure out?"
+        },
+        {
+            "post_id": 80606,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-25 08:24:41",
+            "message": "It means that SMC correctly sends out to PCH the power button signal.\nNow check if <SIGNAL>PM_SLP_S4_L</SIGNAL> pulses at same time."
+        },
+        {
+            "post_id": 80608,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-09-25 09:23:08",
+            "message": "[QUOTE=\"2informaticos, post: 80606, member: 682\"]\nNow check if <SIGNAL>PM_SLP_S4_L</SIGNAL> pulses at same time.\n[/QUOTE]\nwhen I trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> while checking voltage of <SIGNAL>PM_SLP_S4_L</SIGNAL> it stays at 0v. What is this checking for?"
+        },
+        {
+            "post_id": 80609,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-25 10:00:10",
+            "message": "Means that PCH doesn't properly react.\n\nCheck <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL> and the 4 RTC signals."
+        },
+        {
+            "post_id": 80776,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-09-30 11:41:07",
+            "message": "[QUOTE=\"2informaticos, post: 80609, member: 682\"]\nCheck <SIGNAL>PM_DSW_PWRGD</SIGNAL>, <SIGNAL>PCH_DSWVRMEN</SIGNAL> and the 4 RTC signals.\n[/QUOTE]\n3.4 and 3.2 for the first two. I am not sure what 4 signals you are referring to. I am guessing this  is to do with <CHIP>U1900</CHIP> (I did swap it prior).\n\nI am getting 32.7khz on pin 12 of <CHIP>U1900</CHIP>"
+        },
+        {
+            "post_id": 80782,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-09-30 16:32:39",
+            "message": "\"I am not sure what 4 signals you are referring to\"\nRead this...\n[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]"
+        },
+        {
+            "post_id": 80822,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-10-01 06:46:13",
+            "message": "[QUOTE=\"2informaticos, post: 80782, member: 682\"]\n[URL unfurl=\"true\"]https://boards.rossmanngroup.com/threads/how-to-collection.60974/[/URL]\n[/QUOTE]\n\nif we have 32.7khz, does that assume we have all of those signals? asking to learn, not argue :-)"
+        },
+        {
+            "post_id": 80823,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-10-01 06:55:44",
+            "message": "[QUOTE=\"2informaticos, post: 80609, member: 682\"]\nthe 4 RTC signals.\n[/QUOTE]\njust curious, if we have 32.7 khz, does the imply we have all of these signals? Asking to try and understand"
+        },
+        {
+            "post_id": 80826,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-01 07:10:52",
+            "message": "NO!\nDidn't read that thread yet???"
+        },
+        {
+            "post_id": 80923,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-10-04 08:37:27",
+            "message": "[QUOTE=\"2informaticos, post: 80826, member: 682\"]\nNO!\nDidn't read that thread yet???\n[/QUOTE]\nI will read it more carefully"
+        },
+        {
+            "post_id": 80924,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 2107,
+            "username": "shanenin",
+            "post_date": "2021-10-04 08:39:26",
+            "message": "[QUOTE=\"2informaticos, post: 80826, member: 682\"]\nDidn't read that thread yet???\n[/QUOTE]\nI did , but maybe read it wrong"
+        },
+        {
+            "post_id": 80934,
+            "thread_id": 61692,
+            "title": "missing <SIGNAL>PM_SLP_S4_L</SIGNAL> <LOGIC BOARD PART NUMBER>820-3476</LOGIC BOARD PART NUMBER>",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-10-04 09:54:54",
+            "message": "RTC clock (32KHz) is provided externally to PCH.\nIt has internal RTC clock generator, but Apple doesn't use it..."
+        }
+    ]
+}

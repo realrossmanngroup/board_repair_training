@@ -1,0 +1,78 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "A1278": "What is A1278? A1278 is a model number for a 13 inch size MacBook or Macbook Pro Unibody from years Late 2008, Mid 2009, Mid 2010, Early 2011, Late 2011, Mid 2012 with EMC 2254, that may contain one of these boards depending on the year & configuration: 820-2327, 820-2530, 820-2879, 820-2936, 820-3115..",
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_BATLOW_L": "What is SMC_BATLOW_L? SMC_BATLOW_L refers to a power management signal that indicates a low battery condition. The \"_L\" suffix suggests that this is an active-low signal, meaning that it becomes low when the battery reaches a low voltage threshold..",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R5281": "What is R5281? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SCL which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "R5014": "What is R5014? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 7021,
+            "thread_id": 7021,
+            "title": "[SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery",
+            "user_id": 383,
+            "username": "roy.ruan",
+            "post_date": "2016-09-21 06:20:16",
+            "message": "[PLAIN][SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery[/PLAIN]\n\nHi guys,\nI have a liquid spilled <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> board. the area around SMC got some spills, not severe though. ultrasonic cleaned then replace the cracking looking components.\nMachine can power on now and everything runs.\n\nHere is the probelm:\nThe machine only power on with charger is plugged in, it can't turn on when charger is disconnected. with battery fully charge and connected, when you try to turn on,it will be quarter fan spin.\nthe system can detect the battery and charges it.<RESISTOR>R5280</RESISTOR> ,<RESISTOR>R5281</RESISTOR> both have 3.3v on 2 pins of theirs.\nRan ADT got one error:4SNS/1/40000000:VC0C-3.196\nDid some research and say's it's CPU voltage sensor.\n\nnot sure if the CPU is related so I just point my finger to other signals. I checked <SIGNAL>SMC_BATLOW_L</SIGNAL>, when only battery plugged in, <SIGNAL>SMC_BATLOW_L</SIGNAL> is 0,so <SIGNAL>PM_BATLOW_L</SIGNAL> is 0 too.<SIGNAL>SMC_BATLOW_L</SIGNAL> comes from the SMC. and that means the SMC is bad? (I did a reflow on it but no change)\nwhen I press power button, both of the signal jumps to 3.3v then back to 0 along with the quarter fan\n\nmy thought is just kind of massive now and dont know where to go.any advice would be appreciaited!"
+        },
+        {
+            "post_id": 7024,
+            "thread_id": 7021,
+            "title": "[SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery",
+            "user_id": 1,
+            "username": "larossmann",
+            "post_date": "2016-09-21 09:16:33",
+            "message": "My vote is on SMC, I would still check resistance on pins 17/18 of <CHIP>U7000</CHIP> with no power just to see - should be 2-3.3 ohms on the meter just to make sure, but then go to SMC."
+        },
+        {
+            "post_id": 7025,
+            "thread_id": 7021,
+            "title": "[SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery",
+            "user_id": 383,
+            "username": "roy.ruan",
+            "post_date": "2016-09-21 09:34:33",
+            "message": "check 17 18 of 7000,unfortunately,they are all good. damn, it's the POS SMC again, really a nightmare.\nthe thing is that all these SMC takes long time to replace and have no clues if the replacement IC is good until the whole process. 5 out of 10 of the donor boards won't work....that gotta be hours of works..\n\nis there any way we can modify the circuit and \"lie\" to the PCH and let it think there is battery plugged in? let's say jump a 3.3v from s5 rail to <SIGNAL>PM_BATLOW_L</SIGNAL>? so the PCH thinks it has battery plugged in?\nthen cut off the original <SIGNAL>SMC_BATLOW_L</SIGNAL> to <SIGNAL>PM_BATLOW_L</SIGNAL> trace?"
+        },
+        {
+            "post_id": 7026,
+            "thread_id": 7021,
+            "title": "[SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery",
+            "user_id": 383,
+            "username": "roy.ruan",
+            "post_date": "2016-09-21 09:35:22",
+            "message": "since i know all other functions of the SMC is good,it's just this signal is not outputting and make the whole thing not able to turn on"
+        },
+        {
+            "post_id": 7028,
+            "thread_id": 7021,
+            "title": "[SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery",
+            "user_id": 383,
+            "username": "roy.ruan",
+            "post_date": "2016-09-21 09:37:58",
+            "message": "where do you guys get the SMC btw?any good sources? hate getting those donor boards and don't know if they were already having bad SMC when arrived."
+        },
+        {
+            "post_id": 7036,
+            "thread_id": 7021,
+            "title": "[SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2016-09-21 09:55:17",
+            "message": "First check voltage on <RESISTOR>R5014</RESISTOR> should be 3.4V.\nIf that is ok I would first reflow the SMC there is probably just crap under it. Flux and not too much heat, do NOT melt the solder!"
+        },
+        {
+            "post_id": 7105,
+            "thread_id": 7021,
+            "title": "[SOLVED]<MACBOOK MODEL NUMBER>A1278</MACBOOK MODEL NUMBER> 2012 <LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER> only runs with charger plugged in ,quarter fan spins with battery",
+            "user_id": 383,
+            "username": "roy.ruan",
+            "post_date": "2016-09-22 07:53:52",
+            "message": "solved! reballed 2 SMC from dead boards..finally got it to work!! thanks guys"
+        }
+    ]
+}

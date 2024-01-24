@@ -1,0 +1,88 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-01598": "What is 820-01598? a LOGIC BOARD PART NUMBER.",
+        "U8400": "What is U8400? a CHIP.",
+        "BKLT_EN_R": "What is BKLT_EN_R? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKL” before “_EN”. “BKL” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. The “_R” suffix means that the signal is asserted when it is high, as in 3.3v, which is the opposite of the “_L”  suffix.",
+        "LCDBKLT_EN_L": "What is LCDBKLT_EN_L? This signal enables the backlight when it is low.  _L means the signal asserts itself when the voltage is low. This signal needs to be low to enable backlight. .",
+        "C8469": "What is C8469? a CAPACITOR.",
+        "Q8400": "What is Q8400? a TRANSISTOR.",
+        "BKLT_SD": "What is BKLT_SD? BKLT_SD is a pin of the LED driver that goes to the voltage divider that feeds the gate of the transistor that sits between PPBUS_G3H and the backlight circuit. The LED driver will short this pin to ground when backlight circuit is ready to turn on. Prerequisites are 1) it is told to turn on via enable signal, the screen has communicated with the LED driver 2) current sensing circuit is working 3) does not detect an over-current situation such as the backlight power rail being shorted to ground.",
+        "I2C_BKLT": "What is I2C_BKLT? I2C_BKLT is a data line between the LCD screen and the LED driver. This data line cannot short to ground. If it does, the screen cannot talk to the LED driver, and the LED driver will not allow the circuit to produce a backlight..",
+        "R8450": "What is R8450? a RESISTOR.",
+        "R8452": "What is R8452? a RESISTOR.",
+        "R8453": "What is R8453? a RESISTOR.",
+        "R8451": "What is R8451? a RESISTOR.",
+        "820-00875": "What is 820-00875? a LOGIC BOARD PART NUMBER.",
+        "SMC_LID_LEFT": "What is SMC_LID_LEFT? SMC_LID_LEFT is a signal that tells the system if the lid is closed from the left LID sensor. If it is low, the system thinks the lid is closed – if it is 3.3v, the system thinks the machine is open. SMC_LID_LEFT needs to be high for the machine to stay awake and have a backlight. .",
+        "PPVIN_S0SW_LCDBKLT": "What is PPVIN_S0SW_LCDBKLT? PPVIN_S0SW_LCDBKLT is PPBUS_G3H backlight voltage entering the backlight boost circuit once the transistor has been told to allow it through. .",
+        "PPVIN_S0SW_LCDBKLT_R": "What is PPVIN_S0SW_LCDBKLT_R? a SIGNAL.",
+        "LID_OPEN_LEFT": "What is LID_OPEN_LEFT? a SIGNAL.",
+        "R8402": "What is R8402? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 68641,
+            "thread_id": 60426,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> liquid damage no screen backlight",
+            "user_id": 27536,
+            "username": "wgaca",
+            "post_date": "2020-12-02 00:55:08",
+            "message": "Hello,\nThis originally had liquid damage on and around the lvds backlight capacitors (<CAPACITOR>C8469</CAPACITOR>..)\nI first cleaned the board, it was dead prior, after cleaning it was turning on but no backlight.\nI replaced the bad looking capacitors and it showed backlight. I cleaned the board again to remove the flux but after cleaning it was back to no backlight.\n\nThere is no short on PPVOUT and i couldn't find broken traces.\n\n<TRANSISTOR>Q8400</TRANSISTOR> \nPin3 - 12.59V\nPin4 - 12.49V\nRest - 0V\n\n<SIGNAL>BKLT_EN_R</SIGNAL> - 3.3V\n\nAm I understanding correctly that <CHIP>U8400</CHIP> has to pull down <SIGNAL>LCDBKLT_EN_L</SIGNAL> in order to turn on the backlight? And if so why it doesn't?\n\nThere was no damage on <CHIP>U8400</CHIP> originally."
+        },
+        {
+            "post_id": 68646,
+            "thread_id": 60426,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> liquid damage no screen backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-02 03:54:15",
+            "message": "<CHIP>U8400</CHIP> must pull down <SIGNAL>BKLT_SD</SIGNAL>, to enable <TRANSISTOR>Q8400</TRANSISTOR>.\nIt receives <SIGNAL>BKLT_EN_R</SIGNAL>, but backlight level is adjusted through <SIGNAL>I2C_BKLT</SIGNAL> bus.\nCheck <RESISTOR>R8450</RESISTOR>-53 and their traces.\nAlso post voltage and diode mode at SCL/SDA lines.\nDo you get image now, only missing backlight?"
+        },
+        {
+            "post_id": 68656,
+            "thread_id": 60426,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> liquid damage no screen backlight",
+            "user_id": 27536,
+            "username": "wgaca",
+            "post_date": "2020-12-02 05:17:40",
+            "message": "Edit: Added <RESISTOR>R8451</RESISTOR>-2 diode mode measurements\nEdit2: I managed to log in and increase the brightness, it was at max and there is no difference when being moved around\n\n<RESISTOR>R8450</RESISTOR> - 0L\n<RESISTOR>R8453</RESISTOR> - 0L\n<RESISTOR>R8451</RESISTOR> - 0L\n<RESISTOR>R8452</RESISTOR> - 0L\n\n<RESISTOR>R8450</RESISTOR> - 4.5V\n<RESISTOR>R8451</RESISTOR> - 4.55V\n<RESISTOR>R8452</RESISTOR> - 4.5V\n<RESISTOR>R8453</RESISTOR> - 4.55V\n\n<SIGNAL>BKLT_EN_R</SIGNAL> - 3.3V\n\nThe traces are not broken to the lvds connector.\nI have image with no backlight only.\n\nI was thinking to try and type the password and increase the brightness to see what will happen but after 10 minutes i gave up, the screen is way too dark for that."
+        },
+        {
+            "post_id": 68692,
+            "thread_id": 60426,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> liquid damage no screen backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-02 16:08:20",
+            "message": "You cannot get OL reading on diode mode.\nRecheck with red probe at ground!!!\n\nCheck all traces, solders and components in backlight area.\nSomething is still affected by corrosion."
+        },
+        {
+            "post_id": 68704,
+            "thread_id": 60426,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> liquid damage no screen backlight",
+            "user_id": 27536,
+            "username": "wgaca",
+            "post_date": "2020-12-03 02:49:36",
+            "message": "the reading is indeed 0L on all 4 resistors measured with red probe to ground.\nThe lines are uninterrupted to the lvds connector\n\nCan this be <CHIP>U8400</CHIP>'s fault? If so can I use one fro <LOGIC BOARD PART NUMBER>820-00875</LOGIC BOARD PART NUMBER> to replace it?"
+        },
+        {
+            "post_id": 68707,
+            "thread_id": 60426,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> liquid damage no screen backlight",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-03 02:58:20",
+            "message": "<CHIP>U8400</CHIP> doesn't have board dependant firmware, you can replace it."
+        },
+        {
+            "post_id": 68709,
+            "thread_id": 60426,
+            "title": "<LOGIC BOARD PART NUMBER>820-01598</LOGIC BOARD PART NUMBER> liquid damage no screen backlight",
+            "user_id": 27536,
+            "username": "wgaca",
+            "post_date": "2020-12-03 03:24:05",
+            "message": "I removed <CHIP>U8400</CHIP> and measured with the chip off, still 0L. Replaced it and no difference.\nI checked <SIGNAL>SMC_LID_LEFT</SIGNAL> and RIGHT both at 1.8V\n<SIGNAL>LID_OPEN_LEFT</SIGNAL> is 1.8 and right sits at 0.5 when not connected to the audio flex and 1.8V when connected.\n\n<SIGNAL>BKLT_EN_R</SIGNAL> is still at 3.3V\n<SIGNAL>LCDBKLT_EN_L</SIGNAL> is at 12.05 (0.4V lower than what it was before)\n<SIGNAL>PPVIN_S0SW_LCDBKLT_R</SIGNAL> - 12.59V\n<SIGNAL>PPVIN_S0SW_LCDBKLT</SIGNAL> - measures around 3V and 0L to ground (in resistance mode measurement it will start a 1M and increase infinitely)\n\nTested with another screen, no backlight.\n\nLooks like it's trying to activate <SIGNAL>PPVIN_S0SW_LCDBKLT</SIGNAL> but something fails?\n\n\nEDIT: Fixed\n\nI should have spent more time checking on what you told me. It turned out that the <SIGNAL>BKLT_SD</SIGNAL> trace was partly broken. I have no idea how it measured good when I first checked for continuity but the probe point on <RESISTOR>R8402</RESISTOR> turned out to be corroded. Honestly, it was nearly invisible and when I scraped the coating it was still connected.. \nI've reconnected the probe point to the trace leading to <RESISTOR>R8402</RESISTOR> and it works.\n\nThanks for the help!"
+        }
+    ]
+}

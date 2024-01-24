@@ -1,0 +1,95 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3787": "What is 820-3787? a LOGIC BOARD PART NUMBER.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "SMC_TCK": "What is SMC_TCK? SMC_TCK is a signal that must be pulled up to 3.42v in order for the SMC to be in the proper mode to function. Often this is not pulled up because of corrosion or corroded resistors by the SMC. .",
+        "SPI_MLB_CS_L": "What is SPI_MLB_CS_L? a SIGNAL.",
+        "SPIROM_HOLD_L": "What is SPIROM_HOLD_L? a SIGNAL.",
+        "SPIROM_WP_L": "What is SPIROM_WP_L? a SIGNAL.",
+        "MEM_RESET_L": "What is MEM_RESET_L? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 75411,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2021-05-13 19:10:00",
+            "message": "This is starting to puzzle me. All power rails are present and the machine is turning on. Signs of liquid damage however extremely minimal and have nothing to do with any critical components. \n\nFans spin, all main power rails are normal, I get USB light however no activity, and I get a Thunderbolt to HDMI signal output, that outputs a display signal, but its blank, black screen. CPU gets warm, but like a normal warm, same with GPU. Fans spin from normal then to max.\n\nI started measuring <CHIP>U6100</CHIP>, as most likely this was the culprit. I noticed <SIGNAL>SPIROM_HOLD_L</SIGNAL>, <SIGNAL>SPI_MLB_CS_L</SIGNAL>, and <SIGNAL>SPIROM_WP_L</SIGNAL>, are all 3.3V SPI MOSI and CLK are both 0V, and MISO is at 1.7V, but also goes to 3.3V after a little bit.\n\nIve looked this up, and theres only 1 post about an issue like this, and they mentioned <SIGNAL>SMC_TCK</SIGNAL>, TDI, TDO, and TMS all being 3.3V, which is the case here as well.\n\nI removed <CHIP>U6100</CHIP> just to see what would happen and all _L voltages are still 3.3V, however and CLK, and MOSI are still 0V, but MISO is a solid 3.3V.\n\nIm just really confused at this point"
+        },
+        {
+            "post_id": 75412,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2021-05-13 19:41:54",
+            "message": "Edit: Removed <CHIP>U6100</CHIP>, diode mode readings are below.\n\npin 1 - 0.525\npin 2 - 0.503\npin 3 - 1.711\npin 4 - 0.000\npin 5 - 0.574\npin 6 - 0.575\npin 7 - 0.590\npin 8 - 0.422"
+        },
+        {
+            "post_id": 75416,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-14 02:34:42",
+            "message": "Do not expect 3.3V on all data lines of SPI chip; that will be very bad.\nThe pull-up resistors are embedded into PCH.\nWhen PCH accesses the BIOS, MOSI/MISO lines will drop down to almost 0V (in DC mode).\nThe activity could be checked with o-scope (in AC mode).\n\nYou probably have bad GPU; heat it for test.\nTry known good BIOS, just in case."
+        },
+        {
+            "post_id": 75444,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 20634,
+            "username": "StraightToThePoint",
+            "post_date": "2021-05-14 13:02:53",
+            "message": "[QUOTE=\"2informaticos, post: 75416, member: 682\"]\nDo not expect 3.3V on all data lines of SPI chip; that will be very bad.\nThe pull-up resistors are embedded into PCH.\nWhen PCH accesses the BIOS, MOSI/MISO lines will drop down to almost 0V (in DC mode).\nThe activity could be checked with o-scope (in AC mode).\n\nYou probably have bad GPU; heat it for test.\nTry known good BIOS, just in case.\n[/QUOTE]\nNope, just my stipulation haha, you were right it was the BIOS. Reflashed with New ME, PRAM reset and walla, working perfectly. Thanks!"
+        },
+        {
+            "post_id": 75448,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-05-14 13:21:48",
+            "message": "Thanks for feedback.\n\nBTW, do not quote an entire post, visible few centimeters above."
+        },
+        {
+            "post_id": 83491,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 2046,
+            "username": "Tara Laptops",
+            "post_date": "2021-12-08 03:05:52",
+            "message": "I have <LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER>-A. When switched ON , there is no display , no light , but continous ram beeps. \nAll voltages are normal . Ram voltage is also present. There are 32 rams. \n<SIGNAL>MEM_RESET_L</SIGNAL> voltage is 1.34v.Now what to test? And how to confirm which ram is bad."
+        },
+        {
+            "post_id": 85141,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 33082,
+            "username": "Baltaszar",
+            "post_date": "2022-01-17 13:56:48",
+            "message": "[QUOTE=\"2informaticos, post: 75416, member: 682\"]\nDo not expect 3.3V on all data lines of SPI chip; that will be very bad.\n[/QUOTE]\nsorry to interrupt.. why is that? i dont understand. Thanks in advance\n\n[QUOTE=\"2informaticos, post: 75416, member: 682\"]\nThe activity could be checked with o-scope (in AC mode).\n[/QUOTE]\nwhats the differences with DC mode? why in DC mode maybe not gonna work?..."
+        },
+        {
+            "post_id": 85149,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2022-01-17 14:54:13",
+            "message": "Please open threads with specific board repairs.\nIf you are interested in personal training, contact Rossmann staff."
+        },
+        {
+            "post_id": 85157,
+            "thread_id": 61189,
+            "title": "<LOGIC BOARD PART NUMBER>820-3787</LOGIC BOARD PART NUMBER> No brain?",
+            "user_id": 33082,
+            "username": "Baltaszar",
+            "post_date": "2022-01-17 15:36:53",
+            "message": "Was just curiosity but now im interested in training.. are you staff? XD"
+        }
+    ]
+}

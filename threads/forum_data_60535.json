@@ -1,0 +1,291 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00281": "What is 820-00281? a LOGIC BOARD PART NUMBER.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP3V3_G3H": "What is PP3V3_G3H? PP3V3_G3H is a 3.3v power line that is present when the machine is in a Global System Hardware Off state, and should come on before most other rails so that the USB-C circuitry can be powered for the charger.",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "SMC_BC_ACOK": "What is SMC_BC_ACOK? This is identical to CHGR_ACOK. This will come out of the ISL6258 or ISL6259 charging chip when CHGR_ACIN & CHGR_DCIN are present, and is necessary for the onewire circuit to begin working. On most Macbooks, CHGR_ACOK needs to be present in order for PP3V42_G3H to flow to the onewire circuit so that the circuitry that allows the charger to communicate with the SMC will turn on.  .",
+        "PPDCIN_G3H_CHGR": "What is PPDCIN_G3H_CHGR? This is the input that comes from the charger..",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "PM_EN_P3V3_G3H": "What is PM_EN_P3V3_G3H? PM_EN_P3V3_G3H is a signal that enables the PP3V3_G3H rail to turn on. This comes out of ISL9239 or ISL9240 chip; when missing, often is missing because of a bad ISL9239 or ISL9240 chip. .",
+        "TBA_VDDA": "What is TBA_VDDA? a SIGNAL.",
+        "TBA_AUX_DET": "What is TBA_AUX_DET? a SIGNAL.",
+        "TBA_VDDP": "What is TBA_VDDP? a SIGNAL.",
+        "HPWR_EN_L": "What is HPWR_EN_L? a SIGNAL.",
+        "TBA_GATE_Q1": "What is TBA_GATE_Q1? a SIGNAL.",
+        "TBA_GATE_Q4": "What is TBA_GATE_Q4? a SIGNAL.",
+        "TBA_GATE_Q2": "What is TBA_GATE_Q2? a SIGNAL.",
+        "TBA_GATE_Q3": "What is TBA_GATE_Q3? a SIGNAL.",
+        "Q7030": "What is Q7030? a TRANSISTOR.",
+        "Q7040": "What is Q7040? a TRANSISTOR.",
+        "C7030": "What is C7030? a CAPACITOR.",
+        "ISL9239": "What is ISL9239? This is a charging chip for Macbook motherboards from 2016-2018 responsible for charging the battery and creating the power rail PPBUS_G3H.",
+        "R7060": "What is R7060? a RESISTOR.",
+        "PPDCIN_G3H": "What is PPDCIN_G3H? PPDCIN_G3H Is a power rail that comes directly from the laptop charger..",
+        "TBA_LX2": "What is TBA_LX2? a SIGNAL.",
+        "TBA_LX1": "What is TBA_LX1? a SIGNAL.",
+        "TBA_BOOT1": "What is TBA_BOOT1? a SIGNAL.",
+        "TBA_BOOT2": "What is TBA_BOOT2? a SIGNAL.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "SMC_USBC_INT_L": "What is SMC_USBC_INT_L? a SIGNAL.",
+        "R3038": "What is R3038? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 69512,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-24 12:01:15",
+            "message": "Hello. I got an <LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> that is liquid damaged and has low PPBUS voltage. Every liquid damage indicator on the board is red, but only found corrosion around the backlight circuit and left speaker circuit. Board is using 20v 0.03v when I connect to just the charger. PPBUS starts at 0v when the charger is first connected and then after maybe 30 seconds or so, it starts at about 0.2v and slowly works its way up to around 0.77v and then stays like that steady. I took some measurements and figured it was a <CHIP>U7000</CHIP> issue so I replaced it, but still have the same issue. Took another look over the board an noticed small amount or corrosion on pin 12 of <TRANSISTOR>Q7040</TRANSISTOR>. I replaced both <TRANSISTOR>Q7040</TRANSISTOR> and <TRANSISTOR>Q7030</TRANSISTOR>, but still same issue. PPBUS is not shorted to ground either (0.383 @ F7000 in diode mode). Not sure where to look next.\n\n<SIGNAL>PPBUS_G3H</SIGNAL> - 0.77\n<SIGNAL>PP3V3_G3H</SIGNAL> - 3.4\n<SIGNAL>TBA_GATE_Q1</SIGNAL> - 0\n<SIGNAL>TBA_GATE_Q2</SIGNAL> - 0\n<SIGNAL>TBA_GATE_Q3</SIGNAL> - 0\n<SIGNAL>TBA_GATE_Q4</SIGNAL> - 0\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> - 19.8\n<SIGNAL>TBA_AUX_DET</SIGNAL> - 5.07\n<SIGNAL>HPWR_EN_L</SIGNAL> - 3.36\n<SIGNAL>SMC_RESET_L</SIGNAL> - 3.4\n<SIGNAL>TBA_VDDA</SIGNAL> - 5.07\n<SIGNAL>TBA_VDDP</SIGNAL> - 5.07\n<SIGNAL>PM_EN_P3V3_G3H</SIGNAL> - 5.08\n<SIGNAL>PPDCIN_G3H_CHGR</SIGNAL> - 19.8\n<SIGNAL>SMC_BC_ACOK</SIGNAL> - 3.4\n<SIGNAL>CHGR_AMON</SIGNAL> - 0\n<SIGNAL>CHGR_BMON</SIGNAL> - 0"
+        },
+        {
+            "post_id": 69513,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-24 12:16:03",
+            "message": "Be sure R/<CAPACITOR>C7030</CAPACITOR>/40 are all good, as their traces too."
+        },
+        {
+            "post_id": 69517,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-24 14:21:56",
+            "message": "They all appear to be good"
+        },
+        {
+            "post_id": 69518,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-24 15:23:42",
+            "message": "Try another <CHIP>ISL9239</CHIP>.\nBe sure to get good solders.\nOnce removed, check continuity to <TRANSISTOR>Q7030</TRANSISTOR>/40 for all traces.\nAlso try replacing L7030 and <CAPACITOR>C7030</CAPACITOR>/40."
+        },
+        {
+            "post_id": 69526,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-25 21:11:00",
+            "message": "Replaced the ISL again, and also replaced <CAPACITOR>C7030</CAPACITOR>/40 and L7030 at the same time, but still have the same issue. I checked continuity to <TRANSISTOR>Q7030</TRANSISTOR>/40 with <CHIP>U7000</CHIP> removed and did not find any broken traces. I also compared diode mode values around <CHIP>U7000</CHIP> with another board, and did not find anything out of the ordinary. Any idea what I should check next?"
+        },
+        {
+            "post_id": 69527,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-26 00:08:34",
+            "message": "Remove F7000/1 and check voltage at <RESISTOR>R7060</RESISTOR>."
+        },
+        {
+            "post_id": 69529,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-26 08:58:39",
+            "message": "I removed F7000/1 and checked voltage at <RESISTOR>R7060</RESISTOR> but all pins are 0v. Pin 2 of F7000/1 still shows .7v"
+        },
+        {
+            "post_id": 69535,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-26 13:01:45",
+            "message": "Resolder both fuses.\nPost diode mode at F7000 in both directions to ground."
+        },
+        {
+            "post_id": 69538,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-26 17:48:47",
+            "message": "Red probe to ground:\nF7000 - 0.408\n\nBlack probe to ground:\nF7000 - starts at like 0.600 and quickly goes up until the meter reads OL."
+        },
+        {
+            "post_id": 69550,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-27 03:44:58",
+            "message": "Check diode mode and voltage on SCL/SDA lines."
+        },
+        {
+            "post_id": 69597,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-27 15:21:04",
+            "message": "Diode mode is 0.389 for both the SCL and SDA lines. Both lines have 3.27v, but they both pulse down to 2.7v over and over again. Maybe bad SMC or PMIC?"
+        },
+        {
+            "post_id": 69603,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-28 02:36:04",
+            "message": "Looks like I2C bus works, if you get pulse there.\nAn o-scope can confirm better.\n\nI recommend you to get <CHIP>U7000</CHIP> chip from scrap board, or new one from another batch."
+        },
+        {
+            "post_id": 69616,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-28 07:17:09",
+            "message": "I have tried 3 ISL chips already. One brand new, one from a broken donor board, and one from a donor with dead CPU, but working PPBUS circuit. All of them give me .7v PPBUS with the charger. I put the board in another top case with a battery and with battery connected, I get 11.3v on PPBUS and the board turns on, and shows low battery symbol on the screen."
+        },
+        {
+            "post_id": 69619,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-28 09:08:57",
+            "message": "With a fully charged battery connected, the board boots and works fine. If I connect a charger to it though, it says its charging, but the meter says 20v 0.02a so its not charging the battery. Board will not turn on with only charger connected."
+        },
+        {
+            "post_id": 69623,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-28 11:00:16",
+            "message": "Does the board turn on in SMC bypass mode?"
+        },
+        {
+            "post_id": 69630,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-28 13:25:16",
+            "message": "No it does not seem to turn on in SMC bypass mode."
+        },
+        {
+            "post_id": 69637,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-28 21:26:33",
+            "message": "I just tried replacing <CHIP>U7000</CHIP>, <TRANSISTOR>Q7030</TRANSISTOR>, <TRANSISTOR>Q7040</TRANSISTOR> and all the resistors and capacitors around <CHIP>U7000</CHIP> and PPBUS is still .7v with the charger. I have no idea what to try next, but this board is really getting on my nerves."
+        },
+        {
+            "post_id": 69639,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-29 02:48:40",
+            "message": "As the board works with battery alone, the problem must be on the input side.\nReplace all small resistors and caps around <CHIP>U7000</CHIP>."
+        },
+        {
+            "post_id": 69670,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-29 18:22:53",
+            "message": "Well I replaced everything around <CHIP>U7000</CHIP> and <CHIP>U7000</CHIP> itself again, and still have the same issue. I tested continuity to all of the pads of <CHIP>U7000</CHIP> when I had it removed and did not find any broken traces. Can't find any broken traces between <CHIP>U7000</CHIP> and <TRANSISTOR>Q7030</TRANSISTOR>/40. Out of desperation I changed the SMC also, but still same issue. I have no idea what could be wrong with this one, and its driving me nuts."
+        },
+        {
+            "post_id": 69696,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-30 08:07:31",
+            "message": "When connected to a battery and a charger, the amp meter always stays at 20ma, even when the board is fully on a booted into MacOS. The battery Icon in MacOS shows this battery is at 100%, but it says its not charging in system info. I checked in HWmonitor and that shows the battery percentage as 98%. I left it running for about 20 minutes and macOS still shows the battery at 100% but HWmonitor now says 91%. So it is not correctly showing me how many amps the board is using and also always thinks the battery is fully charged, even when its not. Should I be looking for issues on <SIGNAL>PPDCIN_G3H</SIGNAL>?"
+        },
+        {
+            "post_id": 69697,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-30 08:47:45",
+            "message": "USB meter shows 20mA because board runs on battery only.\nLooks like HWMonitor follows the percentage correctly.\nStrange to see wrong value reported by SMC, as HWMonitor reads the sensors through SMC.\nTry changing SMC..."
+        },
+        {
+            "post_id": 69701,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2020-12-30 08:59:16",
+            "message": "I left it running a little longer and now macOS reports the battery at 84% but hwmonitor says 80%. It did stay at 100% for a long time though for some reason. I will check the SMC again later. Anything else besides <CHIP>U7000</CHIP> that could cause this issue?"
+        },
+        {
+            "post_id": 70047,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2021-01-08 18:59:57",
+            "message": "Well I am still struggling with this one. I have replaced almost every component on page 64 on the schematic, including <CHIP>U7000</CHIP> and <TRANSISTOR>Q7030</TRANSISTOR>/40 multiple times with the same results. I checked all the traces for each connection and they are fine. I even compared diode mode values on all the pads for <CHIP>U7000</CHIP> with another board and they all match.\n\nI get 19.8v on all pins of <RESISTOR>R7020</RESISTOR> and on D1 for <TRANSISTOR>Q7030</TRANSISTOR>. I get 4.8v on <SIGNAL>TBA_BOOT1</SIGNAL> and <SIGNAL>TBA_BOOT2</SIGNAL> and on a good board I get about 17v on these rails. I also have only 4.4mv on <SIGNAL>TBA_LX1</SIGNAL> and <SIGNAL>TBA_LX2</SIGNAL>, but diode mode to ground on these rails match my good board. LX1 and LX2 should be 12.6v according to my good board, which is what PPBUS should be, but I still have .7v on PPBUS. Does LX1 and LX2 come from <CHIP>U7000</CHIP> or from <TRANSISTOR>Q7030</TRANSISTOR>/40, and what causes BOOT1 and BOOT2 to boost to 17v?"
+        },
+        {
+            "post_id": 70054,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-09 00:48:08",
+            "message": "No idea, if you already changed all surrounding resistors and caps from the page 64.\nR/<CAPACITOR>C7030</CAPACITOR>/40, as <TRANSISTOR>Q7030</TRANSISTOR>/40 and L7030 are the most important there.\nCompare signals level with good board."
+        },
+        {
+            "post_id": 70088,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 7922,
+            "username": "tcampbell34",
+            "post_date": "2021-01-10 17:25:42",
+            "message": "I finally fixed this annoying board! It was a blown <RESISTOR>R3038</RESISTOR> that was causing the issue. <SIGNAL>SMC_USBC_INT_L</SIGNAL> was 0v, which is how I found the blown resistor. Replaced that, and now the board boots from the charger and charges the battery."
+        },
+        {
+            "post_id": 70091,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-11 01:42:49",
+            "message": "Thanks for feedback.\nThis can help us in the future...."
+        },
+        {
+            "post_id": 83094,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 26418,
+            "username": "Dusten04",
+            "post_date": "2021-11-26 13:20:21",
+            "message": "I had the same case, same voltages. <SIGNAL>SMC_USBC_INT_L</SIGNAL> was present in my case however. \nSMC was the fault in my case"
+        },
+        {
+            "post_id": 83095,
+            "thread_id": 60535,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281</LOGIC BOARD PART NUMBER> - PPBUS 0.77v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-11-26 15:21:37",
+            "message": "Good to know, thanks.\nAll members should take notes and save valuable information on their service PCs.\nUnfortunately, some people are reticent when I tell them to read all the forum threads."
+        }
+    ]
+}

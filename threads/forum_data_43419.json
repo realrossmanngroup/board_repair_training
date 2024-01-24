@@ -1,0 +1,106 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "U7941": "What is U7941? a CHIP.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "P3V3S5_EN_L": "What is P3V3S5_EN_L? P3V3S5_EN_L is a signal that enables the power chip responsible for creating PP3V3_S5 when it is low. .",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "3V3_SUS": "What is 3V3_SUS? 3V3_SUS is an abbreviation for PP3V3_SUS. These are interchangeable. The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_SP_SUS_L": "What is PM_SP_SUS_L? This is a typo of PM_SLP_SUS_L When you see PM_SP_SUS_L, assume they meant to type PM_SLP_SUS_L.",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. ."
+    },
+    "threads": [
+        {
+            "post_id": 43419,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2018-12-15 18:21:20",
+            "message": "PP3V42 has 0 Ohms on System side. Inject 3.42V and see what gets hot?"
+        },
+        {
+            "post_id": 43422,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-16 01:48:30",
+            "message": "You should start from 1V and go up, but maintain ampers bellow power supply current limit.\nThe limit could be reached at 2V/5A maybe and then a 5A power supply will get blocked directly if you try to inject 3V.\nIn such case you cannot inject more than 2V.\nA 10A power supply can go up, supporting 3.5V/8A, for example.\n\nRemove the black sponge near BIL connector and check the caps there..."
+        },
+        {
+            "post_id": 43423,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2018-12-16 05:53:50",
+            "message": "Started with 1V, nothing was heating, bumped to 2V, SMC got a little bit warm and DCPS showed around 250mA draw.\nTried again 3V, draw was 150mA. SMC was again little bit warm.\n\nPP3V42 is now present, <SIGNAL>PPBUS_G3H</SIGNAL> is 12.54V. Green light present. No fan spin.\n\nWhen I connect the charger, SMC is warm, around 35-40C. As far as I can see, the bottom half of SMC gets warm, from pins 75-157.\n\nFollowing schematics, page 3 \"Revision History\", I don't have <SIGNAL>P3V3S5_EN_L</SIGNAL> from <CHIP>U7941</CHIP>. Both input signals are present."
+        },
+        {
+            "post_id": 43428,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-16 09:35:25",
+            "message": "\"Remove the black sponge near BIL connector and check the caps there...\"\n???\nIncreasing resistance after voltage injection is usually sign of bad cap in that area...\n\nBut if you now have stable 3V42 there is other problem.\nDo you get green light for MagSafe?"
+        },
+        {
+            "post_id": 43434,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2018-12-16 10:43:04",
+            "message": "Caps are good in BIL area. \n\nYes, green light is present."
+        },
+        {
+            "post_id": 43436,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-16 14:30:58",
+            "message": "Check <SIGNAL>SMC_ADAPTER_EN</SIGNAL>, <SIGNAL>PM_BATLOW_L</SIGNAL>, <SIGNAL>PM_SP_SUS_L</SIGNAL>, <SIGNAL>3V3_SUS</SIGNAL>.\nTry to start in SMC bypass mode.\nIf SMC gets hot, should be good to try another one..."
+        },
+        {
+            "post_id": 43445,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2018-12-16 16:30:58",
+            "message": "<SIGNAL>SMC_ADAPTER_EN</SIGNAL> ----------------- 3.42V\n<SIGNAL>PM_BATLOW_L</SIGNAL> ------------------------0.006V\n<SIGNAL>PM_SP_SUS_L</SIGNAL> ------------------------ where is this?\n<SIGNAL>3V3_SUS</SIGNAL> -------------------------------- 0V\n\nDoesn't start in SMC bypass mode."
+        },
+        {
+            "post_id": 43448,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-17 01:22:52",
+            "message": "\"<SIGNAL>PM_SP_SUS_L</SIGNAL> ------------------------ where is this?\"\nSorry, try <SIGNAL>PM_SLP_SUS_L</SIGNAL>.\n\n\"<SIGNAL>PM_BATLOW_L</SIGNAL> ------------------------0.006V\"\nTry another charger first..."
+        },
+        {
+            "post_id": 43453,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 1898,
+            "username": "djdblaster",
+            "post_date": "2018-12-17 07:36:37",
+            "message": "<SIGNAL>PM_SLP_SUS_L</SIGNAL> ---------- 0.028V\n<SIGNAL>PM_BATLOW_L</SIGNAL> ----------- 0.007V\n\nTried with 2 more chargers."
+        },
+        {
+            "post_id": 43468,
+            "thread_id": 43419,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B PP3V42 dead short - how to find it?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-17 09:55:56",
+            "message": "Try other SMC..."
+        }
+    ]
+}

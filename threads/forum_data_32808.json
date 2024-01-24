@@ -1,0 +1,46 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3435": "What is 820-3435? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U7600": "What is U7600? a CHIP.",
+        "3V3_S5": "What is 3V3_S5? 3V3_S5 and PP3V3_S5 are interchangeable, see definition for PP3V3_S5. .",
+        "SMC_PM_G2_EN": "What is SMC_PM_G2_EN? SMC_PM_G2_EN is a signal that comes from the SMC that is a prerequsite for all of the enable signals for the S5 rails to come on, such as P3V3S5_EN. S5 rails will not come on if SMC_PM_G2_EN is not coming..",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PP5V_S4RS3": "What is PP5V_S4RS3? PP5V_S4RS3 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP1V05_S0": "What is PP1V05_S0? The PP1V05_S0 power rail is for various components on the logic board that require a 1.05V supply voltage in the S0 (on) state. This voltage rail is likely to be used by the CPU (for VCCIO), PCH (Platform Controller Hub).\n\n.",
+        "5V_S5": "What is 5V_S5? 5V_S5 is an abbreviation for “PP5V_S5” which is a 5v power rail that is present when the machine is in an S5 state. .",
+        "VRTC_G3H": "What is VRTC_G3H? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 32808,
+            "thread_id": 32808,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-03-21 13:05:30",
+            "message": "Ok so this one came in most likely ultrasoniced before hand. Measured around and found all rails present up till <SIGNAL>PP5V_S4RS3</SIGNAL>\n\nPPBUS: 8.58\n3V42: 3.41\n<SIGNAL>VRTC_G3H</SIGNAL>: 3.3 and steady\n<SIGNAL>5V_S5</SIGNAL>: 5 volts\n<SIGNAL>3V3_S5</SIGNAL>: 3.3 volts\n\nThe only corrosion I found remaining on the board was on <CHIP>U7600</CHIP>. Replaced it because of corrosion, removed JTAG, also replaced <CHIP>U1950</CHIP> because I got 3.42 volts on pin 8 and it looked good, but none of the rails coming from it were present. \n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL>: 3.4 volts\n<SIGNAL>SMC_PM_G2_EN</SIGNAL>: 3.4 volts\n\n<SIGNAL>PM_SLP_S4_L</SIGNAL> is missing.\n\nI checked the bios and clock area...clock chip looks good no issues around it the bios area had some corrosion very minor and the probe points all looked decent none were destroyed. I measured continuity throughout all of them to make sure there were no breaks in the line. \n\n<SIGNAL>PP3V3_SUS</SIGNAL> is missing as well and <SIGNAL>PP1V05_S0</SIGNAL> is shorted to ground 0 ohms resistance to ground.\n\nIs this going to be a dead CPU/PCH or does this have hope and where would I look next if so?\n\nSMC area looks good too btw no discolored probe points at all."
+        },
+        {
+            "post_id": 32826,
+            "thread_id": 32808,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-03-21 19:57:48",
+            "message": "<SIGNAL>PP1V05_S0</SIGNAL> should certainly not have 0 Ohm to GND. I'm afraid this smells like a dead CPU. You can inject on <SIGNAL>PP1V05_S0</SIGNAL> and probably cook your finger on the CPU. Start voltage very low!"
+        },
+        {
+            "post_id": 32833,
+            "thread_id": 32808,
+            "title": "<LOGIC BOARD PART NUMBER>820-3435</LOGIC BOARD PART NUMBER> Missing <SIGNAL>PM_SLP_S4_L</SIGNAL>",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-03-21 20:32:03",
+            "message": "Haha ok I will def inject it to see, but I kinda figured in this case it would be the CPU."
+        }
+    ]
+}

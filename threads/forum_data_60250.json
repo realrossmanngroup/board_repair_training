@@ -1,0 +1,399 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00281A": "What is 820-00281A? a LOGIC BOARD PART NUMBER.",
+        "D6905": "What is D6905? Diode sitting between PPBUS_G3H/PP18V5 charger voltage and PP3V42_G3H power supply input on very old Macbooks(before 2011), can die and cause PP3V42_G3H to be missing and have no input voltage. .",
+        "D6902": "What is D6902? a DIODE.",
+        "D6906": "What is D6906? a DIODE.",
+        "A1707": "What is A1707? A1707 is a model number for a 15 inch size MacBook Pro Retina from years Late 2016, Mid 2017 with EMC 3072, that may contain one of these boards depending on the year & configuration: 820-00281, 820-00928..",
+        "PPVIN_G3H_P3V3G3H": "What is PPVIN_G3H_P3V3G3H? This is the input from the USB-C charger or the battery that is the input voltage for the chip responsible for creating PP3V3_G3H. It can be missing when capacitors on this line are shorted to ground, or when the diode in front of it leading to the chip that creates PP3V3_G3H is blown. .",
+        "PPBUS_G3H_R": "What is PPBUS_G3H_R? a SIGNAL.",
+        "PPDCIN_G3H_CHGR_R": "What is PPDCIN_G3H_CHGR_R? a SIGNAL.",
+        "C6905": "What is C6905? Capacitor to ground on charger input, if this shorts to ground the charger will not put out any power. .",
+        "C6906": "What is C6906? a CAPACITOR.",
+        "U6903": "What is U6903? This chip is responsible for creating PP3V3_G3H in 2016-2018 model Macbook logic boards.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "SMC_RESET_L": "What is SMC_RESET_L? SMC_RESET_L puts the SMC into reset mode when it is low, _L means the signal is present when voltage is low. The SMC being in reset mode keeps it from running..",
+        "PP1V8_UPC_XB_LDOA": "What is PP1V8_UPC_XB_LDOA? This is an LDO coming out of the CD3215 USB-C muxing/charging chip. This can be shorted to ground by the capacitor on its line, and when this happens, the chip can stop functioning which causes the charger to not turn on. This can also be missing if the CD3215 chip itself is bad. Each CD3215 in the system needs to be functioning in order for any of them to speak to the charger and negotiate receiving 20v from the charger rather than the default 5v that a USB-C charger puts out before communicating with the system. .",
+        "BUF_SMC_RESET_L": "What is BUF_SMC_RESET_L? a SIGNAL.",
+        "PP1V8_UPC_XA_LDOA": "What is PP1V8_UPC_XA_LDOA? a SIGNAL.",
+        "PP1V8_UPC_TA_LDOA": "What is PP1V8_UPC_TA_LDOA? a SIGNAL.",
+        "PP1V8_UPC_TB_LDOA": "What is PP1V8_UPC_TB_LDOA? a SIGNAL.",
+        "PP3V3_G3H_REG_R": "What is PP3V3_G3H_REG_R? a SIGNAL.",
+        "R6920": "What is R6920? a RESISTOR.",
+        "PPCDIN_G3H_CHGR": "What is PPCDIN_G3H_CHGR? a SIGNAL.",
+        "C7042": "What is C7042? a CAPACITOR.",
+        "CHGR_A": "What is CHGR_A? a SIGNAL.",
+        "CHGR_AMON": "What is CHGR_AMON? CHGR_AMON provides DC current sense information to the SMC(System management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip). It comes from the battery charging chip that controls the laptop charger, battery charging, and creation of PPBUS_G3H(ISL6259, ISL9239, or ISL9240 chip depending on the logic board part number and model). This is used for sensors. If a DC current sense sensor is reading off in diagnostics, this is a place to start looking. .",
+        "SMC_DCIN": "What is SMC_DCIN? a SIGNAL.",
+        "PBUS_VSENSE": "What is PBUS_VSENSE? a SIGNAL.",
+        "CHGR_BMON": "What is CHGR_BMON? CHGR_BMON goes between the ISL6259, ISL9239, or ISL9240 that charges the battery & creates PPBUS_G3H and the SMC(system management controller) or T2 chip(on machines where the SMC is integrated into the T2 chip) and provides current sensing information on battery charging to the SMC. If diagnostics reveal an off reading or failure with the charger current sense, this is a good place to start troubleshooting..",
+        "SMC_PBUS_VSENSE": "What is SMC_PBUS_VSENSE? a SIGNAL.",
+        "SMC_DCIN_ISENSE": "What is SMC_DCIN_ISENSE? a SIGNAL.",
+        "SMC_DCIN_VSENSE": "What is SMC_DCIN_VSENSE? a SIGNAL.",
+        "BMON_ISENSE": "What is BMON_ISENSE? a SIGNAL.",
+        "SMC_BMON_ISENSE": "What is SMC_BMON_ISENSE? a SIGNAL.",
+        "AVREF_SMC": "What is AVREF_SMC? AVREF_SMC is a reference voltage provided to the SMC so that its sensors have a reference to work from, this should be 3.3v.",
+        "C5021": "What is C5021? a CAPACITOR.",
+        "PP3V0_S5_AVREF_SMC": "What is PP3V0_S5_AVREF_SMC? a SIGNAL.",
+        "C5020": "What is C5020? a CAPACITOR.",
+        "PP3V3_S4SW_SNS": "What is PP3V3_S4SW_SNS? a SIGNAL.",
+        "PP3V3_S0_LEFT": "What is PP3V3_S0_LEFT? a SIGNAL.",
+        "EADC1_TBT_T_ISENSE": "What is EADC1_TBT_T_ISENSE? a SIGNAL.",
+        "EADC1_PP5V_T139_ISENSE": "What is EADC1_PP5V_T139_ISENSE? a SIGNAL.",
+        "EADC1_TBT_X_ISENSE": "What is EADC1_TBT_X_ISENSE? a SIGNAL."
+    },
+    "threads": [
+        {
+            "post_id": 67257,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-10-29 09:27:13",
+            "message": "Not a company just doing this as hobby project.\n\n<MACBOOK MODEL NUMBER>A1707</MACBOOK MODEL NUMBER> was stuck on 5v, I replaced <CAPACITOR>C6906</CAPACITOR> and <CAPACITOR>C6905</CAPACITOR> caps, because of my bad soldering I had only soldered the <CAPACITOR>C6905</CAPACITOR> cap on one side, but this made the board run on 20v. It turned on works fine, when connecting battery and the battery ribbon it would just power cycle on when reaching 10v.\n\nI resoldered the <CAPACITOR>C6905</CAPACITOR> cap.  Now I have a board that struggles :\n\n20v only kicks in after a while.\n\n\ncap connected:  (5v for good 2 minutes)\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>: 3.8v\n<SIGNAL>PPDCIN_G3H_CHGR_R</SIGNAL>: 5v\n<SIGNAL>PPBUS_G3H_R</SIGNAL>: 0.6V\n\n(20v stage)\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>: 20v\n\n20v takes time to kick in, sometimes minutes. When I connect the battery ribbon the board power cycles the second the voltage reaches 10v, and power cycles over and over. The laptop works without a battery but I specially bought a new battery from ebay as the old one was bulged up.\n\nI ripped the <DIODE>D6902</DIODE> pad but I soldered <DIODE>D6902</DIODE>-<DIODE>D6906</DIODE>-<DIODE>D6905</DIODE> together as they are on the same <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> rail."
+        },
+        {
+            "post_id": 67258,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-10-29 09:52:52",
+            "message": "Can you post 820-xxxxx code?\n\nDo not trust new chinese batteries.\nTry to get an original old one, just for test."
+        },
+        {
+            "post_id": 67262,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-10-29 10:16:52",
+            "message": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER>. seller claimed the battery is OEM, but it seems to be chinese OEM, I will look if I can find something else."
+        },
+        {
+            "post_id": 67354,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-10-31 16:01:42",
+            "message": "I had the seller send me a free replacement. Anything more I can measure while I wait for it to arrive?"
+        },
+        {
+            "post_id": 67359,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-01 01:34:26",
+            "message": "Same seller, same \"quality\" probably.\nYou should get a known good battery, just for test."
+        },
+        {
+            "post_id": 67796,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-11-11 11:28:02",
+            "message": "got the fake battery and a macbook top with a used old battery. before I had chance to test any of it I realized that the 20v is not kicking in without the battery anyways. \n\n<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> is 3.6v\n<CHIP>U6903</CHIP> enable is 4.5v\n<SIGNAL>SMC_RESET_L</SIGNAL> and <SIGNAL>BUF_SMC_RESET_L</SIGNAL> = 3.4V \n<SIGNAL>PP3V3_G3H_REG_R</SIGNAL>= 3.418 v \n<SIGNAL>PPBUS_G3H_R</SIGNAL> 0v\n<SIGNAL>PPBUS_G3H</SIGNAL> 0v\n<SIGNAL>PPDCIN_G3H_CHGR_R</SIGNAL> = 5.197 v\n<SIGNAL>PP1V8_UPC_TA_LDOA</SIGNAL> 1.8v\n<SIGNAL>PP1V8_UPC_TB_LDOA</SIGNAL> 1.8v\n<SIGNAL>PP1V8_UPC_XA_LDOA</SIGNAL> 1.8v\n<SIGNAL>PP1V8_UPC_XB_LDOA</SIGNAL> 1.8v"
+        },
+        {
+            "post_id": 67801,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-11 13:43:45",
+            "message": "Check if <RESISTOR>R6920</RESISTOR> has 0 ohm; post its voltage too.\n\n\"<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> is 3.6v \"\nPost diode mode to ground."
+        },
+        {
+            "post_id": 67804,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-11-11 14:05:03",
+            "message": "<RESISTOR>R6920</RESISTOR>  is 0.8ohm, both sides are identically 3.4v\n\nI get open circuit on  <SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL>, thats the part where I was soldering...\n\nI wonder if I blasted the   2.2UF 20% 35V X5R capacitors when soldering them"
+        },
+        {
+            "post_id": 67814,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-12 01:09:18",
+            "message": "\"<SIGNAL>PPDCIN_G3H_CHGR_R</SIGNAL> = [B][U]5.197 v[/U][/B]\n------------------\n<RESISTOR>R6920</RESISTOR>  is 0.8ohm, both sides are identically [B][U]3.4v[/U][/B]\"\nLook at schematic and post accurate information."
+        },
+        {
+            "post_id": 67823,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-11-12 08:39:48",
+            "message": "my bad  <RESISTOR>R6920</RESISTOR>  is 0.3ohm and 5.2v on both sides"
+        },
+        {
+            "post_id": 67839,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-11-12 13:20:30",
+            "message": "\"<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> is 3.6v\"\nStill the same?\nIf yes, chgange the diode...\n\n\"Post diode mode to ground.\"\nIf you have time..."
+        },
+        {
+            "post_id": 67844,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-11-12 13:59:27",
+            "message": "<SIGNAL>PPVIN_G3H_P3V3G3H</SIGNAL> still 3.6v \ndiode mode to ground is 0.55v from all 3 pins of <DIODE>D6902</DIODE> before change\n\nI will source and replace the <DIODE>D6902</DIODE> BAT30CWFILM and report back"
+        },
+        {
+            "post_id": 69107,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-13 13:16:35",
+            "message": "Replaced <DIODE>D6902</DIODE>,\n\nIt made 20v work without battery, with battery it still power cycles :(\n\nI just want to remind you that I destroyed the pad under pin3 as mentioned in the first post, so I had to wire\n<DIODE>D6902</DIODE> pin3 <-> pin1 <CAPACITOR>C6906</CAPACITOR>\n<DIODE>D6902</DIODE> pin3 <-> pin1 <CAPACITOR>C6905</CAPACITOR>\n\n\nMeasurements:\n<DIODE>D6902</DIODE>\npin1 20v\npin2 12v\npin3 20v\n\nand its 0.5v from <DIODE>D6902</DIODE> pin1,2,3 to ground\n\n<CAPACITOR>C7042</CAPACITOR> pin1 (<SIGNAL>PPCDIN_G3H_CHGR</SIGNAL>) is 20v.\n\n<CAPACITOR>C6905</CAPACITOR> pin1 20v"
+        },
+        {
+            "post_id": 69113,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-14 04:09:02",
+            "message": "Do you get correct <SIGNAL>PPBUS_G3H</SIGNAL> voltage without battery connected?"
+        },
+        {
+            "post_id": 69140,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-14 11:23:01",
+            "message": "I get 12.7V on <SIGNAL>PPBUS_G3H</SIGNAL> without the battery"
+        },
+        {
+            "post_id": 69143,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-14 12:43:49",
+            "message": "And board stays in S5 with charger alone?\nDoesn't boot, no S3, or S0 voltages at all?"
+        },
+        {
+            "post_id": 69149,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-14 13:13:49",
+            "message": "The laptop boots with charger alone, it's usable. I can login etc\n\nBut with battery it keep cycling between trying to go from 5v to 20v (my meter says it dies on 10v)"
+        },
+        {
+            "post_id": 69167,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-15 04:55:37",
+            "message": "Then try known good battery..."
+        },
+        {
+            "post_id": 69171,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-15 05:03:00",
+            "message": "Yes I have tried with the used known battery that came glued in with a top case, and 2 ebay batteries. They all have the same problem. It only happens when I connect the ribbon so it might be a lithium security cutout?"
+        },
+        {
+            "post_id": 69173,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-15 05:05:02",
+            "message": "Try to start in SMC byapss mode, as safe mode too.\nCan you start with battery alone?"
+        },
+        {
+            "post_id": 69175,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-15 05:57:03",
+            "message": "Just battery SMC bypass without charger does not work,\n\nBattery with charger (and battery ribbon) SMC bypass. It starts, errors out first 1-2x, then it boots normally but I cant see the battery show up anywhere but this can be because of the bypass. If I disconnect the charger the battery holds the laptop alive.\n\nI added the error below that I get before it launches.\n\n\nI will test more later today\n\nEdit: it works without charger only using battery in smc bypass\nEDIT2: did a smc reset, it powered on without smc bypass and charger, sitting at 45%. Will have to test it more\nedit3: it wont charge drawing 0.14a , unplugging made it turn off. And its back to power cycling"
+        },
+        {
+            "post_id": 69271,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-18 03:41:08",
+            "message": "Any idea? can all the batteries be bad? or the board?"
+        },
+        {
+            "post_id": 69285,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-18 05:18:49",
+            "message": "The best thing is testing with \"known good worling\" battery.\n\nIf I correctly understood from your last post, the machine always start booting with battery alone?\nIt doesn't boot with charger alone, or charger and battery both connected?"
+        },
+        {
+            "post_id": 69308,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-19 10:19:28",
+            "message": "The machine always boots with charger alone\nDoes not boot with battery only\nOnly boots with battery and charger in smc bypass mode"
+        },
+        {
+            "post_id": 69312,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-19 11:38:46",
+            "message": "Check <SIGNAL>CHGR_A</SIGNAL>/BMON levels, with both charger and battery connected."
+        },
+        {
+            "post_id": 69344,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-19 15:27:46",
+            "message": "The charger cycles between trying to switch from 5v to 12v with battery.  <SIGNAL>CHGR_A</SIGNAL>/BMON are 0v.\n\nI found something accidentally,\n1. starting MacBook without battery ribbon with charger.\n2. I turn on the laptop.\n3. I connect the battery ribbon (while it's starting) and the battery reports the right charge percentage and charges at 3A 20v.\n4. I disconnect the charger.\n5. laptop keeps alive\n6. connect the charger back.\n7. Laptop dies.\n\nI measured <SIGNAL>CHGR_AMON</SIGNAL> was 0.5v in this case and BMON 0v."
+        },
+        {
+            "post_id": 69345,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-19 15:36:43",
+            "message": "Start with charger and battery properly connected in SMC bypass mode.\nThen post <SIGNAL>CHGR_A</SIGNAL>/BMON levels.\nAlso check <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>PBUS_VSENSE</SIGNAL>."
+        },
+        {
+            "post_id": 69350,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-19 15:59:45",
+            "message": "following values with SMC bypass with battery and charger:\n\n<SIGNAL>CHGR_AMON</SIGNAL> 0.008v\n<SIGNAL>CHGR_BMON</SIGNAL> 0.001V\n<SIGNAL>SMC_DCIN_ISENSE</SIGNAL> 0V\n<SIGNAL>SMC_PBUS_VSENSE</SIGNAL> 2.2V"
+        },
+        {
+            "post_id": 69352,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-19 16:32:48",
+            "message": "<SIGNAL>SMC_DCIN_VSENSE</SIGNAL> level?"
+        },
+        {
+            "post_id": 69356,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-20 04:38:47",
+            "message": "that was a challenge to measure \n<SIGNAL>SMC_DCIN_VSENSE</SIGNAL> 2.65v,"
+        },
+        {
+            "post_id": 69359,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-20 07:07:34",
+            "message": "That value is correct.\nPost now <SIGNAL>SMC_DCIN</SIGNAL>/<SIGNAL>BMON_ISENSE</SIGNAL>.\n\nBTW, you've posted to <SIGNAL>CHGR_AMON</SIGNAL> values, with big difference; what happened?"
+        },
+        {
+            "post_id": 69361,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-20 07:37:21",
+            "message": "In smc bypass mode with charger and battery connected and turned on 20v coming in:\n\n<SIGNAL>SMC_BMON_ISENSE</SIGNAL> 0.003v\n<SIGNAL>SMC_DCIN_ISENSE</SIGNAL> 0.005v\n<SIGNAL>CHGR_AMON</SIGNAL> 0.052v\n<SIGNAL>CHGR_BMON</SIGNAL> 0.000v\n\nIt was 0.05 but I wrote 0.5 before, my bad :/"
+        },
+        {
+            "post_id": 69368,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-20 15:07:07",
+            "message": "None of these values are strange.\nHowever there should be a problem with one (at least) SMC sensor, as the machine starts in SMC bypass mode.\nCheck first <SIGNAL>AVREF_SMC</SIGNAL> at <CAPACITOR>C5021</CAPACITOR>."
+        },
+        {
+            "post_id": 69370,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-20 15:17:20",
+            "message": "<SIGNAL>PP3V0_S5_AVREF_SMC</SIGNAL> is solid 3V on <CAPACITOR>C5021</CAPACITOR> and <CAPACITOR>C5020</CAPACITOR>"
+        },
+        {
+            "post_id": 69382,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-21 03:14:25",
+            "message": "Check Power Sensors from pages 50-53."
+        },
+        {
+            "post_id": 69385,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2020-12-21 05:21:54",
+            "message": "<SIGNAL>PP3V3_S0_LEFT</SIGNAL> = 0v                     \n<SIGNAL>PP3V3_S4SW_SNS</SIGNAL> = 0v                   \n<SIGNAL>EADC1_TBT_T_ISENSE</SIGNAL> 0v\n<SIGNAL>EADC1_PP5V_T139_ISENSE</SIGNAL> = 0v                 \n<SIGNAL>EADC1_TBT_X_ISENSE</SIGNAL> = 0v\n\nAre they supposed to be high when indicating fault?"
+        },
+        {
+            "post_id": 69386,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2020-12-21 07:07:25",
+            "message": "Some sensors are enabled only when board is on.\nEspecially ISENSE type, as S4-0 voltages too.\n\nIf the machine tries to start in normal mode (at least pulsing voltages) and only starts in SMC bypass mode, then should check all sensors in SMC bypass mode."
+        },
+        {
+            "post_id": 70009,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 28229,
+            "username": "BoKKeR",
+            "post_date": "2021-01-07 13:53:23",
+            "message": "Could you help which sensor to check? I only found those 5 I mentioned above."
+        },
+        {
+            "post_id": 70011,
+            "thread_id": 60250,
+            "title": "<LOGIC BOARD PART NUMBER>820-00281A</LOGIC BOARD PART NUMBER> power cycle with battery. slow 20v",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2021-01-07 13:57:49",
+            "message": "Check pages 51-53..."
+        }
+    ]
+}

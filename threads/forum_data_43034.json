@@ -1,0 +1,231 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3115": "What is 820-3115? a LOGIC BOARD PART NUMBER.",
+        "SMBUS_SMC_5_G3_SDA": "What is SMBUS_SMC_5_G3_SDA? SMBUS_SMC_5_G3_SDA is the data line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "SMBUS_SMC_5_G3_SCL": "What is SMBUS_SMC_5_G3_SCL? SMBUS_SMC_5_G3_SCL is the clock line of an I2C data line between the battery charging chip that creates PPBUS_G3H, the system management controller(SMC), the battery, and the battery indicator LED. If this line’s resistance to ground is too low because of a defective component, battery will not be recognized with an X on the icon and PPBUS_G3H voltage will be lower than it is on a good system..",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "R7020": "What is R7020? Current sense shunt resistor for the charger, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 27/28 on ISL6259 should give you 20.02 ohms. .",
+        "R7050": "What is R7050? Current sense shunt resistor for the battery, the resistors between this and the ISL6259 should be proper rating or else machine will turn off the charger. Measuring pins 17/18 on ISL6259 should give you 2.02 ohms. .",
+        "R7051": "What is R7051? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7052": "What is R7052? Current sense resistor between battery current sense shunt resistor and ISL6259. When these resistors fail the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "C7050": "What is C7050? Capacitor between current sense lines on ISL6259 chip for battery current sensing, you should measure around 2.202 ohms across this. Often when the resistance across this capacitor is higher it is because one of the current sense resistors going to the ISL6259 chip has failed. When current sensing resistors between the shunt resistor and the ISL6259 power IC have failed the ISL6259 cannot gauge how much current is being sent to or drawn from the battery, which will cause the ISL6259 to stop drawing/sending power to the battery as a safety precaution. Symptoms are low voltage on PPBUS_G3H, quarter fan spin, boot looping, or battery not charging..",
+        "R7001": "What is R7001? a RESISTOR.",
+        "C7000": "What is C7000? a CAPACITOR.",
+        "R5280": "What is R5280? Pullup resistor between PP3V42_G3H and SMBUS_SMC_5_G3_SDA which is a data line that allows the SMC to communicate with the battery and the battery charging chip. This line is necessary for the battery to be recognized. With red probe on ground, diode mode should measure 0.441 on pin 2 of this resistor. .",
+        "R7501": "What is R7501? a RESISTOR.",
+        "C7001": "What is C7001? a CAPACITOR.",
+        "U7000": "What is U7000? U7000 refers to the ISL6258 or ISL6259 charging IC on Macbooks from 2008-2012.",
+        "D6950": "What is D6950? a DIODE.",
+        "C6952": "What is C6952? a CAPACITOR."
+    },
+    "threads": [
+        {
+            "post_id": 43034,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-06 17:50:04",
+            "message": "Hey! This time I actually have a 2012 13\" board, 3115-B. Similar problem to last time, except this guy gets no power even with battery plugged in. When AC adapter is attached, sleed LED lights and fan spins for a quarter-second, then rests. Board does power on in SMC bypass mode.\n\nBoard had corrosion near the ISL chip, specifically northern part of chip and above components--cleaned with IPA and resoldered to remove corrosion on pads--nothing. 3v42 is stable, however rails such as <SIGNAL>SMBUS_SMC_5_G3_SCL</SIGNAL> and <SIGNAL>SMBUS_SMC_5_G3_SDA</SIGNAL> phase up to ~3.475 and then down to ~3.445, seesawing back and forth. Should I try replacing ISL?\n\nMeasured the resistance of the northern components that had some corrosion against a good board, all checked fine."
+        },
+        {
+            "post_id": 43043,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-12-06 20:07:24",
+            "message": "Check resistance between pins 17/18 and 27/28 of the <CHIP>ISL6259</CHIP>. Sounds like a current sensing issue"
+        },
+        {
+            "post_id": 43045,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-07 01:39:09",
+            "message": "If it starts in SMC bypass mode, then is sensor issue for sure.\nCheck voltage at pins 9 & 15 of <CHIP>ISL6259</CHIP>.\nDepending of values, you will know if problem is related with <RESISTOR>R7020</RESISTOR>, or <RESISTOR>R7050</RESISTOR>.\nOr measure directly between pins, as above mentioned."
+        },
+        {
+            "post_id": 43074,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-07 14:34:22",
+            "message": "Checked the pins, 9 was at ~30.5mv, which was about ~3mv lower than a working board, and 15 was at .1mv, which was .2mv lower than my working board. Can't get a great reading on pins 17/18, but pins 27/28 are normal resistance. <RESISTOR>R7052</RESISTOR> and <RESISTOR>R7051</RESISTOR> read correctly, as does <CAPACITOR>C7050</CAPACITOR>. Thinking 17/18 may still be an issue tho, any ideas?"
+        },
+        {
+            "post_id": 43075,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-07 14:58:06",
+            "message": "\"Can't get a great reading on pins 17/18\"\nWhy great?\nYou must read aprox 003 there...\n\nCheck pins 9 & 15 when board is on in SMC bypass.\nAlso check all sensors output from page 50 and 49 too."
+        },
+        {
+            "post_id": 43109,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 1153,
+            "username": "JohnB8812",
+            "post_date": "2018-12-08 19:50:05",
+            "message": "Post your measurement in ohms between 17/18 and 27/28"
+        },
+        {
+            "post_id": 43150,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-10 09:44:32",
+            "message": "27/28 is 20ohms, which I know is a good reading. 17/18 I'm not getting anything, but <CAPACITOR>C7050</CAPACITOR>, <RESISTOR>R7051</RESISTOR> and <RESISTOR>R7052</RESISTOR> all read correctly (3ohms) for their resistance. Diode mode shows very low readings for all three, however, I'm thinking of replacing that capacitor. At first I thought the traces could be corroded between ISL and <CAPACITOR>C7050</CAPACITOR> due to the corrosion there, but when I jumped wires the issue got worse instead of better (dim blinking amber magsafe instead of solid green but no power), so I removed them.\n\nI've noticed my pin 8 is also showing very low, usually it's supposed to be around 2v but it's showing something much lower, I believe around ~70mv. Again, the associated capacitors and resistors to that pin are measuring correctly against a good board. I've noticed a few of my boards have low voltage on pin 8--I'm guessing a related cause? Replacing the chip didn't fix anything."
+        },
+        {
+            "post_id": 43152,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-10 10:12:53",
+            "message": "Forget <CAPACITOR>C7050</CAPACITOR>, is not critical: board works without it.\n<RESISTOR>R7051</RESISTOR>/52 can be replaced directly with tiny wires.\nIf both resistors are in place and have correct value, you must get 000 before them (to <RESISTOR>R7050</RESISTOR> side) and 003 after (to <CHIP>ISL6259</CHIP> side).\nIf you replace both resistors with wires, you must get 000 between pins 17/18.\n\n\"when I jumped wires the issue got worse\"\nDid you check resistance to ground at F7040 after that?"
+        },
+        {
+            "post_id": 43183,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-10 17:52:15",
+            "message": "Now I'm only getting a dim blinking amber light when magsafe is plugged in--<CAPACITOR>C7050</CAPACITOR> is off the board, <RESISTOR>R7051</RESISTOR> doesn't seem to be resisting properly now as well, measuring only around .6ohms instead of 2.5. Pin 8 is still very low, not sure exactly where to proceed.\nWhat do you mean replaced directly with tiny wires? You mean just solder a small copper wire between the pads where <RESISTOR>R7051</RESISTOR> would be?\n\nAlso, another board I'm working on has a similar problem, with the light just being dim green instead. All voltages are present and normal around ISL except for <RESISTOR>R7001</RESISTOR>, which is showing nowhere near 5v. It's resisting properly around 5ohms, but the capacitors to the north of it (<CAPACITOR>C7000</CAPACITOR>/1) are not showing any ohms in resistance, and 0.00 in diode mode."
+        },
+        {
+            "post_id": 43193,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 02:12:52",
+            "message": "I hope you didn't measure continuity (diode mode, or resistance) on a powered board.\n\n\"Did you check resistance to ground at F7040 after that?\"\nAnd still waiting...\n\n\"You mean just solder a small copper wire between the pads where <RESISTOR>R7051</RESISTOR> would be?\"\nSame for <RESISTOR>R7052</RESISTOR> too.\n\n<RESISTOR>R7001</RESISTOR> should have 5V on both pins."
+        },
+        {
+            "post_id": 43218,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-11 07:46:41",
+            "message": "ofc not while powered. I'll solder a small wire between <RESISTOR>R7051</RESISTOR> pads today and check F7040. My hot air station is pretty barbaric, which I think may be causing some troubles. I'll get better equip soon.\n\nWhat do you think of low voltage on <RESISTOR>R7001</RESISTOR>, what would be cause? 3v42 is present, all other power rails are present."
+        },
+        {
+            "post_id": 43219,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 08:27:36",
+            "message": "\"(<CAPACITOR>C7000</CAPACITOR>/1) are not showing any ohms in resistance, and 0.00 in diode mode\"\nCan you post exact values in ohm scale and diode mode too?"
+        },
+        {
+            "post_id": 43226,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-11 10:10:32",
+            "message": "Also, on another board, <RESISTOR>R5280</RESISTOR> pin 2 is low, around 1.6/1.7v instead of 3.4v, with no detection on the battery but everything else works. I've seen this a few times on these boards, common cause?\n\nI soldered a wire between the pads for <RESISTOR>R7051</RESISTOR>, resistance is showing 12mohms between pins 17 and 18--should i resolder jumper wires between the resistors and those pins again? This board is confusing me. W/wire on <RESISTOR>R7501</RESISTOR>, F7040 shows rapidly decreasing resistance from 25mohms, slows down around 5mohms but still decreases, diode mode shows ~.420 volts but very very slowly increasing.\n\nFor <CAPACITOR>C7001</CAPACITOR>, I'm getting ~5.6ohms in resistance now, and <CAPACITOR>C7000</CAPACITOR> about ~.8ohms. Diode mode shows 0.000 on each pin of <CAPACITOR>C7000</CAPACITOR>, and 0.003 on pin 1 of <CAPACITOR>C7001</CAPACITOR>."
+        },
+        {
+            "post_id": 43228,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 11:24:01",
+            "message": "Replace <CHIP>U7000</CHIP> if you get short to ground on both pins of <RESISTOR>R7001</RESISTOR>.\n\n\"resistance is showing 12mohms between pins 17 and 18\"\nI already wrote the correct value; just pay more atention and don't waste time with other things..."
+        },
+        {
+            "post_id": 43230,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-11 12:00:42",
+            "message": "I know the correct value, I'm asking you if the correct action in this case would be resoldering jumper wires from <RESISTOR>R7501</RESISTOR>/2 to pins 17/18 instead of replacing <CHIP>U7000</CHIP> or not, since I'm already jumping the pads of <RESISTOR>R7051</RESISTOR> and previous attempts at the jumper wires yielded varying results.\n\nand what about <RESISTOR>R5280</RESISTOR>? Not sure what could be creating a lower voltage on that SDA line, <CHIP>U7000</CHIP>? I can only assume, since <CHIP>U7000</CHIP> is the first start on that line when battery isn't plugged in--pin 10 creates that dataline from G3H, yes?"
+        },
+        {
+            "post_id": 43232,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-11 12:23:06",
+            "message": "Replaced <CHIP>U7000</CHIP> on the board with <CAPACITOR>C7001</CAPACITOR> showing 0.000 on diode mode, now <RESISTOR>R7051</RESISTOR> is showing wacky resistance--why does this guy fail so often?"
+        },
+        {
+            "post_id": 43242,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-11 14:07:45",
+            "message": "Remove C70001, if still shows short.\nEliminate any short to ground before power up the board again.\nAnd \"make\" resistance between 17/18 to have correct value!"
+        },
+        {
+            "post_id": 43244,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-11 14:55:58",
+            "message": "Will do! I'll probably try tomorrow, I'm soldering on my knees and in the dark here... getting some microscope lenses in tomorrow hopefully!\n<CAPACITOR>C7001</CAPACITOR> doesn't show short anymore, but the board isn't powering on and dim light on charger still... I'll check the power rails and some more ISL stuff to see what the issue could possibly be."
+        },
+        {
+            "post_id": 43281,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-12 10:23:25",
+            "message": "Turns out my <CAPACITOR>C7001</CAPACITOR> board had a misaligned jack connector... well, that one is fixed. I hate people who strip screws.\n\nAlright, so that leaves my 17/18 board in the dark still, I honestly think I probably toasted it somewhere and I'm running out of known good ISL chips to use.\n\nThe other board I have that won't detect the battery, the one with low voltage on <RESISTOR>R5280</RESISTOR> SDA line, around ~1.5v, you think replace ISL? Not sure where else to go from there, maybe replace <DIODE>D6950</DIODE>, tho the SCL line is fine... which is why I think ISL."
+        },
+        {
+            "post_id": 43286,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-12 12:53:16",
+            "message": "Replaced ISL from donor board, no fan spin--pretty sure that ISL was bad... put back og ISL, got fan spin again. I really need more good 6259AHRTZ chips.\nThey're compatible between all 13\" unibody models if the chip starts with 6259AHRTZ, correct? The stuff afterwards doesn't matter?\n\nAnyway, back to square one. :[] []:"
+        },
+        {
+            "post_id": 43311,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-13 00:24:48",
+            "message": "Does the machine work good now?"
+        },
+        {
+            "post_id": 43319,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 2088,
+            "username": "Hardwood T/S",
+            "post_date": "2018-12-13 08:53:56",
+            "message": "The <CAPACITOR>C7001</CAPACITOR> board is fine, the <RESISTOR>R5280</RESISTOR> board still has problems detecting the battery, and the board I started the topic about still isn't showing anything good--I think it's a bad ISL chips, but I don't have any good ones here to test. I should be getting some soon tho.\n\nStill need help on that low voltage on the SDA side of <RESISTOR>R5280</RESISTOR>--that SDA line is showing ~1.5v everywhere on the board. What do you think, ISL?"
+        },
+        {
+            "post_id": 43346,
+            "thread_id": 43034,
+            "title": "<LOGIC BOARD PART NUMBER>820-3115</LOGIC BOARD PART NUMBER>-B powers on briefly, corrosion near ISL chip?",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-12-14 01:47:41",
+            "message": "Check resistance to ground on SCL/SDA lines.\nYou must get less than 1% difference.\nIf bad reading, disconnect BIL, remove <DIODE>D6950</DIODE>, <CAPACITOR>C6952</CAPACITOR>/53.\nIf still bad, pull out <CHIP>ISL6259</CHIP>.\nThen will only remain SMC on that bus..."
+        }
+    ]
+}

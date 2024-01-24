@@ -1,0 +1,114 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3332": "What is 820-3332? a LOGIC BOARD PART NUMBER.",
+        "D9701": "What is D9701? diode in the backlight circuit sitting between the BKL_SW pin of the LED driver and backlight output. Very common for via between this and BKL_FB for feedback to blow, causing no boost. Measure continuity between pin 2 of this diode and feedback pin of LED driver if backlight output is PPBUS_G3H with no boost.",
+        "U9701": "What is U9701? a CHIP.",
+        "5V_S0": "What is 5V_S0? 5V_S5 is an abbreviation for “PP5V_S0”.",
+        "BKLT_EN": "What is BKLT_EN? This signal enables backlight. Anytime you see a signal ending with “_EN” , that means this signal being present/high enables what it is referring to. This signal says “BKLT” before “_EN”. “BKLT” sounds short for “BACKLIGHT”, so it is safe to assume this signal enables backlight when present. .",
+        "BKLT_EN_L": "What is BKLT_EN_L? a SIGNAL.",
+        "BKL_SW": "What is BKL_SW? BKL_SW means “BACKLIGHT SWITCH” – DC to DC boost circuits increase voltage by putting a lower voltage, like 8 volts, through an inductor. On the other side of the inductor, it is switched to ground rapidly - on this side, you will end up with an increased voltage as a result of the switching. BKL_SW usually refers to the pin on the LED driver that is attached to the inductor. .",
+        "BKL_FB": "What is BKL_FB? This is backlight feedback. It goes from the output of the backlight circuit back to the LED driver, so it can see what it is doing. If this line is broken or corroded, the boost circuit will not boost PPBUS_G3H to a higher voltage for backlight, and backlight voltage output will be the same as the PPBUS_G3H input. This trace/via is usually the first to corrode since it is the highest voltage in the system..",
+        "BKLT_EN_DIV": "What is BKLT_EN_DIV? a SIGNAL.",
+        "PPBUS_SW_BKLT": "What is PPBUS_SW_BKLT? a SIGNAL.",
+        "R9753": "What is R9753? a RESISTOR.",
+        "R9757": "What is R9757? a RESISTOR.",
+        "SMC_LID": "What is SMC_LID? SMC_LID tells the machine the system is open when it is 3.3v to 3.4v, and closed when it is low such as 0v-0.6v. When this signal is low, the machine may go to sleep or have no backlight. .",
+        "LVDS_IG_BKL_ON": "What is LVDS_IG_BKL_ON? LVDS_IG_BKL_ON is equivalent to LCD_BKLT_EN. This signal usually goes to an LED driver used for creating a power rail for the LCD screen backlight, to tell it to turn on & create this rail. .",
+        "BKL_SCL": "What is BKL_SCL? a SIGNAL.",
+        "BKL_SDA": "What is BKL_SDA? BKL_SDA is an SMBUS data line between the LED driver and the system management controller(SMC).",
+        "LCD_BKLT_PWM": "What is LCD_BKLT_PWM? LCD_BKLT_PWM sets the brightness of the screen. The system will send a PWM signal to BKL_PWM pin to set brightness. If this is low, backlight voltage will boost higher than PPBUS_G3H input, but not enough to make the screen light properly.."
+    },
+    "threads": [
+        {
+            "post_id": 31057,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-02-03 13:48:12",
+            "message": "Known-good 2012 test screen. Has flashing folder. No backlight. Spill damage, but very minimal and nothing near LCD connector or <CHIP>U9701</CHIP>. Any idea what I'm missing?\n\n- <SIGNAL>BKLT_EN_L</SIGNAL> - 0V\n- <SIGNAL>BKLT_EN_DIV</SIGNAL> - 4.3V\n- F9700 is fine and has 12.6V on both sides\n- <SIGNAL>PPBUS_SW_BKLT</SIGNAL> - 12.6V\n- <SIGNAL>BKLT_EN</SIGNAL> - 3.15V\n- <SIGNAL>5V_S0</SIGNAL> present\n- <DIODE>D9701</DIODE> Pin 1: 12.59V\n- <DIODE>D9701</DIODE> Pin 2: 12.29V\n- Pin 1 of LCD connector has 12.29V\n- <RESISTOR>R9753</RESISTOR> and <RESISTOR>R9757</RESISTOR>  are both good and have continuity to <CHIP>U9701</CHIP>\n- <SIGNAL>BKL_SW</SIGNAL> - 1.1V\n- <SIGNAL>BKL_FB</SIGNAL> - 5.8V\n- replaced <CHIP>U9701</CHIP>"
+        },
+        {
+            "post_id": 31061,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-02-03 14:30:11",
+            "message": "It is not boosting. <SIGNAL>SMC_LID</SIGNAL> high? <DIODE>D9701</DIODE> not shorted? Diode mode on SCLK and SDA of <CHIP>U9701</CHIP>?"
+        },
+        {
+            "post_id": 31063,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-02-03 15:01:10",
+            "message": "yes, 3.4V on <SIGNAL>SMC_LID</SIGNAL>.\n.879 diode mode on both sides of <DIODE>D9701</DIODE>.\n.530 on pin 10 <SIGNAL>BKL_SCL</SIGNAL>\n.533 on pin 11 <SIGNAL>BKL_SDA</SIGNAL>\n\nit's a weird one. everything seems in order. is <SIGNAL>LVDS_IG_BKL_ON</SIGNAL> significant?"
+        },
+        {
+            "post_id": 31067,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-02-03 16:02:55",
+            "message": "I asked if <DIODE>D9701</DIODE> was shorted. Having the same diode reading on both sides can very well mean <DIODE>D9701</DIODE> is shorted.\n\n<SIGNAL>LVDS_IG_BKL_ON</SIGNAL> is for backlight on Intel GFX, boot happens on Nvidia."
+        },
+        {
+            "post_id": 31068,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-02-03 16:38:23",
+            "message": "Got it, was thinking short to ground. Not shorted but I replaced it anyway because it shouldn't be the same value on both sides. It's 1.1 to ground in diode now on pin 2 and .890 on pin 1. And still not shorted. No change with new <DIODE>D9701</DIODE>."
+        },
+        {
+            "post_id": 31069,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-02-03 17:12:06",
+            "message": "<SIGNAL>LCD_BKLT_PWM</SIGNAL> voltage?"
+        },
+        {
+            "post_id": 31070,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-02-03 17:16:07",
+            "message": "It's at 0.002V"
+        },
+        {
+            "post_id": 31071,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-02-03 17:21:10",
+            "message": "There is your issue. Diode mode and resistance? I hope you did a PRAM reset already!"
+        },
+        {
+            "post_id": 31072,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 135,
+            "username": "bjf",
+            "post_date": "2018-02-03 17:51:56",
+            "message": "Of course I did..... :/\n\n.......well, I'll admit, I don't think PRAM reset when I see no backlight. I will from now on, at least when I see one like this with no obvious hardware issues.\n\nthanks for your help, working normally."
+        },
+        {
+            "post_id": 31078,
+            "thread_id": 31057,
+            "title": "[SOLVED]<LOGIC BOARD PART NUMBER>820-3332</LOGIC BOARD PART NUMBER> No backlight. Has video.",
+            "user_id": 557,
+            "username": "MDY",
+            "post_date": "2018-02-04 02:56:53",
+            "message": "pram solved the problem?"
+        }
+    ]
+}

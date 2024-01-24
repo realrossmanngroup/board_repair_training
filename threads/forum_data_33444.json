@@ -1,0 +1,103 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-3462": "What is 820-3462? a LOGIC BOARD PART NUMBER.",
+        "U5010": "What is U5010? a CHIP.",
+        "ISL5269": "What is ISL5269? This is a typo of ISL6259.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "DCIN_S5_VSENSE": "What is DCIN_S5_VSENSE? a SIGNAL.",
+        "R6920": "What is R6920? a RESISTOR.",
+        "Q7510": "What is Q7510? a TRANSISTOR.",
+        "Q7550": "What is Q7550? a TRANSISTOR.",
+        "Q5490": "What is Q5490? a TRANSISTOR.",
+        "ISL6259": "What is ISL6259? This is a charging chip for Macbook motherboards from 2010 through 2015.",
+        "PP3V3_S0": "What is PP3V3_S0? The \"PP3V3_S0\" rail in a MacBook logic board is a power rail that supplies 3.3 volts to the system when it is fully awake (S0 state). .",
+        "PP5V_S4": "What is PP5V_S4? PP5V_S4 is a 5v power rail present when the machine is in an S4 suspend to disk state..",
+        "PP3V3_S3": "What is PP3V3_S3? a SIGNAL.",
+        "PPVCCSA_S0_REG": "What is PPVCCSA_S0_REG? a SIGNAL.",
+        "S4_L": "What is S4_L? a SIGNAL.",
+        "S5_L": "What is S5_L? a SIGNAL.",
+        "S3_R_L": "What is S3_R_L? a SIGNAL.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "P5VS3_EN": "What is P5VS3_EN? a SIGNAL.",
+        "U7940": "What is U7940? a CHIP.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_SUS_EN": "What is PM_SUS_EN? a SIGNAL.",
+        "P5VS3_EN_L": "What is P5VS3_EN_L? P5VS3_EN_L is a signal that enables the PP5V_S3 power rail when it is low.  _L means whatever before the _L in the signal name is asserted when it is low voltage, such as 0.0v to 0.5v..",
+        "Q7852": "What is Q7852? a TRANSISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 33444,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 1165,
+            "username": "Hellfiya",
+            "post_date": "2018-04-09 09:01:30",
+            "message": "Moderate liquid damage on  board, above and under. <RESISTOR>R6920</RESISTOR>(47ohm resistor), <TRANSISTOR>Q5490</TRANSISTOR>(<SIGNAL>DCIN_S5_VSENSE</SIGNAL>) and <CHIP>ISL5269</CHIP> were fried, replaced and got a green light. I thought these boards were supposed to be amber when no battery is present. Anyhow, if I attach a discharged battery then it turns amber and charges it. SMC reset also works. Any Ideas where to start? I can usually fix most boards but this model seems a lot more complicated or different than the others. \n\nAlso, I see that some of the caps around <TRANSISTOR>Q7510</TRANSISTOR> and <TRANSISTOR>Q7550</TRANSISTOR> area are corroded. Also, <CHIP>U5010</CHIP>.\n\nAdapter sense fluctuates between 3.2v and 3.33v\nDCIN 18v5 flucuates between 16.42v and 16.78v\nPP3v42 at 3.39v\n<SIGNAL>PPBUS_G3H</SIGNAL> very low at 1.1v\n\nI've replaced ISL twice just in case and same result. I'm thinking the issue lies around <CHIP>U5010</CHIP>?"
+        },
+        {
+            "post_id": 33470,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-10 05:48:51",
+            "message": "PPBUS is needed first. 1.1V would almost suggest there is a short to GND, so check that first. Light should also go orange even without a battery, but that can be dealt with after PPBUS."
+        },
+        {
+            "post_id": 33505,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 1165,
+            "username": "Hellfiya",
+            "post_date": "2018-04-10 11:46:15",
+            "message": "You're correct, something is pulling ppbus down to 500ohm resistance to ground. I'm going to look around the line until further instructions\n\nEDIT: I have 12.3v on ppbus now and amber light without battery, it turned out to be a bad <CHIP>ISL6259</CHIP> solder job or IC... still no fan spin or power\n\nseems off: pm_slp_ <SIGNAL>S5_L</SIGNAL> is 3.3v, <SIGNAL>S4_L</SIGNAL> is .4v, <SIGNAL>S3_R_L</SIGNAL>,_L is 3.3v\n\n<SIGNAL>PP5V_S4</SIGNAL> is 5v, S3 missing, S0 is 5v\n\n<SIGNAL>PP3V3_S3</SIGNAL> 1.4v, <SIGNAL>PP3V3_S0</SIGNAL> is at 3v3\n\n<SIGNAL>PPVCCSA_S0_REG</SIGNAL> at .9v\n\ncpu and pch gets warm,"
+        },
+        {
+            "post_id": 33563,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-11 19:49:03",
+            "message": "12.3V would at least mean the ISL is not talking to the SMC, but that is a later concern but expect a dead SMC.\n\nIs <SIGNAL>P5VS3_EN</SIGNAL> present? <SIGNAL>ALL_SYS_PWRGD</SIGNAL> present?"
+        },
+        {
+            "post_id": 33589,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 1165,
+            "username": "Hellfiya",
+            "post_date": "2018-04-12 09:58:13",
+            "message": "SMC did have quite a bit of corrosion on the test points surrounding it, I would not be surprised. I will check those two circuits when I get back to my workshop. Thanks Duke for your help"
+        },
+        {
+            "post_id": 33596,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 1165,
+            "username": "Hellfiya",
+            "post_date": "2018-04-12 15:26:30",
+            "message": "I'm getting 4.9v on pin 3(<SIGNAL>P5VS3_EN_L</SIGNAL> of <TRANSISTOR>Q7852</TRANSISTOR>(SSM3K15FV), but not pin 1(No _L; 15ohm resistance to ground which seems short), which schematics show they should both be on. I tested and see the low resistance is on the <SIGNAL>PM_SLP_S4_L</SIGNAL> side. I forgot to mention <CHIP>U7940</CHIP> has been replaced before, the <SIGNAL>PM_SUS_EN</SIGNAL> ic.\n\n<SIGNAL>ALL_SYS_PWRGD</SIGNAL> is not present."
+        },
+        {
+            "post_id": 33611,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 2,
+            "username": "dukefawks",
+            "post_date": "2018-04-12 17:39:11",
+            "message": "This is NOT looking good, I'm afraid this one is pretty fried! Time waster board...."
+        },
+        {
+            "post_id": 33621,
+            "thread_id": 33444,
+            "title": "<LOGIC BOARD PART NUMBER>820-3462</LOGIC BOARD PART NUMBER>-A Green Light and Charges - No fan spin / power - Liquid Damaged",
+            "user_id": 1165,
+            "username": "Hellfiya",
+            "post_date": "2018-04-12 18:01:06",
+            "message": "Noted, thank you for your help, I will put this board aside to mess with while I have spare time."
+        }
+    ]
+}

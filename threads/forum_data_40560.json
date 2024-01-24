@@ -1,0 +1,338 @@
+{
+    "instruction": "[INST] Analyze this file to learn MacBook motherboard repair. The 'definitions' section explains key technical terms. The 'threads' section contains real-world repair discussions. Use both sections to understand and learn how to troubleshoot MacBook issues. Posts from username 'larossmann' , 'dukefawks' , and '2informaticos' are posts from trusted experts.[/INST]",
+    "definitions": {
+        "820-00165": "What is 820-00165? a LOGIC BOARD PART NUMBER.",
+        "PM_SLP_S4_L": "What is PM_SLP_S4_L? PM_SLP_S4_L is a signal that puts the system into an S4 suspend to disk sleep state when it is low(_L means signal is asserted when voltage is low).",
+        "PM_PWRBTN_L": "What is PM_PWRBTN_L? PM_PWRBTN_L refers to the power button signal line. This line is used to initiate the power-on sequence of the laptop. The \"L\" at the end of \"PM_PWRBTN_L\" suggests that it is an active-low signal, meaning that when the power button is pressed, the signal is pulled low to initiate the boot sequence..",
+        "PM_BATLOW_L": "What is PM_BATLOW_L? PM_BATLOW_L is a signal that tells the system the battery is too low for it to turn on & keeps it from turning on, when it is low. _L means the signal is asserted when its voltage is low. .",
+        "PPVRTC_G3H": "What is PPVRTC_G3H? PPVRTC_G3H is a 3.3v power rail for the RTC circuit present when the machine is in a G3H global system hardware off state. .",
+        "PM_SLP_S5_L": "What is PM_SLP_S5_L? PM_SLP_S5_L is a signal that, when 3.3v, turns on power rails that will wake the system from an S5 state. This signal is a part of the power management system of the MacBook.  The \\\"PM\\\" prefix typically stands for \\\"Power Management,\\\" and the \\\"SLP\\\" is for \\\"Sleep.\\\" The \\\"S5\\\" denotes the specific sleep state, which is Suspend to Disk, and the \\\"_L\\\" suffix indicates that this is an active low signal..",
+        "SMC_ADAPTER_EN": "What is SMC_ADAPTER_EN? SMC_ADAPTER_EN enables the machine to work off of the power adapter when the proper power adapter is attached. Attacching an 85w Macbook Pro 15” power adapter to a 13” Macbook that requires a 60w power adapter is ok, attaching a 45w Macbook Air power adapter to a 15” macbook Pro that needs an 85w power adapter will result in SMC_ADAPTER_EN missing. .",
+        "PM_SLP_SUS_L": "What is PM_SLP_SUS_L? \nThe \"PM_SLP_SUS_L\" signal in a MacBook is related to the power management of the device, specifically concerning the 'suspend to RAM' state or S3 state. It's an active-low signal that, when asserted (low voltage), indicates the system should enter or is in the S3 sleep state. .",
+        "PM_DSW_PWRGD": "What is PM_DSW_PWRGD? The \"PM_DSW_PWRGD\" signal in a MacBook stands for \"Deep Sleep Well Power Good” and is required for the machine to power on & post..",
+        "PCH_DSWVRMEN": "What is PCH_DSWVRMEN? DSWVRMEN stands for DeepSx Well On-Die Voltage Regulator Enable. This signal enables the internal DSW 1.05 V regulators and must be always pulled-up to PPVRTC_G3H 3.3 volts.\nIf this signal is not being asserted (i.e., not enabled), the on-die voltage regulators responsible for supplying power in deep sleep states may not be active. This could lead to the MacBook failing to exit from a deep sleep state or having issues when trying to enter one, contributing to a scenario where the device does not power on.\n\nIf the signal is not present or not at the correct levels, it could indicate a problem with the Platform Controller Hub (PCH) itself..",
+        "PM_PCH_PWROK": "What is PM_PCH_PWROK? PM_PCH_PWROK is usually created by U1950, a 74LVC2G08GT chip and is necessary for the machine to wake from an S5 and S4 state and turn on. This signal will be present if ALL_SYS_PWRGD, CPU_VR_PGOOD, PP3V3_S0, and PP3V42_G3H are present. When this signal is not present or intermittent, usually pin 8 on U1950 for PP3V42_G3H is corroded..",
+        "PCH_CLK32K_RTCX1": "What is PCH_CLK32K_RTCX1? a SIGNAL.",
+        "PP3V3_S5": "What is PP3V3_S5? PP3V3_S5 is a 3.3v power rail when the system is in an S5 soft off power state.",
+        "PP3V3_SUS": "What is PP3V3_SUS? The \"PP3V3_SUS\" rail on a MacBook logic board is a power rail that provides a 3.3-volt supply to the suspend-to-RAM (S3 state) components. .",
+        "PM_RSMRST_L": "What is PM_RSMRST_L? The \"PM_RSMRST_L\" signal, also known as \"Resume Reset,\" is an active-low signal that is part of the power management system in MacBooks. It asserts a reset signal when it is low voltage which is what the _L is for. Is the machine is in a reset stage it will not properly power on..",
+        "S5_PWRGD": "What is S5_PWRGD? The S5_PWRGD signal is a status signal that indicates the S5 rails are on and functioning properly. If this is not present, check the S5 rails to see if they are functioning, and the chip that creates S5_PWRGD..",
+        "R1405": "What is R1405? a RESISTOR.",
+        "R5115": "What is R5115? a RESISTOR.",
+        "PPBUS_G3H": "What is PPBUS_G3H? Main system power rail that charges the battery, or is power from the battery, that everything else is powered from. .",
+        "PP5V_S5": "What is PP5V_S5? This is a 5v power rail that is present when the machine is in an S5 soft off state..",
+        "PM_SLP_S5": "What is PM_SLP_S5? a SIGNAL.",
+        "4_L": "What is 4_L? a SIGNAL.",
+        "PCH_INTRUDER_L": "What is PCH_INTRUDER_L? PCH_INTRUDER_L is a signal that tells the machine the case has been opened by an intruder when it is low, the _L means it is present when it is low. This signal should always be high in a Macbook since it doesn’t use intrusion detection. .",
+        "RTC_RESET_L": "What is RTC_RESET_L? RTC_RESET_L is a reset signal that is present when the signal is low, the _L means it is asserted when the voltage is low. The RESET signal will keep the PCH from turning on or booting up the machine. .",
+        "PCH_SRTCRST_L": "What is PCH_SRTCRST_L? PCH_SRTCRST_L is a reset signal present for the RTC circuit that asserts when it is low in voltage, that is what _L means..",
+        "PCH_INTVRMEN": "What is PCH_INTVRMEN? PCH_INTVRMEN is an Internal Voltage Regulator Enable: When pulled high, this signal enables\nthe internal 1.05 V regulators for the Suspend well in the PCH. This signal must\nremain asserted for the VRMs to behave properly (no glitches allowed).\nThis signal must be pulled-up to VCCRTC on desktop platforms and may\noptionally be pulled low on mobile platforms if using an external VR for the\nVCCSUS rail.",
+        "ALL_SYS_PWRGD": "What is ALL_SYS_PWRGD? ALL_SYS_PWRGD is present when PP1V8_S3, PP5V_S3, PP1V2_S3, PP1V05_S0, PP5V_S0, PP3V3_S0, & PP1V5_S0 are present and working. If any of these rails is not working, ALL_SYS_PWRGD will be pulled down and the machine will not turn on. .",
+        "PM_SLP_S3_L": "What is PM_SLP_S3_L? PM_SLP_S3_L puts the machine to sleep in an S3 state when it is asserted, the _L means it is asserted when it is low voltage. When this signal is 3.3v the machine will be asked to turn on S0 power rails and begin the bootup process.",
+        "PM_SLP_S4": "What is PM_SLP_S4? This is a typo of PM_SLP_S4_L When you see PM_SLP_S4, assume they meant to type PM_SLP_S4_L.",
+        "U1950": "What is U1950? This chip often becomes corroded on pin 8 on the PP3V42_G3H pin causing PM_SLP_S4_L to go missing.",
+        "U6100": "What is U6100? this is an SPI ROM chip that holds the BIOS which is necessary for the machine to POST or try and power on..",
+        "S4_L": "What is S4_L? a SIGNAL.",
+        "SMC_ONOFF_L": "What is SMC_ONOFF_L? SMC_ONOFF_L tells the computer that the power button has been pressed when it is low, _L means signal is asserted when it is low voltage. .",
+        "R1915": "What is R1915? a RESISTOR."
+    },
+    "threads": [
+        {
+            "post_id": 40560,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-11 17:52:55",
+            "message": "no <SIGNAL>PM_SLP_S5_L</SIGNAL>\nno <SIGNAL>PM_SLP_S4_L</SIGNAL>\nS5 rails present at proper voltages\n\nSmc has been changed with a known good still nothing\nbattery charges\ni get a green light on charger\nusing original charger\n\n<SIGNAL>PM_BATLOW_L</SIGNAL> = 3.3v\n<SIGNAL>PPVRTC_G3H</SIGNAL> = 3.3v\n<SIGNAL>PM_PCH_PWROK</SIGNAL> = 0v\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> = 3.2v\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> = 3.4v\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 0v\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> = 3.3v\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 0v\n<SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> - 0.42V"
+        },
+        {
+            "post_id": 40566,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-12 03:44:56",
+            "message": "<SIGNAL>PP3V3_SUS</SIGNAL>?\n<SIGNAL>PM_RSMRST_L</SIGNAL>?\n<SIGNAL>PP3V3_S5</SIGNAL>?\n<SIGNAL>S5_PWRGD</SIGNAL>?"
+        },
+        {
+            "post_id": 40711,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-15 11:07:43",
+            "message": "<SIGNAL>PP3V3_SUS</SIGNAL> = 3.3v\n<SIGNAL>PM_RSMRST_L</SIGNAL> = 3.295v\n<SIGNAL>PP3V3_S5</SIGNAL> = 3.3v\n<SIGNAL>S5_PWRGD</SIGNAL> = 3.388v"
+        },
+        {
+            "post_id": 40714,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-15 12:39:26",
+            "message": "\"i get a green light on charger\"\nDoesn't change to orange?\n\nCheck resistance to ground on <SIGNAL>PM_PWRBTN_L</SIGNAL> and <RESISTOR>R1405</RESISTOR>."
+        },
+        {
+            "post_id": 40717,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-15 12:50:07",
+            "message": "it does change to orange\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.4v\n<RESISTOR>R1405</RESISTOR> looks fine and has proper resistance"
+        },
+        {
+            "post_id": 40718,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-15 12:52:31",
+            "message": "\"<SIGNAL>PM_PWRBTN_L</SIGNAL> = 0v\n---------------\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.4v\"\nWhen can we trust your values???\n\nUse <RESISTOR>R5115</RESISTOR>/16 to simulate power on and see if <SIGNAL>PM_PWRBTN_L</SIGNAL> drops."
+        },
+        {
+            "post_id": 40719,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-15 13:05:54",
+            "message": "ok so i simulated a power on and <SIGNAL>PM_PWRBTN_L</SIGNAL> drops to 0V i did solder a wire between pins of <RESISTOR>R5115</RESISTOR> to test."
+        },
+        {
+            "post_id": 40721,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-15 13:43:10",
+            "message": "So SMC send power on signal to PCH.\n\n\"<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 0v\"\nPCH requires high level.\nCheck it again...\nDo you have original charger (at least 60W)?"
+        },
+        {
+            "post_id": 40729,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-15 18:25:03",
+            "message": "<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 3.4v\nyes using a 85W original."
+        },
+        {
+            "post_id": 40742,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-16 01:18:17",
+            "message": "I get very confused now :(\nYour values change all the time.\nI think is better to post again all of them in a list."
+        },
+        {
+            "post_id": 40766,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-16 12:04:29",
+            "message": "Using Original Apple 85W Charger\n\n<SIGNAL>PPBUS_G3H</SIGNAL> = 8.56V\n\nPPBUS S5 HS COMPUTING ISNS = 8.57V\n\nPPBUS S5 HS OTHER ISNS = 8.57V\n\nPPDCIN G3H ISOL = 16.83 (FLUCTUATES BETWEEN 16.39V - 16.83V)\n\nPPDCIN G3H = 16.27V\n\nPP3V42 G3H = 3.417V\n\nPPVRTC G3H = 3.325V\n\n<SIGNAL>PP5V_S5</SIGNAL> = 5.02V\n\nPP5V S4RS3 = 0V\n\n<SIGNAL>PP3V3_SUS</SIGNAL> = 3.325V\n\nPP3V3 S4SW SNS = 0.024V\n\n<SIGNAL>PM_BATLOW_L</SIGNAL> = 3.323V\n\n<SIGNAL>PM_PCH_PWROK</SIGNAL> = 0V\n\n<SIGNAL>PCH_DSWVRMEN</SIGNAL> = 3.230V\n\n<SIGNAL>PM_DSW_PWRGD</SIGNAL> = 3.414V\n\n<SIGNAL>PM_PWRBTN_L</SIGNAL> = 3.409V\n\n<SIGNAL>PM_SLP_SUS_L</SIGNAL> = 3.325V\n\n<SIGNAL>SMC_ADAPTER_EN</SIGNAL> = 3.41V\n\n<SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> = 0.41V\n\n<SIGNAL>PM_RSMRST_L</SIGNAL> = 3.296V\n\n<SIGNAL>S5_PWRGD</SIGNAL> = 3.387V\n\n<SIGNAL>PM_SLP_S5_L</SIGNAL> = 0V\n\n<SIGNAL>PM_SLP_S4_L</SIGNAL> = 0V"
+        },
+        {
+            "post_id": 40770,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-16 12:50:51",
+            "message": "PCH seems to have all powers and signals required to start.\nYou must also check RTC signals, tu be sure all is there.\n<SIGNAL>PM_SLP_S5</SIGNAL>/<SIGNAL>4_L</SIGNAL> no reaction at <RESISTOR>R5115</RESISTOR>/16?\nUse an o-scope to catch any rapid pulse there..."
+        },
+        {
+            "post_id": 40817,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-17 13:34:44",
+            "message": "<SIGNAL>RTC_RESET_L</SIGNAL> = 3.3v\n\n<SIGNAL>PCH_SRTCRST_L</SIGNAL> = 3.3v\n\n<SIGNAL>PCH_CLK32K_RTCX1</SIGNAL> = .41v\n\n<SIGNAL>PCH_INTRUDER_L</SIGNAL> = 3.053v\n\n<SIGNAL>PCH_INTVRMEN</SIGNAL> = 3.2v\n\nI do not own an o-scope any other way to check? i suppose if thats the only way to get this working ill have to get one. what do u suggest?"
+        },
+        {
+            "post_id": 40834,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-17 16:39:31",
+            "message": "DC voltage seems to be correct (0.4-0.45V); but is not 100% sure...\n\n\"<SIGNAL>PM_SLP_S5</SIGNAL>/<SIGNAL>4_L</SIGNAL> no reaction at <RESISTOR>R5115</RESISTOR>/16?\"\nIf no reaction, PCH should be bad.\nYou can try reflow it, with good flux; 180-200 degrees should be good enough."
+        },
+        {
+            "post_id": 40909,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-18 16:56:02",
+            "message": "i do get a reaction\n\n<SIGNAL>PM_SLP_S5_L</SIGNAL> spikes up t 3.3v when i short <RESISTOR>R5115</RESISTOR>\n\n<SIGNAL>PM_SLP_S4_L</SIGNAL> spikes up to 0.72v"
+        },
+        {
+            "post_id": 40912,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-18 17:20:18",
+            "message": "Using o-scope you probably catch 3V pulse for <SIGNAL>PM_SLP_S4</SIGNAL> too.\nAlso check if <SIGNAL>PM_SLP_S3_L</SIGNAL> pulses.\nNext, check for pulse on every power supply (big coils) controlled by these sleep signals...\nCheck if <SIGNAL>ALL_SYS_PWRGD</SIGNAL> pulses too."
+        },
+        {
+            "post_id": 40914,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-18 19:04:52",
+            "message": "<SIGNAL>ALL_SYS_PWRGD</SIGNAL> Pulses\n<SIGNAL>PM_SLP_S4_L</SIGNAL> Pulses\n\nchecked all the coils only ones that didnt pulse were L3095 and l7701."
+        },
+        {
+            "post_id": 40917,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-19 01:25:27",
+            "message": "So you get pulses at VCORE too.\nCheck at pins 7 & 3 of <CHIP>U1950</CHIP>.\nAlso try new BIOS..."
+        },
+        {
+            "post_id": 40949,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-19 13:21:50",
+            "message": "i do get a pulse on vcore\nalso pulse on 7 and 3 of <CHIP>U1950</CHIP> 3.3v pulse\n\nnew bios did nothing"
+        },
+        {
+            "post_id": 40953,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-19 14:36:03",
+            "message": "Check all SPI termination resistors and traces to PCH and <CHIP>U6100</CHIP>."
+        },
+        {
+            "post_id": 40959,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-19 18:45:38",
+            "message": "All resistors and traces on spi termination to pch and <CHIP>U6100</CHIP> are fine."
+        },
+        {
+            "post_id": 40965,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-20 00:50:11",
+            "message": "Did you try BIOS file from the forum?\nClean ME dump is already posted for this kind of board for sure..."
+        },
+        {
+            "post_id": 40988,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-20 11:27:45",
+            "message": "Reprogrammed the bios with a clean me and still nothing."
+        },
+        {
+            "post_id": 41123,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-23 15:15:32",
+            "message": "Just got a rigol Ds1102e have no idea how to use it or what to look for but maybe you can give me some type of guidance on what to look for to hopefully get this going?"
+        },
+        {
+            "post_id": 41128,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-23 16:47:38",
+            "message": "YouTube should have many videos about using o-scopes.\nApart of names, there is not too much difference between cheap digital o-scopes.\nUsually, auto mode should be good enough.\n\n[url]https://www.eevblog.com/[/url] has good reviews and explanations about million of electronic tools...\nI think they have some tricks to extend frequency range too (by software)."
+        },
+        {
+            "post_id": 41134,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-23 20:35:05",
+            "message": "figured out the oscope a bit and going back to the question\n\n\"<SIGNAL>PM_SLP_S5</SIGNAL>/<SIGNAL>4_L</SIGNAL> no reaction at <RESISTOR>R5115</RESISTOR>/16?\nUse an o-scope to catch any rapid pulse there...\"\n\ni do get rapid pulse on <SIGNAL>PM_SLP_S5</SIGNAL>/<SIGNAL>S4_L</SIGNAL>\nNot sure if that helps any tho.."
+        },
+        {
+            "post_id": 41138,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-24 03:18:06",
+            "message": "OK, check now for pulse at L7520.\nIf <SIGNAL>PM_SLP_S3_L</SIGNAL> pulses too, yo should get pulses at all the other coils; less the CPU ones maybe..."
+        },
+        {
+            "post_id": 41380,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-29 10:21:39",
+            "message": "i get pulses on l7520 and <SIGNAL>PM_SLP_S3_L</SIGNAL> and checked other coils before i got pulses on all of them except the backlight coil"
+        },
+        {
+            "post_id": 41384,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-29 11:59:01",
+            "message": "Post voltages for <CHIP>U6100</CHIP> pins.\nO-scope should show some activity at pins 2, 5, 6."
+        },
+        {
+            "post_id": 41392,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-29 13:39:02",
+            "message": "pin 2,5 and 6 do show activity o-scope says 36v seems odd but multimeter shows 3.3v on those pins rest of the pins are 3.3v according to multimeter except pin 4 of course"
+        },
+        {
+            "post_id": 41394,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-29 13:46:17",
+            "message": "When PCH access SPI chip, pins 5 & 6 go low.\nEven pin2 should drop to 1-2V I think.\n\nSeems that you do not read correctly your o-scope.\nBe aware of gain probe. It should have gain control on the probe and software too."
+        },
+        {
+            "post_id": 41396,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 1190,
+            "username": "Gmorb",
+            "post_date": "2018-10-29 13:53:22",
+            "message": "ok well i had the max voltage too high o-scope showing 3.60v on those pins now. when i trigger <SIGNAL>SMC_ONOFF_L</SIGNAL> i get a pulse but voltage stays the same. i do see a slight fluctuation of 3.60v to 3.80v on <CHIP>U6100</CHIP>.\n\ndoes this mean the pch is not reading the bios then?"
+        },
+        {
+            "post_id": 41402,
+            "thread_id": 40560,
+            "title": "<LOGIC BOARD PART NUMBER>820-00165</LOGIC BOARD PART NUMBER> no fan spin",
+            "user_id": 682,
+            "username": "2informaticos",
+            "post_date": "2018-10-29 14:59:41",
+            "message": "Do you get 24MHz at <RESISTOR>R1915</RESISTOR>?"
+        }
+    ]
+}
