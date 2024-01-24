@@ -164,3 +164,4 @@ resistors_df = make_csv_list("resistors", resistors)
 diodes_df = make_csv_list("diodes", diodes)
 transistors_df = make_csv_list("transistors", transistors)
 board_models_df = make_csv_list("board models", board_models)
+
