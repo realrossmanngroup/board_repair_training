@@ -6,9 +6,9 @@ import re
 import sys
 from config.config import db_params  # Import the db_params variable from the config.py file
 from collections import Counter
+import concurrent.futures
 from concurrent.futures import ProcessPoolExecutor
 import os  # Import missing os module
-from concurrent.futures import ProcessPoolExecutor
 
 # Define the subdirectory name
 subdirectory = "jargon_lists"
@@ -94,22 +94,14 @@ def process_thread(thread_id):
 	df['title'] = df['title'].apply(clean_text)
 
 	# Append the DataFrame to the list
-	'''DEBUGGING CODE HERE
-	print("\nDEBUG OUTPUT: message and title are below")
-	print("\nFirst few rows of 'message':\n", df['message'])
-	print("\nFirst few rows of 'title':\n", df['title'])
-	print("\nNumber of rows retrieved:", df.shape[0])
-	#'''
-	
 	#dataframes.append(df) # not necessary after modifying code for multithreading
 	#DEBUGGING CODE
 	#print(f"\n dataframes is below: \n{dataframes}\n")
 
-	# Close the database connection
+	# Close the database connectionl
 	connection.close()
 	#return the cleaned up forum title/post/threadid we have grabbed
 	return df 
-	
 	
 # Function to find matches using regular expression and cut off the end if it's bs. 
 def find_regex_matches(text, pattern):
@@ -123,7 +115,6 @@ def find_regex_matches(text, pattern):
 		all_matches.extend(matches)
 		
 	return all_matches  # Return all matches, including duplicates
-	
 	
 # Use ProcessPoolExecutor for parallel processing
 with ProcessPoolExecutor(max_workers=14) as executor:
@@ -156,12 +147,8 @@ def make_csv_list(jargon_type, regex_pattern):
 	all_matches_counter = Counter()
 	for matches_list in titles_matches:
 		all_matches_counter.update(match.upper() for match in matches_list)
-		print("\n\nBelow is matches_list for titles!\n\n")
-		print(matches_list)
 	for matches_list in messages_matches:
 		all_matches_counter.update(match.upper() for match in matches_list)
-		print("\n\nBelow is matches_list for messages!\n\n")
-		print(matches_list)
 
 	distinct_matches_df = pd.DataFrame(all_matches_counter.items(), columns=[jargon_type, 'Count'])
 	# Save to CSV
