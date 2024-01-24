@@ -158,7 +158,7 @@ def make_csv_list(jargon_type, regex_pattern):
 	return distinct_matches_df
 
 signals_df = make_csv_list("signals", [signals])
-chips_df = make_csv_list("chips", [chips])
+chips_df = make_csv_list("chips", chips)
 capacitors_df = make_csv_list("capacitors", [capacitors])
 resistors_df = make_csv_list("resistors", [resistors])
 diodes_df = make_csv_list("diodes", [diodes])
