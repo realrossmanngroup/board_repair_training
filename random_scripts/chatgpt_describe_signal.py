@@ -55,6 +55,8 @@ for index, row in signal_df.iterrows():
 			signal_df.at[index, 'CHATGPT'] = response
 			# Save progress after each update
 			signal_df.to_csv(csvfile, index=False)
+			sleep_time = random.uniform(20,45)
+			time.sleep(sleep_time)
 		else:
 			print("Stopping due to an error in the ChatGPT API response.")
 			sleep_time = random.uniform(3, 4)
