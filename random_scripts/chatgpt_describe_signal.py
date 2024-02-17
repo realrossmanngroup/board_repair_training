@@ -9,14 +9,14 @@ api_key = os.getenv('OPENAI_API_KEY')
 # Set OpenAI API key
 client = OpenAI()
 
-#Ask ChatGPT a different question based on the input so we get better answers. 
+# Ask ChatGPT a different question based on the input so we get better answers. 
 def clarify_message(signal_name):
 	text = signal_name
 	if text.startswith("PP"):
 		messages = [
 			{"role": "system", "content": "You are a helpful and knowledgeable electronics repair technician, with a style similar to Louis Rossmann."},
 			{"role": "user", "content": "I am going to provide you with the name of a power rail on a Macbook logic board. I want you to tell me what the voltage of this power rail is, what state the machine is when it is present, and what this power rail is for."},
-			{"role": "user", "content": "States are denoted by G3H, S5, S4, S3, S2, S0, AON, SLP. Different power rails come on when the machin eis in different states, For example, the LCD screen would only be on when the machine is fully awake in an S0 state, whereas the RAM might be on even when the machine is in an S3 sleep suspend state. I want you to dig into your knowledge of laptop motherboard power states and sleep states so you can speak with knowledge when spotting and defining power states inside of power rail names."},
+			{"role": "user", "content": "States are denoted by G3H, S5, S4, S3, S2, S0, AON, SLP. Different power rails come on when the machine is in different states, For example, the LCD screen would only be on when the machine is fully awake in an S0 state, whereas the RAM might be on even when the machine is in an S3 sleep suspend state. I want you to dig into your knowledge of laptop motherboard power states and sleep states so you can speak with knowledge when spotting and defining power states inside of power rail names."},
 			{"role": "user", "content": f"Look at the Macbook power rail {signal_name} and provide a long format description in the style of Louis Rossmann, including the voltage of the power rail, what state the machine is in when it is present, and what the power rail is for."},
 			{"role": "user", "content": f"This time talk about the repair and troubleshooting implications of {signal_name} that would be relevant in a real-world troubleshooting scenario where the Macbook logic board isn't functioning properly."},
 			{"role": "user", "content": f"For the power rail {signal_name}, provide a description of {signal_name} in about 2 lines, including the most relevant information to a technician troubleshooting a malfunctioning Macbook, the voltage of {signal_name}, what state the machine will be in when {signal_name} appears, and what {signal_name} is for."}
@@ -57,7 +57,7 @@ def clarify_message(signal_name):
 			{"role": "user", "content": f"Now look at the signal name {signal_name} and provide a longer format description in the style of Louis Rossmann, including any information from your last answer.."},
 			{"role": "user", "content": f"This time talk about the repair and troubleshooting implications of {signal_name} that would be relevant in a real-world troubleshooting scenario where the Macbook logic board isn't functioning properly."},
 			{"role": "user", "content": "Let’s do that again, but with more depth."},
-			{"role": "user", "content": f"For {signal_name}, give a brief description of where {signal_name} originates and what it accomplishes. including the most relevant information to a technician troubleshooting a malfunctioning Macbook that would be relevant in a real-world troubleshooting scenario where the Macbook logic board isn't functioning properly, drawing from the most relevant information from your prior answers."}
+			{"role": "user", "content": f"For {signal_name}, give a brief description of where {signal_name} originates and what it accomplishes in two lines or less. Include the most relevant information to a technician troubleshooting a malfunctioning Macbook that would be relevant in a real-world troubleshooting scenario where the Macbook logic board isn't functioning properly, drawing from the most relevant information from your prior answers."}
 		]
 		return messages
 
@@ -83,7 +83,7 @@ def get_chatgpt_response(signal_name):
 		return "Response Error"
 
 
-#Below is test code to see what this returns from ChatGPT before I run it on 6000 signals. 
+# Below is test code to see what this returns from ChatGPT before I run it on 6000 signals. 
 '''
 signal_names = {"PPBUS_G3H": None, "SMBUS_SMC_5_G3_SDA": None, "PM_SLP_S4_L": None}
 
@@ -118,10 +118,10 @@ for index, row in signal_df.iterrows():
 			signal_df.at[index, 'CHATGPT'] = response
 			# Save progress after each update
 			signal_df.to_csv(csvfile, index=False)
-			sleep_time = random.uniform(20,45)
+			sleep_time = random.uniform(1,3)
 			time.sleep(sleep_time)
 		else:
 			print("Stopping due to an error in the ChatGPT API response.")
-			sleep_time = random.uniform(3, 4)
+			sleep_time = random.uniform(2, 4)
 			print(f"Sleeping for {sleep_time:.2f} seconds...")
 			time.sleep(sleep_time)		
